@@ -1,0 +1,23 @@
+{
+  "name": "@mauriciopoppe-blog/browser-main",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "../../node_modules/.bin/webpack --config node_modules/@mauriciopoppe-blog/webpack-config/webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@mauriciopoppe-blog/webpack-config": "^1.0.0",
+    "history": "^4.7.2",
+    "react-redux": "^5.0.6",
+    "react-router-dom": "^4.2.2",
+    "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-logger": "^3.0.6"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

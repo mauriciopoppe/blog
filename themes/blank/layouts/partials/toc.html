@@ -1,0 +1,6 @@
+{{ if (ne .Params.toc "false") }}
+<nav role="navigation" class="table-of-contents hidden-sm hidden-xs affix">
+  <h2>{{ $.Scratch.Get "title" }}</h2>
+  <div id="toc"></div>
+</nav>
+{{ end }}

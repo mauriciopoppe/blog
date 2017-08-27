@@ -1,0 +1,29 @@
+// color fix
+.MathJax {
+}
+
+// fix \text{} not using the body font
+.mtext {
+  font-family: inherit !important;
+}
+
+.math-statement {
+  &.theorem {
+    .content em {
+      > p:first-child {
+        display: inline;
+      }
+      > :nth-child(2) {
+        margin: 10px 0;
+      }
+    }
+  }
+
+  .content > p:first-child {
+    display: inline;
+  }
+  .content > :nth-child(2) {
+    margin: 10px 0;
+  }
+}
+

@@ -1,0 +1,13 @@
+<!-- repl -->
+{{- if (not (.Get 0)) }}
+<b style="color: red">repl: id or argument required</b>
+{{- end }}
+
+<iframe
+    class="repl-it-iframe"
+    frameborder="0"
+    width="100%"
+    height="700px"
+    src="https://repl.it/{{ .Get 0}}?lite=true">
+</iframe>
+<!-- repl -->

@@ -1,0 +1,30 @@
+<style>
+  #browser-display-preview {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 0%;
+    -webkit-transition: width 750ms;
+    transition: width 750ms;
+    overflow: auto;
+  }
+
+  #browser-display-preview.active {
+    -webkit-transition: width 750ms;
+    transition: width 750ms;
+    width: 60%;
+  }
+
+  @media (max-width: 780px) {
+    #browser-display-preview,
+    #browser-display-preview.active {
+      position: relative;
+      left: 0;
+      height: 100%;
+      width: 100%;
+    }
+  }
+</style>
+<div id="browser-display-preview" tabindex="1"></div>
+<!-- <script src="/browser-display-preview/bundle.js"></script> -->

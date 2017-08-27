@@ -1,0 +1,18 @@
+{
+  "name": "@mauriciopoppe-blog/browser-background-generator",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "../../node_modules/.bin/webpack --config node_modules/@mauriciopoppe-blog/webpack-config/webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@mauriciopoppe-blog/webpack-config": "^1.0.0",
+    "@mauriciopoppe-blog/browser-triangle": "^1.0.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

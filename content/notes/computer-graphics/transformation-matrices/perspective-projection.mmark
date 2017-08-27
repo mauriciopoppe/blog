@@ -1,0 +1,66 @@
+---
+title: "Perspective projection"
+date: 2016-02-06 18:00:00
+references:
+ - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
+---
+
+As seen on [projective geometry]({{site_url}}/static/math/geometry/projective-geometry) the perspective phenomenon is where an object appears to be smaller the further away is from the point of view
+
+We can again use some concepts of projective geometry to understand perspective projection, particularly the fact that any object in our 3D world is represented in the 4D projective hyperplane by the homogeneous coordinate $(x, y, z, 1)$, now any finite point with $w \not = 1$ can be projected to the 4D hyperplane $w = 1$ by dividing each coordinate by $w$ i.e. $(\tfrac{x}{w}, \tfrac{y}{w}, \tfrac{z}{w})$, a key observation in the values of $w$ is that *the higher the value of $w$ the smaller the object will be when they get projected to the $w=1$ hyperplane*
+
+> Perspective is implemented in 3D by using a transformation matrix that changes the value of $w$ based on how far the object is ($z$-coordinate)
+
+Now let's imagine that we want to project the points that exists in our world to the plane $z = d$
+
+![perspective projection y]({{ site_url  }}/images/perspective-projection!y.png){: .center-image}
+
+By similar images we can see that the projected value of the $y$ coordinate is
+
+$$
+\frac{v_y'}{d} = \frac{v_y}{v_z} \Rightarrow v_y' = \frac{d v_y}{v_z}
+$$
+
+The projected value of the $x$ coordinate can be computed in a similar way
+
+![perspective projection x]({{ site_url  }}/images/perspective-projection!x.png){: .center-image}
+
+$$
+\frac{v_x'}{d} = \frac{v_x}{v_z} \Rightarrow v_x' = \frac{d v_x}{v_z}
+$$
+
+The projected value of the $z$ coordinate is the same for all the points
+
+$$
+v_z' = d
+$$
+
+Summarizing
+
+$$
+\mathbf{v'} = \begin{bmatrix} \tfrac{d v_x}{v_z} & \tfrac{d v_y}{v_z} & d \end{bmatrix}^T
+$$
+
+Manipulating the last equation so that it has a common denominator
+
+$$
+\mathbf{v'} = \begin{bmatrix} \tfrac{d v_x}{v_z} & \tfrac{d v_y}{v_z} & d \tfrac{v_z}{v_z} \end{bmatrix}^T = \frac{  \begin{bmatrix} v_x & v_y & v_z \end{bmatrix}^T }{ \tfrac{v_z}{d} }
+$$
+
+The point above expressed in 4D homogeneous coordinates is
+
+$$
+\mathbf{v'} = \begin{bmatrix} v_x & v_y & v_z & \tfrac{v_z}{d}  \end{bmatrix}^T
+$$
+
+Finally the transformation matrix that transforms $\mathbf{v}$ to $\mathbf{v'}$ is
+
+$$
+\mathbf{v'} = \begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & \tfrac{1}{d} & 0
+\end{bmatrix} \begin{bmatrix} v_x \\ v_y \\ v_z \\ 1 \end{bmatrix} = \begin{bmatrix} v_x \\ v_y \\ v_z \\ \frac{v_z}{d} \end{bmatrix}
+$$
+

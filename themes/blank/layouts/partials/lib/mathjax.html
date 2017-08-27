@@ -1,0 +1,114 @@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    showProcessingMessages: false,
+    messageStyle: 'none',
+    tex2jax: {
+      // http://docs.mathjax.org/en/latest/options/tex2jax.html
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      processEscapes: true,
+      processEnvironments: true,
+      // processEnvironments: false
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      },
+      Macros: {
+        edge: '\\mathrel{-}',
+        notedge: '\\not\\edge',
+        deg: ['#1^°', 1],
+        tbold: ['\\textbf{#1}', 1],
+        mbold: ['\\mathbf{#1}', 1],
+        unit: ['\\widehat{\\mathbf{#1}}', 1],
+
+        v: ['\\overrightarrow{#1}', 1],
+        vnorm: ['\\norm{\\v{#1}}', 1],
+
+        magnitude: ['\\left \\| #1 \\right \\|', 1],
+        norm: ['\\lvert #1 \\rvert', 1],
+        divides: ['\\,|\\,']
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+
+<!-- <script type="text/javascript"> -->
+<!-- /* -->
+<!--  * MathJax eqn preview for a tags -->
+<!--  * -->
+<!--  * Copyright (c) 2015 Mauricio Poppe -->
+<!--  * Licensed under the MIT license. -->
+<!--  */ -->
+<!-- document.addEventListener('DOMContentLoaded', function () { -->
+<!--   var $container = document.querySelectorAll('.post-content'); -->
+<!--   var $tooltip = document.createElement('div') -->
+<!--   $tooltip.classList.add('mathjax-tooltip') -->
+<!--   Array.prototype.slice.call($container) -->
+<!--     .forEach(function (el) { -->
+<!--       el.appendChild($tooltip) -->
+<!--     }) -->
+
+<!--   function closest(el, selector) { -->
+<!--     while (el !== document.documentElement) { -->
+<!--       if (el.matches(selector)) return el -->
+<!--     } -->
+<!--     return null -->
+<!--   } -->
+
+<!--   function offset(el) { -->
+<!--     const rect = el.getBoundingClientRect() -->
+<!--     return { -->
+<!--       top: rect.top + document.body.scrollTop, -->
+<!--       left: rect.left + document.body.scrollLeft -->
+<!--     } -->
+<!--   } -->
+
+<!--   function onMouseOver(ev) { -->
+<!--     var a = ev.currentTarget -->
+<!--     var $number = document.querySelector(a.hash) -->
+<!--     var $root = closest($number, '.MathJax_Display') -->
+<!--     var bounds = offset(a) -->
+<!--     var containerBounds = offset($container) -->
+
+<!--     // TODO: better tooltips -->
+<!--     <1!-- $tooltip.stop(true, true); --1> -->
+<!--     <1!-- $tooltip.empty(); --1> -->
+<!--     <1!-- $tooltip.append($root.clone()); --1> -->
+<!--     <1!-- $tooltip.css({ --1> -->
+<!--     <1!--   top: bounds.top - containerBounds.top - $tooltip.height() - 5, --1> -->
+<!--     <1!--   left: -1 --1> -->
+<!--     <1!-- }); --1> -->
+<!--     <1!-- $tooltip.classList.add('active'); --1> -->
+<!--   } -->
+
+<!--   function onMouseOut(a) { -->
+<!--     $tooltip.classList.remove('active') -->
+<!--   } -->
+
+<!--   // MathJax.Hub.Queue(function () { -->
+<!--   //   $container.addEventListener('mouseover', onMouseOver) -->
+<!--   //   $container.addEventListener('mouseout', onMouseOut) -->
+<!--   // }) -->
+
+<!-- }) -->
+<!-- </script> -->
+
+<!-- <script> -->
+<!-- document.addEventListener('DOMContentLoaded', function () { -->
+<!--     MathJax.Hub.Queue(function() { -->
+<!--         // Fix <code> tags after MathJax finishes running. This is a -->
+<!--         // hack to overcome a shortcoming of Markdown. Discussion at -->
+<!--         // https://github.com/mojombo/jekyll/issues/199 -->
+<!--         var all = MathJax.Hub.getAllJax(), i -->
+<!--         for (i = 0; i < all.length; i += 1) { -->
+<!--             // console.log(all[i].SourceElement()); -->
+<!--             all[i].SourceElement().parentNode.classList.add('has-jax') -->
+<!--         } -->
+<!--     }); -->
+<!-- }); -->
+<!-- </script> -->

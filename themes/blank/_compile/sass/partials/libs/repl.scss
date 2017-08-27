@@ -1,0 +1,8 @@
+.repl-it-iframe {
+  transition: all 0.5s ease;
+  opacity: 0.3;
+
+  &:hover {
+    opacity: 1;
+  }
+}

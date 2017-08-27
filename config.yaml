@@ -1,0 +1,10 @@
+title: "Mauricio Poppe's blog"
+
+params:
+  description: "Math, Computer Graphics and Computer Science"
+
+baseURL: "http://mauriciopoppe.com/"
+languageCode: "en-us"
+
+metadataFormat: 'yaml'
+theme: blank
