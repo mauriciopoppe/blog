@@ -1,11 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Motion, spring } from 'react-motion'
 
 class ArticleFetch extends React.Component {
   constructor (props) {
     super(props)
     console.log('article fetched')
-    this.state = { text: '' }
+    this.state = { text: null }
   }
 
   componentDidMount () {
@@ -21,6 +22,8 @@ class ArticleFetch extends React.Component {
   fetchConditionally (article) {
     if (article.isLeaf) {
       this.doFetch(article)
+    } else {
+      this.setState({ text: null })
     }
   }
 
@@ -44,8 +47,19 @@ class ArticleFetch extends React.Component {
   render () {
     const { children } = this.props
     const { text } = this.state
+
+    const motion = <Motion
+      defaultStyle={{opacity: text ? 0 : 1}}
+      style={{opacity: spring(text ? 1 : 0)}}>
+      {interpolatingStyle => <div style={interpolatingStyle}>
+        {text && children(text)}
+      </div>}
+    </Motion>
+
     return (
-      <div> {text !== '' && children(text)} </div>
+      <div className='content is-medium'>
+        {motion}
+      </div>
     )
   }
 }

@@ -4,11 +4,9 @@
     {{ partial "head.html" . }}
   </head>
   <body>
-    <!-- {{ partial "browser/browser-navigation-tree.html" . }} -->
-    <!-- {{ partial "browser/browser-display-preview.html" . }} -->
-
-    {{ block "header" . }}{{ partial "header.html" . }}{{ end }}
+    {{ block "nav" . }}{{ end }}
+    {{ block "header" . }}{{ end }}
     {{ block "main" . }}{{ end }}
-    {{ partial "footer.html" . }}
+    {{ block "footer" . }}{{ end }}
   </body>
 </html>

@@ -4,7 +4,9 @@ const spawn = require('child_process').spawn
 const gulp = require('gulp')
 const sass = require('gulp-sass')
 const postcss = require('gulp-postcss')
+const plumber = require('gulp-plumber')
 const globby = require('globby')
+const moduleImporter = require('sass-module-importer')
 
 const autoprefixer = require('autoprefixer')
 const cssNano = require('cssnano')
@@ -15,7 +17,10 @@ gulp.task('css', function () {
     cssNano
   ]
   return gulp.src('./themes/blank/_compile/sass/*.scss')
-    .pipe(sass().on('error', sass.logError))
+    .pipe(plumber())
+    .pipe(sass({
+      importer: moduleImporter()
+    }))
     .pipe(postcss(processors))
     .pipe(gulp.dest('./themes/blank/static/css'))
 })
@@ -34,7 +39,7 @@ gulp.task('js:package', () => {
 })
 
 gulp.task('watch', function () {
-  gulp.watch('./themes/blank/_compile/sass/**/*.scss', [ 'css' ])
+  gulp.watch('./themes/blank/_compile/sass/**', [ 'css' ])
 })
 
 gulp.task('default', ['watch', 'js:package'])

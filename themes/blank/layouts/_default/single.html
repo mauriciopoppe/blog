@@ -1,36 +1,30 @@
-<div class="container">
-  <div class="row">
+{{ define "nav" }}
+  {{ partial "nav.html" . }}
+{{ end }}
 
-    <div class="col-md-9" role="main">
-      <article role="main" class="blog-post">
-        {{ .Content }}
-      </article>
+{{ define "header" }}
+  {{ partial "header.html" . }}
+{{ end }}
 
-      <ul class="pager blog-pager">
-        {{ if .PrevInSection }}
-          <li class="previous">
-            <a href="{{ .PrevInSection.Permalink }}" data-toggle="tooltip" data-placement="top" title="{{ .PrevInSection.Title }}">&larr; {{ i18n "previousPost" }}</a>
-          </li>
-        {{ end }}
-        {{ if .NextInSection }}
-          <li class="next">
-            <a href="{{ .NextInSection.Permalink }}" data-toggle="tooltip" data-placement="top" title="{{ .NextInSection.Title }}">{{ i18n "nextPost" }} &rarr;</a>
-          </li>
-        {{ end }}
-      </ul>
+{{ define "main" }}
+<div id="root"></div>
 
-      {{ if (.Params.comments) | or (and (or (not (isset .Params "comments")) (eq .Params.comments nil)) (.Site.Params.comments)) }}
-        {{ if .Site.DisqusShortname }}
-          <div class="disqus-comments">
-            {{ template "_internal/disqus.html" . }}
-          </div>
-        {{ end }}
-      {{ end }}
-
-    </div>
-
-    <div class="col-md-3" role="complementary">
-      {{ partial "toc.html" . }}
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-three-quarters">
+        <article role="main" class="content">
+          {{ .Content }}
+        </article>
+      </div>
+      <aside class="column is-hidden-mobile">
+        {{ partial "toc.html" . }}
+      </aside>
     </div>
   </div>
-</div>
+</section>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "footer.html" . }}
+{{ end }}

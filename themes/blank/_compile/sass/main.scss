@@ -1,52 +1,17 @@
 // skeleton
+@import './palette';
+@import './bulma';
+@import './single';
+@import './header';
+@import './footer';
+@import './profile';
 
 // libs
-@import 'palette';
-@import 'partials/libs/toc';
-@import 'partials/libs/math';
-@import 'partials/libs/repl';
-
-html {
-  width: 100%;
-  height: 100%;
-}
+@import 'lib/toc';
+@import 'lib/math';
+@import 'lib/repl';
 
 body {
-  width: 100vw;
-  height: 100vh;
+  font-family: $family-serif;
 }
-
-body {
-  font-family: 'Computer Modern Serif';
-  // overflow: hidden;
-  // background: linear-gradient(90deg, $red, $blue);
-  // background-size: 100% 100%;
-
-  // -webkit-animation: AnimationName 30s ease infinite;
-  // -moz-animation: AnimationName 30s ease infinite;
-  // animation: AnimationName 30s ease infinite;
-
-  // @-webkit-keyframes AnimationName {
-  //     0%{background-position:1% 0%}
-  //     50%{background-position:99% 100%}
-  //     100%{background-position:1% 0%}
-  // }
-  // @-moz-keyframes AnimationName {
-  //     0%{background-position:1% 0%}
-  //     50%{background-position:99% 100%}
-  //     100%{background-position:1% 0%}
-  // }
-  // @keyframes AnimationName {
-  //     0%{background-position:1% 0%}
-  //     50%{background-position:99% 100%}
-  //     100%{background-position:1% 0%}
-  // }
-}
-
-// footer {
-//   position: absolute;
-//   margin-right: 10px;
-//   bottom: 0;
-//   right: 0;
-// }
 

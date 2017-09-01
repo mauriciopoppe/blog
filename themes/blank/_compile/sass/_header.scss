@@ -1,0 +1,11 @@
+section.hero {
+  background-image:
+    linear-gradient(
+      to right,
+      $color25, $color75
+    );
+
+  .title, .subtitle {
+    color: findColorInvert($color25);
+  }
+}

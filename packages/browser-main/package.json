@@ -10,12 +10,21 @@
   },
   "dependencies": {
     "@mauriciopoppe-blog/webpack-config": "^1.0.0",
+    "bulma": "^0.5.1",
+    "classnames": "^2.2.5",
+    "defined": "^1.0.0",
     "history": "^4.7.2",
+    "mo-js": "^0.288.2",
+    "react-collapse": "^4.0.3",
+    "react-motion": "^0.5.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
+    "rebass": "^1.0.4",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "styled-components": "^2.1.2",
+    "title-case": "^2.1.1"
   },
   "keywords": [],
   "author": "",

@@ -1,5 +1,15 @@
-// color fix
-.MathJax {
+@mixin math-font() {
+  font-family: Computer Modern Serif;
+}
+
+.MathJax_Display {
+  // scroll fix on mobile
+  overflow: auto;
+  padding: 10px 0;
+}
+
+.MathJax, .MathJax_CHTML {
+  // @include math-font();
 }
 
 // fix \text{} not using the body font

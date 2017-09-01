@@ -1,78 +1,106 @@
 import React from 'react'
-import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Flex } from 'rebass'
+import styled from 'styled-components'
+import cs from 'classnames'
+import titleCase from 'title-case'
+import defined from 'defined'
 
-import Folders from 'Components/Folders/'
-import ArticleFetch from 'Containers/ArticleFetch/'
+import Directory from 'Components/Directory/'
 
-function getChildByPath (children, path) {
-  for (let i = 0; i < children.length; i += 1) {
-    const child = children[i]
-    if (child.path === path) return child
+const Root = styled.div`
+  & .dirs {
+    height: 800px;
+    transition: height 200ms;
   }
-}
 
-function traverseByPath (node, path) {
-  // initial index
-  const nodes = [node]
-  const indexes = []
-  const tokens = path.split('/').filter(Boolean)
-  let currentNode
-  while (tokens.length) {
-    if (!node.children) break
-    currentNode = getChildByPath(node.children, tokens[0])
-    if (!currentNode) break
-    nodes.push(currentNode)
-    indexes.push(node.children.indexOf(currentNode))
-    node = currentNode
-    tokens.shift()
+  & .dirs.collapsed {
+    height: 0;
   }
-  return { nodes, currentNode, indexes }
-}
+`
+
+const Breadcrumb = styled.nav`
+`
+
+const Directories = styled(Flex)`
+  overflow: auto;
+`
 
 class App extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      root: window.location.pathname === '/',
+      collapsed: window.location.pathname !== '/'
+    }
+  }
+
+  toggleCollapse () {
+    this.setState(state => ({
+      collapsed: !state.collapsed
+    }))
+  }
+
   render () {
-    const { tree, location } = this.props
-    const { nodes, currentNode, indexes } = traverseByPath(tree, location.pathname)
-
-    const folders = nodes
+    const { nodes, initialNodes } = this.props
+    const { selectNode } = this.props
+    const urlPrefix = nodes.reduce((arr, cur) => {
+      arr.push(arr.length ? `${arr[arr.length - 1]}/${cur.path}` : '')
+      return arr
+    }, [])
+    const dirs = nodes
       .map((node, i) => (
-        <div key={i} style={{margin: 30}}>
-          <Folders
-            tree={tree}
-            node={node}
-            level={i}
-            indexes={indexes}
-          />
-        </div>
+        node.children.length && <Directory
+          selectNode={selectNode}
+          urlPrefix={urlPrefix[i]}
+          items={node.children}
+          activeItem={nodes[i + 1]}
+        />
       ))
-
-    const content = <div>
-      { folders }
-      <ArticleFetch
-        article={currentNode}
-      >
-        {(article) => {
-          return <div dangerouslySetInnerHTML={{__html: article}} />
-        }}
-      </ArticleFetch>
-    </div>
+      .filter(Boolean)
 
     return (
-      <div>
-        <Route path='/*' children={() => (
-          <div>{content}</div>
-        )} />
-      </div>
+      <section>
+        <Root className='container content'>
+          {!this.state.root && <Breadcrumb
+            onClick={this.toggleCollapse.bind(this)}
+            className='breadcrumb'
+            ariaLabel='breadcumbs'
+          >
+            <ul className='is-large'>
+              {initialNodes.map((node, i) => (
+                <li key={i}>
+                  <a href='javascript:;'>
+                    {node.title || titleCase(node.path)}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </Breadcrumb>}
+          <Directories className={cs('dirs', {
+            collapsed: this.state.collapsed
+          })}>
+            { dirs }
+          </Directories>
+        </Root>
+      </section>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  tree: state.tree,
-  path: state.path
+  nodes: state.currentPath.nodes,
+  initialNodes: state.initialPath.nodes
 })
 
-export default withRouter(connect(
-  mapStateToProps
-)(App))
+const mapDispatchToProps = (dispatch) => ({
+  selectNode: (node) => dispatch({
+    type: 'SELECT_NODE',
+    payload: node
+  })
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)

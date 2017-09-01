@@ -1,6 +1,6 @@
 {
-  "name": "@mauriciopoppe-blog",
-  "private": "true",
+  "name": "mauricio-poppe-blog",
+  "private": true,
   "version": "1.0.0",
   "main": "index.js",
   "repository": "http://github.com/mauriciopoppe/blog.git",
@@ -32,8 +32,17 @@
     "gulp-tap": "^1.0.1",
     "lerna": "^2.0.0",
     "style-loader": "^0.18.2",
+    "svg-sprite-loader": "^3.2.4",
     "uglifyjs-webpack-plugin": "^0.4.6",
     "vinyl-source-stream": "^1.1.0",
     "webpack": "^3.5.5"
+  },
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "bulma": "^0.5.1",
+    "d3-scale": "^1.0.6",
+    "d3-shape": "^1.2.0",
+    "gulp-plumber": "^1.1.0",
+    "sass-module-importer": "^1.4.0"
   }
 }

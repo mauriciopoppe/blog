@@ -37,7 +37,7 @@ function dfs (cwd, obj = {}) {
     })
 }
 
-dfs(path.join(__dirname, '../content/notes'))
+dfs(path.join(__dirname, '../content/'))
   .then(file => fs.writeFileSync(
     path.join(__dirname, '../data/metadata/render-tree.json'),
     JSON.stringify(file)

@@ -1,11 +1,19 @@
-<footer>
-  <p>&copy; {{ now.Year }} <a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a></p>
+<footer class="footer">
+  <div class="container has-text-centered">
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <img class="profile-pic"
+          src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAArtAAAAJGNjODBiMzQ0LTllOWMtNGNmOS04MGJhLWE5YmIyMTgzY2NmMg.jpg"
+          alt="Me" />
+        <div class="is-size-3">Mauricio Poppe</div>
+      </div>
+    </div>
+  </div>
+  <div class="spacer"></div>
+  <div id="profile-animation"></div>
 </footer>
 
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script> -->
-<!-- <script> hljs.initHighlightingOnLoad(); </script> -->
-
-<!-- {{ partial "lib/toc.html" . }} -->
+{{ partial "lib/highlight.html" . }}
+{{ partial "lib/toc.html" . }}
 {{ partial "lib/mathjax.html" . }}
-<!-- {{ partial "lib/diagrams.html" . }} -->
-
+{{ partial "browser/browser-main.html" . }}

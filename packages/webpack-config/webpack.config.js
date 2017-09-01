@@ -24,13 +24,17 @@ module.exports = {
     path: location,
     filename: 'bundle.js',
     libraryTarget: 'umd',
-    library: camelCase(path.basename(process.cwd()))
+    library: camelCase(path.basename(process.cwd())),
+    publicPath: `/${path.basename(process.cwd())}/`
   },
   module: {
     rules: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
       use: 'babel-loader'
+    }, {
+      test: /\.svg$/,
+      use: 'svg-sprite-loader'
     }, {
       test: /\.css$/,
       use: [ 'style-loader', 'css-loader' ]
