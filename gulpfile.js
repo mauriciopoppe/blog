@@ -11,6 +11,21 @@ const moduleImporter = require('sass-module-importer')
 const autoprefixer = require('autoprefixer')
 const cssNano = require('cssnano')
 
+function execCommand (args) {
+  // iterate over every package and execute the command described above
+  const cmd = args[0]
+  args.shift()
+  globby('packages/browser-*/', { mark: true })
+    .then(dirs => {
+      dirs.forEach(dir => {
+        spawn(cmd, args, {
+          cwd: path.join(process.cwd(), dir),
+          stdio: 'inherit'
+        })
+      })
+    })
+}
+
 gulp.task('css', function () {
   const processors = [
     autoprefixer,
@@ -25,21 +40,12 @@ gulp.task('css', function () {
     .pipe(gulp.dest('./themes/blank/static/css'))
 })
 
-gulp.task('js:package', () => {
-  // iterate over every package and execute rollup watch
-  globby('packages/browser-*/', { mark: true })
-    .then(dirs => {
-      dirs.forEach(dir => {
-        spawn('npm', ['run', 'build', '--', '--watch'], {
-          cwd: path.join(process.cwd(), dir),
-          stdio: 'inherit'
-        })
-      })
-    })
-})
-
 gulp.task('watch', function () {
   gulp.watch('./themes/blank/_compile/sass/**', [ 'css' ])
+})
+
+gulp.task('build', function () {
+  execCommand(['npm', 'run', 'build', '--', '-p'])
 })
 
 gulp.task('default', ['watch'])
