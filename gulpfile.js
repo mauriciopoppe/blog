@@ -53,6 +53,7 @@ gulp.task('watch', function () {
 
 gulp.task('build', function () {
   return Promise.resolve()
+    .then(() => spawn('node', ['scripts/flatten-render-tree.js'], { stdio: 'inherit' }))
     .then(() => spawn('./node_modules/.bin/lerna', ['bootstrap'], { stdio: 'inherit' }))
     .then(() => execCommand(['npm', 'install']))
     .then(() => execCommand(['npm', 'run', 'build', '--', '-p']))
