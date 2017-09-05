@@ -1,3 +1,7 @@
+{{ $random := index (shuffle (seq 4)) 0 }}
+{{ $quotes := index .Site.Data.quotes "quotes" }}
+{{ $quote := index $quotes $random }}
+
 <footer class="footer">
   <div id="browser-sunset"></div>
 
@@ -8,9 +12,22 @@
           src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAArtAAAAJGNjODBiMzQ0LTllOWMtNGNmOS04MGJhLWE5YmIyMTgzY2NmMg.jpg"
           alt="Me" />
         <h3 class="is-size-3">Mauricio Poppe</h3>
-        <p class="is-size-5">Learning one thing at a time</p>
-        <p class="is-size-6">
+        <p>
+          <span>I'm just getting started 😃</span>
         </p>
+        <hr />
+        <p class="is-size-5">
+          <span> {{ index $quote "quote" }}<span>
+          <i>{{ index $quote "author" }}</i>
+        </p>
+        <hr />
+        <p class="is-size-7">
+          This site is built with <a href="https://gohugo.io/" target="_blank">Hugo</a>
+          and hosted on <a href="https://netlify.com/"
+            target="_blank">Netlify</a>. <br />
+          The source code is hosted on <a href="http://github.com/" target="_blank">Github</a>
+        </p>
+        <p class="is-size-7">© 2015 - {{ now.Year }}</p>
       </div>
     </div>
   </div>

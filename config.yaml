@@ -1,10 +1,11 @@
 title: "Mauricio Poppe's blog"
 
 params:
-  description: "Math, Computer Graphics and Computer Science"
+  description: "My notes about the things I learn every single day"
 
 baseURL: "http://mauriciopoppe.com/"
 languageCode: "en-us"
 
 metadataFormat: 'yaml'
 theme: blank
+
