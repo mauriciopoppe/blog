@@ -42,6 +42,7 @@
   "dependencies": {
     "babel-core": "^6.26.0",
     "child-process-promise": "^2.2.1",
+    "fs-extra": "^4.0.1",
     "gulp-plumber": "^1.1.0",
     "sass-module-importer": "^1.4.0"
   }

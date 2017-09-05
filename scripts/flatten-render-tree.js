@@ -1,7 +1,7 @@
 const globby = require('globby')
 const path = require('path')
 const fm = require('front-matter')
-const fs = require('fs')
+const fs = require('fs-extra')
 
 const addFileToMap = (cwd, map) => (file, i) => {
   const data = fs.readFileSync(path.join(cwd, file), { encoding: 'utf-8' })
@@ -37,8 +37,6 @@ function dfs (cwd, obj = {}) {
     })
 }
 
-dfs(path.join(__dirname, '../content/'))
-  .then(file => fs.writeFileSync(
-    path.join(__dirname, '../data/metadata/render-tree.json'),
-    JSON.stringify(file)
-  ))
+fs.ensureDir(path.join(process.cwd(), 'data/metadata/'))
+  .then(() => dfs(path.join(process.cwd(), 'content/')))
+  .then(file => fs.writeJson(path.join(process.cwd(), 'data/metadata/render-tree.json'), file))
