@@ -137,7 +137,7 @@ Note that both the vector $\mathbf{v}$ and the translation vector are transforme
 
 The following figure shows two coordinate system, the one with the basis vectors $\mathbf{x}, \mathbf{y}$ and $\mathbf{z}$ is the canonical coordinate system, $\mathbf{u}, \mathbf{v}$ and $\mathbf{w}$ are the basis of a nested coordinate system expressed in terms of the canonical coordinate system
 
-![coordinate systems]({{ site_url  }}/images/combining-transformations!coordinate-systems.jpg){: .center-image}
+![coordinate systems](/images/combining-transformations!coordinate-systems.jpg)
 
 The value of $\mathbf{p}$ expressed in the canonical coordinate system is
 

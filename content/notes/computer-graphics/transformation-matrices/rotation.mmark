@@ -1,20 +1,19 @@
 ---
 title: "Rotations"
 date: 2016-02-05 13:00:00
+libraries: ["d3", "function-plot"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
  - "Vince, J. (2011). Quaternions for computer graphics. London: Springer."
  - "Shoemake, K. (2016). Quaternions [online] Cs.ucr.edu. Available at: http://www.cs.ucr.edu/~vbz/resources/quatut.pdf [Accessed 7 Mar. 2016]."
 ---
 
-{% include cdn/function-plot.html %}
+## 2d rotation
 
 $$
 \newcommand{\cost}{\cos{\theta}}
 \newcommand{\sint}{\sin{\theta}}
 $$
-
-## 2d rotation
 
 A 2d rotation has only one parameter $\theta$, when the basis vectors $\unit{i} = [1, 0]$ and $\unit{j} = [0, 1]$ are rotated by an angle $\theta$
 
@@ -421,22 +420,22 @@ $$
 
 The second formula works for all the cases as noted [here](http://math.stackexchange.com/questions/90081/quaternion-distance) (the first one doesn't work when $a \cdot b < 0$)
 
-<script>
-function unitCircle() {
-  return {
-    x: 'cos(t)',
-    y: 'sin(t)',
-    color: 'lightgrey',
-    fnType: 'parametric',
-    graphType: 'polyline'
+{{< script >}}
+document.addEventListener('DOMContentLoaded', function () {
+  function unitCircle() {
+    return {
+      x: 'cos(t)',
+      y: 'sin(t)',
+      color: 'lightgrey',
+      fnType: 'parametric',
+      graphType: 'polyline'
+    }
   }
-}
 
-;(function () {
   functionPlot({
     target: '#two-dimensions',
     grid: true,
-    xDomain: [-6, 6],
+    xAxis: { domain: [-6, 6] },
     data: [
       { vector: [1, 0], color: '#FFCCCB', fnType: 'vector', graphType: 'polyline' },
       { vector: [0, 1], color: '#add8e6', fnType: 'vector', graphType: 'polyline' },
@@ -445,5 +444,5 @@ function unitCircle() {
       unitCircle()
     ]
   })
-})()
-</script>
+})
+{{< /script >}}

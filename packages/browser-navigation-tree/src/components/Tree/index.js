@@ -59,7 +59,7 @@ const Tree = (config) => {
   const innerRadius = outerRadius - 150
   const layout = tree()
     .size([config.height, config.width / 2])
-    // .separation((a, b) => (a.parent === b.parent ? 1 : 2) / a.depth)
+    .separation((a, b) => (a.parent === b.parent ? 1 : 2) / a.depth)
 
   // compute layout
   const root = hierarchy(config.data)

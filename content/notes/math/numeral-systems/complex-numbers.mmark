@@ -2,15 +2,14 @@
 
 title: "Complex numbers"
 date: 2015-09-08 13:30:00
+libraries: [d3, function-plot]
 ---
 
-{% include cdn/function-plot.html %}
+## Imaginary numbers
 
 $$
 \newcommand{sqrti}{\frac{1}{\sqrt{2}}}
 $$
-
-## Imaginary numbers
 
 - Invented to solve problems where an equation has no real roots e.g. $x^2 + 16 = 0$, the idea of declaring the existence of a quantity $i$ such that $i^2 = -1$ allows us to express the solution as
 
@@ -367,10 +366,10 @@ y & x
 \end{bmatrix} \begin{bmatrix}
 \cos \theta & -\sin \theta \\
 \sin \theta & \cos \theta
-\end{bmatrix} 
+\end{bmatrix}
 $$
 
-Note that because of the way the complex product is defined, the multiplication between two complex numbers commutes 
+Note that because of the way the complex product is defined, the multiplication between two complex numbers commutes
 
 $$
 \begin{align*}
@@ -379,102 +378,4 @@ x' + y'i &= (\cos \theta + i \sin \theta)(x + yi)\\
 \end{align*}
 $$
 
-<script>
-function unitCircle() {
-  return {
-    x: 'cos(t)',
-    y: 'sin(t)',
-    color: 'lightgrey',
-    graphType: 'polyline',
-    fnType: 'parametric'
-  }
-}
-
-function vector (ends, offset) {
-  return {
-    vector: ends,
-    offset: offset,
-    fnType: 'vector',
-    graphType: 'polyline'
-  }
-}
-
-function updateFormat(instance) {
-  var format = instance.meta.yAxis.tickFormat()
-  var imaginaryFormat = function (d) {
-    return format(d) + ' i'
-  }
-  instance.meta.yAxis.tickFormat(imaginaryFormat)
-  instance.draw()
-}
-
-;(function () {
-  var instance = functionPlot({
-    target: '#complex-plane',
-    xLabel: 'real',
-    yLabel: 'imaginary',
-    grid: true,
-    xDomain: [-6, 6],
-    data: [
-      vector([1, 0]),
-      vector([0, 1]),
-      vector([-1, 0]),
-      vector([0, -1]),
-      unitCircle()
-    ]
-  })
-  updateFormat(instance)
-})()
-
-;(function () {
-  var instance = functionPlot({
-    target: '#complex-2-i',
-    xLabel: 'real',
-    yLabel: 'imaginary',
-    grid: true,
-    xDomain: [-6, 6],
-    data: [
-      vector([2, 1]),
-      vector([-1, 2]),
-      vector([-1, 2]),
-      vector([1, -2]),
-      unitCircle()
-    ]
-  })
-  updateFormat(instance)
-})()
-
-;(function () {
-  var n = 1 / Math.sqrt(2)
-  var instance = functionPlot({
-    target: '#complex-square-root',
-    xLabel: 'real',
-    yLabel: 'imaginary',
-    grid: true,
-    xDomain: [-6, 6],
-    data: [
-      vector([n, n]), 
-      vector([-n, n]), 
-      unitCircle()
-    ]
-  })
-  updateFormat(instance)
-})()
-
-;(function () {
-  var n = 1 / Math.sqrt(2)
-  var instance = functionPlot({
-    target: '#complex-45',
-    xLabel: 'real',
-    yLabel: 'imaginary',
-    grid: true,
-    xDomain: [-6, 6],
-    data: [
-      vector([2, 1]),
-      vector([n, 3 * n]),
-      unitCircle()
-    ]
-  })
-  updateFormat(instance)
-})()
-</script>
+<script src="/js/math/numeral-systems/complex-numbers.js"></script>

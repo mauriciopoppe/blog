@@ -67,14 +67,6 @@ class ProfileAnimation extends React.Component {
       })
       .play()
 
-    // this.base = new Shape({
-    //   ...targetOpts,
-    //   angle: 60,
-    //   shape: 'polygon',
-    //   fill: 'white',
-    //   points: 4
-    // }).play()
-
     this.target = new Shape({
       ...targetOpts,
       fill: 'white',
@@ -191,7 +183,7 @@ class ProfileAnimation extends React.Component {
               x={x}
               y={y}
               depth={i}
-              fill={interpolateMagma(1 - (0.5 + (i / 5) * 0.5))}
+              fill={interpolateMagma(1 - (0.3 + (i / 5) * 0.5))}
             />
           ))}
           {this.state.arrows.map((arrow, i) => (

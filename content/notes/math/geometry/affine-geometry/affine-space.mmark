@@ -2,15 +2,14 @@
 
 title: "Affine spaces"
 date: 2016-03-15 12:19:52
+libraries: [d3, function-plot]
 references:
   - "Bærentzen, J. A., Gravesen, J., Anton François, & Aanæs, H. (2012). Guide to computational geometry processing: foundations, algorithms, and methods. London: Springer."
 ---
 
-{% include cdn/function-plot.html %}
-
 Image a vector space where two points $P$ and $P'$ exist, then there's a *unique translation of the plane* that maps $P$ to $P'$ which means that the space of *translations* in the plane can be identified with a set of vectors that exist in the plane, composition of translation correspond to addition of vectors e.g. $\v{PP''} = \v{PP'} + \v{P'P''}$
 
-![affine space]({{ site_url  }}/images/affine-space!translation.jpg){: .center-image} 
+![affine space](/images/affine-space!translation.jpg)
 
 An affine space is a space where translation is defined, formally an affine space is a set $E$ (of points) that admits a free transitive action of a vector space $\v{E}$ (of translations) whose action results in an element of the set $E$, that is there's a map $E \times \v{E} \rightarrow E: (a,\mathbf{v}) \mapsto a + \mathbf{v}$ such that
 
@@ -27,15 +26,17 @@ $$
 $$
 
 <div id="line"></div>
-<script>
-functionPlot({
-  target: '#line',
-  grid: true,
-  data: [{
-    fn: '2 + x'
-  }]
+{{< script >}}
+document.addEventListener('DOMContentLoaded', function () {
+  functionPlot({
+    target: '#line',
+    grid: true,
+    data: [{
+      fn: '2 + x'
+    }]
+  })
 })
-</script>
+{{< /script >}}
 
 Where any point has the form $(x, f(x)) = (x, 2 + x)$, the line can be made into an affine space by defining $+: L \times V \rightarrow L$ (note that $V$ is a vector space) so that for any $u \in V$
 
@@ -72,17 +73,19 @@ $$
 Let $\lambda = 1, \mu = 1$, $a = (-1,1)$ and $b = (2, 2)$ then $a + b = (1, 1)$
 
 <div id="affine-1"></div>
-<script>
-functionPlot({
-  target: '#affine-1',
-  annotations: [{ x: 1 }, { y: 1 }],
-  data: [{
-    points: [[-1,-1], [2,2], [1, 1]],
-    fnType: 'points',
-    graphType: 'scatter'
-  }]
+{{< script >}}
+document.addEventListener('DOMContentLoaded', function () {
+  functionPlot({
+    target: '#affine-1',
+    annotations: [{ x: 1 }, { y: 1 }],
+    data: [{
+      points: [[-1,-1], [2,2], [1, 1]],
+      fnType: 'points',
+      graphType: 'scatter'
+    }]
+  })
 })
-</script>
+{{< /script >}}
 
 If we change the coordinate system to have an origin at $(1,1)$ with the same basis vectors then the coordinates of the given points are $a=(-2,-2)$ and $b=(1,1)$, the linear combination is then $a + b = (-1,-1)$ which is the same as the point $(0,0)$ of the first coordinate system, therefore $a+b$ corresponds to two different points depending on the coordinate system used
 

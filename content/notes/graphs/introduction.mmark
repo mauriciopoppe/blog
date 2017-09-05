@@ -1,10 +1,8 @@
 ---
-
 title: "Introduction"
 date: 2015-06-22 17:03:41
+libraries: ["d3", "greuler"]
 ---
-
-{% include cdn/greuler.html %}
 
 A graph is a pair $G = (V, E)$, it consists of a finite set $V$ of objects called the *vertices* (or nodes or points) and a set $E$ of 2-elements subsets of $V$ called *edges*, another way to denote the vertex set/edges of a graph $G$ is using $V(G)$ (the vertex set of $G$) and $E(G)$ (the edge set of $G$)
 

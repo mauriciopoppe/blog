@@ -2,9 +2,8 @@
 title: "Derivative"
 date: 2015-04-02 10:00:00
 tags: [math, calculus]
+libraries: [d3, function-plot]
 ---
-
-{% include cdn/function-plot.html %}
 
 ## Physical interpretation of the derivative
 
@@ -497,7 +496,7 @@ The process didn't actually find the maximum/minimum values since for $x > 3$ th
 - refraction of light, we can build a function of time which relates the velocity/distance the light travels in different mediums, finding the derivative and making it equal to $0$ will find the relative minimum time needed to go from one point in the medium $a$ to a point in a medium $b$
 - finding the sides of the rectangle with the maximum perimeter
 
-### Newthon-Raphson method
+### Newton-Raphson method
 
 The slope of the tangent line of a function $f(x)$ at any derivable point is given by $m = f'(x)$, let $x_1$ be a derivable point then the slope of the tangent line at $x_1$ is $m_1 = f'(x_1)$, the *Point–slope* form of the *tangent* line whose *slope* is $f'(x_1)$ is
 
@@ -525,7 +524,7 @@ $$
 $x$ in the last equation is the abscissa of the next approximation of one of the roots of $x$, if we run the algorithm above a few times with an acceptable initial guess then we'll obtain a better approximation of one of the roots of $f(x)$
 
 <div id="newton-raphson"></div>
-<button id="run-newton-raphson">Newton-Raphson</button>
+<button id="run-newton-raphson" class="button is-primary">Newton-Raphson</button>
 
 #### Finding the square root of a number
 

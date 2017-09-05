@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const entry = path.join(process.cwd(), './src/index.js')
-const location = path.join(__dirname, '../../static/', path.basename(process.cwd()))
+const location = path.join(__dirname, '../../static/browser/', path.basename(process.cwd()))
 
 module.exports = {
   entry,
@@ -29,6 +29,11 @@ module.exports = {
   },
   module: {
     rules: [{
+      // test: /\.(js|jsx)$/,
+      // enforce: 'pre',
+      // exclude: /node_modules/,
+      // use: 'eslint-loader'
+    // }, {
       test: /\.jsx?$/,
       exclude: /node_modules/,
       use: 'babel-loader'

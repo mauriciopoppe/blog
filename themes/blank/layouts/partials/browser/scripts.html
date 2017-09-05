@@ -1,0 +1,26 @@
+<script>
+// lazy loader
+(function () {
+  window.lazyLoader = function (target, done) {
+    function insideViewport () {
+      var rect = target.getBoundingClientRect()
+      return rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= window.innerHeight + rect.height &&
+        rect.left <= window.innerWidth + rect.width
+    }
+
+    function checker () {
+      if (insideViewport(target)) {
+        done()
+        window.removeEventListener('scroll', checker)
+      }
+    }
+
+    window.addEventListener('scroll', checker, false)
+    window.addEventListener('load', checker, false)
+  }
+})()
+</script>
+
+{{ partial "browser/browser-sunset.html" . }}

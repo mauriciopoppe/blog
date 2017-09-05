@@ -1,9 +1,15 @@
+.toc-wrapper {
+  position: relative;
+}
+
 nav[role="navigation"] {
   position: relative;
   top: 35px;
   color: #4a4a4a;
   opacity: 0.5;
   transition: opacity 500ms;
+  top: 0;
+  width: 100%;
 
   &:hover {
     opacity: 1;

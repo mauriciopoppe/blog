@@ -1,0 +1,26 @@
+{
+  "linkDistance": 50,
+
+  "nodes": [
+    {"id": 0, "label": "d3" },
+    {"id": 1, "label": "d2" },
+    {"id": 2, "label": "d4" },
+    {"id": 3, "label": "d2" },
+    {"id": 4, "label": "d2" },
+    {"id": 5, "label": "d1" },
+    {"id": 6, "label": "d1" },
+    {"id": 7, "label": "d1" },
+    {"id": 8, "label": "d0" }
+  ],
+  "links": [
+    {"source":  0, "target":  1},
+    {"source":  0, "target":  2},
+    {"source":  0, "target":  3},
+    {"source":  1, "target":  2},
+    {"source":  3, "target":  4},
+    {"source":  4, "target":  2},
+    {"source":  2, "target":  5},
+
+    {"source":  6, "target":  7}
+  ]
+}

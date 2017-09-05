@@ -1,19 +1,34 @@
 <footer class="footer">
+  <div id="browser-sunset"></div>
+
   <div class="container has-text-centered">
     <div class="columns is-centered">
-      <div class="column is-half">
+      <div class="column is-half card box">
         <img class="profile-pic"
           src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAArtAAAAJGNjODBiMzQ0LTllOWMtNGNmOS04MGJhLWE5YmIyMTgzY2NmMg.jpg"
           alt="Me" />
-        <div class="is-size-3">Mauricio Poppe</div>
+        <h3 class="is-size-3">Mauricio Poppe</h3>
+        <p class="is-size-5">Learning one thing at a time</p>
+        <p class="is-size-6">
+        </p>
       </div>
     </div>
   </div>
-  <div class="spacer"></div>
-  <div id="profile-animation"></div>
+  <!-- <div class="spacer"></div> -->
 </footer>
 
+<!-- always included -->
 {{ partial "lib/highlight.html" . }}
 {{ partial "lib/toc.html" . }}
 {{ partial "lib/mathjax.html" . }}
-{{ partial "browser/browser-main.html" . }}
+
+<!-- selectively included -->
+{{ if isset .Params "libraries" }}
+  {{ range .Params.libraries }}
+    {{ if eq . "d3" }} {{ partial "lib/d3.html" . }} {{ end }}
+    {{ if eq . "function-plot" }} {{ partial "lib/function-plot.html" . }} {{ end }}
+    {{ if eq . "greuler" }} {{ partial "lib/greuler.html" . }} {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ partial "browser/scripts.html" . }}

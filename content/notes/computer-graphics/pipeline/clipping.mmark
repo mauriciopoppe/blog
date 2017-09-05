@@ -3,9 +3,8 @@ title: "Clipping"
 date: 2016-03-16 11:03:05
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
+libraries: ["d3", "function-plot"]
 ---
-
-{% include cdn/function-plot.html %}
 
 There's a problem when the objects transformed to NDC need to be rasterized, some objects that are behind the eye might be rendered leading to incorrect results
 
@@ -27,7 +26,8 @@ $$
 Note that the equations above assume that $n,f \geq 0, n \leq f$ because $A$ and $B$ were already mapped using $-n \mapsto -1$ and $-f \mapsto 1$, for example when $n = 1$ and $f = 10$ the possible values can be described with the following plot
 
 <div id="z"></div>
-<script>
+{{< script >}}
+window.addEventListener('DOMContentLoaded', function () {
 var n = 1
 var f = 10
 var A = - (f + n)/(f - n)
@@ -35,7 +35,7 @@ var B = (-2 * f * n)/(f - n)
 var xDiff = 2
 functionPlot({
   target: '#z',
-  xDomain: [-f - xDiff, -n + xDiff],
+  xAxis: { domain: [-f - xDiff, -n + xDiff] },
   annotations: [
     {x: -n, text: '-n'},
     {x: -f, text: '-f'},
@@ -47,7 +47,8 @@ functionPlot({
     scope: {A: A, B: B}
   }]
 })
-</script>
+})
+{{< /script >}}
 
 We see that objects behind the camera (points with $z_{cam} > 0$) are mapped to NDC as $z_{ndc} > 1$ i.e. in NDC points behind the camera are visible
 

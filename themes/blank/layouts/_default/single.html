@@ -7,7 +7,8 @@
 {{ end }}
 
 {{ define "main" }}
-<div id="root"></div>
+
+{{ partial "browser/browser-article-navigation.html" . }}
 
 <section class="section">
   <div class="container">
@@ -15,7 +16,20 @@
       <div class="column is-three-quarters">
         <article role="main" class="content">
           {{ .Content }}
+
+          {{ if isset .Params "references" }}
+            <hr />
+            <div class="is-size-5">References</div>
+            <div class="references is-size-7">
+              <ul>
+              {{ range .Params.references }}
+                <li>{{ . | markdownify }}</li>
+              {{ end }}
+              </ul>
+            </div>
+          {{ end }}
         </article>
+
       </div>
       <aside class="column is-hidden-mobile">
         {{ partial "toc.html" . }}

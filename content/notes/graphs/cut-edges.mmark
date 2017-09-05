@@ -1,10 +1,8 @@
 ---
-
 title: "Cut-edges (bridges)"
 date: 2015-06-24 14:51:12
+libraries: ["d3", "greuler"]
 ---
-
-{% include cdn/greuler.html %}
 
 An edge $e = uv$ of a connected graph $G$ is called a bridge if $G - e$ is disconnected (obviously it increases the number of components)
 
@@ -55,11 +53,12 @@ Let $uv$ be an edge of a digraph $G$, we say that $uv$ is **redundant** if there
 
 http://www.sofsem.cz/sofsem12/files/presentations/Thursday/GiuseppeItaliano.pdf
 
-<script>
-(function () {
+{{< script >}}
+document.addEventListener('DOMContentLoaded', function () {
   d3.json('/js/graph/data/bridges.json', function (err, data) {
     if (err) { throw err }
     greuler({
+      height: 400,
       target: '#figure-bridges',
       data: data
     }).update()
@@ -72,5 +71,5 @@ http://www.sofsem.cz/sofsem12/files/presentations/Thursday/GiuseppeItaliano.pdf
       data: data
     }).update()
   });
-})();
-</script>
+}, false)
+{{< /script >}}

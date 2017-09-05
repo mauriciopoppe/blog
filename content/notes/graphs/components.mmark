@@ -1,10 +1,7 @@
 ---
-
 title: "Components"
 date: 2015-06-25 15:00:00
 ---
-
-{% include cdn/greuler.html %}
 
 A connected subgraph of $G$ that is not a proper subgraph of any other connected subgraph of $G$ is a **component** of $G$, i.e. there's a $u-v$ path in the mentioned subgraph
 

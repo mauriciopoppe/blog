@@ -40,7 +40,7 @@ $$
 \mathbf{v'} = \mathbf{S}(\unit{n}, k) \mathbf{v}
 $$
 
-![scale arbitrary axis]({{ site_url  }}/images/scale!arbitrary-axis.png){: .center-image}
+![scale arbitrary axis](/images/scale!arbitrary-axis.png)
 
 - Separate $\mathbf{v}$ in two vectors, a vector parallel to $\unit{v}$ called $\mathbf{v_{\parallel}}$ and a vector perpendicular to $\unit{v}$ called $\mathbf{v_{\perp}}$ such that
 

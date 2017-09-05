@@ -1,34 +1,42 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/3.0.2/tocbot.min.js"></script>
 <script>
-  (function () {
-    var toc = document.querySelector('nav[role=navigation]')
-    var content = document.querySelector('article[role=main]')
+(function () {
+  var toc = document.querySelector('nav[role=navigation]')
+  var hero = document.querySelector('section.hero')
+  var tocWrapper = document.querySelector('.toc-wrapper')
 
-    if (!toc || !content) return;
+  if (!toc || !hero) return;
 
-    tocbot.init({
-      tocSelector: '#toc',
-      contentSelector: 'article[role=main]',
-      headingSelector: 'h1,h2,h3,h4,h5,h6',
-      collapseDepth: 6
-    })
+  tocbot.init({
+    tocSelector: '#toc',
+    contentSelector: 'article[role=main]',
+    headingSelector: 'h1,h2,h3,h4,h5,h6',
+    collapseDepth: 6
+  })
 
-    let position = ''
-    window.addEventListener('scroll', function () {
-      var scroll = document.body.scrollTop
-      var bbox = content.getBoundingClientRect()
-      var newPosition
-      if (scroll + bbox.top - window.scrollY < 0) {
-        newPosition = 'fixed'
+  var position = ''
+  var rect = hero.getBoundingClientRect()
+  var heroBot = rect.bottom + window.scrollY
+  window.addEventListener('scroll', function () {
+    var newPosition = ''
+    if (window.scrollY > heroBot) {
+      newPosition = 'fixed'
+    }
+    if (newPosition !== position) {
+      var wrapperWidth = tocWrapper.getBoundingClientRect().width
+      if (newPosition === 'fixed') {
+        // 80: breadcrumb
+        // 48: content padding top
+        toc.style.top = (80 + 48) + 'px'
+        toc.style.width = wrapperWidth + 'px'
       } else {
-        newPosition = ''
+        toc.style.width = 'auto'
+        toc.style.top = ''
       }
-
-      if (newPosition !== position) {
-        toc.style.position = newPosition
-        position = newPosition
-      }
-    })
-  })()
+      toc.style.position = newPosition
+      position = newPosition
+    }
+  })
+})()
 </script>
 

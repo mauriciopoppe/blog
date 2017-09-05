@@ -77,7 +77,7 @@ The proof can be found [ here ](http://stackoverflow.com/a/565282/3341726)
 
 We can actually solve this problem graphically by using [triangle similarity](https://www.mathsisfun.com/geometry/triangles-similar-finding.html), imagine the following situation
 
-![line line intersection]({{ site_url  }}/images/geometric-tests!line-line.jpg){: .center-image}
+![line line intersection](/images/geometric-tests!line-line.jpg)
 
 The intersection point $\mathbf{p}$ is equal to
 

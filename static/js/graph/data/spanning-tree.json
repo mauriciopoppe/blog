@@ -1,0 +1,18 @@
+{
+  "nodes": [
+    {"id": 0},
+    {"id": 1},
+    {"id": 2},
+    {"id": 3},
+    {"id": 4}
+  ],
+  "links": [
+    {"source": 0, "target": 1, "stroke": "red"},
+    {"source": 0, "target": 2, "stroke": "red"},
+    {"source": 2, "target": 3, "stroke": "red"},
+    {"source": 2, "target": 4},
+    {"source": 3, "target": 4, "stroke": "red"},
+    {"source": 1, "target": 3},
+    {"source": 1, "target": 4}
+  ]
+}

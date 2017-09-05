@@ -1,7 +1,9 @@
 {{ if (ne .Params.toc "false") }}
 <style> /* moved to toc.scss */ </style>
-<nav role="navigation">
-  <h2>{{ $.Scratch.Get "title" }}</h2>
-  <div id="toc"></div>
-</nav>
+<div class="toc-wrapper">
+  <nav role="navigation">
+    <h2>{{ $.Scratch.Get "title" }}</h2>
+    <div id="toc"></div>
+  </nav>
+</div>
 {{ end }}

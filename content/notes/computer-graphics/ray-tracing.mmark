@@ -1,5 +1,5 @@
 ---
-title: "Ray tracing"
+title: "Ray Tracing"
 date: 2016-02-26 17:03:44
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
@@ -28,7 +28,7 @@ Note that
 
 All the rays start from the origin of an orthonormal coordinate frame known as the camera/eye coordinate system, in this frame the camera is looking at the negative $\mathbf{w}$ axis
 
-![camera]({{ site_url  }}/images/ray-tracing!camera.jpg){: .center-image}
+![camera](/images/ray-tracing!camera.jpg)
 
 The coordinate system is built from
 
@@ -47,7 +47,7 @@ The image dimensions is defined with four numbers
 
 Note that the coordinates are expressed in the camera coordinate frame defined in a plane parallel to the $w=0$ plane (the $w=0$ plane is defined by the point $\mathbf{e}$ and the vectors $\mathbf{u}$ and $\mathbf{v}$)
 
-The image has to be fitted within a rectangle of $n_x \times n_y$ pixels, for example the pixel $(0,0)$ has the position $(l + 0.5 \tfrac{r - l}{n_x}, b + 0.5 \tfrac{t - b}{n_y})$ note that the half-pixel measurement times pixel-dimension is because of the way a pixel is defined (see [rendering]({{ site_url }}/static/computer-graphics/fundamentals/rendering.html)), a pixel with coordinates $(x, y)$ will have the position
+The image has to be fitted within a rectangle of $n_x \times n_y$ pixels, for example the pixel $(0,0)$ has the position $(l + 0.5 \tfrac{r - l}{n_x}, b + 0.5 \tfrac{t - b}{n_y})$ note that the half-pixel measurement times pixel-dimension is because of the way a pixel is defined (see [rendering](/static/computer-graphics/fundamentals/rendering.html)), a pixel with coordinates $(x, y)$ will have the position
 
 $$
 u = l + (x + 0.5) \frac{r - l}{n_x} \\
@@ -58,7 +58,7 @@ $$
 
 For an orthographic view all the rays will have the direction $-\mathbf{w}$, there isn't a particular viewpoint however we can define all the rays to be emitted from the $w=0$ plane using the pixel's image-plane position as the ray's starting point
 
-![orthographic view]({{ site_url  }}/images/ray-tracing!orthographic.jpg){: .center-image}
+![orthographic view](/images/ray-tracing!orthographic.jpg)
 
 $$
 \begin{align*}
@@ -71,7 +71,7 @@ $$
 
 For a perspective view all the rays will have the same origin $e$ but the image-plane is not located at $w=0$ but at some distance $d$ in the $-\mathbf{w}$ direction, this time each ray will have a varying direction based on the location of the pixel's image-plane position respect to $e$
 
-![perspective view]({{ site_url  }}/images/ray-tracing!perspective.jpg){: .center-image}
+![perspective view](/images/ray-tracing!perspective.jpg)
 
 $$
 \begin{align*}
@@ -122,7 +122,7 @@ $$
 
 One of the simplest shading models discovered by Lambert in the 18th century, the amount of energy from a light source that falls on a surface depends on the angle of the surface to the light
 
-![lambert]({{ site_url  }}/images/ray-tracing!lambert.jpg){: .center-image}
+![lambert](/images/ray-tracing!lambert.jpg)
 
 - A surface facing directly the light receives maximum illumination
 - A surface tangent to the light receives no illumination
@@ -148,7 +148,7 @@ Additional notes of this model
 
 Many surfaces show some degree of highlights (shininess) or *specular reflections* that appear to move as the viewpoint changes, the idea is to produce reflections when $\mathbf{v}$ and $\mathbf{l}$ are positioned symmetrically across the surface normal
 
-![blinn phong]({{ site_url  }}/images/ray-tracing!blinn-phong.jpg){: .center-image}
+![blinn phong](/images/ray-tracing!blinn-phong.jpg)
 
 - the half vector $\mathbf{h}$ is a unit vector that goes through the bisector of the angle between $\mathbf{v}$ and $\mathbf{l}$
 

@@ -5,7 +5,7 @@ references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---
 
-As seen on [projective geometry]({{site_url}}/static/math/geometry/projective-geometry) the perspective phenomenon is where an object appears to be smaller the further away is from the point of view
+As seen on [projective geometry](/static/math/geometry/projective-geometry) the perspective phenomenon is where an object appears to be smaller the further away is from the point of view
 
 We can again use some concepts of projective geometry to understand perspective projection, particularly the fact that any object in our 3D world is represented in the 4D projective hyperplane by the homogeneous coordinate $(x, y, z, 1)$, now any finite point with $w \not = 1$ can be projected to the 4D hyperplane $w = 1$ by dividing each coordinate by $w$ i.e. $(\tfrac{x}{w}, \tfrac{y}{w}, \tfrac{z}{w})$, a key observation in the values of $w$ is that *the higher the value of $w$ the smaller the object will be when they get projected to the $w=1$ hyperplane*
 
@@ -13,7 +13,7 @@ We can again use some concepts of projective geometry to understand perspective 
 
 Now let's imagine that we want to project the points that exists in our world to the plane $z = d$
 
-![perspective projection y]({{ site_url  }}/images/perspective-projection!y.png){: .center-image}
+![perspective projection y](/images/perspective-projection!y.png)
 
 By similar images we can see that the projected value of the $y$ coordinate is
 
@@ -23,7 +23,7 @@ $$
 
 The projected value of the $x$ coordinate can be computed in a similar way
 
-![perspective projection x]({{ site_url  }}/images/perspective-projection!x.png){: .center-image}
+![perspective projection x](/images/perspective-projection!x.png)
 
 $$
 \frac{v_x'}{d} = \frac{v_x}{v_z} \Rightarrow v_x' = \frac{d v_x}{v_z}

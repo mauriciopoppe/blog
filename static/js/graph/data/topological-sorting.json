@@ -1,0 +1,25 @@
+{
+  "nodes": [
+    {"id": 0, "fill": "red"},
+    {"id": 1, "fill": "red"},
+    {"id": 2, "fill": "red"},
+    {"id": 3},
+    {"id": 4},
+    {"id": 5},
+    {"id": 6},
+    {"id": 7}
+  ],
+  "links": [
+    {"source": 0, "target": 3},
+    {"source": 0, "target": 4},
+    {"source": 1, "target": 3},
+    {"source": 2, "target": 4},
+    {"source": 2, "target": 7},
+    {"source": 3, "target": 5},
+    {"source": 3, "target": 6},
+    {"source": 3, "target": 7},
+    {"source": 4, "target": 6}
+  ],
+  "flowLayout": ["y", 70],
+  "symmetricDiffLinkLengths": 70
+}

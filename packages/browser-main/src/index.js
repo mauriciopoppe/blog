@@ -41,17 +41,16 @@ export function profileAnimation () {
     return
   }
 
-
   function execute () {
     console.log('executing profile-animation script!')
     root.classList.add('is-visible')
 
-    import('./components/ProfileAnimation')
+    import('./containers/Sunset')
       .then(module => {
         setTimeout(() => {
-          const ProfileAnimation = module.default
+          const Sunset = module.default
           ReactDOM.render(
-            <ProfileAnimation />,
+            <Sunset />,
             root
           )
         }, 1000)

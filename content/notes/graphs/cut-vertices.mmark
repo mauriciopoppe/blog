@@ -2,9 +2,8 @@
 
 title: "Cut-vertices (articulation points)"
 date: 2015-06-24 15:00:00
+libraries: ["d3", "greuler"]
 ---
-
-{% include cdn/greuler.html %}
 
 A vertex $v$ in a connected graph $G$ is called a **cut-vertex** if $G - v$ results in a disconnected graph, note that $G - v$ is an induced subgraph of $G$ (meaning that $G - v$ contains all the vertices of $G$ but $v$ and a set of edges $G - V$ where $V$ consists of all the edges incident to $v$)
 
@@ -69,9 +68,8 @@ There are other measures of how connected a graph is, let $X$ be a set of edges 
 
 - for complete graph $G$ of order $n$, $\lambda(G) = n - 1$
 
-
-<script>
-(function () {
+{{< script >}}
+document.addEventListener('DOMContentLoaded', function () {
   d3.json('/js/graph/data/cut-vertex.json', function (err, data) {
     if (err) { throw err }
     var options = {
@@ -94,5 +92,5 @@ There are other measures of how connected a graph is, let $X$ be a set of edges 
   //   target: '#figure-cut-vertex-2',
   //   data: '/js/graph/data/cut-vertex-2.json'
   // });
-})();
-</script>
+})
+{{< /script >}}

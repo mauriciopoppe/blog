@@ -13,7 +13,7 @@ $$
 \mathbf{v'} = \mathbf{Mv} + \mathbf{b}
 $$
 
-Even though we can't express 2D translation using a 2x2 matrix, we can express such a transformation as a shear in 3D [projective geometry]({{ site_url }}/static/math/geometry/projective-geometry), to do so we have to imagine that the 2D Euclidean world exists as the plane $w = 1$ in a 3D space, under this geometry any point has the form $(x, y, w)$ which means that 2D euclidean world points have the form $(x, y, 1)$
+Even though we can't express 2D translation using a 2x2 matrix, we can express such a transformation as a shear in 3D [projective geometry](/static/math/geometry/projective-geometry), to do so we have to imagine that the 2D Euclidean world exists as the plane $w = 1$ in a 3D space, under this geometry any point has the form $(x, y, w)$ which means that 2D euclidean world points have the form $(x, y, 1)$
 
 In Euclidean geometry a vector expressed as a linear combination of the standard basis has the form
 
@@ -47,7 +47,7 @@ $$
 \end{bmatrix} \begin{bmatrix} v_x \\ v_y \\ 1 \end{bmatrix} = \begin{bmatrix} v_x + \Delta{x} \\ v_y + \Delta{y} \\ 1 \end{bmatrix}
 $$
 
-{% video https://upload.wikimedia.org/wikipedia/commons/transcoded/3/34/Affine_transformations.ogv/Affine_transformations.ogv.480p.ogv %}{: .center-image}
+{% video https://upload.wikimedia.org/wikipedia/commons/transcoded/3/34/Affine_transformations.ogv/Affine_transformations.ogv.480p.ogv %}
 
 An awesome consequence of the use of perspective geometry is the representation of points at infinity, a point at infinity has the form $(x, y, 0)$ since it can't be projected to the plane $w = 1$, note that because of $w = 0$ any transformation made to th standard basis $w$ will not affect this point i.e. it can't be sheared in 3D/translated in 2D!
 

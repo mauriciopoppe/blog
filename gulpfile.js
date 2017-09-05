@@ -42,4 +42,4 @@ gulp.task('watch', function () {
   gulp.watch('./themes/blank/_compile/sass/**', [ 'css' ])
 })
 
-gulp.task('default', ['watch', 'js:package'])
+gulp.task('default', ['watch'])

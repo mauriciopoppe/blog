@@ -3,8 +3,6 @@ title: "Quaternions"
 date: 2015-12-15 16:00:00
 ---
 
-{% include cdn/marked.html %}
-
 See [complex numbers](/static/math/numeral-systems/complex-numbers.html) and [quaternions](/static/math/numeral-systems/quaternions.html)
 
 ## Quaternions as rotations

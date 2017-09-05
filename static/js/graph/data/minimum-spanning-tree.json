@@ -1,0 +1,21 @@
+{
+  "linkDistance": 150,
+  "nodes": [
+    {"id": 0},
+    {"id": 1},
+    {"id": 2},
+    {"id": 3},
+    {"id": 4}
+  ],
+  "links": [
+    {"source":  0, "target": 1, "weight": 1, "stroke": "red"},
+    {"source":  0, "target": 2, "weight": 4},
+    {"source":  0, "target": 3, "weight": 4, "stroke": "red"},
+    {"source":  0, "target": 4, "weight": 5},
+    {"source":  1, "target": 2, "weight": 3, "stroke": "red"},
+    {"source":  1, "target": 3, "weight": 7},
+    {"source":  1, "target": 4, "weight": 5},
+    {"source":  2, "target": 3, "weight": 6},
+    {"source":  3, "target": 4, "weight": 2, "stroke": "red"}
+  ]
+}
