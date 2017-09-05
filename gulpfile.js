@@ -1,5 +1,5 @@
 const path = require('path')
-const spawn = require('child_process').spawn
+const { spawn } = require('child-process-promise')
 
 const gulp = require('gulp')
 const sass = require('gulp-sass')
@@ -15,14 +15,21 @@ function execCommand (args) {
   // iterate over every package and execute the command described above
   const cmd = args[0]
   args.shift()
-  globby('packages/browser-*/', { mark: true })
+  return globby('packages/browser-*/', { mark: true })
     .then(dirs => {
-      dirs.forEach(dir => {
-        spawn(cmd, args, {
-          cwd: path.join(process.cwd(), dir),
-          stdio: 'inherit'
-        })
-      })
+      return Promise.all(
+        dirs
+          .filter(dir => {
+            const pkg = require(path.join(__dirname, dir, 'package.json'))
+            return !pkg.skip
+          })
+          .map(dir => (
+            spawn(cmd, args, {
+              cwd: path.join(process.cwd(), dir),
+              stdio: 'inherit'
+            })
+          ))
+      )
     })
 }
 
@@ -45,7 +52,10 @@ gulp.task('watch', function () {
 })
 
 gulp.task('build', function () {
-  execCommand(['npm', 'run', 'build', '--', '-p'])
+  return Promise.resolve()
+    .then(() => spawn('./node_modules/.bin/lerna', ['bootstrap'], { stdio: 'inherit' }))
+    .then(() => execCommand(['npm', 'install']))
+    .then(() => execCommand(['npm', 'run', 'build', '--', '-p']))
 })
 
 gulp.task('default', ['watch'])

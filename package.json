@@ -7,7 +7,7 @@
   "author": "Mauricio Poppe",
   "license": "MIT",
   "scripts": {
-    "build": "lerna bootstrap && gulp build && hugo",
+    "build": "gulp build && hugo",
     "start": "gulp & hugo server --buildDrafts"
   },
   "devDependencies": {
@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "babel-core": "^6.26.0",
+    "child-process-promise": "^2.2.1",
     "gulp-plumber": "^1.1.0",
     "sass-module-importer": "^1.4.0"
   }

@@ -1,15 +1,16 @@
 {
-  "name": "@mauriciopoppe-blog/browser-triangle",
+  "name": "@blog/browser-triangle",
   "private": true,
+  "skip": true,
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "build": "../../node_modules/.bin/webpack --config node_modules/@mauriciopoppe-blog/webpack-config/webpack.config.js",
+    "build": "../../node_modules/.bin/webpack --config node_modules/@blog/webpack-config/webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@mauriciopoppe-blog/webpack-config": "^1.0.0",
+    "@blog/webpack-config": "^1.0.0",
     "d3-selection": "^1.1.0",
     "d3-shape": "^1.2.0",
     "gl-mat2": "^1.0.0",

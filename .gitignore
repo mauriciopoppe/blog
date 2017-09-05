@@ -2,7 +2,7 @@
 /static/browser/**
 /themes/beautifulhugo/
 /themes/blank/static/
-
+package-lock.json
 
 # Hugo default output directory
 /public
