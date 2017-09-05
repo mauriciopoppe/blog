@@ -4,14 +4,14 @@ import { Flex } from 'rebass'
 import styled from 'styled-components'
 import cs from 'classnames'
 import titleCase from 'title-case'
-import defined from 'defined'
+import { interpolateMagma } from 'd3-scale'
 
 import Directory from './components/Directory/'
 
 const Root = styled.div`
   margin: 0px auto;
   & .dirs {
-    height: 800px;
+    max-height: 500px;
     transition: height 200ms;
   }
 
@@ -35,6 +35,31 @@ const BreadcrumbToken = styled.span`
   padding: .5em .75em;
 `
 
+const Floating = styled.div`
+  background: white;
+  z-index: 1;
+  width: 100%;
+`
+
+const ScrollIndicator = styled.div`
+  height: 5px;
+  position: relative;
+  background-image: linear-gradient(
+    to right,
+    ${() => interpolateMagma(0.25)},
+    ${() => interpolateMagma(0.75)}
+  );
+`
+
+const Indicator = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: white;
+  right: 0;
+  top: 0;
+`
+
 class App extends React.Component {
   constructor (props) {
     super(props)
@@ -54,10 +79,12 @@ class App extends React.Component {
     const self = this
     const rect = this.wrapper.getBoundingClientRect()
     const oTop = rect.top - window.scrollY
+
     let position = ''
     self.root.style.top = 0
     self.root.style.left = rect.left
     const onScroll = function onScroll (e) {
+      // breadcrum positioning
       let newPosition = ''
       if (window.scrollY > oTop) {
         newPosition = 'fixed'
@@ -66,6 +93,10 @@ class App extends React.Component {
         position = newPosition
         self.root.style.position = newPosition
       }
+
+      // breadcrumb indicator
+      const width = 1 - window.scrollY / (document.body.clientHeight - window.innerHeight)
+      self.indicator.style.width = `${width * 100}%`
     }
     window.addEventListener('scroll', onScroll, false)
   }
@@ -90,11 +121,16 @@ class App extends React.Component {
 
     return (
       <Root>
-        <div style={{ height: 80, position: 'relative' }} ref={el => { this.wrapper = el }}>
-          <div
-            style={{ background: 'white', zIndex: 1, width: '100%' }}
-            ref={el => { this.root = el }}
-          >
+        <div
+          style={{ height: 80, zIndex: 1, position: 'relative' }}
+          ref={el => { this.wrapper = el }}
+        >
+          <Floating innerRef={el => { this.root = el }}>
+
+            <ScrollIndicator>
+              <Indicator innerRef={el => { this.indicator = el }} />
+            </ScrollIndicator>
+
             <div className='container'>
               {!this.state.root && <Breadcrumb
                 onClick={this.toggleCollapse.bind(this)}
@@ -115,7 +151,8 @@ class App extends React.Component {
                 { dirs }
               </Directories>
             </div>
-          </div>
+
+          </Floating>
         </div>
       </Root>
     )

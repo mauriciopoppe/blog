@@ -13,6 +13,7 @@
     "babel-eslint": "^7.2.3",
     "bulma": "^0.5.1",
     "classnames": "^2.2.5",
+    "d3-scale": "^1.0.6",
     "defined": "^1.0.0",
     "history": "^4.7.2",
     "mo-js": "^0.288.2",

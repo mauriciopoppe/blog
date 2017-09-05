@@ -1,5 +1,5 @@
 /data/metadata
-/static/browser-**
+/static/browser/**
 /themes/beautifulhugo/
 /themes/blank/static/
 
