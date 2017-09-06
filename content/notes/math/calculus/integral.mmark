@@ -1,5 +1,4 @@
 ---
-
 title:  "Integral"
 date:   2015-04-02 10:00:00
 categories: math calculus
@@ -65,7 +64,7 @@ $$
 3x^2
 $$
 
-However we have overlooked one point, it's also true that \eqref{definition-function-derivate} is the derived function of $y = 3x^2 + C$ where $C$ is some constant, this means that a constant term that was in the original function doesn't show up in the derived function, in the view of this possibility we must say that
+However we have overlooked one point, it's also true that \eqref{definition-function-derivate} is the derived function of $y = 3x\^2 + C$ where $C$ is some constant, this means that a constant term that was in the original function doesn't show up in the derived function, in the view of this possibility we must say that
 
 $$
 y = 3x^2 + C
@@ -79,7 +78,7 @@ $$
 v' = 32
 $$
 
-Here the independent variable is actually $x^0$, applying the 2-step algorithm to find the original function
+Here the independent variable is actually $x\^0$, applying the 2-step algorithm to find the original function
 
 $$
 32t^0 \to 32t \to 32/1\;t \\
@@ -264,7 +263,7 @@ $$
 v = -gt + C
 $$
 
-Since it's a generalization we don't know the initial velocity (the value of $C$ is some constant), let's represent the initial velocity of the object with the symbol $v_0$, hence the formula for the velocity is
+Since it's a generalization we don't know the initial velocity (the value of $C$ is some constant), let's represent the initial velocity of the object with the symbol $v\_0$, hence the formula for the velocity is
 
 $$
 \begin{equation}\label{speed}
@@ -278,7 +277,7 @@ $$
 s = v_0t - \frac{gt^2}{2} + C
 $$
 
-For this case we also don't know the initial distance from the ground the object is when $t = 0$, let's represent the initial distance from the ground with the symbol $s_0$
+For this case we also don't know the initial distance from the ground the object is when $t = 0$, let's represent the initial distance from the ground with the symbol $s\_0$
 
 $$
 \begin{equation}\label{distance}
@@ -292,8 +291,7 @@ $$
 
 ### Area as the limit of the sum
 
-Let's say we want to compute the area of the graph below $f(x)$ and the $x$-axis bounded
-by the vertical lines $x = a = 1$ and $x = b = 2$
+Let's say we want to compute the area of the graph below $f(x)$ and the $x$-axis bounded by the vertical lines $x = a = 1$ and $x = b = 2$
 
 $$
 f(x) = x^2
@@ -301,7 +299,7 @@ $$
 
 <div id="area-a-b"></div>
 
-An approximation to the area can be found by taking the maximum y-value in $(a, b)$ called $m_1$ and multiplying it $(b - a)$ which will be expressed as $\Delta(x)$, then the first approximation is $m_1\Delta{x}$
+An approximation to the area can be found by taking the maximum y-value in $(a, b)$ called $m\_1$ and multiplying it $(b - a)$ which will be expressed as $\Delta(x)$, then the first approximation is $m\_1\Delta{x}$
 
 $$
 S_1 = m_1\Delta{x}
@@ -323,10 +321,12 @@ $$
 S_n = m_1\Delta{x} + m_2\Delta{x} + \ldots + m_n\Delta{x}
 $$
 
-<div id="sum-area"></div>
-<input class="center" style="width: 300px; margin: 0 auto; display: block" type="range" id="sum-area-slider" value="30" min="2" max="100">
+<div>
+  <div id="sum-area"></div>
+  <input class="center" style="width: 300px; margin: 0 auto; display: block" type="range" id="sum-area-slider" value="30" min="2" max="100">
+</div>
 
-The quantity $n$ can increase without a limit, to each $n$ there's a corresponding sum, now the quanttity
+The quantity $n$ can increase without a limit, to each $n$ there's a corresponding sum, now the quantity
 
 $$
 \lim_{n \to \infty} S_n
@@ -341,14 +341,14 @@ $$
 There is another notation for this limit which keeps the bounds that determine the area, if $y = f(x)$ then we write for the limit:
 
 $$
-\int_{a}^{b} f(x) \; dx
+\int_{a}^{b} f(x) dx
 $$
 
-The elongated S denote integration, the symbols $a$ and $b$ are the left and right ends of the domain whose are is being calculated and $f(x)\;dx$ is a reminder that we took rectangles of height $y_i$ and width $\Delta{x_i}$
+The elongated S denotes integration, the symbols $a$ and $b$ are the left and right ends of the domain whose area is being calculated and $f(x)dx$ is a reminder that we took rectangles of height $y_i$ and width $\Delta{x_i}$.
 
 ### Evaluation of definite integrals
 
-Another way to find the area is as follows, previously we found an approximation of the area as ($\Delta{x} * max(f(x))$ for all $x \in [a, b]$), similary we can take the lower bound instead ($\Delta{x} * min(f(x))$ for all $x \in [a, b]$) let's assume that somehow we have found the area below the curve bounded by $[a, x_0]$, moving $x_0$ to the right will generate an increment in the area, this change in the area can be expressed as
+Another way to find the area is as follows, previously we found an approximation of the area as ($\Delta{x} * max(f(x))$ for all $x \in \[a, b\]$), similary we can take the lower bound instead ($\Delta{x} * min(f(x))$ for all $x \in \[a, b\]$) let's assume that somehow we have found the area below the curve bounded by $\[a, x\_0\]$, moving $x_0$ to the right will generate an increment in the area, this change in the area can be expressed as
 
 $$
 \Delta{A} = \bar{y} * \Delta{x}
@@ -358,13 +358,13 @@ $$
 \frac{\Delta{A}}{\Delta{x}} = \bar{y}
 $$
 
-The value of $\bar{y}$ is some value between $f(x_0)$ and $f(x_0 + \Delta{x})$, to obtain the instantaneous rate of change in the area with respect to $x$ we must find the limit of $\Delta{A}/\Delta{x}$ as $\Delta{x}$ approaches zero, also as $\Delta{x}$ approaches zero the value of $\bar{y}$ also approaches $f(x_0)$ therefore
+The value of $\bar{y}$ is some value between $f(x\_0)$ and $f(x\_0 + \Delta{x})$, to obtain the instantaneous rate of change in the area with respect to $x$ we must find the limit of $\Delta{A}/\Delta{x}$ as $\Delta{x}$ approaches zero, also as $\Delta{x}$ approaches zero the value of $\bar{y}$ also approaches $f(x\_0)$ therefore
 
 $$
 \frac{\Delta{A}}{\Delta{x}} = y_0 = f(x_0)
 $$
 
-Because this is true for any value of $x$ in the interval $[a, b]$
+Because this is true for any value of $x$ in the interval $\[a, b\]$
 
 $$
 \frac{\Delta{A}}{\Delta{x}} = y = f(x)
@@ -376,7 +376,7 @@ $$
 A = \int f(x) \; dx
 $$
 
-As an example let's apply the above to the function $f(x) = x^2$
+As an example let's apply the above to the function $f(x) = x\^2$
 
 $$
 \begin{equation}\label{integral-eval}
@@ -399,7 +399,7 @@ $$
 A = \frac{x^3}{3} - \frac{1}{3}
 $$
 
-is the function which expresses the area from $a$ to any position $x$, to find the area bounded by $[a, b]$ we substitute $x = b = 2$ and get
+is the function which expresses the area from $a$ to any position $x$, to find the area bounded by $\[a, b\]$ we substitute $x = b = 2$ and get
 
 $$
 A = \frac{2^3}{3} - \frac{1}{3} = \frac{7}{3}
@@ -417,7 +417,7 @@ $$
 \int_{a}^{b} f(x)\;dx = F(b) - F(a)
 $$
 
-Where $F(x)$ is the antiderivative of $f(x)
+Where $F(x)$ is the antiderivative of $f(x)$
 
 ### Additional properties of the definite integral
 
@@ -441,13 +441,13 @@ $$
 
 #### Trapezoid rule
 
-Let's imagine that we have a curve which it's impossible to find the antiderivative thus the area below the curve, instead of calculating it we can approximate it's value by using trapezoids instead of rectangles as we've done before, we also know that approximating the area below the curve using the $min(f(x))$ value found in the interval $[a, b]$ multiplied by $b - a$ denoted as $\Delta{x}$ gives a lower bound of the area below the curve
+Let's imagine that we have a curve which it's impossible to find the antiderivative thus the area below the curve, instead of calculating it we can approximate it's value by using trapezoids instead of rectangles as we've done before, we also know that approximating the area below the curve using the $min(f(x))$ value found in the interval $\[a, b\]$ multiplied by $b - a$ denoted as $\Delta{x}$ gives a lower bound of the area below the curve
 
 $$
 \underline{S_n} = y_0 \Delta{x} + y_1 \Delta{x} + \ldots y_{n-1} \Delta{x}
 $$
 
-Another appoximation was using the $max(f(x))$ value found in the interval $[a, b]$ multiplied by $b - a$ denoted as $\Delta{x}$ which gives the upper bound of the area below the curve
+Another appoximation was using the $max(f(x))$ value found in the interval $\[a, b\]$ multiplied by $b - a$ denoted as $\Delta{x}$ which gives the upper bound of the area below the curve
 
 $$
 \overline{S_n} = y_1 \Delta{x} + y_2 \Delta{x} + \ldots y_{n} \Delta{x}
@@ -460,7 +460,7 @@ S_n = \tfrac{1}{2} (y_0 + y_1) \Delta{x} + \tfrac{1}{2} (y_1 + y_2) \Delta{x} + 
 \tfrac{1}{2} (y_{n-1} + y_n) \Delta{x}
 $$
 
-Each of these terms is the [area of a trapezoid](https://www.wikiwand.com/en/Trapezoid#/Area) of height $\Delta{x}$ and bases $y_i$, $y_{i + 1}$
+Each of these terms is the [area of a trapezoid](https://www.wikiwand.com/en/Trapezoid#/Area) of height $\Delta{x}$ and bases $y\_i$, $y\_{i + 1}$
 
 <div id="numerical-trapezoid"></div>
 
@@ -480,11 +480,11 @@ y = ax^2 + bx + c
 \end{equation}
 $$
 
-which pass through three points belonging to the curve which are $(-h, y_0)$, $(0, y_1)$, $(h, y_2)$
+which pass through three points belonging to the curve which are $(-h, y\_0)$, $(0, y\_1)$, $(h, y\_2)$
 
 <div id="numerical-simpson"></div>
 
-The area below the curve bounded by $[-h, h]$ is
+The area below the curve bounded by $\[-h, h\]$ is
 
 $$
 \begin{align*}
@@ -495,7 +495,7 @@ A &= \int_{-h}^{h} (ax^2 + bx + c) \; dx \\
 \end{align*}
 $$
 
-Since the points $(-h, y_0)$, $(0, y_1)$ and $(h, y_2)$ are on the curve, they satisfy \eqref{quadratic}
+Since the points $(-h, y\_0)$, $(0, y\_1)$ and $(h, y\_2)$ are on the curve, they satisfy \eqref{quadratic}
 
 $$
 \begin{align*}
@@ -517,7 +517,7 @@ $$
 A = \frac{h}{3} (y_0 + 4y_1 + y_2)
 $$
 
-To find the area bounded by $[a, b]$ we have to take an even number $n$ of subintervals of equal length
+To find the area bounded by $\[a, b\]$ we have to take an even number $n$ of subintervals of equal length
 
 $$
 h = \frac{b - a}{n}
@@ -537,6 +537,7 @@ $$
   &\approx \tfrac{h}{3} (y_0 + 4y_1 + 2y_2 + 4y_3 + 2y_4 + \ldots + 4y_{n-1} + y_n) \\
 \end{align*}
 $$
+
 ---
 
 <script src="/js/calculus/integral.js"></script>
@@ -597,7 +598,7 @@ $$
 W = \int{-\frac{GmM}{r^2}} = \frac{GmM}{r} + C
 $$
 
-Assuming that initially when the object was at $r = r_1$ there was no force being applied to it therefore $W = 0$ and $C = -GmM/r_1$ and
+Assuming that initially when the object was at $r = r\_1$ there was no force being applied to it therefore $W = 0$ and $C = -GmM/r\_1$ and
 
 $$
 W = \frac{GmM}{r} - \frac{GmM}{r_1}

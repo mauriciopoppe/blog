@@ -10,32 +10,32 @@ Let's say that we're given the standard basis vectors $\mathbf{i} = [1, 0, 0], \
 
 $$
 \begin{align*}
-
+\
 \mathbf{iM} &= \begin{bmatrix}1 & 0 & 0\end{bmatrix}
 \begin{bmatrix}
 m_{11} & m_{12} & m_{13} \\
 m_{21} & m_{22} & m_{23} \\
 m_{31} & m_{32} & m_{33} \\
 \end{bmatrix} = \begin{bmatrix} m_{11} & m_{12} & m_{13} \end{bmatrix} \\
-
+\
 \\
-
+\
 \mathbf{jM} &= \begin{bmatrix}0 & 1 & 0\end{bmatrix}
 \begin{bmatrix}
 m_{11} & m_{12} & m_{13} \\
 m_{21} & m_{22} & m_{23} \\
 m_{31} & m_{32} & m_{33} \\
 \end{bmatrix} = \begin{bmatrix} m_{21} & m_{22} & m_{23} \end{bmatrix} \\
-
+\
 \\
-
+\
 \mathbf{kM} &= \begin{bmatrix}0 & 0 & 1\end{bmatrix}
 \begin{bmatrix}
 m_{11} & m_{12} & m_{13} \\
 m_{21} & m_{22} & m_{23} \\
 m_{31} & m_{32} & m_{33} \\
 \end{bmatrix} = \begin{bmatrix} m_{31} & m_{32} & m_{33} \end{bmatrix} \\
-
+\
 \end{align*}
 $$
 

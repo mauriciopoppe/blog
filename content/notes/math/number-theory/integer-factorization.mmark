@@ -140,7 +140,7 @@ x_4 &= (16^2 + 2) \pmod{55} = 38 \text{ which is equal to $x_2$ }
 \end{align*}
 $$
 
-Pollard detected the cycle using [Floyd's cycle-finding algorithm](https://www.wikiwand.com/en/Cycle_detection#/Tortoise_and_hare) which is based on two pointers which move through a sequence at different speeds, one moves a unit and the other moves two units each time, if there's a cycle eventually the two pointers will encounter at some element belonging to the cycle, if we've analyzed all the elements of the sequence and saw not a single contiguous pair fullfills $gcd(x_i - x_{i + 1}, n) > 1$ we need to choose other values for $x_0, a$ and rerun the algorithm
+Pollard detected the cycle using [Floyd's cycle-finding algorithm](https://www.wikiwand.com/en/Cycle_detection#/Tortoise_and_hare) which is based on two pointers which move through a sequence at different speeds, one moves a unit and the other moves two units each time, if there's a cycle eventually the two pointers will encounter at some element belonging to the cycle, if we've analyzed all the elements of the sequence and saw not a single contiguous pair fullfills $gcd(x\_i - x\_{i + 1}, n) > 1$ we need to choose other values for $x_0, a$ and rerun the algorithm
 
 ```cpp
 {% include code/math/factorization/pollardRhoFactorization.cpp %}

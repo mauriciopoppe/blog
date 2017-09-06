@@ -38,7 +38,7 @@ gluLookAt(0.0, 0.0, 0.0,
 ```
 -->
 
-Note that the camera is looking at the negative $z$-axis of the *view space*, this is a convention rather than a rule since the *projection matrix* will be constructed in a way so that points in the $-z$-axis in *view space* are transformed to the range $[-1,1]$
+Note that the camera is looking at the negative $z$-axis of the *view space*, this is a convention rather than a rule since the *projection matrix* will be constructed in a way so that points in the $-z$-axis in *view space* are transformed to the range $\[-1,1\]$
 
 ## Derivation of the view transform matrix
 

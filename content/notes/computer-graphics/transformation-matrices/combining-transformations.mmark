@@ -33,7 +33,6 @@ Now if we have two transformation matrices $\mathbf{M}$ and $\mathbf{N}$ and the
 
 $$
 \begin{align*}
-
 \mathbf{NM} = \begin{bmatrix}
 \mathbf{s} &
 \mathbf{t} &
@@ -49,7 +48,6 @@ p_x \mathbf{s} + p_y \mathbf{t} + p_z \mathbf{u} \\
 q_x \mathbf{s} + q_y \mathbf{t} + q_z \mathbf{u} \\
 r_x \mathbf{s} + r_y \mathbf{t} + r_z \mathbf{u} \\
 \end{bmatrix}^T
-
 \end{align*}
 $$
 
@@ -165,7 +163,6 @@ y_u & y_v & y_w & 0 \\
 z_u & z_v & z_w & 0 \\
 0 & 0 & 0 & 1
 \end{bmatrix} \begin{bmatrix} u_p \\ v_p \\ w_p \\ 1 \end{bmatrix} \\
-
 \begin{bmatrix} x_p \\ y_p \\ z_p \\ 1 \end{bmatrix} = \begin{bmatrix}
 x_u & x_v & x_w & x_e \\
 y_u & y_v & y_w & y_e \\

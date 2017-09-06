@@ -269,14 +269,15 @@ $$
 
 ### Useful observations
 
-- let $A^k$ be the adjacency matrix of a graph $G$ raised to the $k$-th power, the entry $a_{ij}^{(k)}$ is the number of distinct $v_i - v_j$ walks of length $k$ in $G$
+- let $A\^k$ be the adjacency matrix of a graph $G$ raised to the $k$-th power, the entry $a\_{ij}\^{(k)}$ is the number of distinct $v\_i - v\_j$ walks of length $k$ in $G$
 
-*Proof:* assume for a positive integer $k$ that the number of $v_i - v_j$ walks of length $k$ is given by $a_{ij}^{(k)}$ in the matrix $A^k$, then $A^{k + 1} = A^k \times A$, now a cell $a_{ij}^{(k + 1)}$ is the dot product of row $i$ of $A^k$ and column $j$ of $A$
+*Proof:* assume for a positive integer $k$ that the number of $v\_i - v\_j$ walks of length $k$ is given by $a\_{ij}\^{(k)}$ in the matrix $A\^k$, then $A\^{k + 1} = A\^k \times A$, now a cell $a\_{ij}\^{(k + 1)}$ is the dot product of row $i$ of $A\^k$ and column $j$ of $A$
 
 $$
 a_{ij}^{(k + 1)} = \sum_{t=1}^n a_{it}^{(k)} \cdot a_{tj}
 $$
 
-The first element of this sum is the number of walks of length $k$ from $v_i$ to $v_1$ (stored in $a_{i1}^{(k)}$) times the number of walks of length $1$ from $v_1$ to $v_j$ (stored in $a_{1j}$), the second element follows the same formula but using $v_2$ as the vertex used to "join" the walks of length $k$ and $1$
+The first element of this sum is the number of walks of length $k$ from $v\_i$ to $v\_1$ (stored in $a\_{i1}\^{(k)}$) times the number of walks of length $1$ from $v\_1$ to $v\_j$ (stored in $a\_{1j}$), the second element follows the same formula but using $v\_2$ as the vertex used to "join" the walks of length $k$ and $1$
+
 
 <script src="/js/graph/introduction.js"></script>

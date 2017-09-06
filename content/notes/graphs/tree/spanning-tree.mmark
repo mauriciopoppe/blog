@@ -99,7 +99,7 @@ Implementation strategies:
 
 ## Number of spanning trees in a graph
 
-Let $G$ be a graph with $V(G) = {v_1, v_2, \ldots, v_n}$, let $A = [a_{ij}]$ be the adjacency matrix of $G$ and let $C = [c_{ij}]$ be a $n \times n$ matrix where
+Let $G$ be a graph with $V(G) = {v\_1, v\_2, \ldots, v\_n}$, let $A = \[a\_{ij}\]$ be the adjacency matrix of $G$ and let $C = \[c\_{ij}\]$ be a $n \times n$ matrix where
 
 $$
 c_{ij} = \begin{cases}
@@ -110,7 +110,7 @@ $$
 
 Then the number of spanning trees of $G$ is the value of any cofactor of $C$
 
-The matrix of cofactors a $n \times n$ matrix $C = [c_{ij}]$ where
+The matrix of cofactors a $n \times n$ matrix $C = \[c\_{ij}\]$ where
 
 $$
 c_{ij} = (-1)^{i + j} \cdot det(M_{ij})
@@ -124,7 +124,7 @@ $det(M_{ij})$ indicates the determinant of the $(n - 1) \times (n - 1)$ submatri
 
 ### Number of spanning trees in a complete graph $K_n$
 
-Computing the number of spanning trees of a graph $G = K_n$ where $V(G) = {v_1, v_2, \ldots, v_n}$ is the same as computing the number of distinct trees with vertex set ${v_1, v_2, \ldots, v_n}$, the formula is called the **Caley Tree Formula**
+Computing the number of spanning trees of a graph $G = K\_n$ where $V(G) = {v\_1, v\_2, \ldots, v\_n}$ is the same as computing the number of distinct trees with vertex set ${v\_1, v\_2, \ldots, v\_n}$, the formula is called the **Caley Tree Formula**
 
 > The number of spanning trees of order $n$ with a specific vertex set is $n^{n - 2}$
 

@@ -70,7 +70,6 @@ Reconstructing the solution from the observations above
 
 $$
 \begin{align*}
-
 \mathbf{v_{\parallel}} &= (\mathbf{v} \cdot \unit{n}) \unit{n} \\
 \mathbf{v_{\perp}'} &= \mathbf{v_{\perp}} \\
 &= \mathbf{v} - \mathbf{v_{\parallel}} \\

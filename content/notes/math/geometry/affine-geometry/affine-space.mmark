@@ -91,7 +91,7 @@ If we change the coordinate system to have an origin at $(1,1)$ with the same ba
 
 A restriction is needed for affine combinations to make sense and the restriction is that the scalar add up to 1
 
-> Lemma: Given an affine space $<E,\v{E}, +>$, let $a_i, i \in I$ be a family of points in $E$ and let $\lambda_i, i \in I$ a family of scalars then any two points $a,b \in E$ the following properties hold
+> Lemma: Given an affine space $\<E,\v{E}, +\>$, let $a\_i, i \in I$ be a family of points in $E$ and let $\lambda\_i, i \in I$ a family of scalars then any two points $a,b \in E$ the following properties hold
 >
 >
 $$
@@ -129,7 +129,7 @@ $$
 \end{align*}
 $$
 
-Formally for any family of points $a_i, i \in I$ in $E$, for any family $\lambda_i, i \in I$ of scalars such that $\sum_{i \in I} \lambda_i = 1$ the point
+Formally for any family of points $a\_i, i \in I$ in $E$, for any family $\lambda\_i, i \in I$ of scalars such that $\sum\_{i \in I} \lambda\_i = 1$ the point
 
 $$
 \begin{equation} \label{affine-combination}

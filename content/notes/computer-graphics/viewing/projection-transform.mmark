@@ -6,13 +6,13 @@ references:
   - "Ahn, S. (2016). OpenGL Projection Matrix. [online] Songho.ca. Available at: http://www.songho.ca/opengl/gl_projectionmatrix.html [Accessed 7 Mar. 2016]."
 ---
 
-The *canonical view volume* is a cube with its extreme points at $[-1, -1, -1]$ and $[1, 1, 1]$, coordinates in this view volume are called *normalized device coordinates* (NDC), the objective of this step is to build a transformation matrix so that a region of space we want to render called the *view volume* is mapped to the *canonical view volume*
+The *canonical view volume* is a cube with its extreme points at $\[-1, -1, -1\]$ and $\[1, 1, 1\]$, coordinates in this view volume are called *normalized device coordinates* (NDC), the objective of this step is to build a transformation matrix so that a region of space we want to render called the *view volume* is mapped to the *canonical view volume*
 
 $$
 \mathbf{v}_{ndc} = \mathbf{M}_{proj} \mathbf{v}_{view}
 $$
 
-Some points expressed in *view space* won't be part of the view volume and will be discarded after the transformation, this process is called [clipping](https://www.opengl.org/wiki/Vertex_Post-Processing#Clipping) (we only need to check if any coordinate of a point is outside the range $[-1, 1]$ to discard it)
+Some points expressed in *view space* won't be part of the view volume and will be discarded after the transformation, this process is called [clipping](https://www.opengl.org/wiki/Vertex_Post-Processing#Clipping) (we only need to check if any coordinate of a point is outside the range $\[-1, 1\]$ to discard it)
 
 Later it'll be seen that both transformations imply division and a neat trick is the use of projective geometry to avoid division, any point that has the form $(\alpha x, \alpha y, \alpha z, 1)$ can be represented as $(x, y, z, \tfrac{1}{\alpha})$ in homogeneous coordinates, so we can introduce an intermediate step which transforms the points to *clip coordinates* and then to *normalized device coordinates* by doing a division with the $w$-coordinate $\tfrac{1}{1/\alpha} = \alpha$
 
@@ -33,13 +33,13 @@ These parameters bound the view volume which is an axis-aligned bounding box
 
 ![orthographic projection](http://www.songho.ca/opengl/files/gl_projectionmatrix02.png)
 
-Since the mapping of the range $[l, r]$ to the range $[-1, 1]$ is linear we can use the equation of the line $y = mx + b$ and find the values of $m$ and $b$ however we can intuitively get a similar equation by creating a function $f(x)$ so that $f(0) = -1$ and $f(1) = 1$, we can create a nested function $g(x)$ so that $g(l) = 0$ and $g(r) = 1$ (note that $[l, r]$ is the input range) then $f(x)$ has the form
+Since the mapping of the range $\[l, r\]$ to the range $\[-1, 1\]$ is linear we can use the equation of the line $y = mx + b$ and find the values of $m$ and $b$ however we can intuitively get a similar equation by creating a function $f(x)$ so that $f(0) = -1$ and $f(1) = 1$, we can create a nested function $g(x)$ so that $g(l) = 0$ and $g(r) = 1$ (note that $\[l, r\]$ is the input range) then $f(x)$ has the form
 
 $$
 f(x) = -1 + 2 \; g(x)
 $$
 
-If $x \in [a, b], g(x) \in [0, 1]$ then its value is
+If $x \in \[a, b\], g(x) \in \[0, 1\]$ then its value is
 
 $$
 g(x) = \frac{x - l}{r - l}
@@ -66,7 +66,7 @@ $$
 y_{clip} = \frac{2}{t - b}y_{view} - \frac{t + b}{t - b}
 $$
 
-The $z_c$ value will be different from the ones above since we're mapping $[-n, -f] \Rightarrow [-1, 1]$
+The $z_c$ value will be different from the ones above since we're mapping $\[-n, -f\] \Rightarrow \[-1, 1\]$
 
 $$
 \begin{align*}
@@ -118,9 +118,9 @@ $$
 
 A simpler way to think about this orthographic projection transformation is by splitting it in three steps
 
-- translation of the bottom left near corner to the origin i.e. $[l, b, -n] \rightarrow [0, 0, 0]$
+- translation of the bottom left near corner to the origin i.e. $\[l, b, -n\] \rightarrow \[0, 0, 0\]$
 - scale it to be a 2-unit length cube
-- translation of the bottom left corner from the origin i.e. $[0, 0, 0] \rightarrow [-1, -1, -1]$
+- translation of the bottom left corner from the origin i.e. $\[0, 0, 0\] \rightarrow \[-1, -1, -1\]$
 
 $$
 \begin{align*}
@@ -140,7 +140,7 @@ $$
 0 & 0 & 1 & n \\
 0 & 0 & 0 & 1 \\
 \end{bmatrix} \\
-
+\
 &= \begin{bmatrix}
 1 & 0 & 0 & -1 \\
 0 & 1 & 0 & -1 \\
@@ -152,21 +152,21 @@ $$
 0 & 0 & -\tfrac{2}{f - n} & -\frac{2n}{f - n} \\
 0 & 0 & 0 & 1
 \end{bmatrix} \\
-
+\
 &= \begin{bmatrix}
 \tfrac{2}{r - l} & 0 & 0 & -\frac{2l}{r - l} - 1 \\
 0 & \tfrac{2}{t - b} & 0 & -\frac{2b}{t - b} - 1 \\
 0 & 0 & -\tfrac{2}{f - n} & -\frac{2n}{f - n} - 1 \\
 0 & 0 & 0 & 1
 \end{bmatrix} \\
-
+\
 &= \begin{bmatrix}
 \tfrac{2}{r - l} & 0 & 0 & -\tfrac{r + l}{r - l} \\
 0 & \tfrac{2}{t - b} & 0 & -\tfrac{t + b}{t - b} \\
 0 & 0 & -\tfrac{2}{f - n} & -\tfrac{f + n}{f - n} \\
 0 & 0 & 0 & 1
 \end{bmatrix}
-
+\
 \end{align*}
 $$
 
@@ -178,7 +178,7 @@ A perspective projection matrix is built with 6 parameters, *left, right, bottom
 
 - *left, right*: $x$-axis bounds for the near plane
 - *bottom, top*: $y$-axis bounds for the near plane
-- *near, far*: planes in the $z$-axis, the interception point of the line passing through the origin parallel to the vector $[l,b,-n]$ and the plane *far* is the bottom left far extreme of the view volume, a similar logic is used to find all the extremes in the *far* plane of the view volume
+- *near, far*: planes in the $z$-axis, the interception point of the line passing through the origin parallel to the vector $\[l,b,-n\]$ and the plane *far* is the bottom left far extreme of the view volume, a similar logic is used to find all the extremes in the *far* plane of the view volume
 
 These parameters define a truncated pyramid also called a [ frustum ](https://www.wikiwand.com/en/Frustum)
 
@@ -186,10 +186,10 @@ These parameters define a truncated pyramid also called a [ frustum ](https://ww
 
 ### General perspective projection matrix
 
-The mapping of the range $[l,r]$ to the range $[-1,1]$ can be split into two steps
+The mapping of the range $\[l,r\]$ to the range $\[-1,1\]$ can be split into two steps
 
-- Project all the points to the *near* plane, this way all the $x$- and $y$-coordinates will be inside the range $[l,r] \times [b,t]$
-- Map all the values in the range $[l,r]$ and $[b,t]$ to the range $[-1, 1]$
+- Project all the points to the *near* plane, this way all the $x$- and $y$-coordinates will be inside the range $\[l,r\] \times \[b,t\]$
+- Map all the values in the range $\[l,r\]$ and $\[b,t\]$ to the range $\[-1, 1\]$
 
 
 ![top view of the frustum](/images/projection-matrix!top-view-frustum.png) ![side view of the frustum](/images/projection-matrix!side-view-frustum.png)
@@ -236,7 +236,7 @@ $$
 \begin{bmatrix} x_{ndc} \\ y_{ndc} \\ z_{ndc} \end{bmatrix} = \begin{bmatrix} x_{clip}/w_{clip} \\ y_{clip}/w_{clip} \\ z_{clip}/w_{clip} \end{bmatrix}
 $$
 
-Next $x_p$ and $y_p$ are mapped linearly to $[-1,1]$, we can use the function to perform linear mapping \eqref{linear-mapping}
+Next $x_p$ and $y_p$ are mapped linearly to $\[-1,1\]$, we can use the function to perform linear mapping \eqref{linear-mapping}
 
 $$
 \begin{equation} \label{ndc-near}
@@ -245,7 +245,7 @@ y_{ndc} = \frac{2}{t - b}y_p - \frac{t + b}{t - b}
 \end{equation}
 $$
 
-Next we substitute the values of $x_p$ \eqref{projection-near} in $x_{ndc}$ \eqref{ndc-near}
+Next we substitute the values of $x\_p$ \eqref{projection-near} in $x\_{ndc}$ \eqref{ndc-near}
 
 $$
 \begin{align*}
@@ -255,7 +255,7 @@ x_{ndc} &= \frac{2}{r - l}\frac{n \cdot x_{view}}{-z_{view}} - \frac{r + l}{r - 
 \end{align*}
 $$
 
-Note that the second fraction is manipulated so that it's also divisible by $-z_{view}$, also note that the quantity in the parenthesis is in *clip space* $x_{clip}$
+Note that the second fraction is manipulated so that it's also divisible by $-z_{view}$, also note that the quantity in the parenthesis is in *clip space coordinates*: $x_{clip}$
 
 $$
 x_{clip} = \frac{2n}{r - l} x_{view} + \frac{r + l}{r - l} z_{view}
@@ -307,7 +307,7 @@ $$
 z_{ndc} = \frac{Az_{view} + B}{-z_{view}}
 $$
 
-Note that the value is not linear but it needs to be mapped to $[-n, -f] \mapsto [-1,1]$, substituting the desired output range $[-1, 1]$ as $z_{ndc}$ we have a system of equations
+Note that the value is not linear but it needs to be mapped to $\[-n, -f\] \mapsto \[-1,1\]$, substituting the desired output range $\[-1, 1\]$ as $z_{ndc}$ we have a system of equations
 
 $$
 \begin{cases}

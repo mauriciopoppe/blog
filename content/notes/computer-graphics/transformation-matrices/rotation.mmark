@@ -57,12 +57,10 @@ $$
 \cos{\theta} & \sin{\theta} \\
 -\sin{\theta} & \cos{\theta}
 \end{bmatrix} \\
-
 &= \begin{bmatrix}
 v_x \cos{\theta} - v_y \sin{\theta} \\
 v_x \sin{\theta} + v_y \cos{\theta}
 \end{bmatrix}^T
-
 \end{align*}
 $$
 
@@ -201,7 +199,6 @@ n_zn_x(1 - \cost) + n_y \sint \\
 n_zn_y(1 - \cost) - n_x \sint \\
 n_z^2(1 - \cost) + \cost
 \end{bmatrix}\\
-
 \end{align*}
 $$
 

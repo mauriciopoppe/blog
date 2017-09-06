@@ -16,15 +16,15 @@ The  *canonical view volume* needs to be mapped to the screen that has $n_x \tim
 Since the mapping is linear we can use the [linear interpolation method](https://www.wikiwand.com/en/Linear_interpolation)
 
 $$
-f(x) = out_{low} + (out_{high} - out_{low}) \frac{x - in_{low}}{ in_{high} - in_{low} }
+f(x) = out_{lo} + (out_{hi} - out_{lo}) \frac{x - in_{lo}}{ in_{hi} - in_{lo} }
 $$
 
 Given
 
-- $out_{low} = -0.5$
-- $out_{high} = n_x - 0.5$
-- $in_{low} = -1$
-- $in_{high} = 1$
+- $out_{lo} = -0.5$
+- $out_{hi} = n_x - 0.5$
+- $in_{lo} = -1$
+- $in_{hi} = 1$
 
 The value of $x_{screen}$ is
 

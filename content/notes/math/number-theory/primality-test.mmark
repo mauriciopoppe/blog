@@ -155,8 +155,8 @@ The base case occurs when we cannot take the square root of some $a^{\tfrac{n - 
 
 If $a^q \not\equiv \pm 1 \pmod{n}$ we have to analyze $a^2q \pmod{n}$ and there're three possible outcomes:
 
-- $a^2q \equiv 1 \pmod{n}$ which by Euler's primality test implies that $a^q \equiv \pm 1 \pmod{n}$ which contradicts the statement above, therefore $n$ is composite
-- $a^2q \equiv -1 \pmod{n}$ which by Euler's primality test implies that it's the square root of some $a^{2^iq}$ (where $0 < i < s-1$), which will eventually become $a^{n - 1} \equiv 1 \pmod{n}$ by successive squaring, therefore we can say that $n$ is a probable prime
+- $a^2q \equiv 1 \pmod{n}$ which by Euler's primality test implies that $a\^q \equiv \pm 1 \pmod{n}$ which contradicts the statement above, therefore $n$ is composite
+- $a^2q \equiv -1 \pmod{n}$ which by Euler's primality test implies that it's the square root of some $a\^{2\^iq}$ (where $0 < i < s-1$), which will eventually become $a^{n - 1} \equiv 1 \pmod{n}$ by successive squaring, therefore we can say that $n$ is a probable prime
 - $a^2q \not\equiv \pm 1 \pmod{n}$ which is the same as the statement above (therefore we have to keep analyzing the next element in the sequence)
 
 ```cpp

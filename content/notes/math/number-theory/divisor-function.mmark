@@ -67,7 +67,7 @@ when $k = 1$ we actually get the function we expect (a function which sums the d
 ### Important observations
 
 - if $p$ is a prime number then $\sigma(p) = 1 + p$ since the only divisors of a prime number are $1$ and $p$
-- if $p$ is a prime number then $\sigma(p^k) = 1 + p + p^2 + \ldots + p^k$ because every power of $p$ is a divisor of $p^k$, e.g. $p^0, p^1, p^2, \ldots, p^k$
+- if $p$ is a prime number then $\sigma(p\^k) = 1 + p + p\^2 + \ldots + p\^k$ because every power of $p$ is a divisor of $p\^k$, e.g. $p\^0, p\^1, p\^2, \ldots, p\^k$
 
 Consider
 
@@ -103,9 +103,9 @@ $$
 \sigma(p^k) = \frac{p^{k + 1} - 1}{p - 1}
 $$
 
-- if $p$ is a product of two distinct primes say $n = pq$ then $\sigma(pq) = \sigma(p) \cdot \sigma(q)$, also $\sigma(p^iq^j) = \sigma(p^i) \cdot \sigma(q^j)$
+- if $p$ is a product of two distinct primes say $n = pq$ then $\sigma(pq) = \sigma(p) \cdot \sigma(q)$, also $\sigma(p\^iq\^j) = \sigma(p\^i) \cdot \sigma(q\^j)$
 
-- in general let $n = p_1^{a_1} \cdot p_2^{a_2} \cdot \ldots \cdot p_n^{a_n}$ then $\sigma(n) = \sigma(p_1^{a_1}) \cdot \sigma(p_2^{a_2}) \cdot \ldots \cdot \sigma(p_n^{a_n})$ where $p_i$ is a prime factor that divides $n$
+- in general let $n = p\_1\^{a\_1} \cdot p\_2\^{a\_2} \cdot \ldots \cdot p\_n\^{a\_n}$ then $\sigma(n) = \sigma(p\_1\^{a\_1}) \cdot \sigma(p\_2\^{a\_2}) \cdot \ldots \cdot \sigma(p\_n\^{a\_n})$ where $p\_i$ is a prime factor that divides $n$
 
 example: $\sigma(18)$
 

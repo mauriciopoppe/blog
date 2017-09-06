@@ -47,7 +47,7 @@ $$
 \end{bmatrix} \begin{bmatrix} v_x \\ v_y \\ 1 \end{bmatrix} = \begin{bmatrix} v_x + \Delta{x} \\ v_y + \Delta{y} \\ 1 \end{bmatrix}
 $$
 
-{% video https://upload.wikimedia.org/wikipedia/commons/transcoded/3/34/Affine_transformations.ogv/Affine_transformations.ogv.480p.ogv %}
+{{% video https://upload.wikimedia.org/wikipedia/commons/transcoded/3/34/Affine_transformations.ogv/Affine_transformations.ogv.480p.ogv %}}
 
 An awesome consequence of the use of perspective geometry is the representation of points at infinity, a point at infinity has the form $(x, y, 0)$ since it can't be projected to the plane $w = 1$, note that because of $w = 0$ any transformation made to th standard basis $w$ will not affect this point i.e. it can't be sheared in 3D/translated in 2D!
 

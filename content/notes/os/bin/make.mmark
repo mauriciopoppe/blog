@@ -5,8 +5,6 @@ references:
   - "Lipschitz, H. (2013). A Simple C++ Project Structure - Hiltmon. [online] Hiltmon.com. Available at: http://hiltmon.com/blog/2013/07/03/a-simple-c-plus-plus-project-structure/ [Accessed 5 Apr. 2016]."
 ---
 
-{% include project/gist.html %}
-
 [`make`](http://www.gnu.org/software/make/manual/make.html) is a tool to simplify building executables from many sources, `make` will only re-build things that need to be re-built
 
 Contents of a makefile
@@ -328,5 +326,7 @@ Standard targets
 
 ## Example
 
-<div data-gist-id="de8908f67923091982c8c8136a063ea6"></div>
+<div>
+  {{< gist mauriciopoppe de8908f67923091982c8c8136a063ea6 >}}
+</div>
 

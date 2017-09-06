@@ -431,17 +431,7 @@ $$
 
 ### Theorems on differentiation
 
-The following theorems and their proofs can be found on "Calculus: An Intuitive and Physical Approach"
-
-Let $u,v,w$ be functions of $x$:
-
-| $y = cu$ | $y' = cu'$ where $c$ is some constant value |
-| $y = u \pm v$ | $y' = u' \pm v'$ |
-| $y = u_1 + u_2 + \ldots + u_n$ | $y' = u_1' + u_2' + \ldots + u_n'$ |
-| $y = uv$ | $y' = uv' + u'v$ |
-| $y = uvw$ | $y' = uvw' + uv'w + u'vw $ |
-| $y = \frac{u}{v}$ | $y' = \frac{u'v - uv'}{v^2} $ |
-| $y = x^n$ | $y' = nx^{n-1}$, [proof (on page 6)](http://ocw.mit.edu/courses/mathematics/18-01-single-variable-calculus-fall-2006/lecture-notes/unit1_sept08.pdf) |
+Read "Calculus: An Intuitive and Physical Approach"
 
 ## Applications of the Derivative
 

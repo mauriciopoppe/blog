@@ -25,7 +25,7 @@ $$
 
 ### Powers of $i$
 
-If $i^2 = -1$ then $i^4 = i^2i^2 = -1 * -1 = 1$
+If $i\^2 = -1$ then $i\^4 = i\^2i\^2 = -1 * -1 = 1$
 
 Therefore we have the sequence
 
@@ -314,7 +314,6 @@ Euler provided the identity
 $$
 \begin{equation}\label{rotor}
 e^{i\theta} = \cos \theta + i \sin \theta
-
 \end{equation}
 $$
 

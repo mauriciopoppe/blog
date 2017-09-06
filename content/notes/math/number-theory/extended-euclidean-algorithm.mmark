@@ -64,7 +64,7 @@ r_n &= r_{n - 3}(n - q_{n - 2}m) + r_{n - 4}m
 $$
  -->
 
-Where $m = 1 + q_n q_{n - 1}$ and $n = -q_n$, this process is repeated until $r_n = ax + by$ where $x$ and $y$ are integers
+Where $m = 1 + q\_n q\_{n - 1}$ and $n = -q\_n$, this process is repeated until $r\_n = ax + by$ where $x$ and $y$ are integers
 
 Since $ax + by = gcd(a, b)$ it's also true that
 
@@ -74,7 +74,7 @@ bx_1 + (a \% b)y_1 = gcd(a, b)
 \end{equation}
 $$
 
-Where $(x_1, y_1)$ are solutions to the new tuple $(b, a \% b)$, converting the value of $a \% b$
+Where $(x\_1, y\_1)$ are solutions to the new tuple $(b, a \% b)$, converting the value of $a \% b$
 
 $$
 a \% b = a - \left \lfloor \frac{a}{b} \right \rfloor \cdot b
