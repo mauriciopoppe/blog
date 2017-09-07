@@ -1,17 +1,22 @@
 <script>
 // lazy loader
 (function () {
-  window.lazyLoader = function (target, done) {
+  window.lazyLoader = function (opts, done) {
+    var target = opts.target
+    var offset = opts.offset || {}
+
     function insideViewport () {
       var rect = target.getBoundingClientRect()
-      return rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= window.innerHeight + rect.height &&
-        rect.left <= window.innerWidth + rect.width
+      return rect.top + ~~offset.top >= 0 &&
+        rect.left + ~~offset.left >= 0 &&
+        rect.bottom + ~~offset.bottom <= window.innerHeight + rect.height &&
+        rect.right + ~~offset.right <= window.innerWidth + rect.width
     }
 
+    var isDone = false
     function checker () {
-      if (insideViewport(target)) {
+      if (!isDone && insideViewport(target)) {
+        isDone = true
         done()
         window.removeEventListener('scroll', checker)
       }

@@ -3,15 +3,21 @@
 
 // lazy load the footer
 var target = document.querySelector('footer')
-window.lazyLoader(target, function () {
-  var script = document.createElement('script')
-  script.src = '/browser/browser-sunset/bundle.js'
-  script.onload = function () {
-    window.browserSunset.render({
-      target: document.querySelector('#browser-sunset')
-    })
+window.lazyLoader(
+  {
+    target: target,
+    offset: { bottom: -500 }
+  },
+  function () {
+    var script = document.createElement('script')
+    script.src = '/browser/browser-sunset/bundle.js'
+    script.onload = function () {
+      window.browserSunset.render({
+        target: document.querySelector('#browser-sunset')
+      })
+    }
+    document.body.appendChild(script)
   }
-  document.body.appendChild(script)
-})
+)
 })()
 </script>
