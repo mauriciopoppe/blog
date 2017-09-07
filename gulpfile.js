@@ -40,9 +40,7 @@ gulp.task('css', function () {
   ]
   return gulp.src('./themes/blank/_compile/sass/*.scss')
     .pipe(plumber())
-    .pipe(sass({
-      importer: moduleImporter()
-    }))
+    .pipe(sass({ importer: moduleImporter() }))
     .pipe(postcss(processors))
     .pipe(gulp.dest('./themes/blank/static/css'))
 })
@@ -51,7 +49,7 @@ gulp.task('watch', function () {
   gulp.watch('./themes/blank/_compile/sass/**', [ 'css' ])
 })
 
-gulp.task('build', function () {
+gulp.task('build', ['css'], function () {
   return Promise.resolve()
     .then(() => spawn('node', ['scripts/flatten-render-tree.js'], { stdio: 'inherit' }))
     .then(() => spawn('./node_modules/.bin/lerna', ['bootstrap'], { stdio: 'inherit' }))
