@@ -1,8 +1,7 @@
+# ignore compiled files
 /data/metadata
 /static/browser/**
 /themes/beautifulhugo/
-
-# ignore compiled file
 /themes/blank/static/css/main.css
 
 package-lock.json
