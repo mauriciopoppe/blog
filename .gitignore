@@ -1,7 +1,10 @@
 /data/metadata
 /static/browser/**
 /themes/beautifulhugo/
-/themes/blank/static/
+
+# ignore compiled file
+/themes/blank/static/css/main.css
+
 package-lock.json
 
 # Hugo default output directory
