@@ -16,13 +16,13 @@ r_1(t_1) = \mathbf{p_1} + t_1 \mathbf{d_1} \\
 r_2(t_2) = \mathbf{p_2} + t_2 \mathbf{d_2}
 $$
 
-Note that there's no restrain on the values of $t_1$ and $t_2$, the two lines intersect if
+Where $t\_1, t\_2 \in \mathbb{R}$, the two lines intersect if
 
 $$
 \mathbf{p_1} + t_1 \mathbf{d_1} = \mathbf{p_2} + t_2 \mathbf{d_2}
 $$
 
-We can cross both sides with $\mathbf{d_2}$ and work from there to find the value of $t_1$
+We can apply the cross multiplication operation on both sides with $\mathbf{d_2}$ and work from there to find the value of $t_1$
 
 <!--
 $$
@@ -47,7 +47,7 @@ $$
 t_1 = \frac{\norm{(\mathbf{p_2} - \mathbf{p_1}) \times \mathbf{d_2} }}{ \norm{\mathbf{d_1} \times \mathbf{d_2}} }
 $$
 
-Similarly we can find the value of $t_2$ by crossing with $\mathbf{d_1}$ and working from there
+Similarly we can find the value of $t_2$ by crossing with $\mathbf{d_1}$ and work from there to find the value of $t_2$
 
 <!--
 $$
