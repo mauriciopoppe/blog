@@ -1,11 +1,12 @@
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML"></script>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     showProcessingMessages: false,
+    <!-- skipStartupTypeset: true, -->
     messageStyle: 'none',
     tex2jax: {
       // http://docs.mathjax.org/en/latest/options/tex2jax.html
-      inlineMath: [['$','$'], ['\\(','\\)']],
+      inlineMath: [['$$','$$'], ['\\(','\\)']],
       skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
       processEscapes: true,
       processEnvironments: true,
@@ -28,15 +29,26 @@
 
         magnitude: ['\\left \\| #1 \\right \\|', 1],
         norm: ['\\lvert #1 \\rvert', 1],
-        divides: ['\\,|\\,']
+        divides: ['\\,|\\,'],
+        cost: ['\\cos{\\theta}'],
+        sint: ['\\sin{\\theta}'],
+        sqrti: ['\\frac{1}{\\sqrt{2}}']
       }
     },
     'HTML-CSS': {
-      imageFont: null,
-      availableFonts: ['Computer Modern Serif', 'STIX', 'Text'],
-      preferredFont: 'Computer Modern Serif'
+      // imageFont: null,
+      // availableFonts: [],
+      // undefinedFamily: "'Computer Modern Serif', Merriweather, Georgia, serif",
+      // webFont: null
     }
   });
+</script>
+<script>
+window.addEventListener('DOMContentLoaded', function () {
+  MathJax.Hub.Queue(function () {
+    document.documentElement.classList.add('math-visible')
+  })
+})
 </script>
 
 <!-- <script type="text/javascript"> -->

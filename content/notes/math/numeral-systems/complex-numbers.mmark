@@ -7,25 +7,21 @@ libraries: [d3, function-plot]
 
 ## Imaginary numbers
 
-$$
-\newcommand{sqrti}{\frac{1}{\sqrt{2}}}
-$$
-
-- Invented to solve problems where an equation has no real roots e.g. $x^2 + 16 = 0$, the idea of declaring the existence of a quantity $i$ such that $i^2 = -1$ allows us to express the solution as
+- Invented to solve problems where an equation has no real roots e.g. $$x^2 + 16 = 0$$, the idea of declaring the existence of a quantity $$i$$ such that $$i^2 = -1$$ allows us to express the solution as
 
 $$
 x = \sqrt{-16} = \sqrt{16i^2} = \pm4i
 $$
 
-The set represented by $\mathbb{I}$ defines an imaginary number as
+The set represented by $$\mathbb{I}$$ defines an imaginary number as
 
 $$
 i^2 = -1
 $$
 
-### Powers of $i$
+### Powers of i
 
-If $i\^2 = -1$ then $i\^4 = i\^2i\^2 = -1 * -1 = 1$
+If $$i^2 = -1$$ then $$i^4 = i^2i^2 = -1 * -1 = 1$$
 
 Therefore we have the sequence
 
@@ -93,7 +89,7 @@ $$
 (a + bi)(a - bi) = a^2 - abi + abi - b^2i^2 = a^2 + b^2
 $$
 
-This quantity $a - bi$ is called the *complex conjugate* of $z$ (denoted as $z^*$), it implies that
+This quantity $$a - bi$$ is called the *complex conjugate* of $$z$$ (denoted as $$z^*$$), it implies that
 
 $$
 zz^* = |z|^2
@@ -105,22 +101,22 @@ $$
 z^{-1} = \frac{1}{z}
 $$
 
-Multiplying the numerator and denominator with the conjugate of $z$ (so that we have a real part on the denominator)
+Multiplying the numerator and denominator with the conjugate of $$z$$ (so that we have a real part on the denominator)
 
 $$
 z^{-1} = \frac{1}{z} \frac{z^*}{z^*} = \frac{z^*}{zz^*} = \frac{z^*}{|z|^2}
 $$
 
-#### Square root of $i$
+#### Square root of $$i$$
 
-We're trying to find a complex number $z$ such that
+We're trying to find a complex number $$z$$ such that
 
 $$
 \sqrt{i} = z \\
 i = z^2
 $$
 
-Assuming that $z$ is the complex number $z = a + bi$
+Assuming that $$z$$ is the complex number $$z = a + bi$$
 
 $$
 \begin{align}
@@ -145,7 +141,7 @@ a^2 - b^2 &= 0 \\
 \end{align*}
 $$
 
-Therefore $a = \pm b$, replacing $a = -b$ in the second equation we obtain $-2b^2 = 1$ which is not satisfied by any real number $b$ therefore the case $a = -b$ is impossible, replacing $a = b$ in the second equation we obtain $2a^2 = 1$ so
+Therefore $$a = \pm b$$, replacing $$a = -b$$ in the second equation we obtain $$-2b^2 = 1$$ which is not satisfied by any real number $$b$$ therefore the case $$a = -b$$ is impossible, replacing $$a = b$$ in the second equation we obtain $$2a^2 = 1$$ so
 
 $$
 2a^2 = 1 \\
@@ -153,13 +149,13 @@ a^2 = \frac{1}{2} \\
 a = b = \pm \sqrt{\frac{1}{2}} = \pm \frac{1}{\sqrt{2}}
 $$
 
-Finally the value of $\sqrt{i}$ is
+Finally the value of $$\sqrt{i}$$ is
 
 $$
 \sqrt{i} = (a + bi) = \pm{\frac{1}{\sqrt{2}}} (1 + i)
 $$
 
-The value of $\sqrt{-i}$ is found in the same way (by replacing $b = -a$ in the equation $-2ab = 1$ found from multiplying \eqref{square-imaginary} by $-1$)
+The value of $$\sqrt{-i}$$ is found in the same way (by replacing $$b = -a$$ in the equation $$-2ab = 1$$ found from multiplying \eqref{square-imaginary} by $$-1$$)
 
 $$
 \sqrt{-i} = (a + bi) = \pm{\frac{1}{\sqrt{2}}} (1 - i)
@@ -167,7 +163,7 @@ $$
 
 ### Matrix representation of a complex number
 
-The matrix $C$ for a complex number is the sum of two other matrices representing the real $R$ and imaginary $I$ parts:
+The matrix $$C$$ for a complex number is the sum of two other matrices representing the real $$R$$ and imaginary $$I$$ parts:
 
 $$
 C = R + I
@@ -179,9 +175,9 @@ $$
 C = a \hat{R} + b \hat{I} \quad\quad a, b \in \mathbb{R}
 $$
 
-Where $R = 1$ and $I = i$
+Where $$R = 1$$ and $$I = i$$
 
-The matrix representation of $R = 1$ in 2d is the identity matrix
+The matrix representation of $$R = 1$$ in 2d is the identity matrix
 
 $$
 \begin{bmatrix}
@@ -190,7 +186,7 @@ $$
 \end{bmatrix}
 $$
 
-To find the matrix representation of $i$ we have to analyze the definition of $i$ which is *a quantity* which squares to $-1$, given that we already know the value of $1$ in matrix form
+To find the matrix representation of $$i$$ we have to analyze the definition of $$i$$ which is *a quantity* which squares to $$-1$$, given that we already know the value of $$1$$ in matrix form
 
 $$
 \begin{align*}
@@ -205,7 +201,7 @@ i^2 &= -1 * \begin{bmatrix}
 \end{align*}
 $$
 
-Squaring the following matrix gives the matrix above, then the value of $i$ expressed in matrix form is
+Squaring the following matrix gives the matrix above, then the value of $$i$$ expressed in matrix form is
 
 $$
 I = \begin{bmatrix}
@@ -214,7 +210,7 @@ I = \begin{bmatrix}
 \end{bmatrix}
 $$
 
-Finally the value of $C$ is
+Finally the value of $$C$$ is
 
 $$
 C = a \begin{bmatrix}
@@ -232,13 +228,13 @@ $$
 
 ### The complex plane
 
-The powers of $i$ give rise to the sequence $(1, i, -1, -i, 1, \ldots)$ which is quite similar to the pattern
-$(x, y, -x, -y, x, \ldots)$, the resemblance is no coincidence as complex number belong to a 2-dimensional plane, this complex plane allows us to visualize complex numbers using the horizontal axis for the real part and the vertical axis for the imaginary part
+The powers of $$i$$ give rise to the sequence $$(1, i, -1, -i, 1, \ldots)$$ which is quite similar to the pattern
+$$(x, y, -x, -y, x, \ldots)$$, the resemblance is no coincidence as complex number belong to a 2-dimensional plane, this complex plane allows us to visualize complex numbers using the horizontal axis for the real part and the vertical axis for the imaginary part
 
 <div id="complex-plane"></div>
-<div class="center">$1, i, -1, -i$</div>
+<div class="center">$$1, i, -1, -i$$</div>
 
-We can see that the positions of $i^0 = 1, i^1 = i, i^2 = -1, i^3 = -i, \ldots$ suggest that the multiplication of a complex number by $i$ is equivalent to rotating through 90 degrees
+We can see that the positions of $$i^0 = 1, i^1 = i, i^2 = -1, i^3 = -i, \ldots$$ suggest that the multiplication of a complex number by $$i$$ is equivalent to rotating through 90 degrees
 
 e.g.
 
@@ -254,15 +250,15 @@ $$
 
 <div id="complex-2-i"></div>
 
-> A complex number is rotated $\pm 90^{\circ}$ by multiplying it by $\pm i$
+> A complex number is rotated $$\pm 90^{\circ}$$ by multiplying it by $$\pm i$$
 
-Let's graph the roots of $\sqrt{i} = \pm \frac{1}{\sqrt{2}} (1 + i)$
+Let's graph the roots of $$\sqrt{i} = \pm \frac{1}{\sqrt{2}} (1 + i)$$
 
 <div id="complex-square-root"></div>
 
-We can see that $\tfrac{1}{\sqrt{2}} (1 + i)$ is exactly at $45^{\circ}$ and $- \tfrac{1}{\sqrt{2}} (1 + i)$ is exactly at $225^{\circ}$
+We can see that $$\tfrac{1}{\sqrt{2}} (1 + i)$$ is exactly at $$45^{\circ}$$ and $$- \tfrac{1}{\sqrt{2}} (1 + i)$$ is exactly at $$225^{\circ}$$
 
-Let's multiply the complex number $2 + i$ by $\sqrt{i}$ (it should rotate it by $45^{\circ}$)
+Let's multiply the complex number $$2 + i$$ by $$\sqrt{i}$$ (it should rotate it by $$45^{\circ}$$)
 
 $$
 \begin{align*}
@@ -273,7 +269,7 @@ $$
 
 <div id="complex-45"></div>
 
-Multiplying $z_2$ by $\sqrt{i}$ again should be equal to multiplying $z_1$ by $i$ (because $z_2$ is already rotated by $45^{\circ}$)
+Multiplying $$z_2$$ by $$\sqrt{i}$$ again should be equal to multiplying $$z_1$$ by $$i$$ (because $$z_2$$ is already rotated by $$45^{\circ}$$)
 
 $$
 \begin{align*}
@@ -284,11 +280,11 @@ z_3 &= (\sqrti + 3 \sqrti i)(\sqrti + \sqrti i) \\
 \end{align*}
 $$
 
-Which is exactly what we find if we multiply $z_i$ by $i$, these observations suggest that we can build a complex number which can rotate another complex number by any angle
+Which is exactly what we find if we multiply $$z_i$$ by $$i$$, these observations suggest that we can build a complex number which can rotate another complex number by any angle
 
-> A complex number is rotated $45^{\circ}$ by multiplying it by $\sqrti + \sqrti i$
+> A complex number is rotated $$45^{\circ}$$ by multiplying it by $$\sqrti + \sqrti i$$
 
-> A complex number is rotated $225^{\circ}$ by multiplying it by $-\sqrti + \sqrti i$
+> A complex number is rotated $$225^{\circ}$$ by multiplying it by $$-\sqrti + \sqrti i$$
 
 ### Polar representation
 
@@ -299,7 +295,7 @@ r = |z| = \sqrt{a^2 + b^2} \\
 \theta = arctan(\frac{b}{a})
 $$
 
-The horizontal component of $z$ is then $r * cos(\theta)$ and the vectical component is $r * sin(\theta)$, expressing the complex number using these quantities
+The horizontal component of $$z$$ is then $$r * cos(\theta)$$ and the vectical component is $$r * sin(\theta)$$, expressing the complex number using these quantities
 
 $$
 \begin{align*}
@@ -336,15 +332,15 @@ $$
 zw = rs\, e^{i(\theta + \phi)} = rs [ \cos (\theta + \phi) + i \sin (\theta + \phi)]
 $$
 
-Which effectively rotated the complex number $z$ by $\phi$ angles! However the quantity $zw$ was scaled $s$ units, to avoid scalling we can normalize $w$ (i.e. making $r = 1$ which is equal to \eqref{rotor})
+Which effectively rotated the complex number $$z$$ by $$\phi$$ angles! However the quantity $$zw$$ was scaled $$s$$ units, to avoid scalling we can normalize $$w$$ (i.e. making $$r = 1$$ which is equal to \eqref{rotor})
 
-> A *rotor* is a complex number that rotates another complex number by an angle $\theta$ (through multiplication) and has the form
+> A *rotor* is a complex number that rotates another complex number by an angle $$\theta$$ (through multiplication) and has the form
 >
 $$
 e^{i\theta} = \cos \theta + i \sin \theta
 $$
 
-Rotating a complex number $x + yi$ by an angle $\theta$
+Rotating a complex number $$x + yi$$ by an angle $$\theta$$
 
 $$
 \begin{align*}

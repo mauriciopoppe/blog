@@ -6,15 +6,15 @@ references:
   - "Ahn, S. (2016). OpenGL Projection Matrix. [online] Songho.ca. Available at: http://www.songho.ca/opengl/gl_projectionmatrix.html [Accessed 7 Mar. 2016]."
 ---
 
-The *canonical view volume* is a cube with its extreme points at $\[-1, -1, -1\]$ and $\[1, 1, 1\]$, coordinates in this view volume are called *normalized device coordinates* (NDC), the objective of this step is to build a transformation matrix so that a region of space we want to render called the *view volume* is mapped to the *canonical view volume*
+The *canonical view volume* is a cube with its extreme points at $$[-1, -1, -1]$$ and $$[1, 1, 1]$$, coordinates in this view volume are called *normalized device coordinates* (NDC), the objective of this step is to build a transformation matrix so that a region of space we want to render called the *view volume* is mapped to the *canonical view volume*
 
 $$
 \mathbf{v}_{ndc} = \mathbf{M}_{proj} \mathbf{v}_{view}
 $$
 
-Some points expressed in *view space* won't be part of the view volume and will be discarded after the transformation, this process is called [clipping](https://www.opengl.org/wiki/Vertex_Post-Processing#Clipping) (we only need to check if any coordinate of a point is outside the range $\[-1, 1\]$ to discard it)
+Some points expressed in *view space* won't be part of the view volume and will be discarded after the transformation, this process is called [clipping](https://www.opengl.org/wiki/Vertex_Post-Processing#Clipping) (we only need to check if any coordinate of a point is outside the range $$[-1, 1]$$ to discard it)
 
-Later it'll be seen that both transformations imply division and a neat trick is the use of projective geometry to avoid division, any point that has the form $(\alpha x, \alpha y, \alpha z, 1)$ can be represented as $(x, y, z, \tfrac{1}{\alpha})$ in homogeneous coordinates, so we can introduce an intermediate step which transforms the points to *clip coordinates* and then to *normalized device coordinates* by doing a division with the $w$-coordinate $\tfrac{1}{1/\alpha} = \alpha$
+Later it'll be seen that both transformations imply division and a neat trick is the use of projective geometry to avoid division, any point that has the form $$(\alpha x, \alpha y, \alpha z, 1)$$ can be represented as $$(x, y, z, \tfrac{1}{\alpha})$$ in homogeneous coordinates, so we can introduce an intermediate step which transforms the points to *clip coordinates* and then to *normalized device coordinates* by doing a division with the $$w$$-coordinate $$\tfrac{1}{1/\alpha} = \alpha$$
 
 $$
 \mathbf{v}_{clip} = \mathbf{M}_{proj} \mathbf{v}_{view} \\
@@ -25,27 +25,27 @@ $$
 
 An orthographic projection matrix is built with 6 parameters
 
-- *left, right*: planes in the $x$-axis
-- *bottom, top*: planes in the $y$-axis
-- *near, far*: planes in the $z$-axis
+- *left, right*: planes in the $$x$$-axis
+- *bottom, top*: planes in the $$y$$-axis
+- *near, far*: planes in the $$z$$-axis
 
 These parameters bound the view volume which is an axis-aligned bounding box
 
 ![orthographic projection](http://www.songho.ca/opengl/files/gl_projectionmatrix02.png)
 
-Since the mapping of the range $\[l, r\]$ to the range $\[-1, 1\]$ is linear we can use the equation of the line $y = mx + b$ and find the values of $m$ and $b$ however we can intuitively get a similar equation by creating a function $f(x)$ so that $f(0) = -1$ and $f(1) = 1$, we can create a nested function $g(x)$ so that $g(l) = 0$ and $g(r) = 1$ (note that $\[l, r\]$ is the input range) then $f(x)$ has the form
+Since the mapping of the range $$[l, r]$$ to the range $$[-1, 1]$$ is linear we can use the equation of the line $$y = mx + b$$ and find the values of $$m$$ and $$b$$ however we can intuitively get a similar equation by creating a function $$f(x)$$ so that $$f(0) = -1$$ and $$f(1) = 1$$, we can create a nested function $$g(x)$$ so that $$g(l) = 0$$ and $$g(r) = 1$$ (note that $$[l, r]$$ is the input range) then $$f(x)$$ has the form
 
 $$
 f(x) = -1 + 2 \; g(x)
 $$
 
-If $x \in \[a, b\], g(x) \in \[0, 1\]$ then its value is
+If $$x \in [a, b], g(x) \in [0, 1]$$ then its value is
 
 $$
 g(x) = \frac{x - l}{r - l}
 $$
 
-Finally $f(x)$ has the form
+Finally $$f(x)$$ has the form
 
 $$
 \begin{align}
@@ -56,7 +56,7 @@ f(x) &= -1 + 2 \frac{x - l}{r - l} \nonumber \\
 \end{align}
 $$
 
-Using \eqref{linear-mapping} to transform the $x$- and $y$-coordinates of a vector expressed in *view space* to *clip space*
+Using \eqref{linear-mapping} to transform the $$x$$- and $$y$$-coordinates of a vector expressed in *view space* to *clip space*
 
 $$
 x_{clip} = \frac{2}{r - l}x_{view} - \frac{r + l}{r - l}
@@ -66,7 +66,7 @@ $$
 y_{clip} = \frac{2}{t - b}y_{view} - \frac{t + b}{t - b}
 $$
 
-The $z_c$ value will be different from the ones above since we're mapping $\[-n, -f\] \Rightarrow \[-1, 1\]$
+The $$z_c$$ value will be different from the ones above since we're mapping $$[-n, -f] \Rightarrow [-1, 1]$$
 
 $$
 \begin{align*}
@@ -77,7 +77,7 @@ z_{clip} &= \frac{2}{-f - (-n)}z_{view} - \frac{-f + (-n)}{-f - (-n)} \\
 \end{align*}
 $$
 
-The $w$ is left untouched since the projection doesn't imply division, the **general orthographic projection matrix** is
+The $$w$$ is left untouched since the projection doesn't imply division, the **general orthographic projection matrix** is
 
 $$
 \begin{equation} \label{orthographic-projection}
@@ -104,7 +104,7 @@ $$
 \end{align*}
 $$
 
-Finally note that $w_{clip}$ will always have the value of $w_{view} = 1$, therefore the transformation to NDC will not modify the coordinates
+Finally note that $$w_{clip}$$ will always have the value of $$w_{view} = 1$$, therefore the transformation to NDC will not modify the coordinates
 
 $$
 \begin{bmatrix} x_{ndc} \\ y_{ndc} \\ z_{ndc} \end{bmatrix} = \begin{bmatrix}
@@ -118,9 +118,9 @@ $$
 
 A simpler way to think about this orthographic projection transformation is by splitting it in three steps
 
-- translation of the bottom left near corner to the origin i.e. $\[l, b, -n\] \rightarrow \[0, 0, 0\]$
+- translation of the bottom left near corner to the origin i.e. $$[l, b, -n] \rightarrow [0, 0, 0]$$
 - scale it to be a 2-unit length cube
-- translation of the bottom left corner from the origin i.e. $\[0, 0, 0\] \rightarrow \[-1, -1, -1\]$
+- translation of the bottom left corner from the origin i.e. $$[0, 0, 0] \rightarrow [-1, -1, -1]$$
 
 $$
 \begin{align*}
@@ -176,9 +176,9 @@ Projective geometry concepts are used in this type of projection, particularly t
 
 A perspective projection matrix is built with 6 parameters, *left, right, bottom, top, near, far*
 
-- *left, right*: $x$-axis bounds for the near plane
-- *bottom, top*: $y$-axis bounds for the near plane
-- *near, far*: planes in the $z$-axis, the interception point of the line passing through the origin parallel to the vector $\[l,b,-n\]$ and the plane *far* is the bottom left far extreme of the view volume, a similar logic is used to find all the extremes in the *far* plane of the view volume
+- *left, right*: $$x$$-axis bounds for the near plane
+- *bottom, top*: $$y$$-axis bounds for the near plane
+- *near, far*: planes in the $$z$$-axis, the interception point of the line passing through the origin parallel to the vector $$[l,b,-n]$$ and the plane *far* is the bottom left far extreme of the view volume, a similar logic is used to find all the extremes in the *far* plane of the view volume
 
 These parameters define a truncated pyramid also called a [ frustum ](https://www.wikiwand.com/en/Frustum)
 
@@ -186,15 +186,15 @@ These parameters define a truncated pyramid also called a [ frustum ](https://ww
 
 ### General perspective projection matrix
 
-The mapping of the range $\[l,r\]$ to the range $\[-1,1\]$ can be split into two steps
+The mapping of the range $$[l,r]$$ to the range $$[-1,1]$$ can be split into two steps
 
-- Project all the points to the *near* plane, this way all the $x$- and $y$-coordinates will be inside the range $\[l,r\] \times \[b,t\]$
-- Map all the values in the range $\[l,r\]$ and $\[b,t\]$ to the range $\[-1, 1\]$
+- Project all the points to the *near* plane, this way all the $$x$$- and $$y$$-coordinates will be inside the range $$[l,r] \times [b,t]$$
+- Map all the values in the range $$[l,r]$$ and $$[b,t]$$ to the range $$[-1, 1]$$
 
 
 ![top view of the frustum](/images/projection-matrix!top-view-frustum.png) ![side view of the frustum](/images/projection-matrix!side-view-frustum.png)
 
-Let $\mathbf{v}_{view}$ be a vector in *view space* which is going to be transformed to *clip space*, by similar triangles we see that the value of $x_p$ and $y_p$ (the coordinates projected to the *near* plane) is
+Let $$\mathbf{v}_{view}$$ be a vector in *view space* which is going to be transformed to *clip space*, by similar triangles we see that the value of $$x_p$$ and $$y_p$$ (the coordinates projected to the *near* plane) is
 
 $$
 \begin{equation} \label{projection-near}
@@ -203,7 +203,7 @@ $$
 \end{equation}
 $$
 
-Note that both quantities are inversely proportional to $-z_{view}$, what we can do is manipulate the coordinate so that it has a common denominator
+Note that both quantities are inversely proportional to $$-z_{view}$$, what we can do is manipulate the coordinate so that it has a common denominator
 
 $$
 \begin{bmatrix} \tfrac{n \cdot x_{view}}{-z_{view}} & \tfrac{n \cdot y_{view}}{-z_{view}} & n \tfrac{z_{view}}{-z_{view}} \end{bmatrix}^T = \frac{  \begin{bmatrix} n \cdot x_{view} & n \cdot y_{view} & n \cdot z_{view} \end{bmatrix}^T }{-z_{view}}
@@ -215,9 +215,9 @@ $$
 \begin{bmatrix} n \cdot x_{view} & n \cdot y_{view} & n \cdot z_{view}& \tfrac{1}{-z_{view}}  \end{bmatrix}^T
 $$
 
-OpenGL will then project any 4D homogeneous coordinate to the 3D hyperplane $w=1$ by dividing each of the coordinates by $w$, note that this division operation isn't done by the application but by OpenGL itself on a further step on the rendering pipeline
+OpenGL will then project any 4D homogeneous coordinate to the 3D hyperplane $$w=1$$ by dividing each of the coordinates by $$w$$, note that this division operation isn't done by the application but by OpenGL itself on a further step on the rendering pipeline
 
-We can take advantage of this process and use $-z_{view}$ as our $w$, with this in mind we can construct a transformation matrix so that transformed points have $w = -z_{view}$
+We can take advantage of this process and use $$-z_{view}$$ as our $$w$$, with this in mind we can construct a transformation matrix so that transformed points have $$w = -z_{view}$$
 
 $$
 \begin{equation} \label{pm1}
@@ -230,13 +230,13 @@ $$
 \end{equation}
 $$
 
-Where $x_{clip}, y_{clip}, z_{clip}, w_{clip}$ are expressed in terms of the *clip space*, when each coordinate is divided by $w_{clip}$ we'll have NDC
+Where $$x_{clip}, y_{clip}, z_{clip}, w_{clip}$$ are expressed in terms of the *clip space*, when each coordinate is divided by $$w_{clip}$$ we'll have NDC
 
 $$
 \begin{bmatrix} x_{ndc} \\ y_{ndc} \\ z_{ndc} \end{bmatrix} = \begin{bmatrix} x_{clip}/w_{clip} \\ y_{clip}/w_{clip} \\ z_{clip}/w_{clip} \end{bmatrix}
 $$
 
-Next $x_p$ and $y_p$ are mapped linearly to $\[-1,1\]$, we can use the function to perform linear mapping \eqref{linear-mapping}
+Next $$x_p$$ and $$y_p$$ are mapped linearly to $$[-1,1]$$, we can use the function to perform linear mapping \eqref{linear-mapping}
 
 $$
 \begin{equation} \label{ndc-near}
@@ -245,7 +245,7 @@ y_{ndc} = \frac{2}{t - b}y_p - \frac{t + b}{t - b}
 \end{equation}
 $$
 
-Next we substitute the values of $x\_p$ \eqref{projection-near} in $x\_{ndc}$ \eqref{ndc-near}
+Next we substitute the values of $$x_p$$ \eqref{projection-near} in $$x_{ndc}$$ \eqref{ndc-near}
 
 $$
 \begin{align*}
@@ -255,13 +255,13 @@ x_{ndc} &= \frac{2}{r - l}\frac{n \cdot x_{view}}{-z_{view}} - \frac{r + l}{r - 
 \end{align*}
 $$
 
-Note that the second fraction is manipulated so that it's also divisible by $-z_{view}$, also note that the quantity in the parenthesis is in *clip space coordinates*: $x_{clip}$
+Note that the second fraction is manipulated so that it's also divisible by $$-z_{view}$$, also note that the quantity in the parenthesis is in *clip space coordinates*: $$x_{clip}$$
 
 $$
 x_{clip} = \frac{2n}{r - l} x_{view} + \frac{r + l}{r - l} z_{view}
 $$
 
-Similarly the value of $y_{clip}$ is
+Similarly the value of $$y_{clip}$$ is
 
 $$
 y_{clip} = \frac{2n}{t - b} y_{view} + \frac{t + b}{t - b} z_{view}
@@ -280,9 +280,9 @@ $$
 \end{equation}
 $$
 
-Next we need to find the value of $z_{clip}$, note that the projected value is always a constant because the $z_{clip}$ component depends on $z_{view}$ and is also divided by $-z_{view}$, we need **$z_{clip}$ to be unique for the clipping and depth test**, plus we should be able to unproject it (through an inverse transformation)
+Next we need to find the value of $$z_{clip}$$, note that the projected value is always a constant because the $$z_{clip}$$ component depends on $$z_{view}$$ and is also divided by $$-z_{view}$$, we need **$$z_{clip}$$ to be unique for the clipping and depth test**, plus we should be able to unproject it (through an inverse transformation)
 
-Since $z_{ndc}$ doesn't depend on $x_{view}$ or $y_{view}$ we can borrow the $w$-coordinate to find the relationship between $z_{ndc}$ and $z_{view}$, with that in mind we can make the third row of \eqref{pm2} equal to
+Since $$z_{ndc}$$ doesn't depend on $$x_{view}$$ or $$y_{view}$$ we can borrow the $$w$$-coordinate to find the relationship between $$z_{ndc}$$ and $$z_{view}$$, with that in mind we can make the third row of \eqref{pm2} equal to
 
 $$
 \begin{equation} \label{pm3}
@@ -295,19 +295,19 @@ $$
 \end{equation}
 $$
 
-Then $z_{ndc}$ has the form
+Then $$z_{ndc}$$ has the form
 
 $$
 z_{ndc} = \frac{z_{clip}}{w_{clip}} = \frac{Az_{view} + Bw_{view}}{-z_{view}}
 $$
 
-Since $w_{view}=1$ in *view space*
+Since $$w_{view}=1$$ in *view space*
 
 $$
 z_{ndc} = \frac{Az_{view} + B}{-z_{view}}
 $$
 
-Note that the value is not linear but it needs to be mapped to $\[-n, -f\] \mapsto \[-1,1\]$, substituting the desired output range $\[-1, 1\]$ as $z_{ndc}$ we have a system of equations
+Note that the value is not linear but it needs to be mapped to $$[-n, -f] \mapsto [-1,1]$$, substituting the desired output range $$[-1, 1]$$ as $$z_{ndc}$$ we have a system of equations
 
 $$
 \begin{cases}
@@ -330,7 +330,7 @@ A = -\frac{f + n}{f - n}
 \end{align*}
 $$
 
-Solving for $B$ given $A$
+Solving for $$B$$ given $$A$$
 
 $$
 \frac{f + n}{f - n}n + B = -n
@@ -344,7 +344,7 @@ B &= -n - \frac{f + n}{f - n}n \\
 \end{align*}
 $$
 
-Substituting the values of $A$ and $B$ in \eqref{pm3} we have the **general perspective projection matrix**
+Substituting the values of $$A$$ and $$B$$ in \eqref{pm3} we have the **general perspective projection matrix**
 
 $$
 \begin{equation} \label{pm4}
@@ -359,7 +359,7 @@ $$
 
 ### Symmetric perspective projection matrix
 
-If the viewing volume is symmetric i.e. $r = -l$ and $t = -b$ then some quantities can be simplified
+If the viewing volume is symmetric i.e. $$r = -l$$ and $$t = -b$$ then some quantities can be simplified
 
 $$
 r + l = 0, \quad r - l = 2r \\
@@ -381,14 +381,14 @@ $$
 
 ### Symmetric perspective projection matrix from field of view/aspect
 
-[ `gluPerspective` ](https://www.opengl.org/sdk/docs/man2/xhtml/gluPerspective.xml) receives instead of the $x$ and $y$ bounds two arguments
+[ `gluPerspective` ](https://www.opengl.org/sdk/docs/man2/xhtml/gluPerspective.xml) receives instead of the $$x$$ and $$y$$ bounds two arguments
 
-- *field of view* ($fov$) which specifies the field of view angle in the $y$ direction
-- *aspect* ($aspect$) which is the aspect ratio that determines the field of view in the $x$ direction calculated as $\tfrac{x}{y}$, the value is commonly $\tfrac{screen \; width}{screen \; height}$
+- *field of view* ($$fov$$) which specifies the field of view angle in the $$y$$ direction
+- *aspect* ($$aspect$$) which is the aspect ratio that determines the field of view in the $$x$$ direction calculated as $$\tfrac{x}{y}$$, the value is commonly $$\tfrac{screen \; width}{screen \; height}$$
 
 ![fov](/images/projection-matrix!fov.png)
 
-We see that the value of $t$ (top) is
+We see that the value of $$t$$ (top) is
 
 $$
 \begin{equation} \label{fov-t}
@@ -397,7 +397,7 @@ t = n \cdot \tan{ (fov/2) }
 \end{equation}
 $$
 
-We can find the value of $r$ (right) with the aspect ratio
+We can find the value of $$r$$ (right) with the aspect ratio
 
 $$
 \begin{equation} \label{fov-r}

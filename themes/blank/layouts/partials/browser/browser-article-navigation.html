@@ -1,7 +1,9 @@
-<div id="browser-article-navigation"> </div>
-<script src="/browser/browser-article-navigation/bundle.js"></script>
+<script defer src="/browser/browser-article-navigation/bundle.js"></script>
 <script>
-window.browserArticleNavigation.render({
-  target: document.querySelector('#browser-article-navigation')
+window.addEventListener('DOMContentLoaded', function () {
+  window.browserArticleNavigation.render({
+    hero: document.querySelector('section.hero'),
+    target: document.querySelector('#browser-article-navigation')
+  })
 })
 </script>

@@ -1,6 +1,6 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/3.0.2/tocbot.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/3.0.2/tocbot.min.js"></script>
 <script>
-(function () {
+window.addEventListener('DOMContentLoaded', function () {
   var toc = document.querySelector('nav[role=navigation]')
   var hero = document.querySelector('section.hero')
   var tocWrapper = document.querySelector('.toc-wrapper')
@@ -37,6 +37,6 @@
       position = newPosition
     }
   })
-})()
+})
 </script>
 

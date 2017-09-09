@@ -7,7 +7,7 @@ categories: algorithms math
 
 ## Bezout's identity
 
-For **non-zero integers** $a$ and $b$, let $d$ be the greatest common divisor $d = gcd(a, b)$. Then there exists integers $x$ and $y$ such that
+For **non-zero integers** $$a$$ and $$b$$, let $$d$$ be the greatest common divisor $$d = gcd(a, b)$$. Then there exists integers $$x$$ and $$y$$ such that
 
 $$
 \begin{equation} \label{bezout}
@@ -15,17 +15,17 @@ ax + by = d
 \end{equation}
 $$
 
-If $a$ and $b$ are relatively prime then $gcd(a, b) = 1$ and by Bezout's Identity there are integers $x$ and $y$ such that
+If $$a$$ and $$b$$ are relatively prime then $$gcd(a, b) = 1$$ and by Bezout's Identity there are integers $$x$$ and $$y$$ such that
 
 $$
 ax + by = 1
 $$
 
-*Example:* $3x + 8y = 1$, one solution is $x = 3$ and $y = -1$
+*Example:* $$3x + 8y = 1$$, one solution is $$x = 3$$ and $$y = -1$$
 
 ## Extended Euclidean Algorithm
 
-By reversing the steps of the [Euclidean algorithm](./euclidean-algorithm.html) it's possible to find these integers $x$ and $y$, by repeated applications of the euclidean division algorithm we have
+By reversing the steps of the [Euclidean algorithm](./euclidean-algorithm.html) it's possible to find these integers $$x$$ and $$y$$, by repeated applications of the euclidean division algorithm we have
 
 $$
 \begin{align*}
@@ -38,13 +38,13 @@ r_{n-1} &= r_n q_{n + 1}
 \end{align*}
 $$
 
-Where $r_n = gcd(a, b)$, rewriting $r_n$ in terms of the previous $r_i$
+Where $$r_n = gcd(a, b)$$, rewriting $$r_n$$ in terms of the previous $$r_i$$
 
 $$
 r_n = r_{n - 2} - r_{n - 1} q_n
 $$
 
-Substituting for $r_{n - 1}$ from the previous equation
+Substituting for $$r_{n - 1}$$ from the previous equation
 
 $$
 \begin{align*}
@@ -55,7 +55,7 @@ r_n &= r_{n - 2}m + r_{n - 3}n \\
 $$
 
 <!--
-Substituting for $r_{n - 2}$
+Substituting for $$r_{n - 2}$$
 $$
 \begin{align*}
 r_n &= (r_{n - 4} - r_{n - 3} q_{n - 2})m + r_{n - 3}n \\
@@ -64,9 +64,9 @@ r_n &= r_{n - 3}(n - q_{n - 2}m) + r_{n - 4}m
 $$
  -->
 
-Where $m = 1 + q\_n q\_{n - 1}$ and $n = -q\_n$, this process is repeated until $r\_n = ax + by$ where $x$ and $y$ are integers
+Where $$m = 1 + q_n q_{n - 1}$$ and $$n = -q_n$$, this process is repeated until $$r_n = ax + by$$ where $$x$$ and $$y$$ are integers
 
-Since $ax + by = gcd(a, b)$ it's also true that
+Since $$ax + by = gcd(a, b)$$ it's also true that
 
 $$
 \begin{equation}\label{iteration}
@@ -74,7 +74,7 @@ bx_1 + (a \% b)y_1 = gcd(a, b)
 \end{equation}
 $$
 
-Where $(x\_1, y\_1)$ are solutions to the new tuple $(b, a \% b)$, converting the value of $a \% b$
+Where $$(x_1, y_1)$$ are solutions to the new tuple $$(b, a \% b)$$, converting the value of $$a \% b$$
 
 $$
 a \% b = a - \left \lfloor \frac{a}{b} \right \rfloor \cdot b
@@ -90,7 +90,7 @@ a \cdot y_1 + b \Big( x_1 - \left \lfloor \frac{a}{b} \right \rfloor \cdot y_1 \
 \end{align*}
 $$
 
-Comparing to the original expression \eqref{bezout} we obtain the required coefficients $x$ and $y$ based on subsequent values found
+Comparing to the original expression \eqref{bezout} we obtain the required coefficients $$x$$ and $$y$$ based on subsequent values found
 
 $$
 x =
@@ -126,15 +126,15 @@ ax + by = c
 \end{equation}
 $$
 
-Where $a, b, c$ are given integers and $x, y$ are unknown integers
+Where $$a, b, c$$ are given integers and $$x, y$$ are unknown integers
 
-Using the *extended Euclidean algorithm* it's possible to find $x$ and $y$ given that $c$ is divisible by $gcd(a, b)$ otherwise the equation has no solutions, this follows the fact that a linear combination of two numbers continue to be divided by their common divisor, starting with \eqref{bezout}
+Using the *extended Euclidean algorithm* it's possible to find $$x$$ and $$y$$ given that $$c$$ is divisible by $$gcd(a, b)$$ otherwise the equation has no solutions, this follows the fact that a linear combination of two numbers continue to be divided by their common divisor, starting with \eqref{bezout}
 
 $$
 ax_g + by_g = gcd(a, b)
 $$
 
-multiplying it by $\tfrac{c}{gcd(a, b)}$
+multiplying it by $$\tfrac{c}{gcd(a, b)}$$
 
 $$
 \begin{equation}\label{diophantine-equation-gcd}
@@ -157,7 +157,7 @@ y_0 = y_g \cdot \big( \frac{c}{gcd(a, b)} \big)
 \end{cases}
 $$
 
-we can find all of the solutions replacing $x_0$ by $x_0 + \tfrac{b}{gcd(a, b)}$ and $y_0$ by $y_0 - \tfrac{a}{gcd(a, b)}$
+we can find all of the solutions replacing $$x_0$$ by $$x_0 + \tfrac{b}{gcd(a, b)}$$ and $$y_0$$ by $$y_0 - \tfrac{a}{gcd(a, b)}$$
 
 $$
 a \cdot \Big( x_0 + \tfrac{b}{gcd(a, b)} \Big) + b \cdot \Big( y_0 - \tfrac{a}{gcd(a, b)} \Big) = ax_0 + \tfrac{ab}{gcd(a, b)} + by_0 - \tfrac{ab}{gcd(a, b)} = ax_0 + by_0 = c
@@ -172,7 +172,7 @@ y = y_0 - k \cdot \big( \frac{a}{gcd(a, b)} \big)
 \end{cases}
 $$
 
-Where $k \in \mathbb{Z}$
+Where $$k \in \mathbb{Z}$$
 
 
 ```cpp
@@ -185,13 +185,13 @@ Discussed [here](./modular-arithmetic.html#modular-multiplicative-inverse)
 
 ### Linear congruence equations
 
-A linear congruence is a congruence $\pmod p$ of the form
+A linear congruence is a congruence $$\pmod p$$ of the form
 
 $$
 ax \equiv b \pmod m
 $$
 
-By the definition of the congruence relation $m \mid ax - b$
+By the definition of the congruence relation $$m \mid ax - b$$
 
 $$
 ax - b = my
@@ -203,7 +203,7 @@ $$
 ax - my = b
 $$
 
-Which is a linear diophantine equation discussed above, it's solvable only if $b$ is divisible by $gcd(a, m)$, additionally $gcd(a, m)$ tells us the number of distinct solutions in the ring of integers modulo $m$
+Which is a linear diophantine equation discussed above, it's solvable only if $$b$$ is divisible by $$gcd(a, m)$$, additionally $$gcd(a, m)$$ tells us the number of distinct solutions in the ring of integers modulo $$m$$
 
 ---
 

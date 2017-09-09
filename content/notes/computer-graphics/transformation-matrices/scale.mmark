@@ -16,7 +16,7 @@ $$
 \mathbf{q'} = k_y \mathbf{q} = k_y \begin{bmatrix} 0 \\ 1 \end{bmatrix} = \begin{bmatrix} 0 \\ k_y \end{bmatrix}
 $$
 
-Constructing the 2D scale matrix $\mathbf{S}(k\_x, k\_y)$ from these basis vectors
+Constructing the 2D scale matrix $$\mathbf{S}(k_x, k_y)$$ from these basis vectors
 
 $$
 \mathbf{S}(k_x, k_y) = \begin{bmatrix} k_x & 0 \\ 0 & k_y \end{bmatrix}
@@ -34,7 +34,7 @@ $$
 
 ## Scaling along an arbitrary axis
 
-Let $\unit{n}$ be the unit vector parallel to the direction of scale and $k$ to be the scale factor, a vector transformed by this scale operations can be represented as
+Let $$\unit{n}$$ be the unit vector parallel to the direction of scale and $$k$$ to be the scale factor, a vector transformed by this scale operations can be represented as
 
 $$
 \mathbf{v'} = \mathbf{S}(\unit{n}, k) \mathbf{v}
@@ -42,7 +42,7 @@ $$
 
 ![scale arbitrary axis](/images/scale!arbitrary-axis.png)
 
-- Separate $\mathbf{v}$ in two vectors, a vector parallel to $\unit{v}$ called $\mathbf{v_{\parallel}}$ and a vector perpendicular to $\unit{v}$ called $\mathbf{v_{\perp}}$ such that
+Separate $$\mathbf{v}$$ in two vectors, a vector parallel to $$\unit{v}$$ called $$\mathbf{v_{\parallel}}$$ and a vector perpendicular to $$\unit{v}$$ called $$\mathbf{v_{\perp}}$$ such that
 
 $$
 \mathbf{v} = \mathbf{v_{\parallel}} + \mathbf{v_{\perp}}
@@ -57,14 +57,15 @@ $$
 \end{align*}
 $$
 
-- We can also represent $\mathbf{v'}$ as a sum of two vectors parallel and perpendicular to $\unit{n}$
+We can also represent $$\mathbf{v'}$$ as a sum of two vectors parallel and perpendicular to $$\unit{n}$$
 
 $$
 \mathbf{v'} = \mathbf{v_{\parallel}'} + \mathbf{v_{\perp}'}
 $$
 
-- Note that any vector that lies in the 2d line or 3d plane perpendicular to $\unit{n}$ will not be affected by the scale operation so $\mathbf{v'} = \mathbf{v_{\parallel}'} + \mathbf{v_{\perp}}$
-- Since $\mathbf{v_{\parallel}}$ is parallel to the direction of scale then $\mathbf{v_{\parallel}'} = k\mathbf{v_{\parallel}}$
+Note that any vector that lies in the 2d line or 3d plane perpendicular to $$\unit{n}$$ will not be affected by the scale operation so $$\mathbf{v'} = \mathbf{v_{\parallel}'} + \mathbf{v_{\perp}}$$
+
+Since $$\mathbf{v_{\parallel}}$$ is parallel to the direction of scale then $$\mathbf{v_{\parallel}'} = k\mathbf{v_{\parallel}}$$
 
 Reconstructing the solution from the observations above
 
@@ -82,7 +83,7 @@ $$
 \end{align*}
 $$
 
-We can construct a general scale matrix by computing the vectors resulting after transforming the basis vectors $\mathbf{p}$, $\mathbf{q}$ and $\mathbf{r}$, for example let's transform $\mathbf{p} = \begin{bmatrix} 1 & 0 & 0 \end{bmatrix}^T$
+We can construct a general scale matrix by computing the vectors resulting after transforming the basis vectors $$\mathbf{p}$$, $$\mathbf{q}$$ and $$\mathbf{r}$$, for example let's transform $$\mathbf{p} = \begin{bmatrix} 1 & 0 & 0 \end{bmatrix}^T$$
 
 $$
 \begin{align*}
@@ -97,7 +98,7 @@ $$
 \end{align*}
 $$
 
-Similarly the values of $\mathbf{q'}$ and $\mathbf{r'}$ can be found which make the general rotation matrix equal to
+Similarly the values of $$\mathbf{q'}$$ and $$\mathbf{r'}$$ can be found which make the general rotation matrix equal to
 
 $$
 \begin{align*}

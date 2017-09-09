@@ -10,12 +10,7 @@ references:
 
 ## 2d rotation
 
-$$
-\newcommand{\cost}{\cos{\theta}}
-\newcommand{\sint}{\sin{\theta}}
-$$
-
-A 2d rotation has only one parameter $\theta$, when the basis vectors $\unit{i} = [1, 0]$ and $\unit{j} = [0, 1]$ are rotated by an angle $\theta$
+A 2d rotation has only one parameter $$\theta$$, when the basis vectors $$\unit{i} = [1, 0]$$ and $$\unit{j} = [0, 1]$$ are rotated by an angle $$\theta$$
 
 $$
 \mbold{p} = \cos{\theta} \unit{i} + \sin{\theta} \unit{j} \\
@@ -36,7 +31,7 @@ $$
 \end{bmatrix}
 $$
 
-When a vector $\mbold{v}$ is transformed by this matrix we know that the vector will be a *linear combination of the basis*  which are $\mbold{p}$ and $\mbold{q}$
+When a vector $$\mbold{v}$$ is transformed by this matrix we know that the vector will be a *linear combination of the basis*  which are $$\mbold{p}$$ and $$\mbold{q}$$
 
 $$
 \begin{align*}
@@ -102,15 +97,15 @@ See also
 
 ### About an arbitrary axis
 
-Given an axis $\unit{n}$ and an amount of rotation around it $\theta$ our goal is to find a rotation matrix that rotates about $\unit{n}$ by th angle $\theta$
+Given an axis $$\unit{n}$$ and an amount of rotation around it $$\theta$$ our goal is to find a rotation matrix that rotates about $$\unit{n}$$ by th angle $$\theta$$
 
 $$
 \mathbf{v'} = \mathbf{R}(\unit{n}, \theta)\mathbf{v}
 $$
 
-The basic idea is to solve this problem in a plane perpendicular to $\unit{n}$ which becomes a 2d problem
+The basic idea is to solve this problem in a plane perpendicular to $$\unit{n}$$ which becomes a 2d problem
 
-- Separate $\mbold{v}$ in two vectors, a vector parallel to $\unit{v}$ called $\mbold{v_{\parallel}}$ and a vector perpendicular to $\unit{v}$ called $\mbold{v_{\perp}}$ such that $\mbold{v_{\parallel}} + \mbold{v_{\perp}} = \mbold{v}$
+Separate $$\mbold{v}$$ in two vectors, a vector parallel to $$\unit{v}$$ called $$\mbold{v_{\parallel}}$$ and a vector perpendicular to $$\unit{v}$$ called $$\mbold{v_{\perp}}$$ such that $$\mbold{v_{\parallel}} + \mbold{v_{\perp}} = \mbold{v}$$
 
 $$
 \begin{align*}
@@ -119,14 +114,15 @@ $$
 \end{align*}
 $$
 
-- After the rotation it's obvious that the $\mbold{v_{\parallel}}$ component will be the same and only the vector $\mbold{v_{\perp}}$ will be rotated
-- A plane can be defined with two vectors that lie on it, since we have $\mbold{v_{\perp}}$ and we also know the normal of the plane (which is $\unit{n}$) any vector perpendicular to both vectors will also lie in the plane, we can use the cross product to find this vector
+After the rotation it's obvious that the $$\mbold{v_{\parallel}}$$ component will be the same and only the vector $$\mbold{v_{\perp}}$$ will be rotated
+
+A plane can be defined with two vectors that lie on it, since we have $$\mbold{v_{\perp}}$$ and we also know the normal of the plane (which is $$\unit{n}$$) any vector perpendicular to both vectors will also lie in the plane, we can use the cross product to find this vector
 
 $$
 \mbold{w} = \unit{n} \times \mbold{v_{\perp}}
 $$
 
-- The length of $\mbold{w}$ is
+The length of $$\mbold{w}$$ is
 
 $$
 \begin{align*}
@@ -135,9 +131,11 @@ $$
 \end{align*}
 $$
 
-- Which means that $\mbold{w}$ has the same length as $\mbold{v_{\perp}}$, note that even though they have the same length they don't neccesarily have unit length
-- $\mbold{w}$ and $\mbold{v_{\perp}}$ form now a 2d coordinate space where the $x$-axis is $\mbold{v_{\perp}}$ and the $y$-axis is $\mbold{v_{\perp}}$
-- Let $\mbold{v_{\perp}'}$ be a vector that is the result of rotating $\mbold{v_{\perp}}$ by an angle $\theta$, we can find the projection of it onto the $x$-axis and the $y$-axis as follows
+Which means that $$\mbold{w}$$ has the same length as $$\mbold{v_{\perp}}$$, note that even though they have the same length they don't neccesarily have unit length
+
+$$\mbold{w}$$ and $$\mbold{v_{\perp}}$$ form now a 2d coordinate space where the $$x$$-axis is $$\mbold{v_{\perp}}$$ and the $$y$$-axis is $$\mbold{v_{\perp}}$$
+
+Let $$\mbold{v_{\perp}'}$$ be a vector that is the result of rotating $$\mbold{v_{\perp}}$$ by an angle $$\theta$$, we can find the projection of it onto the $$x$$-axis and the $$y$$-axis as follows
 
 $$
 \begin{align*}
@@ -146,7 +144,7 @@ $$
 \end{align*}
 $$
 
-- Expressing $\mbold{v_{\perp}'}$ as a linear combination of the basis
+- Expressing $$\mbold{v_{\perp}'}$$ as a linear combination of the basis
 
 $$
 \mbold{v_{\perp}'} = \cos{\theta} \mbold{v_{\perp}} + \sin{\theta} \mbold{w}
@@ -178,7 +176,7 @@ $$
 \end{align}
 $$
 
-Now we can compute what the basis vectors are after the transformation above (by using each of the basis vectors as $\mbold{v}$ on \eqref{3d-rotation}) to construct a rotation matrix
+Now we can compute what the basis vectors are after the transformation above (by using each of the basis vectors as $$\mbold{v}$$ on \eqref{3d-rotation}) to construct a rotation matrix
 
 $$
 \begin{align*}
@@ -215,13 +213,13 @@ $$
 
 See [complex numbers](/static/math/numeral-systems/complex-numbers.html) and [quaternions](/static/math/numeral-systems/quaternions.html)
 
-A complex rotor is a unit norm complex number which rotates another complex number by the angle $\theta$ and has the form
+A complex rotor is a unit norm complex number which rotates another complex number by the angle $$\theta$$ and has the form
 
 $$
 e^{i\theta} = \cost + i \sint
 $$
 
-Hamilton had hoped that a unit-norm quaternion $q$ could be used to rotate a vector which is stored as a pure quaternion $p$, the unit norm quaternion is given by
+Hamilton had hoped that a unit-norm quaternion $$q$$ could be used to rotate a vector which is stored as a pure quaternion $$p$$, the unit norm quaternion is given by
 
 $$
 \begin{align}
@@ -235,7 +233,7 @@ $$
 p = [0, \mbold{v}] \quad \mbold{v} \in \mathbb{R}^3
 $$
 
-Let's compute the product $p' = qp$
+Let's compute the product $$p' = qp$$
 
 $$
 \begin{align}
@@ -247,7 +245,7 @@ $$
 
 #### Special case
 
-What if $\unit{n}$ is _perpendicular_ to $\mathbf{v}$?  Then the scalar quantity of \eqref{p-prime} is zero and we are left with the pure quaternion
+What if $$\unit{n}$$ is _perpendicular_ to $$\mathbf{v}$$?  Then the scalar quantity of \eqref{p-prime} is zero and we are left with the pure quaternion
 
 $$
 \begin{equation} \label{p-prime-perpendicular}
@@ -255,15 +253,15 @@ p' = [0, s \mathbf{v} + \lambda \unit{n} \times \mathbf{v}] \quad\quad \text{giv
 \end{equation}
 $$
 
-Let's analyze the vector part of $\eqref{p-prime-perpendicular}$ (which is now a 3d entity because it's a pure quaternion), since $\unit{n}$ is perpendicular to $\mathbf{v}$ then the vector $\unit{n} \times \mathbf{v}$ will have a norm equal to $\magnitude{ \unit{n} \times \mathbf{v} } = \magnitude{ \unit{n} } \magnitude { \mathbf{v} } \sin{\deg{90}}$ and also since $\unit{n}$ is a unit vector then $\magnitude{\unit{n} \times \mathbf{v}} = \magnitude{\mathbf{v}}$ which means that we have two orthogonal vectors with the same length
+Let's analyze the vector part of $$\eqref{p-prime-perpendicular}$$ (which is now a 3d entity because it's a pure quaternion), since $$\unit{n}$$ is perpendicular to $$\mathbf{v}$$ then the vector $$\unit{n} \times \mathbf{v}$$ will have a norm equal to $$\magnitude{ \unit{n} \times \mathbf{v} } = \magnitude{ \unit{n} } \magnitude { \mathbf{v} } \sin{\deg{90}}$$ and also since $$\unit{n}$$ is a unit vector then $$\magnitude{\unit{n} \times \mathbf{v}} = \magnitude{\mathbf{v}}$$ which means that we have two orthogonal vectors with the same length
 
-To rotate the vector $\mathbf{v}$ about $\unit{n}$ let's transform $\mathbf{v}$ to the 2d space whose basis vectors are $\mathbf{v}$ and $\unit{n} \times \mathbf{v}$ and perform the rotation there which is trivially $[\cost, \sint]$, therefore all we have to do in \eqref{p-prime-perpendicular} is make the scalar quantities multiplying each vector equal the projection of the rotated vector over the basis
+To rotate the vector $$\mathbf{v}$$ about $$\unit{n}$$ let's transform $$\mathbf{v}$$ to the 2d space whose basis vectors are $$\mathbf{v}$$ and $$\unit{n} \times \mathbf{v}$$ and perform the rotation there which is trivially $$[\cost, \sint]$$, therefore all we have to do in \eqref{p-prime-perpendicular} is make the scalar quantities multiplying each vector equal the projection of the rotated vector over the basis
 
 $$
 p' = [0, \cost \mathbf{v} + \sint \unit{n} \times \mathbf{v}]
 $$
 
-Which makes the quaternion $\mathbf{q}$ have the form
+Which makes the quaternion $$\mathbf{q}$$ have the form
 
 $$
 \begin{align}
@@ -271,18 +269,18 @@ q &= [\cost, \sint \unit{n}] \label{perp-rotor}
 \end{align}
 $$
 
-And it acts as a rotor **only when $\unit{n}$ is perpendicular to $\mathbf{v}$**
+And it acts as a rotor **only when $$\unit{n}$$ is perpendicular to $$\mathbf{v}$$**
 
 Important notes/facts about orthogonal quaternions
 
-- If $q$ is a rotor about the unit vector $\unit{n}$ by an angle $\theta$ whose vector term is perpendicular to the pure quaternion $p$
-  - $qp$ and $pq^{-1}$ rotate $p$ by an angle $\theta$ about $\unit{n}$
-  - $pq$ and $q^{-1}p$ rotate $p$ by an angle $-\theta$ about $\unit{n}$
-  - Each of these products leave $p'$ unscaled (because $q$ is a unit norm quaternion)
+- If $$q$$ is a rotor about the unit vector $$\unit{n}$$ by an angle $$\theta$$ whose vector term is perpendicular to the pure quaternion $$p$$
+  - $$qp$$ and $$pq^{-1}$$ rotate $$p$$ by an angle $$\theta$$ about $$\unit{n}$$
+  - $$pq$$ and $$q^{-1}p$$ rotate $$p$$ by an angle $$-\theta$$ about $$\unit{n}$$
+  - Each of these products leave $$p'$$ unscaled (because $$q$$ is a unit norm quaternion)
 
 #### General case
 
-Let's use \eqref{unit-norm-quaternion} as the starting point, note that this time its vector part it's not necessarily perpendicular to the pure quaternion $p$, the product $qp$ yields
+Let's use \eqref{unit-norm-quaternion} as the starting point, note that this time its vector part it's not necessarily perpendicular to the pure quaternion $$p$$, the product $$qp$$ yields
 
 $$
 \begin{align*}
@@ -291,9 +289,9 @@ qp &= [s, \lambda \unit{n}][0, \mathbf{v}] \\
 \end{align*}
 $$
 
-Note that the term $-\lambda \unit{n} \cdot \mathbf{v}$ does not vanish since for the general case $\unit{n}$ and $\mathbf{v}$ are no longer perpendicular, what's more important is that the product $qp$ is no longer a pure quaternion, multiplying a vector by a non-orthogonal quaternion has converted some of the vector information into the quaternion's scalar component
+Note that the term $$-\lambda \unit{n} \cdot \mathbf{v}$$ does not vanish since for the general case $$\unit{n}$$ and $$\mathbf{v}$$ are no longer perpendicular, what's more important is that the product $$qp$$ is no longer a pure quaternion, multiplying a vector by a non-orthogonal quaternion has converted some of the vector information into the quaternion's scalar component
 
-What happens if we post-multiply $qp$ by $q^{-1}$, could it reverse the operation?  (Note that since $q$ is a norm quaternion $q^{-1} = q^*$)
+What happens if we post-multiply $$qp$$ by $$q^{-1}$$, could it reverse the operation?  (Note that since $$q$$ is a norm quaternion $$q^{-1} = q^*$$)
 
 $$
 qpq^{-1} = [-\lambda \unit{n} \cdot \mathbf{v}, s \mathbf{v} + \lambda \unit{n} \times \mathbf{v}][s, -\lambda \unit{n}]
@@ -311,7 +309,7 @@ qpq^{-1} &= [-\lambda s \unit{n} \cdot \mathbf{v} - (s \mathbf{v} + \lambda \uni
 \end{align*}
 $$
 
-Indeed it magically made the scalar component vanish! Now let's look at the vector component of $qpq^{-1}$
+Indeed it magically made the scalar component vanish! Now let's look at the vector component of $$qpq^{-1}$$
 
 $$
 \begin{align*}
@@ -337,7 +335,7 @@ qpq^{-1} &= [0, s^2 \mathbf{v} + s \lambda (\unit{n} \times \mathbf{v}) + \lambd
 \end{align*}
 $$
 
-Let's make $s = \cost$ and $\lambda = \sint$ just like in \eqref{perp-rotor} (it worked as a rotor when it was orthogonal to $p$, it might work with the general case too)
+Let's make $$s = \cost$$ and $$\lambda = \sint$$ just like in \eqref{perp-rotor} (it worked as a rotor when it was orthogonal to $$p$$, it might work with the general case too)
 
 $$
 qpq^{-1} = [0, (\cos^2{\theta} - \sin^2{\theta}) \mathbf{v} + 2 \cost \sint (\unit{n} \times \mathbf{v}) + 2 \sin^2{\theta} (\mathbf{v} \cdot \unit{n}) \unit{n}]
@@ -349,7 +347,7 @@ $$
 qpq^{-1} = [0, \cos{2\theta} \mathbf{v} + \sin{2\theta} (\unit{n} \times \mathbf{v}) + (1 - \cos{2\theta}) (\mathbf{v} \cdot \unit{n}) \unit{n}]
 $$
 
-The product created a pure quaternion equal to $\mathbf{v}$ rotated by an angle $2\theta$, if we want to rotate $\mathbf{v}$ by an angle $\theta$ we must build a half angle $\theta$ quaternion $q$ (note above that $q$ was equal to \eqref{perp-rotor})
+The product created a pure quaternion equal to $$\mathbf{v}$$ rotated by an angle $$2\theta$$, if we want to rotate $$\mathbf{v}$$ by an angle $$\theta$$ we must build a half angle $$\theta$$ quaternion $$q$$ (note above that $$q$$ was equal to \eqref{perp-rotor})
 
 $$
 \begin{equation} \label{rotor}
@@ -363,11 +361,11 @@ $$
 qpq^{-1} = [0, \cos{\theta} \mathbf{v} + \sin{\theta} (\unit{n} \times \mathbf{v}) + (1 - \cos{\theta}) (\mathbf{v} \cdot \unit{n}) \unit{n}]
 $$
 
-Note that the vector part of $qpq^{-1}$ is identical to \eqref{3d-rotation}
+Note that the vector part of $$qpq^{-1}$$ is identical to \eqref{3d-rotation}
 
 #### Quaternion difference and dot product
 
-Let $a$ and $b'$ be two *unit norm* quaternions (rotors that have the same form as \eqref{rotor}), the quaternion to rotate from $a$ to $b$ is given by $da = b$ and is known as *quaternion difference*, finding the value of $d$ given that we know $a$ and $b$
+Let $$a$$ and $$b'$$ be two *unit norm* quaternions (rotors that have the same form as \eqref{rotor}), the quaternion to rotate from $$a$$ to $$b$$ is given by $$da = b$$ and is known as *quaternion difference*, finding the value of $$d$$ given that we know $$a$$ and $$b$$
 
 $$
 \begin{align*}
@@ -398,7 +396,7 @@ $$
 a \cdot b = \cos{\frac{\theta}{2}}
 $$
 
-This means that the angle between $a$ and $b$ is equal to
+This means that the angle between $$a$$ and $$b$$ is equal to
 
 $$
 \theta = 2 \arccos{(a \cdot b)}
@@ -415,7 +413,7 @@ $$
 \end{align*}
 $$
 
-The second formula works for all the cases as noted [here](http://math.stackexchange.com/questions/90081/quaternion-distance) (the first one doesn't work when $a \cdot b < 0$)
+The second formula works for all the cases as noted [here](http://math.stackexchange.com/questions/90081/quaternion-distance) (the first one doesn't work when $$a \cdot b < 0$$)
 
 {{< script >}}
 document.addEventListener('DOMContentLoaded', function () {

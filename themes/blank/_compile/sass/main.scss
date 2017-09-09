@@ -9,10 +9,16 @@
 
 // libs
 @import 'lib/toc';
-@import 'lib/math';
+@import 'lib/mathjax';
 @import 'lib/repl';
 
 body {
   font-family: $family-serif;
+}
+
+.fonts-loaded {
+  body {
+    font-family: 'Computer Modern Serif', $family-serif;
+  }
 }
 

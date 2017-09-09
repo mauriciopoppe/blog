@@ -5,7 +5,7 @@ references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---
 
-We can compose a series of transformations as simple matrix multiplications, one simple example is in rendering where an object at an arbitrary position and orientation in the world is rendered with a camera (also located at an arbitrary position and orientation), to do so we must transform the object from *object space* to *world space* (this transformation is known as **model transform**) denoted by the matrix $\mathbf{M}\_{world \to object}$, from there we transform the vertices of the object from *world space* to *view space* (transformation known as **view transform**) denoted with $\mathbf{M}\_{world \to view}$
+We can compose a series of transformations as simple matrix multiplications, one simple example is in rendering where an object at an arbitrary position and orientation in the world is rendered with a camera (also located at an arbitrary position and orientation), to do so we must transform the object from *object space* to *world space* (this transformation is known as **model transform**) denoted by the matrix $$\mathbf{M}_{world \to object}$$, from there we transform the vertices of the object from *world space* to *view space* (transformation known as **view transform**) denoted with $$\mathbf{M}_{world \to view}$$
 
 $$
 \begin{align*}
@@ -23,13 +23,13 @@ $$
 \end{align*}
 $$
 
-If $\mathbf{M}\_{object \to view} = \mathbf{M}\_{world \to view} \mathbf{M}\_{object \to world}$ then
+If $$\mathbf{M}_{object \to view} = \mathbf{M}_{world \to view} \mathbf{M}_{object \to world}$$ then
 
 $$
 \mathbf{v}_{view} = \mathbf{M}_{object \to view} \mathbf{v}_{object}
 $$
 
-Now if we have two transformation matrices $\mathbf{M}$ and $\mathbf{N}$ and they are applied to some vector $\mathbf{v}$ in that respective order their product is
+Now if we have two transformation matrices $$\mathbf{M}$$ and $$\mathbf{N}$$ and they are applied to some vector $$\mathbf{v}$$ in that respective order their product is
 
 $$
 \begin{align*}
@@ -51,17 +51,17 @@ r_x \mathbf{s} + r_y \mathbf{t} + r_z \mathbf{u} \\
 \end{align*}
 $$
 
-We can see that the rows of the product $\mathbf{NM}$ are the result of transforming the basis vectors of $\mathbf{M}$ by the transformation matrix $\mathbf{N}$ so matrix-matrix multiplication encodes a basis vectors transformation
+We can see that the rows of the product $$\mathbf{NM}$$ are the result of transforming the basis vectors of $$\mathbf{M}$$ by the transformation matrix $$\mathbf{N}$$ so matrix-matrix multiplication encodes a basis vectors transformation
 
 ## Rotation followed by translation
 
-Given the vector $\mathbf{v}$ let's apply a rotation and a translation transform in that order
+Given the vector $$\mathbf{v}$$ let's apply a rotation and a translation transform in that order
 
 $$
 \mathbf{v'} = \mathbf{TRv}
 $$
 
-Let's analyze the product $\mathbf{TR}$
+Let's analyze the product $$\mathbf{TR}$$
 
 $$
 \mathbf{TR} = \begin{bmatrix}
@@ -76,7 +76,7 @@ R_{3 \times 3} & T_{3 \times 1} \\
 \end{bmatrix}
 $$
 
-Which when multiplied by $\mathbf{v}$ results in
+Which when multiplied by $$\mathbf{v}$$ results in
 
 $$
 \mathbf{v'} = \mathbf{TRv} = \begin{bmatrix}
@@ -85,7 +85,7 @@ R_{3 \times 3} & T_{3 \times 1} \\
 \end{bmatrix} \begin{bmatrix} \mathbf{v}_{3 \times 1} \\ 1 \end{bmatrix} = \begin{bmatrix} R_{3 \times 3} \mathbf{v}_{3 \times 1} + T_{3 \times 1} \\ 1 \end{bmatrix}
 $$
 
-$\mathbf{v'}$ will have a compact form equal to
+$$\mathbf{v'}$$ will have a compact form equal to
 
 $$
 \mathbf{v'} = \mathbf{TRv} = \mathbf{Rv} + T_{3 \times 1}
@@ -93,13 +93,13 @@ $$
 
 ## Translation followed by rotation
 
-Given the vector $\mathbf{v}$ let's apply a translation and a rotation transform in that order
+Given the vector $$\mathbf{v}$$ let's apply a translation and a rotation transform in that order
 
 $$
 \mathbf{v'} = \mathbf{RTv}
 $$
 
-Let's analyze the produce $\mathbf{RT}$
+Let's analyze the produce $$\mathbf{RT}$$
 
 $$
 \mathbf{RT} = \begin{bmatrix}
@@ -114,7 +114,7 @@ R_{3 \times 3} & R_{3 \times 3} T_{3 \times 1} \\
 \end{bmatrix}
 $$
 
-Which when multiplied by $\mathbf{v}$ results in
+Which when multiplied by $$\mathbf{v}$$ results in
 
 $$
 \mathbf{v'} = \mathbf{TRv} = \begin{bmatrix}
@@ -123,33 +123,33 @@ R_{3 \times 3} & R_{3 \times 3} T_{3 \times 1} \\
 \end{bmatrix} \begin{bmatrix} \mathbf{v}_{3 \times 1} \\ 1 \end{bmatrix} = \begin{bmatrix} R_{3 \times 3} \mathbf{v}_{3 \times 1} + R_{3 \times 3} T_{3 \times 1} \\ 1 \end{bmatrix}
 $$
 
-$\mathbf{v'}$ will have a compact form equal to
+$$\mathbf{v'}$$ will have a compact form equal to
 
 $$
 \mathbf{v'} = \mathbf{RTv} = \mathbf{Rv} + \mathbf{R}T_{3 \times 1}
 $$
 
-Note that both the vector $\mathbf{v}$ and the translation vector are transformed by $\mathbf{R}$
+Note that both the vector $$\mathbf{v}$$ and the translation vector are transformed by $$\mathbf{R}$$
 
 ## Transformations between coordinate systems
 
-The following figure shows two coordinate system, the one with the basis vectors $\mathbf{x}, \mathbf{y}$ and $\mathbf{z}$ is the canonical coordinate system, $\mathbf{u}, \mathbf{v}$ and $\mathbf{w}$ are the basis of a nested coordinate system expressed in terms of the canonical coordinate system
+The following figure shows two coordinate system, the one with the basis vectors $$\mathbf{x}, \mathbf{y}$$ and $$\mathbf{z}$$ is the canonical coordinate system, $$\mathbf{u}, \mathbf{v}$$ and $$\mathbf{w}$$ are the basis of a nested coordinate system expressed in terms of the canonical coordinate system
 
 ![coordinate systems](/images/combining-transformations!coordinate-systems.jpg)
 
-The value of $\mathbf{p}$ expressed in the canonical coordinate system is
+The value of $$\mathbf{p}$$ expressed in the canonical coordinate system is
 
 $$
 \mathbf{p} = x_p \mathbf{x} + y_p \mathbf{y} + z_p \mathbf{z}
 $$
 
-Similarly we can express $\mathbf{p}$ with the following equation
+Similarly we can express $$\mathbf{p}$$ with the following equation
 
 $$
 \mathbf{p} = \mathbf{e} + u_p \mathbf{u} + v_p \mathbf{v} + w_p \mathbf{w}
 $$
 
-Note that both equations express $\mathbf{p}$ in terms of the canonical coordinate system, we can express the same relationship using transformations matrices as a [rotation followed by a translation](#rotation-followed-by-translation)
+Note that both equations express $$\mathbf{p}$$ in terms of the canonical coordinate system, we can express the same relationship using transformations matrices as a [rotation followed by a translation](#rotation-followed-by-translation)
 
 $$
 \begin{bmatrix} x_p \\ y_p \\ z_p \\ 1 \end{bmatrix} = \begin{bmatrix}
@@ -171,7 +171,7 @@ z_u & z_v & z_w & z_e \\
 \end{bmatrix} \begin{bmatrix} u_p \\ v_p \\ w_p \\ 1 \end{bmatrix}
 $$
 
-We can then introduce $\mathbf{p}\_{uvw}$ which is the point $\mathbf{p}$ expressed in the nested coordinate system, similarly $\mathbf{p}\_{xyz}$ is the same point expressed in canonical coordinate system
+We can then introduce $$\mathbf{p}_{uvw}$$ which is the point $$\mathbf{p}$$ expressed in the nested coordinate system, similarly $$\mathbf{p}_{xyz}$$ is the same point expressed in canonical coordinate system
 
 $$
 \begin{equation} \label{frame-to-canonical}
@@ -182,7 +182,7 @@ $$
 \end{equation}
 $$
 
-This is the **frame-to-canonical** matrix transformation for the $(u,v,w)$ coordinate space
+This is the **frame-to-canonical** matrix transformation for the $$(u,v,w)$$ coordinate space
 
 The inverse transformation is given by a [translation followed by a rotation](#translation-followed-by-rotation)
 
@@ -200,7 +200,7 @@ x_w & y_w & z_w & 0 \\
 \end{bmatrix} \begin{bmatrix} x_p \\ y_p \\ z_p \\ 1 \end{bmatrix}
 $$
 
-Which is the same as finding the value of $\mathbf{p}\_{uvw}$ in \eqref{frame-to-canonical}
+Which is the same as finding the value of $$\mathbf{p}_{uvw}$$ in \eqref{frame-to-canonical}
 
 $$
 \mathbf{p}_{uvw} = \begin{bmatrix}
@@ -209,6 +209,6 @@ $$
 \end{bmatrix}^{-1} \mathbf{p}_{xyz}
 $$
 
-This is the **canonical-to-frame** matrix transformation for the $(u,v,w)$ coordinate space
+This is the **canonical-to-frame** matrix transformation for the $$(u,v,w)$$ coordinate space
 
 

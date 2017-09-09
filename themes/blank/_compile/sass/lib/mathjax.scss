@@ -1,0 +1,10 @@
+.math {
+  visibility: hidden;
+}
+
+html.math-visible {
+  .math {
+    visibility: initial;
+  }
+}
+

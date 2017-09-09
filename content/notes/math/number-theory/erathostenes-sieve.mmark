@@ -7,15 +7,15 @@ categories: algorithms math
 
 ### Definition
 
-An algorithm to find prime numbers up to a number $n$
+An algorithm to find prime numbers up to a number $$n$$
 
 ### Algorithm description
 
-Using a boolean vector of size $n$ iteratively mark all the multiples of nonvisited positions as not primes
+Using a boolean vector of size $$n$$ iteratively mark all the multiples of nonvisited positions as not primes
 
 ### Implementation
 
-Time complexity: $O(tn)$, $t$ is the number of primes between $1$ and $t$
+Time complexity: $$O(tn)$$, $$t$$ is the number of primes between $$1$$ and $$t$$
 
 ```cpp
 {% include code/math/sieve.cpp %}

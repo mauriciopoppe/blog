@@ -7,11 +7,11 @@ bibliography:
 
 ## Orthographic projection
 
-A projection is a *dimension-reducing* operation, if we apply a scale operation with $k = 0$ all the points are projected onto the perpendicular axis in 2d or the perpendicular plane in 3d of $\unit{n}$, this type of projection is called *orthographic projection*
+A projection is a *dimension-reducing* operation, if we apply a scale operation with $$k = 0$$ all the points are projected onto the perpendicular axis in 2d or the perpendicular plane in 3d of $$\unit{n}$$, this type of projection is called *orthographic projection*
 
 ### Projection on a cardinal axis/plane
 
-The simplest type of projection just discards a coordinate of the vectors transformed, e.g. in 2d the vector $\mathbf{v} = \begin{bmatrix} v_x & v_y \end{bmatrix}^T$ projected onto the $x$ axis will discard its $y$ coordinate and make $\mathbf{v'} = \begin{bmatrix} v_x & 0 \end{bmatrix}^T$, the operation can be achieved by applying a scale transformation with $k = 0$
+The simplest type of projection just discards a coordinate of the vectors transformed, e.g. in 2d the vector $$\mathbf{v} = \begin{bmatrix} v_x & v_y \end{bmatrix}^T$$ projected onto the $$x$$ axis will discard its $$y$$ coordinate and make $$\mathbf{v'} = \begin{bmatrix} v_x & 0 \end{bmatrix}^T$$, the operation can be achieved by applying a scale transformation with $$k = 0$$
 
 $$
 \mathbf{P_x} = \mathbf{S} \left (\begin{bmatrix}
@@ -31,7 +31,7 @@ $$
 \end{bmatrix}
 $$
 
-When a 3d vector $v = [v_x, v_y, v_z]$ is projected onto the $xy$ plane then the $v_z$ coordinate will be discarded by copying just $v_x$ and $v_y$ i.e. $v' = [v_x, v_y, 0]$
+When a 3d vector $$v = [v_x, v_y, v_z]$$ is projected onto the $$xy$$ plane then the $$v_z$$ coordinate will be discarded by copying just $$v_x$$ and $$v_y$$ i.e. $$v' = [v_x, v_y, 0]$$
 
 $$
 \mathbf{P_{xy}} = \mathbf{S} \left (\begin{bmatrix}

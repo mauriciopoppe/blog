@@ -8,8 +8,8 @@
   <div class="container has-text-centered">
     <div class="columns is-centered">
       <div class="column is-half card box">
-        <img class="profile-pic"
-          src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAArtAAAAJGNjODBiMzQ0LTllOWMtNGNmOS04MGJhLWE5YmIyMTgzY2NmMg.jpg"
+        <img class="profile-pic lazy-load"
+          data-src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAArtAAAAJGNjODBiMzQ0LTllOWMtNGNmOS04MGJhLWE5YmIyMTgzY2NmMg.jpg"
           alt="Me" />
         <h3 class="is-size-3">Mauricio Poppe</h3>
         <p>
@@ -22,10 +22,9 @@
         </p>
         <hr />
         <p class="is-size-7">
-          This site is built with <a href="https://gohugo.io/" target="_blank">Hugo</a>
-          and hosted on <a href="https://netlify.com/"
-            target="_blank">Netlify</a>. <br />
-          The source code is hosted on <a href="http://github.com/" target="_blank">Github</a>
+          This site is built with <a href="https://gohugo.io/" target="noopener">Hugo</a>
+          and hosted on <a href="https://netlify.com/" target="noopener">Netlify</a>. <br />
+          The source code is hosted on <a href="http://github.com/" target="noopener">Github</a>
         </p>
         <p class="is-size-7">© 2015 - {{ now.Year }}</p>
       </div>
@@ -35,10 +34,14 @@
 </footer>
 
 <!-- always included -->
+{{ partial "lib/polyfill.html" . }}
+{{ partial "browser/browser-main.html" . }}
+{{ partial "lib/react.html" . }}
 {{ partial "lib/highlight.html" . }}
 {{ partial "lib/toc.html" . }}
 {{ partial "lib/mathjax.html" . }}
 
+{{ partial "browser/scripts.html" . }}
 <!-- selectively included -->
 {{ if isset .Params "libraries" }}
   {{ range .Params.libraries }}
@@ -48,4 +51,3 @@
   {{ end }}
 {{ end }}
 
-{{ partial "browser/scripts.html" . }}

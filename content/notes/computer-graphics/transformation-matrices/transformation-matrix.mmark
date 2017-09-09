@@ -6,7 +6,7 @@ references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
 ---
 
-Let's say that we're given the standard basis vectors $\mathbf{i} = [1, 0, 0], \; \mathbf{j} = [0, 1, 0], \; \mathbf{k} = [0, 0, 1]$ and we multiply each of these vectors by an *arbitrary* matrix $\mathbf{M}$
+Let's say that we're given the standard basis vectors $$\mathbf{i} = [1, 0, 0], \; \mathbf{j} = [0, 1, 0], \; \mathbf{k} = [0, 0, 1]$$ and we multiply each of these vectors by an *arbitrary* matrix $$\mathbf{M}$$
 
 $$
 \begin{align*}
@@ -39,15 +39,15 @@ m_{31} & m_{32} & m_{33} \\
 \end{align*}
 $$
 
-The first row of $\mathbf{M}$ contains the result of *performing a transformation on the vector $\mathbf{i}$*, the second row is the result of transforming $\mathbf{j}$ and third row to $\mathbf{k}$
+The first row of $$\mathbf{M}$$ contains the result of *performing a transformation on the vector $$\mathbf{i}$$*, the second row is the result of transforming $$\mathbf{j}$$ and third row to $$\mathbf{k}$$
 
-Let $\mathbf{v}$ be some vector expressed under this coordinate space which means that it can be represented as a linear combination of the basis
+Let $$\mathbf{v}$$ be some vector expressed under this coordinate space which means that it can be represented as a linear combination of the basis
 
 $$
 \mathbf{v} = v_x \mathbf{i} + v_y \mathbf{j} + v_z \mathbf{k}
 $$
 
-If we multiply this vector by the matrix $\mathbf{M}$
+If we multiply this vector by the matrix $$\mathbf{M}$$
 
 $$
 \begin{align}
@@ -58,7 +58,7 @@ $$
 \end{align}
 $$
 
-If we let $\mathbf{M}$ have the form
+If we let $$\mathbf{M}$$ have the form
 
 $$
 \mathbf{M} = \begin{bmatrix}
@@ -74,7 +74,7 @@ $$
 \mathbf{v'} = \mathbf{vM} = v_x \mathbf{p} + v_y \mathbf{q} + v_z \mathbf{r}
 $$
 
-$\mathbf{vM}$ is a *linear combination* of the rows of $\mathbf{M}$, if we interpret these row vectors as the *basis vectors* of some coordinate system expressed/measured in terms of an **outer coordinate system** then we have successfully created a structure that encodes a space coordinate transformation (from object coordinates to upright coordinates) in the form of a matrix
+$$\mathbf{vM}$$ is a *linear combination* of the rows of $$\mathbf{M}$$, if we interpret these row vectors as the *basis vectors* of some coordinate system expressed/measured in terms of an **outer coordinate system** then we have successfully created a structure that encodes a space coordinate transformation (from object coordinates to upright coordinates) in the form of a matrix
 
 $$
 \mathbf{v'} = \mathbf{vM} = \begin{bmatrix}v_x & v_y & v_z\end{bmatrix}
@@ -85,15 +85,15 @@ $$
 \end{bmatrix} = v_x \mathbf{p} + v_y \mathbf{q} + v_z \mathbf{r}
 $$
 
-Another way to see this is that $\mathbf{M}$ encodes in its rows a transformation made to the standard basis vectors $\mathbf{i}, \mathbf{j}, \mathbf{k}$
+Another way to see this is that $$\mathbf{M}$$ encodes in its rows a transformation made to the standard basis vectors $$\mathbf{i}, \mathbf{j}, \mathbf{k}$$
 
-The following notation means the rotation matrix that transforms the frame $a$ to the frame $b$ and that is represented in the frame $c$
+The following notation means the rotation matrix that transforms the frame $$a$$ to the frame $$b$$ and that is represented in the frame $$c$$
 
 $$
 ^{c} \mathbf{M}_{a \to b}
 $$
 
-If the frame $c$ is equal to the frame $b$ then it can be omitted since it's assumed that the matrix is represented in terms of the frame $b$
+If the frame $$c$$ is equal to the frame $$b$$ then it can be omitted since it's assumed that the matrix is represented in terms of the frame $$b$$
 
 $$
 \mathbf{M}_{a \to b}
@@ -105,7 +105,7 @@ $$
 \mathbf{M}_{object \to upright}
 $$
 
-Transforming the vector $\mathbf{v_{object}}$ expressed in *object space* to *upright space* is then
+Transforming the vector $$\mathbf{v_{object}}$$ expressed in *object space* to *upright space* is then
 
 $$
 \mathbf{v}_{upright} = \mathbf{v}_{object} \mathbf{M}_{object \to upright}
@@ -119,15 +119,15 @@ $$
 \mathbf{v'} = \mathbf{vM}
 $$
 
-Where $\mathbf{M}$ encodes in its **rows** a transformation made to the standard basis vectors and $\mathbf{v'}$ and $\mathbf{v}$ are **row vectors**
+Where $$\mathbf{M}$$ encodes in its **rows** a transformation made to the standard basis vectors and $$\mathbf{v'}$$ and $$\mathbf{v}$$ are **row vectors**
 
-Let's say that we want to transform a **row vector** by the matrices $\mathbf{A}$, $\mathbf{B}$ and $\mathbf{C}$ in that order, the operation is represented as
+Let's say that we want to transform a **row vector** by the matrices $$\mathbf{A}$$, $$\mathbf{B}$$ and $$\mathbf{C}$$ in that order, the operation is represented as
 
 $$
 \mathbf{v'} = \mathbf{vABC}
 $$
 
-However it could be possible that $\mathbf{v}$ is instead a **column vector**, in that case also $\mathbf{v'}$ must be a column vector, for $\mathbf{v'}$ to have the correct result we must **pre-multiply $\mathbf{v}$ by the transpose of the transformation matrix** which is equivalent to transposing both sides of the equation
+However it could be possible that $$\mathbf{v}$$ is instead a **column vector**, in that case also $$\mathbf{v'}$$ must be a column vector, for $$\mathbf{v'}$$ to have the correct result we must **pre-multiply $$\mathbf{v}$$ by the transpose of the transformation matrix** which is equivalent to transposing both sides of the equation
 
 $$
 \begin{align*}
@@ -139,7 +139,7 @@ $$
 
 Note that
 
-- the transformations matrices $\mathbf{A}^T$, $\mathbf{B}^T$ and $\mathbf{C}^T$ encode in their **columns** a transformation made to the standard basis vectors i.e. they have the form
+- the transformations matrices $$\mathbf{A}^T$$, $$\mathbf{B}^T$$ and $$\mathbf{C}^T$$ encode in their **columns** a transformation made to the standard basis vectors i.e. they have the form
 
 $$
 \mathbf{M} = \begin{bmatrix}

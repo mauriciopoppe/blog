@@ -13,22 +13,22 @@ $$
 I(x,y): R \rightarrow V
 $$
 
-Where $R \in \mathbb{R}^2$ is a rectangular area and $V$ is a set with the possible pixel values, the following are examples of the set $V$
+Where $$R \in \mathbb{R}^2$$ is a rectangular area and $$V$$ is a set with the possible pixel values, the following are examples of the set $$V$$
 
-- $V = \mathbb{R}^+$ (non-negative reals) for grayscale images, each pixels represents only brightness and no color
-- $V = (\mathbb{R}^+)^3$ (combinations of 3 sets of non-negative reals), which is a color image with red/green/blue values for each pixel
+- $$V = \mathbb{R}^+$$ (non-negative reals) for grayscale images, each pixels represents only brightness and no color
+- $$V = (\mathbb{R}^+)^3$$ (combinations of 3 sets of non-negative reals), which is a color image with red/green/blue values for each pixel
 
 ## Pixels
 
 A pixel from a camera or scanner is a measurement of the average color of the image in the surrounding area near the pixel
 
-If an image has $n_x$ columns and $n_y$ rows a common convention is to count rows and columns from the bottom left, the bottom left pixel is $(0,0)$ and the top-right is pixel $(n_x - 1, n_y - 1)$
+If an image has $$n_x$$ columns and $$n_y$$ rows a common convention is to count rows and columns from the bottom left, the bottom left pixel is $$(0,0)$$ and the top-right is pixel $$(n_x - 1, n_y - 1)$$
 
-Note that because of the definition gave to a pixel the coordinate $(0,0)$ is mapped to the center of the pixel $(0,0)$, therefore half-pixel will exist in both the $-\mathbf{x}$-axis and the $-\mathbf{y}$-axis
+Note that because of the definition gave to a pixel the coordinate $$(0,0)$$ is mapped to the center of the pixel $$(0,0)$$, therefore half-pixel will exist in both the $$-\mathbf{x}$$-axis and the $$-\mathbf{y}$$-axis
 
 ![pixel coordinates](/images/rendering!pixel-coordinates.jpg)
 
-So the domain of a $n_x \times n_y$ image is
+So the domain of a $$n_x \times n_y$$ image is
 
 $$
 R = [0.5, n_x - 0.5] \times [0.5, n_y - 0.5]

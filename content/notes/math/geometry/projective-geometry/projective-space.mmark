@@ -30,7 +30,7 @@ The French mathematician [Girard Desargues](https://www.wikiwand.com/en/Girard_D
 
 An ordinary plane + the line at infinity is called a **projective plane**
 
-Projective geometry exists in any number of dimensions (just like Euclidean geometry), When we take a picture using a camera the imaging process makes a projection from $P^3$ to $P^2$, such a process is called *projective trasnformation*
+Projective geometry exists in any number of dimensions (just like Euclidean geometry), When we take a picture using a camera the imaging process makes a projection from $$P^3$$ to $$P^2$$, such a process is called *projective trasnformation*
 
 Properties of projective transformations
 
@@ -43,9 +43,9 @@ In 1D there's the **projective line** which is an ordinary line + one point at i
 
 > spaces of 1-dimensional subspaces that exist in 2-dimensions i.e. *any line that passes through the origin in a 2-dimensional space*
 
-Let $w$ be the vertical axis in this 2-dimensional space, the picture of a line at infinity is shown by looking at the line $w = 1$ and its relation with $w = 0$, almost all the lines that pass through the origin intercept $w = 1$ **except** the line $w = 0$, therefore we can see that the set of points that exists in the line $w = 1$ is the same as the interception of 1-dimensional subspaces and $w = 1$ however the line $w = 0$ (which is also part of the 1-dimensional subspaces) doesn't meet $w = 1$, so the $w = 0$ *plays the role of infinity* with respect to $w = 1$
+Let $$w$$ be the vertical axis in this 2-dimensional space, the picture of a line at infinity is shown by looking at the line $$w = 1$$ and its relation with $$w = 0$$, almost all the lines that pass through the origin intercept $$w = 1$$ **except** the line $$w = 0$$, therefore we can see that the set of points that exists in the line $$w = 1$$ is the same as the interception of 1-dimensional subspaces and $$w = 1$$ however the line $$w = 0$$ (which is also part of the 1-dimensional subspaces) doesn't meet $$w = 1$$, so the $$w = 0$$ *plays the role of infinity* with respect to $$w = 1$$
 
-Any 1D point is represented in projective geometry as the pair $(x, w)$, we can see that such a pair can be projected to $w = 1$ by dividing both coordinates by $w$ so any 1D point projected to this plane is represented by the pair $(\tfrac{x}{w}, 1)$ unless $w = 0$ which is in the *line at infinity*, any point at infinity has then the form $(x, 0)$
+Any 1D point is represented in projective geometry as the pair $$(x, w)$$, we can see that such a pair can be projected to $$w = 1$$ by dividing both coordinates by $$w$$ so any 1D point projected to this plane is represented by the pair $$(\tfrac{x}{w}, 1)$$ unless $$w = 0$$ which is in the *line at infinity*, any point at infinity has then the form $$(x, 0)$$
 
 ![projective line](/images/projective-geometry!projective-line.png)
 
@@ -53,9 +53,9 @@ Any 1D point is represented in projective geometry as the pair $(x, w)$, we can 
 
 > spaces of 1-dimensional subspaces that exist in 3-dimensions i.e. *any line that passes through the origin in a 3-dimensional space*
 
-A similar situation is seen on a 3-dimensional space, in this space any line that passes through the origin intercepts the *plane* $w = 1$ except the set of lines that pass through the plane $w = 0$, so $w = 0$ plays the role of infinity with respect to $w = 1$
+A similar situation is seen on a 3-dimensional space, in this space any line that passes through the origin intercepts the *plane* $$w = 1$$ except the set of lines that pass through the plane $$w = 0$$, so $$w = 0$$ plays the role of infinity with respect to $$w = 1$$
 
-Any 2D point is represented in this space as the triplet $(x, y, w)$, just like 1D we can project any point to the plane $w = 1$ by dividing the triplet by $w$ which has the form $(\tfrac{x}{w}, \tfrac{y}{w}, 1)$ unless $w = 0$ which means that any point at infinity has the form $(x, y, 0)$
+Any 2D point is represented in this space as the triplet $$(x, y, w)$$, just like 1D we can project any point to the plane $$w = 1$$ by dividing the triplet by $$w$$ which has the form $$(\tfrac{x}{w}, \tfrac{y}{w}, 1)$$ unless $$w = 0$$ which means that any point at infinity has the form $$(x, y, 0)$$
 
 ![projective plane](/images/projective-geometry!projective-plane-3d.png)
 

@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'Computer Modern Serif';
-	src: url('cmunrm.eot');
-	src: url('cmunrm.eot?#iefix') format('embedded-opentype'),
-		 url('cmunrm.woff') format('woff'),
-		 url('cmunrm.ttf') format('truetype'),
-		 url('cmunrm.svg#cmunrm') format('svg');
+	src: url('/fonts/Serif/cmunrm.eot');
+	src: url('/fonts/Serif/cmunrm.eot?#iefix') format('embedded-opentype'),
+		 url('/fonts/Serif/cmunrm.woff') format('woff'),
+		 url('/fonts/Serif/cmunrm.ttf') format('truetype'),
+		 url('/fonts/Serif/cmunrm.svg#cmunrm') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -12,11 +12,11 @@
 
 @font-face {
 	font-family: 'Computer Modern Serif';
-	src: url('cmunbx.eot');
-	src: url('cmunbx.eot?#iefix') format('embedded-opentype'),
-		 url('cmunbx.woff') format('woff'),
-		 url('cmunbx.ttf') format('truetype'),
-		 url('cmunbx.svg#cmunbx') format('svg');
+	src: url('/fonts/Serif/cmunbx.eot');
+	src: url('/fonts/Serif/cmunbx.eot?#iefix') format('embedded-opentype'),
+		 url('/fonts/Serif/cmunbx.woff') format('woff'),
+		 url('/fonts/Serif/cmunbx.ttf') format('truetype'),
+		 url('/fonts/Serif/cmunbx.svg#cmunbx') format('svg');
 	font-weight: bold;
 	font-style: normal;
 }
@@ -24,11 +24,11 @@
 
 @font-face {
 	font-family: 'Computer Modern Serif';
-	src: url('cmunti.eot');
-	src: url('cmunti.eot?#iefix') format('embedded-opentype'),
-		 url('cmunti.woff') format('woff'),
-		 url('cmunti.ttf') format('truetype'),
-		 url('cmunti.svg#cmunti') format('svg');
+	src: url('/fonts/Serif/cmunti.eot');
+	src: url('/fonts/Serif/cmunti.eot?#iefix') format('embedded-opentype'),
+		 url('/fonts/Serif/cmunti.woff') format('woff'),
+		 url('/fonts/Serif/cmunti.ttf') format('truetype'),
+		 url('/fonts/Serif/cmunti.svg#cmunti') format('svg');
 	font-weight: normal;
 	font-style: italic;
 }
@@ -36,11 +36,11 @@
 
 @font-face {
 	font-family: 'Computer Modern Serif';
-	src: url('cmunbi.eot');
-	src: url('cmunbi.eot?#iefix') format('embedded-opentype'),
-		 url('cmunbi.woff') format('woff'),
-		 url('cmunbi.ttf') format('truetype'),
-		 url('cmunbi.svg#cmunbi') format('svg');
+	src: url('/fonts/Serif/cmunbi.eot');
+	src: url('/fonts/Serif/cmunbi.eot?#iefix') format('embedded-opentype'),
+		 url('/fonts/Serif/cmunbi.woff') format('woff'),
+		 url('/fonts/Serif/cmunbi.ttf') format('truetype'),
+		 url('/fonts/Serif/cmunbi.svg#cmunbi') format('svg');
 	font-weight: bold;
 	font-style: italic;
 }

@@ -39,9 +39,9 @@ $$
 \mathbf{v} = v_x \mathbf{i} + v_y \mathbf{j} + v_z \mathbf{k}
 $$
 
-In other words the numeric coordinates are the quantities that multiply each basis vector which are $v_x$, $v_y$ and $v_z$
+In other words the numeric coordinates are the quantities that multiply each basis vector which are $$v_x$$, $$v_y$$ and $$v_z$$
 
-When the basis vectors are $\mathbf{i} = [1, 0, 0]$, $\mathbf{j} = [0, 1, 0]$ and $\mathbf{k} = [0, 0, 1]$ then
+When the basis vectors are $$\mathbf{i} = [1, 0, 0]$$, $$\mathbf{j} = [0, 1, 0]$$ and $$\mathbf{k} = [0, 0, 1]$$ then
 
 $$
 \begin{align*}
@@ -54,7 +54,7 @@ $$
 
 ### From object space to upright space
 
-Let $\mathbf{v}$ be some vector expressed/measured relative to a space (object space) whose basis vectors are $\mathbf{p}, \mathbf{q}, \mathbf{r}$ (which are themselves expressed/measured relative to a wrapper space), the vector $\mathbf{v}$ expressed relative to the wrapper space is
+Let $$\mathbf{v}$$ be some vector expressed/measured relative to a space (object space) whose basis vectors are $$\mathbf{p}, \mathbf{q}, \mathbf{r}$$ (which are themselves expressed/measured relative to a wrapper space), the vector $$\mathbf{v}$$ expressed relative to the wrapper space is
 
 $$
 \begin{align}
@@ -68,13 +68,13 @@ v_x p_z + v_y q_z + v_z r_z
 \end{align}
 $$
 
-Note that if $\mathbf{p}, \mathbf{q}, \mathbf{r}$ were not orthogonal then $\mathbf{v}_{upright}$ couldn't be *uniquely* determined
+Note that if $$\mathbf{p}, \mathbf{q}, \mathbf{r}$$ were not orthogonal then $$\mathbf{v}_{upright}$$ couldn't be *uniquely* determined
 
-The coordinates of $\mathbf{p}, \mathbf{q}, \mathbf{r}$ are always equal to $[1, 0, 0], [0, 1, 0]$ and $[0, 0, 1]$ respectively *when expressed using the coordinate system for which they are the basis*, relative to other wrapper coordinate systems they will have arbitrary coordinates
+The coordinates of $$\mathbf{p}, \mathbf{q}, \mathbf{r}$$ are always equal to $$[1, 0, 0], [0, 1, 0]$$ and $$[0, 0, 1]$$ respectively *when expressed using the coordinate system for which they are the basis*, relative to other wrapper coordinate systems they will have arbitrary coordinates
 
 ### From upright space to world space
 
-Since the axes of the upright space are parallel to the axes of the world space the only difference between these spaces is the translation of these axes with respect to the origin of the axes of the world space, let $\mathbf{o}$ be the translation of the upright basis axes then
+Since the axes of the upright space are parallel to the axes of the world space the only difference between these spaces is the translation of these axes with respect to the origin of the axes of the world space, let $$\mathbf{o}$$ be the translation of the upright basis axes then
 
 $$
 \mathbf{v}_{world} = \mathbf{o} + \mathbf{v}_{upright}
@@ -82,7 +82,7 @@ $$
 
 ### From world space to upright space
 
-We just have to translate the whole space so that the origin lies exactly on the origin of the upright space, if $\mathbf{o}$ is the origin of the upright space expressed in world space then
+We just have to translate the whole space so that the origin lies exactly on the origin of the upright space, if $$\mathbf{o}$$ is the origin of the upright space expressed in world space then
 
 $$
 \mathbf{v}_{upright} = \mathbf{v}_{world} - \mathbf{o}
@@ -90,7 +90,7 @@ $$
 
 ### From upright space to object space
 
-What if $\mathbf{v}\_{upright}$ is known and we want to know $\mathbf{v}$? The dot product is the key as it's used to measure distance in a particular direction, since we know that the basis vectors $\mathbf{p}, \mathbf{q}, \mathbf{r}$ are expressed in terms of the upright space perspective we just have to calculate the projection of $\mathbf{v}\_{upright}$ in the direction of each $\mathbf{p}, \mathbf{q}, \mathbf{r}$
+What if $$\mathbf{v}_{upright}$$ is known and we want to know $$\mathbf{v}$$? The dot product is the key as it's used to measure distance in a particular direction, since we know that the basis vectors $$\mathbf{p}, \mathbf{q}, \mathbf{r}$$ are expressed in terms of the upright space perspective we just have to calculate the projection of $$\mathbf{v}_{upright}$$ in the direction of each $$\mathbf{p}, \mathbf{q}, \mathbf{r}$$
 
 $$
 v_x = \mathbf{v}_{upright} \cdot \mathbf{p} \\
@@ -98,7 +98,7 @@ v_y = \mathbf{v}_{upright} \cdot \mathbf{q} \\
 v_z = \mathbf{v}_{upright} \cdot \mathbf{r}
 $$
 
-If we use \eqref{object-upright} this works because the dot product with $\mathbf{p}$ will isolate the $v_x$ coordinate
+If we use \eqref{object-upright} this works because the dot product with $$\mathbf{p}$$ will isolate the $$v_x$$ coordinate
 
 $$
 \begin{align*}
@@ -108,7 +108,7 @@ $$
 \end{align*}
 $$
 
-**Note:** this only works when $\mathbf{p}, \mathbf{q}, \mathbf{r}$ are orthonormal, for the general case we have to solve this using linear algebra
+**Note:** this only works when $$\mathbf{p}, \mathbf{q}, \mathbf{r}$$ are orthonormal, for the general case we have to solve this using linear algebra
 
 [^space]: words like "coordinate system", "coordinate frame" or "space" are used interchangeably
 

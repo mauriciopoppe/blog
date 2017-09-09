@@ -8,13 +8,13 @@ libraries: ["d3", "function-plot"]
 
 There's a problem when the objects transformed to NDC need to be rasterized, some objects that are behind the eye might be rendered leading to incorrect results
 
-For example when the *perspective projection matrix* is used all the points' $z$-coordinate will be mapped to NDC using
+For example when the *perspective projection matrix* is used all the points' $$z$$-coordinate will be mapped to NDC using
 
 $$
 z_{ndc} = \frac{Az_{cam} + B}{-z_{cam}}
 $$
 
-If $n,f$ are the locations of the near and far plane in the negative $z$-axis in camera space and
+If $$n,f$$ are the locations of the near and far plane in the negative $$z$$-axis in camera space and
 
 $$
 \begin{align*}
@@ -23,7 +23,7 @@ B &= \frac{-2fn}{f - n}
 \end{align*}
 $$
 
-Note that the equations above assume that $n,f \geq 0, n \leq f$ because $A$ and $B$ were already mapped using $-n \mapsto -1$ and $-f \mapsto 1$, for example when $n = 1$ and $f = 10$ the possible values can be described with the following plot
+Note that the equations above assume that $$n,f \geq 0, n \leq f$$ because $$A$$ and $$B$$ were already mapped using $$-n \mapsto -1$$ and $$-f \mapsto 1$$, for example when $$n = 1$$ and $$f = 10$$ the possible values can be described with the following plot
 
 <div id="z"></div>
 {{< script >}}
@@ -50,7 +50,7 @@ functionPlot({
 })
 {{< /script >}}
 
-We see that objects behind the camera (points with $z_{cam} > 0$) are mapped to NDC as $z_{ndc} > 1$ i.e. in NDC points behind the camera are visible
+We see that objects behind the camera (points with $$z_{cam} > 0$$) are mapped to NDC as $$z_{ndc} > 1$$ i.e. in NDC points behind the camera are visible
 
 For this reason there's a preceding step in the rasterization process called *clipping* that removes parts of primitives that are outside the view volume (clipping against the six faces of the view volume), a basic implementation of the clipping process is described below
 

@@ -1,6 +1,6 @@
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <!-- Site Title, Description, Author, and Favicon -->
 {{- with .Title | default .Site.Title }}
 <title>{{ . }}</title>
@@ -43,15 +43,10 @@
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
 <!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/default.min.css" /> -->
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="{{ "fonts/Serif/cmun-serif.css" | absURL }}" />
-<link rel="stylesheet" href="{{ "css/main.css" | absURL }}" />
 
-<!-- scripts -->
-<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-{{ partial "lib/mathjax.html" . }}
-<script src="https://unpkg.com/react@15.6.1/dist/react.min.js"></script>
-<script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.min.js"></script>
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<link rel="stylesheet" media="only screen and (min-device-width: 768px)" inline href="{{ "fonts/Serif/cmun-serif.css" | absURL }}" />
+<link rel="stylesheet" inline href="{{ "css/main.css" | absURL }}" />
 
 <!-- metadata injected by hugo -->
 <script>

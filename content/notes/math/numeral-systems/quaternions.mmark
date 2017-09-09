@@ -8,7 +8,7 @@ date: 2015-09-08 20:00:00
 
 The existence of complex number presented a question for mathematicians, if a complex number exists in a 2D complex plane, could there be a 3D equivalent?
 
-<i>Sir William Rowan Hamilton</i> among many other mathematicians of the 18th and 19th century had been searching for the answer, Hamilton conjectured that a 3D complex number could be represented by the triple $a + bi + cj$ where $i$ and $j$ are imaginary quantities and square to $-1$, when he was developing the algebra for this triplet the product of them raised a problem when expanded
+<i>Sir William Rowan Hamilton</i> among many other mathematicians of the 18th and 19th century had been searching for the answer, Hamilton conjectured that a 3D complex number could be represented by the triple $$a + bi + cj$$ where $$i$$ and $$j$$ are imaginary quantities and square to $$-1$$, when he was developing the algebra for this triplet the product of them raised a problem when expanded
 
 $$
 \begin{align*}
@@ -20,11 +20,11 @@ z_1z_2 &= (a_1 + b_1i + c_1j)(a_2 + b_2i + c_2j) \\
 \end{align*}
 $$
 
-The quantities $ij$ and $ji$ represented a problem for Hamilton, even if $ij = -ji$ we are still left with $(b_1c_2 - c_1b_2)ij$
+The quantities $$ij$$ and $$ji$$ represented a problem for Hamilton, even if $$ij = -ji$$ we are still left with $$(b_1c_2 - c_1b_2)ij$$
 
-On October 16th, 1843, while he was walking with his wife along the Royal Canal in Ireland he saw the solution as a <i>quadruple</i> instead of a <i>triple</i>, instead of using two imaginary terms, three imaginary terms provided the necessary quantities to resolve products like $ij$
+On October 16th, 1843, while he was walking with his wife along the Royal Canal in Ireland he saw the solution as a <i>quadruple</i> instead of a <i>triple</i>, instead of using two imaginary terms, three imaginary terms provided the necessary quantities to resolve products like $$ij$$
 
-Hamilton defined a quaternion $q$ as
+Hamilton defined a quaternion $$q$$ as
 
 $$
 q = s + ai + bj + ck \quad s,a,b,c \in \mathbb{R} \\
@@ -33,11 +33,11 @@ ij = k \quad jk = i \quad ki = j \\
 ji = -k \quad kj = -1 \quad ik = -j
 $$
 
-If a complex number $i$ is capable of rotating points on the plane by $\deg{90}$ then perhaps a triple rotates points in space by $\deg{90}$, in the end the triplet was replaced by a quaternion
+If a complex number $$i$$ is capable of rotating points on the plane by $$\deg{90}$$ then perhaps a triple rotates points in space by $$\deg{90}$$, in the end the triplet was replaced by a quaternion
 
 ## Notation
 
-There are three ways of annotating a quaternion $q$
+There are three ways of annotating a quaternion $$q$$
 
 $$
 \begin{align}
@@ -81,7 +81,7 @@ $$
 
 ### Quaternion norm
 
-The norm of a quaternion $q = [s, \mbold{v}]$ is defined as the square root of the product of itself and its conjugate (the multiplication operation is defined later)
+The norm of a quaternion $$q = [s, \mbold{v}]$$ is defined as the square root of the product of itself and its conjugate (the multiplication operation is defined later)
 
 $$
 \begin{align*}
@@ -98,8 +98,8 @@ $$
 
 Norm facts
 
-- $\norm{qq^{\*}} = \norm{q}\norm{q^{\*}}$
-- $\norm{q^{\*}} = \norm{q}$
+- $$\norm{qq^{*}} = \norm{q}\norm{q^{*}}$$
+- $$\norm{q^{*}} = \norm{q}$$
 
 ### Unit quaternion
 
@@ -114,7 +114,7 @@ s^2 + \lambda^2 &= 1 \nonumber
 $$
 
 Note: dividing a non-zero quaternion by its norm produces a unit norm quaternion
- 
+
 ## Operations
 
 ### Quaternion Product
@@ -128,7 +128,7 @@ q_b = [s_b, \mbold{b}] \quad \quad \mbold{b} = x_b i + y_b j + z_b k
 \end{align*}
 $$
 
-The product $q_aq_b$ is computed as follows
+The product $$q_aq_b$$ is computed as follows
 
 $$
 \begin{align}
@@ -168,7 +168,7 @@ q_aq_b &= [s_as_b - x_ax_b - y_ay_b - z_az_b, \\
 \end{align*}
 $$
 
-Now let's compute the product $q_bq_a$
+Now let's compute the product $$q_bq_a$$
 
 $$
 q_bq_a = [s_bs_a - \mbold{b} \cdot \mbold{a}, s_b\mbold{a} + s_a\mbold{b} + \mbold{b} \times \mbold{a}]
@@ -184,7 +184,7 @@ This is an important fact to note since for complex number the product commutes 
 
 #### Product of a scalar and a quaternion
 
-Let $k$ be a scalar represented as a quaternion as $q_k = [k, \mathbf{0}]$ and $q = [s, \mathbf{v}]$
+Let $$k$$ be a scalar represented as a quaternion as $$q_k = [k, \mathbf{0}]$$ and $$q = [s, \mathbf{v}]$$
 
 Their product is
 
@@ -212,7 +212,7 @@ $$
 
 #### Product of a quaternion and its conjugate
 
-Let $q = [s, \mathbf{v}]$ 
+Let $$q = [s, \mathbf{v}]$$
 
 $$
 \begin{align*}
@@ -223,7 +223,7 @@ qq^* &= [s, \mathbf{v}][s, -\mathbf{v}] \\
 \end{align*}
 $$
 
-Note that this product commutes i.e. $qq^{\*} = q^{\*}q$
+Note that this product commutes i.e. $$qq^{*} = q^{*}q$$
 
 #### Product of unit quaternions
 
@@ -234,24 +234,24 @@ q_a = [s_a, \mbold{a}] \\
 q_b = [s_b, \mbold{b}]
 $$
 
-Where $\norm{q_a} = \norm{q_b} = 1$, the product is another unit-norm quaternion
+Where $$\norm{q_a} = \norm{q_b} = 1$$, the product is another unit-norm quaternion
 
 $$
 q_c = [s_c, \mbold{c}]
 $$
 
-Where $\norm{q_c} = 1$
+Where $$\norm{q_c} = 1$$
 
 #### Product of pure quaternions
 
-Let 
+Let
 
 $$
 q_a = [0, \mbold{a}] \\
 q_b = [0, \mbold{b}]
 $$
 
-The product $q_aq_b$ is defined as
+The product $$q_aq_b$$ is defined as
 
 $$
 \begin{align*}
@@ -273,7 +273,7 @@ q^2 &= [0, \mbold{v}] [0, \mbold{v}] \\
 \end{align*}
 $$
 
-If $q$ is a unit norm pure quaternion then
+If $$q$$ is a unit norm pure quaternion then
 
 $$
 q^2 = -1
@@ -284,21 +284,21 @@ $$
 $$
 \begin{align*}
 q^*q = qq^* &= [0, \mathbf{v}][0, -\mathbf{v}] \\
-&= [\mathbf{v} \cdot \mathbf{v}, -\mbold{v \times v}] \\ 
-&= [\mathbf{v} \cdot \mathbf{v}, \mbold{0}] \\ 
+&= [\mathbf{v} \cdot \mathbf{v}, -\mbold{v \times v}] \\
+&= [\mathbf{v} \cdot \mathbf{v}, \mbold{0}] \\
 &= \norm{v}^2
 \end{align*}
 $$
 
 ### Inverse of a quaternion
 
-By definition, the inverse $q^{-1}$ of $q$ is
+By definition, the inverse $$q^{-1}$$ of $$q$$ is
 
 $$
 qq^{-1} = [1, \mbold{0}]
 $$
 
-To isolate $q^{-1}$ let's pre multiply both sides by $q^*$
+To isolate $$q^{-1}$$ let's pre multiply both sides by $$q^*$$
 
 $$
 \begin{align*}
@@ -310,7 +310,7 @@ $$
 
 ### Quaternion units
 
-Given the vector $\mbold{v}$
+Given the vector $$\mbold{v}$$
 
 $$
 \mbold{v} = v \hat{\mbold{v}} \quad \text{where $v = |\mbold{v}|$, and $|\hat{\mbold{v}}| = 1$}
@@ -326,13 +326,13 @@ q &= [0, \mbold{v}] \\
 \end{align*}
 $$
 
-It's convenient to identify the unit quaternion as $\hat{q}$ (where $v = 1$)
+It's convenient to identify the unit quaternion as $$\hat{q}$$ (where $$v = 1$$)
 
 $$
 \hat{q} = [0, \hat{\mbold{v}}]
 $$
 
-Let's check if the quaternion unit $\mbold{i}$ squares to the ordered pair $[-1, \mbold{0}]$
+Let's check if the quaternion unit $$\mbold{i}$$ squares to the ordered pair $$[-1, \mbold{0}]$$
 
 $$
 \begin{align*}
@@ -349,7 +349,7 @@ $$
 
 #### Taking the scalar part of a quaternion
 
-To isolate the scalar part of $q$ we could add $q^*$ to it
+To isolate the scalar part of $$q$$ we could add $$q^*$$ to it
 
 $$
 2 S(q) = q + q^*

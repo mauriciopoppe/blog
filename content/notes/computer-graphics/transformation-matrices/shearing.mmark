@@ -9,9 +9,9 @@ Shearing is a transformation that skews the coordinate space, the idea is to add
 
 ## 2D shearing
 
-In 2D we can skew points towards the $x$ axis by making $x' = x + sy$, if $s > 0$ then points will skew towards the positive $x$-axis, if $s < 0$ points will move towards the negative $x$-axis
+In 2D we can skew points towards the $$x$$ axis by making $$x' = x + sy$$, if $$s > 0$$ then points will skew towards the positive $$x$$-axis, if $$s < 0$$ points will move towards the negative $$x$$-axis
 
-The transformation matrix that skews points towards the $x$ axis is
+The transformation matrix that skews points towards the $$x$$ axis is
 
 $$
 \begin{equation} \label{2d-shear-x}
@@ -22,7 +22,7 @@ $$
 \end{equation}
 $$
 
-Towards the $y$ axis is
+Towards the $$y$$ axis is
 
 $$
 \begin{equation} \label{2d-shear-y}
@@ -33,7 +33,7 @@ s & 1
 \end{equation}
 $$
 
-For example a vector $\mathbf{v}$ multiplied by \eqref{2d-shear-x} results in
+For example a vector $$\mathbf{v}$$ multiplied by \eqref{2d-shear-x} results in
 
 $$
 \mathbf{v'} = \mathbf{H_x}(s)\mathbf{v} = \begin{bmatrix}
@@ -44,7 +44,7 @@ $$
 
 ## 3D shearing
 
-The notation $\mathbf{H_{xy}}$ indicates that the $x$ and $y$ coordinates are shifted by the other coordinate $z$ i.e.
+The notation $$\mathbf{H_{xy}}$$ indicates that the $$x$$ and $$y$$ coordinates are shifted by the other coordinate $$z$$ i.e.
 
 $$
 \begin{align*}
@@ -86,7 +86,7 @@ t & 0 & 1
 \end{equation}
 $$
 
-For example a vector $\mathbf{v}$ multiplied by \eqref{shear-xy} results in
+For example a vector $$\mathbf{v}$$ multiplied by \eqref{shear-xy} results in
 
 $$
 \mathbf{v'} = \mathbf{H_{xy}}(s,t) \mathbf{v} = \begin{bmatrix}

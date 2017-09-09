@@ -8,9 +8,11 @@ const postcss = require('gulp-postcss')
 const plumber = require('gulp-plumber')
 const rev = require('gulp-rev')
 const replace = require('gulp-replace')
-// const revReplace = require('gulp-rev-replace')
+const htmlmin = require('gulp-htmlmin')
+const cheerio = require('gulp-cheerio')
+const inlinesource = require('gulp-inline-source')
 
-
+const mjAPI = require('mathjax-node')
 const globby = require('globby')
 const moduleImporter = require('sass-module-importer')
 const runSequence = require('run-sequence')
@@ -18,6 +20,30 @@ const del = require('del')
 const autoprefixer = require('autoprefixer')
 const cssNano = require('cssnano')
 const escape = require('escape-string-regexp')
+
+mjAPI.config({ MathJax: {
+  TeX: {
+    equationNumbers: {
+      autoNumber: "AMS"
+    },
+    Macros: {
+      edge: '\\mathrel{-}',
+      notedge: '\\not\\edge',
+      deg: ['#1^°', 1],
+      tbold: ['\\textbf{#1}', 1],
+      mbold: ['\\mathbf{#1}', 1],
+      unit: ['\\widehat{\\mathbf{#1}}', 1],
+
+      v: ['\\overrightarrow{#1}', 1],
+      vnorm: ['\\norm{\\v{#1}}', 1],
+
+      magnitude: ['\\left \\| #1 \\right \\|', 1],
+      norm: ['\\lvert #1 \\rvert', 1],
+      divides: ['\\,|\\,']
+    }
+  },
+} })
+mjAPI.start()
 
 function execCommand (args) {
   // iterate over every package and execute the command described above
@@ -74,6 +100,70 @@ gulp.task('build:hugo', () => {
   return spawn('hugo', { stdio: 'inherit' })
 })
 
+gulp.task('build:mathjax', () => {
+  return gulp.src('public/**/*.html')
+    .pipe(cheerio({
+      run: function ($, file, done) {
+        const p = []
+        $('span.math')
+        .filter(i => i <= 10)
+        .each(function () {
+          const $el = $(this)
+          const len = $el.text().length
+          // console.log($el.text().substring(2, len - 2))
+          const promise = mjAPI.typeset({
+            math: $el.text().substring(2, len - 2).trim(),
+            svg: true
+          })
+            .then(data => $el.html(data.svg))
+            .catch(err => {
+              console.log(file.toString())
+              console.log($('title').text())
+              console.error(err)
+              throw err
+            })
+          p.push(promise)
+        })
+        Promise.all(p)
+          .then(() => done(), done)
+      }
+    }))
+    .pipe(gulp.dest('public'))
+})
+
+gulp.task('build:html-minify', () => {
+  return gulp.src('public/**/*.html')
+    .pipe(inlinesource({
+      compress: true,
+      rootpath: path.resolve(path.join(__dirname, 'public/'))
+    }))
+    .pipe(htmlmin({
+      collapseWhitespace: true,
+      collapseBooleanAttributes: true,
+      decodeEntities: true,
+      processConditionalComments: true,
+      removeAttributeQuotes: true,
+      removeComments: true,
+      removeEmptyAttributes: true,
+      removeOptionalTags: true,
+      removeRedundantAttributes: true,
+      removeScriptTypeAttributes: true,
+      removeStyleLinkTypeAttributes: true,
+      removeTagWhitespace: true,
+      trimCustomFragments: true,
+      sortAttributes: true,
+      sortClassName: true,
+      useShortDoctype: true,
+
+      // collapseInlineTagWhitespace: true,
+      // fragments like \[ anything \]
+      ignoreCustomFragments: [/<%[\s\S]*?%>/, /<\?[\s\S]*?\?>/, /\\\[[\s\S]*?\\\]/, /\\\([\s\S]*?\\\)/],
+      minifyJS: true,
+      minifyCSS: true
+    }))
+    .pipe(gulp.dest('public'))
+})
+
 gulp.task('watch', () => {
   gulp.watch('./themes/blank/_compile/sass/**', [ 'css' ])
 })
@@ -113,6 +203,8 @@ gulp.task('build', function (done) {
     'build:data',
     'build:packages',
     'build:hugo',
+    // 'build:mathjax',
+    'build:html-minify',
     'revision',
     done
   )

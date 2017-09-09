@@ -14,9 +14,9 @@ $$
 
 The construction of the transformation matrix to transform points from *world space* to *view space* needs 3 parameters:
 
-- $\mathbf{camera}$ a point expressed in world space defining the location of the point of view, note that the $\mathbf{camera}$ is at the origin of the *view space*
-- $\mathbf{at}$ the direction where the camera is aiming at
-- $\mathbf{up}$ denotes the upward orientation of the camera (typically coincides with the positive $y$-axis)
+- $$\mathbf{camera}$$ a point expressed in world space defining the location of the point of view, note that the $$\mathbf{camera}$$ is at the origin of the *view space*
+- $$\mathbf{at}$$ the direction where the camera is aiming at
+- $$\mathbf{up}$$ denotes the upward orientation of the camera (typically coincides with the positive $$y$$-axis)
 
 ![view transform](/images/camera-transformation!camera-space.jpg)
 
@@ -38,7 +38,7 @@ gluLookAt(0.0, 0.0, 0.0,
 ```
 -->
 
-Note that the camera is looking at the negative $z$-axis of the *view space*, this is a convention rather than a rule since the *projection matrix* will be constructed in a way so that points in the $-z$-axis in *view space* are transformed to the range $\[-1,1\]$
+Note that the camera is looking at the negative $$z$$-axis of the *view space*, this is a convention rather than a rule since the *projection matrix* will be constructed in a way so that points in the $$-z$$-axis in *view space* are transformed to the range $$[-1,1]$$
 
 ## Derivation of the view transform matrix
 
@@ -50,21 +50,21 @@ The process of transforming the vertices in the *world space* to *view space* is
 
 ### Creation of a coordinate frame for the view space
 
-Given $\mathbf{camera}$, $\mathbf{at}$ and $\mathbf{up}$ the steps to compute the coordinate frame are whose basis vectors are $\mathbf{u}$, $\mathbf{v}$ and $\mathbf{w}$ (note that since these are basis vectors they need to be unit vectors)
+Given $$\mathbf{camera}$$, $$\mathbf{at}$$ and $$\mathbf{up}$$ the steps to compute the coordinate frame are whose basis vectors are $$\mathbf{u}$$, $$\mathbf{v}$$ and $$\mathbf{w}$$ (note that since these are basis vectors they need to be unit vectors)
 
-- compute $\mathbf{w}$ trivially by normalizing the vector $\mathbf{camera - at}$
+- compute $$\mathbf{w}$$ trivially by normalizing the vector $$\mathbf{camera - at}$$
 
 $$
 \mathbf{w} = \frac{\mathbf{camera - at}}{\norm{\mathbf{camera - at}}}
 $$
 
-- next $\mathbf{u}$ can be computed with the cross product of $\mathbf{w}$ and $\mathbf{up}$, again the resulting vector must be normalized
+- next $$\mathbf{u}$$ can be computed with the cross product of $$\mathbf{w}$$ and $$\mathbf{up}$$, again the resulting vector must be normalized
 
 $$
 \mathbf{u} = \frac{\mathbf{w} \times \mathbf{up}}{\norm{ \mathbf{w} \times \mathbf{up} }}
 $$
 
-- finally $\mathbf{v}$ can be computed as
+- finally $$\mathbf{v}$$ can be computed as
 
 $$
 \mathbf{v} = \mathbf{w} \times \mathbf{u}

@@ -77,8 +77,9 @@ class App extends React.Component {
 
   componentDidMount () {
     const self = this
-    const rect = this.wrapper.getBoundingClientRect()
-    const oTop = rect.top - window.scrollY
+    const { hero } = this.props
+    const rect = hero.getBoundingClientRect()
+    const oBottom = rect.bottom + window.scrollY
 
     let position = ''
     self.root.style.top = 0
@@ -86,7 +87,7 @@ class App extends React.Component {
     const onScroll = function onScroll (e) {
       // breadcrum positioning
       let newPosition = ''
-      if (window.scrollY > oTop) {
+      if (window.scrollY > oBottom) {
         newPosition = 'fixed'
       }
       if (newPosition !== position) {

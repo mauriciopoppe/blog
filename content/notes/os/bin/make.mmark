@@ -87,7 +87,7 @@ clean:
 
 ```makefile
 foo : foo.o bar.o
-  cc -o foo foo.o bar.o $(CFLAGS) $(LDFLAGS)
+  cc -o foo foo.o bar.o $$(CFLAGS) $$(LDFLAGS)
 ```
 
 Doesn't have rules on how to make `foo.o` or `bar.o`, `make` will automatically look for an implicit rule that tells how to make/update it from a catalogue of built in rules
@@ -97,19 +97,19 @@ Among the [ catalogue of built in rules ](http://www.gnu.org/software/make/manua
 - Compiling C, `n.o` is made from `n.c` automatically with a recipe of the form
 
 ```makefile
-$(CC) $(CPPFLAGS) $(CFLAGS) -c
+$$(CC) $$(CPPFLAGS) $(CFLAGS) -c
 ```
 
 - Compiling C++, `n.c` is made from `n.cc,n.cpp,n.C` with a recipe of the form
 
 ```makefile
-$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c
+$$(CXX) $$(CPPFLAGS) $(CXXFLAGS) -c
 ```
 
 - Linking C, `n` is made from `n.o` by running the linker `ld` via the C compiler with a recipe of the form
 
 ```makefile
-$(CC) $(LDFLAGS) n.o $(LOADLIBES) $(LDLIBS)
+$$(CC) $$(LDFLAGS) n.o $$(LOADLIBES) $$(LDLIBS)
 ```
 
 Variables used by implicit rules
@@ -139,14 +139,14 @@ For example
 
 ```makefile
 %.o: %.c
-  $(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
+  $$(CC) -c $$(CFLAGS) $$(CPPFLAGS) $$< -o $@
 ```
 
-Specifies how to make an object file `n.o` from a source file `n.c` provided that `n.c` exists or can be made, inside the recipe the automatic variables `$@` and `$<` correspond to the target file and source file respectively
+Specifies how to make an object file `n.o` from a source file `n.c` provided that `n.c` exists or can be made, inside the recipe the automatic variables `$$@` and `$$<` correspond to the target file and source file respectively
 
 ## Variables
 
-To substitute a variable's value write `$(var)` or `${var}`
+To substitute a variable's value write `$$(var)` or `$${var}`
 
 ```makefile
 objects = program.o foo.o utils.o
@@ -208,12 +208,12 @@ bar := $(foo:.o=.c)
 # bar is equal to `a.c b.c c.c`
 ```
 
-- computed variable names `$($(a))` - nested variable reference
+- computed variable names `$$($$(a))` - nested variable reference
 
 ```makefile
 x = y
 y = z
-a := $($(x))   # a is equal to `z`
+a := $$($$(x))   # a is equal to `z`
 ```
 
 ## Recipes
