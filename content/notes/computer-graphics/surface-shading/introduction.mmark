@@ -13,11 +13,15 @@ $$
 \mathbf{l} = \frac{\mathbf{l_s - p}}{\norm{\mathbf{l_s - p}}}
 $$
 
+<span></span>
+
 - $$\mathbf{v}$$ (view direction) - a unit vector pointing from the surface towards the place the ray is emitted from, it's computed by normalizing the vector between the intersection point $$\mathbf{p}$$ and the ray origin $$\mathbf{ray_{origin}}$$
 
 $$
 \mathbf{v} = \frac{\mathbf{ray_{origin} - p}}{\norm{\mathbf{ray_{origin} - p}}}
 $$
+
+<span></span>
 
 - $$\mathbf{n}$$ (surface normal) - a unit vector perpendicular to the surface at the point where the reflection is taking place
 - other characteristics of the light source and the surface depending on the shading model

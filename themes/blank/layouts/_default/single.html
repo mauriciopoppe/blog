@@ -29,8 +29,8 @@
 
           {{ if isset .Params "references" }}
             <hr />
-            <div class="is-size-5">References</div>
-            <div class="references is-size-7">
+            <div class="is-size-3">References</div>
+            <div class="references">
               <ul>
               {{ range .Params.references }}
                 <li>{{ . | markdownify }}</li>

@@ -28,9 +28,11 @@ A set of **intrinsic rotations** represent rotations relative to the *object spa
 
 <figure>
   <div class="figure-images">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/8/85/Euler2a.gif?1461803605967" height="240" alt="">
+    <img class="lazy-load" data-src="https://upload.wikimedia.org/wikipedia/commons/8/85/Euler2a.gif?1461803605967" height="240" alt="">
   </div>
-  <figcaption>intrinsic rotation $$z-x'-z''$$, note that the $$+z$$-axis points upward, the $$+x$$-axis points left and the $$+y$$-axis point right (all shown in blue), the rotated system $$X,Y,Z$$ is shown in red</figcaption>
+  <figcaption>
+    <span></span>
+    intrinsic rotation \(z-x'-z''\), note that the \(+z\)-axis points upward, the \(+x\)-axis points left and the \(+y\)-axis point right (all shown in blue), the rotated system \(X,Y,Z\) is shown in red</figcaption>
 </figure>
 
 A rotation matrix (used to pre-multiply column vectors) can be used to represent a sequence of *intrinsic rotations*, for example the extrinsic rotations $$x-y'-z''$$ with angles $$\alpha, \beta, \gamma$$ are represented as a multiplication of the following rotation matrices
@@ -73,9 +75,13 @@ A sequence of three elemental rotations are called **proper Euler angles** when 
 
 <figure>
   <div class="figure-images">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Eulerangles.svg/213px-Eulerangles.svg.png" alt="">
+    <img class="lazy-load" data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Eulerangles.svg/213px-Eulerangles.svg.png" alt="">
   </div>
-  <figcaption>Proper Euler angles representing rotations about $$z-x'-z''$$ by the angles $$\alpha, \beta, \gamma$$, the rotated system $$X,Y,Z$$ is shown in red</figcaption>
+  <figcaption>
+    <p>
+      Proper Euler angles representing rotations about \(z-x'-z''\) by the angles \(\alpha, \beta, \gamma\), the rotated system \(X,Y,Z\) is shown in red
+    </p>
+  </figcaption>
 </figure>
 
 There are six possibilities of choosing the rotation axes for proper Euler angles which are *intrinsic rotations* in a similar way there are other six other possibilities of choosing the rotation axes which are *extrinsic rotations*
@@ -110,7 +116,7 @@ The set of *intrinsic rotations* $$z-y'-x''$$ is known as *yaw*, *pitch* and *ro
   <div class="figure-images">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Taitbrianzyx.svg/245px-Taitbrianzyx.svg.png" alt="">
   </div>
-  <figcaption>Tait–Bryan angles representing the sequence $$z-y'-x''$$</figcaption>
+  <figcaption>Tait–Bryan angles representing the sequence \(z-y'-x''\)</figcaption>
 </figure>
 
 The rotation matrix for the sequence $$z-y'-x''$$ (or $$x-y-z$$) which is known as *yaw*, *pitch* and *roll* is given by
@@ -131,7 +137,7 @@ For example given that world space is
   <div class="figure-images">
     <img src="/images/xyz.jpg" alt="">
   </div>
-  <figcaption>Chosen world space $$+x$$ (right), $$+y$$ (up) and $$+z$$ (backward), note that the choice is just personal preference</figcaption>
+  <figcaption>Chosen world space \(+x\) (right), \(+y\) (up) and \(+z\) (backward), note that the choice is just personal preference</figcaption>
 </figure>
 
 If there's an object whose *object space* axes $$+x$$ (backward), $$+y$$ (right) and $$+z$$ (up) then a sequence of intrinsic rotations $$z-y'-x''$$ by the angles $$\alpha, \beta, \gamma$$ (equivalent to the extrinsic rotation $$x-y-z$$ by the angles $$\gamma, \beta, \alpha$$ which is also known as *yaw*, *pitch* and *roll*) is equivalent to the multiplication of the following rotation matrices
@@ -155,7 +161,7 @@ $$
 The problem can be simplified when frame is somewhat aligned with the *upright space* (the order might be different and the axis directions might be reversed but it's still aligned), the following diagram shows some of these simplifications
 
 <figure id="conversions">
-  <div class="figure-table">
+  <div class="figure-table" style="overflow: auto">
     <table>
       <tr>
         <th>To/from</th>
