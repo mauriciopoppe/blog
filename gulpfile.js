@@ -139,6 +139,7 @@ gulp.task('build:html-minify', () => {
     }))
     .pipe(htmlmin({
       collapseWhitespace: true,
+      conservativeCollapse: true,
       collapseBooleanAttributes: true,
       decodeEntities: true,
       processConditionalComments: true,
