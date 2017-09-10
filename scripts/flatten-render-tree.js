@@ -57,9 +57,14 @@ function createNavBarRecursive (node, depth) {
     `
   }
 
+  const hasChildren = node.children.length ? bel`<i class="children-toggle"></i>` : ''
+
   return bel`
     <li ${target}>
-      <div>${content}</div>
+      <div>
+        ${hasChildren}
+        ${content}
+      </div>
       ${!node.isLeaf && createNavBar(node, depth + 1)}
     </li>
   `

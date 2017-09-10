@@ -69,6 +69,7 @@ root.addEventListener('click', function (e) {
         ul.style.height = '0'
       })
   }
+  ul.parentNode.classList.toggle('item-expanded')
   p.then(() => {
     ul.classList.toggle('list-is-collapsed')
   })
@@ -88,6 +89,7 @@ function setActive () {
     }
     if (it.tagName === 'LI') {
       it.classList.add('is-active')
+      it.classList.add('item-expanded')
     }
     it = it.parentNode
   }

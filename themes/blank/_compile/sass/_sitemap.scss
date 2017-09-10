@@ -5,15 +5,11 @@
 
 .sitemap {
   opacity: 0.5;
-  transition: opacity 500ms;
+  transition: opacity $time;
   position: relative;
 
   &:hover {
     opacity: 1;
-  }
-
-  ul.list-is-collapsed div::after {
-    display: none;
   }
 
   li {
@@ -38,6 +34,7 @@
     }
   }
 
+  // colored border
   li.is-active {
     > div:after {
       background-color: $primary;
@@ -52,6 +49,25 @@
     overflow: hidden;
   }
 
+  // arrow styling
+  .children-toggle {
+    border: solid $primary;
+    border-width: 0 1px 1px 0;
+    padding: 2px;
+    position: absolute;
+    top: 8px;
+    left: -15px;
+    transform: rotate(-45deg);
+    transition: all $time ease-in-out;
+  }
+
+  li.item-expanded {
+    > div .children-toggle {
+      transform: rotate(45deg);
+    }
+  }
+
+  // override primary color set on links
   a {
     color: $grey;
   }

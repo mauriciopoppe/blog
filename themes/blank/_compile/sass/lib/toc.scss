@@ -8,7 +8,7 @@
 nav[role="toc"] {
   position: relative;
   opacity: 0.5;
-  transition: opacity 500ms;
+  transition: opacity $time;
   font-size: 1em;
 
   &:hover {
@@ -30,6 +30,13 @@ nav[role="toc"] {
     background-color: $primary;
   }
 }
+
+.toc-list-item {
+  margin: 7px 0;
+  line-height: 1em;
+}
+
+// toc above the content (visible on mobile devices)
 
 .toc-embedded {
   .toc-list {

@@ -13,7 +13,8 @@ const tocWrapper = document.querySelector('.toc-wrapper')
 const tocbotOpts = {
   tocSelector: '.toc',
   contentSelector: 'body',
-  headingSelector: 'h1,h2,h3,h4,h5,h6'
+  headingSelector: 'h1,h2,h3,h4,h5,h6',
+  collapseDepth: 6
 }
 const margin = 20
 const navbarHeight = nav.getBoundingClientRect().height
