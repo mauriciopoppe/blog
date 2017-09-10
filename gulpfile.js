@@ -24,7 +24,7 @@ const escape = require('escape-string-regexp')
 mjAPI.config({ MathJax: {
   TeX: {
     equationNumbers: {
-      autoNumber: "AMS"
+      autoNumber: 'AMS'
     },
     Macros: {
       edge: '\\mathrel{-}',
@@ -41,7 +41,7 @@ mjAPI.config({ MathJax: {
       norm: ['\\lvert #1 \\rvert', 1],
       divides: ['\\,|\\,']
     }
-  },
+  }
 } })
 mjAPI.start()
 
@@ -86,7 +86,7 @@ gulp.task('css', function () {
 })
 
 gulp.task('build:data', () => {
-  return spawn('node', ['scripts/flatten-render-tree.js'], { stdio: 'inherit' })
+  return spawn('./node_modules/.bin/babel-node', ['scripts/flatten-render-tree.js'], { stdio: 'inherit' })
 })
 
 gulp.task('build:packages', () => {

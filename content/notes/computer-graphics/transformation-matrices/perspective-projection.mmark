@@ -13,7 +13,7 @@ We can again use some concepts of projective geometry to understand perspective 
 
 Now let's imagine that we want to project the points that exists in our world to the plane $$z = d$$
 
-![perspective projection y](/images/perspective-projection!y.png)
+{{< figure src="/images/perspective-projection!y.png" title="perspective projection y" >}}
 
 By similar images we can see that the projected value of the $$y$$ coordinate is
 
@@ -23,7 +23,7 @@ $$
 
 The projected value of the $$x$$ coordinate can be computed in a similar way
 
-![perspective projection x](/images/perspective-projection!x.png)
+{{< figure src="/images/perspective-projection!x.png" title="perspective projection x" >}}
 
 $$
 \frac{v_x'}{d} = \frac{v_x}{v_z} \Rightarrow v_x' = \frac{d v_x}{v_z}

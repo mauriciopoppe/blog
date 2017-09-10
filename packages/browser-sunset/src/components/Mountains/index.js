@@ -22,10 +22,10 @@ const media = {
 }
 
 const Path = styled.path`
-  animation: ${move} ${props => 1 / (props.depth + 1) * 5 + 10}s ease-in-out infinite alternate;
+  /*animation: ${move} ${props => 1 / (props.depth + 1) * props.total + 10}s ease-in-out infinite alternate;
   ${media.handheld`
     animation: initial;
-  `}
+  `}*/
 `
 
 export class Mountains extends React.PureComponent {

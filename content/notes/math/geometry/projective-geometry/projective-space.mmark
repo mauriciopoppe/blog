@@ -20,13 +20,13 @@ They realized the following rules while trying to draw tiles in perspective
 > the image of a conic is also a conic (for example a circle is drawn as an
 ellipse depending on the perspective)
 
-![projection](/images/projective-geometry!perspective.jpg)
+{{< figure src="/images/projective-geometry!perspective.jpg" title="projection" >}}
 
 The French mathematician [Girard Desargues](https://www.wikiwand.com/en/Girard_Desargues) researching more on this new type of geometry had the necessity to have a *point at infinity*, he introduced the concept of a *line at infinity* which helped defined the point infinity as follows
 
 > for every family of parallel lines on some ordinary plane there's one point at infinity where they all meet which lies on the line at infinity
 
-![projective plane](/images/projective-geometry!projective-plane.png)
+{{< figure src="/images/projective-geometry!projective-plane.png" title="projective plane" >}}
 
 An ordinary plane + the line at infinity is called a **projective plane**
 
@@ -47,7 +47,7 @@ Let $$w$$ be the vertical axis in this 2-dimensional space, the picture of a lin
 
 Any 1D point is represented in projective geometry as the pair $$(x, w)$$, we can see that such a pair can be projected to $$w = 1$$ by dividing both coordinates by $$w$$ so any 1D point projected to this plane is represented by the pair $$(\tfrac{x}{w}, 1)$$ unless $$w = 0$$ which is in the *line at infinity*, any point at infinity has then the form $$(x, 0)$$
 
-![projective line](/images/projective-geometry!projective-line.png)
+{{< figure src="/images/projective-geometry!projective-line.png" title="projective line" >}}
 
 ## Projective plane
 
@@ -57,5 +57,5 @@ A similar situation is seen on a 3-dimensional space, in this space any line tha
 
 Any 2D point is represented in this space as the triplet $$(x, y, w)$$, just like 1D we can project any point to the plane $$w = 1$$ by dividing the triplet by $$w$$ which has the form $$(\tfrac{x}{w}, \tfrac{y}{w}, 1)$$ unless $$w = 0$$ which means that any point at infinity has the form $$(x, y, 0)$$
 
-![projective plane](/images/projective-geometry!projective-plane-3d.png)
+{{< figure src="/images/projective-geometry!projective-plane-3d.png" title="projective plane" >}}
 

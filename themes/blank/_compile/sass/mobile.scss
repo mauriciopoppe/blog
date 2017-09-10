@@ -1,0 +1,12 @@
+body {
+  font-size: 1em;
+  overflow-wrap: break-word;
+}
+
+article[role=main] {
+  font-size: initial;
+}
+
+.column.article-wrapper {
+  width: 75%;
+}

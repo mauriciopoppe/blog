@@ -7,6 +7,18 @@ const plugins = []
 if (process.env.NODE_ENV === 'production') {
   plugins.push(
     new UglifyJSPlugin({
+      mangle: true,
+      compress: {
+        warnings: false, // Suppress uglification warnings
+        pure_getters: true,
+        unsafe: true,
+        unsafe_comps: true,
+        screw_ie8: true
+      },
+      output: {
+        comments: false
+      },
+      exclude: [/\.min\.js$/gi],
       parallel: {
         cache: true,
         workers: 2
@@ -51,11 +63,6 @@ module.exports = {
       Components: path.resolve(process.cwd(), 'src/components/')
     }
   },
-  devtool: 'source-map',
-  externals: {
-    react: 'React',
-    'react-dom': 'ReactDOM',
-    d3: 'd3'
-  },
+  devtool: 'cheap-module-source-map',
   plugins
 }

@@ -9,7 +9,7 @@ references:
 
 Image a vector space where two points $$P$$ and $$P'$$ exist, then there's a *unique translation of the plane* that maps $$P$$ to $$P'$$ which means that the space of *translations* in the plane can be identified with a set of vectors that exist in the plane, composition of translation correspond to addition of vectors e.g. $$\v{PP''} = \v{PP'} + \v{P'P''}$$
 
-![affine space](/images/affine-space!translation.jpg)
+{{< figure src="/images/affine-space!translation.jpg" title="affine space" >}}
 
 An affine space is a space where translation is defined, formally an affine space is a set $$E$$ (of points) that admits a free transitive action of a vector space $$\v{E}$$ (of translations) whose action results in an element of the set $$E$$, that is there's a map $$E \times \v{E} \rightarrow E: (a,\mathbf{v}) \mapsto a + \mathbf{v}$$ such that
 

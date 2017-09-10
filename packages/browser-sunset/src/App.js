@@ -13,6 +13,7 @@ const y = scaleLinear()
 class App extends React.Component {
   render () {
     const style = { width: '100%', height: '100%' }
+    const n = 5
     return (
       <div ref={el => { this.el = el }} style={style}>
         <svg
@@ -26,13 +27,14 @@ class App extends React.Component {
           }}
           preserveAspectRatio='none'
         >
-          {[...Array(5).keys()].map(i => (
+          {[...Array(n).keys()].map(i => (
             <Mountains
               key={i}
               x={x}
               y={y}
               depth={i}
-              fill={interpolateMagma(1 - (0.3 + (i / 5) * 0.5))}
+              total={n}
+              fill={interpolateMagma(1 - (0.3 + (i / n) * 0.5))}
             />
           ))}
         </svg>

@@ -28,7 +28,7 @@ Note that
 
 All the rays start from the origin of an orthonormal coordinate frame known as the camera/eye coordinate system, in this frame the camera is looking at the negative $$\mathbf{w}$$ axis
 
-![camera](/images/ray-tracing!camera.jpg)
+{{< figure src="/images/ray-tracing!camera.jpg" title="camera" >}}
 
 The coordinate system is built from
 
@@ -58,7 +58,7 @@ $$
 
 For an orthographic view all the rays will have the direction $$-\mathbf{w}$$, there isn't a particular viewpoint however we can define all the rays to be emitted from the $$w=0$$ plane using the pixel's image-plane position as the ray's starting point
 
-![orthographic view](/images/ray-tracing!orthographic.jpg)
+{{< figure src="/images/ray-tracing!orthographic.jpg" title="orthographic view" >}}
 
 $$
 \begin{align*}
@@ -71,7 +71,7 @@ $$
 
 For a perspective view all the rays will have the same origin $$e$$ but the image-plane is not located at $$w=0$$ but at some distance $$d$$ in the $$-\mathbf{w}$$ direction, this time each ray will have a varying direction based on the location of the pixel's image-plane position respect to $$e$$
 
-![perspective view](/images/ray-tracing!perspective.jpg)
+{{< figure title="perspective view" src="/images/ray-tracing!perspective.jpg" >}}
 
 $$
 \begin{align*}
@@ -109,11 +109,15 @@ $$
 \mathbf{l} = \frac{\mathbf{l_s - p}}{\norm{\mathbf{l_s - p}}}
 $$
 
+<span></span>
+
 - $$\mathbf{v}$$ (view direction) - a unit vector pointing from the surface towards the place the ray is emitted from, it's computed by normalizing the vector between the intersection point $$\mathbf{p}$$ and the ray origin $$\mathbf{ray_{origin}}$$
 
 $$
 \mathbf{v} = \frac{\mathbf{ray_{origin} - p}}{\norm{\mathbf{ray_{origin} - p}}} \quad \text{or} \quad \mathbf{v} = -\mathbf{d}
 $$
+
+<span></span>
 
 - $$\mathbf{n}$$ (surface normal) - a unit vector perpendicular to the surface at the point where the reflection is taking place
 - other characteristics of the light source and the surface depending on the shading model
@@ -122,7 +126,7 @@ $$
 
 One of the simplest shading models discovered by Lambert in the 18th century, the amount of energy from a light source that falls on a surface depends on the angle of the surface to the light
 
-![lambert](/images/ray-tracing!lambert.jpg)
+{{< figure title="lambert" src="/images/ray-tracing!lambert.jpg" >}}
 
 - A surface facing directly the light receives maximum illumination
 - A surface tangent to the light receives no illumination
@@ -148,7 +152,7 @@ Additional notes of this model
 
 Many surfaces show some degree of highlights (shininess) or *specular reflections* that appear to move as the viewpoint changes, the idea is to produce reflections when $$\mathbf{v}$$ and $$\mathbf{l}$$ are positioned symmetrically across the surface normal
 
-![blinn phong](/images/ray-tracing!blinn-phong.jpg)
+{{< figure src="/images/ray-tracing!blinn-phong.jpg" title="blinn phong" >}}
 
 - the half vector $$\mathbf{h}$$ is a unit vector that goes through the bisector of the angle between $$\mathbf{v}$$ and $$\mathbf{l}$$
 

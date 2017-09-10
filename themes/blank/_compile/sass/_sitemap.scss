@@ -1,0 +1,58 @@
+.sitemap-wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.sitemap {
+  opacity: 0.5;
+  transition: opacity 500ms;
+  position: relative;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  ul.list-is-collapsed div::after {
+    display: none;
+  }
+
+  li {
+    padding-left: 20px;
+
+    &.is-active {
+      > div {
+        font-weight: bold;
+        color: $primary;
+        border-right: 2px solid $primary;
+        > a {
+          color: $primary;
+        }
+      }
+    }
+
+    div {
+      position: relative;
+      cursor: pointer;
+      height: 100%;
+      border-right: 2px solid #eee;
+    }
+  }
+
+  li.is-active {
+    > div:after {
+      background-color: $primary;
+    }
+  }
+
+  .list-is-collapsed {
+    height: 0;
+  }
+
+  .list-is-collapsible {
+    overflow: hidden;
+  }
+
+  a {
+    color: $grey;
+  }
+}

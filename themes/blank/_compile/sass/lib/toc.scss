@@ -1,22 +1,18 @@
+@import "tocbot/src/scss/tocbot.scss";
+
 .toc-wrapper {
-  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
-nav[role="navigation"] {
+nav[role="toc"] {
   position: relative;
-  top: 35px;
-  color: #4a4a4a;
   opacity: 0.5;
   transition: opacity 500ms;
-  top: 0;
-  width: 100%;
+  font-size: 1em;
 
   &:hover {
     opacity: 1;
-  }
-
-  a {
-    color: #4a4a4a;
   }
 }
 
@@ -24,7 +20,37 @@ nav[role="navigation"] {
   margin: 0;
   padding-left: 20px;
 }
-.toc-link.is-active-link {
-  font-weight: bold;
-  color: $primary;
+
+.toc-link {
+  &.is-active-link {
+    font-weight: bold;
+    color: $primary;
+  }
+  &.is-active-link::before {
+    background-color: $primary;
+  }
 }
+
+.toc-embedded {
+  .toc-list {
+    margin: 0;
+  }
+  margin-bottom: 20px;
+
+  // rest default styles
+  ul > li {
+    list-style: none;
+  }
+  .toc-link {
+    &:before {
+      display: none;
+    }
+  }
+  .is-collapsed {
+    max-height: none;
+  }
+  a {
+    color: $primary;
+  }
+}
+

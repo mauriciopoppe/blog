@@ -1,7 +1,7 @@
 ---
 title: "First Person camera"
 date: 2016-04-29 22:10:40
-tags: ["camera", "euler angles"]
+categories: ["camera", "euler angles"]
 ---
 
 Assuming that the world space axes are as follows

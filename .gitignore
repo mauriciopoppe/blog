@@ -3,6 +3,7 @@
 /static/browser/**
 /themes/beautifulhugo/
 /themes/blank/static/css/main.css
+/themes/blank/static/css/mobile.css
 
 package-lock.json
 

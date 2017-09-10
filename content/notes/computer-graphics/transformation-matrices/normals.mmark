@@ -36,7 +36,7 @@ Normal vectors do not transform the way we would like when they're multiplied by
 
 For example when a transformation matrix $$\mathbf{M} = \mathbf{H_x}(s)$$ that skews points toward the $$x$$ axis multiplies the normal vector $$\mathbf{n}$$, the resulting vector $$\mathbf{Mn}$$ is not normal to the surface, we would like to find a transformation matrix $$\mathbf{N}$$ so that $$\mathbf{Nn}$$ is indeed the surface normal
 
-![transforming normal](/images/normals!transformation.jpg)
+{{< figure src="/images/normals!transformation.jpg" title="transforming normal" >}}
 
 To find the value of $$\mathbf{N}$$ we start from the fact that the normal $$\mathbf{n}$$ and the tangent $$\mathbf{t}$$ are perpendicular
 

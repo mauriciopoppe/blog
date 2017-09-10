@@ -18,7 +18,7 @@ The construction of the transformation matrix to transform points from *world sp
 - $$\mathbf{at}$$ the direction where the camera is aiming at
 - $$\mathbf{up}$$ denotes the upward orientation of the camera (typically coincides with the positive $$y$$-axis)
 
-![view transform](/images/camera-transformation!camera-space.jpg)
+{{< figure src="/images/camera-transformation!camera-space.jpg" title="view transform" >}}
 
 <!--
 In OpenGL we can use the GLU function `gluLookAt()` to position the camera

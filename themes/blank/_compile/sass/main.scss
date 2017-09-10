@@ -2,7 +2,9 @@
 @import './palette';
 @import './bulma';
 @import './breadcrumb';
+@import './nav';
 @import './single';
+@import './sitemap';
 @import './header';
 @import './footer';
 @import './profile';
@@ -16,9 +18,17 @@ body {
   font-family: $family-serif;
 }
 
+.body-content-wrapper {
+  margin-top: 50px;
+}
+
 .fonts-loaded {
   body {
     font-family: 'Computer Modern Serif', $family-serif;
   }
 }
 
+// override to the content first heading
+article[role=main].content h2 {
+  margin-top: 0;
+}

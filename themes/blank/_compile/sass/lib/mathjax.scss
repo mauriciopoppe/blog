@@ -1,7 +1,10 @@
-.math {
-  visibility: hidden;
+// .math {
+//   visibility: hidden;
+// }
+.mjx-chtml.MJXc-display {
+  overflow-y: hidden;
+  overflow-x: auto;
 }
-
 html.math-visible {
   .math {
     visibility: initial;

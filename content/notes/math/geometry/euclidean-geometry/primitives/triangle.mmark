@@ -17,11 +17,11 @@ $$
 a + \beta \mathbf{ab} + \gamma \mathbf{ac}
 $$
 
-![barycentric coordinates](/images/triangle!barycentric.jpg)
+{{< figure src="/images/triangle!barycentric.jpg" title="barycentric coordinates" >}}
 
 One geometric property of the scalar values is that they're the signed scaled distance from the lines that pass through the triangle sides, to compute the scalar values $$\beta$$ and $$\gamma$$ we can use the fact that when the implicit equation of the line that pass through a side is evaluated with points that don't lie on the line the result is equal to
 
-![beta](/images/triangle!beta.jpg)
+{{< figure src="/images/triangle!beta.jpg" title="beta" >}}
 
 $$
 f(x,y) = d_{(x,y)} \cdot \sqrt{A^2 + B^2}
