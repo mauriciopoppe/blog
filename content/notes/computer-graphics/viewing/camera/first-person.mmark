@@ -10,7 +10,7 @@ Assuming that the world space axes are as follows
   <div class="figure-images">
     <img src="/images/xyz.jpg" alt="">
   </div>
-  <figcaption>Chosen world space $$+x$$ (right), $$+y$$ (up) and $$+z$$ (backward), note that the choice is just personal preference</figcaption>
+  <figcaption>Chosen world space \(+x\) (right), \(+y\) (up) and \(+z\) (backward), note that the choice is just personal preference</figcaption>
 </figure>
 
 We can imagine a first person camera to be a camera located at the origin which is looking at a point $$\mathbf{p}$$ that exists in the *world space*, however if the camera is able to move in the space then it'd be better if we create a space for the camera and inside this space define the point $$\mathbf{p}$$, that way even if the camera moves the looking direction is not modified

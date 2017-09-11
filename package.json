@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "gulp build",
-    "start": "gulp & hugo server --buildDrafts",
+    "start": "gulp & hugo server --buildDrafts --bind 0.0.0.0",
     "test:prod": "npm run build && serve -s public"
   },
   "devDependencies": {
