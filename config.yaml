@@ -7,5 +7,4 @@ baseURL: "/"
 languageCode: "en-us"
 
 metadataFormat: 'yaml'
-theme: blank
 
