@@ -6,8 +6,6 @@ references:
   - "Bærentzen, J. A., Gravesen, J., Anton François, & Aanæs, H. (2012). Guide to computational geometry processing: foundations, algorithms, and methods. London: Springer."
 ---
 
-{% include cdn/function-plot.html %}
-
 Image a vector space where two points $$P$$ and $$P'$$ exist, then there's a *unique translation of the plane* that maps $$P$$ to $$P'$$ which means that the space of *translations* in the plane can be identified with a set of vectors that exist in the plane, composition of translation correspond to addition of vectors e.g. $$\v{PP''} = \v{PP'} + \v{P'P''}$$
 
 {{< figure src="/images/affine-space!translation.jpg" title="affine space" >}}

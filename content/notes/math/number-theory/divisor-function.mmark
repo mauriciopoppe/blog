@@ -28,9 +28,7 @@ d(18) &= d(3^2 \cdot 2) \\
 \end{align*}
 $$
 
-```cpp
-{% include code/math/divisorFunction/divisorFunction.cpp %}
-```
+{{< snippet file="static/code/math/divisorFunction/divisorFunction.cpp" lang="cpp" >}}
 
 ## Sum of divisors
 
@@ -119,6 +117,4 @@ $$
 \end{align*}
 $$
 
-```cpp
-{% include code/math/divisorFunction/sumOfDivisorFunction.cpp %}
-```
+{{< snippet file="static/code/math/divisorFunction/sumOfDivisorFunction.cpp" lang="cpp" >}}

@@ -11,17 +11,13 @@ Let $$G$$ be a digraph, the **topological sorting** algorithm is a linear orderi
 
 <div id="figure-topological-sorting"></div>
 
-```cpp
-{% include code/graphs/topological_sorting.cpp %}
-```
+{{< snippet file="static/code/graphs/topological_sorting.cpp" lang="cpp" >}}
 
 ## Applications
 
 ### Shortest path in a Directed Acyclic Graph
 
-```cpp
-{% include code/graphs/shortest_path_dag.cpp %}
-```
+{{< snippet file="static/code/graphs/shortest_path_dag.cpp" lang="cpp" >}}
 
 {{< script >}}
 document.addEventListener('DOMContentLoaded', function () {

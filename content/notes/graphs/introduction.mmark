@@ -214,9 +214,7 @@ s_5 &: 0 \quad \text{removing $d_1 = 1$ and subtracting $1$ from the following e
 \end{align*}
 $$
 
-```cpp
-{% include code/graphs/graph_from_degree_sequence.cpp %}
-```
+{{< snippet file="static/code/graphs/graph_from_degree_sequence.cpp" lang="cpp" >}}
 
 ## Graphs and matrices
 

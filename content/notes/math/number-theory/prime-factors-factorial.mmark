@@ -27,6 +27,4 @@ $$
 d_k(n!) = \sum_{i=1}^{log_k{n}} \left \lfloor \frac{n}{k^i} \right \rfloor
 $$
 
-```cpp
-{% include code/math/primeFactorFactorial.cpp %}
-```
+{{< snippet file="static/code/math/primeFactorFactorial.cpp" lang="cpp" >}}

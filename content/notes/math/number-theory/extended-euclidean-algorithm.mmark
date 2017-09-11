@@ -110,9 +110,7 @@ $$
 
 ### Implementation
 
-```cpp
-{% include code/math/extendedEuclideanAlgorithm.cpp %}
-```
+{{< snippet file="static/code/math/extendedEuclideanAlgorithm.cpp" lang="cpp" >}}
 
 ## Applications
 
@@ -174,10 +172,7 @@ $$
 
 Where $$k \in \mathbb{Z}$$
 
-
-```cpp
-{% include code/math/linearDiophantineSolver.cpp %}
-```
+{{< snippet file="static/code/math/linearDiophantineSolver.cpp" lang="cpp" >}}
 
 ### Modular multiplicative inverse
 

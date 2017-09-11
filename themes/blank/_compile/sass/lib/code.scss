@@ -1,0 +1,13 @@
+.content pre {
+  // padding: 1em;
+  background-color: transparent;
+  border-left: 3px solid $primary;
+  code {
+    font-size: 0.75em;
+    padding: 0;
+  }
+
+  code.hljs {
+    background-color: transparent;
+  }
+}

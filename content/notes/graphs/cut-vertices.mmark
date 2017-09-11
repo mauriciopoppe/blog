@@ -30,9 +30,7 @@ Let $$G$$ be an undirected graph, by analyzing the properties of the dfs tree we
   - let $$u$$ and $$v$$ are not adjacent and there's a *back edge* from $$v$$ to some vertex **in the $$u-v$$ path** then $$u$$ is a cut-vertex
 - let $$u$$ be the root node of the dfs tree, it's an cut-vertex if during the exploration of its successor vertices finds out that it has more than one children i.e. the root has more than one branch in the dfs tree
 
-```cpp
-{% include code/graphs/cut_vertices.cpp %}
-```
+{{< snippet file="static/code/graphs/cut_vertices.cpp" lang="cpp" >}}
 
 ### Biconnected components in an undirected graph
 
@@ -45,9 +43,7 @@ Key observations:
 
 Let $$uv$$ be an edge of an undirected graph $$G$$, we can keep an stack telling the order of the edges analyzed so we push it to the stack, let $$u$$ be a cut-vertex then all the edges from the top of the stack up to $$uv$$ are the edges of one biconnected component
 
-```cpp
-{% include code/graphs/biconnected_components.cpp %}
-```
+{{< snippet file="static/code/graphs/biconnected_components.cpp" lang="cpp" >}}
 
 ## Connectivity
 

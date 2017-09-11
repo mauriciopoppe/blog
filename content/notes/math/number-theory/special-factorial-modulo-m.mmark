@@ -59,9 +59,7 @@ This observation leads to a recursive implementation
 
 Complexity: $$O(p \, log_p{n})$$
 
-```cpp
-{% include code/math/specialFactorialModuloP.cpp %}
-```
+{{< snippet file="static/code/math/specialFactorialModuloP.cpp" lang="cpp" >}}
 
 ## Applications
 
@@ -83,9 +81,7 @@ NOTE: $$a - b - c$$ can never be less than zero, that would imply that $$nCr$$ i
 
 The denominator can be found using the modular multiplicative inverse of $$(n - r)!_{\%p}$$ and $$r!_{\%p}$$
 
-```cpp
-{% include code/math/nCrModP.cpp %}
-```
+{{< snippet file="static/code/math/nCrModP.cpp" lang="cpp" >}}
 
 ### Problems to solve
 

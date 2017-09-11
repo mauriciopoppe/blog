@@ -31,7 +31,7 @@ An orthographic projection matrix is built with 6 parameters
 
 These parameters bound the view volume which is an axis-aligned bounding box
 
-{{< figure src="http://www.songho.ca/opengl/files/gl_projectionmatrix02.png" title="orthographic projection" >}}
+![orthographic projection](http://www.songho.ca/opengl/files/gl_projectionmatrix02.png)
 
 Since the mapping of the range $$[l, r]$$ to the range $$[-1, 1]$$ is linear we can use the equation of the line $$y = mx + b$$ and find the values of $$m$$ and $$b$$ however we can intuitively get a similar equation by creating a function $$f(x)$$ so that $$f(0) = -1$$ and $$f(1) = 1$$, we can create a nested function $$g(x)$$ so that $$g(l) = 0$$ and $$g(r) = 1$$ (note that $$[l, r]$$ is the input range) then $$f(x)$$ has the form
 
@@ -182,7 +182,7 @@ A perspective projection matrix is built with 6 parameters, *left, right, bottom
 
 These parameters define a truncated pyramid also called a [ frustum ](https://www.wikiwand.com/en/Frustum)
 
-{{< figure src="/images/projection-matrix!perspective-all.png" title="perspective projection" >}}
+![perspective projection](/images/projection-matrix!perspective-all.png)
 
 ### General perspective projection matrix
 
@@ -191,9 +191,8 @@ The mapping of the range $$[l,r]$$ to the range $$[-1,1]$$ can be split into two
 - Project all the points to the *near* plane, this way all the $$x$$- and $$y$$-coordinates will be inside the range $$[l,r] \times [b,t]$$
 - Map all the values in the range $$[l,r]$$ and $$[b,t]$$ to the range $$[-1, 1]$$
 
-{{< figure src="/images/projection-matrix!top-view-frustum.png" title="top view of the frustum" >}}
 
-{{< figure src="/images/projection-matrix!side-view-frustum.png" title="side view of the frustum" >}}
+![top view of the frustum](/images/projection-matrix!top-view-frustum.png) ![side view of the frustum](/images/projection-matrix!side-view-frustum.png)
 
 Let $$\mathbf{v}_{view}$$ be a vector in *view space* which is going to be transformed to *clip space*, by similar triangles we see that the value of $$x_p$$ and $$y_p$$ (the coordinates projected to the *near* plane) is
 
@@ -387,7 +386,7 @@ $$
 - *field of view* ($$fov$$) which specifies the field of view angle in the $$y$$ direction
 - *aspect* ($$aspect$$) which is the aspect ratio that determines the field of view in the $$x$$ direction calculated as $$\tfrac{x}{y}$$, the value is commonly $$\tfrac{screen \; width}{screen \; height}$$
 
-{{< figure src="/images/projection-matrix!fov.png" title="fov" >}}
+![fov](/images/projection-matrix!fov.png)
 
 We see that the value of $$t$$ (top) is
 

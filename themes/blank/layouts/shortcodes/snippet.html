@@ -1,0 +1,8 @@
+<!-- snippet -->
+{{- if (not (.Get "file")) }} <b style="color: red">snippet: file required</b> {{- end }}
+{{- if (not (.Get "lang")) }} <b style="color: red">snippet: lang required</b> {{- end }}
+
+<pre>
+  <code class="language {{ .Get "lang" }}">{{- readFile (.Get "file") -}}</code>
+</pre>
+<!-- snippet -->

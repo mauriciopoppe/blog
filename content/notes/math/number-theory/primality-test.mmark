@@ -90,9 +90,7 @@ we can't use the theorem directly to test if a number is prime since there's a c
 
 what we can do is run the algorithm multiple times increasing the probability of finding a number $$a$$ such that $$a^{p - 1} \not\equiv 1 \pmod{p}$$ thus proving that $$p$$ is composite
 
-```cpp
-{% include code/math/fermatPrimalityTest.cpp %}
-```
+{{< snippet file="static/code/math/fermatPrimalityTest.cpp" lang="cpp" >}}
 
 No matter how many iterations we use in the algorithm above there's a chance that for each $$a_1, a_2, \ldots, a_i$$ Fermat's little theorem holds true even though that the input is composite therefore this test is not used in practice
 
@@ -159,6 +157,4 @@ If $$a^q \not\equiv \pm 1 \pmod{n}$$ we have to analyze $$a^2q \pmod{n}$$ and th
 - $$a^2q \equiv -1 \pmod{n}$$ which by Euler's primality test implies that it's the square root of some $$a^{2^iq}$$ (where $$0 < i < s-1$$), which will eventually become $$a^{n - 1} \equiv 1 \pmod{n}$$ by successive squaring, therefore we can say that $$n$$ is a probable prime
 - $$a^2q \not\equiv \pm 1 \pmod{n}$$ which is the same as the statement above (therefore we have to keep analyzing the next element in the sequence)
 
-```cpp
-{% include code/math/millerRabinPrimalityTest.cpp %}
-```
+{{< snippet file="static/code/math/millerRabinPrimalityTest.cpp" lang="cpp" >}}

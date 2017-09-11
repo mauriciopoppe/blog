@@ -102,9 +102,7 @@ Where $$k$$ is a positive integer
 
 Implementation based on [Binary Exponentiation](./binary-exponentiation.markdown)
 
-```cpp
-{% include code/math/binaryExponentiationModuloM.cpp %}
-```
+{{< snippet file="static/code/math/binaryExponentiationModuloM.cpp" lang="cpp" >}}
 
 ### Modular multiplicative inverse
 
@@ -134,9 +132,7 @@ $$
 
 This is the exact form of the equation that the Extended Euclidean Algorithm solves where $$gcd(a, m) = 1$$ is already predetermined instead of discovered using the algorithm
 
-```cpp
-{% include code/math/modularMultiplicativeInverse.cpp %}
-```
+{{< snippet file="static/code/math/modularMultiplicativeInverse.cpp" lang="cpp" >}}
 
 ### Euler's Theorem
 
@@ -154,6 +150,4 @@ $$
 a^{-1} \equiv a^{m - 2} \pmod m
 $$
 
-```cpp
-{% include code/math/modularMultiplicativeInverseEuler.cpp %}
-```
+{{< snippet file="static/code/math/modularMultiplicativeInverseEuler.cpp" lang="cpp" >}}

@@ -17,6 +17,4 @@ Using a boolean vector of size $$n$$ iteratively mark all the multiples of nonvi
 
 Time complexity: $$O(tn)$$, $$t$$ is the number of primes between $$1$$ and $$t$$
 
-```cpp
-{% include code/math/sieve.cpp %}
-```
+{{< snippet file="static/code/math/sieve.cpp" lang="cpp">}}

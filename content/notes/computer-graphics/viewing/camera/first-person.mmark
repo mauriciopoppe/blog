@@ -78,7 +78,5 @@ $$
 \end{align*}
 $$
 
-```cpp
-{% include code/opengl/fps.cpp%}
-```
+{{< snippet file="static/code/opengl/fps.cpp" lang="cpp" >}}
 
