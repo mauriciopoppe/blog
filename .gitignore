@@ -1,9 +1,11 @@
 # ignore compiled files
+# compiled from ./scripts/flatten-render-tree.js
 /data/metadata
+# compiled from ./packages/
 /static/browser/**
-/themes/beautifulhugo/
-/themes/blank/static/css/main.css
-/themes/blank/static/css/mobile.css
+# compiled from ./sass/
+/static/css/main.css
+/static/css/mobile.css
 
 package-lock.json
 

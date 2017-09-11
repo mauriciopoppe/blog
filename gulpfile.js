@@ -78,11 +78,11 @@ gulp.task('css', function () {
     autoprefixer,
     cssNano
   ]
-  return gulp.src('./themes/blank/_compile/sass/*.scss')
+  return gulp.src('./sass/*.scss')
     .pipe(plumber())
     .pipe(sass({ importer: moduleImporter() }))
     .pipe(postcss(processors))
-    .pipe(gulp.dest('./themes/blank/static/css'))
+    .pipe(gulp.dest('./static/css'))
 })
 
 gulp.task('build:data', () => {
@@ -166,7 +166,7 @@ gulp.task('build:html-minify', () => {
 })
 
 gulp.task('watch', () => {
-  gulp.watch('./themes/blank/_compile/sass/**', [ 'css' ])
+  gulp.watch('./sass/**', [ 'css' ])
 })
 
 gulp.task('revision:rev', () => {
