@@ -15,66 +15,13 @@
       <h1 class="title is-1 is-spaced">{{ $.Scratch.Get "title" }}</h1>
       <p class="subtitle">{{ $.Scratch.Get "subtitle" }}</p>
       <p class="subtitle">{{ .Date.Format "Monday, January 2, 2006" }}</p>
+      <!-- {{ if (isset .Params "updates") }} -->
+      <!--   <div class="subtitle"> -->
+      <!--   {{ range .Params.updates }} -->
+      <!--     <p><i>{{ index . "date" | dateFormat "Monday, January 2, 2006" }}</i>{{ index . "update" }}</p> -->
+      <!--   {{ end }} -->
+      <!--   </div> -->
+      <!-- {{ end }} -->
     </div>
   </div>
 </section>
-
-<!-- {{ if or $bigimg ($.Scratch.Get "title") }} -->
-<!--   {{ if isset $bigimg 0 }} -->
-<!--     <div id="header-big-imgs" data-num-img={{len $bigimg}} {{range $i, $img := $bigimg}}data-img-src-{{add $i 1}}="{{$img.src | absURL }}" {{ if $img.desc}}data-img-desc-{{add $i 1}}="{{$img.desc}}"{{end}}{{end}}></div> -->
-<!--   {{ end }} -->
-
-<!--   <header class="header-section {{ if isset $bigimg 0 }}has-img{{ end }}"> -->
-<!--     {{ if isset $bigimg 0 }} -->
-<!--       <div class="intro-header big-img"> -->
-<!--         {{ $subtitle := $.Scratch.Get "subtitle" }} -->
-<!--         <div class="container"> -->
-<!--           <div class="row"> -->
-<!--             <div class=""> -->
-<!--               <div class="{{ .Type }}-heading"> -->
-<!--                 <h1>{{ with $.Scratch.Get "title" }}{{.}}{{ else }}<br/>{{ end }}</h1> -->
-<!--                   {{ if $subtitle }} -->
-<!--                     {{ if eq .Type "page" }} -->
-<!--                       <hr class="small"> -->
-<!--                       <span class="{{ .Type }}-subheading">{{ $subtitle }}</span> -->
-<!--                     {{ else }} -->
-<!--                       <h2 class="{{ .Type }}-subheading">{{ $subtitle }}</h2> -->
-<!--                     {{ end }} -->
-<!--                   {{ end }} -->
-<!--                   {{ if eq .Type "post" }} -->
-<!--                     {{ partial "post_meta.html" . }} -->
-<!--                   {{ end }} -->
-<!--               </div> -->
-<!--             </div> -->
-<!--           </div> -->
-<!--         </div> -->
-<!--         <span class="img-desc" style="display: inline;"></span> -->
-<!--       </div> -->
-<!--     {{end}} -->
-<!--     <div class="intro-header no-img"> -->
-<!--       {{ $subtitle := $.Scratch.Get "subtitle" }} -->
-<!--       <div class="container"> -->
-<!--         <div class="row"> -->
-<!--           <div class="col-md-12"> -->
-<!--             <div class="{{ .Type }}-heading"> -->
-<!--               <h1>{{ with $.Scratch.Get "title" }}{{.}}{{ else }}<br/>{{ end }}</h1> -->
-<!--                 {{ if $subtitle }} -->
-<!--                   {{ if eq .Type "page" }} -->
-<!--                     <hr class="small"> -->
-<!--                     <span class="{{ .Type }}-subheading">{{ $subtitle }}</span> -->
-<!--                   {{ else }} -->
-<!--                     <h2 class="{{ .Type }}-subheading">{{ $subtitle }}</h2> -->
-<!--                   {{ end }} -->
-<!--                 {{ end }} -->
-<!--                 {{ if eq .Type "post" }} -->
-<!--                   {{ partial "post_meta.html" . }} -->
-<!--                 {{ end }} -->
-<!--             </div> -->
-<!--           </div> -->
-<!--         </div> -->
-<!--       </div> -->
-<!--     </div> -->
-<!--   </header> -->
-<!-- {{ else }} -->
-<!--   <div class="intro-header"></div> -->
-<!-- {{ end }} -->

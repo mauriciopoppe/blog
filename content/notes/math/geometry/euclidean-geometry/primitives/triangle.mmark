@@ -8,7 +8,7 @@ references:
 In an [affine space](/static/math/geometry/affine-geometry/affine-space.html) there's the concept of affine combination which states that any point in space can be represented as a affine combination in the form
 
 $$
-a + \sum_{i \in I} \lambda_i \mathbf{aa_i} \quad \quad \text{if $$\sum_{i \in I} \lambda_i = 1$$}
+a + \sum_{i \in I} \lambda_i \mathbf{aa_i} \quad \quad \text{if $\sum_{i \in I} \lambda_i = 1$}
 $$
 
 We can add an additional restriction on the values of $$\lambda_i$$ to define a triangle built out of three points, if $$\lambda_1 = \beta, \lambda_2 = \gamma$$, $$\beta + \gamma = 1$$ and $$\beta, \gamma \in [0,1]$$ then a triangle is defined as the affine combination

@@ -1,9 +1,12 @@
 ---
 title: "Euler angles"
-date: 2016-04-26 16:39:27
+date: 2016-02-05 13:00:00
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
  - "Images taken from https://www.wikiwand.com/en/Euler_angles#/Rotation_matrix, Author: Lionel Brits"
+updates:
+  - update: 'hello world'
+    date: 2017-09-10T22:40:47Z
 ---
 
 <style>

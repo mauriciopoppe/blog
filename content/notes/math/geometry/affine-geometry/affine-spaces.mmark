@@ -1,7 +1,8 @@
 ---
 
-title: "Affine space"
+title: "Affine spaces"
 date: 2016-03-15 12:19:52
+libraries: [d3, function-plot]
 references:
   - "Bærentzen, J. A., Gravesen, J., Anton François, & Aanæs, H. (2012). Guide to computational geometry processing: foundations, algorithms, and methods. London: Springer."
 ---
@@ -25,15 +26,17 @@ $$
 $$
 
 <div id="line"></div>
-<script>
-functionPlot({
-  target: '#line',
-  grid: true,
-  data: [{
-    fn: '2 + x'
-  }]
+{{< script >}}
+document.addEventListener('DOMContentLoaded', function () {
+  functionPlot({
+    target: '#line',
+    grid: true,
+    data: [{
+      fn: '2 + x'
+    }]
+  })
 })
-</script>
+{{< /script >}}
 
 Where any point has the form $$(x, f(x)) = (x, 2 + x)$$, the line can be made into an affine space by defining $$+: L \times V \rightarrow L$$ (note that $$V$$ is a vector space) so that for any $$u \in V$$
 
@@ -70,28 +73,29 @@ $$
 Let $$\lambda = 1, \mu = 1$$, $$a = (-1,1)$$ and $$b = (2, 2)$$ then $$a + b = (1, 1)$$
 
 <div id="affine-1"></div>
-<script>
-functionPlot({
-  target: '#affine-1',
-  annotations: [{ x: 1 }, { y: 1 }],
-  data: [{
-    points: [[-1,-1], [2,2], [1, 1]],
-    fnType: 'points',
-    graphType: 'scatter'
-  }]
+{{< script >}}
+document.addEventListener('DOMContentLoaded', function () {
+  functionPlot({
+    target: '#affine-1',
+    annotations: [{ x: 1 }, { y: 1 }],
+    data: [{
+      points: [[-1,-1], [2,2], [1, 1]],
+      fnType: 'points',
+      graphType: 'scatter'
+    }]
+  })
 })
-</script>
+{{< /script >}}
 
 If we change the coordinate system to have an origin at $$(1,1)$$ with the same basis vectors then the coordinates of the given points are $$a=(-2,-2)$$ and $$b=(1,1)$$, the linear combination is then $$a + b = (-1,-1)$$ which is the same as the point $$(0,0)$$ of the first coordinate system, therefore $$a+b$$ corresponds to two different points depending on the coordinate system used
 
 A restriction is needed for affine combinations to make sense and the restriction is that the scalar add up to 1
 
-> Lemma: Given an affine space $$<E,\v{E}, +>$$, let $$a_i, i \in I$$ be a family of points in $$E$$ and let $$\lambda_i, i \in I$$ a family of scalars then any two points $$a,b \in E$$ the following properties hold
->
+> Lemma: Given an affine space $$E,v{E},+$$, let $$a_i, i \in I$$ be a family of points in $$E$$ and let $$\lambda_i, i \in I$$ a family of scalars then any two points $$a,b \in E$$ the following properties hold
 >
 $$
 \begin{equation} \label{lemma-1}
-a + \sum_{i \in I} \lambda_i \mathbf{aa_i} = b + \sum_{i \in I} \lambda_i \mathbf{ba_i} \quad \text{if $$\sum_{i \in I} \lambda_i = 1$$}
+a + \sum_{i \in I} \lambda_i \mathbf{aa_i} = b + \sum_{i \in I} \lambda_i \mathbf{ba_i} \quad \text{if $\sum_{i \in I} \lambda_i = 1$}
 \end{equation}
 $$
 >
@@ -99,7 +103,7 @@ $$
 >
 $$
 \begin{equation} \label{lemma-2}
-\sum_{i \in I} \lambda_i \mathbf{aa_i} = \sum_{i \in I} \lambda_i \mathbf{ba_i} \quad \text{if $$\sum_{i \in I} \lambda_i = 0$$}
+\sum_{i \in I} \lambda_i \mathbf{aa_i} = \sum_{i \in I} \lambda_i \mathbf{ba_i} \quad \text{if $\sum_{i \in I} \lambda_i = 0$}
 \end{equation}
 $$
 
@@ -109,8 +113,8 @@ $$
 \begin{align*}
 a + \sum_{i \in I} \lambda_i \mathbf{aa_i} &= a + \sum_{i \in I} \lambda_i (\mathbf{ab} + \mathbf{ba_i}) \\
 &= a + (\sum_{i \in I} \lambda_i) \mathbf{ab} + \sum_{i \in I} \lambda_i \mathbf{ba_i} \\
-&= a + \mathbf{ab} + \sum_{i \in I} \lambda_i \mathbf{ba_i} \quad \text{since $$\sum_{i \in I} \lambda_i = 1$$} \\
-&= b + \sum_{i \in I} \lambda_i \mathbf{ba_i} \quad \text{since $$b = a + \mathbf{ab}$$} \\
+&= a + \mathbf{ab} + \sum_{i \in I} \lambda_i \mathbf{ba_i} \quad \text{since $\sum_{i \in I} \lambda_i = 1$} \\
+&= b + \sum_{i \in I} \lambda_i \mathbf{ba_i} \quad \text{since $b = a + \mathbf{ab}$} \\
 \end{align*}
 $$
 
@@ -120,7 +124,7 @@ $$
 \begin{align*}
 \sum_{i \in I} \lambda_i \mathbf{aa_i} &= \sum_{i \in I} \lambda_i (\mathbf{ab} + \mathbf{ba_i}) \\
 &= (\sum_{i \in I} \lambda_i) \mathbf{ab} + \sum_{i \in I} \lambda_i \mathbf{ba_i} \\
-&= \sum_{i \in I} \lambda_i \mathbf{ba_i} \quad \text{since $$\sum_{i \in I} \lambda_i = 0$$} \\
+&= \sum_{i \in I} \lambda_i \mathbf{ba_i} \quad \text{since $\sum_{i \in I} \lambda_i = 0$} \\
 \end{align*}
 $$
 

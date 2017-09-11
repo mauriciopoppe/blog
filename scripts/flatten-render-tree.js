@@ -32,6 +32,37 @@ const addFileToMap = (cwd, map) => (file, i) => {
   })
 }
 
+function byDate (a, b) {
+  // if the front matter defines the order use it for sorting
+  if ('order' in a || 'order' in b) {
+    if ('order' in a && 'order' in b) return a - b
+    if ('order' in a) return -1
+    return 1
+  }
+
+  if (a.date && b.date) {
+    // if both are articles that have dates sort them by date
+    if (a.date < b.date) return -1
+    return 1
+  }
+  // sort lexicographically based on the path
+  if (a.path < b.path) return -1
+  return 1
+}
+
+function sortBy (fn) {
+  return function sorter (node) {
+    // sort children first
+    node.children.map(child => sorter(child))
+
+    // sort current node
+    node.children.sort(fn)
+
+    // return itself for the next consumer
+    return node
+  }
+}
+
 function dfs (cwd, obj = {}) {
   return globby('**/*', {cwd, mark: true, nodir: true})
     .then(files => {
@@ -39,6 +70,7 @@ function dfs (cwd, obj = {}) {
       files.forEach(addFileToMap(cwd, map))
       return map
     })
+    .then(sortBy(byDate))
 }
 
 function createNavBarRecursive (node, depth) {

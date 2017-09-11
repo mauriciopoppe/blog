@@ -58,11 +58,15 @@ $$
 \mathbf{w} = \frac{\mathbf{camera - at}}{\norm{\mathbf{camera - at}}}
 $$
 
+<span></span>
+
 - next $$\mathbf{u}$$ can be computed with the cross product of $$\mathbf{w}$$ and $$\mathbf{up}$$, again the resulting vector must be normalized
 
 $$
 \mathbf{u} = \frac{\mathbf{w} \times \mathbf{up}}{\norm{ \mathbf{w} \times \mathbf{up} }}
 $$
+
+<span></span>
 
 - finally $$\mathbf{v}$$ can be computed as
 
