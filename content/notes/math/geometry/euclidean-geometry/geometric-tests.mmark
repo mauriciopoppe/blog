@@ -83,7 +83,10 @@ The intersection point $$\mathbf{p}$$ is equal to
 
 $$
 \begin{equation} \label{line-line-intersection-point}
-\mathbf{p} = \mathbf{a} + \norm{\mathbf{p - a}} \frac{ \mathbf{b - a}  }{ \norm{\mathbf{b - a}} }
+\begin{split}
+\mathbf{p} &= \mathbf{a} + \norm{\mathbf{p - a}} \unit{ \mathbf{b - a} } \\
+&= \mathbf{a} + \norm{\mathbf{p - a}} \frac{ \mathbf{b - a}  }{ \norm{\mathbf{b - a}} }
+\end{split}
 \end{equation}
 $$
 
@@ -101,7 +104,7 @@ $$
 \end{equation}
 $$
 
-We see that the quantity $$\norm{ \mathbf{ n - a } } \norm{\mathbf{d - c}}$$ is equal to the equation of the area of a parallelogram, we can skew the parallelogram (in the graphic towards the $$x$$-axis) so that the left side becomes $$\mathbf{c - a}$$ and the bottom side $$\mathbf{d - c}$$ (which is not affected by the skew), note that the area can else be expressed with the cross product of the vectors $$\mathbf{c - a}$$ and $$\mathbf{d - c}$$ therefore
+We see that the quantity $$\norm{ \mathbf{ n - a } } \norm{\mathbf{d - c}}$$ is equal to the equation of the area of a parallelogram, we can skew the parallelogram (in the graphic towards the $$x$$-axis) so that the left side becomes $$\mathbf{c - a}$$ and the bottom side $$\mathbf{d - c}$$ (which is not affected by the skew), note that the area can also be expressed with the cross product of the vectors $$\mathbf{c - a}$$ and $$\mathbf{d - c}$$ therefore
 
 $$
 \begin{equation} \label{numerator-area}

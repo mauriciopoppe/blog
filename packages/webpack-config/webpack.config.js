@@ -7,6 +7,7 @@ const plugins = []
 if (process.env.NODE_ENV === 'production') {
   plugins.push(
     new UglifyJSPlugin({
+      sourceMap: true,
       mangle: true,
       compress: {
         warnings: false, // Suppress uglification warnings
