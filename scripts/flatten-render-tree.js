@@ -6,6 +6,7 @@ const bel = require('bel')
 const raw = require('bel/raw')
 const titleCase = require('title-case')
 const defined = require('defined')
+const parse = require('date-fns/parse')
 
 const addFileToMap = (cwd, map) => (file, i) => {
   const data = fs.readFileSync(path.join(cwd, file), { encoding: 'utf-8' })
@@ -40,22 +41,33 @@ function byDate (a, b) {
     return 1
   }
 
-  if (a.date && b.date) {
-    // if both are articles that have dates sort them by date
-    if (a.date < b.date) return -1
+  if (a.date || b.date) {
+    if (a.date && b.date) {
+      // convert to dates and parse
+      const aDate = parse(a.date)
+      const bDate = parse(b.date)
+      // console.log('by date')
+      // console.log(a.title, aDate)
+      // console.log(b.title, bDate)
+      // if both are articles that have dates sort them by date
+      if (aDate < bDate) return -1
+      return 1
+    }
+    if (a.date) return -1
     return 1
   }
   // sort lexicographically based on the path
+  // console.log('sort by path')
   if (a.path < b.path) return -1
   return 1
 }
 
 function sortBy (fn) {
-  return function sorter (node) {
+  return function sorter (node, depth = 0) {
     // sort children first
-    node.children.map(child => sorter(child))
+    node.children.forEach(child => sorter(child, depth + 1))
 
-    // sort current node
+    // sort current node children
     node.children.sort(fn)
 
     // return itself for the next consumer

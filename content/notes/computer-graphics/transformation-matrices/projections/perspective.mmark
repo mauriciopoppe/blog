@@ -63,4 +63,3 @@ $$
 0 & 0 & \tfrac{1}{d} & 0
 \end{bmatrix} \begin{bmatrix} v_x \\ v_y \\ v_z \\ 1 \end{bmatrix} = \begin{bmatrix} v_x \\ v_y \\ v_z \\ \frac{v_z}{d} \end{bmatrix}
 $$
-

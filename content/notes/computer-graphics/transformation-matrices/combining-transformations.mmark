@@ -5,28 +5,27 @@ references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---
 
-We can compose a series of transformations as simple matrix multiplications, one simple example is in rendering where an object at an arbitrary position and orientation in the world is rendered with a camera (also located at an arbitrary position and orientation), to do so we must transform the object from *object space* to *world space* (this transformation is known as **model transform**) denoted by the matrix $$\mathbf{M}_{world \to object}$$, from there we transform the vertices of the object from *world space* to *view space* (transformation known as **view transform**) denoted with $$\mathbf{M}_{world \to view}$$
+We can compose a series of transformations by multiplying the matrices that define the transformation, for example if we have one object in the world with arbitrary position and orientation that we want to render through a camera lens located in the same world also with arbitrary position and orientation, to get the coordinates of the object relative to the camera lens we must transform the object from *object space* to *world space* (transformation known as **model transform**) denoted by the matrix $$\mathbf{M}_{world \leftarrow object}$$, and then transform the vertices of the object from *world space* to *view space* (transformation known as **view transform**) denoted with $$\mathbf{M}_{view \leftarrow world}$$
 
 $$
 \begin{align*}
-\mathbf{v}_{world} &= \mathbf{M}_{object \to world} \mathbf{v}_{object} \\
-\mathbf{v}_{view} &= \mathbf{M}_{world \to view} \mathbf{v}_{world} \\
-&= \mathbf{M}_{world \to view} \mathbf{M}_{object \to world}  \mathbf{v}_{object}
+\mathbf{v}_{world} &= \mathbf{M}_{world \leftarrow object} \mathbf{v}_{object} \\
+\mathbf{v}_{view} &= \mathbf{M}_{view \leftarrow world} \mathbf{v}_{world} \\
+&= \mathbf{M}_{view \leftarrow world} \mathbf{M}_{world \leftarrow object}  \mathbf{v}_{object}
 \end{align*}
 $$
+
 
 We can associate the transformation matrices and have a single matrix to transform vertices of the object directly to *camera space*
 
 $$
 \begin{align*}
-\mathbf{v}_{view} = (\mathbf{M}_{world \to view} \mathbf{M}_{object \to world})\mathbf{v}_{object}
+\mathbf{v}_{view} &= (\mathbf{M}_{view \leftarrow world} \mathbf{M}_{world \leftarrow object})\mathbf{v}_{object} \\
+ &= \mathbf{M}_{view \leftarrow object} \mathbf{v}_{object}
 \end{align*}
 $$
 
-If $$\mathbf{M}_{object \to view} = \mathbf{M}_{world \to view} \mathbf{M}_{object \to world}$$ then
-
 $$
-\mathbf{v}_{view} = \mathbf{M}_{object \to view} \mathbf{v}_{object}
 $$
 
 Now if we have two transformation matrices $$\mathbf{M}$$ and $$\mathbf{N}$$ and they are applied to some vector $$\mathbf{v}$$ in that respective order their product is
@@ -34,14 +33,14 @@ Now if we have two transformation matrices $$\mathbf{M}$$ and $$\mathbf{N}$$ and
 $$
 \begin{align*}
 \mathbf{NM} = \begin{bmatrix}
-\mathbf{s} &
-\mathbf{t} &
-\mathbf{u}
+\mathbf{\cuv{s}} &
+\mathbf{\cuv{t}} &
+\mathbf{\cuv{u}}
 \end{bmatrix}
 \begin{bmatrix}
-\mathbf{p} &
-\mathbf{q} &
-\mathbf{r}
+\mathbf{\cuv{p}} &
+\mathbf{\cuv{q}} &
+\mathbf{\cuv{r}}
 \end{bmatrix}
 = \begin{bmatrix}
 p_x \mathbf{s} + p_y \mathbf{t} + p_z \mathbf{u} \\
@@ -182,7 +181,7 @@ $$
 \end{equation}
 $$
 
-This is the **frame-to-canonical** matrix transformation for the $$(u,v,w)$$ coordinate space
+This is the **frame-to-canonical** transformation matrix for the $$(u,v,w)$$ coordinate space
 
 The inverse transformation is given by a [translation followed by a rotation](#translation-followed-by-rotation)
 
@@ -209,6 +208,6 @@ $$
 \end{bmatrix}^{-1} \mathbf{p}_{xyz}
 $$
 
-This is the **canonical-to-frame** matrix transformation for the $$(u,v,w)$$ coordinate space
+This is the **canonical-to-frame** transformation matrix for the $$(u,v,w)$$ coordinate space
 
 

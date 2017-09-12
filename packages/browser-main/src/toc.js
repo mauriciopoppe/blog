@@ -10,6 +10,8 @@ const sitemapWrapper = document.querySelector('.sitemap-wrapper')
 const toc = document.querySelector('nav[role=toc]')
 const tocWrapper = document.querySelector('.toc-wrapper')
 
+const footer = document.querySelector('footer')
+
 const tocbotOpts = {
   tocSelector: '.toc',
   contentSelector: 'body',
@@ -55,12 +57,27 @@ class Sidebar {
     this.scrollTrigger = window.scrollY + content.getBoundingClientRect().top - navbarHeight
   }
 
+  updateHeight () {
+    if (this.position === 'fixed') {
+      // max height is bounded by the footer
+      const fTop = footer.getBoundingClientRect().top
+      if (fTop < window.innerHeight) {
+        // 50: navbar
+        // 50: padding and other stuff
+        this.el.style.height = `${fTop - 100}px`
+      } else {
+        this.el.style.height = 'auto'
+      }
+    }
+  }
+
   onScroll = () => {
     let newPosition = ''
     if (window.scrollY > this.scrollTrigger - margin) {
       newPosition = 'fixed'
     }
     this.setPosition(newPosition)
+    this.updateHeight()
   }
 
   refresh () {

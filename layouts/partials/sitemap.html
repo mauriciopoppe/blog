@@ -1,9 +1,7 @@
 {{ if (ne .Params.toc "false") }}
 <div class="sitemap-wrapper">
-  <nav role="sitemap">
-    <div class="sitemap">
-      {{ partial "sitemap-content.html" . }}
-    </div>
+  <nav role="sitemap" class="sitemap">
+    {{ partial "sitemap-content.html" . }}
   </nav>
 </div>
 {{ end }}

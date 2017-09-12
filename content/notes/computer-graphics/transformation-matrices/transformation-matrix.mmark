@@ -74,7 +74,7 @@ $$
 \mathbf{v'} = \mathbf{vM} = v_x \mathbf{p} + v_y \mathbf{q} + v_z \mathbf{r}
 $$
 
-$$\mathbf{vM}$$ is a *linear combination* of the rows of $$\mathbf{M}$$, if we interpret these row vectors as the *basis vectors* of some coordinate system expressed/measured in terms of an **outer coordinate system** then we have successfully created a structure that encodes a space coordinate transformation (from object coordinates to upright coordinates) in the form of a matrix
+$$\mathbf{vM}$$ is a *linear combination* of the rows of $$\mathbf{M}$$, if we interpret these row vectors as the *basis vectors* of some coordinate system expressed/measured in terms of an **outer coordinate system** then we have successfully created a structure that encodes a space coordinate transformation (from *object space* to *upright space*) in the form of a matrix
 
 $$
 \mathbf{v'} = \mathbf{vM} = \begin{bmatrix}v_x & v_y & v_z\end{bmatrix}
@@ -96,19 +96,19 @@ $$
 If the frame $$c$$ is equal to the frame $$b$$ then it can be omitted since it's assumed that the matrix is represented in terms of the frame $$b$$
 
 $$
-\mathbf{M}_{a \to b}
+\mathbf{M}_{a \rightarrow b}
 $$
 
 For example the matrix that transform from *object space* to *upright space* is represented as
 
 $$
-\mathbf{M}_{object \to upright}
+\mathbf{M}_{object \rightarrow upright}
 $$
 
 Transforming the vector $$\mathbf{v_{object}}$$ expressed in *object space* to *upright space* is then
 
 $$
-\mathbf{v}_{upright} = \mathbf{v}_{object} \mathbf{M}_{object \to upright}
+\mathbf{v}_{upright} = \mathbf{v}_{object} \mathbf{M}_{object \rightarrow upright}
 $$
 
 ## Row versus column vectors
@@ -144,6 +144,22 @@ Note that
 $$
 \mathbf{M} = \begin{bmatrix}
 \mathbf{p}_{3 \times 1} & \mathbf{q}_{3 \times 1} & \mathbf{r}_{3 \times 1} \end{bmatrix} \quad \text{where $\mathbf{p} = \begin{bmatrix} p_x \\ p_y \\ p_z \end{bmatrix}$, $\mathbf{q} = \begin{bmatrix} q_x \\ q_y \\ q_z \end{bmatrix}$ and $\mathbf{r} = \begin{bmatrix} r_x \\ r_y \\ r_z \end{bmatrix}$}
+$$
+
+In Dunn & Parberry's book a column vector inside a matrix is written as
+
+$$
+\mathbf{M} = \begin{bmatrix}
+\cuv{\mathbf{p}} &
+\cuv{\mathbf{q}} &
+\cuv{\mathbf{r}}
+\end{bmatrix}
+$$
+
+Also note that in this notation the arrow that connects the frames involved in the transformation is reversed, for example the transformation matrix that transform from *object space* to *upright space* is
+
+$$
+\mathbf{M}_{upright \leftarrow object}
 $$
 
 In computer graphics [*column vectors* should be used](http://chrishecker.com/Column_vs_row_vectors) to represent points, differences between points and the likes

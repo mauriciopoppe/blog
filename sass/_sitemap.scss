@@ -7,6 +7,7 @@
   opacity: 0.5;
   transition: opacity $time;
   position: relative;
+  overflow: auto;
 
   &:hover {
     opacity: 1;
@@ -70,5 +71,15 @@
   // override primary color set on links
   a {
     color: $grey;
+  }
+}
+
+// override settings set by the scroll spy
+@media screen and (max-width: 768px) {
+  nav[role=sitemap] {
+    position: initial !important;
+    top: initial !important;
+    height: auto !important;
+    width: auto !important;
   }
 }
