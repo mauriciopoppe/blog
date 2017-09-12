@@ -68,6 +68,10 @@ class Sidebar {
       } else {
         this.el.style.height = 'auto'
       }
+    // } else {
+    //   const wrapperTop = this.wrapper.getBoundingClientRect().top
+    //   // 50: padding and other stuff
+    //   this.el.style.height = `${window.innerHeight - wrapperTop - 25}px`
     }
   }
 

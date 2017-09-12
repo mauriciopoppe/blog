@@ -90,8 +90,7 @@ function createNavBarRecursive (node, depth) {
   let content = defined(node.title, titleCase(node.path))
   if (node.isLeaf) {
     // eslint-disable-next-line
-    target = new String(raw(`data-url-target="${node.fullPath}"`))
-    target.__encoded = true
+    target = raw(`data-url-target="${node.fullPath}"`)
 
     // eslint-disable-next-line
     content = bel`

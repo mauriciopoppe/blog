@@ -8,6 +8,7 @@
   transition: opacity $time;
   position: relative;
   overflow: auto;
+  max-height: calc(100vh - 100px);
 
   &:hover {
     opacity: 1;
@@ -81,5 +82,6 @@
     top: initial !important;
     height: auto !important;
     width: auto !important;
+    overflow: hidden;
   }
 }

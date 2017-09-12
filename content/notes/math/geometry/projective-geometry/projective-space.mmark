@@ -7,18 +7,15 @@ references:
   - "MathHistory8: Projective geometry. (2011). [online] YouTube. Available at: https://www.youtube.com/watch?v=NYK0GBQVngs [Accessed 02 Mar. 2016]."
 ---
 
-In Euclidean geometry two lines are said to be parallel if they lie in the same plane and never meet, moreover properties like this one do not change when an Euclidean transformation is applied (translation/rotation), however what we perceive in reality is different from what's described with Euclidean geometry, in reality the length of an object/angles between lines for example are not preserved and therefore *parallel lines* may intersect
+In Euclidean geometry two lines are said to be parallel if they lie in the same plane and never meet, moreover properties like this one don't change when an Euclidean transformation is applied (translation/rotation), however what we perceive in real life is different from what's described with Euclidean geometry.
 
-This problem coincided with the one the renaissance artist had which is related to **perspective** i.e. how you represent the objects of a 3D world on a 2D canvas
-
-They realized the following rules while trying to draw tiles in perspective
+This problem coincided with the one the renaissance artists had while trying to paint on a canvas, when they tried to paint tiles on a canvas they realized that the following rules applied
 
 > parallel lines meet on the horizon
 
 > straight lines must be represented on the page by straight lines
 
-> the image of a conic is also a conic (for example a circle is drawn as an
-ellipse depending on the perspective)
+> the image of a conic is also a conic (for example a circle is drawn as an ellipse depending on the perspective)
 
 {{< figure src="/images/projective-geometry!perspective.jpg" title="projection" >}}
 
