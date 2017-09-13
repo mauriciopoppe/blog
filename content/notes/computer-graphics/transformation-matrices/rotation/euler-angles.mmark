@@ -100,7 +100,7 @@ There are six possibilities of choosing the rotation axes for proper Euler angle
 
 ## Tait-Bryan angles
 
-A sequence of three elemental rotations are called **proper Euler angles** when the angles represent rotations about three distinct axes
+A sequence of three elemental rotations are called **Tail-Bryan angles** when the angles represent rotations about three distinct axes
 
 Just like proper Euler angles there are 6 possible *intrinsic rotations* and 6 possible *extrinsic rotations*
 
@@ -156,7 +156,7 @@ Where
 
 $$
 \begin{align*}
-\mathbf{p}_{upright} &= \mathbf{M}_{object \rightarrow upright} \mathbf{p}_{object} \\
+\mathbf{p}_{upright} &= \mathbf{M}_{upright \leftarrow object} \mathbf{p}_{object} \\
 &= \begin{bmatrix} \mathbf{u}_{3 \times 1} \mathbf{v}_{3 \times 1} \mathbf{w}_{3 \times 1}\end{bmatrix} \mathbf{p}_{object}
 \end{align*}
 $$
