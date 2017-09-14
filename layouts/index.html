@@ -4,9 +4,15 @@
 
 {{ define "main" }}
 
-<!-- breadcrumb -->
-<div id="root"></div>
-<!-- <script> window.browserMain.render() </script> -->
+{{ range $index, $page := where .Data.Pages "Type" "home" }}
+  {{ $params := dict "root" $ "page" $page }}
+  {{ $widget := printf "widgets/%s.html" (or $page.Params.widget "custom") }}
+  <section class="section">
+    <div class="container">
+      {{ partial $widget $params }}
+    </div>
+  </section>
+{{ end }}
 
 <div class="section">
   <div role="main" class="container">

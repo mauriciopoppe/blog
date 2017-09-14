@@ -68,10 +68,12 @@ class Sidebar {
       } else {
         this.el.style.height = 'auto'
       }
-    // } else {
-    //   const wrapperTop = this.wrapper.getBoundingClientRect().top
-    //   // 50: padding and other stuff
-    //   this.el.style.height = `${window.innerHeight - wrapperTop - 25}px`
+    } else {
+      const wrapperTop = this.wrapper.getBoundingClientRect().top
+      const footerTop = footer.getBoundingClientRect().top
+      // 50: padding and other stuff
+      const height = Math.min(window.innerHeight, footerTop) - wrapperTop - 25
+      this.el.style.height = `${height}px`
     }
   }
 

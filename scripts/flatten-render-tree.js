@@ -128,7 +128,7 @@ promise
   .then(file => fs.writeJson(path.join(process.cwd(), 'data/metadata/render-tree.json'), file))
 
 promise
-  .then(file => createNavBar(file.children[0]))
+  .then(file => createNavBar(file.children.filter(node => node.path === 'notes')[0]))
   .then(async navbar => {
     await fs.ensureDir('layouts/partials/')
     await fs.writeFile('layouts/partials/sitemap-content.html', navbar)
