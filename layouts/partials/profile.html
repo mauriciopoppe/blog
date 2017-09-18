@@ -1,0 +1,66 @@
+{{ $random := index (shuffle (seq 4)) 0 }}
+{{ $quotes := index .Site.Data.quotes "quotes" }}
+{{ $quote := index $quotes $random }}
+
+<div class="container has-text-centered {{if isset . "isRoot"}}root{{end}}">
+  <div class="columns is-centered">
+    <div class="column is-half card box">
+      <img class="profile-pic lazy-load"
+        data-src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAArtAAAAJGNjODBiMzQ0LTllOWMtNGNmOS04MGJhLWE5YmIyMTgzY2NmMg.jpg"
+        alt="Me" />
+      <p class="is-size-3">Mauricio Poppe</p>
+      <p>
+        <span>I'm just getting started 😃</span>
+      </p>
+      {{ if isset . "isRoot" }}
+      <hr />
+        <div>
+          <a class="button"
+            href="https://github.com/mauriciopoppe" target="noopener">
+            <svg class="icon icon-github"><use xlink:href="#icon-github"></use></svg>
+            <span>Github</span>
+          </a>
+
+          <a class="button"
+            href="https://twitter.com/mauriciopoppe" target="noopener">
+            <svg class="icon icon-twitter"><use xlink:href="#icon-twitter"></use></svg>
+            <span>Twitter</span>
+          </a>
+
+          <a class="button"
+            href="https://www.linkedin.com/in/mauriciopoppe" target="noopener">
+            <svg class="icon icon-linkedin2"><use xlink:href="#icon-linkedin2"></use></svg>
+            <span>LinkedIn</span>
+          </a>
+        </div>
+
+        <hr />
+
+        <div>
+        My latest article:
+        {{ range first 2 .Site.RegularPages }}
+          {{ if not (eq .Title "") }}
+            <a href="{{ .Permalink }}">{{ .Title }}</a>
+            <!-- <br /> -->
+            <!-- <span class="date">{{ .Date.Format "Mon, Jan 2, 2006" }}</span> -->
+          {{ end }}
+        {{ end }}
+        </div>
+      {{ else }}
+        <hr />
+        <p class="is-size-5">
+          <span> {{ index $quote "quote" }}<span>
+          <i>{{ index $quote "author" }}</i>
+        </p>
+      {{ end }}
+      <hr />
+      <p class="is-size-7">
+        This site is built with <a href="https://gohugo.io/" target="noopener">Hugo</a>
+        and hosted on <a href="https://netlify.com/" target="noopener">Netlify</a>. <br />
+        The source code is hosted on <a href="http://github.com/" target="noopener">Github</a>
+      </p>
+      <p class="is-size-7">© 2015 - {{ now.Year }}</p>
+    </div>
+  </div>
+</div>
+

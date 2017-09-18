@@ -33,47 +33,49 @@ function getHeight (el) {
   return height
 }
 
-root.addEventListener('click', function (e) {
-  // find closest ancestor that is li
-  const li = e.target.closest('li')
-  // find closest child that is ul
-  const ul = Array.from(li.children)
-    .filter(node => node.tagName === 'UL')[0]
-  const opts = {
-    timing: expoInOut,
-    duration: 250
-  }
+function main () {
+  root.addEventListener('click', function (e) {
+    // find closest ancestor that is li
+    const li = e.target.closest('li')
+    // find closest child that is ul
+    const ul = Array.from(li.children)
+      .filter(node => node.tagName === 'UL')[0]
+    const opts = {
+      timing: expoInOut,
+      duration: 250
+    }
 
-  if (!ul) return
-  let p
-  if (ul.classList.contains('list-is-collapsed')) {
-    const newHeight = getHeight(ul)
-    p = animate({
-      ...opts,
-      draw (t) {
-        ul.style.height = `${t * newHeight}px`
-      }
-    })
-      .then(() => {
-        ul.style.height = 'auto'
+    if (!ul) return
+    let p
+    if (ul.classList.contains('list-is-collapsed')) {
+      const newHeight = getHeight(ul)
+      p = animate({
+        ...opts,
+        draw (t) {
+          ul.style.height = `${t * newHeight}px`
+        }
       })
-  } else {
-    const oldHeight = ul.offsetHeight
-    p = animate({
-      ...opts,
-      draw (t) {
-        ul.style.height = `${(1 - t) * oldHeight}px`
-      }
-    })
-      .then(() => {
-        ul.style.height = '0'
+        .then(() => {
+          ul.style.height = 'auto'
+        })
+    } else {
+      const oldHeight = ul.offsetHeight
+      p = animate({
+        ...opts,
+        draw (t) {
+          ul.style.height = `${(1 - t) * oldHeight}px`
+        }
       })
-  }
-  ul.parentNode.classList.toggle('item-expanded')
-  p.then(() => {
-    ul.classList.toggle('list-is-collapsed')
+        .then(() => {
+          ul.style.height = '0'
+        })
+    }
+    ul.parentNode.classList.toggle('item-expanded')
+    p.then(() => {
+      ul.classList.toggle('list-is-collapsed')
+    })
   })
-})
+}
 
 // open active items as needed
 function setActive () {
@@ -95,4 +97,7 @@ function setActive () {
   }
 }
 
-setActive()
+if (root) {
+  main()
+  setActive()
+}

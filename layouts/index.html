@@ -1,95 +1,138 @@
 {{ define "nav" }}
-  {{ partial "nav.html" . }}
+<!-- {{ partial "nav.html" . }} -->
 {{ end }}
 
 {{ define "main" }}
+<style>
+  body {
+    width: 100%;
+    height: 100%;
+  }
+  .body-content-wrapper {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .profile-pic {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 100px;
+  }
+  #background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+  #background canvas {
+    display: block;
+  }
+</style>
 
-{{ range $index, $page := where .Data.Pages "Type" "home" }}
-  {{ $params := dict "root" $ "page" $page }}
-  {{ $widget := printf "widgets/%s.html" (or $page.Params.widget "custom") }}
-  <section class="section">
-    <div class="container">
-      {{ partial $widget $params }}
-    </div>
-  </section>
-{{ end }}
+<!-- <div id="background"></div> -->
 
-<div class="section">
-  <div role="main" class="container">
-    <div class="column">
-      <div class="content">
-        {{ with .Content }}
-          <div class="hero">
-            {{.}}
-          </div>
-        {{ end }}
-        <div class="posts-list">
-          {{ $pag := .Paginate (where .Data.Pages "Type" "notes") }}
-          {{ range $pag.Pages }}
-            <article class="post-preview box">
-              <a href="{{ .Permalink }}">
-                <div>
-                  <div>
-                    <h3 class="title post-title">
-                      {{ .Title }}
-                      <div class="is-size-6">
-                        {{ partial "breadcrumb" . }}
-                      </div>
-                    </h3>
-                    {{ if .Params.subtitle }}
-                      <h3 class="subtitle post-subtitle">
-                      {{ .Params.subtitle }}
-                      </h3>
-                    {{ end }}
-                  </div>
-                </div>
-              </a>
+{{ partial "svg/defs.html" . }}
+<section class="hero is-fullheight">
+  <div class="hero-body">
+    {{ $isRoot := true }}
+    {{ partial "profile" (dict "Site" .Site "isRoot" $isRoot) }}
 
-              <div class="post-entry">
-                {{ if .Truncated }}
-                  {{ .Summary }}
-                  <div>
-                    <a href="{{ .Permalink }}" class="post-read-more">Read more...</a>
-                  </div>
-                {{ else }}
-                  {{ .Content }}
-                {{ end }}
-              </div>
-
-              {{ if .Params.tags }}
-                <div class="post-meta tags">
-                {{ range .Params.tags }}
-                  <span class="tag">
-                    #<a href="{{ $.Site.LanguagePrefix }}/tags/{{ . | urlize }}">{{ . }}</a>
-                  </span>
-                {{ end }}
-                </div>
-              {{ end }}
-
-            </article>
-          {{ end }}
-        </div>
-
-        {{ if or (.Paginator.HasPrev) (.Paginator.HasNext) }}
-          <ul class="pager main-pager">
-            {{ if .Paginator.HasPrev }}
-              <li class="previous">
-                <a href="{{ .URL }}page/{{ .Paginator.Prev.PageNumber }}">&larr; {{ i18n "newerPosts" }}</a>
-              </li>
-            {{ end }}
-            {{ if .Paginator.HasNext }}
-              <li class="next">
-                <a href="{{ .URL }}page/{{ .Paginator.Next.PageNumber }}">{{ i18n "olderPosts" }} &rarr;</a>
-              </li>
-            {{ end }}
-          </ul>
-        {{ end }}
-      </div>
-    </div>
+    {{ range where .Site.Pages "Section" "blog" }}
+      <li>
+        <a href="{{ .Permalink }}">{{ .Title }}</a>
+        <br />
+        <span class="date">{{ .Date.Format "Mon, Jan 2, 2006" }}</span>
+      </li>
+    {{ end }}
   </div>
-</div>
+</section>
+
+
+{{ partial "browser/browser-main.html" . }}
+
+<!-- <script src="/browser/browser-homepage/bundle.js"></script> -->
+
+<!-- {{ range $index, $page := where .Data.Pages "Type" "home" }} -->
+<!--   {{ $params := dict "root" $ "page" $page }} -->
+<!--   {{ $widget := printf "widgets/%s.html" (or $page.Params.widget "custom") }} -->
+<!--   {{ partial $widget $params }} -->
+<!-- {{ end }} -->
+
+<!-- <div class="section"> -->
+  <!--   <div role="main" class="container"> -->
+    <!--     <div class="column"> -->
+      <!--       <div class="content"> -->
+        <!--         {{ with .Content }} -->
+        <!--           <div class="hero"> -->
+          <!--             {{.}} -->
+          <!--           </div> -->
+        <!--         {{ end }} -->
+        <!--         <div class="posts-list"> -->
+          <!--           {{ $pag := .Paginate (where .Data.Pages "Type" "notes") }} -->
+          <!--           {{ range $pag.Pages }} -->
+          <!--             <article class="post-preview box"> -->
+            <!--               <a href="{{ .Permalink }}"> -->
+              <!--                 <div> -->
+                <!--                   <div> -->
+                  <!--                     <h3 class="title post-title"> -->
+                    <!--                       {{ .Title }} -->
+                    <!--                       <div class="is-size-6"> -->
+                      <!--                         {{ partial "breadcrumb" . }} -->
+                      <!--                       </div> -->
+                    <!--                     </h3> -->
+                  <!--                     {{ if .Params.subtitle }} -->
+                  <!--                       <h3 class="subtitle post-subtitle"> -->
+                    <!--                       {{ .Params.subtitle }} -->
+                    <!--                       </h3> -->
+                  <!--                     {{ end }} -->
+                  <!--                   </div> -->
+                <!--                 </div> -->
+              <!--               </a> -->
+
+            <!--               <div class="post-entry"> -->
+              <!--                 {{ if .Truncated }} -->
+              <!--                   {{ .Summary }} -->
+              <!--                   <div> -->
+                <!--                     <a href="{{ .Permalink }}" class="post-read-more">Read more...</a> -->
+                <!--                   </div> -->
+              <!--                 {{ else }} -->
+              <!--                   {{ .Content }} -->
+              <!--                 {{ end }} -->
+              <!--               </div> -->
+
+            <!--               {{ if .Params.tags }} -->
+            <!--                 <div class="post-meta tags"> -->
+              <!--                 {{ range .Params.tags }} -->
+              <!--                   <span class="tag"> -->
+                <!--                     #<a href="{{ $.Site.LanguagePrefix }}/tags/{{ . | urlize }}">{{ . }}</a> -->
+                <!--                   </span> -->
+              <!--                 {{ end }} -->
+              <!--                 </div> -->
+            <!--               {{ end }} -->
+
+            <!--             </article> -->
+          <!--           {{ end }} -->
+          <!--         </div> -->
+
+        <!--         {{ if or (.Paginator.HasPrev) (.Paginator.HasNext) }} -->
+        <!--           <ul class="pager main-pager"> -->
+          <!--             {{ if .Paginator.HasPrev }} -->
+          <!--               <li class="previous"> -->
+            <!--                 <a href="{{ .URL }}page/{{ .Paginator.Prev.PageNumber }}">&larr; {{ i18n "newerPosts" }}</a> -->
+            <!--               </li> -->
+          <!--             {{ end }} -->
+          <!--             {{ if .Paginator.HasNext }} -->
+          <!--               <li class="next"> -->
+            <!--                 <a href="{{ .URL }}page/{{ .Paginator.Next.PageNumber }}">{{ i18n "olderPosts" }} &rarr;</a> -->
+            <!--               </li> -->
+          <!--             {{ end }} -->
+          <!--           </ul> -->
+        <!--         {{ end }} -->
+        <!--       </div> -->
+      <!--     </div> -->
+    <!--   </div> -->
+  <!-- </div> -->
 {{ end }}
 
 {{ define "footer" }}
-  {{ partial "footer.html" . }}
+<!--   {{ partial "footer.html" . }} -->
 {{ end }}
