@@ -12,11 +12,27 @@ $family-serif: "Merriweather", "Georgia", serif;
 $primary: $color40;
 $secondary: $color70;
 $time: 250ms;
-// $desktop: 1400px + (2 * $gap);
-// $widescren: 1400px + (2 * $gap);
+// $desktop: 1300px + (2 * $gap);
+// $widescren: 1500px + (2 * $gap);
 $fullhd: 1500px + (2 * $gap);
 
 // derived
 $family-primary: $family-serif;
 
 @import "bulma/bulma.sass";
+
+// override .number
+.number {
+  align-items: initial;
+  background-color: initial;
+  border-radius: initial;
+  display: initial;
+  font-size: inherit;
+  height: initial;
+  justify-content: initial;
+  margin-right: initial;
+  min-width: initial;
+  padding: initial;
+  text-align: initial;
+  vertical-align: initial;
+}

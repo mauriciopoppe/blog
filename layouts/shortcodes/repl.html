@@ -3,12 +3,17 @@
 <b style="color: red">repl: id or argument required</b>
 {{- end }}
 
-<iframe
-    class="repl-it-iframe lazy-load"
-    title="repl demo"
-    frameborder="0"
-    width="100%"
-    height="700px"
-    data-src="https://repl.it/{{ .Get 0}}?lite=true">
-</iframe>
+<div class="repl__wrapper">
+    <div class="repl__overlay">
+        click to open demo
+    </div>
+    <iframe
+        class="repl__iframe lazy-load"
+        title="repl demo"
+        frameborder="0"
+        width="100%"
+        height="700px"
+        data-src="https://repl.it/{{ .Get 0}}?lite=true">
+    </iframe>
+</div>
 <!-- repl -->

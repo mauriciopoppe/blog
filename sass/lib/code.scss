@@ -2,9 +2,10 @@
   // padding: 1em;
   background-color: transparent;
   border-left: 3px solid $primary;
+  font-size: 0.75em;
   code {
-    font-size: 0.75em;
     padding: 0;
+    display: inline-block;
   }
 
   code.hljs {

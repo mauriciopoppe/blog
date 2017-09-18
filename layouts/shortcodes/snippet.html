@@ -1,8 +1,13 @@
 <!-- snippet -->
-{{- if (not (.Get "file")) }} <b style="color: red">snippet: file required</b> {{- end }}
-{{- if (not (.Get "lang")) }} <b style="color: red">snippet: lang required</b> {{- end }}
+{{ if (not (.Get "lang")) }} <b style="color: red">snippet: lang required</b>{{ end }}
 
-<pre>
-  <code class="language {{ .Get "lang" }}">{{- readFile (.Get "file") -}}</code>
+{{ if .Get "file" }}
+  {{ $.Scratch.Add "content" (readFile (.Get "file")) }}
+{{ else }}
+  {{ $.Scratch.Add "content" (trim .Inner "\n") }}
+{{ end }}
+
+<pre {{ if .Get "line" }}data-line='{{ .Get "line" }}' {{end}}>
+  <code class='language-{{ .Get "lang" }}' >{{- $.Scratch.Get "content" -}}</code>
 </pre>
 <!-- snippet -->

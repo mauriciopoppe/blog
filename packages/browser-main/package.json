@@ -12,7 +12,7 @@
     "@blog/webpack-config": "^1.0.0",
     "debounce": "^1.0.2",
     "fontfaceobserver": "^2.0.13",
-    "lozad": "0.0.3",
+    "lozad": "1.0.2",
     "slideout": "^1.0.1",
     "tocbot": "^3.0.3"
   },

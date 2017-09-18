@@ -53,7 +53,10 @@ module.exports = {
     }, {
       test: /\.svg$/,
       use: 'svg-sprite-loader'
-    }, {
+    },
+    { test: /\.(glsl|frag|vert)$/, use: 'raw-loader', exclude: /node_modules/ },
+    { test: /\.(glsl|frag|vert)$/, use: 'glslify-loader', exclude: /node_modules/ },
+    {
       test: /\.css$/,
       use: [ 'style-loader', 'css-loader' ]
     }]
