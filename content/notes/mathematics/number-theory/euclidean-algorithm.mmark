@@ -116,6 +116,6 @@ The last non-zero remainder is $$2$$ thus the GCD is 2
 
 Recursive version
 
-{{< snippet file="static/code/math/euclidsAlgorithm.cpp" lang="cpp">}}
+{{< snippet file="static/code/math/euclidsAlgorithm.cpp" lang="cpp" />}}
 
 [explanation](http://people.cis.ksu.edu/~schmidt/301s12/Exercises/euclid_alg.html)

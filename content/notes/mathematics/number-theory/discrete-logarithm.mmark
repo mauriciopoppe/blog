@@ -71,5 +71,5 @@ If we find $$i$$ and $$j$$ so that this holds then we have found an exponent $$x
 Note: $$a^{-m}$$ can be computed using the modular multiplicative inverse of $$a$$, then computing the $$m$$-th power of the inverse $$\pmod{n}$$
 
 
-{{< snippet file="static/code/math/babyStepGiantStep.cpp" lang="cpp" >}}
+{{< snippet file="static/code/math/babyStepGiantStep.cpp" lang="cpp" />}}
 

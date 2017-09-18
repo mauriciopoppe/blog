@@ -8,7 +8,7 @@ date: 2015-06-24 11:00:00
 
 Given a graph $$G$$ and a distinguished source vertex $$s$$, BFS explores the edges of $$G$$ to discover the vertices adjacent to $$s$$, as a consequence it also computes the distance of the path from $$s$$ to each reachable vertex
 
-{{< snippet file="static/code/graphs/traversal/bfs.cpp" lang="cpp" >}}
+{{< snippet file="static/code/graphs/traversal/bfs.cpp" lang="cpp" />}}
 
 ## Depth First Search (DFS)
 
@@ -62,4 +62,4 @@ Another way to determine the type of edge is by analyzing the states $$u_{in}$$ 
 - if $$G$$ is an undirected graph then every edge of $$G$$ is either a tree edge or a back edge during the exploration of the dfs tree
 - a directed graph $$G$$ is acyclic if it contains no back edges
 
-{{< snippet file="static/code/graphs/traversal/dfs.cpp" lang="cpp" >}}
+{{< snippet file="static/code/graphs/traversal/dfs.cpp" lang="cpp" />}}

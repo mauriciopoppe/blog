@@ -98,6 +98,6 @@ In the implementation a source vertex $$u$$ is chosen to be arbitrary or to be t
   </div>
 </div>
 
-{{< snippet file="static/code/graphs/eulerian/eulerian_graph.cpp" lang="cpp" >}}
+{{< snippet file="static/code/graphs/eulerian/eulerian_graph.cpp" lang="cpp" />}}
 
 <script src="/js/graph/eulerian-graphs.js"></script>

@@ -75,4 +75,4 @@ $$
 
 Finally we have to plug these values into the equation \eqref{chinese-remainder-as-points}
 
-{{< snippet file="static/code/math/chineseRemainder.cpp" lang="cpp" >}}
+{{< snippet file="static/code/math/chineseRemainder.cpp" lang="cpp" />}}

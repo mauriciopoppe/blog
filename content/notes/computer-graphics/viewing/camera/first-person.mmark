@@ -104,5 +104,5 @@ $$
 \end{align*}
 $$
 
-{{< snippet file="static/code/opengl/fps.cpp" lang="cpp" >}}
+{{< snippet file="static/code/opengl/fps.cpp" lang="cpp" />}}
 

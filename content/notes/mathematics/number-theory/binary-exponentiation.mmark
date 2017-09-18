@@ -25,4 +25,4 @@ $$
 
 Time complexity: $$O(log(n))$$
 
-{{< snippet file="static/code/math/binaryExponentiation.cpp" lang="cpp" >}}
+{{< snippet file="static/code/math/binaryExponentiation.cpp" lang="cpp" />}}

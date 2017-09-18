@@ -142,7 +142,7 @@ $$
 
 Pollard detected the cycle using [Floyd's cycle-finding algorithm](https://www.wikiwand.com/en/Cycle_detection#/Tortoise_and_hare) which is based on two pointers which move through a sequence at different speeds, one moves a unit and the other moves two units each time, if there's a cycle eventually the two pointers will encounter at some element belonging to the cycle, if we've analyzed all the elements of the sequence and saw not a single contiguous pair fullfills $$gcd(x_i - x_{i + 1}, n) > 1$$ we need to choose other values for $$x_0, a$$ and rerun the algorithm
 
-{{< snippet file="static/code/math/factorization/pollardRhoFactorization.cpp" lang="cpp" >}}
+{{< snippet file="static/code/math/factorization/pollardRhoFactorization.cpp" lang="cpp" />}}
 
 ### Eratosthenes Sieve factorization of a range
 
@@ -153,4 +153,4 @@ We can also compute the factorization of a number by modifying the sieve of Erat
 
 Let's represent $$n$$ as $$p_1^{a_1} \cdot p_2^{a_2} \ldots p_n^{a_n}$$, since we're hold for each position the lowest prime and its the maximum power, the state stored at the position $$n$$ of the sieve will be $$p_1^{a_1}$$, if we divide $$n$$ by this number we will move to the state $$p_2^{a_2} \ldots p_n^{a_n}$$, this recursive process is run until the current state reached in the sieve is $$1$$
 
-{{< snippet file="static/code/math/factorization/eratosthenesSieveFactorization.cpp" lang="cpp" >}}
+{{< snippet file="static/code/math/factorization/eratosthenesSieveFactorization.cpp" lang="cpp" />}}

@@ -58,7 +58,7 @@ Some properties of the edges
 - The next edge is $$e_3 = v_0v_3$$ with $$w(e_3) = 4$$, since it does not form a cucle with the previously selected edges it's part of the MST
 - No need to do more iterations since the set is already a spanning tree
 
-{{< snippet file="static/code/graphs/minimum_spanning_tree/kruskal.cpp" lang="cpp" >}}
+{{< snippet file="static/code/graphs/minimum_spanning_tree/kruskal.cpp" lang="cpp" />}}
 
 ### Prim's algorithm
 
@@ -80,7 +80,7 @@ Implementation strategies:
 - we need a data structure that keeps track of a single edge per vertex (space: $$O(n)$$ and is able to tell the one with the minimum weight (doing $$O(n)$$ queries), since $$m \approx n^2$$ we visit each vertex finding an edge with minimum cost (each query will take $$O(n)$$ for an overall $$O(n^2)$$ time complexity)
 - after an arbitrary vertex $$u$$ has been chosen all the vertices incident to $$u$$ will update their minimum edge weight
 
-{{< snippet file="static/code/graphs/minimum_spanning_tree/prim_dense_graph.cpp" lang="cpp" >}}
+{{< snippet file="static/code/graphs/minimum_spanning_tree/prim_dense_graph.cpp" lang="cpp" />}}
 
 #### Prim in sparse graphs
 
@@ -91,7 +91,7 @@ Implementation strategies:
 - the red-black tree will hold $$n - 1$$ entries at max (one entry per vertex), each iteration a vertex will be removed from the red-black tree
 - there will be exactly $$n$$ iterations if the graph is connected
 
-{{< snippet file="static/code/graphs/minimum_spanning_tree/prim_sparse_graph.cpp" lang="cpp" >}}
+{{< snippet file="static/code/graphs/minimum_spanning_tree/prim_sparse_graph.cpp" lang="cpp" />}}
 
 ## Number of spanning trees in a graph
 
@@ -114,7 +114,7 @@ $$
 
 $$det(M_{ij})$$ indicates the determinant of the $$(n - 1) \times (n - 1)$$ submatrix of $$M$$ obtained by removing the $$i$$-th row and the $$j$$-th column
 
-{{< snippet file="static/code/graphs/minimum_spanning_tree/number_of_spanning_trees.cpp" lang="cpp" >}}
+{{< snippet file="static/code/graphs/minimum_spanning_tree/number_of_spanning_trees.cpp" lang="cpp" />}}
 
 ### Number of spanning trees in a complete graph $$K_n$$
 

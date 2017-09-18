@@ -27,7 +27,7 @@ Let $$G$$ be an undirected graph, by analyzing the properties of the dfs tree we
 - let $$uv$$ be a back edge, when this edge is analyzed the $$v_{back}$$ state needs to be updated to be the minimum between the existing $$v_{back}$$ and the discovery time of $$u$$, i.e. $$v_{back} = min(v_{back}, u_{in})$$
 - let $$v$$ be an adjacent successor of $$u$$ in the dfs tree, when we've finished analyzing the branch of the tree because of the $$uv$$ edge we have to check if the $$v_{back}$$ state contains a back edge to some predecessor of $$u$$ ($$v_{back}$$ is propagated) i.e. $$u_{in} > v_{back}$$, if so then $$uv$$ is not a bridge
 
-{{< snippet file="static/code/graphs/cut_edges.cpp" lang="cpp" >}}
+{{< snippet file="static/code/graphs/cut_edges.cpp" lang="cpp" />}}
 
 ## Directed graph (strong bridges)
 

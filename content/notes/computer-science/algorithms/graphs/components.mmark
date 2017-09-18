@@ -11,7 +11,7 @@ The problem of finding components in an undirected graph requires a simple graph
 
 - the number of components of an undirected graph $$G$$ is equal to the number of disconnected subgraphs
 
-{{< snippet file="static/code/graphs/components/components_undirected.cpp" lang="cpp" >}}
+{{< snippet file="static/code/graphs/components/components_undirected.cpp" lang="cpp" />}}
 
 ## Directed graphs
 
@@ -38,4 +38,4 @@ A stack is also needed to keep track of the nodes that were visited, the working
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Tarjan%27s_Algorithm_Animation.gif?1435613160896" class="center" style="display: block" alt="">
 
-{{< snippet file="static/code/graphs/components/strongly_connected_components_tarjan.cpp" lang="cpp" >}}
+{{< snippet file="static/code/graphs/components/strongly_connected_components_tarjan.cpp" lang="cpp" />}}

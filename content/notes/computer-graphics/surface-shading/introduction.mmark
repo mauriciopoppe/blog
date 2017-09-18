@@ -1,6 +1,8 @@
 ---
 title: "Introduction"
 date: 2016-06-03 13:46:07
+references:
+  - https://thebookofshaders.com
 ---
 
 Shading is the process of altering the color of a surface, different *shading models* capture the process of light reflection on a surface, these models use the following variables in the computation
