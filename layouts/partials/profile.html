@@ -1,12 +1,17 @@
 {{ $random := index (shuffle (seq 4)) 0 }}
 {{ $quotes := index .Site.Data.quotes "quotes" }}
 {{ $quote := index $quotes $random }}
+{{ $image := "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAArtAAAAJGNjODBiMzQ0LTllOWMtNGNmOS04MGJhLWE5YmIyMTgzY2NmMg.jpg" }}
 
 <div class="container has-text-centered {{if isset . "isRoot"}}root{{end}}">
   <div class="columns is-centered">
     <div class="column is-half card box">
       <img class="profile-pic lazy-load"
-        data-src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAArtAAAAJGNjODBiMzQ0LTllOWMtNGNmOS04MGJhLWE5YmIyMTgzY2NmMg.jpg"
+        {{ if isset . "isRoot" }}
+          src="{{ $image }}"
+        {{ else }}
+          data-src="{{ $image }}"
+        {{ end }}
         alt="Me" />
       <p class="is-size-3">Mauricio Poppe</p>
       <p>
@@ -36,7 +41,7 @@
 
         <hr />
 
-        <div>
+        <div class="is-size-6">
         My latest article:
         {{ range first 2 .Site.RegularPages }}
           {{ if not (eq .Title "") }}
