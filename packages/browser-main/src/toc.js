@@ -73,12 +73,12 @@ function main () {
         } else {
           this.el.style.height = 'auto'
         }
-      } else {
-        const wrapperTop = this.wrapper.getBoundingClientRect().top
-        const footerTop = footer.getBoundingClientRect().top
-        // 50: padding and other stuff
-        const height = Math.min(window.innerHeight, footerTop) - wrapperTop - 25
-        this.el.style.height = `${height}px`
+      // } else {
+      //   const wrapperTop = this.wrapper.getBoundingClientRect().top
+      //   const footerTop = footer.getBoundingClientRect().top
+      //   // 50: padding and other stuff
+      //   const height = Math.min(window.innerHeight, footerTop) - wrapperTop - 25
+      //   this.el.style.height = `${height}px`
       }
     }
 
