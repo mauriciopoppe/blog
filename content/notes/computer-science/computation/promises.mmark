@@ -624,7 +624,7 @@ function handleResolved (promise, handler) {
 
 #### Execute the handlers after the event loop
 
-Requirement [2.2.4](https://promisesaplus.com/#point-34), I haven't researched a lot on the reason behind it, I guess this makes the promise resolution process consistent i.e. it's ensured that the observers will be called in the future even if the resolver/handlers are synchronous.
+Requirement [2.2.4](https://promisesaplus.com/#point-34), I haven't researched a lot on the reason behind it, I guess this makes the promise resolution process consistent by ensuring that the observers will be called in the future even if the resolver/handlers are synchronous.
 
 ```javascript
 it('the promise observers are called after the event loop', done => {

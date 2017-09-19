@@ -1,19 +1,7 @@
 // bulma override
 .content pre {
   border-left: 3px solid $primary;
-  &[data-line] { }
   code {
     padding: 0;
   }
 }
-
-// pre {
-//   padding: 1em;
-//   background-color: transparent;
-//   border-left: 3px solid $primary;
-//   font-size: 0.75em;
-//   code {
-//     padding: 0;
-//     display: inline-block;
-//   }
-// }
