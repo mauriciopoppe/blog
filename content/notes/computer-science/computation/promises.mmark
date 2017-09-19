@@ -14,9 +14,9 @@ Let's start...
 
 A promise is an object/function that must be in one of these states: `PENDING`, `FULFILLED`, `REJECTED`, initially the promise is in a `PENDING` state.
 
-A promise can transition from a `PENDING` state to either a `FUFILLED` state with a `value` or to a `REJECTED` state with a `reason`.
+A promise can transition from a `PENDING` state to either a `FULFILLED` state with a `value` or to a `REJECTED` state with a `reason`.
 
-To make the transition the Promise constructor receives a function called `resolver`, the resolver is called immediately with two functions `fullfill` and `reject` that when called perform the state transition:
+To make the transition the Promise constructor receives a function called `resolver`, the resolver is called immediately with two functions `fulfill` and `reject` that when called perform the state transition:
 
 - `fulfill(value)` - from `PENDING` to `FULFILLED` with a value `value`, this `value` is now a property of the promise.
 - `reject(reason)` - from `PENDING` to `REJECTED` with a reason `reason`, this `reason` is now a property of the promise.
@@ -108,7 +108,7 @@ function doResolve (promise, resolver) {
 
 To observe changes in the state of the promise (and the fulfillment value or rejection reason) the promise defines a `then` method that receives 2 arguments: an `onFulfilled` function and an `onRejected` function:
 
-- when the promise is in a `FULLFILLED` state the `onFulfilled` function will be called with the promise's value `value` e.g. `onFulfilled(value)`
+- when the promise is in a `FULFILLED` state the `onFulfilled` function will be called with the promise's value `value` e.g. `onFulfilled(value)`
 - when the promise is in a `REJECTED` state the `onRejected` function will be called with the promise's rejection `reason` e.g. `onRejected(reason)`
 
 ```javascript
@@ -117,7 +117,7 @@ it('should have a .then method', () => {
   expect(typeof promise.then).toBe('function')
 })
 
-it('should call the onFulfilled method when promise is in a FULFILLED state', () => {
+it('should call the onFulfilled method when a promise is in a FULFILLED state', () => {
   const value = ':)'
   const onFulfilled = jest.fn()
   const promise = new APromise((fulfill, reject) => {
@@ -140,7 +140,7 @@ it('transitions to the REJECTED state with a `reason`', () => {
 })
 ```
 
-Let's add the `.then` function to the class prototype, note that it'll call either the `onFulfilled` or `onRejected` function based on the promise state
+Let's add the `.then` function to the class prototype, note that it'll call either the `onFulfilled` or `onRejected` function based on the  state of the promise
 
 ```javascript
 class APromise {
@@ -159,7 +159,7 @@ function handleResolved (promise, onFulfilled, onRejected) {
 
 {{< repl "LMOn/4" >}}
 
-### One way transition
+### One-way transition
 
 Once the transition to either `FULFILLED` or `REJECTED` occurs, the promise must not transition to any other state.
 
@@ -200,7 +200,7 @@ it('when a promise is rejected it should not be fulfilled with another value', (
 })
 ```
 
-In our current implementation the function that calls the resolver should make sure that either `fulfill` or `reject` is called once, subsequent calls should be ignored
+In our current implementation, the function that calls the resolver should make sure that either `fulfill` or `reject` is called once, subsequent calls should be ignored
 
 {{< snippet lang="javascript" line="2,5,6,11,12" >}}
 function doResolve (promise, resolver) {
@@ -261,7 +261,7 @@ function doResolve (promise, resolver) {
 
 ### Async resolver
 
-If the resolver's `fullfill`/`reject` are executed asynchronously our `.then` method will fail because its handlers are executed immediately.
+If the resolver's `fulfill`/`reject` are executed asynchronously our `.then` method will fail because its handlers are executed immediately.
 
 ```javascript
 it('should queue callbacks when the promise is not fulfilled immediately', done => {
@@ -354,7 +354,7 @@ function handleResolved (promise, handler) {
 }
 {{< /snippet >}}
 
-Also the `fullfill`, `reject` methods should be updated so that they invoke all the handlers stored in the promise when called, this is implemented in a new function `finale` called after the state and the value have been updated.
+Also the `fulfill`, `reject` methods should be updated so that they invoke all the handlers stored in the promise when called, this is implemented in a new function `finale` called after the state and the value have been updated.
 
 {{< snippet lang="javascript" line="4,10,13-19" >}}
 function fulfill (promise, value) {
@@ -382,7 +382,7 @@ function finale (promise) {
 
 ### Chaining promises
 
-Our `.then` methods should return a new promise, if we chain it with another call to `.then` note that the handlers are queued in the new promise not in the old one.
+Our `.then` methods should return a new promise. Note that the handlers are queued in the new promise not in the old one.
 
 ```javascript
 it('.then should return a new promise', () => {
@@ -459,7 +459,7 @@ it('if .then\'s onRejected is called and has an error it should transition to RE
 })
 ```
 
-For the implementation we first have to store the new promise in the handlers queue as well, that way if the observed promise is resolved the elements in the queue know which promise they need to resolve.
+For the implementation, we first have to store the new promise in the handlers queue as well, that way if the observed promise is resolved the elements in the queue know which promise they need to resolve.
 
 
 {{< snippet lang="javascript" line="5-6,13-19" >}}
@@ -489,7 +489,7 @@ function handleResolved (promise, handler) {
 
 ### Async handlers
 
-Next let's consider the case where a handler returns a promise, in this case the handler's promise should copy the state and fulfillment value or rejection reason of the returned promise
+Next let's consider the case where a handler returns a promise, in this case, the handler's promise should copy the state and fulfillment value or rejection reason of the returned promise
 
 ```javascript
 it('if a handler returns a promise, the previous promise should ' +
@@ -599,7 +599,7 @@ const qOnFulfilled = null
 const q = p.then(qOnFulfilled)
 ```
 
-In this case `q` should be resolved right away with the resolution value of `p`
+In this case, `q` should be resolved right away with the resolution value of `p`
 
 {{< snippet lang="javascript" line="4-11" >}}
 function handleResolved (promise, handler) {
@@ -624,7 +624,7 @@ function handleResolved (promise, handler) {
 
 #### Execute the handlers after the event loop
 
-Requirement [2.2.4](https://promisesaplus.com/#point-34), I haven't researched a lot on the why, I guess this makes the promise resolution process consistent i.e. it's ensured that the observers will be called in the future even if the resolver/handlers are synchronous.
+Requirement [2.2.4](https://promisesaplus.com/#point-34), I haven't researched a lot on the reason behind it, I guess this makes the promise resolution process consistent i.e. it's ensured that the observers will be called in the future even if the resolver/handlers are synchronous.
 
 ```javascript
 it('the promise observers are called after the event loop', done => {
@@ -759,7 +759,7 @@ it('should work with thenables', done => {
 
 Let's modify the `fulfill` method and add the check for thenables, note that accessing a property is not always a safe operation (e.g. the property might be defined using a [`getter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get) that fails), that's why we should wrap it in a try/catch.
 
-Also note that by the requirement [2.3.3.3](https://promisesaplus.com/#point-56) the thenable's `then` should be called with the thenable itself as `this`
+Also, note that by the requirement [2.3.3.3](https://promisesaplus.com/#point-56) the thenable's `then` should be called with the thenable itself as `this`
 
 {{< snippet lang="javascript" line="5-24" >}}
 function fulfill (promise, value) {
@@ -805,8 +805,6 @@ This is the final version of our tests and the promise implementation
 
 #### Running the A+ Promise compliance tests
 
-I've created a repo set up with this package https://github.com/promises-aplus/promises-tests that you can download and run the test suite
-
 <div class="columns is-centered has-text-centered">
   <div class="column is-half">
     <a class="button is-primary is-large" href="https://github.com/mauriciopoppe/implementing-promises-from-scratch" target="noopen">
@@ -821,7 +819,7 @@ This implementation passed all the 872 tests, cool!
 
 #### Improvements
 
-- Add a task queue so that the execution of multiple handlers happens in a *batch* (it's not actually a batch, the way the event loop works is that multiple calls to an API like `setTimeout` will add multiple events to the event queue as well, however if we send them in a *batch* all the handlers will be executed in a row in the next event loop)
+- Add a task queue so that the execution of multiple handlers happens in a *batch* (it's not actually a batch, the way the event loop works is that multiple calls to an API like `setTimeout` will add multiple events to the event queue as well, however, if we send them in a *batch* all the handlers will be executed in a row in the next event loop)
 - Add missing methods: `Promise.all`, `Promise.race` and the like
 - Performance improvements, the creator of BlueBird has a [detailed document](https://github.com/petkaantonov/bluebird/wiki/Optimization-killers) with some optimization tips
 - Async stack traces, see [`q`](https://github.com/kriskowal/q#long-stack-traces)
