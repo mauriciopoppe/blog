@@ -6,9 +6,11 @@ noMath: true
 
 ## Implementing promises from scratch
 
-My objective is to write something similar to [`then/promise`](https://github.com/then/promise/blob/master/src/core.js), also I'll do it the TDD way where I'll write the tests first and then the implementation. [This article](https://www.promisejs.org/implementing/) was one of the best references to implement my own. I'll also refer to the [A+ promise spec](https://promisesaplus.com/) when necessary.
+My objective is to write something similar to [`then/promise`](https://github.com/then/promise/blob/master/src/core.js), also, I'll do it the TDD way  where I'll write the tests first and then implement set of changes on the code to make the tests pass (I'll write the tests on the platform [Jest](https://facebook.github.io/jest/))
 
-Let's start...
+[This article](https://www.promisejs.org/implementing/) was one of the best references I found online, this implementation is heavily inspired by it.
+
+I'll also refer to the [A+ promise spec](https://promisesaplus.com/) when necessary.
 
 ### Promise state
 
@@ -819,7 +821,7 @@ This implementation passed all the 872 tests, cool!
 
 #### Improvements
 
-- Add a task queue so that the execution of multiple handlers happens in a *batch* (it's not actually a batch, the way the event loop works is that multiple calls to an API like `setTimeout` will add multiple events to the event queue as well, however, if we send them in a *batch* all the handlers will be executed in a row in the next event loop)
+- Add a task queue so that the execution of multiple handlers happens in a *batch* (it's not actually a batch, the way the event loop works is that multiple calls to an API like `setTimeout` will add multiple tasks to the task queue as well, however, if we send them in a *batch* all the handlers will be executed in a row in the next event loop)
 - Add missing methods: `Promise.all`, `Promise.race` and the like
 - Performance improvements, the creator of BlueBird has a [detailed document](https://github.com/petkaantonov/bluebird/wiki/Optimization-killers) with some optimization tips
 - Async stack traces, see [`q`](https://github.com/kriskowal/q#long-stack-traces)
