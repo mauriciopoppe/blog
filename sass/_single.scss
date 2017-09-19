@@ -1,4 +1,9 @@
 article[role=main] {
-  font-size: 1.25em;
-  color: $grey;
+  // color: $grey;
+}
+
+@media screen and (min-width: 769px) {
+  article[role=main] {
+    font-size: 1.25em;
+  }
 }

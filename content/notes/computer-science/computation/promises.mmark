@@ -142,7 +142,7 @@ it('transitions to the REJECTED state with a `reason`', () => {
 
 Let's add the `.then` function to the class prototype, note that it'll call either the `onFulfilled` or `onRejected` function based on the  state of the promise
 
-```javascript
+{{< snippet lang="javascript" line="3-5,9-12" >}}
 class APromise {
   // ...
   then (onFulfilled, onRejected) {
@@ -155,7 +155,7 @@ function handleResolved (promise, onFulfilled, onRejected) {
   const cb = promise.state === FULFILLED ? onFulfilled : onRejected
   cb(promise.value)
 }
-```
+{{< /snippet >}}
 
 {{< repl "LMOn/4" >}}
 
@@ -246,7 +246,7 @@ describe('handling resolver errors', () => {
 
 The function that calls the resolver should wrap it in a try/catch block and transition to `REJECTED` if the catch block is executed
 
-{{< snippet lang="javascript" line="" >}}
+{{< snippet lang="javascript" line="3-7" >}}
 function doResolve (promise, resolver) {
   // ...
   try {

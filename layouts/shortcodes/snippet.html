@@ -7,7 +7,5 @@
   {{ $.Scratch.Add "content" (trim .Inner "\n") }}
 {{ end }}
 
-<pre {{ if .Get "line" }}data-line='{{ .Get "line" }}' {{end}}>
-  <code class='language-{{ .Get "lang" }}' >{{- $.Scratch.Get "content" -}}</code>
-</pre>
+<pre {{ if .Get "line" }}data-line='{{ .Get "line" }}' {{end}}><code class='language-{{ .Get "lang" }}' >{{- $.Scratch.Get "content" -}}</code></pre>
 <!-- snippet -->

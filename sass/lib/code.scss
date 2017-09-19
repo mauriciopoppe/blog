@@ -1,14 +1,19 @@
+// bulma override
 .content pre {
-  // padding: 1em;
-  background-color: transparent;
   border-left: 3px solid $primary;
-  font-size: 0.75em;
+  &[data-line] { }
   code {
     padding: 0;
-    display: inline-block;
-  }
-
-  code.hljs {
-    background-color: transparent;
   }
 }
+
+// pre {
+//   padding: 1em;
+//   background-color: transparent;
+//   border-left: 3px solid $primary;
+//   font-size: 0.75em;
+//   code {
+//     padding: 0;
+//     display: inline-block;
+//   }
+// }
