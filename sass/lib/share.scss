@@ -19,6 +19,7 @@
   }
 }
 
+
 .resp-sharing-button {
   border-radius: 5px;
   transition: 25ms ease-out;
@@ -29,8 +30,18 @@
 .resp-sharing-button__icon svg {
   width: 1em;
   height: 1em;
-  margin-right: 0.4em;
+  margin: 0.2em 0.4em;
   vertical-align: top
+}
+
+.resp-sharing-button__link-text {
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
+  .resp-sharing-button__link-text {
+    display: none;
+  }
 }
 
 .resp-sharing-button--small svg {
