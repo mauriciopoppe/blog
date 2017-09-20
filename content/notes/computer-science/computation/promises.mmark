@@ -805,6 +805,10 @@ This is the final version of our tests and the promise implementation
 
 #### Running the A+ Promise compliance tests
 
+This implementation passed all the 872 tests, cool!
+
+>  872 passing (14s)
+
 <div class="columns is-centered has-text-centered">
   <div class="column is-half">
     <a class="button is-primary is-large" href="https://github.com/mauriciopoppe/implementing-promises-from-scratch" target="noopen">
@@ -812,10 +816,6 @@ This is the final version of our tests and the promise implementation
     </a>
   </div>
 </div>
-
-This implementation passed all the 872 tests, cool!
-
->  872 passing (14s)
 
 #### Improvements
 
