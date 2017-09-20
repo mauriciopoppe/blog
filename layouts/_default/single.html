@@ -41,6 +41,15 @@
           {{ end }}
         </article>
 
+        {{ if not (isset .Params "noShare") }}
+          <hr />
+          <div class="sharing">
+            <div class="sharing__message has-text-centered"> Spread the word! </div>
+            <div class="sharing__buttons">
+              {{ partial "share.html" . }}
+            </div>
+          </div>
+        {{ end }}
       </div>
 
       <aside class="column is-one-quarter is-hidden-mobile">

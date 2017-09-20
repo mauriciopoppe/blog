@@ -1,6 +1,8 @@
 ---
 title: "Rendering"
+description: "Intro to rendering in computer graphics"
 date: 2016-02-26 16:59:48
+tags: ['Computer Graphics', 'Basics']
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
 ---

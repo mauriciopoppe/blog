@@ -1,10 +1,13 @@
-title: "Mauricio Poppe's blog"
+title: "Mauricio Poppe's notes"
 
 params:
-  description: "My notes about the things I learn every single day"
+  description: "My notes about the things I learn every day"
 
 baseURL: "/"
 languageCode: "en-us"
 
 metadataFormat: 'yaml'
+
+social:
+  twitter: mauricio_poppe
 

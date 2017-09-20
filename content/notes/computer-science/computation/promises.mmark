@@ -1,5 +1,7 @@
 ---
 title: "Promises"
+description: "Implementing promises from scratch the TDD way"
+tags: ["Promises", "JavaScript"]
 date: 2017-09-16T21:05:42Z
 noMath: true
 ---
