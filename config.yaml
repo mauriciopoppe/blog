@@ -3,7 +3,7 @@ title: "Mauricio Poppe's notes"
 params:
   description: "My notes about the things I learn every day"
 
-baseURL: "/"
+baseURL: "https://www.mauriciopoppe.com/"
 languageCode: "en-us"
 
 metadataFormat: 'yaml'
