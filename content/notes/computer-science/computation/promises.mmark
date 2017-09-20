@@ -8,7 +8,7 @@ noMath: true
 
 ## Implementing promises from scratch
 
-My objective is to write something similar to [`then/promise`](https://github.com/then/promise/blob/master/src/core.js), also, I'll do it the TDD way  where I'll write the tests first and then implement set of changes on the code to make the tests pass (I'll write the tests on the platform [Jest](https://facebook.github.io/jest/))
+My objective is to write a Promises/A+ conformant implementation similar to [`then/promise`](https://github.com/then/promise/blob/master/src/core.js), also, I'll do it the TDD way where I'll write the some tests first and then implement what's needed to make the tests pass (tests will be written on the platform [Jest](https://facebook.github.io/jest/))
 
 [This article](https://www.promisejs.org/implementing/) was one of the best references I found online, this implementation is heavily inspired by it.
 
@@ -114,6 +114,8 @@ To observe changes in the state of the promise (and the fulfillment value or rej
 
 - when the promise is in a `FULFILLED` state the `onFulfilled` function will be called with the promise's fulfillment `value` e.g. `onFulfilled(value)`
 - when the promise is in a `REJECTED` state the `onRejected` function will be called with the promise's rejection `reason` e.g. `onRejected(reason)`
+
+From now on these functions will be referred as promise `handlers`.
 
 ```javascript
 it('should have a .then method', () => {
@@ -626,7 +628,7 @@ function handleResolved (promise, handler) {
 
 #### Execute the handlers after the event loop
 
-Requirement [2.2.4](https://promisesaplus.com/#point-34), I haven't researched a lot on the reason behind it, I guess this makes the promise resolution process consistent by ensuring that the observers are called in the future even if the resolver/handlers are synchronous.
+Requirement [2.2.4](https://promisesaplus.com/#point-34), as pointed in [3.1](https://promisesaplus.com/#point-67) the handlers are called with a fresh stack, also, this makes the promise resolution consistent by ensuring that the observers are called in the future even if the resolver/handlers are synchronous.
 
 ```javascript
 it('the promise observers are called after the event loop', done => {
