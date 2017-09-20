@@ -14,13 +14,16 @@
   text-decoration: none;
   color: #fff;
   margin: 0.5em
+  :hover {
+    color: #fff;
+  }
 }
 
 .resp-sharing-button {
   border-radius: 5px;
   transition: 25ms ease-out;
   padding: 0.5em 0.75em;
-  font-family: Helvetica Neue,Helvetica,Arial,sans-serif
+  font-family: $family-serif;
 }
 
 .resp-sharing-button__icon svg {
