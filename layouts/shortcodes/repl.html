@@ -1,19 +1,30 @@
 <!-- repl -->
-{{- if (not (.Get 0)) }}
-<b style="color: red">repl: id or argument required</b>
+{{- if (not (.Get "id")) }}
+<b style="color: red">repl: id required</b>
 {{- end }}
 
-<div class="repl__wrapper">
-    <div class="repl__overlay">
-        click to open demo
+{{ if .Get "external" }}
+<div class="repl__wrapper external">
+    <div class="repl__content">
+        <a class="button is-medium" href="https://repl.it/{{ .Get "id" }}" target="_blank">
+            Open
+            <span> {{ .Get "id" }} </span>
+            in
+            <img src="https://repl.it/public/images/logo-small.png" style="width: 83px; vertical-align: middle; margin-left: 11px; margin-right: 11px;">
+        </a>
     </div>
+</div>
+{{ else }}
+<div class="repl__wrapper">
+    <div class="repl__overlay"></div>
     <iframe
         class="repl__iframe lazy-load"
         title="repl demo"
         frameborder="0"
         width="100%"
         height="700px"
-        data-src="https://repl.it/{{ .Get 0}}?lite=true">
+        data-src="https://repl.it/{{ .Get "id" }}?lite=true">
     </iframe>
 </div>
+{{ end }}
 <!-- repl -->

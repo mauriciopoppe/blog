@@ -3,19 +3,19 @@ title: "Quaternions"
 date: 2016-04-26 16:39:27
 ---
 
-See [complex numbers](/static/math/numeral-systems/complex-numbers.html) and [quaternions](/static/math/numeral-systems/quaternions.html)
-
 ## Quaternions as rotations
 
 Let $$p$$ be a 3d point represented as a quaternion using its homogeneous coordinates, $$p = [w, \mathbf{v}]$$ and let $$q$$ be any non-zero quaternion then
 
 > Theorem: The product $$qpq^{-1}$$ takes $$p = [w, \mathbf{v}]$$ to $$p' = [w, \mathbf{v'}]$$
 
-Before proving this theorem let's make the following observation, we can express $$q$$ as a multiplication of a scalar quaternion times a unit quaternion i.e. $$q = s\mathbf{U}q$$ (where $$s$$ is a real quaternion and $$\mathbf{U}q$$ a unit quaternion) then $$qpq^{-1}=s\mathbf{U}qp(s\mathbf{U}q)^{-1}=s\mathbf{U}qp\mathbf{U}q^{-1}s^{-1}$$, because the scalar multiplication is commutative $$\mathbf{U}qp\mathbf{U}q^{-1}ss^{-1}=\mathbf{U}qp\mathbf{U}q^{-1}$$, then without loss of generality we can say that that same formula applies when $$q$$ is a unit quaternion, finally notice that $$\mathbf{U}q^{-1} = \mathbf{U}q^{*}$$ so we can write the action as $$qpq^*$$ **note that from now on, $$q$$ is assumed to be a unit quaternion without loss of generality**
+Before proving this theorem let's make the following observation, we can express $$q$$ as a multiplication of a scalar quaternion $$s$$ and a unit quaternion $$\mathbf{U}q$$, $$q = s\mathbf{U}q$$, then $$qpq^{-1}=s\mathbf{U}qp(s\mathbf{U}q)^{-1}=s\mathbf{U}qp\mathbf{U}q^{-1}s^{-1}$$, because the scalar multiplication is commutative $$\mathbf{U}qp\mathbf{U}q^{-1}ss^{-1}=\mathbf{U}qp\mathbf{U}q^{-1}$$, then without loss of generality we can say that that same formula applies when $$q$$ is a unit quaternion, finally notice that $$\mathbf{U}q^{-1} = \mathbf{U}q^{*}$$ so we can write the action as $$qpq^*$$ **note that from now on, $$q$$ is assumed to be a unit quaternion without loss of generality**
 
 Next, let's prove that the scalar part $$qpq^{*}$$ is the same as the scalar of $$p$$ (we can use the formula to find the scalar component of a quaternion)
 
 $$
+See [complex numbers](/static/math/numeral-systems/complex-numbers.html) and [quaternions](/static/math/numeral-systems/quaternions.html)
+
 \begin{align*}
 2S(qpq^*) &= qpq^* + (qpq^*)^* \\
 &= qpq^* + qp^*q^* \\
@@ -61,7 +61,7 @@ q = [\cos{\theta}, \sin{\theta} \unit{v}]
 \end{equation}
 $$
 
-Let's prove first that the product $$v_2 = qv_0q^{*}$$ lies in the same plane as $$\mathbf{v_0}$$ and $$\mathbf{v_1}$$, we do so by proving first that the product $$v_2v_1^{*}$$ has the same components (dot and cross products) as $$v_0v_1^{*}$$
+Let's prove first that the product $$v_2 = qv_0q^{*}$$ lies in the same plane as $$\mathbf{v_0}$$ and $$\mathbf{v_1}$$, we do so by proving first that the product $$v_2v_1^{*}$$ has the same components (dot and cross products) as $$v_1v_0^{*}$$
 
 $$
 \begin{align*}

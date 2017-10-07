@@ -106,7 +106,7 @@ function doResolve (promise, resolver) {
 }
 {{< /snippet >}}
 
-{{< repl "LMOn/3" >}}
+{{< repl external="true" id="LMOn/3" >}}
 
 ### Observing state changes
 
@@ -163,7 +163,7 @@ function handleResolved (promise, onFulfilled, onRejected) {
 }
 {{< /snippet >}}
 
-{{< repl "LMOn/4" >}}
+{{< repl external="true" id="LMOn/4" >}}
 
 ### One-way transition
 
@@ -228,7 +228,7 @@ function doResolve (promise, resolver) {
 }
 {{< /snippet >}}
 
-{{< repl "LMOn/6" >}}
+{{< repl external="true" id="LMOn/6" >}}
 
 ### Handling resolver errors
 
@@ -263,7 +263,7 @@ function doResolve (promise, resolver) {
 }
 {{< /snippet >}}
 
-{{< repl "LMOn/7" >}}
+{{< repl external="true" id="LMOn/7" >}}
 
 ### Async resolver
 
@@ -384,7 +384,7 @@ function finale (promise) {
 }
 {{< /snippet >}}
 
-{{< repl "LMOn/8" >}}
+{{< repl external="true" id="LMOn/8" >}}
 
 ### Chaining promises
 
@@ -491,7 +491,7 @@ function handleResolved (promise, handler) {
 }
 {{< /snippet >}}
 
-{{< repl "LMOn/9" >}}
+{{< repl external="true" id="LMOn/9" >}}
 
 ### Async handlers
 
@@ -561,7 +561,7 @@ function handle (promise, handler) {
 }
 {{< /snippet >}}
 
-{{< repl "LMOn/10" >}}
+{{< repl external="true" id="LMOn/10" >}}
 
 ### Additional cases
 
@@ -805,7 +805,7 @@ That was it! What I learned from implementing it on my own was that a promise ca
 
 This is the final version of our tests and the promise implementation
 
-{{< repl "LMOn/11" >}}
+{{< repl external="true" id="LMOn/11" >}}
 
 #### Running the A+ Promise compliance tests
 
@@ -813,13 +813,17 @@ This implementation passed all the 872 tests, cool!
 
 >  872 passing (14s)
 
-<div class="columns is-centered has-text-centered">
-  <div class="column is-half">
-    <a class="button is-primary is-large" href="https://github.com/mauriciopoppe/implementing-promises-from-scratch" target="noopen">
-      Source code
-    </a>
-  </div>
+<div class="github-card__wrapper">
+<div class="github-card" data-github="mauriciopoppe/implementing-promises-from-scratch" data-width="400" data-height="300" data-theme="medium"></div>
+<script src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
 </div>
+
+<style>
+.github-card__wrapper iframe {
+  margin: 0 auto;
+  display: block;
+}
+</style>
 
 #### Improvements
 
