@@ -69,7 +69,7 @@ gulp.task('build:packages', () => {
   return Promise.resolve()
     .then(() => spawn('./node_modules/.bin/lerna', ['bootstrap'], { stdio: 'inherit' }))
     .then(() => execCommand(['npm', 'install']))
-    .then(() => execCommand(['npm', 'run', 'build', '--', '-p']))
+    .then(() => execCommand(['npm', 'run', 'build']))
 })
 
 gulp.task('build:hugo', () => {
