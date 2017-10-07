@@ -1,0 +1,21 @@
+article[role=main] {
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+  }
+
+  // if an h2 is a first child of content then bulma adds some margin
+  &.content h2 {
+    margin-top: 0;
+  }
+
+  a {
+    border-bottom: 1px solid $primary;
+    color: $primary;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  article[role=main] {
+    font-size: 1.25em;
+  }
+}

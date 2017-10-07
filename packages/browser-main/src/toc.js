@@ -21,7 +21,8 @@ function main () {
     tocSelector: '.toc',
     contentSelector: 'body',
     headingSelector: 'h1,h2,h3,h4,h5,h6',
-    collapseDepth: 6
+    collapseDepth: 6,
+    throttleTimeout: 200,
   }
   const margin = 20
   const navbarHeight = nav.getBoundingClientRect().height

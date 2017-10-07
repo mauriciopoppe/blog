@@ -6,7 +6,8 @@
   "main": "index.js",
   "skip": true,
   "scripts": {
-    "build": "../../node_modules/.bin/webpack --config node_modules/@blog/webpack-config/webpack.config.js",
+    "start": "webpack-blog start",
+    "build": "webpack-blog build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

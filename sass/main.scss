@@ -1,9 +1,9 @@
 // skeleton
 @import './palette';
 @import './bulma';
-@import './breadcrumb';
-@import './nav';
-@import './single';
+// @import './breadcrumb';
+@import './navbar';
+@import './article';
 @import './sitemap';
 @import './header';
 @import './footer';
@@ -11,7 +11,6 @@
 
 // libs
 @import 'lib/toc';
-@import 'lib/code';
 @import 'lib/mathjax';
 @import 'lib/repl';
 @import 'lib/icomoon';
@@ -33,7 +32,16 @@ body {
   }
 }
 
-// override to the content first heading
-article[role=main].content h2 {
-  margin-top: 0;
+pre {
+  border-radius: 10px;
+  // border-left: 3px solid $primary;
+  code {
+    padding: 0;
+  }
+}
+
+code {
+  font-weight: normal;
+  background-color: transparent;
+  padding: .25em;
 }

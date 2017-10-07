@@ -9,7 +9,11 @@
 {{ partial "browser/browser-main.html" . }}
 <!-- {{ partial "lib/react.html" . }} -->
 {{ partial "lib/highlight.html" . }}
-{{ partial "lib/mathjax.html" . }}
+{{ if isset .Params "noMath" }}
+  {{ $s := true }}
+{{ else }}
+  {{ partial "lib/mathjax.html" . }}
+{{ end }}
 
 {{ partial "browser/scripts.html" . }}
 <!-- selectively included -->

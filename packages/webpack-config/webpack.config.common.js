@@ -4,30 +4,6 @@ const camelCase = require('camelcase')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const plugins = []
 
-// if (process.env.NODE_ENV === 'production') {
-//   plugins.push(
-//     new UglifyJSPlugin({
-//       sourceMap: true,
-//       mangle: true,
-//       compress: {
-//         warnings: false, // Suppress uglification warnings
-//         pure_getters: true,
-//         unsafe: true,
-//         unsafe_comps: true,
-//         screw_ie8: true
-//       },
-//       output: {
-//         comments: false
-//       },
-//       exclude: [/\.min\.js$/gi],
-//       parallel: {
-//         cache: true,
-//         workers: 2
-//       }
-//     })
-//   )
-// }
-
 const entry = path.join(process.cwd(), './src/index.js')
 const location = path.join(__dirname, '../../static/browser/', path.basename(process.cwd()))
 

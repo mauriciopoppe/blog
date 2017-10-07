@@ -21,30 +21,6 @@ const autoprefixer = require('autoprefixer')
 const cssNano = require('cssnano')
 const escape = require('escape-string-regexp')
 
-mjAPI.config({ MathJax: {
-  TeX: {
-    equationNumbers: {
-      autoNumber: 'AMS'
-    },
-    Macros: {
-      edge: '\\mathrel{-}',
-      notedge: '\\not\\edge',
-      deg: ['#1^°', 1],
-      tbold: ['\\textbf{#1}', 1],
-      mbold: ['\\mathbf{#1}', 1],
-      unit: ['\\widehat{\\mathbf{#1}}', 1],
-
-      v: ['\\overrightarrow{#1}', 1],
-      vnorm: ['\\norm{\\v{#1}}', 1],
-
-      magnitude: ['\\left \\| #1 \\right \\|', 1],
-      norm: ['\\lvert #1 \\rvert', 1],
-      divides: ['\\,|\\,']
-    }
-  }
-} })
-mjAPI.start()
-
 function execCommand (args) {
   // iterate over every package and execute the command described above
   const cmd = args[0]
@@ -98,37 +74,6 @@ gulp.task('build:packages', () => {
 
 gulp.task('build:hugo', () => {
   return spawn('hugo', { stdio: 'inherit' })
-})
-
-gulp.task('build:mathjax', () => {
-  return gulp.src('public/**/*.html')
-    .pipe(cheerio({
-      run: function ($, file, done) {
-        const p = []
-        $('span.math')
-        .filter(i => i <= 10)
-        .each(function () {
-          const $el = $(this)
-          const len = $el.text().length
-          // console.log($el.text().substring(2, len - 2))
-          const promise = mjAPI.typeset({
-            math: $el.text().substring(2, len - 2).trim(),
-            svg: true
-          })
-            .then(data => $el.html(data.svg))
-            .catch(err => {
-              console.log(file.toString())
-              console.log($('title').text())
-              console.error(err)
-              throw err
-            })
-          p.push(promise)
-        })
-        Promise.all(p)
-          .then(() => done(), done)
-      }
-    }))
-    .pipe(gulp.dest('public'))
 })
 
 gulp.task('build:html-minify', () => {
@@ -204,7 +149,6 @@ gulp.task('build', function (done) {
     'build:data',
     'build:packages',
     'build:hugo',
-    // 'build:mathjax',
     'build:html-minify',
     'revision',
     done

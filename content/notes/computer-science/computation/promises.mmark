@@ -110,7 +110,7 @@ function doResolve (promise, resolver) {
 
 ### Observing state changes
 
-To observe changes in the state of the promise (and the fulfillment value or rejection reason) we use it's `then` method, the method has 2 parameters, an `onFulfilled` function and an `onRejected` function called as follows:
+To observe changes in the state of the promise (and the fulfillment value or rejection reason) we use the `then` method, the method receives 2 parameters, an `onFulfilled` function and an `onRejected` function, the rules to invoke these functions are the following:
 
 - when the promise is in a `FULFILLED` state the `onFulfilled` function will be called with the promise's fulfillment `value` e.g. `onFulfilled(value)`
 - when the promise is in a `REJECTED` state the `onRejected` function will be called with the promise's rejection `reason` e.g. `onRejected(reason)`
@@ -388,7 +388,7 @@ function finale (promise) {
 
 ### Chaining promises
 
-Our `.then` methods should return a new promise. Note that in the example below since `p.then` returns a promise `q`, the handler `qOnFulfilled` is stored on `q`, in the same fashion the handler `rOnFulfilled` is stored in `r`.
+Our `.then` methods should return a new promise. Note that in the example below `p.then` returns a promise `q`, the handler `qOnFulfilled` is stored on `q`, also the handler `rOnFulfilled` is stored in `r`.
 
 ```javascript
 it('.then should return a new promise', () => {
