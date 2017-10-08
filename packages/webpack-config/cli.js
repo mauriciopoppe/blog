@@ -12,7 +12,8 @@ try {
   customConfig = require(path.join(process.cwd(), 'webpack.config.js'))
 } catch (e) {}
 
-const compiler = webpack(merge(config, customConfig))
+const merged = merge(config, customConfig)
+const compiler = webpack(merged)
 
 function clearConsole () {
   process.stdout.write(
@@ -21,10 +22,6 @@ function clearConsole () {
 }
 
 function compilerCallback (err, stats) {
-  if (dev) {
-    clearConsole()
-  }
-
   if (err) {
     console.error(err.stack || err)
     if (err.details) {
@@ -50,11 +47,6 @@ function compilerCallback (err, stats) {
 }
 
 if (dev) {
-  compiler.plugin('before-compile', function (compilation, callback) {
-    clearConsole()
-    console.log('Compiling...')
-    callback()
-  })
   compiler.watch({}, compilerCallback)
 } else {
   compiler.run(compilerCallback)

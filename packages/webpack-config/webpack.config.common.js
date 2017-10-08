@@ -1,8 +1,10 @@
 const path = require('path')
 const camelCase = require('camelcase')
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
-const plugins = []
+const plugins = [
+  new FriendlyErrorsWebpackPlugin()
+]
 
 const entry = path.join(process.cwd(), './src/index.js')
 const location = path.join(__dirname, '../../static/browser/', path.basename(process.cwd()))
