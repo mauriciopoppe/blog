@@ -9,13 +9,11 @@ Let $$p$$ be a 3d point represented as a quaternion using its homogeneous coordi
 
 > Theorem: The product $$qpq^{-1}$$ takes $$p = [w, \mathbf{v}]$$ to $$p' = [w, \mathbf{v'}]$$
 
-Before proving this theorem let's make the following observation, we can express $$q$$ as a multiplication of a scalar quaternion $$s$$ and a unit quaternion $$\mathbf{U}q$$, $$q = s\mathbf{U}q$$, then $$qpq^{-1}=s\mathbf{U}qp(s\mathbf{U}q)^{-1}=s\mathbf{U}qp\mathbf{U}q^{-1}s^{-1}$$, because the scalar multiplication is commutative $$\mathbf{U}qp\mathbf{U}q^{-1}ss^{-1}=\mathbf{U}qp\mathbf{U}q^{-1}$$, then without loss of generality we can say that that same formula applies when $$q$$ is a unit quaternion, finally notice that $$\mathbf{U}q^{-1} = \mathbf{U}q^{*}$$ so we can write the action as $$qpq^*$$ **note that from now on, $$q$$ is assumed to be a unit quaternion without loss of generality**
+Before proving this theorem let's make the following observation, we can express $$q$$ as a multiplication of a scalar quaternion $$s$$ and a unit quaternion $$\mathbf{U}q$$, $$q = s\mathbf{U}q$$, then $$qpq^{-1}=s\mathbf{U}qp(s\mathbf{U}q)^{-1}=s\mathbf{U}qp\mathbf{U}q^{-1}s^{-1}$$, because the scalar multiplication is commutative $$\mathbf{U}qp\mathbf{U}q^{-1}ss^{-1}=\mathbf{U}qp\mathbf{U}q^{-1}$$ so the product doesn't change irrespective of whether $q$ is a unit quaternion or not, finally notice that $$\mathbf{U}q^{-1} = \mathbf{U}q^{*}$$ so we can write the action as $$qpq^*$$ **note that from now on, $$q$$ is assumed to be a unit quaternion without loss of generality**
 
 Next, let's prove that the scalar part $$qpq^{*}$$ is the same as the scalar of $$p$$ (we can use the formula to find the scalar component of a quaternion)
 
 $$
-See [complex numbers](/static/math/numeral-systems/complex-numbers.html) and [quaternions](/static/math/numeral-systems/quaternions.html)
-
 \begin{align*}
 2S(qpq^*) &= qpq^* + (qpq^*)^* \\
 &= qpq^* + qp^*q^* \\
@@ -76,9 +74,9 @@ $$
 
 <img src="https://i.imgur.com/wVzPl0R.png" alt="" style="display: block; margin: 0 auto; width: 300px">
 
-Then if $$v_2v_1^* = v_1v_0^*$$ that means that $$v_2$$ ($$qv_0q^{*}$$) lies in the same plane as $$v_0$$ and $$v_1$$, also $$v_2$$ forms an angle of $$\theta$$ with $$v_1$$, furthermore $$\mathbf{v_1} \times \mathbf{v_2} = \unit{v} \sin{\theta}$$, finally if the angle between $$v_0$$ and $$v_1$$ is $$\theta$$ then the angle between $$v_0$$ and $$v_2$$ is $$2\theta$$ which confirms what's seen on the image above
+Then if $$v_2v_1^* = v_1v_0^*$$ that means that $$v_2=qv_0q^*$$ lies in the same plane as $$v_0$$ and $$v_1$$, also $$v_2$$ forms an angle of $$\theta$$ with $$v_1$$, furthermore $$\mathbf{v_1} \times \mathbf{v_2} = \unit{v} \sin{\theta}$$, finally if the angle between $$v_0$$ and $$v_1$$ is $$\theta$$ then the angle between $$v_0$$ and $$v_2$$ is $$2\theta$$ which confirms what's seen on the image above
 
-Furthermore the same can be said of $$q$$ acting on $$v_1$$, let $$\mathbf{v_3} = q\mathbf{v_1}q^{*}$$ then
+Furthermore the same can be said of $$q$$ acting on $$v_1$$, let $$v_3 = qv_1q^{*}$$ then
 
 $$
 \begin{align*}
@@ -122,8 +120,3 @@ $$
 Therefore the combination of rotation $$q_1$$ followed by $$q_2$$ is given by $$q = q_2q_1$$
 
 > When the rotations $$q_1, q_2, \ldots, q_n$$ are applied to the pure quaternion $$p$$ the result is equal to $$qpq^*$$ where $$q = q_n q_{n-1} \ldots q_2 q_1$$
-
----
-
-
-
