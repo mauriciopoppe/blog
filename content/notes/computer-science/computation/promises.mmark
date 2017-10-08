@@ -706,7 +706,7 @@ function handle (promise, handler) {
 }
 {{< /snippet >}}
 
-#### A promise shouln't be resolved with itself
+#### A promise shouldn't be resolved with itself
 
 Requirement [2.3.1](https://promisesaplus.com/#point-48)
 

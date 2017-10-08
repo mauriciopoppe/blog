@@ -3,18 +3,14 @@
 }
 
 .repl__wrapper.external {
-  margin: 0 0 20px;
-
   a {
     display: block;
-    width: 300px;
-    margin: 0 auto;
   }
+}
 
-  span {
-    font-family: monospace;
-    font-size: 0.8em;
-    white-space: pre;
-  }
-
+// span with the id
+.repl__id {
+  white-space: pre;
+  font-family: monospace;
+  font-size: 15px;
 }

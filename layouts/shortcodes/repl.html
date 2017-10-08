@@ -4,13 +4,13 @@
 {{- end }}
 
 {{ if .Get "external" }}
-<div class="repl__wrapper external">
-    <div class="repl__content">
-        <a class="button is-medium" href="https://repl.it/{{ .Get "id" }}" target="_blank">
+<div class="columns is-centered repl__wrapper external">
+    <div class="column is-half is-narrow">
+        <a class="button is-medium is-outlined is-info has-text-weight-bold" href="https://repl.it/{{ .Get "id" }}" target="_blank">
             Open
-            <span> {{ .Get "id" }} </span>
+            <span class="repl__id"> {{ .Get "id" }} </span>
             in
-            <img src="https://repl.it/public/images/logo-small.png" style="width: 83px; vertical-align: middle; margin-left: 11px; margin-right: 11px;">
+            <img src="https://repl.it/public/images/logo-small.png" style="width: 83px; vertical-align: middle; margin-left: 11px;">
         </a>
     </div>
 </div>
