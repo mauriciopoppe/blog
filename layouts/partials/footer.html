@@ -8,8 +8,8 @@
 {{ partial "lib/polyfill.html" . }}
 {{ partial "browser/browser-main.html" . }}
 <!-- {{ partial "lib/react.html" . }} -->
-{{ partial "lib/highlight.html" . }}
-{{ if isset .Params "noMath" }}
+{{ partial "lib/prism.html" . }}
+{{ if isset .Params "nomath" }}
   {{ $s := true }}
 {{ else }}
   {{ partial "lib/mathjax.html" . }}

@@ -15,6 +15,7 @@
 @import 'lib/repl';
 @import 'lib/icomoon';
 @import 'lib/share';
+@import 'lib/prism';
 
 body {
   width: 100%;
@@ -32,16 +33,21 @@ body {
   }
 }
 
-pre {
-  border-radius: 10px;
-  // border-left: 3px solid $primary;
-  code {
-    padding: 0;
-  }
+pre[class*=language-] {
+  font-size: 0.7em;
+  border-radius: 3px;
+  // code {
+  //   padding: 0;
+  // }
+}
+
+pre[data-line] {
+  padding-left: 2em;
 }
 
 code {
   font-weight: normal;
-  background-color: transparent;
   padding: .25em;
+  background-color: transparent;
+  border-radius: 3px;
 }

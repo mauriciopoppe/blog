@@ -45,16 +45,16 @@ function compilerCallback (err, stats) {
     return
   }
 
-  const statsOpts = dev ? {
-    assets: false,
-    chunks: false,
-    modules: false,
-    colors: true
-  } : {}
+  const statsOpts = dev ? 'errors-only' : {}
   console.log(stats.toString(statsOpts))
 }
 
 if (dev) {
+  compiler.plugin('before-compile', function (compilation, callback) {
+    clearConsole()
+    console.log('Compiling...')
+    callback()
+  })
   compiler.watch({}, compilerCallback)
 } else {
   compiler.run(compilerCallback)

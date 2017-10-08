@@ -107,12 +107,10 @@ function main () {
     sitemapSidebar.refresh()
   }, 250)
 
-  const onScroll = (function () {
-    return function () {
-      tocSidebar.onScroll()
-      sitemapSidebar.onScroll()
-    }
-  })()
+  const onScroll = debounce(function () {
+    tocSidebar.onScroll()
+    sitemapSidebar.onScroll()
+  }, 0)
 
   function sidebarToc () {
     tocbot.init(tocbotOpts)

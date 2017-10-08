@@ -3,7 +3,7 @@ title: "Promises"
 description: "Implementing promises from scratch the TDD way"
 tags: ["Promises", "JavaScript"]
 date: 2017-09-16T21:05:42Z
-noMath: true
+nomath: true
 ---
 
 ## Implementing promises from scratch
@@ -62,7 +62,7 @@ it('transitions to the FULFILLED state with a `reason`', () => {
 
 The initial implementation is straightforward
 
-{{< snippet lang="js" >}}
+{{< snippet lang="javascript" >}}
 // possible states
 const PENDING = 'PENDING'
 const FULFILLED = 'FULFILLED'
@@ -832,5 +832,4 @@ This implementation passed all the 872 tests, cool!
 - Performance improvements, the creator of BlueBird has a [detailed document](https://github.com/petkaantonov/bluebird/wiki/Optimization-killers) with some optimization tips
 - Async stack traces, see [`q`](https://github.com/kriskowal/q#long-stack-traces)
 
-<style> pre { max-height: 500px; } </style>
 <script> document.body.classList.add('high-performance') </script>
