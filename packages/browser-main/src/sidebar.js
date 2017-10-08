@@ -107,10 +107,12 @@ function main () {
     sitemapSidebar.refresh()
   }, 250)
 
-  const onScroll = debounce(function () {
+  // function is not debounced since the scroll waypoints
+  // need to be tested everytime
+  const onScroll = function () {
     tocSidebar.onScroll()
     sitemapSidebar.onScroll()
-  }, 0)
+  }
 
   function sidebarToc () {
     tocbot.init(tocbotOpts)
