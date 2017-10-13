@@ -20,10 +20,10 @@
     &.is-active {
       > div {
         font-weight: bold;
-        color: $primary;
-        border-right: 2px solid $primary;
+        color: $link;
+        border-right: 2px solid $link;
         > a {
-          color: $primary;
+          color: $link;
         }
       }
     }
@@ -39,7 +39,7 @@
   // colored border
   li.is-active {
     > div:after {
-      background-color: $primary;
+      background-color: $link;
     }
   }
 

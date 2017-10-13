@@ -24,10 +24,10 @@ nav[role="toc"] {
 .toc-link {
   &.is-active-link {
     font-weight: bold;
-    color: $primary;
+    color: $link;
   }
   &.is-active-link::before {
-    background-color: $primary;
+    background-color: $link;
   }
 }
 

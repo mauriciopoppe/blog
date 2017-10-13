@@ -12,6 +12,10 @@ $family-serif: "Merriweather", "Georgia", serif;
 $primary: $color40;
 $info: $color70;
 $time: 250ms;
+
+$link: $color40;
+$link-hover: $primary $color30;
+
 // $desktop: 1300px + (2 * $gap);
 // $widescren: 1500px + (2 * $gap);
 $fullhd: 1500px + (2 * $gap);
