@@ -1,7 +1,7 @@
 {{ $random := index (shuffle (seq 4)) 0 }}
 {{ $quotes := index .Site.Data.quotes "quotes" }}
 {{ $quote := index $quotes $random }}
-{{ $image := "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAArtAAAAJGNjODBiMzQ0LTllOWMtNGNmOS04MGJhLWE5YmIyMTgzY2NmMg.jpg" }}
+{{ $image := "/images/2017-square.jpg" }}
 
 <div class="container has-text-centered {{if isset . "isRoot"}}root{{end}}">
   <div class="columns is-centered">
@@ -43,7 +43,7 @@
         <hr />
 
         <div class="is-size-6">
-        My latest article:
+          The last note I wrote is about
         {{ range first 2 .Site.RegularPages }}
           {{ if not (eq .Title "") }}
             <a href="{{ .Permalink }}">{{ .Title }}</a>
