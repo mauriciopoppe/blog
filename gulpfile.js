@@ -29,14 +29,19 @@ function execCommand (args) {
         dirs
           .filter(dir => {
             const pkg = require(path.join(__dirname, dir, 'package.json'))
+            if (pkg.skip) {
+              console.log(`skipping package ${path.join(__dirname, dir)}`)
+            }
             return !pkg.skip
           })
-          .map(dir => (
-            spawn(cmd, args, {
+          .map(dir => {
+            const env = Object.create(process.env)
+            return spawn(cmd, args, {
               cwd: path.join(process.cwd(), dir),
-              stdio: 'inherit'
+              stdio: 'inherit',
+              env
             })
-          ))
+          })
       )
     })
 }
@@ -57,10 +62,6 @@ gulp.task('css', function () {
     .pipe(sass({ importer: moduleImporter() }))
     .pipe(postcss(processors))
     .pipe(gulp.dest('./static/css'))
-})
-
-gulp.task('build:data', () => {
-  return spawn('./node_modules/.bin/babel-node', ['scripts/flatten-render-tree.js'], { stdio: 'inherit' })
 })
 
 gulp.task('build:packages', () => {
@@ -108,6 +109,14 @@ gulp.task('build:html-minify', () => {
     .pipe(gulp.dest('public'))
 })
 
+gulp.task('build:sitemap', () => {
+  const env = Object.create(process.env)
+  return spawn('babel-node', ['scripts/flatten-render-tree.js'], {
+    stdio: 'inherit',
+    env
+  })
+})
+
 gulp.task('watch', () => {
   gulp.watch('./sass/**', [ 'css' ])
 })
@@ -144,7 +153,7 @@ gulp.task('build', function (done) {
   return runSequence(
     'clean',
     'css',
-    'build:data',
+    'build:sitemap',
     'build:packages',
     'build:hugo',
     'build:html-minify',

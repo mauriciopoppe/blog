@@ -47,6 +47,21 @@
 <link rel="stylesheet" media="only screen and (min-device-width: 768px)" href="{{ "fonts/Serif/cmun-serif.css" | absURL }}" />
 <link rel="stylesheet" media="only screen and (max-device-width: 768px)" href="{{ "css/mobile.css" | absURL }}" />
 <link rel="stylesheet" href="{{ "css/main.css" | absURL }}" />
+{{ if isset .Params "draft" }}
+<style>
+body.draft [data-draft] div::after {
+  content: '[DRAFT]';
+  font-size: 10px;
+  color: black;
+  background-color: transparent;
+}
+</style>
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    document.body.classList.add('draft');
+  })
+</script>
+{{ end }}
 
 <!-- metadata injected by hugo -->
 <!-- <script> -->

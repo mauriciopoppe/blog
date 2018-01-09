@@ -8,10 +8,16 @@ const titleCase = require('title-case')
 const defined = require('defined')
 const parse = require('date-fns/parse')
 
+const isProduction = process.env.NODE_ENV === 'production'
+
+if (isProduction) {
+  console.log(`sitemap generator running in production mode`)
+}
+
 const addFileToMap = (cwd, map) => (file, i) => {
   const data = fs.readFileSync(path.join(cwd, file), { encoding: 'utf-8' })
   const { attributes } = fm(data)
-  if (attributes.draft) { return }
+  if (isProduction && attributes.draft) { return }
 
   const tokens = file.substring(0, file.length - path.extname(file).length).split('/')
   let it = map
@@ -90,7 +96,10 @@ function createNavBarRecursive (node, depth) {
   let content = defined(node.title, titleCase(node.path))
   if (node.isLeaf) {
     // eslint-disable-next-line
-    target = raw(`data-url-target="${node.fullPath}"`)
+    target = raw(`
+      data-url-target="${node.fullPath}"
+      ${node.draft && raw(` data-draft="true"`)}
+    `)
 
     // eslint-disable-next-line
     content = bel`

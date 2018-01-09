@@ -83,6 +83,9 @@ function setActive () {
   // strips the / and adds .mmark
   pn = pn.substring(1, pn.length - 1) + '.mmark'
   const target = document.querySelector(`[data-url-target="${pn}"]`)
+  if (!target) {
+    throw Error(`sitemap target "${target}" not found, did you regenerate the sitemap?`)
+  }
   let it = target
   while (!it.classList.contains('sitemap')) {
     if (it.classList.contains('list-is-collapsed')) {
