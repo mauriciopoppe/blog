@@ -51,12 +51,12 @@ it('transitions to the FULFILLED state with a `value`', () => {
   expect(promise.state).toBe('FULFILLED')
 })
 
-it('transitions to the FULFILLED state with a `reason`', () => {
+it('transitions to the REJECTED state with a `reason`', () => {
   const reason = 'I failed :('
   const promise = new APromise((fulfill, reject) => {
     reject(reason)
   })
-  expect(promise.state).toBe('FULFILLED')
+  expect(promise.state).toBe('REJECTED')
 })
 ```
 
@@ -69,7 +69,7 @@ const FULFILLED = 'FULFILLED'
 const REJECTED = 'REJECTED'
 
 class APromise {
-  constructor (executor) {
+  constructor(executor) {
     // initial state
     this.state = PENDING
     // the fulfillment value or rejection reason is mapped internally to `value`
@@ -81,24 +81,24 @@ class APromise {
 }
 
 // fulfill with `value`
-function fulfill (promise, value) {
+function fulfill(promise, value) {
   promise.state = FULFILLED
   promise.value = value
 }
 
 // reject with `reason`
-function reject (promise, reason) {
+function reject(promise, reason) {
   promise.state = REJECTED
   promise.value = reason
 }
 
 // creates the fulfill/reject functions that are arguments of the executor
-function doResolve (promise, executor) {
-  function wrapFulfill (value) {
+function doResolve(promise, executor) {
+  function wrapFulfill(value) {
     fulfill(promise, value)
   }
 
-  function wrapReject (reason) {
+  function wrapReject(reason) {
     reject(promise, reason)
   }
 
@@ -106,7 +106,7 @@ function doResolve (promise, executor) {
 }
 {{< /snippet >}}
 
-{{< repl external="true" id="LMOn/3" >}}
+{{< repl external="true" id="@mauriciopoppe/Implementing-promises-from-scratch-1" >}}
 
 ### Observing state changes
 
@@ -151,19 +151,19 @@ Let's add the `.then` function to the class prototype, note that it'll call eith
 {{< snippet lang="javascript" line="3-5,9-12" >}}
 class APromise {
   // ...
-  then (onFulfilled, onRejected) {
+  then(onFulfilled, onRejected) {
     handleResolved(this, onFulfilled, onRejected)
   }
   // ...
 }
 
-function handleResolved (promise, onFulfilled, onRejected) {
+function handleResolved(promise, onFulfilled, onRejected) {
   const cb = promise.state === FULFILLED ? onFulfilled : onRejected
   cb(promise.value)
 }
 {{< /snippet >}}
 
-{{< repl external="true" id="LMOn/4" >}}
+{{< repl external="true" id="@mauriciopoppe/Implementing-promises-from-scratch-2" >}}
 
 ### One-way transition
 
@@ -209,16 +209,16 @@ it('when a promise is rejected it should not be fulfilled with another value', (
 In our current implementation, the function that calls the executor should make sure that either `fulfill` or `reject` is called once, subsequent calls should be ignored
 
 {{< snippet lang="javascript" line="2,5,6,11,12" >}}
-function doResolve (promise, executor) {
+function doResolve(promise, executor) {
   let called = false
 
-  function wrapFulfill (value) {
+  function wrapFulfill(value) {
     if (called) { return }
     called = true
     fulfill(promise, value)
   }
 
-  function wrapReject (reason) {
+  function wrapReject(reason) {
     if (called) { return }
     called = true
     reject(promise, reason)
@@ -228,7 +228,7 @@ function doResolve (promise, executor) {
 }
 {{< /snippet >}}
 
-{{< repl external="true" id="LMOn/6" >}}
+{{< repl external="true" id="@mauriciopoppe/Implementing-promises-from-scratch-3" >}}
 
 ### Handling executor errors
 
@@ -253,7 +253,7 @@ describe('handling executor errors', () => {
 The function that calls the executor should wrap it in a try/catch block and transition to `REJECTED` if the catch block is executed
 
 {{< snippet lang="javascript" line="3-7" >}}
-function doResolve (promise, executor) {
+function doResolve(promise, executor) {
   // ...
   try {
     executor(wrapFulfill, wrapReject)
@@ -263,7 +263,7 @@ function doResolve (promise, executor) {
 }
 {{< /snippet >}}
 
-{{< repl external="true" id="LMOn/7" >}}
+{{< repl external="true" id="@mauriciopoppe/Implementing-promises-from-scratch-4" >}}
 
 ### Async executor
 
@@ -329,14 +329,14 @@ Let's add a queue to the promise, it's purpose is to store handlers that will be
 
 {{< snippet lang="javascript" line="4-5,10,14-25,27-30" >}}
 class APromise {
-  constructor (executor) {
+  constructor(executor) {
     this.state = PENDING
     // .then handler queue
     this.queue = []
     doResolve(this, executor)
   }
 
-  then (onFulfilled, onRejected) {
+  then(onFulfilled, onRejected) {
     handle(this, { onFulfilled, onRejected })
   }
 }
@@ -344,7 +344,7 @@ class APromise {
 // checks the state of the promise to either:
 // - queue it for later use if the promise is PENDING
 // - call the handler if the promise is not PENDING
-function handle (promise, handler) {
+function handle(promise, handler) {
   if (promise.state === PENDING) {
     // queue if PENDING
     promise.queue.push(handler)
@@ -354,7 +354,7 @@ function handle (promise, handler) {
   }
 }
 
-function handleResolved (promise, handler) {
+function handleResolved(promise, handler) {
   const cb = promise.state === FULFILLED ? handler.onFulfilled : handler.onRejected
   cb(promise.value)
 }
@@ -363,20 +363,20 @@ function handleResolved (promise, handler) {
 Also the `fulfill`, `reject` methods should be updated so that they invoke all the handlers stored in the promise when called, this is implemented in a new function `finale` called after the state and the value have been updated.
 
 {{< snippet lang="javascript" line="4,10,13-19" >}}
-function fulfill (promise, value) {
+function fulfill(promise, value) {
   promise.state = FULFILLED
   promise.value = value
   finale(promise)
 }
 
-function reject (promise, reason) {
+function reject(promise, reason) {
   promise.state = REJECTED
   promise.value = reason
   finale(promise)
 }
 
 // invoke all the handlers stored in the promise
-function finale (promise) {
+function finale(promise) {
   const length = promise.queue.length
   for (let i = 0; i < length; i += 1) {
     handle(promise, promise.queue[i])
@@ -384,7 +384,7 @@ function finale (promise) {
 }
 {{< /snippet >}}
 
-{{< repl external="true" id="LMOn/8" >}}
+{{< repl external="true" id="@mauriciopoppe/Implementing-promises-from-scratch-5" >}}
 
 ### Chaining promises
 
@@ -392,7 +392,7 @@ Our `.then` methods should return a new promise. Note that in the example below 
 
 ```javascript
 it('.then should return a new promise', () => {
-  expect(function () {
+  expect(function() {
     const qOnFulfilled = jest.fn()
     const rOnFulfilled = jest.fn()
     const p = new APromise(fulfill => fulfill())
@@ -413,7 +413,7 @@ Let's make the `.then` method return a promise first
 {{< snippet lang="javascript" line="4,5,7" >}}
 class APromise {
   // ...
-  then (onFulfilled, onRejected) {
+  then(onFulfilled, onRejected) {
     // empty executor
     const promise = new APromise(() => {})
     handle(this, { onFulfilled, onRejected })
@@ -471,7 +471,7 @@ For the implementation, we first have to store the new promise in the handler qu
 {{< snippet lang="javascript" line="5-6,13-19" >}}
 class APromise {
   // ...
-  then (onFulfilled, onRejected) {
+  then(onFulfilled, onRejected) {
     const promise = new APromise(() => {})
     // store the promise as well
     handle(this, { promise, onFulfilled, onRejected })
@@ -479,7 +479,7 @@ class APromise {
   }
 }
 
-function handleResolved (promise, handler) {
+function handleResolved(promise, handler) {
   const cb = promise.state === FULFILLED ? handler.onFulfilled : handler.onRejected
   // execute the handler and transition according to the rules
   try {
@@ -491,7 +491,7 @@ function handleResolved (promise, handler) {
 }
 {{< /snippet >}}
 
-{{< repl external="true" id="LMOn/9" >}}
+{{< repl external="true" id="@mauriciopoppe/Implementing-promises-from-scratch-6" >}}
 
 ### Async handlers
 
@@ -545,8 +545,8 @@ In our current implementation the tuple `{ q, qOnFulfilled }` is stored in the h
 Note that we're using a `while` because a nested promise might itself have another promise as the resolution value.
 
 {{< snippet lang="javascript" line="2-5" >}}
-function handle (promise, handler) {
-  // take the state of the returned promise
+function handle(promise, handler) {
+  // take the state of the innermost promise
   while (promise.value instanceof APromise) {
     promise = promise.value
   }
@@ -561,7 +561,7 @@ function handle (promise, handler) {
 }
 {{< /snippet >}}
 
-{{< repl external="true" id="LMOn/10" >}}
+{{< repl external="true" id="@mauriciopoppe/Implementing-promises-from-scratch-7" >}}
 
 ### Additional cases
 
@@ -606,7 +606,7 @@ const q = p.then(qOnFulfilled)
 In this case, `q` should be resolved right away with the resolution value of `p`
 
 {{< snippet lang="javascript" line="4-11" >}}
-function handleResolved (promise, handler) {
+function handleResolved(promise, handler) {
   const cb = promise.state === FULFILLED ? handler.onFulfilled : handler.onRejected
   // resolve immediately if the handler is not a function
   if (typeof cb !== 'function') {
@@ -655,7 +655,7 @@ it('the promise observers are called after the event loop', done => {
 We can use any function that allows us to call a function after the event loop, this includes `setTimeout`, `setImmediate` and `requestAnimationFrame`
 
 {{< snippet lang="javascript" line="2,4" >}}
-function handleResolved (promise, handler) {
+function handleResolved(promise, handler) {
   setImmediate(() => {
     // ...
   })
@@ -691,7 +691,7 @@ it('rejects with a resolved promise', done => {
 Only adopt the state of the nested promise if the promise is not in a REJECTED state.
 
 {{< snippet lang="javascript" line="3" >}}
-function handle (promise, handler) {
+function handle(promise, handler) {
   // take the state of the returned promise
   while (promise.state !== REJECTED && promise.value instanceof APromise) {
     promise = promise.value
@@ -728,7 +728,7 @@ it('should throw when attempted to be resolved with itself', done => {
 On the `fulfill` method let's check that the fulfillment value is not equal to the promise itself, if so then throw a `TypeError` as mentioned in [2.3.1](https://promisesaplus.com/#point-48)
 
 {{< snippet lang="javascript" line="2-5" >}}
-function fulfill (promise, value) {
+function fulfill(promise, value) {
   if (value === promise) {
     return reject(promise, new TypeError())
   }
@@ -766,7 +766,7 @@ Let's modify the `fulfill` method and add the check for thenables, note that acc
 Also, note that by the requirement [2.3.3.3](https://promisesaplus.com/#point-56) the thenable's `then` should be called with the thenable as `this`
 
 {{< snippet lang="javascript" line="5-24" >}}
-function fulfill (promise, value) {
+function fulfill(promise, value) {
   if (value === promise) {
     return reject(promise, new TypeError())
   }
@@ -805,7 +805,7 @@ That was it! What I learned from implementing it on my own was that a promise ca
 
 This is the final version of our tests and the promise implementation
 
-{{< repl external="true" id="LMOn/11" >}}
+{{< repl external="true" id="@mauriciopoppe/Implementing-promises-from-scratch-8" >}}
 
 #### Running the A+ Promise compliance tests
 
