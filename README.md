@@ -1,7 +1,5 @@
 # Blog
 
-> WIP
-
 ```sh
 npm i
 npm start
