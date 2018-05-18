@@ -2,8 +2,6 @@ const globby = require('globby')
 const path = require('path')
 const fm = require('front-matter')
 const fs = require('fs-extra')
-const html = require('nanohtml')
-const raw = require('nanohtml/raw')
 const titleCase = require('title-case')
 const defined = require('defined')
 const parse = require('date-fns/parse')
@@ -96,36 +94,36 @@ function createNavBarRecursive (node, depth) {
   let content = defined(node.title, titleCase(node.path))
   if (node.isLeaf) {
     // eslint-disable-next-line
-    target = raw(`
+    target = `
       data-url-target="${node.fullPath}"
-      ${node.draft && raw(` data-draft="true"`)}
-    `)
+      ${node.draft ? 'data-draft="true"' : ''}
+    `
 
     // eslint-disable-next-line
-    content = html`
+    content = `
       <a href="/${node.fullPath.substring(0, node.fullPath.indexOf('.'))}/">
         ${content}
       </a>
     `
   }
 
-  const hasChildren = node.children.length ? html`<i class="children-toggle"></i>` : ''
+  const childrenToggle = node.children.length ? `<i class="children-toggle"></i>` : ''
 
-  return html`
+  return `
     <li ${target}>
       <div>
-        ${hasChildren}
+        ${childrenToggle}
         ${content}
       </div>
-      ${!node.isLeaf && createNavBar(node, depth + 1)}
+      ${!node.isLeaf ? createNavBar(node, depth + 1) : ''}
     </li>
   `
 }
 
 function createNavBar (node, depth = 0) {
-  return html`
-    <ul class="list-is-collapsible ${depth > 0 && 'list-is-collapsed'}">
-      ${node.children.map(node => createNavBarRecursive(node, depth))}
+  return `
+    <ul class="list-is-collapsible ${depth > 0 ? 'list-is-collapsed' : ''}">
+      ${node.children.map(node => createNavBarRecursive(node, depth)).join('\n')}
     </ul>
   `
 }

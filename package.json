@@ -47,7 +47,6 @@
     "gulp-sourcemaps": "^2.6.4",
     "gulp-tap": "^1.0.1",
     "lerna": "^2.11.0",
-    "nanohtml": "^1.2.4",
     "run-sequence": "^2.2.1",
     "sass-module-importer": "^1.4.0",
     "standard": "^11.0.1",
