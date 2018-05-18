@@ -47,6 +47,7 @@
     "gulp-sourcemaps": "^2.6.4",
     "gulp-tap": "^1.0.1",
     "lerna": "^2.11.0",
+    "nanohtml": "^1.2.4",
     "run-sequence": "^2.2.1",
     "sass-module-importer": "^1.4.0",
     "standard": "^11.0.1",
@@ -59,7 +60,6 @@
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
-    "bel": "^6.0.0",
     "date-fns": "^1.29.0",
     "eases": "^1.0.8",
     "glslify": "^6.1.1",

@@ -2,8 +2,8 @@ const globby = require('globby')
 const path = require('path')
 const fm = require('front-matter')
 const fs = require('fs-extra')
-const bel = require('bel')
-const raw = require('bel/raw')
+const html = require('nanohtml')
+const raw = require('nanohtml/raw')
 const titleCase = require('title-case')
 const defined = require('defined')
 const parse = require('date-fns/parse')
@@ -102,16 +102,16 @@ function createNavBarRecursive (node, depth) {
     `)
 
     // eslint-disable-next-line
-    content = bel`
+    content = html`
       <a href="/${node.fullPath.substring(0, node.fullPath.indexOf('.'))}/">
         ${content}
       </a>
     `
   }
 
-  const hasChildren = node.children.length ? bel`<i class="children-toggle"></i>` : ''
+  const hasChildren = node.children.length ? html`<i class="children-toggle"></i>` : ''
 
-  return bel`
+  return html`
     <li ${target}>
       <div>
         ${hasChildren}
@@ -123,7 +123,7 @@ function createNavBarRecursive (node, depth) {
 }
 
 function createNavBar (node, depth = 0) {
-  return bel`
+  return html`
     <ul class="list-is-collapsible ${depth > 0 && 'list-is-collapsed'}">
       ${node.children.map(node => createNavBarRecursive(node, depth))}
     </ul>
