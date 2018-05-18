@@ -19,31 +19,32 @@ const autoprefixer = require('autoprefixer')
 const cssNano = require('cssnano')
 const escape = require('escape-string-regexp')
 
-function execCommand (args) {
+/**
+ * Filter dir if its package.json file has skip: true
+ */
+function filterDir (dir) {
+  const pkg = require(path.join(__dirname, dir, 'package.json'))
+  if (pkg.skip) {
+    console.log(`skipping package ${path.join(__dirname, dir)}`)
+  }
+  return !pkg.skip
+}
+
+async function execCommand (args) {
   // iterate over every package and execute the command described above
   const cmd = args[0]
   args.shift()
-  return globby('packages/browser-*/', { mark: true })
-    .then(dirs => {
-      return Promise.all(
-        dirs
-          .filter(dir => {
-            const pkg = require(path.join(__dirname, dir, 'package.json'))
-            if (pkg.skip) {
-              console.log(`skipping package ${path.join(__dirname, dir)}`)
-            }
-            return !pkg.skip
-          })
-          .map(dir => {
-            const env = Object.create(process.env)
-            return spawn(cmd, args, {
-              cwd: path.join(process.cwd(), dir),
-              stdio: 'inherit',
-              env
-            })
-          })
-      )
-    })
+  const dirs = await globby('packages/browser-*', {
+    onlyDirectories: true
+  })
+  const promises = dirs
+    .filter(filterDir)
+    .map(dir => spawn(cmd, args, {
+      cwd: path.join(process.cwd(), dir),
+      stdio: 'inherit',
+      env: { ...process.env }
+    }))
+  await Promise.all(promises)
 }
 
 gulp.task('clean', function () {
@@ -64,11 +65,10 @@ gulp.task('css', function () {
     .pipe(gulp.dest('./static/css'))
 })
 
-gulp.task('build:packages', () => {
-  return Promise.resolve()
-    .then(() => spawn('./node_modules/.bin/lerna', ['bootstrap'], { stdio: 'inherit' }))
-    .then(() => execCommand(['npm', 'install']))
-    .then(() => execCommand(['npm', 'run', 'build']))
+gulp.task('build:packages', async () => {
+  await spawn('./node_modules/.bin/lerna', ['bootstrap'], { stdio: 'inherit' })
+  await execCommand(['npm', 'install'])
+  await execCommand(['npm', 'run', 'build'])
 })
 
 gulp.task('build:hugo', () => {

@@ -7,7 +7,7 @@ const plugins = [
 ]
 
 const entry = path.join(process.cwd(), './src/index.js')
-const location = path.join(__dirname, '../../static/browser/', path.basename(process.cwd()))
+const location = path.join(__dirname, '../../static/js/browser/', path.basename(process.cwd()))
 
 module.exports = {
   entry,
