@@ -31,10 +31,10 @@ it('receives a executor function when constructed which is called immediately', 
   const executor = jest.fn()
   const promise = new APromise(executor)
   // mock function should be called immediately
-  expect(resolver.mock.calls.length).toBe(1)
+  expect(executor.mock.calls.length).toBe(1)
   // arguments should be functions
-  expect(typeof resolver.mock.calls[0][0]).toBe('function')
-  expect(typeof resolver.mock.calls[0][1]).toBe('function')
+  expect(typeof executor.mock.calls[0][0]).toBe('function')
+  expect(typeof executor.mock.calls[0][1]).toBe('function')
 })
 
 it('is in a PENDING state', () => {

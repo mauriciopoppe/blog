@@ -117,7 +117,7 @@ gulp.task('build:sitemap', () => {
   })
 })
 
-gulp.task('watch', () => {
+gulp.task('watch', ['build:sitemap'], () => {
   gulp.watch('./sass/**', [ 'css' ])
 })
 

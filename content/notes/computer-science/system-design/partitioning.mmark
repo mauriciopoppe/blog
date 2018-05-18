@@ -1,8 +1,7 @@
 ---
 title: "Partitioning"
-draft: true
 description: "Partitioning"
-tags: []
+tags: ["distributed-systems"]
 date: 2018-01-08T22:43:20Z
 ---
 
@@ -12,7 +11,7 @@ date: 2018-01-08T22:43:20Z
 
 ## Partitioning strategies
 
-- unfair partitioning may lead to hotspots e.g. partitions with more data the the others
+- unfair partitioning may lead to hotspots e.g. nodes with more data than the others
 - assign records randomly, can't read data
 - by range e.g. given a dictionary with sorted keys node 1 can have words from A -> B, node 2 B -> C, etc
   - within each partition keys are stored in order
