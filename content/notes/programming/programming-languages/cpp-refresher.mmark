@@ -199,7 +199,7 @@ Pointers are variables that store addresses of values rather than the values the
 
 ```cpp
 int oranges = 5;
-int *p_oranges;        // declare pointer to an int
+int* p_oranges;        // declare pointer to an int
 p_oranges = &oranges;  // assign address to pointer
 sizeof(p_oranges);     // 4 bytes
 ```
@@ -208,7 +208,7 @@ The dereferencing operator `*` yields the value at the location.
 
 ```cpp
 int oranges = 5;
-int *p_oranges = &oranges;
+int* p_oranges = &oranges;
 *p_oranges;                   // 5
 *p_oranges = *p_oranges + 1;  // update the value
 oranges;                      // 6
@@ -218,7 +218,7 @@ oranges;                      // 6
 Always initialize a pointer to a definite address before applying the dereferencing operator.
 
 ```cpp
-int *p_int;
+int* p_int;
 *p_int = 3;     // value is lost forever
 ```
 
@@ -226,8 +226,8 @@ When a pointer is assigned to another pointer the value stored is the address st
 
 ```cpp
 int oranges = 5;        // value: 5,     address: 0x000
-int *p = &oranges;      // value: 0x000, address: 0x004
-int *q = p;             // value: 0x000, address: 0x008
+int* p = &oranges;      // value: 0x000, address: 0x004
+int* q = p;             // value: 0x000, address: 0x008
 *q;                     // 5
 ```
 
@@ -235,8 +235,8 @@ If we want to create a pointer to a pointer we use extra '*', for the declaratio
 
 ```cpp
 int oranges = 5;        // value: 5,     address: 0x000
-int *p = &oranges;      // value: 0x000, address: 0x004
-int **q = &p;           // value: 0x004, address: 0x008
+int* p = &oranges;      // value: 0x000, address: 0x004
+int** q = &p;           // value: 0x004, address: 0x008
 *p;                     // 5
 **q;                    // 5
 ```
@@ -252,7 +252,7 @@ numbers[0];   // 1, the value allocated in memory
 // NOTE: numbers ~ &numbers[0]
 
 // since a pointer is a reference to an address we can also do
-int *p_numbers = numbers;
+int* p_numbers = numbers;
 *p_numbers;   // 1, the value in memory accessed through pointer dereferencing
 ```
 
@@ -260,7 +260,7 @@ Adding one to a pointer variable increases its value by the number of bytes of t
 
 ```cpp
 int numbers[] = {1, 2, 3};
-int *p_numbers = numbers;
+int* p_numbers = numbers;
 p_numbers;      // points to the first element of the array
 p_numbers + 1;  // points to the second element of the array
 p_numbers + 2;  // points to the third element of the array
@@ -273,14 +273,14 @@ p_numbers + 2;  // points to the third element of the array
 
 The value `&numbers` is the address of a 3-int block of memory, so even though `&numbers[0] == numbers == &numbers` numerically the value of `&numbers + 1 != numbers + 1` because `&numbers + 1` points to the next 3-int block of memory however `numbers + 1` points to the second element of the initial 3-int block of memory
 
-- `numbers` is type pointer-to-int or `* int`
-- `&numbers` is type pointer-to-array-of-3-int or `(* int) [3]`
+- `numbers` is type pointer-to-int or `int*`
+- `&numbers` is type pointer-to-array-of-3-int or `(*int)[3]`
 
 The relationship of pointers and arrays also extend to C-style strings, and it's for C++ a quoted string constant, strings in an array and strings described by pointers are all handled equivalently
 
 ```cpp
 char first[20] = "john";
-const char *last = "smith";    // string literals are constant
+const char* last = "smith";    // string literals are constant
 cout << "I am the agent" << first << " " << last
 ```
 
@@ -294,17 +294,15 @@ int (*b)[2] = a;
 
 ### Array of pointers
 
-An array of pointers is created with the format `typeName * pointerName[]`
-
 ```cpp
 int a = 1, b = 2;
-int *p[2] = {&a, &b};
+int* p[2] = {&a, &b};
 ```
 
 Since `p` is a pointer to the first element which is `&a` and `&a` is another pointer then we can reference `p` with a pointer to pointer
 
 ```cpp
-int **q = p;
+int** q = p;
 ```
 
 ### Runtime allocation of memory with `new`
@@ -326,11 +324,11 @@ Additional notes regarding runtime allocated memory
 
 ```cpp
 // p_int address = 0x0065fd40
-int *p_int = new int;
+int* p_int = new int;
 delete p_int;
 
 int oranges = 5;
-int *p_oranges = &oranges;
+int* p_oranges = &oranges;
 // INVALID since delete works only with memory allocated with new
 delete p_oranges;
 ```
@@ -339,7 +337,7 @@ Dynamic arrays can be created with `new typeName[count]`, a pointer can be assig
 
 ```cpp
 // dynamic array
-int *p_array = new int[10];
+int* p_array = new int[10];
 
 // p_array points to the first element of the array
 // *p_array is the value of the first element using pointer dereferencing
@@ -355,7 +353,7 @@ struct person {
   string name;
   int age;
 };
-int *p_person = new person;
+person* p_person = new person;
 p_person->name = "john smith";
 p_person->age = 25;
 ```
@@ -372,15 +370,15 @@ Steps to build a function
 
 ```cpp
 // function prototype
-double cube (double x);
+double cube(double x);
 
-int main () {
+int main() {
   // function call
   double q = cube(2.2);
 }
 
 // function definition
-double cube (double x) {
+double cube(double x) {
   return x * x * x;
 }
 ```
@@ -394,13 +392,13 @@ Writing prototypes have the following advantages:
 When a function is called with basic types for arguments the function creates a new variable and initializes it with the same value, i.e. the function works with a copy with basic types
 
 ```cpp
-int main () {
+int main() {
   double x = 1.3;
   cube(x);
   // ..
 }
 
-double cube (double x) {
+double cube(double x) {
   // x is passed by value
   // x is private to this function
   return x * x * x;
@@ -410,13 +408,13 @@ double cube (double x) {
 However we can pass instead the address of the basic type which means that the function should be rewritten to use pointers
 
 ```cpp
-int main () {
+int main() {
   double x = 1.3;
   cube(&x);
   // ..
 }
 
-double cube (double * x) {
+double cube(double* x) {
   // x is passed by value
   // x is private to this function
   return (*x) * (*x) * (*x);
@@ -431,13 +429,13 @@ struct person {
   int age;
 };
 
-int main () {
+int main() {
   person john = { "john doe", 25 };
   greet(&john);
   // ..
 }
 
-double cube (person * someone) {
+double cube(person* someone) {
   // someone is private to this function
   // someone is a pointer to the original person
   someone->age;       // 25
@@ -449,13 +447,13 @@ When a function is called with an array what's sent actually is the name of the 
 ```cpp
 const int k_size = 3;
 
-int main () {
+int main() {
   int a[k_size] = {1, 2, 3}
   sum(a, k_size);         // 6
   cout << *a << endl;     // 1
 }
 
-double sum (int * a, int k_size) {
+double sum(int* a, int k_size) {
   // a is another pointer to the original array
   // a is private to this function
   int sum = 0;
@@ -484,7 +482,7 @@ When to use it:
 - the function is small and called very often
 
 ```cpp
-inline double cube (double x) { return x * x * x; }
+inline double cube(double x) { return x * x * x; }
 ```
 
 ### Reference variables
@@ -493,18 +491,18 @@ A reference variable is a name that acts as an alias on a previously defined var
 
 ```cpp
 int p;
-int &q = p;
+int& q = p;
 ```
 
-In this context `&` is not the address operator, instead it serves as part of the type identifier, like `int *` is a pointer-to-int `int &` is a reference-to-int
+In this context `&` is not the address operator, instead it serves as part of the type identifier, like `int*` is a pointer-to-int `int&` is a reference-to-int
 
 - a reference must be initialized to a defined variable when declared
-- a reference is like a const pointer e.g. `int &r_n = n;` is like `int * const r_n = &n;`
+- a reference is like a const pointer e.g. `int& r_n = n;` is like `int* const r_n = &n;`
 
 ```cpp
 int n = 5;
-int * p_n = &n;
-int & r_n = n;
+int* p_n = &n;
+int& r_n = n;
 
 // the following expressions can be used interchangeably
 // - *p_n, r_n, n  to get the value
@@ -514,13 +512,13 @@ int & r_n = n;
 Example with a function
 
 ```cpp
-int main () {
+int main() {
   int x = 2;
   pow2(x); // 4
   x;       // 2
 }
 
-int pow2(int &x) {
+int pow2(int& x) {
   // x is an alias to the x in main
   return x * x;
 }
@@ -595,19 +593,19 @@ Person::Person() {
   // explicit default constructor
   // NOTE: constructor/destructor returns the class object (no need to add return)
 }
-Person::Person(string &name) { /* ... */ }
-Person::Person(string &name, int &age) { /* ... */ }
+Person::Person(string& name) { /* ... */ }
+Person::Person(string& name, int& age) { /* ... */ }
 Person::~Person() { /* ... */ }
 ```
 
 ### Class objects
 
 ```cpp
-int main () {
+int main() {
   Person a;                               // default constructor
   Person b = Person("john", 25);          // with parameters
   World c("john", 25);                    // alternative syntax
-  World *p_d = new Person("john", 25);    // pointer-to-Person
+  World* p_d = new Person("john", 25);    // pointer-to-Person
 
   b.show();
   p_d->show();
@@ -619,16 +617,16 @@ int main () {
 ```cpp
 class Time {
 public:
-  Time operator+(const Time & other) const;
+  Time operator+(const Time& other) const;
 }
 // ..
-Time Time::operator+(const Time & other) const {
+Time Time::operator+(const Time& other) const {
   Tim total;
   // code for `total = other + *this`
   return total;
 }
 // ..
-int main () {
+int main() {
   Time a, b;
   Time c = a + b;
   // translated to a.operator+(b)
@@ -738,7 +736,7 @@ long(value)
 static_cast<long> (value)
 
 // pointer cast
-int * p_number = (int *) 0xB8000000;
+int* p_number = (int*) 0xB8000000;
 ```
 
 ### Conversion between types
