@@ -1,6 +1,7 @@
 const path = require('path')
 const camelCase = require('camelcase')
-const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
+const babelConfig = require('../../babel.config')
 
 const plugins = [
   new FriendlyErrorsWebpackPlugin()
@@ -27,7 +28,10 @@ module.exports = {
     // }, {
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      use: 'babel-loader'
+      use: {
+        loader: 'babel-loader',
+        options: babelConfig
+      }
     }, {
       test: /\.svg$/,
       use: 'svg-sprite-loader'

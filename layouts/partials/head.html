@@ -40,13 +40,15 @@
 <link rel="canonical" href="{{ .URL | absLangURL }}" />
 <link rel="alternate" href="{{ "index.xml" | absLangURL }}" type="application/rss+xml" title="{{ .Site.Title }}">
 
-<!-- prism -->
-<link rel="stylesheet" href="/css/prism.css">
+<!-- prism (async) -->
+<link rel="preload" href="{{ "css/prism.css" | absURL }}" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+<noscript><link rel="stylesheet" href="{{ "css/prism.css" | absURL }}"></noscript>
 
 <!-- mine -->
 <link rel="stylesheet" media="only screen and (min-device-width: 768px)" href="{{ "fonts/Serif/cmun-serif.css" | absURL }}" />
 <link rel="stylesheet" media="only screen and (max-device-width: 768px)" href="{{ "css/mobile.css" | absURL }}" />
-<link rel="stylesheet" href="{{ "css/main.css" | absURL }}" />
+<link rel="stylesheet" href="/css/main.css" />
+
 {{ if isset .Params "draft" }}
 <style>
 body.draft [data-draft] div::after {
@@ -62,6 +64,9 @@ body.draft [data-draft] div::after {
   })
 </script>
 {{ end }}
+
+<!-- link rel="preload" polyfill -->
+<script src="/js/vendor/cssrelpreload.js" inline></script>
 
 <!-- metadata injected by hugo -->
 <!-- <script> -->

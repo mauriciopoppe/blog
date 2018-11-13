@@ -19,17 +19,6 @@ const autoprefixer = require('autoprefixer')
 const cssNano = require('cssnano')
 const escape = require('escape-string-regexp')
 
-/**
- * Filter dir if its package.json file has skip: true
- */
-function filterDir (dir) {
-  const pkg = require(path.join(__dirname, dir, 'package.json'))
-  if (pkg.skip) {
-    console.log(`skipping package ${path.join(__dirname, dir)}`)
-  }
-  return !pkg.skip
-}
-
 async function execCommand (args) {
   // iterate over every package and execute the command described above
   const cmd = args[0]
@@ -37,8 +26,16 @@ async function execCommand (args) {
   const dirs = await globby('packages/browser-*', {
     onlyDirectories: true
   })
+
   const promises = dirs
-    .filter(filterDir)
+    .filter((dir) => {
+      // Filter dir if its package.json file has skip: true
+      const pkg = require(path.join(__dirname, dir, 'package.json'))
+      if (pkg.skip) {
+        console.log(`skipping package ${path.join(__dirname, dir)}`)
+      }
+      return !pkg.skip
+    })
     .map(dir => spawn(cmd, args, {
       cwd: path.join(process.cwd(), dir),
       stdio: 'inherit',

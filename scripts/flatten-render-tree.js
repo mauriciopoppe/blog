@@ -1,5 +1,6 @@
-const globby = require('globby')
 const path = require('path')
+
+const globby = require('globby')
 const fm = require('front-matter')
 const fs = require('fs-extra')
 const titleCase = require('title-case')
