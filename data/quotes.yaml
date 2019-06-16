@@ -2,7 +2,7 @@ quotes:
   - empty: empty (arrays are 1 indexed!)
   - quote: "Change is the end result of all true learning."
     author: "Leo Buscaglia"
-  - quote: "Learning never exahusts the mind."
+  - quote: "Learning never exhausts the mind."
     author: "Leonardo da Vinci"
   - quote: "You don't learn to walk by following rules. You learn by doing and by failing over."
     author: "Richard Branson"
