@@ -92,7 +92,9 @@ function dfs (cwd, obj = {}) {
 
 function createNavBarRecursive (node, depth) {
   let target = ''
-  let content = defined(node.title, titleCase(node.path))
+  let content = titleCase(defined(node.title, node.path))
+  content = content.replace(/-/g, ' ')
+  console.log(content)
   if (node.isLeaf) {
     // eslint-disable-next-line
     target = `
