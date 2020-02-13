@@ -60,7 +60,7 @@ gulp.task('css', function () {
 })
 
 gulp.task('build:packages', async () => {
-  await spawn('./node_modules/.bin/lerna', ['bootstrap'], { stdio: 'inherit' })
+  await spawn('./node_modules/.bin/lerna', ['bootstrap', '--hoist'], { stdio: 'inherit' })
   await execCommand(['npm', 'install'])
   await execCommand(['npm', 'run', 'build'])
 })
