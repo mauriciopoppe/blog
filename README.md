@@ -1,7 +1,15 @@
 # Blog
 
+## Installation
+
 ```sh
+brew install hugo
 npm i
+```
+
+## Development
+
+```sh
 npm start
 ```
 

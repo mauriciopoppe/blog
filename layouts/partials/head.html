@@ -29,20 +29,16 @@
 {{- with .Site.Params.fb_app_id }}
 <meta property="fb:app_id" content="{{ . }}" />
 {{- end }}
-<meta property="og:url" content="{{ .URL | absLangURL }}" />
+<meta property="og:url" content="{{ .Permalink | absLangURL }}" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="{{ .Site.Title }}" />
 
 <!-- Hugo Version number -->
-{{ .Hugo.Generator -}}
+{{ hugo.Generator -}}
 
 <!-- Links and stylesheets -->
-<link rel="canonical" href="{{ .URL | absLangURL }}" />
+<link rel="canonical" href="{{ .Permalink | absLangURL }}" />
 <link rel="alternate" href="{{ "index.xml" | absLangURL }}" type="application/rss+xml" title="{{ .Site.Title }}">
-
-<!-- prism (async) -->
-<link rel="preload" href="{{ "css/prism.css" | absURL }}" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
-<noscript><link rel="stylesheet" href="{{ "css/prism.css" | absURL }}"></noscript>
 
 <!-- mine -->
 <link rel="stylesheet" media="only screen and (min-device-width: 768px)" href="{{ "fonts/Serif/cmun-serif.css" | absURL }}" />
@@ -67,8 +63,3 @@ body.draft [data-draft] div::after {
 
 <!-- link rel="preload" polyfill -->
 <script src="/js/vendor/cssrelpreload.js" inline></script>
-
-<!-- metadata injected by hugo -->
-<!-- <script> -->
-<!--   window.__RENDER_TREE__ = JSON.parse('{{ readFile "data/metadata/render-tree.json" | htmlUnescape | safeHTML }}'); -->
-<!-- </script> -->

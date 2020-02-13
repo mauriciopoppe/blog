@@ -3,9 +3,9 @@ const path = require('path')
 const globby = require('globby')
 const fm = require('front-matter')
 const fs = require('fs-extra')
-const titleCase = require('title-case')
+const { titleCase } = require('title-case')
 const defined = require('defined')
-const parse = require('date-fns/parse')
+const toDate = require('date-fns/toDate')
 
 const isProduction = process.env.NODE_ENV === 'production'
 
@@ -48,9 +48,9 @@ function byDate (a, b) {
 
   if (a.date || b.date) {
     if (a.date && b.date) {
-      // convert to dates and parse
-      const aDate = parse(a.date)
-      const bDate = parse(b.date)
+      // convert to dates and toDate
+      const aDate = toDate(a.date)
+      const bDate = toDate(b.date)
       // console.log('by date')
       // console.log(a.title, aDate)
       // console.log(b.title, bDate)

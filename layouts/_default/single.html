@@ -9,13 +9,13 @@
 {{ define "main" }}
 
 <section class="section">
-  <div class="container">
+  <div class="container is-fluid">
     <div class="columns">
-      <aside class="column is-one-quarter-desktop is-hidden-tablet-only">
+      <aside class="column is-one-fifth is-hidden-tablet-only">
         {{ partial "sitemap.html" . }}
       </aside>
 
-      <div class="column is-half-desktop is-three-quarters-tablet">
+      <div class="column">
         <article role="main" class="content">
 
           {{ if (ne .Params.toc "false") }}
@@ -52,7 +52,7 @@
         {{ end }}
       </div>
 
-      <aside class="column is-one-quarter is-hidden-mobile">
+      <aside class="column is-one-fifth is-hidden-mobile">
         {{ partial "toc.html" . }}
       </aside>
     </div>

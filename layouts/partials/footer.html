@@ -14,8 +14,8 @@
 {{ else }}
   {{ partial "lib/mathjax.html" . }}
 {{ end }}
-
 {{ partial "browser/scripts.html" . }}
+
 <!-- selectively included -->
 {{ if isset .Params "libraries" }}
   {{ range .Params.libraries }}

@@ -13,7 +13,6 @@ const inlinesource = require('gulp-inline-source')
 
 const globby = require('globby')
 const moduleImporter = require('sass-module-importer')
-const runSequence = require('run-sequence')
 const del = require('del')
 const autoprefixer = require('autoprefixer')
 const cssNano = require('cssnano')
@@ -45,9 +44,7 @@ async function execCommand (args) {
 }
 
 gulp.task('clean', function () {
-  return del([
-    'public'
-  ])
+  return del(['public'])
 })
 
 gulp.task('css', function () {
@@ -114,9 +111,10 @@ gulp.task('build:sitemap', () => {
   })
 })
 
-gulp.task('watch', ['build:sitemap'], () => {
-  gulp.watch('./sass/**', [ 'css' ])
-})
+gulp.task('watch', gulp.series('build:sitemap', (done) => {
+  gulp.watch('./sass/**', gulp.series('css'))
+  done()
+}))
 
 gulp.task('revision:rev', () => {
   return gulp.src(['public/**/*.{js,css}'])
@@ -128,7 +126,7 @@ gulp.task('revision:rev', () => {
 })
 
 gulp.task('revision:rev-replace', () => {
-  let manifestFile = fs.readFileSync(path.join(__dirname, 'public/rev-manifest.json'), { encoding: 'utf-8' })
+  const manifestFile = fs.readFileSync(path.join(__dirname, 'public/rev-manifest.json'), { encoding: 'utf-8' })
   const manifest = JSON.parse(manifestFile)
   const cat = Object.keys(manifest)
     .reduce((old, key) => `${old}|(${escape(key)})`, '@@@@@')
@@ -138,25 +136,16 @@ gulp.task('revision:rev-replace', () => {
     .pipe(gulp.dest('public'))
 })
 
-gulp.task('revision', done => {
-  return runSequence(
-    'revision:rev',
-    'revision:rev-replace',
-    done
-  )
-})
+gulp.task('revision', gulp.series('revision:rev', 'revision:rev-replace'))
 
-gulp.task('build', function (done) {
-  return runSequence(
-    'clean',
-    'css',
-    'build:sitemap',
-    'build:packages',
-    'build:hugo',
-    'build:html-minify',
-    'revision',
-    done
-  )
-})
+gulp.task('build', gulp.series(
+  'clean',
+  'css',
+  'build:sitemap',
+  'build:packages',
+  'build:hugo',
+  'build:html-minify',
+  'revision'
+))
 
-gulp.task('default', ['watch'])
+gulp.task('default', gulp.series('css', 'watch'))
