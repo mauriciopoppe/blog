@@ -2,7 +2,6 @@ import tocbot from 'tocbot'
 import debounce from 'debounce'
 
 const content = document.querySelector('article[role=main]')
-const nav = document.querySelector('nav.navbar')
 
 const sitemap = document.querySelector('nav[role=sitemap]')
 const sitemapWrapper = document.querySelector('.sitemap-wrapper')
@@ -25,7 +24,7 @@ function main () {
     throttleTimeout: 200,
   }
   const margin = 20
-  const navbarHeight = nav.getBoundingClientRect().height
+  const navbarHeight = 0
 
   class Sidebar {
     constructor (el, wrapper) {

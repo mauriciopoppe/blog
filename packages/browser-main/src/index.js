@@ -1,5 +1,4 @@
 export * from './font-face-observer'
 export * from './lazy-load'
-export * from './bulma-nav'
 export * from './sidebar'
 export * from './sitemap'

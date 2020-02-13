@@ -1,11 +1,21 @@
+{{ if .IsHome }}
+  {{ $.Scratch.Set "title" .Site.Title }}
+  {{ if .Site.Params.subtitle }}{{ $.Scratch.Set "subtitle" .Site.Params.subtitle }}{{ end }}
+  {{ if .Site.Params.bigimg }}{{ $.Scratch.Set "bigimg" .Site.Params.bigimg }}{{ end }}
+{{ else }}
+  {{ $.Scratch.Set "title" .Title }}
+  {{ if .Params.subtitle }}{{ $.Scratch.Set "subtitle" .Params.subtitle }}{{ end }}
+  {{ if .Params.bigimg }}{{ $.Scratch.Set "bigimg" .Params.bigimg }}{{ end }}
+{{ end }}
+{{ $bigimg := $.Scratch.Get "bigimg" }}
 {{ partial "svg/defs.html" . }}
-<nav class="navbar">
-  <div class="container">
+<nav class="navbar is-hidden-desktop">
+  <div class="container-fluid">
     <div class="navbar-brand">
 
       <a class="navbar-item" href="/">
         <div>
-          <div class="is-size-4" id="navbar-title">Mauricio Poppe</div>
+          <div class="is-size-4" id="navbar-title">{{ $.Scratch.Get "title" }}</div>
         </div>
       </a>
 
@@ -15,31 +25,6 @@
         <span></span>
       </div>
     </div>
-
-    <div class="navbar-menu" id="navMenu">
-      <div class="navbar-start">
-      </div>
-
-      <div class="navbar-end">
-        <a class="navbar-item"
-          href="https://github.com/{{ .Site.Author.github }}" target="noopener">
-          <svg class="icon icon-github"><use xlink:href="#icon-github"></use></svg>
-          Github
-        </a>
-
-        <a class="navbar-item"
-          href="https://twitter.com/{{ .Site.Author.twitter }}" target="noopener">
-          <svg class="icon icon-twitter"><use xlink:href="#icon-twitter"></use></svg>
-          Twitter
-        </a>
-
-        <a class="navbar-item"
-          href="https://www.linkedin.com/in/{{ .Site.Author.linkedin }}" target="noopener">
-          <svg class="icon icon-linkedin2"><use xlink:href="#icon-linkedin2"></use></svg>
-          LinkedIn
-        </a>
-      </div>
-    </div> <!-- navbar-menu-end -->
 
   </div>
 </nav>

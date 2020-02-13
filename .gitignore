@@ -2,7 +2,7 @@
 # compiled from ./scripts/flatten-render-tree.js
 /data/metadata
 # compiled from ./packages/
-/static/browser/**
+/static/js/browser/**
 # compiled from ./sass/
 /static/css/main.css
 /static/css/mobile.css

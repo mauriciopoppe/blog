@@ -23,10 +23,6 @@ body {
   font-family: $family-serif;
 }
 
-.body-content-wrapper {
-  margin-top: 50px;
-}
-
 .fonts-loaded {
   body {
     font-family: 'Computer Modern Serif', $family-serif;
@@ -36,13 +32,6 @@ body {
 pre[class*=language-] {
   font-size: 0.7em;
   border-radius: $radius;
-  // code {
-  //   padding: 0;
-  // }
-}
-
-pre[data-line] {
-  padding-left: 2em;
 }
 
 code {
