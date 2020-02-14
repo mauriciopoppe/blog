@@ -31,7 +31,8 @@ function main () {
       this.el = el
       this.wrapper = wrapper
       this.position = ''
-      this.computeTrigger()
+      this.scrollTrigger = 1e9
+      this.refresh()
     }
 
     setPosition (position) {
@@ -59,7 +60,9 @@ function main () {
     }
 
     computeTrigger () {
-      this.scrollTrigger = window.scrollY + content.getBoundingClientRect().top - navbarHeight
+      if (!window.matchMedia("(pointer:coarse)").matches) {
+        this.scrollTrigger = window.scrollY + content.getBoundingClientRect().top - navbarHeight
+      }
     }
 
     updateHeight () {
@@ -73,12 +76,6 @@ function main () {
         } else {
           this.el.style.height = 'auto'
         }
-      // } else {
-      //   const wrapperTop = this.wrapper.getBoundingClientRect().top
-      //   const footerTop = footer.getBoundingClientRect().top
-      //   // 50: padding and other stuff
-      //   const height = Math.min(window.innerHeight, footerTop) - wrapperTop - 25
-      //   this.el.style.height = `${height}px`
       }
     }
 

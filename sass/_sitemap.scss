@@ -1,14 +1,14 @@
-.sitemap-wrapper {
-  height: 100%;
-  width: 100%;
-}
+// .sitemap-wrapper {
+//   height: 100%;
+//   width: 100%;
+// }
 
 .sitemap {
   opacity: 0.3;
   transition: opacity $time;
   position: relative;
   overflow: auto;
-  max-height: calc(100vh - 100px);
+  // max-height: calc(100vh - 100px);
 
   &:hover {
     opacity: 1;
