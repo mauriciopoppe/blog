@@ -76,12 +76,13 @@
 }
 
 // override settings set by the scroll spy
-@media screen and (max-width: 768px) {
+@media screen and (max-width: $desktop) {
   nav[role=sitemap] {
     position: initial !important;
     top: initial !important;
     height: auto !important;
     width: auto !important;
     overflow: hidden;
+    opacity: 1;
   }
 }

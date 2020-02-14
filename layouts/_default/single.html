@@ -7,24 +7,26 @@
 {{ end }}
 
 {{ define "main" }}
-
-<section class="section">
+<section class="main">
   <div class="container is-fluid">
     <div class="columns">
-      <aside class="column is-one-fifth is-hidden-tablet-only">
-        {{ partial "sitemap.html" . }}
+
+      <!-- table of contents -->
+      <aside class="column is-one-fifth">
+        {{ partial "toc.html" . }}
       </aside>
 
       <div class="column">
         <article role="main" class="content">
 
-          {{ if (ne .Params.toc "false") }}
-          <div class="is-hidden-tablet">
-            <nav role="navigation">
-              <div class="toc-embedded"></div>
-            </nav>
-          </div>
-          {{ end }}
+          <!-- table of contents rendered only on touch -->
+          <!-- {{ if (ne .Params.toc "false") }} -->
+          <!-- <div class="is-hidden-desktop"> -->
+          <!--   <nav role="navigation"> -->
+          <!--     <div class="toc-embedded"></div> -->
+          <!--   </nav> -->
+          <!-- </div> -->
+          <!-- {{ end }} -->
 
           {{ .Content }}
 
@@ -41,20 +43,13 @@
           {{ end }}
         </article>
 
-        {{ if not (isset .Params "noShare") }}
-          <hr />
-          <div class="sharing">
-            <div class="sharing__message has-text-centered"> Spread the word! </div>
-            <div class="sharing__buttons">
-              {{ partial "share.html" . }}
-            </div>
-          </div>
-        {{ end }}
       </div>
 
-      <aside class="column is-one-fifth is-hidden-mobile">
-        {{ partial "toc.html" . }}
+      <!-- sitemap -->
+      <aside class="column is-one-fifth">
+        {{ partial "sitemap.html" . }}
       </aside>
+
     </div>
   </div>
 </section>

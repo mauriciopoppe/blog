@@ -4,10 +4,8 @@
     {{ partial "head.html" . }}
   </head>
   <body>
-    <div class="body-content-wrapper">
-      {{ block "header" . }}{{ end }}
-      {{ block "main" . }}{{ end }}
-      {{ block "footer" . }}{{ end }}
-    </div>
+    {{ block "header" . }}{{ end }}
+    {{ block "main" . }}{{ end }}
+    {{ block "footer" . }}{{ end }}
   </body>
 </html>

@@ -28,7 +28,6 @@
     "@babel/preset-react": "^7.8.3",
     "autoprefixer": "^9.7.4",
     "babel-loader": "^8.0.6",
-    "bulma": "^0.8.0",
     "child-process-promise": "^2.2.1",
     "css-loader": "^3.4.2",
     "cssnano": "^4.1.10",
@@ -68,6 +67,7 @@
   },
   "dependencies": {
     "@babel/cli": "^7.8.4",
+    "bulma": "^0.8.0",
     "date-fns": "^2.9.0",
     "defined": "^1.0.0",
     "eases": "^1.0.8",

@@ -5,6 +5,8 @@
 .repl__wrapper.external {
   a {
     display: block;
+    overflow-x: scroll;
+    overflow-y: hidden;
   }
 }
 
