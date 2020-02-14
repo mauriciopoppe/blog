@@ -21,5 +21,3 @@ markup:
   highlight:
     # syntax is highlighted by prism
     codeFences: false
-
-disqusShortname: maurizzzio
