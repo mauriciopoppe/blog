@@ -16,20 +16,10 @@
         {{ partial "toc.html" . }}
       </aside>
 
+      <!-- content -->
       <div class="column">
         <article role="main" class="content">
-
-          <!-- table of contents rendered only on touch -->
-          <!-- {{ if (ne .Params.toc "false") }} -->
-          <!-- <div class="is-hidden-desktop"> -->
-          <!--   <nav role="navigation"> -->
-          <!--     <div class="toc-embedded"></div> -->
-          <!--   </nav> -->
-          <!-- </div> -->
-          <!-- {{ end }} -->
-
           {{ .Content }}
-
           {{ if isset .Params "references" }}
             <hr />
             <div class="is-size-3">References</div>
@@ -43,6 +33,8 @@
           {{ end }}
         </article>
 
+        <!-- comments -->
+        {{ template "_internal/disqus.html" . }}
       </div>
 
       <!-- sitemap -->
@@ -52,6 +44,7 @@
 
     </div>
   </div>
+
 </section>
 {{ end }}
 
