@@ -8,13 +8,11 @@ references:
   - https://math.berkeley.edu/~sagrawal/su14_math55/notes_gcd.pdf
 ---
 
-{{% math-statement type="definition" %}}
-Let $$a,b \in \mathbb{Z}$$, we say that $$a$$ _**divides**_ $$b$$, written $$a \divides b$$, if there's an integer $$n$$ so that
-
+> Let $$a,b \in \mathbb{Z}$$, we say that $$a$$ _**divides**_ $$b$$, written $$a \divides b$$, if there's an integer $$n$$ so that
+>
 $$
 b = na
 $$
-{{% /math-statement %}}
 
 If $$a$$ divides $$b$$ then $$b$$ is _**divisible**_ by $$a$$ and $$a$$ is a _**divisor or factor**_ of $$b$$, also $$b$$ is called a _**multiple**_ of $$a$$.
 
@@ -35,13 +33,11 @@ Proof.
 
 ## Division algorithm
 
-{{% math-statement type="definition" %}}
-Let $$a, b \in \mathbb{Z}$$ with $$b > 0$$, then there exists $$q, r \in \mathbb{Z}$$ such that
-
+> Let $$a, b \in \mathbb{Z}$$ with $$b > 0$$, then there exists $$q, r \in \mathbb{Z}$$ such that
+>
 $$
 a = bq + r, \quad \text{where $0 \leq r \lt b$}
 $$
-{{% /math-statement %}}
 
 Proof. if $$bq$$ is the largest multiple of $$b$$ that does not exceed $$a$$ then $$r = a - bq$$ is positive and since $$b(q + 1) > a$$ then $$r \lt b$$.
 
@@ -51,15 +47,11 @@ Also, if $$r = 0$$ then $$a = bq$$ which implies that $$q \divides a$$.
 
 Let $$a, b \in \mathbb{N}$$, the greatest common divisor of $$a$$ and $$b$$, written as $$gcd(a,b)$$ or $$(a,b)$$, is the element $$d$$ in $$\mathbb{N}$$ such that $$d \divides a$$ and $$d \divides b$$ and every common divisor of $$a$$ and $$b$$ also divides $$d$$.
 
-{{% math-statement type="theorem" %}}
-
-Let $$a$$ and $$b$$ be two numbers in $$\mathbb{N}$$, the value of $$(a,b)$$ is a *linear combination* of $$a$$ and $$b$$ i.e. there exists $$s,t$$ in $$\mathbb{Z}$$ such that
-
+> Let $$a$$ and $$b$$ be two numbers in $$\mathbb{N}$$, the value of $$(a,b)$$ is a *linear combination* of $$a$$ and $$b$$ i.e. there exists $$s,t$$ in $$\mathbb{Z}$$ such that
+>
 $$
 sa + tb = (a, b)
 $$
-
-{{% /math-statement %}}
 
 Proof.
 
@@ -108,25 +100,19 @@ $$
 
 A very efficient method to compute the *greatest common denominator*
 
-{{% math-statement type="theorem" %}}
-Suppose $$a, b$$ be integers with $$a \ge b \gt 0$$
-
-1. Apply the division algorithm $$a = bq + r, 0 \le r \lt b$$
-2. Rename $$b$$ as $$a$$ and $$r$$ as $$b$$ and repeat 1 until $$r = 0$$
-
-The last nonzero remainder is the *greatest common divisor* of $$a$$ and $$b$$
-{{% /math-statement %}}
+> Suppose $$a, b$$ be integers with $$a \ge b \gt 0$$
+>
+> 1. Apply the division algorithm $$a = bq + r, 0 \le r \lt b$$
+> 2. Rename $$b$$ as $$a$$ and $$r$$ as $$b$$ and repeat 1 until $$r = 0$$
+> The last nonzero remainder is the *greatest common divisor* of $$a$$ and $$b$$
 
 The euclidean algorithm depends on the following lemma
 
-{{% math-statement type="lemma" %}}
-Let $$a, b$$ be integers with $$a \ge b \gt 0$$. Let $$r$$ be the remainder of dividing $$a$$ by $$b$$ then
-
+> Let $$a, b$$ be integers with $$a \ge b \gt 0$$. Let $$r$$ be the remainder of dividing $$a$$ by $$b$$ then
+>
 $$
 (a,b) = (b, r)
 $$
-
-{{% /math-statement %}}
 
 *Proof.* Let $$q$$ be the quotient of dividing $$a$$ by $$b$$ so that $$a = bq + r$$. If $$d = (a,b)$$ then it must divide any other *linear combination* of $$a$$ and $$b$$ like $$r = a - bq$$, therefore $$d \divides r$$. Finally we can conclude that $$d = (b,r)$$.
 

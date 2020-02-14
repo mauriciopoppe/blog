@@ -7,10 +7,10 @@
 
 <div class="math-statement {{ .Get "type" }}" {{ if .Get "id" }}id="{{ .Get "type" }}-{{ .Get "id" }}" {{ end }}>
     <b><span class="text-capitalize">{{ lower (.Get "type") }}</span> {{ if .Get "id" }} {{ . }} {{ end }} {{ if .Get "name" }} ({{ .Get "name" }}) {{ end }}</b>
-    <span class="content">
+    <div class="math-statement__content">
     {{ if $contentItalic }} <em> {{ end }}
         {{ .Inner }}
     {{ if $contentItalic }} </em> {{ end }}
-    </span>
+    </div>
 </div>
 <!-- /math-statement -->
