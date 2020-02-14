@@ -21,7 +21,7 @@ $family-primary: $family-serif;
 
 @import "bulma/bulma.sass";
 
-// override .number
+// override .number that conflicts with the higlighter numbers
 .number {
   align-items: initial;
   background-color: initial;

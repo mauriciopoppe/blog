@@ -15,6 +15,7 @@
       <h1 class="title is-1 is-spaced">{{ $.Scratch.Get "title" }}</h1>
       <p class="subtitle">{{ $.Scratch.Get "subtitle" }}</p>
       <p class="subtitle">{{ .Date.Format "Monday, January 2, 2006" }}</p>
+      {{ partial "breadcrumb.html" . }}
     </div>
   </div>
 </section>

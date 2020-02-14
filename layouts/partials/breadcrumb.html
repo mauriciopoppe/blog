@@ -1,4 +1,12 @@
 {{ $url := replace .Permalink ( printf "%s" .Site.BaseURL) "" }}
-{{ $.Scratch.Add "path" .Site.BaseURL }}
-{{ $url }}
-<!-- <a href="{{$url}}"> {{$url}} </a> -->
+{{ $url := substr $url 0 -1 }}
+{{ $url_tokens := split $url "/" }}
+<nav class="breadcrumb is-centered" aria-label="breacrumbs">
+  <ul>
+  {{ range $url_tokens }}
+    <li>
+      <a class="has-text-white-ter" href="#sitemap">{{- . -}}</a>
+    </li>
+  {{ end }}
+  </ul>
+</nav>
