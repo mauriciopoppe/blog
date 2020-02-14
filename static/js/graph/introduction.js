@@ -1,11 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
   var d3 = window.d3
   var greuler = window.greuler
+  var width = document.querySelector('article.content').clientWidth
   d3.json('/js/graph/data/introduction.json', function (err, data) {
     if (err) { throw err }
     greuler({
       target: '#figure-introduction',
-      data: data
+      data: data,
+      width: width
     }).update()
   })
 
@@ -13,7 +15,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (err) { throw err }
     greuler({
       target: '#figure-complete-graph',
-      data: data
+      data: data,
+      width: width
     }).update({ iterations: [30, 30, 30] })
   })
 
@@ -21,7 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (err) { throw err }
     greuler({
       target: '#figure-complement-graph',
-      data: data
+      data: data,
+      width: width
     }).update()
   })
 
@@ -29,7 +33,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (err) { throw err }
     var instance = greuler({
       target: '#figure-bipartite-graph',
-      data: data
+      data: data,
+      width: width
     }).update()
 
     instance.events.on('firstLayoutEnd', function () {
@@ -48,7 +53,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (err) { throw err }
     greuler({
       target: '#figure-biconnected-graph',
-      data: data
+      data: data,
+      width: width
     }).update()
   })
 
@@ -56,7 +62,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (err) { throw err }
     greuler({
       target: '#figure-pseudograph',
-      data: data
+      data: data,
+      width: width
     }).update()
   })
 
@@ -64,7 +71,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (err) { throw err }
     greuler({
       target: '#figure-multigraph',
-      data: data
+      data: data,
+      width: width
     }).update()
   })
 
@@ -72,7 +80,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (err) { throw err }
     greuler({
       target: '#figure-weighted-graph',
-      data: data
+      data: data,
+      width: width
     }).update()
   })
 
@@ -81,7 +90,8 @@ document.addEventListener('DOMContentLoaded', function () {
     greuler({
       directed: true,
       target: '#figure-directed-graph',
-      data: data
+      data: data,
+      width: width
     }).update()
   })
 
@@ -89,7 +99,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (err) { throw err }
     greuler({
       target: '#figure-degree-sequence',
-      data: data
+      data: data,
+      width: width
     }).update({ iterations: [10, 10, 10] })
   })
 
@@ -97,7 +108,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (err) { throw err }
     greuler({
       target: '#figure-adjacency-incidence-matrix',
-      data: data
+      data: data,
+      width: width
     }).update()
   })
 })

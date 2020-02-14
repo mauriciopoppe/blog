@@ -1,27 +1,32 @@
 document.addEventListener('DOMContentLoaded', function () {
+  var width = document.querySelector('article.content').clientWidth
   d3.json('/js/graph/data/eulerian-graph.json', function (error, data) {
     greuler({
       target: '#figure-eulerian-graph',
-      data: data
+      data: data,
+      width: width
     }).update();
   });
   d3.json('/js/graph/data/eulerian-trail.json', function (error, data) {
     greuler({
       target: '#figure-eulerian-trail',
-      data: data
+      data: data,
+      width: width
     }).update();
   });
   d3.json('/js/graph/data/konigsberg-bridges.json', function (error, data) {
     greuler({
       target: '#figure-konigsberg-bridges',
-      data: data
+      data: data,
+      width: width
     }).update();
   });
 
   d3.json('/js/graph/data/eulerian-graph.json', function (error, data) {
     var options = {
       target: '#figure-find-eulerian-trail',
-      data: data
+      data: data,
+      width: width
     };
 
     var instance = greuler(options).update();
