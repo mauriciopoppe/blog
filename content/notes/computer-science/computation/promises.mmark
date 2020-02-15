@@ -106,7 +106,7 @@ function doResolve(promise, executor) {
 }
 {{< /snippet >}}
 
-{{< repl external="true" id="@mauriciopoppe/Implementing-promises-from-scratch-1" >}}
+{{< repl external="true" id="@mauriciopoppe/Implementing-Promises-from-Scratch-1" >}}
 
 ### Observing state changes
 
@@ -163,7 +163,7 @@ function handleResolved(promise, onFulfilled, onRejected) {
 }
 {{< /snippet >}}
 
-{{< repl external="true" id="@mauriciopoppe/Implementing-promises-from-scratch-2" >}}
+{{< repl external="true" id="@mauriciopoppe/Implementing-Promises-from-Scratch-2" >}}
 
 ### One-way transition
 
@@ -228,7 +228,7 @@ function doResolve(promise, executor) {
 }
 {{< /snippet >}}
 
-{{< repl external="true" id="@mauriciopoppe/Implementing-promises-from-scratch-3" >}}
+{{< repl external="true" id="@mauriciopoppe/Implementing-Promises-from-Scratch-3" >}}
 
 ### Handling executor errors
 
@@ -263,7 +263,7 @@ function doResolve(promise, executor) {
 }
 {{< /snippet >}}
 
-{{< repl external="true" id="@mauriciopoppe/Implementing-promises-from-scratch-4" >}}
+{{< repl external="true" id="@mauriciopoppe/Implementing-Promises-from-Scratch-4" >}}
 
 ### Async executor
 
@@ -384,7 +384,7 @@ function finale(promise) {
 }
 {{< /snippet >}}
 
-{{< repl external="true" id="@mauriciopoppe/Implementing-promises-from-scratch-5" >}}
+{{< repl external="true" id="@mauriciopoppe/Implementing-Promises-from-Scratch-5" >}}
 
 ### Chaining promises
 
@@ -491,7 +491,7 @@ function handleResolved(promise, handler) {
 }
 {{< /snippet >}}
 
-{{< repl external="true" id="@mauriciopoppe/Implementing-promises-from-scratch-6" >}}
+{{< repl external="true" id="@mauriciopoppe/Implementing-Promises-from-Scratch-6" >}}
 
 ### Async handlers
 
@@ -561,7 +561,7 @@ function handle(promise, handler) {
 }
 {{< /snippet >}}
 
-{{< repl external="true" id="@mauriciopoppe/Implementing-promises-from-scratch-7" >}}
+{{< repl external="true" id="@mauriciopoppe/Implementing-Promises-from-Scratch-7" >}}
 
 ### Additional cases
 
@@ -805,7 +805,7 @@ That was it! What I learned from implementing it on my own was that a promise ca
 
 This is the final version of our tests and the promise implementation
 
-{{< repl external="true" id="@mauriciopoppe/Implementing-promises-from-scratch-8" >}}
+{{< repl external="true" id="@mauriciopoppe/Implementing-Promises-from-Scratch-8" >}}
 
 #### Running the A+ Promise compliance tests
 
