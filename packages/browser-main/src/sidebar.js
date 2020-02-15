@@ -70,9 +70,8 @@ function main () {
         // max height is bounded by the footer
         const fTop = footer.getBoundingClientRect().top
         if (fTop < window.innerHeight) {
-          // 50: navbar
           // 50: padding and other stuff
-          this.el.style.height = `${fTop - 100}px`
+          this.el.style.height = `${fTop - 50}px`
         } else {
           this.el.style.height = 'auto'
         }
