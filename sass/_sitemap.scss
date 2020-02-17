@@ -1,14 +1,8 @@
-// .sitemap-wrapper {
-//   height: 100%;
-//   width: 100%;
-// }
-
 .sitemap {
   opacity: 0.3;
   transition: opacity $time;
   position: relative;
   overflow: auto;
-  // max-height: calc(100vh - 100px);
 
   &:hover {
     opacity: 1;
@@ -85,4 +79,9 @@
     overflow: hidden;
     opacity: 1;
   }
+}
+
+// styles when it's rendered in the root page
+.is-index .sitemap {
+  opacity: 1;
 }

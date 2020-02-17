@@ -4,8 +4,8 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 
 const dev = process.argv[2] === 'start'
-
 const config = require(dev ? './webpack.config.dev' : './webpack.config.prod')
+console.log(dev ? 'running in dev mode' : 'running in prod mode')
 
 let customConfig = {}
 try {

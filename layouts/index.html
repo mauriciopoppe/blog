@@ -1,24 +1,22 @@
 {{ define "nav" }}
-<!-- {{ partial "nav.html" . }} -->
 {{ end }}
 
 {{ define "main" }}
 {{ partial "svg/defs.html" . }}
-<section class="hero is-fullheight">
-  <div class="hero-body">
-    {{ $isRoot := true }}
-    {{ partial "profile" (dict "Site" .Site "isRoot" $isRoot) }}
-
-    {{ range where .Site.Pages "Section" "blog" }}
-      <li>
-        <a href="{{ .Permalink }}">{{ .Title }}</a>
-        <br />
-        <span class="date">{{ .Date.Format "Mon, Jan 2, 2006" }}</span>
-      </li>
-    {{ end }}
+<section class="hero is-fullheight is-index">
+  <div class="hero-body container ">
+    <div class="columns is-centered card box">
+      <div class="column has-text-right">
+        {{ partial "profile" . }}
+      </div>
+      <div class="column" style="overflow: scroll; opacity: 1">
+        {{ partial "sitemap.html" . }}
+      </div>
+    </div>
   </div>
 </section>
 {{ end }}
 
 {{ define "footer" }}
+  {{ partial "browser/browser-main.html" . }}
 {{ end }}

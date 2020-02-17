@@ -1,5 +1,6 @@
 import expoInOut from 'eases/expo-in-out'
-const root = document.querySelector('.sitemap')
+
+const sitemapEl = document.querySelector('.sitemap')
 
 function animate ({ timing, draw, duration }) {
   return new Promise(resolve => {
@@ -33,8 +34,8 @@ function getHeight (el) {
   return height
 }
 
-function main () {
-  root.addEventListener('click', function (e) {
+function addClickListener() {
+  sitemapEl.addEventListener('click', function (e) {
     // find closest ancestor that is li
     const li = e.target.closest('li')
     // find closest child that is ul
@@ -78,29 +79,34 @@ function main () {
 }
 
 // open active items as needed
-function setActive () {
+function setActiveItemInSidebar () {
   let pn = window.location.pathname
   // strips the / and adds .mmark
   pn = pn.substring(1, pn.length - 1) + '.mmark'
   const target = document.querySelector(`[data-url-target="${pn}"]`)
-  if (!target) {
-    throw Error(`sitemap target "${target}" not found, did you regenerate the sitemap?`)
-  }
-  let it = target
-  while (!it.classList.contains('sitemap')) {
-    if (it.classList.contains('list-is-collapsed')) {
-      it.classList.remove('list-is-collapsed')
-      it.style.height = 'auto'
+  if (target) {
+    let it = target
+    while (!it.classList.contains('sitemap')) {
+      if (it.classList.contains('list-is-collapsed')) {
+        it.classList.remove('list-is-collapsed')
+        it.style.height = 'auto'
+      }
+      if (it.tagName === 'LI') {
+        it.classList.add('is-active')
+        it.classList.add('item-expanded')
+      }
+      it = it.parentNode
     }
-    if (it.tagName === 'LI') {
-      it.classList.add('is-active')
-      it.classList.add('item-expanded')
-    }
-    it = it.parentNode
+  } else {
+    // expand all the items
+    const items = Array.from(sitemapEl.querySelectorAll('.list-is-collapsed'))
+    items.forEach(el => {
+      el.classList.remove('list-is-collapsed')
+    })
   }
 }
 
-if (root) {
-  main()
-  setActive()
+if (sitemapEl) {
+  addClickListener()
+  setActiveItemInSidebar()
 }

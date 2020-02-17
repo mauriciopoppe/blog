@@ -3,70 +3,66 @@
 {{ $quote := index $quotes $random }}
 {{ $image := "/images/2017-square.jpg" }}
 
-<div class="container has-text-centered {{if isset . "isRoot"}}root{{end}}">
-  <div class="columns is-centered">
-    <div class="column is-half card box">
-      <img class="profile-pic lazy-load"
-        {{ if isset . "isRoot" }}
-          src="{{ $image }}"
-        {{ else }}
-          data-src="{{ $image }}"
-        {{ end }}
-        alt="Me" />
-      <p class="is-size-3">Mauricio Poppe</p>
-      <p>
-        <span>I'm just getting started 😃</span>
-      </p>
-      {{ if isset . "isRoot" }}
-      <hr />
-        <div>
-          <a class="button"
-            href="https://github.com/{{ .Site.Author.github }}" target="noopener">
-            <svg class="icon icon-github"><use xlink:href="#icon-github"></use></svg>
-            <span>Github</span>
-          </a>
+<div class="profile-wrapper">
+  <img class="profile-pic lazy-load"
+       {{ if isset . "isRoot" }}
+       src="{{ $image }}"
+       {{ else }}
+       data-src="{{ $image }}"
+       {{ end }}
+       alt="Me" />
+  <p class="is-size-3">Mauricio Poppe</p>
+  <p>
+    <span>I'm just getting started 😃</span>
+  </p>
+  {{ if isset . "isRoot" }}
+  <hr />
+  <div>
+    <a class="button"
+       href="https://github.com/{{ .Site.Author.github }}" target="noopener">
+      <svg class="icon icon-github"><use xlink:href="#icon-github"></use></svg>
+      <span>Github</span>
+    </a>
 
-          <a class="button"
-            href="https://twitter.com/{{ .Site.Author.twitter }}" target="noopener">
-            <svg class="icon icon-twitter"><use xlink:href="#icon-twitter"></use></svg>
-            <span>Twitter</span>
-          </a>
+    <a class="button"
+       href="https://twitter.com/{{ .Site.Author.twitter }}" target="noopener">
+      <svg class="icon icon-twitter"><use xlink:href="#icon-twitter"></use></svg>
+      <span>Twitter</span>
+    </a>
 
-          <a class="button"
-            href="https://www.linkedin.com/in/{{ .Site.Author.linkedin }}" target="noopener">
-            <svg class="icon icon-linkedin2"><use xlink:href="#icon-linkedin2"></use></svg>
-            <span>LinkedIn</span>
-          </a>
+    <a class="button"
+       href="https://www.linkedin.com/in/{{ .Site.Author.linkedin }}" target="noopener">
+      <svg class="icon icon-linkedin2"><use xlink:href="#icon-linkedin2"></use></svg>
+      <span>LinkedIn</span>
+    </a>
 
-        </div>
-
-        <hr />
-
-        <div class="is-size-6">
-          The last note I wrote is about
-        {{ range first 2 .Site.RegularPages }}
-          {{ if not (eq .Title "") }}
-            <a href="{{ .Permalink }}">{{ .Title }}</a>
-            <!-- <br /> -->
-            <!-- <span class="date">{{ .Date.Format "Mon, Jan 2, 2006" }}</span> -->
-          {{ end }}
-        {{ end }}
-        </div>
-      {{ else }}
-        <hr />
-        <p class="is-size-5">
-          <span> {{ index $quote "quote" }}<span>
-          <i>{{ index $quote "author" }}</i>
-        </p>
-      {{ end }}
-      <hr />
-      <p class="is-size-7">
-        This site is built with <a href="https://gohugo.io/" target="noopener">Hugo</a>
-        and hosted on <a href="https://netlify.com/" target="noopener">Netlify</a>. <br />
-        The source code is hosted on <a href="http://github.com/{{ .Site.Author.github }}/blog" target="noopener">Github</a>
-      </p>
-      <p class="is-size-7">© 2015 - {{ now.Year }}</p>
-    </div>
   </div>
+
+  <hr />
+
+  <div class="is-size-6">
+    The last note I wrote is about
+    {{ range first 2 .Site.RegularPages }}
+    {{ if not (eq .Title "") }}
+    <a href="{{ .Permalink }}">{{ .Title }}</a>
+    <!-- <br /> -->
+    <!-- <span class="date">{{ .Date.Format "Mon, Jan 2, 2006" }}</span> -->
+    {{ end }}
+    {{ end }}
+  </div>
+  {{ else }}
+  <hr />
+  <p class="is-size-5">
+    <span> {{ index $quote "quote" }}<span>
+        <i>{{ index $quote "author" }}</i>
+  </p>
+  {{ end }}
+  <hr />
+  <p class="is-size-7">
+    This site is built with <a href="https://gohugo.io/" target="noopener">Hugo</a>
+    and hosted on <a href="https://netlify.com/" target="noopener">Netlify</a>. <br />
+    The source code is hosted on <a href="http://github.com/{{ .Site.Author.github }}/blog" target="noopener">Github</a>
+  </p>
+  <p class="is-size-7">© 2015 - {{ now.Year }}</p>
 </div>
 

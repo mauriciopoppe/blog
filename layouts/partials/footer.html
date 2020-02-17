@@ -1,19 +1,27 @@
 
 <footer class="footer">
   <div id="browser-sunset"></div>
-  {{ partial "profile" . }}
+
+  <div class="container has-text-centered {{if isset . "isRoot"}}root{{end}}">
+    <div class="columns is-centered">
+      <div class="column is-half card box">
+        {{ partial "profile" . }}
+      </div>
+    </div>
+  </div>
 </footer>
 
 <!-- always included -->
-{{ partial "lib/polyfill.html" . }}
 {{ partial "browser/browser-main.html" . }}
+{{ partial "browser/scripts.html" . }}
+
+{{ partial "lib/polyfill.html" . }}
 {{ partial "lib/prism.html" . }}
 {{ if isset .Params "nomath" }}
   {{ $s := true }}
 {{ else }}
   {{ partial "lib/mathjax.html" . }}
 {{ end }}
-{{ partial "browser/scripts.html" . }}
 
 <!-- selectively included -->
 {{ if isset .Params "libraries" }}
