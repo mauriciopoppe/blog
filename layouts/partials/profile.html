@@ -4,17 +4,20 @@
 {{ $image := "/images/2017-square.jpg" }}
 
 <div class="profile-wrapper">
-  <img class="profile-pic lazy-load"
-       {{ if isset . "isRoot" }}
-       src="{{ $image }}"
-       {{ else }}
-       data-src="{{ $image }}"
-       {{ end }}
-       alt="Me" />
-  <p class="is-size-3">Mauricio Poppe</p>
-  <p>
-    <span>I'm just getting started 😃</span>
-  </p>
+  <a href="/" class="has-text-dark">
+    <img class="profile-pic lazy-load"
+         {{ if isset . "isRoot" }}
+         src="{{ $image }}"
+         {{ else }}
+         data-src="{{ $image }}"
+         {{ end }}
+         alt="Me" />
+    <p class="is-size-3">Mauricio Poppe</p>
+    <p>
+      <span>I'm just getting started 😃</span>
+    </p>
+  </a>
+
   {{ if isset . "isRoot" }}
   <hr />
   <div>

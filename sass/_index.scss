@@ -1,0 +1,29 @@
+// styles when it's rendered in the root page
+.is-index {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-image:
+    linear-gradient(
+      to right,
+      $color25, $color75
+    );
+
+  .sitemap {
+    opacity: 1;
+    overflow: scroll;
+    max-height: calc(100vh - 200px);
+  }
+}
+
+@media screen and (max-width: $desktop) {
+  .is-index {
+    height: auto;
+    .sitemap {
+      max-height: none;
+    }
+  }
+}
+

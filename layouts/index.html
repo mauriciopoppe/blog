@@ -3,18 +3,20 @@
 
 {{ define "main" }}
 {{ partial "svg/defs.html" . }}
-<section class="hero is-fullheight is-index">
-  <div class="hero-body container ">
-    <div class="columns is-centered card box">
-      <div class="column has-text-right">
-        {{ partial "profile" . }}
-      </div>
-      <div class="column" style="overflow: scroll; opacity: 1">
-        {{ partial "sitemap.html" . }}
+<div class="is-index">
+  <div class="container">
+    <div class="box">
+      <div class="columns">
+        <div class="column is-half has-text-right">
+          {{ partial "profile" . }}
+        </div>
+        <div class="column is-half" style="overflow: scroll; opacity: 1">
+          {{ partial "sitemap.html" . }}
+        </div>
       </div>
     </div>
   </div>
-</section>
+</div>
 {{ end }}
 
 {{ define "footer" }}
