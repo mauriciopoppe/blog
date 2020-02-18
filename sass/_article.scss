@@ -8,10 +8,15 @@ article[role=main] {
     margin-top: 0;
   }
 
-  // a {
-  //   border-bottom: 1px solid $primary;
-  //   color: $primary;
-  // }
+  a {
+    color: $primary;
+    // transition: border $time;
+    background-color: lighten($primary, 60%);
+
+    // &:hover {
+    //   border-bottom: 1px solid $primary;
+    // }
+  }
 
 }
 

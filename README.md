@@ -21,6 +21,8 @@ To update the JS code go to packages/* and run
 npm start
 ```
 
+NOTE: scss livereload is not working so a hard refresh is needed every time the css is compiled
+
 ## New article
 
 - should have the extension mmark

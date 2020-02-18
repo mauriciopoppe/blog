@@ -10,6 +10,11 @@
 
   li {
     padding-left: 20px;
+    transition: padding $time;
+
+    &[data-url-target]:hover {
+      padding-left: 25px;
+    }
 
     &.is-active {
       > div {
