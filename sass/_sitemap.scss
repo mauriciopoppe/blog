@@ -86,3 +86,15 @@
   }
 }
 
+// remove active link styling on mobile to avoid content jump
+@media screen and (max-width: $desktop) {
+  .toc-link.is-active-link {
+    font-weight: normal !important;
+    color: currentColor !important;
+
+    &:before {
+      background-color: currentColor !important;
+    }
+  }
+}
+
