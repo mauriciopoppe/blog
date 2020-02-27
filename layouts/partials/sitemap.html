@@ -1,3 +1,11 @@
+
+<!-- if this is the index page then start uncollapsed -->
+{{ if .Scratch.Get "isIndex" }}
+  {{ .Scratch.Set "collapsed" "" }}
+{{ else }}
+  {{ .Scratch.Set "collapsed" "list-is-collapsed" }}
+{{ end }}
+
 {{ if (ne .Params.toc "false") }}
 <div class="sitemap-wrapper">
   <nav id="sitemap" role="sitemap" class="sitemap">

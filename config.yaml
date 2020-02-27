@@ -11,9 +11,10 @@ author:
   linkedin: mauriciopoppe
   twitter: mauricio_poppe
 
-# baseURL: "http://localhost:5000"
 baseURL: "https://www.mauriciopoppe.com/"
 languageCode: "en-us"
+
+disqusShortname: mauriciopoppe-com
 
 metadataFormat: 'yaml'
 

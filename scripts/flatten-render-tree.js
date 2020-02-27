@@ -131,7 +131,7 @@ function createNavBarRecursive (node, depth) {
 
 function createNavBar (node, depth = 0) {
   return `
-    <ul class="list-is-collapsible ${depth > 0 ? 'list-is-collapsed' : ''}">
+    <ul class="list-is-collapsible ${depth > 0 ? '{{ .Scratch.Get "collapsed" }}' : ''}">
       ${node.children.map(node => createNavBarRecursive(node, depth)).join('\n')}
     </ul>
   `
