@@ -66,11 +66,13 @@ There are other measures of how connected a graph is, let $$X$$ be a set of edge
 
 {{< script >}}
 document.addEventListener('DOMContentLoaded', function () {
+  var width = document.querySelector('article.content').clientWidth
   d3.json('/js/graph/data/cut-vertex.json', function (err, data) {
     if (err) { throw err }
     var options = {
       target: '#figure-cut-vertex',
-      data: data
+      data: data,
+      width: width
     };
     greuler(options).update();
   });
@@ -78,7 +80,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (err) { throw err }
     greuler({
       target: '#figure-cut-vertex-2',
-      data: data
+      data: data,
+      width: width
     }).update();
   });
   // greuler({
