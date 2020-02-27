@@ -22,6 +22,9 @@
 .fonts-loaded {
   body {
     font-family: 'Computer Modern Serif', $family-serif;
+    // disabling these properties to get a better font
+    -moz-osx-font-smoothing: auto;
+    -webkit-font-smoothing: auto;
   }
 }
 
