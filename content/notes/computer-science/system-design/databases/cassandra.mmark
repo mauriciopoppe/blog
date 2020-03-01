@@ -24,6 +24,7 @@ img {
 - Consitent hashing
 - Replication factor, replicas of the data across the cluster
 - [Consistency level controlled for each query](https://docs.datastax.com/en/archived/cassandra/3.0/cassandra/dml/dmlConfigConsistency.html)
+- Up to 2 billion key-value pairs in a row
 
 <hr />
 
@@ -76,7 +77,7 @@ primary key = partition key + clustering columns
 
 - Is data evenly spread?
 - 1 partition per read?
-- Are writes conflics possible?
+- Are writes (overwrites) possible?
 - How large are the partitions? $$n_{cells} = n_{rows} * (n_{cols} - n_{PK} - n_{static}) + n_{static} < 1M$$
 - How much data duplication?
 
@@ -100,7 +101,7 @@ primary key = partition key + clustering columns
 {{% markdown %}}
 - Is data evenly spread? Yes
 - 1 partition per read? Yes
-- Are writes conflics possible? Yes
+- Are writes (overwrites) possible? Yes
 - How large are the partitions? $$1 * (5 - 1 - 0) + 0 < 1M$$
 - How much data duplication? 0
 {{% /markdown %}}
@@ -131,7 +132,7 @@ Q3: find users by email (to guarantee uniqueness)
 
 - Is data evenly spread? Yes
 - 1 partition per read? Yes
-- Are writes conflics possible? Yes
+- Are writes (overwrites) possible? Yes
 - How large are the partitions? $$1 * (4 - 1 - 0) + 0 < 1M$$
 - How much data duplication? 0
 {{% /markdown %}}
@@ -153,7 +154,7 @@ Q2: get users by UUID
 
 - Is data evenly spread? Yes
 - 1 partition per read? Yes
-- Are writes conflics possible? Yes
+- Are writes (overwrites) possible? Yes
 - How large are the partitions? $$1 * (2 - 1 - 0) + 0 < 1M$$
 - How much data duplication? 0
 {{% /markdown %}}
@@ -182,7 +183,7 @@ Q2: get users by UUID
 {{% markdown %}}
 - Is data evenly spread? Yes
 - 1 partition per read? Yes
-- Are writes conflics possible? Yes
+- Are writes (overwrites) possible? Yes
 - How large are the partitions? (up to 200k book reads per user)
 
 $$
@@ -208,7 +209,7 @@ $$
 | Attribute | Special |
 | ---       | ---     |
 | uuid      | K       |
-| time     | C |
+| time     | C (desc) |
 | element | |
 | type | |
 {{% /markdown %}}
@@ -217,7 +218,7 @@ $$
 {{% markdown %}}
 - Is data evenly spread? Yes
 - 1 partition per read? Yes
-- Are writes conflics possible? Yes
+- Are writes (overwrites) possible? Yes
 - How large are the partitions? (up to 333k book reads per user, 333k actions may be low number of actions to store therefore *we should store actions by bucket*)
 
 $$
@@ -240,7 +241,7 @@ $$
   | ---       | ---     |
   | uuid      | K       |
   | month | K |
-  | time     | C |
+  | time     | C (desc) |
   | element | |
   | type | |
   {{% /markdown %}}
@@ -249,11 +250,14 @@ $$
 {{% markdown %}}
 - Is data evenly spread? Yes
 - 1 partition per read? Yes
-- Are writes conflics possible? Yes
-- How large are the partitions? (up to 333k book reads per user **per month**)
-  - 1 year = 38 actions / h
-  - 1 month = 462 actions / h
-  - 1 week = 1984 actions / h
+- Are writes (overwrites) possible? Yes
+- How large are the partitions? (up to 333k book reads per user)
+
+```text
+1 year  = 333k / 365 / 24 = 38 actions / h
+1 month = 333k / 30 / 24  = 462 actions / h (most realistic case)
+1 week  = 333k / 7 / 24   = 1984 actions / h
+```
 
 $$
 \begin{align*}
@@ -272,3 +276,4 @@ $$
 - https://www.slideshare.net/DataStax/scalable-data-modeling-by-example-carlos-alonso-job-and-talent-cassandra-summit-2016
 - https://blog.emumba.com/apache-cassandra-part-5-data-modelling-in-cassandra-9e81a58f4ada
 - https://www.datastax.com/blog/2015/02/basic-rules-cassandra-data-modeling
+- https://tech.ebayinc.com/engineering/cassandra-data-modeling-best-practices-part-1/
