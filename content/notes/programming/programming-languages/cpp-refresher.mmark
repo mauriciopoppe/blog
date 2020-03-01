@@ -690,6 +690,20 @@ char ch;
 while ((ch = cin.get()) != EOF) { ... }
 ```
 
+Tokenize
+
+```cpp
+// example: split the following line by commas
+// 1,2,hello
+stringstream tokens(line);
+string token;
+string id, rank, description;
+
+getline(tokens, id, ',')
+getline(tokens, rank, ',')
+getline(tokens, description)
+```
+
 Read/write files
 
 ```cpp
