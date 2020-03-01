@@ -35,8 +35,7 @@ $$
 
 The brute force algorithm consists in computing all possible $$a^i \pmod{n}$$, where $$i \geq 0 < n$$ until one matches $$b$$
 
-*Example:* given $$n = 11$$, $$a = 2$$, $$b = 9$$ find the value of $$x$$ in $a^x \equiv b \pmod{n}
-$
+*Example:* given $$n = 11$$, $$a = 2$$, $$b = 9$$ find the value of $$x$$ in $$a^x \equiv b \pmod{n}$$
 
 $$
 \begin{align*}
