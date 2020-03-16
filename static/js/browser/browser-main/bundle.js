@@ -1612,12 +1612,37 @@ function getHeight(el) {
   el.style.visibility = elVisibility;
   el.style.height = elHeight;
   return height;
-}
+} // remembers items opened in the sitemap
+
+
+var activeItems = {
+  KEY: 'sitemap',
+  _state: null,
+  getState: function getState() {
+    if (!this._state) {
+      this._state = JSON.parse(window.localStorage.getItem(this.KEY) || '{}');
+    }
+
+    return this._state;
+  },
+  getActiveItems: function getActiveItems() {
+    return Object.entries(this.getState()).filter(function (t) {
+      return t[1] === true;
+    }).map(function (t) {
+      return t[0];
+    });
+  },
+  setState: function setState(k, v) {
+    this._state[k] = v;
+    window.localStorage.setItem(this.KEY, JSON.stringify(this._state));
+  }
+};
 
 function addClickListener() {
   sitemapEl.addEventListener('click', function (e) {
     // find closest ancestor that is li
-    var li = e.target.closest('li'); // find closest child that is ul
+    var li = e.target.closest('li');
+    var liPath = li.getAttribute('data-full-path'); // find closest child that is ul
 
     var ul = Array.from(li.children).filter(function (node) {
       return node.tagName === 'UL';
@@ -1627,10 +1652,12 @@ function addClickListener() {
       duration: 250
     };
     if (!ul) return;
+    var isCollapsed = ul.classList.contains('list-is-collapsed');
     var p;
 
-    if (ul.classList.contains('list-is-collapsed')) {
+    if (isCollapsed) {
       var newHeight = getHeight(ul);
+      activeItems.setState(liPath, true);
       p = animate(_objectSpread({}, opts, {
         draw: function draw(t) {
           ul.style.height = "".concat(t * newHeight, "px");
@@ -1640,6 +1667,7 @@ function addClickListener() {
       });
     } else {
       var oldHeight = ul.offsetHeight;
+      activeItems.setState(liPath, false);
       p = animate(_objectSpread({}, opts, {
         draw: function draw(t) {
           ul.style.height = "".concat((1 - t) * oldHeight, "px");
@@ -1658,13 +1686,13 @@ function addClickListener() {
 
 
 function setActiveItemInSidebar() {
-  var pn = window.location.pathname; // strips the / and adds .mmark
+  var pn = window.location.pathname; // strips the / and adds .md
 
   pn = pn.substring(1, pn.length - 1) + '.md';
   var target = document.querySelector("[data-url-target=\"".concat(pn, "\"]"));
 
   if (target) {
-    var it = target;
+    var it = target; // expand parent recursively
 
     while (!it.classList.contains('sitemap')) {
       if (it.classList.contains('list-is-collapsed')) {
@@ -1678,7 +1706,15 @@ function setActiveItemInSidebar() {
       }
 
       it = it.parentNode;
-    }
+    } // traverse down all the links of active items and expand them
+
+
+    activeItems.getActiveItems().forEach(function (item) {
+      var li = document.querySelector("[data-full-path=\"".concat(item, "\"]"));
+      li.classList.add('item-expanded');
+      var ul = li.querySelector('ul');
+      ul.classList.remove('list-is-collapsed');
+    });
   } else {
     // expand all the items
     var items = Array.from(sitemapEl.querySelectorAll('.list-is-collapsed'));

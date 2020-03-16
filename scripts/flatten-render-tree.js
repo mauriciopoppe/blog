@@ -28,6 +28,7 @@ const addFileToMap = (cwd, map) => (file, i) => {
     let node = it.children.find(d => d.path === token)
     if (!node) {
       it.children.push((node = {
+        fullPath: tokens.slice(0, i + 1).join('/'),
         path: token,
         children: []
       }))
@@ -113,6 +114,11 @@ function createNavBarRecursive (node, depth) {
       <a href="/${node.fullPath.substring(0, node.fullPath.indexOf('.'))}/">
         ${content}
       </a>
+    `
+  } else {
+    // identifier for non leaf children to save their expanded state
+    target = `
+      data-full-path="${node.fullPath}"
     `
   }
 

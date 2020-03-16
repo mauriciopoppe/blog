@@ -34,10 +34,32 @@ function getHeight (el) {
   return height
 }
 
-function addClickListener() {
+// remembers items opened in the sitemap
+const activeItems = {
+  KEY: 'sitemap',
+  _state: null,
+  getState () {
+    if (!this._state) {
+      this._state = JSON.parse(window.localStorage.getItem(this.KEY) || '{}')
+    }
+    return this._state
+  },
+  getActiveItems () {
+    return Object.entries(this.getState())
+      .filter(t => t[1] === true)
+      .map(t => t[0])
+  },
+  setState (k, v) {
+    this._state[k] = v
+    window.localStorage.setItem(this.KEY, JSON.stringify(this._state))
+  }
+}
+
+function addClickListener () {
   sitemapEl.addEventListener('click', function (e) {
     // find closest ancestor that is li
     const li = e.target.closest('li')
+    const liPath = li.getAttribute('data-full-path')
     // find closest child that is ul
     const ul = Array.from(li.children)
       .filter(node => node.tagName === 'UL')[0]
@@ -47,29 +69,28 @@ function addClickListener() {
     }
 
     if (!ul) return
+    const isCollapsed = ul.classList.contains('list-is-collapsed')
     let p
-    if (ul.classList.contains('list-is-collapsed')) {
+    if (isCollapsed) {
       const newHeight = getHeight(ul)
+      activeItems.setState(liPath, true)
       p = animate({
         ...opts,
         draw (t) {
           ul.style.height = `${t * newHeight}px`
         }
       })
-        .then(() => {
-          ul.style.height = 'auto'
-        })
+        .then(() => { ul.style.height = 'auto' })
     } else {
       const oldHeight = ul.offsetHeight
+      activeItems.setState(liPath, false)
       p = animate({
         ...opts,
         draw (t) {
           ul.style.height = `${(1 - t) * oldHeight}px`
         }
       })
-        .then(() => {
-          ul.style.height = '0'
-        })
+        .then(() => { ul.style.height = '0' })
     }
     ul.parentNode.classList.toggle('item-expanded')
     p.then(() => {
@@ -81,11 +102,12 @@ function addClickListener() {
 // open active items as needed
 function setActiveItemInSidebar () {
   let pn = window.location.pathname
-  // strips the / and adds .mmark
+  // strips the / and adds .md
   pn = pn.substring(1, pn.length - 1) + '.md'
   const target = document.querySelector(`[data-url-target="${pn}"]`)
   if (target) {
     let it = target
+    // expand parent recursively
     while (!it.classList.contains('sitemap')) {
       if (it.classList.contains('list-is-collapsed')) {
         it.classList.remove('list-is-collapsed')
@@ -97,6 +119,13 @@ function setActiveItemInSidebar () {
       }
       it = it.parentNode
     }
+    // traverse down all the links of active items and expand them
+    activeItems.getActiveItems().forEach(item => {
+      const li = document.querySelector(`[data-full-path="${item}"]`)
+      li.classList.add('item-expanded')
+      const ul = li.querySelector('ul')
+      ul.classList.remove('list-is-collapsed')
+    })
   } else {
     // expand all the items
     const items = Array.from(sitemapEl.querySelectorAll('.list-is-collapsed'))
