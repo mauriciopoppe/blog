@@ -1,12 +1,6 @@
-// TODO: review this rule because of the update to mathjax 3
-.mjx-chtml.MJXc-display {
+// scrolling on mobile for large equations
+mjx-container.MathJax {
   overflow-y: hidden;
   overflow-x: auto;
 }
-
-// html.math-visible {
-//   .math {
-//     visibility: initial;
-//   }
-// }
 
