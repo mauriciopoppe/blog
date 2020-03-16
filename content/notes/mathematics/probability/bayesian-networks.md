@@ -11,7 +11,7 @@ A Bayesian network is a directed graph in which each node is annotated with quan
 2. A set of directed links or arrows connects pairs of nodes. If there is an arrow from node $X$ to node $Y$, $X$ is said to be a parent of $Y$. The graph has no directed cycles (and hence is a directed acyclic graph, or DAG.
 3. Each node $X_i$ has a conditional probability distribution $P(X_i|Parents(X_i))$ that quantifies the effect of the parents on the node.
 
-{{< figure src="/images/bayesian_network_full.jpg" title="Example Bayesian Network" class="is-75p" >}}
+{{< figure src="/images/bayesian_network_full.jpg" title="Example Bayesian Network" >}}
 
 Semantics of a bayesian network:
 
@@ -102,7 +102,7 @@ $$
 
 Working with the example below we can answer some queries:
 
-{{< figure src="/images/bayesian_network_full.jpg" id="bayesian-full" title="Example Bayesian Network" class="is-75p" >}}
+{{< figure src="/images/bayesian_network_full.jpg" id="bayesian-full" title="Example Bayesian Network" >}}
 
 {{< script >}}
 (function() {

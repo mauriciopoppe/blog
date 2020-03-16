@@ -6,7 +6,11 @@ figure.is-responsive.is-50p img {
   max-width: 50%;
 }
 
-figure.is-responsive.is-75p img {
+figure.is-responsive.is-100p img {
+  max-width: 100%;
+}
+
+figure.is-responsive img {
   max-width: 75%;
 }
 
@@ -14,4 +18,9 @@ figure.is-responsive.is-75p img {
     figure.is-responsive img {
         max-width: 100% !important;
     }
+}
+
+// override to the default width: 100%
+.image img {
+  width: auto;
 }
