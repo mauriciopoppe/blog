@@ -8,7 +8,7 @@ references:
   - https://math.berkeley.edu/~sagrawal/su14_math55/notes_gcd.pdf
 ---
 
-> Let $$a,b \in \mathbb{Z}$$, we say that $$a$$ _**divides**_ $$b$$, written $$a \divides b$$, if there's an integer $$n$$ so that
+> Let $$a,b \in \mathbb{Z}$$, we say that $$a$$ _**divides**_ $$b$$, written $$a \given b$$, if there's an integer $$n$$ so that
 >
 $$
 b = na
@@ -16,12 +16,12 @@ $$
 
 If $$a$$ divides $$b$$ then $$b$$ is _**divisible**_ by $$a$$ and $$a$$ is a _**divisor or factor**_ of $$b$$, also $$b$$ is called a _**multiple**_ of $$a$$.
 
-Additional properties of the relation $$\divides$$:
+Additional properties of the relation $$|$$:
 
-1. if $$a \divides b$$ and $$b \divides c$$ then $$a \divides c$$
-2. if $$a \divides b$$ and $$c \divides d$$ then $$ac \divides bd$$
-3. if $$d \divides a$$ and $$d \divides b$$ then $$d \divides a + b$$
-4. if $$d \divides a$$ and $$d \divides b$$ then $$d \divides ax + by$$ for any
+1. if $$a \given b$$ and $$b \given c$$ then $$a \given c$$
+2. if $$a \given b$$ and $$c \given d$$ then $$ac \given bd$$
+3. if $$d \given a$$ and $$d \given b$$ then $$d \given a + b$$
+4. if $$d \given a$$ and $$d \given b$$ then $$d \given ax + by$$ for any
    integers $$x,y$$
 
 Proof.
@@ -41,11 +41,11 @@ $$
 
 Proof. if $$bq$$ is the largest multiple of $$b$$ that does not exceed $$a$$ then $$r = a - bq$$ is positive and since $$b(q + 1) > a$$ then $$r \lt b$$.
 
-Also, if $$r = 0$$ then $$a = bq$$ which implies that $$q \divides a$$.
+Also, if $$r = 0$$ then $$a = bq$$ which implies that $$q \given a$$.
 
 ## Greatest common divisor
 
-Let $$a, b \in \mathbb{N}$$, the greatest common divisor of $$a$$ and $$b$$, written as $$gcd(a,b)$$ or $$(a,b)$$, is the element $$d$$ in $$\mathbb{N}$$ such that $$d \divides a$$ and $$d \divides b$$ and every common divisor of $$a$$ and $$b$$ also divides $$d$$.
+Let $$a, b \in \mathbb{N}$$, the greatest common divisor of $$a$$ and $$b$$, written as $$gcd(a,b)$$ or $$(a,b)$$, is the element $$d$$ in $$\mathbb{N}$$ such that $$d \given a$$ and $$d \given b$$ and every common divisor of $$a$$ and $$b$$ also divides $$d$$.
 
 > Let $$a$$ and $$b$$ be two numbers in $$\mathbb{N}$$, the value of $$(a,b)$$ is a *linear combination* of $$a$$ and $$b$$ i.e. there exists $$s,t$$ in $$\mathbb{Z}$$ such that
 >
@@ -61,7 +61,7 @@ $$
 d = sa + tb
 $$
 
-First lets show that $$d \divides a$$, by the division algorithm we know that
+First lets show that $$d \given a$$, by the division algorithm we know that
 
 $$
 a = dq + r, \quad \text{where $0 \le r \lt d$}
@@ -78,19 +78,19 @@ r &= a - dq \\
 \end{align*}
 $$
 
-We can see that $$r$$ is a linear combination of $$a$$ and $$b$$. Since $$0 \le r \lt d$$ and considering that we defined $$d$$ as the *least positive* linear combination of $$a$$ and $$b$$ it follows that $$r = 0$$ (if $$0 \lt r \lt d$$ then $$r$$ would be the least possible linear combination which is a contradiction), therefore $$d \divides a$$.
+We can see that $$r$$ is a linear combination of $$a$$ and $$b$$. Since $$0 \le r \lt d$$ and considering that we defined $$d$$ as the *least positive* linear combination of $$a$$ and $$b$$ it follows that $$r = 0$$ (if $$0 \lt r \lt d$$ then $$r$$ would be the least possible linear combination which is a contradiction), therefore $$d \given a$$.
 
-In a similar fashion $$d \divides b$$, therefore by the divisibility property #4
+In a similar fashion $$d \given b$$, therefore by the divisibility property #4
 
 $$
-d \divides sa + tb
+d \given sa + tb
 $$
 
 The next thing to prove is that $$d$$ is the *greatest common divisor* of $$a$$ and
 $$b$$. To prove this lets show that if $$d'$$ is any other common divisor of $$a$$ and
 $$b$$ then $$d' \le d$$.
 
-If $$d' \divides a$$ and $$d' \divides b$$ then by the divisibility property #4 it divides any other linear combination of $$a$$ and $$b$$, since $$d = sa + bt$$ is one linear combination of $$a$$ and $$b$$ it follows that $$d' \divides d$$ so either $$d' \lt d$$ or $$d' = d$$, finally we can conclude that
+If $$d' \given a$$ and $$d' \given b$$ then by the divisibility property #4 it divides any other linear combination of $$a$$ and $$b$$, since $$d = sa + bt$$ is one linear combination of $$a$$ and $$b$$ it follows that $$d' \given d$$ so either $$d' \lt d$$ or $$d' = d$$, finally we can conclude that
 
 $$
 d = (a,b)
@@ -114,7 +114,7 @@ $$
 (a,b) = (b, r)
 $$
 
-*Proof.* Let $$q$$ be the quotient of dividing $$a$$ by $$b$$ so that $$a = bq + r$$. If $$d = (a,b)$$ then it must divide any other *linear combination* of $$a$$ and $$b$$ like $$r = a - bq$$, therefore $$d \divides r$$. Finally we can conclude that $$d = (b,r)$$.
+*Proof.* Let $$q$$ be the quotient of dividing $$a$$ by $$b$$ so that $$a = bq + r$$. If $$d = (a,b)$$ then it must divide any other *linear combination* of $$a$$ and $$b$$ like $$r = a - bq$$, therefore $$d \given r$$. Finally we can conclude that $$d = (b,r)$$.
 
 *Proof of the theorem* If we keep on repeating the division algorithm we have:
 

@@ -14,8 +14,6 @@ author:
 baseURL: "https://www.mauriciopoppe.com/"
 languageCode: "en-us"
 
-disqusShortname: mauriciopoppe-com
-
 metadataFormat: 'yaml'
 
 markup:

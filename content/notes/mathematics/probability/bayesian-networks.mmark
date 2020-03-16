@@ -1,12 +1,7 @@
 ---
-title: "Bayesian Network"
+title: "Bayesian Networks"
 date: 2020-03-05 18:11:00
 ---
-
-$$
-\newcommand\ci{\perp\!\!\!\perp}
-\newcommand\given[1][]{\:#1\vert\:}
-$$
 
 ## Introduction
 
@@ -29,7 +24,6 @@ Given by:
 
 $$
 \begin{align}
-\label{eq}
 P(x_1, \ldots, x_n) = \prod_{i=1}^{N} P(x_i|Parents(X_i))
 \end{align}
 $$
@@ -103,14 +97,64 @@ Working with the example below we can answer some queries:
 {{< figure src="/images/bayesian_network_full.jpg" title="Example Bayesian Network" class="is-responsive is-75p" >}}
 
 $$
+\newcommand\g[1]{\color{gray}{#1}}
+$$
+
+$$
 \begin{align*}
 P(c|a) &= \alpha \sum_{b} P(a) P(b) P(c \given a,b) \\
 &= \alpha P(a) \sum_{b} P(b) P(c \given a,b) \\
-&= \alpha P(a) \sum_{b} \begin{bmatrix} P(b) = 0.4 \\ P(\neg b) = 0.6 \end{bmatrix} \begin{bmatrix} P(c \given a, b) = 0.55 \\ P(c \given a, \neg b) = 0.5 \end{bmatrix} \\
-&= \alpha P(a) \sum_{b} \begin{bmatrix} f(b) = 0.22 \\ f(\neg b) = 0.3 \end{bmatrix} \\
-&= \alpha \begin{bmatrix} 0.2 \\ 0.8 \end{bmatrix} 0.53 \\
-&= \alpha <.106, .424> \\
-&= <0.2, 0.8>
+&= \alpha P(a) \sum_{b} \bordermatrix{\g{b} & \g{\neg b}}{}{\begin{bmatrix} 0.4 & 0.6 \end{bmatrix}} \bordermatrix{\g{b} & \g{\neg b}}{\g{c} \\ \g{\neg c}}{\begin{bmatrix} 0.55 & 0.5 \\ 0.45 & 0.5 \end{bmatrix}} \\
+&= \alpha P(a) \sum_{b} \bordermatrix{\g{b} & \g{\neg b}}{\g{c} \\ \g{\neg c}}{\begin{bmatrix} 0.22 & 0.3 \\ 0.18 & 0.3 \end{bmatrix}} \\
+&= \alpha \; 0.2 \; \bordermatrix{}{\g{c} \\ \g{\neg c}}{\begin{bmatrix} 0.52 \\ 0.48 \end{bmatrix}} \\
+&= \bordermatrix{}{\g{c} \\ \g{\neg c}}{\begin{bmatrix} 0.104 \\ 0.096 \end{bmatrix}} \\
+&= \alpha <.104, .096> \\
+&= <\textbf{0.52}, 0.48>
+\end{align*}
+$$
+
+<hr />
+
+$$
+\begin{align*}
+P(e|\neg c, b) &= \alpha \sum_{a,d,f} P(a) P(b) P(\neg c \given a,b) P(d \given b) P(e \given \neg c,d) P(f \given e) \\
+&= \alpha P(b) \sum_{a} P(a) P(\neg c \given a,b) \sum_{d} P(d \given b) P(e \given \neg c,d) \sum_{f} P(f \given e) \\
+&= \alpha P(b) \sum_{a} P(a) P(\neg c \given a,b) \sum_{d} P(d \given b) P(e \given \neg c,d) \sum_{f}
+\bordermatrix{\g{f} & \g{\neg f}}{\g{e} \\ \g{\neg e}}{\begin{bmatrix}
+0.7 & 0.3 \\
+0.2 & 0.8
+\end{bmatrix}} \\
+&= \alpha P(b) \sum_{a} P(a) P(\neg c \given a,b) \sum_{d} P(d \given b) P(e \given \neg c,d) \bordermatrix{}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 1 \\ 1 \end{bmatrix}} \\
+&= \alpha P(b) \sum_{a} P(a) P(\neg c \given a,b) \sum_{d}
+\bordermatrix{\g{d} & \g{\neg d}}{}{\begin{bmatrix} 0.6 & 0.4 \end{bmatrix}}
+\bordermatrix{\g{d} & \g{\neg d}}{\g{e} \\ \g{\neg e}}{\begin{bmatrix}
+0.45 & 0.2 \\
+0.55 & 0.8
+\end{bmatrix}} \bordermatrix{}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 1 \\ 1 \end{bmatrix}} \\
+&= \alpha P(b) \sum_{a} P(a) P(\neg c \given a,b) \sum_{d}
+\bordermatrix{\g{d} & \g{\neg d}}{\g{e} \\ \g{\neg e}}{\begin{bmatrix}
+0.27 & 0.08 \\
+0.33 & 0.32
+\end{bmatrix}} \\
+&= \alpha P(b) \sum_{a} P(a) P(\neg c \given a,b)
+\bordermatrix{}{\g{e} \\ \g{\neg e}}{\begin{bmatrix}
+0.35 \\
+0.65
+\end{bmatrix}} \\
+&= \alpha P(b) \sum_{a}
+\bordermatrix{}{\g{a} \\ \g{\neg a}}{\begin{bmatrix} 0.2 \\ 0.8 \end{bmatrix}}
+\bordermatrix{\g{\neg c, b}}{\g{a} \\ \g{\neg a}}{\begin{bmatrix}
+0.45 \\
+0.55
+\end{bmatrix}} \bordermatrix{}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 0.35 \\ 0.65 \end{bmatrix}} \\
+&= \alpha P(b) \sum_{a}
+\bordermatrix{}{\g{a} \\ \g{\neg a}}{\begin{bmatrix} 0.09 \\ 0.44 \end{bmatrix}}
+\bordermatrix{}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 0.35 \\ 0.65 \end{bmatrix}} \quad \text{the productwise op is with unrelated bases so we do with $a^T$} \\
+&= \alpha P(b) \sum_{a}
+\bordermatrix{\g{a} & \g{\neg a}}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 0.0315 & 0.154 \\ 0.0585 & 0.2275 \end{bmatrix}} \\
+&= \bordermatrix{}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 0.1855 \\ 0.286 \end{bmatrix}} \quad \text{$P(b)$ is not a factor, it's an evidence} \\
+&= \alpha <0.1855, 0.286> \\
+&= <\textbf{0.393425239}, 0.606574761>
 \end{align*}
 $$
 

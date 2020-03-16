@@ -21,6 +21,18 @@ $family-primary: $family-serif;
 
 @import "bulma/bulma.sass";
 
+@mixin word-wrap() {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
 // override .number that conflicts with the higlighter numbers
 .number {
   align-items: initial;
@@ -35,4 +47,9 @@ $family-primary: $family-serif;
   padding: initial;
   text-align: initial;
   vertical-align: initial;
+}
+
+// wrap on links
+a {
+  @include word-wrap();
 }
