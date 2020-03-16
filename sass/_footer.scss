@@ -1,9 +1,10 @@
 footer.footer {
-  background-image:
-    linear-gradient(
-      to bottom,
-      $color75, $color100
-    );
+  background-color: transparent;
+  // background-image:
+  //   linear-gradient(
+  //     to bottom,
+  //     $color75, $color100
+  //   );
   position: relative;
   height: 500px;
 }
