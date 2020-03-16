@@ -17,16 +17,26 @@ npm start
 
 To update the JS code go to packages/* and run
 
-```sh
+```text
 npm start
 ```
 
 NOTE: scss livereload is not working so a hard refresh is needed every time the css is compiled
 
-## New article
+### New article
 
 - should have the extension .md
 - the breadcrumb component should be rerendered `npm run build:sitemap`
+
+### Prod like server
+
+```bash
+brew install mkcert
+# Generate the certs
+mkcert localhost 127.0.0.1 ::1
+# Install the certs into the system
+mkcert -install
+```
 
 ## Tech
 

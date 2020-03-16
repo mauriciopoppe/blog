@@ -9,8 +9,8 @@
   "scripts": {
     "build": "NODE_ENV=production gulp build",
     "start": "gulp build:sitemap && npm run start:dev",
-    "start:dev": "gulp & hugo server --buildDrafts --bind 0.0.0.0",
-    "start:prod": "serve"
+    "start:dev": "gulp & hugo server --environment development --buildDrafts --bind 0.0.0.0",
+    "start:prod": "http-server -S -C cert/localhost.pem -K cert/localhost-key.pem"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -75,11 +75,11 @@
     "glslify-loader": "^2.0.0",
     "gulp-cheerio": "^1.0.0",
     "gulp-rev-replace": "^0.4.4",
+    "http-server": "^0.12.1",
     "mathjax-node": "^2.1.1",
     "raw-loader": "^4.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "serve": "^11.3.0",
     "styled-components": "^5.0.1",
     "title-case": "^3.0.2",
     "tocbot": "^4.10.0"

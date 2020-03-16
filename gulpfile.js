@@ -96,7 +96,12 @@ gulp.task('build:html-minify', () => {
 
       // collapseInlineTagWhitespace: true,
       // fragments like \[ anything \]
-      ignoreCustomFragments: [/<%[\s\S]*?%>/, /<\?[\s\S]*?\?>/, /\\\[[\s\S]*?\\\]/, /\\\([\s\S]*?\\\)/],
+      ignoreCustomFragments: [
+        // hugo things
+        /<%[\s\S]*?%>/, /<\?[\s\S]*?\?>/,
+        // block latex
+        /\$\$[\s\S]*?\$\$/
+      ],
       minifyJS: true,
       minifyCSS: true
     }))
