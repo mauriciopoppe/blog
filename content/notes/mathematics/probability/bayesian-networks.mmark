@@ -89,12 +89,30 @@ Compute the **posterior probablity distribution** for a set of **query values** 
 Any conditional probability can be computed by summing terms from the full joint distribution
 
 $$
-\textbf{P}(X \given \textbf{e}) = \alpha \textbf{P} (X, e) = \alpha \sum_{y} \textbf{P} (X, \textbf{e}, \textbf{y})
+\textbf{P}(X \given \textbf{e}) = \alpha \textbf{P} (X, \textbf{e}) = \alpha \sum_{y} \textbf{P} (X, \textbf{e}, \textbf{y})
 $$
 
 Working with the example below we can answer some queries:
 
-{{< figure src="/images/bayesian_network_full.jpg" title="Example Bayesian Network" class="is-responsive is-75p" >}}
+{{< figure src="/images/bayesian_network_full.jpg" id="bayesian-full" title="Example Bayesian Network" class="is-responsive is-75p" >}}
+
+{{< script >}}
+(function() {
+  if (window.matchMedia("(pointer:coarse)").matches) {
+    return
+  }
+  var el = document.querySelector('#bayesian-full')
+  var clone = el.cloneNode(true)
+  clone.id = 'bayesian-full-cloned'
+  clone.classList.remove('is-responsive')
+  clone.style.position = 'fixed'
+  clone.style.width = '20%'
+  clone.style.margin = '20px'
+  clone.style.bottom = 0
+  clone.style.left = 0
+  document.body.appendChild(clone)
+})();
+{{< /script >}}
 
 $$
 \newcommand\g[1]{\color{gray}{#1}}
