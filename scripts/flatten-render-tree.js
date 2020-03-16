@@ -87,7 +87,7 @@ function sortBy (fn) {
 }
 
 function dfs (cwd, obj = {}) {
-  return globby('**/*.mmark', { cwd, mark: true, nodir: true })
+  return globby('**/*.{mmark,md}', { cwd, mark: true, nodir: true })
     .then(files => {
       const map = { children: [] }
       files.forEach(addFileToMap(cwd, map))

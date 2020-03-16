@@ -82,7 +82,7 @@ function addClickListener() {
 function setActiveItemInSidebar () {
   let pn = window.location.pathname
   // strips the / and adds .mmark
-  pn = pn.substring(1, pn.length - 1) + '.mmark'
+  pn = pn.substring(1, pn.length - 1) + '.md'
   const target = document.querySelector(`[data-url-target="${pn}"]`)
   if (target) {
     let it = target

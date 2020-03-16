@@ -21,7 +21,7 @@
 {{ if isset .Params "nomath" }}
   {{ $s := true }}
 {{ else }}
-  {{ partial "lib/mathjax.html" . }}
+  {{ partial "lib/mathjax3.html" . }}
 {{ end }}
 
 <!-- selectively included -->

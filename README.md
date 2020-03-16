@@ -25,10 +25,32 @@ NOTE: scss livereload is not working so a hard refresh is needed every time the 
 
 ## New article
 
-- should have the extension mmark
+- should have the extension .md
 - the breadcrumb component should be rerendered `npm run build:sitemap`
 
 ## Tech
 
 - Hugo (static pages)
 - React + Redux
+
+## Upgrade notes
+
+From mmark to goldmark:
+
+- replace extension from `mmark` to `md`
+
+```text
+find . -depth -name "*.mmark" -exec sh -c 'mv "$1" "${1%.mmark}.md"' _ {} \;
+```
+
+- Perform some text replacements
+
+```text
+# inline math
+find: \$\$([^\s].*?)\$\$
+replace: \$$1\$
+
+# block math
+find: \$\$([\s\S]*?)\$\$
+replace: <div>\n\$\$$1\$\$\n</div>
+```

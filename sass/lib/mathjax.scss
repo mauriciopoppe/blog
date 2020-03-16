@@ -1,13 +1,12 @@
-// .math {
-//   visibility: hidden;
-// }
+// TODO: review this rule because of the update to mathjax 3
 .mjx-chtml.MJXc-display {
   overflow-y: hidden;
   overflow-x: auto;
 }
-html.math-visible {
-  .math {
-    visibility: initial;
-  }
-}
+
+// html.math-visible {
+//   .math {
+//     visibility: initial;
+//   }
+// }
 

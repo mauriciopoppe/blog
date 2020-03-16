@@ -1679,7 +1679,7 @@ function addClickListener() {
 function setActiveItemInSidebar() {
   var pn = window.location.pathname; // strips the / and adds .mmark
 
-  pn = pn.substring(1, pn.length - 1) + '.mmark';
+  pn = pn.substring(1, pn.length - 1) + '.md';
   var target = document.querySelector("[data-url-target=\"".concat(pn, "\"]"));
 
   if (target) {
