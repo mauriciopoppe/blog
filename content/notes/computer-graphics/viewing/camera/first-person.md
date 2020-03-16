@@ -16,7 +16,7 @@ Assuming that the world space axes are as follows
 
 <figure>
   <div class="figure-images">
-    <img src="/images/xyz.jpg" alt="">
+    <img class="lazy-load" data-src="/images/xyz.jpg" alt="">
   </div>
   <figcaption>Chosen world space \(+x\) (right), \(+y\) (up) and \(+z\) (backward), note that the choice is just personal preference</figcaption>
 </figure>

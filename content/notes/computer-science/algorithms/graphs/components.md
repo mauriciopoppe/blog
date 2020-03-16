@@ -36,6 +36,6 @@ Let $u$ be a node that belongs to a SCC, if it's known that there's a $u-v$ cycl
 
 A stack is also needed to keep track of the nodes that were visited, the working of the stack follows the invariant: a node remains on the stack after exploration if and only if it has a path to some node earlier in the stack
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Tarjan%27s_Algorithm_Animation.gif?1435613160896" class="center" style="display: block" alt="">
+<img class="lazy-load center" data-src="https://upload.wikimedia.org/wikipedia/commons/6/60/Tarjan%27s_Algorithm_Animation.gif?1435613160896" style="display: block" alt="">
 
 {{< snippet file="static/code/graphs/components/strongly_connected_components_tarjan.cpp" lang="cpp" />}}

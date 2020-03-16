@@ -82,7 +82,7 @@ v_2v_1^* &= (qv_0q^*) v_1^* \\
 $$
 </div>
 
-<img src="https://i.imgur.com/wVzPl0R.png" alt="" style="display: block; margin: 0 auto; width: 300px">
+<img class="lazy-load" data-src="https://i.imgur.com/wVzPl0R.png" alt="" style="display: block; margin: 0 auto; width: 300px">
 
 Then if $v_2v_1^* = v_1v_0^*$ that means that $v_2=qv_0q^*$ lies in the same plane as $v_0$ and $v_1$, also $v_2$ forms an angle of $\theta$ with $v_1$, furthermore $\mathbf{v_1} \times \mathbf{v_2} = \unit{v} \sin{\theta}$, finally if the angle between $v_0$ and $v_1$ is $\theta$ then the angle between $v_0$ and $v_2$ is $2\theta$ which confirms what's seen on the image above
 

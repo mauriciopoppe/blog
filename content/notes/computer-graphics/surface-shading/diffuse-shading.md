@@ -19,7 +19,7 @@ A Lambertian object obeys the Lambert's cosine law which states that
 
 <figure>
   <div class="figure-images">
-    <img src="/images/diffuse-shading!lambertian.jpg" alt="">
+    <img class="lazy-load" data-src="/images/diffuse-shading!lambertian.jpg" alt="">
   </div>
   <figcaption>Both $\mathbf{n}$ and $\mathbf{l}$ are unit vectors</figcaption>
 </figure>

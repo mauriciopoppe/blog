@@ -123,7 +123,7 @@ The set of *intrinsic rotations* $z-y'-x''$ is known as *yaw*, *pitch* and *roll
 
 <figure>
   <div class="figure-images">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Taitbrianzyx.svg/245px-Taitbrianzyx.svg.png" alt="">
+    <img class="lazy-load" data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Taitbrianzyx.svg/245px-Taitbrianzyx.svg.png" alt="">
   </div>
   <figcaption>Tait–Bryan angles representing the sequence \(z-y'-x''\)</figcaption>
 </figure>
@@ -146,7 +146,7 @@ For example given that world space is
 
 <figure>
   <div class="figure-images">
-    <img src="/images/xyz.jpg" alt="">
+    <img class="lazy-load" data-src="/images/xyz.jpg" alt="">
   </div>
   <figcaption>Chosen world space \(+x\) (right), \(+y\) (up) and \(+z\) (backward), note that the choice is just personal preference</figcaption>
 </figure>
@@ -185,7 +185,7 @@ The problem can be simplified when frame is somewhat aligned with the *upright s
         <th>Equivalence in world space</th>
       </tr>
       <tr>
-        <td><img src="/images/xyz.jpg" alt=""></td>
+        <td><img class="lazy-load" data-src="/images/xyz.jpg" alt=""></td>
         <td>yaw, pitch, roll</td>
         <td>
         $$
@@ -206,7 +206,7 @@ The problem can be simplified when frame is somewhat aligned with the *upright s
         </td>
       </tr>
       <tr>
-        <td><img src="/images/xyz-z-up.jpg" alt=""></td>
+        <td><img class="lazy-load" data-src="/images/xyz-z-up.jpg" alt=""></td>
         <td>yaw, pitch, roll</td>
         <td>
         $$
@@ -227,7 +227,7 @@ The problem can be simplified when frame is somewhat aligned with the *upright s
         </td>
       </tr>
       <tr>
-        <td><img src="/images/xyz-y-down.jpg" alt=""></td>
+        <td><img class="lazy-load" data-src="/images/xyz-y-down.jpg" alt=""></td>
         <td>yaw, pitch, roll</td>
         <td>
         $$
