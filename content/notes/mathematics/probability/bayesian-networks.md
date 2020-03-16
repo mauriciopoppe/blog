@@ -137,8 +137,8 @@ P(c|a) &= \alpha \sum_{b} P(a) P(b) P(c \given a,b) \\
 &= \alpha P(a) \sum_{b} \bordermatrix{\g{b} & \g{\neg b}}{\g{c} \\ \g{\neg c}}{\begin{bmatrix} 0.22 & 0.3 \\ 0.18 & 0.3 \end{bmatrix}} \\
 &= \alpha \; 0.2 \; \bordermatrix{}{\g{c} \\ \g{\neg c}}{\begin{bmatrix} 0.52 \\ 0.48 \end{bmatrix}} \\
 &= \bordermatrix{}{\g{c} \\ \g{\neg c}}{\begin{bmatrix} 0.104 \\ 0.096 \end{bmatrix}} \\
-&= \alpha <.104, .096> \\
-&= <\textbf{0.52}, 0.48>
+&= \alpha [.104, .096] \\
+&= [\textbf{0.52}, 0.48]
 \end{align*}
 $$
 </div>
@@ -184,8 +184,8 @@ P(e|\neg c, b) &= \alpha \sum_{a,d,f} P(a) P(b) P(\neg c \given a,b) P(d \given 
 &= \alpha P(b) \sum_{a}
 \bordermatrix{\g{a} & \g{\neg a}}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 0.0315 & 0.154 \\ 0.0585 & 0.2275 \end{bmatrix}} \\
 &= \bordermatrix{}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 0.1855 \\ 0.286 \end{bmatrix}} \quad \text{$P(b)$ is not a factor, it's an evidence} \\
-&= \alpha <0.1855, 0.286> \\
-&= <\textbf{0.393425239}, 0.606574761>
+&= \alpha [0.1855, 0.286] \\
+&= [\textbf{0.393425239}, 0.606574761]
 \end{align*}
 $$
 </div>

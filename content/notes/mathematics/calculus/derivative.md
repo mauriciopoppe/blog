@@ -339,9 +339,9 @@ Before finding the equation of the slope for any value of $x$ let's imagine the 
 <div>
 $$
 sgn(m) = \begin{cases}
--1 & if x < 0, \\
+-1 & if x &lt; 0, \\
 0 & if x = 0, \\
-1 & if x > 0.
+1 & if x &gt; 0.
 \end{cases}
 $$
 </div>

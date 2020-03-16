@@ -102,7 +102,7 @@ primary key = partition key + clustering columns
 - Is data evenly spread? Yes
 - 1 partition per read? Yes
 - Are writes (overwrites) possible? Yes
-- How large are the partitions? $1 * (5 - 1 - 0) + 0 < 1M$
+- How large are the partitions? $1 * (5 - 1 - 0) + 0 &lt; 1M$
 - How much data duplication? 0
 {{% /markdown %}}
   </div>
@@ -133,7 +133,7 @@ Q3: find users by email (to guarantee uniqueness)
 - Is data evenly spread? Yes
 - 1 partition per read? Yes
 - Are writes (overwrites) possible? Yes
-- How large are the partitions? $1 * (4 - 1 - 0) + 0 < 1M$
+- How large are the partitions? $1 * (4 - 1 - 0) + 0 &lt; 1M$
 - How much data duplication? 0
 {{% /markdown %}}
   </div>
@@ -155,7 +155,7 @@ Q2: get users by UUID
 - Is data evenly spread? Yes
 - 1 partition per read? Yes
 - Are writes (overwrites) possible? Yes
-- How large are the partitions? $1 * (2 - 1 - 0) + 0 < 1M$
+- How large are the partitions? $1 * (2 - 1 - 0) + 0 &lt; 1M$
 - How much data duplication? 0
 {{% /markdown %}}
   </div>
@@ -189,9 +189,9 @@ Q2: get users by UUID
 <div>
 $$
 \begin{align*}
-n_{books} * (7 - 1 - 1) + 1 & < 1M \\\\
-n_{books} & < \frac{1M}{5} - 1 \\\\
-n_{books} & < 200k
+n_{books} * (7 - 1 - 1) + 1 & &lt; 1M \\\\
+n_{books} & &lt; \frac{1M}{5} - 1 \\\\
+n_{books} & &lt; 200k
 \end{align*}
 $$
 </div>
@@ -226,8 +226,8 @@ $$
 <div>
 $$
 \begin{align*}
-n_{actions} * (4 - 1 - 0) + 0 & < 1M \\\\
-n_{actions} & < 333K
+n_{actions} * (4 - 1 - 0) + 0 & &lt; 1M \\\\
+n_{actions} & &lt; 333K
 \end{align*}
 $$
 </div>
@@ -266,8 +266,8 @@ $$
 <div>
 $$
 \begin{align*}
-n_{actions} * (5 - 2 - 0) + 0 & < 1M \\\\
-n_{actions} & < 333K
+n_{actions} * (5 - 2 - 0) + 0 & &lt; 1M \\\\
+n_{actions} & &lt; 333K
 \end{align*}
 $$
 </div>

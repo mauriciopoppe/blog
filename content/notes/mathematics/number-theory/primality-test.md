@@ -80,7 +80,7 @@ a^{n - 1} \equiv 1 \pmod{n}
 $$
 </div>
 >
-> for some value of $0 < a < n$ then $n$ is prime
+> for some value of $0 &lt; a &lt; n$ then $n$ is prime
 
 an example:
 
@@ -167,7 +167,7 @@ Let $2^s$ be the largest power of $2$ that divides $n - 1$, then $n - 1 = 2^s \c
 
 <div>
 $$
-2^0, 2^1, \ldots, 2^i \quad \text{where $0 <= i <= s$}
+2^0, 2^1, \ldots, 2^i \quad \text{where $0 \leq i \leq s$}
 $$
 </div>
 
