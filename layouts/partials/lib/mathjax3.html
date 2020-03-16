@@ -1,0 +1,45 @@
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    processEscapes: true,
+    processEnvironments: true,
+    tags: "ams",
+    macros: {
+      edge: '\\mathrel{-}',
+      notedge: '\\not\\edge',
+      deg: ['#1^°', 1],
+      tbold: ['\\textbf{#1}', 1],
+      mbold: ['\\mathbf{#1}', 1],
+      unit: ['\\widehat{\\mathbf{#1}}', 1],
+      v: ['\\overrightarrow{#1}', 1],
+      vnorm: ['\\norm{\\v{#1}}', 1],
+      overunder: ['\\overset{#2}{\\underset{#3}{#1}}', 3],
+      cuv: ['\\overunder{#1}{|}{|}', 1],
+      magnitude: ['\\left \\| #1 \\right \\|', 1],
+      norm: ['\\lvert #1 \\rvert', 1],
+      divides: ['\\,|\\,'],
+      cost: ['\\cos{\\theta}'],
+      sint: ['\\sin{\\theta}'],
+      sqrti: ['\\frac{1}{\\sqrt{2}}'],   // probability
+      ci: ['\\perp\\!\\!\\!\\perp'],
+      given: ['\\:\\vert\\:'],
+      bordermatrix: ['\\raise{0.7em}{\\begin{matrix} & \\begin{matrix}#1\\end{matrix} \\\\ \\begin{matrix}#2\\end{matrix} \\hspace{-1em} & #3 \\end{matrix}}', 3]
+    },
+    autoload: {
+      color: [],
+      colorV2: ['color']
+    },
+    packages: {'[+]': ['noerrors']}
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  },
+  loader: {
+    load: ['[tex]/noerrors']
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script"></script>
