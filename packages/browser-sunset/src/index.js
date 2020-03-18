@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import App from './App'
+import { Canvas } from './components/Canvas'
 
 export function render (opts = {}) {
   ReactDOM.render(
-    <App />,
+    <Canvas />,
     opts.target
   )
 }

@@ -10,7 +10,7 @@ const toDate = require('date-fns/toDate')
 const isProduction = process.env.NODE_ENV === 'production'
 
 if (isProduction) {
-  console.log(`sitemap generator running in production mode`)
+  console.log('sitemap generator running in production mode')
 }
 
 const addFileToMap = (cwd, map) => (file, i) => {

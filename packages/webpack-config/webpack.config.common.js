@@ -49,6 +49,6 @@ module.exports = {
       Components: path.resolve(process.cwd(), 'src/components/')
     }
   },
-  devtool: 'cheap-module-source-map',
+  devtool: 'cheap-module-eval-source-map',
   plugins
 }
