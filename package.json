@@ -87,8 +87,8 @@
     "http-server": "^0.12.1",
     "mathjax-node": "^2.1.1",
     "raw-loader": "^4.0.0",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
     "styled-components": "^5.0.1",
     "title-case": "^3.0.2",
     "tocbot": "^4.10.0"

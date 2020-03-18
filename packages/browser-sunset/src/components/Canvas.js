@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { useMouseState, useWindowScroll } from 'beautiful-react-hooks'
 import { interpolateMagma, scaleLinear } from 'd3-scale'
 
 import { Hill } from './Hill'
@@ -10,31 +11,12 @@ const y = scaleLinear()
   .domain([0, 500])
   .range([500, 0])
 
-function getScrollPosition() {
-  return { x: window.pageXOffset, y: window.pageYOffset };
-}
-
-export function useScrollPosition() {
-  const [position, setScrollPosition] = useState(getScrollPosition());
-
-  useEffect(() => {
-    let requestRunning;
-    function handleScroll() {
-      requestRunning = window.requestAnimationFrame(() => {
-        setScrollPosition(getScrollPosition());
-        cancelAnimationFrame(requestRunning);
-      });
-    }
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  return position;
-}
-
 export function Canvas () {
-  const scrollPosition = useScrollPosition()
+  const [scrollY, setScrollY] = useState(window.scrollY)
+  const { clientX, clientY } = useMouseState()
+
+  useWindowScroll(e => setScrollY(window.scrollY))
+
   const style = { width: '100%', height: '100%' }
   const n = 5
   return (
@@ -58,7 +40,9 @@ export function Canvas () {
             y={y}
             depth={i}
             total={n}
-            scrollPosition={scrollPosition}
+            scrollY={scrollY}
+            mouseX={clientX}
+            mouseY={clientY}
             fill={interpolateMagma(1 - (0.3 + (i / n) * 0.5))}
           />
         ))}
