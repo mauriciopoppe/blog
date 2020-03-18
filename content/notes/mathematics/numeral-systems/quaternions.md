@@ -265,7 +265,7 @@ qq^* &= [s, \mathbf{v}][s, -\mathbf{v}] \\
 $$
 </div>
 
-Note that this product commutes i.e. $qq^{*} = q^{*}q$
+Note that this product commutes i.e. $qq^\* = q^\*q$
 
 #### Product of unit quaternions
 

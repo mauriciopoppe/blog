@@ -180,7 +180,7 @@ P(e|\neg c, b) &= \alpha \sum_{a,d,f} P(a) P(b) P(\neg c \given a,b) P(d \given 
 \end{bmatrix}} \bordermatrix{}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 0.35 \\ 0.65 \end{bmatrix}} \\
 &= \alpha P(b) \sum_{a}
 \bordermatrix{}{\g{a} \\ \g{\neg a}}{\begin{bmatrix} 0.09 \\ 0.44 \end{bmatrix}}
-\bordermatrix{}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 0.35 \\ 0.65 \end{bmatrix}} \quad \text{the productwise op is with unrelated bases so we do with $a^T$} \\
+\bordermatrix{}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 0.35 \\ 0.65 \end{bmatrix}} \quad \text{the element wise product is with unrelated bases so we do with $a^T$} \\
 &= \alpha P(b) \sum_{a}
 \bordermatrix{\g{a} & \g{\neg a}}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 0.0315 & 0.154 \\ 0.0585 & 0.2275 \end{bmatrix}} \\
 &= \bordermatrix{}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 0.1855 \\ 0.286 \end{bmatrix}} \quad \text{$P(b)$ is not a factor, it's an evidence} \\
