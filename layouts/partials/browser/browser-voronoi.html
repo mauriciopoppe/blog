@@ -1,7 +1,10 @@
 <script src="/js/browser/browser-voronoi/bundle.js"></script>
 <script>
+(function () {
+  var target = document.querySelector({{ if .Scratch.Get "isIndex" }} 'body' {{ else }} 'section.hero' {{ end}})
   window.browserVoronoi.generate({
-    target: document.querySelector('section.hero'),
+    target: target,
     n: 300
   })
+})()
 </script>

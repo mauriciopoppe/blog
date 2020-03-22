@@ -6,11 +6,10 @@
   justify-content: center;
 
   background-image:
-    url("https://trianglify.io/p/w:1440!h:900!x:d40078.f6019d.920075.650d89.023788!v:0.6!c:0.06!s:htr92r");
-    //linear-gradient(
-    //  to right,
-    //  $color25, $color75
-    //);
+    linear-gradient(
+      to bottom right,
+      $color0, $color75
+    );
 
   .sitemap {
     opacity: 1;
