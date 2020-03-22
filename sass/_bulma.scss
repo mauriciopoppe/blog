@@ -38,6 +38,7 @@ $time: 250ms;
 // wrap on links
 a {
   @include word-wrap();
+  //text-shadow: 0px 0px 10px rgba($link, 0.5);
 }
 
 // neon box shadow
@@ -50,3 +51,25 @@ a {
 hr {
   background-color: $primary;
 }
+
+body {
+  //text-shadow: 0px 0px 10px rgba($text, 0.2);
+  font-family: 'Computer Modern Serif', $family-serif;
+  // disabling these properties to get a better font
+  -moz-osx-font-smoothing: auto;
+  -webkit-font-smoothing: auto;
+}
+
+pre[class*=language-] {
+  font-size: 0.7em !important;
+  border-radius: $radius;
+  background-color: lighten($body-background-color, 2) !important;
+}
+
+code {
+  font-weight: normal;
+  padding: .25em;
+  background-color: transparent;
+  border-radius: $radius;
+}
+
