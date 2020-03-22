@@ -18,14 +18,3 @@ section.main {
 .reverse-row-order {
   flex-direction: row-reverse;
 }
-
-// makes the <svg> text compatible with black/white backgrounds
-//svg {
-  text {
-    fill: findColorInvert($body-background-color);
-  }
-
-  path.origin {
-    stroke: findColorInvert($body-background-color);
-  }
-//}

@@ -1,0 +1,19 @@
+.function-plot {
+  text {
+    fill: $text;
+  }
+
+  path.origin {
+    stroke: findColorInvert($body-background-color);
+  }
+
+  path.line {
+    stroke: $primary;
+  }
+
+  .tip {
+    circle {
+      fill: $primary;
+    }
+  }
+}
