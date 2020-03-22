@@ -39,3 +39,14 @@ $time: 250ms;
 a {
   @include word-wrap();
 }
+
+// neon box shadow
+.card {
+  //box-shadow: 0px 0px 10px 3px rgba($primary, 0.5);
+  border: 2px solid rgba($primary, 1);
+}
+
+// neon separator
+hr {
+  background-color: $primary;
+}

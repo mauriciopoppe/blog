@@ -25,6 +25,11 @@ nav[role="toc"] {
 }
 
 .toc-link {
+  &:before {
+    width: 2px;
+    background-color: $text;
+  }
+
   &.is-active-link {
     font-weight: bold;
     color: $primary;
