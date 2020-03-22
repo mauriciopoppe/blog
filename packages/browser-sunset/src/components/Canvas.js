@@ -46,7 +46,7 @@ export function Canvas () {
               scrollY={scrollY}
               mouseX={clientX}
               mouseY={clientY}
-              fill={t(0.25 + i / n * 0.3)}
+              fill={t(0.30 + i / n * 0.45)}
             />
           )
         })}

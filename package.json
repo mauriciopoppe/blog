@@ -10,6 +10,7 @@
     "build": "NODE_ENV=production gulp build",
     "start": "gulp build:sitemap && npm run start:dev",
     "start:dev": "gulp & hugo server --environment development --buildDrafts --bind 0.0.0.0",
+    "start:packages": "lerna run start",
     "start:prod": "http-server -S -C cert/localhost.pem -K cert/localhost-key.pem"
   },
   "devDependencies": {

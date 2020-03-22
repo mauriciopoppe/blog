@@ -32,7 +32,7 @@ Algorithm:
 - minimize J with respect to $r\_{nk}$ keeping the $\pmb{\mu}\_k$ fixed (Expectation)
 - minimize J with respect to the $\pmb{\mu}\_k$ keeping $r\_{nk}$ fixed (Maximization)
 
-## Multivariable gaussian distribution
+## Multivariate gaussian distribution
 
 For a random variable $X$ with a finite number of outcomes $x_1, x_2, \ldots, x_n$ ocurring with probabilities $p_1, p_2, \ldots, p_n$ the expectation of $X$ is defined as:
 

@@ -1,0 +1,12 @@
+// let the canvas that's behind the element take control of all the events
+section.hero {
+  .hero-body {
+    pointer-events: none;
+  }
+}
+
+nav.breadcrumb {
+  overflow: scroll;
+  // capture events in the nav links
+  pointer-events: all;
+}
