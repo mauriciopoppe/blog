@@ -19,10 +19,16 @@ export function Hill (props) {
   const { y, scrollY, mouseX } = props
   const [data] = useState(generateData(props))
   const l = area()
-    .x(d => d.x + (mouseX / window.innerWidth - 0.5) * 2 * (props.order + 0.2) * 10)
+    .x(mapX)
     .y0(d => d.y - scrollOverLast(d))
     .y1(d => y(0))
     .curve(curveBasis)
+
+  function mapX(d) {
+    // map to [-1, 1]
+    const normalize = (mouseX / window.innerWidth - 0.5) * 2
+    return d.x + normalize * (props.order) * 20
+  }
 
   function scrollOverLast () {
     const current = Math.max(0, (scrollY + window.innerHeight) - document.body.scrollHeight + 500)

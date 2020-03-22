@@ -63,4 +63,11 @@ replace: \$$1\$
 # block math
 find: \$\$([\s\S]*?)\$\$
 replace: <div>\n\$\$$1\$\$\n</div>
+
+# block math to live template:
+find: <div>\s+\$\$
+replace: <div>\$\$
+
+find: \$\$\s+</div>
+replace: \$\$</div>
 ```

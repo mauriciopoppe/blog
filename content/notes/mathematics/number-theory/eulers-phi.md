@@ -11,8 +11,7 @@ categories: algorithms math
 
 ### Examples
 
-<div>
-$$
+<div>$$
 \begin{align*}
 \phi(1) &= 1 \quad (1) \\
 \phi(2) &= 1 \quad (1) \\
@@ -21,8 +20,7 @@ $$
 \phi(5) &= 4 \quad (1, 2, 3, 4) \\
 \phi(6) &= 2 \quad (1, 5)
 \end{align*}
-$$
-</div>
+$$</div>
 
 ### Properties
 
@@ -50,16 +48,13 @@ multiples of $2$ less than $2^4$ are $1 * 2, 2 * 2, 3 * 2, 4 * 2, 5 * 2, 6 * 2, 
 
 Given a number $n$ let's decompose it into prime factors (factorization):
 
-<div>
-$$
+<div>$$
 n = p_1^{a_1} \cdot p_2^{a_2} \cdot ... \cdot p_k^{a_k}
-$$
-</div>
+$$</div>
 
 Applying the euler function we get:
 
-<div>
-$$
+<div>$$
 \begin{align*}
 \phi(n) &= \phi(p_1^{a_1}) \cdot \phi(p_2^{a_2}) \cdot ... \cdot \phi(p_k^{a_k}) \\
 &= (p_1^{a_1} - p_1^{a_1 - 1}) \cdot (p_2^{a_2} - p_2^{a_2 - 1}) \cdot ... \cdot (p_k^{a_k} - p_k^{a_k - 1}) \\
@@ -69,8 +64,7 @@ $$
 &= n \cdot (1 - \frac{1}{p_1}) \cdot (1 - \frac{1}{p_2}) \cdot ... \cdot (1 - \frac{1}{p_k}) \\
 &= n \prod_{p|n}(1 - \frac{1}{p})
 \end{align*}
-$$
-</div>
+$$</div>
 
 ### Implementation
 

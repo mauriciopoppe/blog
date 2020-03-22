@@ -10,8 +10,7 @@ The existence of complex number presented a question for mathematicians, if a co
 
 <i>Sir William Rowan Hamilton</i> among many other mathematicians of the 18th and 19th century had been searching for the answer, Hamilton conjectured that a 3D complex number could be represented by the triple $a + bi + cj$ where $i$ and $j$ are imaginary quantities and square to $-1$, when he was developing the algebra for this triplet the product of them raised a problem when expanded
 
-<div>
-$$
+<div>$$
 \begin{align*}
 z_1 &= a_1 + b_1i + c_1j \\
 z_2 &= a_2 + b_2i + c_2j \\
@@ -19,8 +18,7 @@ z_1z_2 &= (a_1 + b_1i + c_1j)(a_2 + b_2i + c_2j) \\
 &= (a_1b_1 - b_1b_2 - c_1c_2) + (a_1b_2 + b_1a_2)i + (a_1c_2 + c_1a_2)j \\
 & \quad + b_1c_2ij + c_1b_2ji
 \end{align*}
-$$
-</div>
+$$</div>
 
 The quantities $ij$ and $ji$ represented a problem for Hamilton, even if $ij = -ji$ we are still left with $(b_1c_2 - c_1b_2)ij$
 
@@ -28,16 +26,14 @@ On October 16th, 1843, while he was walking with his wife along the Royal Canal 
 
 Hamilton defined a quaternion $q$ as
 
-<div>
-$$
+<div>$$
 \begin{align*}
 q = s + ai + bj + ck \quad s,a,b,c \in \mathbb{R} \\
 i^2 = j^2 = k^2 = ijk = -1 \\
 ij = k \quad jk = i \quad ki = j \\
 ji = -k \quad kj = -1 \quad ik = -j
 \end{align*}
-$$
-</div>
+$$</div>
 
 If a complex number $i$ is capable of rotating points on the plane by $\deg{90}$ then perhaps a triple rotates points in space by $\deg{90}$, in the end the triplet was replaced by a quaternion
 
@@ -45,8 +41,7 @@ If a complex number $i$ is capable of rotating points on the plane by $\deg{90}$
 
 There are three ways of annotating a quaternion $q$
 
-<div>
-$$
+<div>$$
 \begin{align}
 q &= s + xi + yj + zk \\
 q &= s + \mbold{v} \\
@@ -54,67 +49,54 @@ q &= [s, \mbold{v}] \\
 & \text{where $s,x,y,z \in \mathbb{R}$, $\mbold{v} \in \mathbb{R}^3$} \nonumber \\
 & \text{and $i^2 = j^2 = k^2 = ijk = -1$} \nonumber
 \end{align}
-$$
-</div>
+$$</div>
 
 ### Real quaternion
 
 A real quaternion has a zero vector term
 
-<div>
-$$
+<div>$$
 q = [s, \mbold{0}]
-$$
-</div>
+$$</div>
 
 ### Pure quaternion
 
 A pure quaternion is a quaternion having a zero scalar term
 
-<div>
-$$
+<div>$$
 q = [0, \mbold{v}]
-$$
-</div>
+$$</div>
 
 ### Quaternion conjugate
 
 Given
 
-<div>
-$$
+<div>$$
 q = [s, \mbold{v}]
-$$
-</div>
+$$</div>
 
 The quaternion conjugate is defined as
 
-<div>
-$$
+<div>$$
 q^* = [s, - \mbold{v}]
-$$
-</div>
+$$</div>
 
 ### Quaternion norm
 
 The norm of a quaternion $q = [s, \mbold{v}]$ is defined as the square root of the product of itself and its conjugate (the multiplication operation is defined later)
 
-<div>
-$$
+<div>$$
 \begin{align*}
 \norm{q} &= \sqrt{qq^*} \\
 &= \sqrt{s^2 + x^2 + y^2 + z^2}
 \end{align*}
-$$
-</div>
+$$</div>
 
 Also note that
 
-<div>
-$$
+<div>$$
 \norm{q}^2 = qq^*
-$$
-</div>
+$$</div>
 
 Norm facts
 
@@ -125,15 +107,13 @@ Norm facts
 
 A unit quaternion is a quaternion of norm one given by
 
-<div>
-$$
+<div>$$
 \begin{align}
 q &= [s, \lambda \unit{n}] \quad s,\lambda \in \mathbb{R}, \unit{n} \in \mathbb{R}^3 \label{unit-norm-quaternion}\\
 \left | \unit{n} \right | &= 1 \nonumber \\
 s^2 + \lambda^2 &= 1 \nonumber
 \end{align}
-$$
-</div>
+$$</div>
 
 Note: dividing a non-zero quaternion by its norm produces a unit norm quaternion
 
@@ -143,19 +123,16 @@ Note: dividing a non-zero quaternion by its norm produces a unit norm quaternion
 
 Given two quaternions
 
-<div>
-$$
+<div>$$
 \begin{align*}
 q_a = [s_a, \mbold{a}] \quad \quad \mbold{a} = x_a i + y_a j + z_a k \\
 q_b = [s_b, \mbold{b}] \quad \quad \mbold{b} = x_b i + y_b j + z_b k
 \end{align*}
-$$
-</div>
+$$</div>
 
 The product $q_aq_b$ is computed as follows
 
-<div>
-$$
+<div>$$
 \begin{align}
 q_aq_b &= (s_a + x_a i + y_a j + z_a k)(s_b + x_b i + y_b j + z_b k) \nonumber \\
 &= (s_as_b - x_ax_b - y_ay_b - z_az_b) \nonumber \\
@@ -163,58 +140,47 @@ q_aq_b &= (s_a + x_a i + y_a j + z_a k)(s_b + x_b i + y_b j + z_b k) \nonumber \
 & \quad + (s_ay_b + s_by_a + z_ax_b - z_bx_a)j \nonumber \\
 & \quad + (s_az_b + s_bz_a + x_ay_b - x_by_a)k \label{quaternion-product}
 \end{align}
-$$
-</div>
+$$</div>
 
 Replacing the imaginaries by the ordered pairs (which are themselves <i>quaternion units</i>)
 
-<div>
-$$
+<div>$$
 i = [0, \mbold{i}] \quad j = [0, \mbold{j}] \quad k = [0, \mbold{k}] \quad 1 = [1, \mbold{0}]
-$$
-</div>
+$$</div>
 
 And substituting them in \eqref{quaternion-product}
 
-<div>
-$$
+<div>$$
 \begin{align*}
 q_aq_b &= (s_as_b - x_ax_b - y_ay_b - z_az_b)[1, \mbold{0}] \\
 & \quad + (s_ax_b + s_bx_a + y_az_b - y_bz_a)[0, \mbold{i}] \\
 & \quad + (s_ay_b + s_by_a + z_ax_b - z_bx_a)[0, \mbold{j}] \\
 & \quad + (s_az_b + s_bz_a + x_ay_b - x_by_a)[0, \mbold{k}]
 \end{align*}
-$$
-</div>
+$$</div>
 
 By doing some aggrupations
 
-<div>
-$$
+<div>$$
 \begin{align*}
 q_aq_b &= [s_as_b - x_ax_b - y_ay_b - z_az_b, \\
 & \quad s_a(x_b \mbold{i} + y_b \mbold{j} + z_b \mbold{k}) + s_b(x_a \mbold{i} + y_a \mbold{j} + z_a \mbold{k}) \\
 & \quad + (y_az_b - y_bz_a) \mbold{i} + (z_ax_b - z_bx_a) \mbold{j} + (x_ay_b - x_by_a) \mbold{k}] \\
 &= [s_as_b - \mbold{a} \cdot \mbold{b}, s_a\mbold{b} + s_b\mbold{a} + \mbold{a} \times \mbold{b}]
 \end{align*}
-$$
-</div>
+$$</div>
 
 Now let's compute the product $q_bq_a$
 
-<div>
-$$
+<div>$$
 q_bq_a = [s_bs_a - \mbold{b} \cdot \mbold{a}, s_b\mbold{a} + s_a\mbold{b} + \mbold{b} \times \mbold{a}]
-$$
-</div>
+$$</div>
 
 Note that the scalar quantity of both products is the same however the vector quantity varies (the cross product sign is changed) therefore
 
-<div>
-$$
+<div>$$
 q_aq_b \not = q_bq_a
-$$
-</div>
+$$</div>
 
 This is an important fact to note since for complex number the product commutes however for quaternions it doesn't
 
@@ -224,22 +190,19 @@ Let $k$ be a scalar represented as a quaternion as $q_k = [k, \mathbf{0}]$ and $
 
 Their product is
 
-<div>
-$$
+<div>$$
 \begin{align*}
 q_kq &= [k, \mathbf{0}][s, \mathbf{v}] \\
 &= [ks, k\mathbf{v}]
 \end{align*}
-$$
-</div>
+$$</div>
 
 Note that this product is commutative
 
 
 #### Product of a quaternion with itself (square of a quaternion)
 
-<div>
-$$
+<div>$$
 \begin{align*}
 q &= [s, \mbold{v}] \\
 q^2 &= [s, \mbold{v}] [s, \mbold{v}] \\
@@ -247,23 +210,20 @@ q^2 &= [s, \mbold{v}] [s, \mbold{v}] \\
 &= [s^2 - \norm{v}^2, 2s\mbold{v}] \\
 &= [s^2 - (x^2 + y^2 + z^2), 2s(x\mbold{i} + y\mbold{j} + z\mbold{k})]
 \end{align*}
-$$
-</div>
+$$</div>
 
 #### Product of a quaternion and its conjugate
 
 Let $q = [s, \mathbf{v}]$
 
-<div>
-$$
+<div>$$
 \begin{align*}
 qq^* &= [s, \mathbf{v}][s, -\mathbf{v}] \\
 &= [s^2 + \mathbf{v} \cdot \mathbf{v}, -s \mathbf{v} + s\mathbf{v} - \mathbf{v} \times \mathbf{v}] \\
 &= [s^2 + \mathbf{v} \cdot \mathbf{v}, \mathbf{0}] \\
 &= s^2 + x^2 + y^2 + z^2
 \end{align*}
-$$
-</div>
+$$</div>
 
 Note that this product commutes i.e. $qq^\* = q^\*q$
 
@@ -271,20 +231,16 @@ Note that this product commutes i.e. $qq^\* = q^\*q$
 
 Given
 
-<div>
-$$
+<div>$$
 q_a = [s_a, \mbold{a}] \\
 q_b = [s_b, \mbold{b}]
-$$
-</div>
+$$</div>
 
 Where $\norm{q_a} = \norm{q_b} = 1$, the product is another unit-norm quaternion
 
-<div>
-$$
+<div>$$
 q_c = [s_c, \mbold{c}]
-$$
-</div>
+$$</div>
 
 Where $\norm{q_c} = 1$
 
@@ -292,29 +248,24 @@ Where $\norm{q_c} = 1$
 
 Let
 
-<div>
-$$
+<div>$$
 q_a = [0, \mbold{a}] \\
 q_b = [0, \mbold{b}]
-$$
-</div>
+$$</div>
 
 The product $q_aq_b$ is defined as
 
-<div>
-$$
+<div>$$
 \begin{align*}
 q_aq_b &= [-\mbold{a} \cdot \mbold{b}, \mbold{a} \times \mbold{b}]
 \end{align*}
-$$
-</div>
+$$</div>
 
 Note that the resulting quaternion is no longer a *pure quaternion* as some information has propagated into the real part via the dot product
 
 #### Product of a pure quaternion with itself (square of a pure quaternion)
 
-<div>
-$$
+<div>$$
 \begin{align*}
 q &= [0, \mbold{v}] \\
 q^2 &= [0, \mbold{v}] [0, \mbold{v}] \\
@@ -322,94 +273,77 @@ q^2 &= [0, \mbold{v}] [0, \mbold{v}] \\
 &= [-(x^2 + y^2 + z^2), \mbold{0}] \\
 &= -\norm{v}^2
 \end{align*}
-$$
-</div>
+$$</div>
 
 If $q$ is a unit norm pure quaternion then
 
-<div>
-$$
+<div>$$
 q^2 = -1
-$$
-</div>
+$$</div>
 
 #### Product of a pure quaternion with its conjugate
 
-<div>
-$$
+<div>$$
 \begin{align*}
 q^*q = qq^* &= [0, \mathbf{v}][0, -\mathbf{v}] \\
 &= [\mathbf{v} \cdot \mathbf{v}, -\mbold{v \times v}] \\
 &= [\mathbf{v} \cdot \mathbf{v}, \mbold{0}] \\
 &= \norm{v}^2
 \end{align*}
-$$
-</div>
+$$</div>
 
 ### Inverse of a quaternion
 
 By definition, the inverse $q^{-1}$ of $q$ is
 
-<div>
-$$
+<div>$$
 qq^{-1} = [1, \mbold{0}]
-$$
-</div>
+$$</div>
 
 To isolate $q^{-1}$ let's pre multiply both sides by $q^*$
 
-<div>
-$$
+<div>$$
 \begin{align*}
 q^*qq^{-1} &= q^* \\
 \norm{q}^2q^{-1} &= q^* \\
 q^{-1} &= \frac{q^*}{\norm{q}^2}
 \end{align*}
-$$
-</div>
+$$</div>
 
 ### Quaternion units
 
 Given the vector $\mbold{v}$
 
-<div>
-$$
+<div>$$
 \mbold{v} = v \hat{\mbold{v}} \quad \text{where $v = |\mbold{v}|$, and $|\hat{\mbold{v}}| = 1$}
-$$
-</div>
+$$</div>
 
 Combining this with the definition of a *pure quaternion*
 
-<div>
-$$
+<div>$$
 \begin{align*}
 q &= [0, \mbold{v}] \\
 &= [0, v \hat{\mbold{v}}] \\
 &= v[0, \hat{\mbold{v}}]
 \end{align*}
-$$
-</div>
+$$</div>
 
 It's convenient to identify the unit quaternion as $\hat{q}$ (where $v = 1$)
 
-<div>
-$$
+<div>$$
 \hat{q} = [0, \hat{\mbold{v}}]
-$$
-</div>
+$$</div>
 
 Let's check if the quaternion unit $\mbold{i}$ squares to the ordered pair $[-1, \mbold{0}]$
 
-<div>
-$$
+<div>$$
 \begin{align*}
 i^2 &= [0, \mbold{i}][0, \mbold{i}] \\
 &= [0 \cdot 0 - \mbold{i} \cdot \mbold{i}, 0 \cdot \mbold{i} + 0 \cdot \mbold{i} - \mbold{i} \times \mbold{i}] \\
 &= [-|\mbold{i}|^2, \mbold{0}] \quad \text{$\mbold{i} \times \mbold{i} = 0$} \\
 & = [-1, \mbold{0}]
 \end{align*}
-$$
-</div>
+$$</div>
 
 
 ### Misc operations
@@ -419,11 +353,9 @@ $$
 
 To isolate the scalar part of $q$ we could add $q^*$ to it
 
-<div>
-$$
+<div>$$
 2 S(q) = q + q^*
-$$
-</div>
+$$</div>
 
 Suggested reading
 

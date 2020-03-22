@@ -21,11 +21,9 @@ The affine space is commonly represented with the triple $\left \langle E, \v{E}
 
 Consider a subset $L$ of $\mathbb{A}^2$ consisting of points satisfying
 
-<div>
-$$
+<div>$$
 -x + y - 2 = 0
-$$
-</div>
+$$</div>
 
 <div id="line"></div>
 {{< script >}}
@@ -42,11 +40,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 Where any point has the form $(x, f(x)) = (x, 2 + x)$, the line can be made into an affine space by defining $+: L \times V \rightarrow L$ (note that $V$ is a vector space) so that for any $u \in V$
 
-<div>
-$$
+<div>$$
 (x, 2 + x) + u = (x + u, 2 + x + u)
-$$
-</div>
+$$</div>
 
 For example the point $(-2,0)$ added with the vector $u = [1,1]$ results in the point $(-1, 1)$ which belongs to the set $L$, note that for the example above the vector space $V$ has only vectors parallels to $u = [1,1]$
 
@@ -54,19 +50,15 @@ For example the point $(-2,0)$ added with the vector $u = [1,1]$ results in the 
 
 Given any three points $a,b,c \in E$ we know that $c = a + \mathbf{ac}$, $b = a + \mathbf{ab}$ and $c = b + \mathbf{bc}$ by the axiom 3, therefore
 
-<div>
-$$
+<div>$$
 c = b + \mathbf{bc} = (a + \mathbf{ab}) + \mathbf{bc} = a + (\mathbf{ab} + \mathbf{bc})
-$$
-</div>
+$$</div>
 
 And thus
 
-<div>
-$$
+<div>$$
 \mathbf{ab} + \mathbf{bc} = \mathbf{ac}
-$$
-</div>
+$$</div>
 
 Which is known as Chasles's identity
 
@@ -74,11 +66,9 @@ Which is known as Chasles's identity
 
 Consider $\mathbb{R}^2$ an affine space with its origin at $(0,0)$ and basis vectors $\mathbf{b_1} = [1, 0]$ and $\mathbf{b_2} = [0,1]$, given any two points $a,b \in \mathbb{R}^2$ with coordinates $a = (a_1,a_2)$ and $b = (b_1,b_2)$ we can define the affine combination $\lambda a + \mu b$ as the point of coordinates
 
-<div>
-$$
+<div>$$
 (\lambda a_1 + \mu b_1, \lambda a_2 + \mu b_2)
-$$
-</div>
+$$</div>
 
 Let $\lambda = 1, \mu = 1$, $a = (-1,1)$ and $b = (2, 2)$ then $a + b = (1, 1)$
 
@@ -103,74 +93,60 @@ A restriction is needed for affine combinations to make sense and the restrictio
 
 > Lemma: Given an affine space $E,v{E},+$, let $a_i, i \in I$ be a family of points in $E$ and let $\lambda_i, i \in I$ a family of scalars then any two points $a,b \in E$ the following properties hold
 >
-<div>
-$$
+<div>$$
 \begin{equation} \label{lemma-1}
 a + \sum_{i \in I} \lambda_i \mathbf{aa_i} = b + \sum_{i \in I} \lambda_i \mathbf{ba_i} \quad \text{if $\sum_{i \in I} \lambda_i = 1$}
 \end{equation}
-$$
-</div>
+$$</div>
 >
 > and
 >
-<div>
-$$
+<div>$$
 \begin{equation} \label{lemma-2}
 \sum_{i \in I} \lambda_i \mathbf{aa_i} = \sum_{i \in I} \lambda_i \mathbf{ba_i} \quad \text{if $\sum_{i \in I} \lambda_i = 0$}
 \end{equation}
-$$
-</div>
+$$</div>
 
 To prove \eqref{lemma-1} we apply Chasles's identity
 
-<div>
-$$
+<div>$$
 \begin{align*}
 a + \sum_{i \in I} \lambda_i \mathbf{aa_i} &= a + \sum_{i \in I} \lambda_i (\mathbf{ab} + \mathbf{ba_i}) \\
 &= a + (\sum_{i \in I} \lambda_i) \mathbf{ab} + \sum_{i \in I} \lambda_i \mathbf{ba_i} \\
 &= a + \mathbf{ab} + \sum_{i \in I} \lambda_i \mathbf{ba_i} \quad \text{since $\sum_{i \in I} \lambda_i = 1$} \\
 &= b + \sum_{i \in I} \lambda_i \mathbf{ba_i} \quad \text{since $b = a + \mathbf{ab}$} \\
 \end{align*}
-$$
-</div>
+$$</div>
 
 For \eqref{lemma-2} we also have
 
-<div>
-$$
+<div>$$
 \begin{align*}
 \sum_{i \in I} \lambda_i \mathbf{aa_i} &= \sum_{i \in I} \lambda_i (\mathbf{ab} + \mathbf{ba_i}) \\
 &= (\sum_{i \in I} \lambda_i) \mathbf{ab} + \sum_{i \in I} \lambda_i \mathbf{ba_i} \\
 &= \sum_{i \in I} \lambda_i \mathbf{ba_i} \quad \text{since $\sum_{i \in I} \lambda_i = 0$} \\
 \end{align*}
-$$
-</div>
+$$</div>
 
 Formally for any family of points $a_i, i \in I$ in $E$, for any family $\lambda_i, i \in I$ of scalars such that $\sum_{i \in I} \lambda_i = 1$ the point
 
-<div>
-$$
+<div>$$
 \begin{equation} \label{affine-combination}
 x = a + \sum_{i \in I} \lambda_i \mathbf{aa_i}
 \end{equation}
-$$
-</div>
+$$</div>
 
 Is *independent* of $a \in E$ and is called the *barycenter or affine combination of the points $a_i$ with weights $\lambda_i$*, and is denoted as
 
-<div>
-$$
+<div>$$
 \sum_{i \in I} \lambda_i a_i
-$$
-</div>
+$$</div>
 
 ## Affine maps
 
 An affine map between two affine spaces $X$ and $Y$ is a map $f: X \rightarrow Y$ that *preserves affine combinations* i.e.
 
-<div>
-$$
+<div>$$
 f \left (\sum_{i \in I} \lambda_i a_i \right ) = \sum_{i \in I} \lambda_i f(a_i)
-$$
-</div>
+$$</div>
 

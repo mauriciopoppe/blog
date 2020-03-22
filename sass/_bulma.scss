@@ -1,25 +1,11 @@
 @import "bulma/sass/utilities/initial-variables.sass";
-
-// override
-$grey: rgba(80, 81, 79, 1);
-$red: rgba(242, 95, 92, 1);
-$yellow: rgba(255, 224, 102, 1);
-$blue: rgba(36, 123, 160, 1);
-$lightblue: rgba(112, 193, 179, 1);
-
-$family-serif: "Merriweather", "Georgia", serif;
-// $family-serif: "Merriweather", "Georgia", serif;
-$primary: $color40;
-$info: $color70;
-$time: 250ms;
-
-$link: $color40;
-$link-hover: $primary $color30;
-
-// derived
-$family-primary: $family-serif;
-
+@import "_variables.scss";
 @import "bulma/bulma.sass";
+
+// custom variables
+$family-serif: "Merriweather", "Georgia", serif;
+$family-primary: $family-serif;
+$time: 250ms;
 
 @mixin word-wrap() {
   overflow-wrap: break-word;

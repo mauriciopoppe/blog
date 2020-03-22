@@ -28,19 +28,15 @@ Note that the model does not depend on the distance between the light and the ob
 
 When the light hits the surface a portion of the light gets reflected, this is controlled by the diffuse reflectance $c_r$, a color that varies depending on the surface, also the surface color can be made darker/lighter by changing the color of the light source $c_l$
 
-<div>
-$$
+<div>$$
 c = c_r \; c_l \; \mathbf{n} \cdot \mathbf{l}
-$$
-</div>
+$$</div>
 
 $c_r$ and $c_l$ are RGB colors with components in the range $[0, 1]$ where the multiplication is done element-wise so $c_r\; c_l$ returns another RGB color, note however that the product $\mathbf{n} \cdot \mathbf{l}$ might create negative values (e.g. when the surface normal is pointing away from the light), to solve this we can use the max function
 
-<div>
-$$
+<div>$$
 c = c_r \; c_l \; \text{max}(\mathbf{n} \cdot \mathbf{l}, 0)
-$$
-</div>
+$$</div>
 
 ## Ambient shading
 
@@ -48,8 +44,6 @@ Some surfaces that receive no direct illumination in real life are perceived as 
 
 A common trick is to put a dim light at the position of the eye so that all visible points receive some light, another approach is to add an *ambient* color $c_a$ which is simply a constant value which interacts with the diffuse reflectance $c_r$
 
-<div>
-$$
+<div>$$
 c = c_r * c_a
-$$
-</div>
+$$</div>

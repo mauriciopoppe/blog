@@ -29,8 +29,7 @@ Let $\mathbf{M}\_{upright \leftarrow camera}$ be the rotation matrix that transf
 
 Note that the sequence of [intrinsic rotations](../../../transformation-matrices/rotation/euler-angles#intrinsic-rotations) $y-x'$ or $x-y$ if expressed as a sequence of *extrinsic rotations*) represents the rotation of the camera, the sequence of extrinsic rotations can be represented as a multiplication of the following rotation matrices
 
-<div>
-$$
+<div>$$
 \begin{align*}
 \mathbf{M}_{upright \leftarrow camera} &= \mathbf{Y}(\alpha) \mathbf{X}(\beta) \\
 &= \begin{bmatrix}
@@ -49,19 +48,16 @@ $$
 -\sin{\alpha} & \cos{\alpha}\sin{\beta} & \cos{\alpha}\cos{\beta}
 \end{bmatrix}
 \end{align*}
-$$
-</div>
+$$</div>
 
 The angles $\alpha$ and $\beta$ are computed as follows:
 
 - let $\Delta{\alpha}$ and $\Delta{\beta}$ represent the change in the rotation around the $\mathbf{Y}$ and $\mathbf{X}$ axis respectively, the values of $\alpha$ and $\beta$ are computed based on the previous state
 
-<div>
-$$
+<div>$$
 \beta := \beta + \Delta{\beta} \\
 \alpha := \alpha + \Delta{\alpha}
-$$
-</div>
+$$</div>
 
 <span></span>
 
@@ -72,32 +68,27 @@ $$
 
 Next we need to define what happens when we move the mouse, we can configure a window manager like [GLFW](http://www.glfw.org/) to call a callback method whenever we move the mouse with the coordinates of the mouse as an argument (e.g. as $x_{new}$ and $y_{new}$), **Note: the coordinates of the mouse are expressed relative to the top left corner of the window whose $+x$-axis points right and $+y$-axis points down**, if we keep the old coordinates of the mouse (as $x_{old}$ and $y_{old}$) we can obtain how much the mouse moved with respect to the old position with the following calculation
 
-<div>
-$$
+<div>$$
 \begin{align*}
 \Delta x &= x_{new} - x_{old} \\
 \Delta y &= -(y_{new} - y_{old})
 \end{align*}
-$$
-</div>
+$$</div>
 
 Note that $y_{new} - y_{old}$ will be positive if we move the mouse down which is unintuitive, therefore we can multiply this result by $-1$ so that moving the mouse downward sets a negative value in $\Delta y$
 
 The next step is to update the values of $\alpha$ (yaw) and $\beta$ (pitch) using $\Delta x$ and $\Delta y$, note that when we move the mouse to the right we're moving clockwise with respect to the $+y$ axis and when we move the mouse upward we're moving counterclockwise with respect to the $+x$-axis therefore
 
-<div>
-$$
+<div>$$
 \alpha := \alpha - \Delta x \\
 \beta := \beta + \Delta y
-$$
-</div>
+$$</div>
 
 Note that the we also need to value of $\beta$ to be inside the range $-\deg{90} \leq \beta \leq \deg{90}$ to avoid looking backwards
 
 Finally to compute the value of $\mathbf{p}\_{world}$ we need to transform $\mathbf{p}\_{object}$ with $\mathbf{M}\_{world \leftarrow object}$, note that the value of $\mathbf{p}\_{object} = \begin{bmatrix} 0 & 0 & -1 \end{bmatrix}^T$ is always the same, therefore the value of $\mathbf{p}\_{world}$ is
 
-<div>
-$$
+<div>$$
 \begin{align*}
 \mathbf{p}_{world} &= \mathbf{M}_{world \leftarrow object} \mathbf{p}_{object} \\
 &= \begin{bmatrix}
@@ -111,8 +102,7 @@ $$
 -\cos{\alpha}\cos{\beta}
 \end{bmatrix}
 \end{align*}
-$$
-</div>
+$$</div>
 
 {{< snippet file="static/code/opengl/fps.cpp" lang="cpp" />}}
 

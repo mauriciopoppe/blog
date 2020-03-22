@@ -9,38 +9,30 @@ Euclid's algorithm for finding the **Greatest Common Divisor** of two or more in
 
 1. if $x = y$ then
 
-<div>
-$$
+<div>$$
 gcd(x, y) = gcd(x, x) = x
-$$
-</div>
+$$</div>
 
 2. if $x > y$ then
 
-<div>
-$$
+<div>$$
 gcd(x, y) = gcd(x - y, y)
-$$
-</div>
+$$</div>
 
 *proof:* suppose that $d$ is a divisor of $x$ and $y$ then $x$ and $y$ can be expressed as
 
-<div>
-$$
+<div>$$
 \begin{align*}
 x &= q_1d \\
 y &= q_2d
 \end{align*}
-$$
-</div>
+$$</div>
 
 But then
 
-<div>
-$$
+<div>$$
 x - y = q_1d - q_2d = d(q_1 - q_2)
-$$
-</div>
+$$</div>
 
 Therefore $d$ is a divisor of $x - y$
 
@@ -59,11 +51,9 @@ int gcd(int x, int y) {
 
 Using the remainder operator instead of multiple subtraction operations is an improvement in performance however eventually one of $x$ or $y$ will become zero
 
-<div>
-$$
+<div>$$
 gcd(x, 0) = gcd(0, x) = x
-$$
-</div>
+$$</div>
 
 ```cpp
 int gcd(int x, int y) {
@@ -111,16 +101,14 @@ int gcd(int x, int y) {
 
 *Example:* finding the GCD of $102$ and $38$
 
-<div>
-$$
+<div>$$
 \begin{align*}
 102 &= 2 \cdot 38 + 26 \\
 38 &= 1 \cdot 26 + 12 \\
 26 &= 2 \cdot 12 + 2 \\
 12 &= 6 \cdot 2 + 0
 \end{align*}
-$$
-</div>
+$$</div>
 
 The last non-zero remainder is $2$ thus the GCD is 2
 

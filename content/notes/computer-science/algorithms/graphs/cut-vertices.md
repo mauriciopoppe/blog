@@ -11,11 +11,9 @@ A vertex $v$ in a connected graph $G$ is called a **cut-vertex** if $G - v$ resu
 
 <div id="figure-cut-vertex"></div>
 
-<div>
-$$
+<div>$$
 \text{$v_0, v_2$ are cut vertices }
-$$
-</div>
+$$</div>
 
 All the facts/properties below are considered for an undirected connected graph $G$
 

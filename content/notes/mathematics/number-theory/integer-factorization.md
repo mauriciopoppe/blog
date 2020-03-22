@@ -11,11 +11,9 @@ The fundamental theorem of arithmetic states that ever positive integer can be w
 
 example:
 
-<div>
-$$
+<div>$$
 65340 = 2^2 \cdot 3^3 \cdot 5 \cdot 11^2
-$$
-</div>
+$$</div>
 
 ## Trial division
 
@@ -38,42 +36,34 @@ vector<int> trial_division(int n) {
 
 Fermat's observation was to write an integer as the difference of squares
 
-<div>
-$$
+<div>$$
 \begin{align}
 n &= x^2 - y^2 \label{fermat} \\
 &= (x + y)(x - y)
 \end{align}
-$$
-</div>
+$$</div>
 
 Assuming that $s$ and $t$ are **odd** factors of $n$ such that $n = st$ and $s \leq t$ we can find $x$ and $y$ such that
 
-<div>
-$$
+<div>$$
 \begin{align*}
 s &= x - y \\
 t &= x + y
 \end{align*}
-$$
-</div>
+$$</div>
 
 Adding both equations
 
-<div>
-$$
+<div>$$
 s + t = 2x \\
 x = \frac{s + t}{2}
-$$
-</div>
+$$</div>
 
 Also
 
-<div>
-$$
+<div>$$
 y = \frac{t - s}{2}
-$$
-</div>
+$$</div>
 
 Since we assumed that $s$ and $t$ are odd numbers, their difference is an even number which is divisible by $2$ therefore $x$ and $y$ are integers, since $s > 1$ and $t \geq s$ we find that $x \geq 1$ and $y \geq 0$
 
@@ -134,16 +124,13 @@ while we haven't two numbers such that `gcd(x_i, x_j, n) > 1`
 
 Here's another algorithm to pick random numbers, let $x$ be an integer in the range $[1, n - 1]$, a function that will generate a number in the range $[1, n - 1]$ based on a previous number is
 
-<div>
-$$
+<div>$$
 f(x) = x^2 + c \pmod{n}
-$$
-</div>
+$$</div>
 
 Because there are only $n - 1$ possible values our generator will eventually fall into a cycle, for example let $n = 55, c = 2, x = 2$
 
-<div>
-$$
+<div>$$
 \begin{align*}
 x_0 &= 2 \\
 x_1 &= (2^2 + 2) \pmod{55} = 6 \\
@@ -151,8 +138,7 @@ x_2 &= (6^2 + 2) \pmod{55} = 38 \\
 x_3 &= (38^2 + 2) \pmod{55} = 16 \\
 x_4 &= (16^2 + 2) \pmod{55} = 38 \text{ which is equal to $x_2$ }
 \end{align*}
-$$
-</div>
+$$</div>
 
 Pollard detected the cycle using [Floyd's cycle-finding algorithm](https://www.wikiwand.com/en/Cycle_detection#/Tortoise_and_hare) which is based on two pointers which move through a sequence at different speeds, one moves a unit and the other moves two units each time, if there's a cycle eventually the two pointers will encounter at some element belonging to the cycle, if we've analyzed all the elements of the sequence and saw not a single contiguous pair fullfills $gcd(x_i - x_{i + 1}, n) > 1$ we need to choose other values for $x_0, a$ and rerun the algorithm
 

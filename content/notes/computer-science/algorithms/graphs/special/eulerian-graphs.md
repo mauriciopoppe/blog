@@ -13,21 +13,17 @@ A connected graph $G$ that contains an eulerian circuit $C$ is called an **Euler
 
 <div id="figure-eulerian-graph"></div>
 
-<div>
-$$
+<div>$$
 C = (v_0,v_1,v_2,v_3,v_1,v_6,v_3,v_4,v_5,v_6,v_7,v_5,v_8,v_7,v_{10},v_8,v_9,v_{10},v_0)
-$$
-</div>
+$$</div>
 
 An **Eulerian trail** is an open trail $T$ that contains all the edges of $G$ (but doesn't end in the same start vertex)
 
 <div id="figure-eulerian-trail"></div>
 
-<div>
-$$
+<div>$$
 T = (v_0,v_1,v_2,v_4,v_3,v_1,v_4,v_5)
-$$
-</div>
+$$</div>
 
 ## Königsberg Bridge Problem
 
@@ -47,11 +43,9 @@ In graph theory terms the problem can be stated as follows
 
 Suppose that such a journey is possible then it must begin at some land area and end at some land area (possibly the same one), certainly each land area must appear in the trail, note that at least two vertices of $M$ are neither the initial nor the terminal vertex of the trail, let's say that we start at land $A$ and end at land $A$
 
-<div>
-$$
+<div>$$
 T = (A, L_1, L_2, L_3, L_4, L_5, L_6, A)
-$$
-</div>
+$$</div>
 
 Each of the $L$ lands but the first and the last are entered and exited every time they appear in the trail, this implies that all $L$ lands must have an even degree for a trail to exist
 

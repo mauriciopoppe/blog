@@ -40,11 +40,9 @@ A set of **intrinsic rotations** represent rotations relative to the *object spa
 
 A rotation matrix (used to pre-multiply column vectors) can be used to represent a sequence of *intrinsic rotations*, for example the extrinsic rotations $x-y'-z''$ with angles $\alpha, \beta, \gamma$ are represented as a multiplication of the following rotation matrices
 
-<div>
-$$
+<div>$$
 \mathbf{R} = \mathbf{X}(\alpha)\mathbf{Y}(\beta)\mathbf{Z}(\gamma)
-$$
-</div>
+$$</div>
 
 Where $\mathbf{X}(\alpha)$, $\mathbf{Y}(\beta)$ and $\mathbf{Z}(\gamma)$ are rotation matrices that represent a rotation around the $x$-axis by $\alpha$, around the $y$-axis by $\beta$ and around the $z$-axis by $\gamma$ respectively
 
@@ -58,11 +56,9 @@ A set of **extrinsic rotations** represent rotations relative to a fixed coordin
 
 A rotation matrix (used to pre-multiply column vectors) can be used to represent a sequence of *intrinsic rotations*, for example the extrinsic rotations $x-y-z$ with angles $\alpha, \beta, \gamma$ are represented as a multiplication of the following rotation matrices
 
-<div>
-$$
+<div>$$
 \mathbf{R} = \mathbf{Z}(\gamma)\mathbf{Y}(\beta)\mathbf{X}(\alpha)
-$$
-</div>
+$$</div>
 
 Where $\mathbf{X}(\alpha)$, $\mathbf{Y}(\beta)$ and $\mathbf{Z}(\gamma)$ are rotation matrices that represent a rotation around the $x$-axis by $\alpha$, around the $y$-axis by $\beta$ and around the $z$-axis by $\gamma$ respectively
 
@@ -72,11 +68,9 @@ Any intrinsic rotation is equivalent to an extrinsic rotation by the same angles
 
 For example the intrinsic rotations $x-y'-z''$ by the angles $\alpha,\beta,\gamma$ are equivalent to the extrinsic rotations $z-y-x$ by the angles $\gamma,\beta,\alpha$, both represented by
 
-<div>
-$$
+<div>$$
 \mathbf{R} = \mathbf{X}(\alpha)\mathbf{Y}(\beta)\mathbf{Z}(\gamma)
-$$
-</div>
+$$</div>
 
 ## Proper Euler angles
 
@@ -130,13 +124,11 @@ The set of *intrinsic rotations* $z-y'-x''$ is known as *yaw*, *pitch* and *roll
 
 The rotation matrix for the sequence $z-y'-x''$ (or $x-y-z$) which is known as *yaw*, *pitch* and *roll* is given by
 
-<div>
-$$
+<div>$$
 \begin{align*}
 \mathbf{R} = \mathbf{Z}(\alpha)\mathbf{Y}(\beta)\mathbf{X}(\gamma)
 \end{align*}
-$$
-</div>
+$$</div>
 
 ## Extrinsic rotations expressed in upright space
 
@@ -153,25 +145,21 @@ For example given that world space is
 
 If there's an object whose *object space* axes $+x$ (backward), $+y$ (right) and $+z$ (up) then a sequence of intrinsic rotations $z-y'-x''$ by the angles $\alpha, \beta, \gamma$ (equivalent to the extrinsic rotation $x-y-z$ by the angles $\gamma, \beta, \alpha$ which is also known as *yaw*, *pitch* and *roll*) is equivalent to the multiplication of the following rotation matrices
 
-<div>
-$$
+<div>$$
 \mathbf{R} = \mathbf{R}(\mathbf{w}, \alpha)\mathbf{R}(\mathbf{v}, \beta)\mathbf{R}(\mathbf{u}, \gamma)
-$$
-</div>
+$$</div>
 
 Where
 
 - $\mathbf{R}(\mathbf{s}, t)$ is the general rotation matrix used to rotate around the axis $\mathbf{s}$ by the angle $t$
 - $\mathbf{u, v, w}$ are the columns of the transformation matrix used to transform any point $\mathbf{p}$ expressed in *object space* to *upright space*
 
-<div>
-$$
+<div>$$
 \begin{align*}
 \mathbf{p}_{upright} &= \mathbf{M}_{upright \leftarrow object} \mathbf{p}_{object} \\
 &= \begin{bmatrix} \mathbf{u}_{3 \times 1} \mathbf{v}_{3 \times 1} \mathbf{w}_{3 \times 1}\end{bmatrix} \mathbf{p}_{object}
 \end{align*}
-$$
-</div>
+$$</div>
 
 The problem can be simplified when frame is somewhat aligned with the *upright space* (the order might be different and the axis directions might be reversed but it's still aligned), the following diagram shows some of these simplifications
 

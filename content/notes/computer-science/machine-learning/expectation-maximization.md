@@ -34,31 +34,25 @@ Algorithm:
 
 ## Multivariable gaussian distribution
 
-For a random variable $X$ with a finite number of outcomes $x_1, x_2, \ldots, x_n$ ocurring with probabilities $p_1, p_2, \ldots, p_n$ the expectation is defined as:
+For a random variable $X$ with a finite number of outcomes $x_1, x_2, \ldots, x_n$ ocurring with probabilities $p_1, p_2, \ldots, p_n$ the expectation of $X$ is defined as:
 
-<div>
-$$
+<div>$$
 E[X] = \sum_{i=1}^{N} x_i p_i
-$$
-</div>
+$$</div>
 
-The covariance between two variables $X, Y$ the covariance is defined as the expected value (or mean) of the product of their deviations from their individual expected values
+The covariance between two variables $X, Y$ is defined as the expected value (or mean) of the product of their deviations from their individual expected values
 
-<div>
-$$
+<div>$$
 cov(X,Y) = E[(X - E[X])(Y - E[Y])]
-$$
-</div>
+$$</div>
 
 When working with multiple variables $X\_1, X\_2, X\_n$ the covariance matrix denoted as $\Sigma$ is the $n \times n$ matrix whose $(i, j)$th entry is $cov(X\_i, X\_j)$
 
 The density function of a univariate gaussian distribution is given by:
 
-<div>
-$$
+<div>$$
 p(x; \mu, \sigma) = \frac{1}{\sqrt{2\pi \sigma^2}}\exp\left(-\frac{1}{2\sigma^2}(x - \mu)^2\right)
-$$
-</div>
+$$</div>
 
 - $(x - \mu)^2$ is always positive
 - the value $k(x, \mu) = -\frac{1}{2 \sigma^2}(x - \mu)^2$ is a always negative, it's a parabola pointing downward

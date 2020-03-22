@@ -7,37 +7,29 @@ categories: algorithms number-theory
 
 Let $a$, $b$ and $x$ be positive real numbers such that
 
-<div>
-$$
+<div>$$
 a^x = b
-$$
-</div>
+$$</div>
 
 And we want to find the value of $x$, applying logarithms
 
-<div>
-$$
+<div>$$
 x \cdot log(a) = log(b)
-$$
-</div>
+$$</div>
 
 Finally
 
-<div>
-$$
+<div>$$
 x = \frac{log(b)}{log(a)}
-$$
-</div>
+$$</div>
 
 The **discrete logarithm** problem is an analogue of this problem with the condition that all the numbers exist in the ring of integers modulo $n$
 
 > Let $a$, $b$ and $n$ be **integers**, where $a$ and $n$ are coprime, find the value of $x$ in
 >
-<div>
-$$
+<div>$$
 a^x \equiv b \pmod{n}
-$$
-</div>
+$$</div>
 
 ## Trial multiplication
 
@@ -45,8 +37,7 @@ The brute force algorithm consists in computing all possible $a^i \pmod{n}$, whe
 
 *Example:* given $n = 11$, $a = 2$, $b = 9$ find the value of $x$ in $a^x \equiv b \pmod{n}$
 
-<div>
-$$
+<div>$$
 \begin{align*}
 a^0 &\equiv 1 \pmod{11} \\
 a^1 &\equiv 2 \pmod{11} \\
@@ -56,8 +47,7 @@ a^4 &\equiv 16 \equiv 5 \pmod{11} \\
 a^5 &\equiv 32 \equiv 10 \pmod{11} \\
 a^6 &\equiv 64 \equiv 9 \pmod{11}
 \end{align*}
-$$
-</div>
+$$</div>
 
 $x = 6$ is a solution to the problem
 
@@ -65,19 +55,15 @@ $x = 6$ is a solution to the problem
 
 The idea of Shank's baby step giant step algorithm is based on rewriting $x$ in the congruence above as $x = im + j$ where $m = \sqrt{n}$, $0 \leq i < m$ and $0 \leq j < m$ so
 
-<div>
-$$
+<div>$$
 a^{im + j} \equiv b \pmod{n}
-$$
-</div>
+$$</div>
 
 multiplying both sides by $a^{-im}$ (note that this is possible because $a$ and $n$ are coprime)
 
-<div>
-$$
+<div>$$
 a^j \equiv b(a^{-m})^i \pmod{n}
-$$
-</div>
+$$</div>
 
 If we find $i$ and $j$ so that this holds then we have found an exponent $x$
 

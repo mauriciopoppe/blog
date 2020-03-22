@@ -11,21 +11,17 @@ Shading is the process of altering the color of a surface, different *shading mo
 - $\mathbf{p}$ (intersection point) - the intersection point of the surface and $\mathbf{ray}$
 - $\mathbf{l}$ (light direction) - a unit vector pointing from the surface towards a light source, computed by normalizing the vector between the intersection point $\mathbf{p}$ and the light source position $\mathbf{l_s}$
 
-<div>
-$$
+<div>$$
 \mathbf{l} = \frac{\mathbf{l_s - p}}{\norm{\mathbf{l_s - p}}}
-$$
-</div>
+$$</div>
 
 <span></span>
 
 - $\mathbf{v}$ (view direction) - a unit vector pointing from the surface towards the place the ray is emitted from, it's computed by normalizing the vector between the intersection point $\mathbf{p}$ and the ray origin $\mathbf{ray_{origin}}$
 
-<div>
-$$
+<div>$$
 \mathbf{v} = \frac{\mathbf{ray_{origin} - p}}{\norm{\mathbf{ray_{origin} - p}}}
-$$
-</div>
+$$</div>
 
 <span></span>
 

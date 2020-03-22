@@ -48,7 +48,7 @@ Strategies:
   - choosing the # of partitions is difficult if the size of the dataset varies
 - dynamic partitioning (MongoDB)
   - a partition is split once it reaches a limit or merged if it has very little data
-  - # of partitions adapt to the size of the dataset
+  - number of partitions adapt to the size of the dataset
   - an empty DB starts with a single partition and all the writes are written to the same node
     i.e. the other nodes are idle
 - partitioning proportionally to nodes (Cassandra)

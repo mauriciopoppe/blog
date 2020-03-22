@@ -8,15 +8,13 @@ A graph is a pair $G = (V, E)$, it consists of a finite set $V$ of objects calle
 
 <div id="figure-introduction"></div>
 
-<div>
-$$
+<div>$$
 \begin{align*}
 G &= (V, E) \\
 V &= \{1, 2, 3, 4, 5, 6, 7\} \\
 E &= \{ \{1, 5\}, \{5, 7\}, \{2, 3\}, \{2, 4\}, \{3, 4\} \}
 \end{align*}
-$$
-</div>
+$$</div>
 
 Properties
 
@@ -39,11 +37,9 @@ Let $G = (V, E)$ and $G' = (V', E')$ be two graphs, we set $G \cup G' = (V \cup 
 
 A **walk** in a graph is a sequence of movements beginning at $u$ moving to a neighbor of $u$ and then to a neighbor of that vertex and so on until we stop at a vertex $v$
 
-<div>
-$$
+<div>$$
 W = (u = v_0, v_1, \ldots, v = v_k)
-$$
-</div>
+$$</div>
 
 where $k \geq 0$, note that there are no restrictions on the vertices visited so a vertex can be visited more than once also there are no restrictions on the edges traversed so an edge can be traversed more than once, every two consecutive vertices in $W$ are distinct since they are adjacent, if $u = v$ then we said that the walk is *closed* otherwise it's *open*
 
@@ -152,21 +148,17 @@ The **degree** of a vertex $v$ is the number of edges incident with $v$ denoted 
 
 In a graph $G$ of $n$ vertices the following equality relation holds
 
-<div>
-$$
+<div>$$
 0 \leq \delta(G) \leq deg\; v \leq \Delta(G) \leq n - 1
-$$
-</div>
+$$</div>
 
 **First theorem of graph theory**
 
 > if $G$ is a graph of size $m$ then
 >
-<div>
-$$
+<div>$$
 \sum_{v \in V(G)} deg \; v = 2m
-$$
-</div>
+$$</div>
 
 When summing the degrees of $G$ each edge is counted twice
 
@@ -174,21 +166,17 @@ When summing the degrees of $G$ each edge is counted twice
 
 Suppose that $G$ is a bipartite graph with two partite sets $U$ and $W$, then
 
-<div>
-$$
+<div>$$
 \sum_{u \in V(U)}deg \; u = \sum_{w \in V(W)} deg \; w = m
-$$
-</div>
+$$</div>
 
 **Corollary: every graph has an even number of odd vertices**
 
 *Proof:* Let $G$ be a graph of size $m$, dividing $V(G)$ into two subsets $V_{even}$ which consists of even vertices and $V_{odd}$ which consists of odd vertices then by the first theorem of graph theory
 
-<div>
-$$
+<div>$$
 \sum_{v \in V_{even}(G)} deg \; v + \sum_{v \in V_{odd}(G)} deg \; v = 2m
-$$
-</div>
+$$</div>
 
 the number $\sum_{v \in V_{even}(G)} deg \; v$ is even since it's a sum of even numbers thus $\sum_{v \in V_{odd}(G)} deg \; v$ is also even and it can be even only if the number of odd vertices is even (a sum of two odd numbers gives an even number)
 
@@ -196,11 +184,9 @@ the number $\sum_{v \in V_{even}(G)} deg \; v$ is even since it's a sum of even 
 
 A deIf the degrees of a graph $G$ are listed in a sequence $s$ then $s$ is called a *sequence degree*, e.g.
 
-<div>
-$$
+<div>$$
 s: 4, 3, 2, 2, 2, 1, 1, 1, 0
-$$
-</div>
+$$</div>
 
 <div id="figure-degree-sequence"></div>
 
@@ -213,17 +199,14 @@ There's a theorem called Havel-Hakimi which solves the problem above in polynomi
 
 > A non-increasing sequence $s: d_1, d_2, \ldots, d_n$ where $d_1 \geq 1$ can form a graph only if the sequence
 >
-<div>
-$$
+<div>$$
 s_1: d_2 - 1, d_3 - 1, \ldots, d_{d_1 + 1} - 1, d_{d_1 + 2}, \ldots, d_n
-$$
-</div>
+$$</div>
 forms a graph
 
 According to this theorem we can create a new sequence based on the one above that is also a graph, we can apply the theorem recursively to test if the original sequence forms a graph
 
-<div>
-$$
+<div>$$
 \begin{align*}
 s_1 &: 4, 3, 2, 2, 2, 1, 1, 1, 0 \\
 s_2 &: 2, 1, 1, 1, 1, 1, 1, 0 \quad \text{removing $d_1 = 4$ and subtracting $1$ from the following $4$ elements} \\
@@ -231,8 +214,7 @@ s_3 &: 1, 1, 1, 1, 0 \quad \text{removing $d_1 = 2$ and subtracting $1$ from the
 s_4 &: 1, 1, 0 \quad \text{removing $d_1 = 1$ and subtracting $1$ from the following element} \\
 s_5 &: 0 \quad \text{removing $d_1 = 1$ and subtracting $1$ from the following element}
 \end{align*}
-$$
-</div>
+$$</div>
 
 {{< snippet file="static/code/graphs/graph_from_degree_sequence.cpp" lang="cpp" />}}
 
@@ -240,40 +222,33 @@ $$
 
 A graph can also be described using a matrix, the **adjacency matrix** of a graph $G$ of order $n$ and size $m$ is a $n \times n$ matrix $A = [a_{ij}]$ $where
 
-<div>
-$$
+<div>$$
 a_{ij} =
 \begin{cases}
 1 & \text{if $v_iv_j \in G$} \\
 0 & \text{otherwise}
 \end{cases}
-$$
-</div>
+$$</div>
 
 The **incidence matrix** of a graph $G$ of order $n$ and size $m$ is a $n \times m$ matrix $B = [b_{ij}]$ where
 
-<div>
-$$
+<div>$$
 b_{ij} =
 \begin{cases}
 1 & \text{if $v_i$ is incident with $e_j$} \\
 0 & \text{otherwise}
 \end{cases}
-$$
-</div>
+$$</div>
 
 <div id="figure-adjacency-incidence-matrix"></div>
 
-<div>
-$$
+<div>$$
 G = (V, E) \\
 V = \{0, 1, 2, 3, 4\} \\
 E = \{\{0, 1\}, \{0, 2\}, \{0, 3\}, \{1, 3\}, \{2, 3\}, \{3, 4\}\} \\
-$$
-</div>
+$$</div>
 
-<div>
-$$
+<div>$$
 A = \begin{bmatrix}
 0 & 1 & 1 & 1 & 0 \\
 1 & 0 & 0 & 1 & 0 \\
@@ -288,8 +263,7 @@ B = \begin{bmatrix}
 0 & 0 & 1 & 1 & 1 & 1 \\
 0 & 0 & 0 & 0 & 0 & 1
 \end{bmatrix}
-$$
-</div>
+$$</div>
 
 ### Useful observations
 
@@ -297,11 +271,9 @@ Let $A^k$ be the adjacency matrix of a graph $G$ raised to the $k$-th power, the
 
 *Proof:* assume for a positive integer $k$ that the number of $v_i - v_j$ walks of length $k$ is given by $a_{ij}^{(k)}$ in the matrix $A^k$, then $A^{k + 1} = A^k \times A$, now a cell $a_{ij}^{(k + 1)}$ is the dot product of row $i$ of $A^k$ and column $j$ of $A$
 
-<div>
-$$
+<div>$$
 a_{ij}^{(k + 1)} = \sum_{t=1}^n a_{it}^{(k)} \cdot a_{tj}
-$$
-</div>
+$$</div>
 
 The first element of this sum is the number of walks of length $k$ from $v_i$ to $v_1$ (stored in $a_{i1}^{(k)}$) times the number of walks of length $1$ from $v_1$ to $v_j$ (stored in $a_{1j}$), the second element follows the same formula but using $v_2$ as the vertex used to "join" the walks of length $k$ and $1$
 

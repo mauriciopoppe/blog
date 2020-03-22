@@ -22,33 +22,27 @@ Semantics of a bayesian network:
 
 Given by:
 
-<div>
-$$
+<div>$$
 \begin{align}
 P(x_1, \ldots, x_n) = \prod_{i=1}^{N} P(x_i|Parents(X_i))
 \end{align}
-$$
-</div>
+$$</div>
 
 Which can be rewritten as:
 
-<div>
-$$
+<div>$$
 \begin{align*}
 P(x_1, \ldots, x_n) &= P(x_n | x_{n-1}, \ldots x_1) P(x_{n-1}, \ldots, x_1) \\
 &= P(x_n | x_{n-1}, \ldots x_1) P(x_{n-1} | x_{n-2}, \ldots, x_1) \cdots P(x_2 | x_1) P(x_1) \\
 &= \prod_{i=1}^{N} P(x_i | x_{i-1}, \ldots x_1) \;\; \text{(identity known as chain rule)}
 \end{align*}
-$$
-</div>
+$$</div>
 
 The above is equivalent to
 
-<div>
-$$
+<div>$$
 P(X_i | X_{i-1}, \ldots X_1) = P(X_i|Parents(X_i))
-$$
-</div>
+$$</div>
 
 Provided that $Parents(X_i) \subseteq \{ X_{i-1}, \ldots, X_1 \}$
 
@@ -94,11 +88,9 @@ Compute the **posterior probablity distribution** for a set of **query values** 
 
 Any conditional probability can be computed by summing terms from the full joint distribution
 
-<div>
-$$
+<div>$$
 \textbf{P}(X \given \textbf{e}) = \alpha \textbf{P} (X, \textbf{e}) = \alpha \sum_{y} \textbf{P} (X, \textbf{e}, \textbf{y})
-$$
-</div>
+$$</div>
 
 Working with the example below we can answer some queries:
 
@@ -122,14 +114,11 @@ Working with the example below we can answer some queries:
 })();
 {{< /script >}}
 
-<div>
-$$
+<div>$$
 \newcommand\g[1]{\color{gray}{#1}}
-$$
-</div>
+$$</div>
 
-<div>
-$$
+<div>$$
 \begin{align*}
 P(c|a) &= \alpha \sum_{b} P(a) P(b) P(c \given a,b) \\
 &= \alpha P(a) \sum_{b} P(b) P(c \given a,b) \\
@@ -140,13 +129,11 @@ P(c|a) &= \alpha \sum_{b} P(a) P(b) P(c \given a,b) \\
 &= \alpha [.104, .096] \\
 &= [\textbf{0.52}, 0.48]
 \end{align*}
-$$
-</div>
+$$</div>
 
 <hr />
 
-<div>
-$$
+<div>$$
 \begin{align*}
 P(e|\neg c, b) &= \alpha \sum_{a,d,f} P(a) P(b) P(\neg c \given a,b) P(d \given b) P(e \given \neg c,d) P(f \given e) \\
 &= \alpha P(b) \sum_{a} P(a) P(\neg c \given a,b) \sum_{d} P(d \given b) P(e \given \neg c,d) \sum_{f} P(f \given e) \\
@@ -187,8 +174,7 @@ P(e|\neg c, b) &= \alpha \sum_{a,d,f} P(a) P(b) P(\neg c \given a,b) P(d \given 
 &= \alpha [0.1855, 0.286] \\
 &= [\textbf{0.393425239}, 0.606574761]
 \end{align*}
-$$
-</div>
+$$</div>
 
 ## Reading
 

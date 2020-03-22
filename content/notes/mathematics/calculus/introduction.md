@@ -24,19 +24,15 @@ To solve these problems the following concepts are needed:
 
 A function is the relation between variables (whose value can be expressed numerically), the most effective mathematical representation of a function is through a *formula* like the one below:
 
-<div>
-$$
+<div>$$
 s = 16 t^2
-$$
-</div>
+$$</div>
 
 The above formula says that when $t=2$ then $s=16 \cdot 2^2 = 64$ and is represented as $s_2$, for each value of $t$ there's a corresponding value of $s$, in the above form $t$ is the *independent* variable and $s$ is the *dependent* variable. If we solve the equation above for $t$ we have:
 
-<div>
-$$
+<div>$$
 t = \pm \sqrt{\frac{s}{16}}
-$$
-</div>
+$$</div>
 
 Now $s$ is the *independent* variable and $t$ is the dependent variable
 
@@ -44,22 +40,18 @@ The notation $f(x)$ can also represent functions without an extensive verbiage, 
 
 A formula can also be represented as a curve (this method of interpreting formulas geometrically is known as *analytic geometry*), let's represent the following function below using a curve:
 
-<div>
-$$
+<div>$$
 y = x^2
-$$
-</div>
+$$</div>
 
 <div id="formula-as-a-curve"></div>
 
 
 The function above is simple in that to each value of $x$ there's a corresponding value of $y$, whoever the concept of a function does not require this, for example the function:
 
-<div>
-$$
+<div>$$
 y = \frac{1}{x}
-$$
-</div>
+$$</div>
 
 does not have a valid value when $x = 0$, this means that the function exists for each value of $x$ other than $0$.
 

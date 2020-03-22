@@ -16,26 +16,22 @@ Let $T = G - X$ be a tree with the same vertex set of $G$
 
 Let $G$ be a *connected weighted graph* where the weight of an edge $e \in E(G)$ is denoted by $w(e)$, for each subgraph $H$ of $G$ the weight of the subgraph $W$ is the sum of the weights of its edges
 
-<div>
-$$
+<div>$$
 w(H) = \sum_{e \in E(H)} w(e)
-$$
-</div>
+$$</div>
 
 We are looking for a spanning tree of $G$ whose weight is minimum among all spanning trees of $G$, such a spanning tree is called **minimum spanning tree** (shortened as MST)
 
 <div id="figure-minimum-spanning-tree"></div>
 
-<div>
-$$
+<div>$$
 \begin{align*}
 G &= (V, E) \\
 V &= \{0, 1, 2, 3, 4\} \\
 E &= \{\{0, 1\}, \{0, 2\}, \{0, 3\}, \{0, 4\}, \{1, 2\}, \{1, 3\}, \{1, 4\}, \{2, 3\}, \{3, 4\}\} \\
 w(e) &= \{1, 4, 4, 5, 3, 7, 5, 6, 2\}
 \end{align*}
-$$
-</div>
+$$</div>
 
 - the MST is unique if the weights of all the edges are different
 - the maximum spanning tree is the tree whose weight is maximum among all spanning trees, it can be computed using the algorithm below by using the edges with the maximum weight instead of the ones with the minimum weight
@@ -51,11 +47,9 @@ For a connected weighted graph $G$ a spanning tree is constructed as follows
 
 Let's apply it to the weighted graph above, sorting the edges in nondecreasing order we have:
 
-<div>
-$$
+<div>$$
 w(e) = {1, 2, 3, 4, 4, 5, 5, 6, 7}
-$$
-</div>
+$$</div>
 
 Some properties of the edges
 
@@ -105,24 +99,20 @@ Implementation strategies:
 
 Let $G$ be a graph with $V(G) = {v_1, v_2, \ldots, v_n}$, let $A = [a_{ij}]$ be the adjacency matrix of $G$ and let $C = [c_{ij}]$ be a $n \times n$ matrix where
 
-<div>
-$$
+<div>$$
 c_{ij} = \begin{cases}
 deg\;v_i & \text{if $i = j$} \\
 -a_{ij} & \text{if $i \neq j$} \\
 \end{cases}
-$$
-</div>
+$$</div>
 
 Then the number of spanning trees of $G$ is the value of any cofactor of $C$
 
 The matrix of cofactors a $n \times n$ matrix $C = [c_{ij}]$ where
 
-<div>
-$$
+<div>$$
 c_{ij} = (-1)^{i + j} \cdot det(M_{ij})
-$$
-</div>
+$$</div>
 
 $det(M_{ij})$ indicates the determinant of the $(n - 1) \times (n - 1)$ submatrix of $M$ obtained by removing the $i$-th row and the $j$-th column
 

@@ -13,59 +13,50 @@ In 2D we can skew points towards the $x$ axis by making $x' = x + sy$, if $s > 0
 
 The transformation matrix that skews points towards the $x$ axis is
 
-<div>
-$$
+<div>$$
 \begin{equation} \label{2d-shear-x}
 \mathbf{H_x}(s) = \begin{bmatrix}
 1 & s \\
 0 & 1
 \end{bmatrix}
 \end{equation}
-$$
-</div>
+$$</div>
 
 Towards the $y$ axis is
 
-<div>
-$$
+<div>$$
 \begin{equation} \label{2d-shear-y}
 \mathbf{H_y}(s) = \begin{bmatrix}
 1 & 0 \\
 s & 1
 \end{bmatrix}
 \end{equation}
-$$
-</div>
+$$</div>
 
 For example a vector $\mathbf{v}$ multiplied by \eqref{2d-shear-x} results in
 
-<div>
-$$
+<div>$$
 \mathbf{v'} = \mathbf{H_x}(s)\mathbf{v} = \begin{bmatrix}
 1 & s \\
 0 & 1
 \end{bmatrix} \begin{bmatrix} v_x \\ v_y \end{bmatrix} = \begin{bmatrix} v_x + sv_y \\ v_y \end{bmatrix}
-$$
-</div>
+$$</div>
 
 ## 3D shearing
 
 The notation $\mathbf{H_{xy}}$ indicates that the $x$ and $y$ coordinates are shifted by the other coordinate $z$ i.e.
 
-<div>
-$$
+<div>$$
 \begin{align*}
 x' &= x + sz \\
 y' &= y + tz \\
 z' &= z
 \end{align*}
-$$
-</div>
+$$</div>
 
 The shearing matrices in 3D are
 
-<div>
-$$
+<div>$$
 \begin{equation} \label{shear-xy}
 \mathbf{H_{xy}}(s,t) = \begin{bmatrix}
 1 & 0 & s \\
@@ -73,11 +64,9 @@ $$
 0 & 0 & 1
 \end{bmatrix}
 \end{equation}
-$$
-</div>
+$$</div>
 
-<div>
-$$
+<div>$$
 \begin{equation} \label{shear-xz}
 \mathbf{H_{xz}}(s,t) = \begin{bmatrix}
 1 & s & 0 \\
@@ -85,11 +74,9 @@ $$
 0 & t & 1
 \end{bmatrix}
 \end{equation}
-$$
-</div>
+$$</div>
 
-<div>
-$$
+<div>$$
 \begin{equation} \label{shear-yz}
 \mathbf{H_{yz}}(s,t) = \begin{bmatrix}
 1 & 0 & 0 \\
@@ -97,18 +84,15 @@ s & 1 & 0 \\
 t & 0 & 1
 \end{bmatrix}
 \end{equation}
-$$
-</div>
+$$</div>
 
 For example a vector $\mathbf{v}$ multiplied by \eqref{shear-xy} results in
 
-<div>
-$$
+<div>$$
 \mathbf{v'} = \mathbf{H_{xy}}(s,t) \mathbf{v} = \begin{bmatrix}
 1 & 0 & s \\
 0 & 1 & t \\
 0 & 0 & 1
 \end{bmatrix} \begin{bmatrix} v_x \\ v_y \\ v_z \end{bmatrix}  = \begin{bmatrix} v_x + sv_z \\ v_y + tv_z \\ v_z \end{bmatrix}
-$$
-</div>
+$$</div>
 

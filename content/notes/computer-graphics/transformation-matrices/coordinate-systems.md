@@ -35,24 +35,20 @@ A coordinate system consists of
 
 The numeric coordinates of a vector expressed with respect to some basis are the coefficients of the representation of the vector as a linear combination of the basis
 
-<div>
-$$
+<div>$$
 \mathbf{v} = v_x \mathbf{i} + v_y \mathbf{j} + v_z \mathbf{k}
-$$
-</div>
+$$</div>
 
 In other words the numeric coordinates are the quantities that multiply each basis vector which are $v_x$, $v_y$ and $v_z$
 
 When the basis vectors are $\mathbf{i} = [1, 0, 0]$, $\mathbf{j} = [0, 1, 0]$ and $\mathbf{k} = [0, 0, 1]$ then
 
-<div>
-$$
+<div>$$
 \begin{align*}
 \mathbf{v} &= v_x \begin{bmatrix} 1 & 0 & 0 \end{bmatrix} + v_y \begin{bmatrix} 0 & 1 & 0 \end{bmatrix} + v_z \begin{bmatrix} 0 & 0 & 1 \end{bmatrix} \\
 &= \begin{bmatrix} v_x & v_y & v_z \end{bmatrix}
 \end{align*}
-$$
-</div>
+$$</div>
 
 ## Transformations between space coordinates
 
@@ -60,8 +56,7 @@ $$
 
 Let $\mathbf{v}$ be some vector expressed/measured relative to a space (object space) whose basis vectors are $\mathbf{p}, \mathbf{q}, \mathbf{r}$ (which are themselves expressed/measured relative to a wrapper space), the vector $\mathbf{v}$ expressed relative to the wrapper space is
 
-<div>
-$$
+<div>$$
 \begin{align}
 \mathbf{v}_{upright} &= v_x \mathbf{p} + v_y \mathbf{q} + v_z \mathbf{r} \label{object-upright} \\
 &= v_x \begin{bmatrix} p_x & p_y & p_z \end{bmatrix} + v_y \begin{bmatrix} q_x & q_y & q_z \end{bmatrix} + v_z \begin{bmatrix} r_x & r_y & r_z \end{bmatrix} \nonumber \\
@@ -71,8 +66,7 @@ v_x p_y + v_y q_y + v_z r_y &
 v_x p_z + v_y q_z + v_z r_z
 \end{bmatrix}  \nonumber
 \end{align}
-$$
-</div>
+$$</div>
 
 Note that if $\mathbf{p}, \mathbf{q}, \mathbf{r}$ were not orthogonal then $\mathbf{v}_{upright}$ couldn't be *uniquely* determined
 
@@ -82,47 +76,39 @@ The coordinates of $\mathbf{p}, \mathbf{q}, \mathbf{r}$ are always equal to $[1,
 
 Since the axes of the upright space are parallel to the axes of the world space the only difference between these spaces is the translation of these axes with respect to the origin of the axes of the world space, let $\mathbf{o}$ be the translation of the upright basis axes then
 
-<div>
-$$
+<div>$$
 \mathbf{v}_{world} = \mathbf{o} + \mathbf{v}_{upright}
-$$
-</div>
+$$</div>
 
 ### From world space to upright space
 
 We just have to translate the whole space so that the origin lies exactly on the origin of the upright space, if $\mathbf{o}$ is the origin of the upright space expressed in world space then
 
-<div>
-$$
+<div>$$
 \mathbf{v}_{upright} = \mathbf{v}_{world} - \mathbf{o}
-$$
-</div>
+$$</div>
 
 ### From upright space to object space
 
 What if $\mathbf{v}\_{upright}$ is known and we want to know $\mathbf{v}$? The dot product is the key as it's used to measure distance in a particular direction, since we know that the basis vectors $\mathbf{p}, \mathbf{q}, \mathbf{r}$ are expressed in terms of the upright space perspective we just have to calculate the projection of $\mathbf{v}\_{upright}$ in the direction of each $\mathbf{p}, \mathbf{q}, \mathbf{r}$
 
-<div>
-$$
+<div>$$
 \begin{align*}
 v_x = \mathbf{v}_{upright} \cdot \mathbf{p} \\
 v_y = \mathbf{v}_{upright} \cdot \mathbf{q} \\
 v_z = \mathbf{v}_{upright} \cdot \mathbf{r}
 \end{align*}
-$$
-</div>
+$$</div>
 
 If we use \eqref{object-upright} this works because the dot product with $\mathbf{p}$ will isolate the $v_x$ coordinate
 
-<div>
-$$
+<div>$$
 \begin{align*}
 \mathbf{v}_{upright} \cdot \mathbf{p} &= v_x (\mathbf{p} \cdot \mathbf{p}) + v_y (\mathbf{q} \cdot \mathbf{p}) + v_z (\mathbf{r} \cdot \mathbf{p}) \\
 &= v_x (1) + v_y (0) + v_z (0) \\
 &= v_x
 \end{align*}
-$$
-</div>
+$$</div>
 
 **Note:** this only works when $\mathbf{p}, \mathbf{q}, \mathbf{r}$ are orthonormal, for the general case we have to solve this using linear algebra
 

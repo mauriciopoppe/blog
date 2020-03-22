@@ -13,11 +13,9 @@ A ray tracer emits a ray from each pixel toward the scene to determine the color
 
 A ray can be represented with a 3D parametric line from the eye $\mathbf{e}$ to a point $\mathbf{s}$ on the image plane as
 
-<div>
-$$
+<div>$$
 \mathbf{p}(t) = \mathbf{e} + t(\mathbf{ s - e })
-$$
-</div>
+$$</div>
 
 Note that
 
@@ -51,14 +49,12 @@ Note that the coordinates are expressed in the camera coordinate frame defined i
 
 The image has to be fitted within a rectangle of $n_x \times n_y$ pixels, for example the pixel $(0,0)$ has the position $(l + 0.5 \tfrac{r - l}{n_x}, b + 0.5 \tfrac{t - b}{n_y})$ note that the half-pixel measurement times pixel-dimension is because of the way a pixel is defined (see [rendering](/static/computer-graphics/fundamentals/rendering.html)), a pixel with coordinates $(x, y)$ will have the position
 
-<div>
-$$
+<div>$$
 \begin{align*}
 u = l + (x + 0.5) \frac{r - l}{n_x} \\
 v = b + (y + 0.5) \frac{t - b}{n_y}
 \end{align*}
-$$
-</div>
+$$</div>
 
 ### Orthographic view
 
@@ -66,14 +62,12 @@ For an orthographic view all the rays will have the direction $-\mathbf{w}$, the
 
 {{< figure src="/images/ray-tracing!orthographic.jpg" title="orthographic view" >}}
 
-<div>
-$$
+<div>$$
 \begin{align*}
 \mathbf{ray_{direction}} &= -\mathbf{w} \\
 \mathbf{ray_{origin}} &= \mathbf{e} + u \mathbf{u} + v \mathbf{v}
 \end{align*}
-$$
-</div>
+$$</div>
 
 ### Perspective view
 
@@ -81,14 +75,12 @@ For a perspective view all the rays will have the same origin $e$ but the image-
 
 {{< figure title="perspective view" src="/images/ray-tracing!perspective.jpg" >}}
 
-<div>
-$$
+<div>$$
 \begin{align*}
 \mathbf{ray_{direction}} &= -d \mathbf{w} + u \mathbf{u} + v \mathbf{v} \\
 \mathbf{ray_{origin}} &= \mathbf{e}
 \end{align*}
-$$
-</div>
+$$</div>
 
 ## Ray intersection
 
@@ -115,21 +107,17 @@ A shading model is designed to *capture the process of light reflection on a sur
 - $\mathbf{p}$ (intersection point) - the intersection point between a surface and a ray
 - $\mathbf{l}$ (light direction) - a unit vector pointing from the surface towards a light source, computed by normalizing the vector between the intersection point $\mathbf{p}$ and the light source position $\mathbf{l_s}$
 
-<div>
-$$
+<div>$$
 \mathbf{l} = \frac{\mathbf{l_s - p}}{\norm{\mathbf{l_s - p}}}
-$$
-</div>
+$$</div>
 
 <span></span>
 
 - $\mathbf{v}$ (view direction) - a unit vector pointing from the surface towards the place the ray is emitted from, it's computed by normalizing the vector between the intersection point $\mathbf{p}$ and the ray origin $\mathbf{ray_{origin}}$
 
-<div>
-$$
+<div>$$
 \mathbf{v} = \frac{\mathbf{ray_{origin} - p}}{\norm{\mathbf{ray_{origin} - p}}} \quad \text{or} \quad \mathbf{v} = -\mathbf{d}
-$$
-</div>
+$$</div>
 
 <span></span>
 
@@ -148,11 +136,9 @@ One of the simplest shading models discovered by Lambert in the 18th century, th
 
 Thus the illumination is proportional to the cosine of the angle between $\mathbf{n}$ and $\mathbf{l}$ i.e. $\mathbf{n \cdot l} = \cos{\theta}$, the color of the pixel is then
 
-<div>
-$$
+<div>$$
 L = k_d \cdot I \cdot max(0, \mathbf{n \cdot l})
-$$
-</div>
+$$</div>
 
 Where
 
@@ -172,11 +158,9 @@ Many surfaces show some degree of highlights (shininess) or *specular reflection
 
 - the half vector $\mathbf{h}$ is a unit vector that goes through the bisector of the angle between $\mathbf{v}$ and $\mathbf{l}$
 
-<div>
-$$
+<div>$$
 \mathbf{h} = \frac{\mathbf{v + l}}{\norm{\mathbf{v + l}}}
-$$
-</div>
+$$</div>
 
 Also
 
@@ -185,11 +169,9 @@ Also
 
 The color of the pixel is then
 
-<div>
-$$
+<div>$$
 L = k_d \cdot I \cdot max(0, \mathbf{n \cdot l}) + k_s \cdot I \cdot max(0, \mathbf{n \cdot h})^p
-$$
-</div>
+$$</div>
 
 Where
 
@@ -203,11 +185,9 @@ Note that the color of the pixel is the overall contribution of both the lambert
 
 Surfaces that receive no illumination are rendered completely black, to avoid this a constant component is added to the shading model, the color depends entirely on the object hit with no dependence on the surface geometry
 
-<div>
-$$
+<div>$$
 L = k_a \cdot I_a + k_d \cdot I \cdot max(0, \mathbf{n \cdot l}) + k_s \cdot I \cdot max(0, \mathbf{n \cdot h})^p
-$$
-</div>
+$$</div>
 
 Where
 

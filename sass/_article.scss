@@ -1,23 +1,8 @@
 article[role=main] {
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: bold;
-  }
-
   // if an h2 is a first child of content then bulma adds some margin
   &.content h2 {
     margin-top: 0;
   }
-
-  a {
-    color: $primary;
-    // transition: border $time;
-    background-color: lighten($primary, 60%);
-
-    // &:hover {
-    //   border-bottom: 1px solid $primary;
-    // }
-  }
-
 }
 
 @media screen and (min-width: 769px) {
@@ -33,3 +18,14 @@ section.main {
 .reverse-row-order {
   flex-direction: row-reverse;
 }
+
+// makes the <svg> text compatible with black/white backgrounds
+//svg {
+  text {
+    fill: findColorInvert($body-background-color);
+  }
+
+  path.origin {
+    stroke: findColorInvert($body-background-color);
+  }
+//}

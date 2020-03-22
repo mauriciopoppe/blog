@@ -1,5 +1,5 @@
 // colors and bulma
-@import './palette';
+@import './palette_neon';
 @import './bulma';
 
 // skeleton
@@ -21,13 +21,11 @@
 @import 'lib/prism';
 @import 'lib/hypothesis';
 
-.fonts-loaded {
-  body {
-    font-family: 'Computer Modern Serif', $family-serif;
-    // disabling these properties to get a better font
-    -moz-osx-font-smoothing: auto;
-    -webkit-font-smoothing: auto;
-  }
+body {
+  font-family: 'Computer Modern Serif', $family-serif;
+  // disabling these properties to get a better font
+  -moz-osx-font-smoothing: auto;
+  -webkit-font-smoothing: auto;
 }
 
 pre[class*=language-] {

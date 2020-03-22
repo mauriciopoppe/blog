@@ -12,86 +12,70 @@ Given an square matrix $\mathbf{M}$
 - an *eigenvector* $\mathbf{v}$ is a non-zero vector whose direction doesn't change when multiplied by $\mathbf{M}$, note that $\mathbf{M}$ has an eigenvector then there are an infinite number of eigenvectors (vectors parallel to $\mathbf{v}$)
 - an *eigvenvalue* $\lambda$ is the scale factor associated with some *eigenvector* $\mathbf{v}$ of $\mathbf{M}$ has after the multiplication with $\mathbf{M}$
 
-<div>
-$$
+<div>$$
 \begin{equation} \label{eigenvector}
 \mathbf{Mv} = \lambda \mathbf{v}
 \end{equation}
-$$
-</div>
+$$</div>
 
 Assuming that $\mathbf{M}$ has at least one eigenvector $\mathbf{v}$ we can do standard matrix multiplications to find it, first let's manipulate the right side of \eqref{eigenvector} so that it also features a matrix multiplication
 
-<div>
-$$
+<div>$$
 \mathbf{Mv} = \lambda \mathbf{Iv}
-$$
-</div>
+$$</div>
 
 Where $\mathbf{I}$ is the identity matrix, next we can rewrite the last equation as
 
-<div>
-$$
+<div>$$
 \mathbf{Mv} - \lambda \mathbf{Iv} = \mathbf{0}
-$$
-</div>
+$$</div>
 
 Because matrix multiplication is distributive
 
-<div>
-$$
+<div>$$
 \begin{equation} \label{eigenvector-0}
 (\mathbf{M} - \lambda \mathbf{I})\mathbf{v} = \mathbf{0}
 \end{equation}
-$$
-</div>
+$$</div>
 
 The quantity $\mathbf{M} - \lambda \mathbf{I}$ must not be invertible, if it had an inverse we could premultiply both sides by $(\mathbf{M} - \lambda \mathbf{I})^{-1}$ which would yield
 
-<div>
-$$
+<div>$$
 \begin{align*}
 (\mathbf{M} - \lambda \mathbf{I})^{-1}(\mathbf{M} - \lambda \mathbf{I})\mathbf{v} &= (\mathbf{M} - \lambda \mathbf{I})^{-1} \; \mathbf{0} \\
 \mathbf{v} &= \mathbf{0}
 \end{align*}
-$$
-</div>
+$$</div>
 
 The vector $\mathbf{v = 0}$ fulfills \eqref{eigenvector} however we'll try to find a vector $\mathbf{v} \not = \mathbf{0}$, if such a condition is added then the matrix $\mathbf{M} - \lambda \mathbf{I}$ must not have an inverse which also means that its determinant is 0
 
-<div>
-$$
+<div>$$
 \left | \mathbf{M} - \lambda \mathbf{I} \right | = 0
-$$
-</div>
+$$</div>
 
 If $\mathbf{M}$ is a $2 \times 2$ matrix then
 
-<div>
-$$
+<div>$$
 \begin{equation} \label{lambda}
 \left | \mathbf{M} - \lambda \mathbf{I} \right | = \begin{vmatrix}
 m_{11} - \lambda & m_{12} \\
 m_{21} & m_{22} - \lambda
 \end{vmatrix} = \lambda^2 - (m_{11}+m_{22})\lambda + (m_{11}m_{22} - m_{12}m_{21})= 0
 \end{equation}
-$$
-</div>
+$$</div>
 
 From \eqref{lambda} we can find two values for $\lambda$ which may be unique/imaginary, a similar manipulation for a $n \times n$ matrix will yield an $n$th degree polynomial, for $n \leq 4$ we can compute the solutions by analytical methods, for $n > 4$ only numeric methods are used
 
 The associated eigenvector can be found by solving \eqref{eigenvector-0}
 
-<div>
-$$
+<div>$$
 \begin{bmatrix}
 m_{11} - \lambda & m_{12} \\
 m_{21} & m_{22} - \lambda
 \end{bmatrix} \begin{bmatrix}
 x \\ y
 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}
-$$
-</div>
+$$</div>
 
 ### Applications
 

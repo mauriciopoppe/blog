@@ -10,22 +10,18 @@ There's a problem when the objects transformed to NDC need to be rasterized, som
 
 For example when the *perspective projection matrix* is used all the points' $z$-coordinate will be mapped to NDC using
 
-<div>
-$$
+<div>$$
 z_{ndc} = \frac{Az_{cam} + B}{-z_{cam}}
-$$
-</div>
+$$</div>
 
 If $n,f$ are the locations of the near and far plane in the negative $z$-axis in camera space and
 
-<div>
-$$
+<div>$$
 \begin{align*}
 A &= -\frac{f + n}{f - n} \\
 B &= \frac{-2fn}{f - n}
 \end{align*}
-$$
-</div>
+$$</div>
 
 Note that the equations above assume that $n,f \geq 0, n \leq f$ because $A$ and $B$ were already mapped using $-n \mapsto -1$ and $-f \mapsto 1$, for example when $n = 1$ and $f = 10$ the possible values can be described with the following plot
 

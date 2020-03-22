@@ -53,8 +53,7 @@ gulp.task('css', function () {
     cssNano
   ]
   return gulp.src('./sass/*.scss')
-    .pipe(plumber())
-    .pipe(sass({ importer: moduleImporter() }))
+    .pipe(sass({ importer: moduleImporter() }).on('error', sass.logError))
     .pipe(postcss(processors))
     .pipe(gulp.dest('./static/css'))
 })

@@ -10,11 +10,9 @@ A path in a graph that contains every vertex of $G$ is called a **Hamiltonian pa
 
 <div id="figure-hamiltonian-graph"></div>
 
-<div>
-$$
+<div>$$
 C = {v_0, v_1, v_3, v_8, v_{12}, v_{13}, v_9, v_4, v_5, v_6, v_{10}, v_{14}, v_{11}, v_7, v_2, v_0}
-$$
-</div>
+$$</div>
 
 - every complete graph $K_n$ is a Hamiltonian graph
 - TODO

@@ -77,6 +77,7 @@
   "dependencies": {
     "@babel/cli": "^7.8.4",
     "bulma": "^0.8.0",
+    "d3-interpolate": "^1.4.0",
     "date-fns": "^2.9.0",
     "defined": "^1.0.0",
     "eases": "^1.0.8",

@@ -31,11 +31,9 @@ The algorithm consists in a series of iterations, on each iteration let $u$ be t
 - the visited state is set to true, i.e. $visited(v) = true$
 - let $uv$ be an edge to an unvisited node $v$ with weight $w(uv)$, we might improve the best estimate of the shortest path between $u$ and $v$ by including $uv$ in the path so
 
-<div>
-$$
+<div>$$
 d(v) = min(d(v), d(u) + w(uv))
-$$
-</div>
+$$</div>
 
 After $n$ iterations all the vertices will be marked and $d(v)$ state will hold the shortest path from $s$ to all the other vertices
 

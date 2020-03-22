@@ -11,11 +11,9 @@ Rendering is a process that takes an input a set of objects and produces as its 
 
 An image can be abstracted as a function
 
-<div>
-$$
+<div>$$
 I(x,y): R \rightarrow V
-$$
-</div>
+$$</div>
 
 Where $R \in \mathbb{R}^2$ is a rectangular area and $V$ is a set with the possible pixel values, the following are examples of the set $V$
 
@@ -34,11 +32,9 @@ Note that because of the definition gave to a pixel the coordinate $(0,0)$ is ma
 
 So the domain of a $n_x \times n_y$ image is
 
-<div>
-$$
+<div>$$
 R = [0.5, n_x - 0.5] \times [0.5, n_y - 0.5]
-$$
-</div>
+$$</div>
 
 ### Pixel values
 

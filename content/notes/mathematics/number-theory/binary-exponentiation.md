@@ -11,19 +11,15 @@ Finding $a^n$ involves doing $n$ multiplications of $a$, the same operation can 
 
 For any number $a$ raised to an **even** power:
 
-<div>
-$$
+<div>$$
 a^n = (a^{n/2})^2 = a^{n/2} \cdot a^{n/2}
-$$
-</div>
+$$</div>
 
 For any number $a$ rasied to an **odd** power:
 
-<div>
-$$
+<div>$$
 a^n = a^{n - 1} \cdot a
-$$
-</div>
+$$</div>
 
 ### Implementation
 

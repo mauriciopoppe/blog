@@ -19,16 +19,14 @@ The numbers that divide $18$ are $1, 2, 3, 6, 9, 18$ then $d(18) = 6$
 
 example: $d(18)$
 
-<div>
-$$
+<div>$$
 \begin{align*}
 d(18) &= d(3^2 \cdot 2) \\
 &= d(3^2) \cdot (2) \\
 &= 3 \cdot 2 \\
 &= 6
 \end{align*}
-$$
-</div>
+$$</div>
 
 {{< snippet file="static/code/math/divisorFunction/divisorFunction.cpp" lang="cpp" />}}
 
@@ -36,37 +34,31 @@ $$
 
 The sum of divisors is another important quantity represented by $\sigma_k(n)$, it's the sum of the $k$-th powers of the divisors of $n$
 
-<div>
-$$
+<div>$$
 \sigma_k(n) = \sum_{d|n} d^k
-$$
-</div>
+$$</div>
 
 examples:
 
-<div>
-$$
+<div>$$
 \begin{align*}
 \sigma_0(18) &= 1^0 + 2^0 + 3^0 + 6^0 + 9^0 + 18^0 \\
 &= 1 + 1 + 1 + 1 + 1 \\
 &= 6
 \end{align*}
-$$
-</div>
+$$</div>
 
 So when $k = 0$ the sum of divisors ($\sigma_0{n}$) function is equal to $d(n)$, i.e. $\sigma_0(n)$ gives the number of divisors of $n$
 
 another example:
 
-<div>
-$$
+<div>$$
 \begin{align*}
 \sigma_1(18) &= 1^1 + 2^1 + 3^1 + 6^1 + 9^1 + 18^1 \\
 &= 1 + 2 + 3 + 6 + 9 + 18 \\
 &= 39
 \end{align*}
-$$
-</div>
+$$</div>
 
 when $k = 1$ we actually get the function we expect (a function which sums the divisors)
 
@@ -77,47 +69,37 @@ when $k = 1$ we actually get the function we expect (a function which sums the d
 
 Consider
 
-<div>
-$$
+<div>$$
 \begin{equation}\label{sigma-p-k}
 \sigma(p^k) = 1 + p + p^2 + \ldots + p^k
 \end{equation}
-$$
-</div>
+$$</div>
 
 multiplying the expression by $p$ we have
 
-<div>
-$$
+<div>$$
 \begin{equation}\label{sigma-p-k-times-p}
 p \cdot \sigma(p^k) = p + p^2 + p^3 + \ldots + p^{k + 1}
 \end{equation}
-$$
-</div>
+$$</div>
 
 subtracting \eqref{sigma-p-k} from \eqref{sigma-p-k-times-p}
 
-<div>
-$$
+<div>$$
 p \cdot \sigma(p^k) - \sigma(p^k) = p^{k + 1} - 1
-$$
-</div>
+$$</div>
 
 factoring $\sigma(p^k)$
 
-<div>
-$$
+<div>$$
 \sigma(p^k) (p - 1) = p^{k + 1} - 1
-$$
-</div>
+$$</div>
 
 hence
 
-<div>
-$$
+<div>$$
 \sigma(p^k) = \frac{p^{k + 1} - 1}{p - 1}
-$$
-</div>
+$$</div>
 
 - if $p$ is a product of two distinct primes say $n = pq$ then $\sigma(pq) = \sigma(p) \cdot \sigma(q)$, also $\sigma(p^iq^j) = \sigma(p^i) \cdot \sigma(q^j)$
 
@@ -125,8 +107,7 @@ $$
 
 example: $\sigma(18)$
 
-<div>
-$$
+<div>$$
 \begin{align*}
 \sigma(18) &= \sigma(3^2 \cdot 2) \\
 &= \sigma(3^2) \cdot \sigma(2) \\
@@ -134,7 +115,6 @@ $$
 &= 13 \cdot 3 \\
 &= 39
 \end{align*}
-$$
-</div>
+$$</div>
 
 {{< snippet file="static/code/math/divisorFunction/sumOfDivisorFunction.cpp" lang="cpp" />}}

@@ -45,58 +45,46 @@ If we have to make constants queries to check for numbers that are prime less th
 
 > If $a$ is an integer, $p$ a prime number where $0 < a < p$ then
 >
-<div>
-$$
+<div>$$
 a^p \equiv a \pmod{p}
-$$
-</div>
+$$</div>
 >
 > or alternatively
 >
-<div>
-$$
+<div>$$
 a^{p-1} \equiv 1 \pmod{p}
-$$
-</div>
+$$</div>
 
 Proofs of this theorem can be found [here](http://artofproblemsolving.com/wiki/index.php/Fermat's_Little_Theorem)
 
 Some examples
 
-<div>
-$$
+<div>$$
 3^{5 - 1} \equiv 81 \equiv 1 \pmod{5} \\
 3^{11 - 1} \equiv 59049 \equiv 1 \pmod{11}
-$$
-</div>
+$$</div>
 
 The converse of this theorem is **not always** true
 
 > If
 >
-<div>
-$$
+<div>$$
 a^{n - 1} \equiv 1 \pmod{n}
-$$
-</div>
+$$</div>
 >
 > for some value of $0 &lt; a &lt; n$ then $n$ is prime
 
 an example:
 
-<div>
-$$
+<div>$$
 5^{561 - 1} \equiv 1 \pmod{561} \text{ but $561 = 3 \cdot 11 \cdot 17$ }
-$$
-</div>
+$$</div>
 
 but:
 
-<div>
-$$
+<div>$$
 3^{561 - 1} \equiv 375 \pmod{561}
-$$
-</div>
+$$</div>
 
 we can't use the theorem directly to test if a number is prime since there's a chance that the input is one of these special numbers (called [Carmichael numbers](https://www.wikiwand.com/en/Carmichael_number)) and the algorithm will give false positives e.g. $a = 5, p = 561$
 
@@ -112,35 +100,27 @@ Euler primality test is an improvement over the Fermat primality test because it
 
 > If $a$ is an integer, $p$ a prime number where $0 < a < p$, $p > 2$ then
 >
-<div>
-$$
+<div>$$
 a^{\tfrac{p - 1}{2}} \equiv \pm 1 \pmod{p}
-$$
-</div>
+$$</div>
 
 The motivation to this definition comes to the fact that any prime $> 2$ is an odd number, then the prime number can be expressed as $2q + 1$ where $q$ is an integer thus
 
-<div>
-$$
+<div>$$
 a^{(2q + 1) - 1} \equiv 1 \pmod{p}
-$$
-</div>
+$$</div>
 
 which means that
 
-<div>
-$$
+<div>$$
 a^{2q} - 1 \equiv 0 \pmod{p}
-$$
-</div>
+$$</div>
 
 this can be factored as
 
-<div>
-$$
+<div>$$
 (a^q - 1)(a^q + 1) \equiv 0 \pmod{p}
-$$
-</div>
+$$</div>
 
 therefore $a^q$ is congruent to two possible values $1$ and $-1$. Going back to the definition of $q$, $2q + 1 = p$ we can find the value of $q$ as $q = \tfrac{(p - 1)}{2}$
 
@@ -153,11 +133,9 @@ If $a^{(n - 1) / 2} \not\equiv \pm 1 \pmod n$ where $gcd(a, n) = 1$ then $n$ mus
 
 This test also has some false positives e.g.
 
-<div>
-$$
+<div>$$
 3^{(341 - 1)/2} \equiv 1 \pmod{341} \text{ but $341 = 11 * 31$ }
-$$
-</div>
+$$</div>
 
 ## Miller-Rabin primality test
 
@@ -165,11 +143,9 @@ The Miller-Rabin primality test is quite similar to Euler's primality test, but 
 
 Let $2^s$ be the largest power of $2$ that divides $n - 1$, then $n - 1 = 2^s \cdot q$ for some **odd** integer $q$, the sequence of powers of two that divide $n - 1$ is
 
-<div>
-$$
+<div>$$
 2^0, 2^1, \ldots, 2^i \quad \text{where $0 \leq i \leq s$}
-$$
-</div>
+$$</div>
 
 We know from Euler's primality test that if $a^{n - 1} \equiv 1 \pmod{n}$ then $a^{(n - 1) / 2} \equiv \pm 1 \pmod{n}$, let's say that $a^{(n - 1) / 2} \equiv 1 \pmod{n}$ then also because of Euler's primality test $a^{(n - 1) / 2^2} \equiv \pm 1 \pmod{n}$, what this says is that as long as we can take the square root of some $a^{(n - 1) / 2^i} \equiv 1 \pmod{n}$ the result must be $\pm 1$ otherwise it's a composite number by Euler's primality test
 

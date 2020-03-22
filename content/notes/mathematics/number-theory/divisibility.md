@@ -10,11 +10,9 @@ references:
 
 > Let $a,b \in \mathbb{Z}$, we say that $a$ _**divides**_ $b$, written $a \given b$, if there's an integer $n$ so that
 >
-<div>
-$$
+<div>$$
 b = na
-$$
-</div>
+$$</div>
 
 If $a$ divides $b$ then $b$ is _**divisible**_ by $a$ and $a$ is a _**divisor or factor**_ of $b$, also $b$ is called a _**multiple**_ of $a$.
 
@@ -37,11 +35,9 @@ Proof.
 
 > Let $a, b \in \mathbb{Z}$ with $b > 0$, then there exists $q, r \in \mathbb{Z}$ such that
 >
-<div>
-$$
+<div>$$
 a = bq + r, \quad \text{where $0 \leq r \lt b$}
-$$
-</div>
+$$</div>
 
 Proof. if $bq$ is the largest multiple of $b$ that does not exceed $a$ then $r = a - bq$ is positive and since $b(q + 1) > a$ then $r \lt b$.
 
@@ -53,52 +49,42 @@ Let $a, b \in \mathbb{N}$, the greatest common divisor of $a$ and $b$, written a
 
 > Let $a$ and $b$ be two numbers in $\mathbb{N}$, the value of $(a,b)$ is a *linear combination* of $a$ and $b$ i.e. there exists $s,t$ in $\mathbb{Z}$ such that
 >
-<div>
-$$
+<div>$$
 sa + tb = (a, b)
-$$
-</div>
+$$</div>
 
 Proof.
 
 Let $d$ be the least positive integer that is a *linear combination* of $a$ and $b$
 
-<div>
-$$
+<div>$$
 d = sa + tb
-$$
-</div>
+$$</div>
 
 First lets show that $d \given a$, by the division algorithm we know that
 
-<div>
-$$
+<div>$$
 a = dq + r, \quad \text{where $0 \le r \lt d$}
-$$
-</div>
+$$</div>
 
 It follows that
 
-<div>
-$$
+<div>$$
 \begin{align*}
 r &= a - dq \\
 &= a - (sa + tb)q \\
 &= a - saq - tbq \\
 &= (1 - sq)a + (-tq)b \\
 \end{align*}
-$$
-</div>
+$$</div>
 
 We can see that $r$ is a linear combination of $a$ and $b$. Since $0 \le r \lt d$ and considering that we defined $d$ as the *least positive* linear combination of $a$ and $b$ it follows that $r = 0$ (if $0 \lt r \lt d$ then $r$ would be the least possible linear combination which is a contradiction), therefore $d \given a$.
 
 In a similar fashion $d \given b$, therefore by the divisibility property #4
 
-<div>
-$$
+<div>$$
 d \given sa + tb
-$$
-</div>
+$$</div>
 
 The next thing to prove is that $d$ is the *greatest common divisor* of $a$ and
 $b$. To prove this lets show that if $d'$ is any other common divisor of $a$ and
@@ -106,11 +92,9 @@ $b$ then $d' \le d$.
 
 If $d' \given a$ and $d' \given b$ then by the divisibility property #4 it divides any other linear combination of $a$ and $b$, since $d = sa + bt$ is one linear combination of $a$ and $b$ it follows that $d' \given d$ so either $d' \lt d$ or $d' = d$, finally we can conclude that
 
-<div>
-$$
+<div>$$
 d = (a,b)
-$$
-</div>
+$$</div>
 
 ### Euclidean Algorithm
 
@@ -126,18 +110,15 @@ The euclidean algorithm depends on the following lemma
 
 > Let $a, b$ be integers with $a \ge b \gt 0$. Let $r$ be the remainder of dividing $a$ by $b$ then
 >
-<div>
-$$
+<div>$$
 (a,b) = (b, r)
-$$
-</div>
+$$</div>
 
 *Proof.* Let $q$ be the quotient of dividing $a$ by $b$ so that $a = bq + r$. If $d = (a,b)$ then it must divide any other *linear combination* of $a$ and $b$ like $r = a - bq$, therefore $d \given r$. Finally we can conclude that $d = (b,r)$.
 
 *Proof of the theorem* If we keep on repeating the division algorithm we have:
 
-<div>
-$$
+<div>$$
 \begin{align*}
 a &= bq_1 + r_1,  \quad (a,b) = (b, r_1) \\
 b &= r_1q_2 + r_2,  \quad (b, r_1) = (r_1, r_2) \\
@@ -148,51 +129,42 @@ r_{n-3} &= r_{n-2}q_{n-1} + r_{n-1}, \quad (r_{n-3}, r_{n-2}) = (r_{n-2}, r_{n-1
 r_{n-2} &= r_{n-1}q_n + r_n, \quad (r_{n-2}, r_{n-1}) = (r_{n-1}, r_n) \\
 r_{n-1} &= r_n q_{n+1}, \quad \quad (r_{n-1}, r_n) = r_n
 \end{align*}
-$$
-</div>
+$$</div>
 
 Therefore
 
-<div>
-$$
+<div>$$
 (a,b) = (b,r_1) = (r_1,r_2) = (r_2, r_3) = (r_3, r_4) = \ldots = (r_{n-3}, r_{n-2}) = (r_{n-2}, r_{n-1}) = (r_{n-1}, r_n) = r_n
-$$
-</div>
+$$</div>
 
 ### Extended Euclidean Algorithm
 
 <!--
 Let's rewrite $r_n$ in terms of the previous $r_i$
 
-<div>
-$$
+<div>$$
 r_n = r_{n-2} - r_{n-1} q_n
-$$
-</div>
+$$</div>
 
 Substituting for $r_{n-1}$ from the previous equation
 
-<div>
-$$
+<div>$$
 \begin{align**}
 r_n &= r_{n-2} - (r_{n-3} - r_{n-2} q_{n-1}) q_n \\
 r_n &= r_{n-2} (1 + q_n q_{n-1}) - r_{n-3} q_n \\
 r_n &= r_{n-3} (-q_n) + r_{n-2} (1 + q_n q_{n-1})
 \end{align**}
-$$
-</div>
+$$</div>
 
 Substituting for $r_{n-2}$
 
-<div>
-$$
+<div>$$
 \begin{align**}
 r_n &= r_{n-3} (-q_n) + (r_{n-4} - r_{n-3} q_{n-2}) (1 + q_n q_{n-1}) \\
 r_n &= r_{n-3} (-q_n) + r_{n-4} - r_{n-3} q_{n-2} + r_{n-4} q_n q_{n-1} - r_{n-3} q_{n-2} q_n q_{n-1} \\
 r_n &= r_{n-4} (1 + q_n q_{n-1}) + r_{n-3} (-q_n - q_{n-2} - q_{n} q_{n-1} q_{n-2}) \\
 \end{align**}
-$$
-</div>
+$$</div>
 
 We could keep on doing substitutions with the previous equations like we did above until the quantities $r_i$ and $r_{i-1}$ become $a$ and $b$ respectively.
 -->
@@ -201,39 +173,32 @@ One of the applications of the *euclidean algorithm* is the calculation of the i
 
 First note that if $b=0$ then $(a,b) = (a,0) = a$, now assume that there are integers $x'$ and $y'$ so that
 
-<div>
-$$
+<div>$$
 (a,b) = (b,r) = bx' + ry'
-$$
-</div>
+$$</div>
 
 Since
 
-<div>
-$$
+<div>$$
 \begin{align*}
 r &= a - bq \\
 &= a - b \left \lfloor \frac{a}{b} \right \rfloor
 \end{align*}
-$$
-</div>
+$$</div>
 
 Then
 
-<div>
-$$
+<div>$$
 \begin{align*}
 (a,b) &= bx' + \Big( a - \left \lfloor \frac{a}{b} \right \rfloor b \Big) y' \\
 &= bx' + ay' - \left \lfloor \frac{a}{b} \right \rfloor by' \\
 &= a(y') + b \Big(x' - \left \lfloor \frac{a}{b} \right \rfloor y'\Big)
 \end{align*}
-$$
-</div>
+$$</div>
 
 Comparing it to $(a,b) = ax + by$ we obtain the required coefficients $x$ and $y$ based on the following recursive equations
 
-<div>
-$$
+<div>$$
 \begin{align*}
 x &=
 \begin{cases}
@@ -246,8 +211,7 @@ y &=
 x' - \left \lfloor \frac{a}{b} \right \rfloor y', & \text{otherwise}
 \end{cases}
 \end{align*}
-$$
-</div>
+$$</div>
 
 {{< repl id="I0vB" >}}
 

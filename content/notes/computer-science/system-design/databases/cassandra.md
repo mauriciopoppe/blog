@@ -186,15 +186,13 @@ Q2: get users by UUID
 - Are writes (overwrites) possible? Yes
 - How large are the partitions? (up to 200k book reads per user)
 
-<div>
-$$
+<div>$$
 \begin{align*}
 n_{books} * (7 - 1 - 1) + 1 & &lt; 1M \\\\
 n_{books} & &lt; \frac{1M}{5} - 1 \\\\
 n_{books} & &lt; 200k
 \end{align*}
-$$
-</div>
+$$</div>
 
 - How much data duplication? 0
 {{% /markdown %}}
@@ -223,14 +221,12 @@ $$
 - Are writes (overwrites) possible? Yes
 - How large are the partitions? (up to 333k book reads per user, 333k actions may be low number of actions to store therefore *we should store actions by bucket*)
 
-<div>
-$$
+<div>$$
 \begin{align*}
 n_{actions} * (4 - 1 - 0) + 0 & &lt; 1M \\\\
 n_{actions} & &lt; 333K
 \end{align*}
-$$
-</div>
+$$</div>
 
 - How much data duplication? 0
 {{% /markdown %}}
@@ -263,14 +259,12 @@ $$
 1 week  = 333k / 7 / 24   = 1984 actions / h
 ```
 
-<div>
-$$
+<div>$$
 \begin{align*}
 n_{actions} * (5 - 2 - 0) + 0 & &lt; 1M \\\\
 n_{actions} & &lt; 333K
 \end{align*}
-$$
-</div>
+$$</div>
 
 - How much data duplication? 0
 {{% /markdown %}}

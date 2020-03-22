@@ -39,11 +39,9 @@ A subset $U \subseteq V$ of a vectors space $V$ is a subspace if
 
 A set of vectors is linearly dependent if one element from the set can be written as a linear combination of the other elements in the set, if this cannot be done then the set is linearly independent which is also known as a **basis** for some vector space, the **dimension** is the number of elements in the basis, if $\mathbf{b_1, b_2, \ldots, b_n}$ is a basis then any linear combination of the basis will have the form
 
-<div>
-$$
+<div>$$
 \mathbf{v} = a_1 \mathbf{b_1} + a_2 \mathbf{b_2} + \ldots + a_n \mathbf{b_n}
-$$
-</div>
+$$</div>
 
 The numbers $a_1, a_2, \ldots, a_n$ are called the **components** of $\mathbf{v}$ in the specified basis, note that the basis doesn't need to be orthogonal nor have unit vectors
 

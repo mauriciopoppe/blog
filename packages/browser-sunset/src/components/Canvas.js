@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { useMouseState, useWindowScroll } from 'beautiful-react-hooks'
-import { interpolateMagma, scaleLinear } from 'd3-scale'
+import { scaleLinear } from 'd3-scale'
 
 import { Hill } from './Hill'
+import { t } from './colors'
 
 const x = scaleLinear()
   .domain([0, window.innerWidth])
@@ -32,20 +33,23 @@ export function Canvas () {
         }}
         preserveAspectRatio='none'
       >
-        {[...Array(n).keys()].map(i => (
-          <Hill
-            key={i}
-            order={i}
-            x={x}
-            y={y}
-            depth={i}
-            total={n}
-            scrollY={scrollY}
-            mouseX={clientX}
-            mouseY={clientY}
-            fill={interpolateMagma(1 - (0.3 + (i / n) * 0.5))}
-          />
-        ))}
+        {[...Array(n).keys()].map(i => {
+          const alpha = 0.5
+          return (
+            <Hill
+              key={i}
+              order={i}
+              x={x}
+              y={y}
+              depth={i}
+              total={n}
+              scrollY={scrollY}
+              mouseX={clientX}
+              mouseY={clientY}
+              fill={t(0.25 + i / n * 0.3)}
+            />
+          )
+        })}
       </svg>
     </div>
   )
