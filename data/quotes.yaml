@@ -1,5 +1,4 @@
-quotes:
-  - empty: empty (arrays are 1 indexed!)
+content:
   - quote: "Change is the end result of all true learning."
     author: "Leo Buscaglia"
   - quote: "Learning never exhausts the mind."
@@ -8,3 +7,5 @@ quotes:
     author: "Richard Branson"
   - quote: "Question everything. Learn something. Answer nothing."
     author: "Euripides"
+  - quote: "Watch your thoughts, they become your words; watch your words, they become your actions; watch your actions, they become your habits; watch your habits, they become your character; watch your character, it becomes your destiny."
+    author: "Lao Tzu"

@@ -1,5 +1,6 @@
-{{ $random := index (shuffle (seq 4)) 0 }}
-{{ $quotes := index .Site.Data.quotes "quotes" }}
+{{/*https://discourse.gohugo.io/t/random-quote-from-csv/3241/2*/}}
+{{ $quotes := index .Site.Data.quotes "content" }}
+{{ $random := mod now.Second (len $quotes) }}
 {{ $quote := index $quotes $random }}
 {{ $image := "/images/2017-square.jpg" }}
 
@@ -45,9 +46,9 @@
 
 
   <hr />
-  <p class="is-size-5">
-    <span> {{ index $quote "quote" }}<span>
-        <i>{{ index $quote "author" }}</i>
+  <p class="is-size-6">
+    <span>{{ index $quote "quote" }}</span>
+    <i>{{ index $quote "author" }}</i>
   </p>
 
   <hr />
