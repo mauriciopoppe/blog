@@ -22,11 +22,13 @@ Let $G$ be a digraph, the **topological sorting** algorithm is a linear ordering
 {{< script >}}
 document.addEventListener('DOMContentLoaded', function () {
   d3.json('/js/graph/data/topological-sorting.json', function (err, data) {
+    var width = document.querySelector('article.content').clientWidth
     if (err) { throw err }
     greuler({
       directed: true,
       target: '#figure-topological-sorting',
-      data: data
+      data: data,
+      width: width
     }).update({ iterations: [30, 30, 30] })
   })
 })

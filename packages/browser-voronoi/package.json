@@ -12,6 +12,7 @@
   "dependencies": {
     "@blog/browser-triangle": "^1.0.0",
     "@blog/webpack-config": "^1.0.0",
+    "@blog/browser-main": "^1.0.0",
     "d3-delaunay": "^5.2.1"
   },
   "keywords": [],

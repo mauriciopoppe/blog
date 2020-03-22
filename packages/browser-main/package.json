@@ -1,9 +1,9 @@
 {
-  "name": "@blog/main",
+  "name": "@blog/browser-main",
   "private": true,
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "webpack-blog start",
     "build": "webpack-blog build",

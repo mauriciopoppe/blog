@@ -24,7 +24,7 @@ export function Hill (props) {
     .y1(d => y(0))
     .curve(curveBasis)
 
-  function mapX(d) {
+  function mapX (d) {
     // map to [-1, 1]
     const normalize = (mouseX / window.innerWidth - 0.5) * 2
     return d.x + normalize * (props.order) * 20
