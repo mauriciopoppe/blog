@@ -109,7 +109,7 @@ gulp.task('build:html-minify', () => {
 
 gulp.task('build:sitemap', () => {
   const env = Object.create(process.env)
-  return spawn('babel-node', ['scripts/flatten-render-tree.js'], {
+  return spawn('babel-node', ['src/util/flatten-render-tree.js'], {
     stdio: 'inherit',
     env
   })

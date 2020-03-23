@@ -1,0 +1,4 @@
+{{ $script := .Site.Data.webpack.sunset }}
+{{ with $script.js }}
+    <script src="{{ relURL . }}"></script>
+{{ end }}

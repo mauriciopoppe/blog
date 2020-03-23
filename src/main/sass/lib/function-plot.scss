@@ -1,0 +1,19 @@
+.function-plot {
+  text {
+    fill: $text;
+  }
+
+  path.origin {
+    stroke: $text;
+  }
+
+  path.line {
+    stroke: $primary;
+  }
+
+  .tip {
+    circle {
+      fill: $primary;
+    }
+  }
+}

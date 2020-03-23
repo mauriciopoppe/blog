@@ -1,0 +1,68 @@
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<!-- Site Title, Description, Author, and Favicon -->
+{{- with .Title | default .Site.Title }}
+<title>{{ . }} - {{ $.Site.Author.name }}</title>
+<meta property="og:title" content="{{ . }}" />
+<meta name="twitter:title" content="{{ . | truncate 70 }}" />
+{{- end }}
+{{- with .Site.Params.description | default .Params.subtitle | default .Summary }}
+<meta name="description" content="{{ . }}">
+<meta property="og:description" content="{{ . }}">
+<meta name="twitter:description" content="{{ . | truncate 200 }}">
+{{- end }}
+<meta name="author" content="{{ .Site.Author.name }}"/>
+{{- with .Site.Params.favicon }}
+<link href='{{ . | absURL }}' rel='icon' type='image/x-icon'/>
+{{- end -}}
+<!-- Social Media Tags -->
+{{- with .Params.share_img | default .Params.image | default .Site.Params.logo }}
+<meta property="og:image" content="{{ . | absURL }}" />
+<meta name="twitter:image" content="{{ . | absURL }}" />
+{{- end }}
+<meta name="twitter:card" content="summary" />
+{{- with .Site.Author.twitter }}
+<meta name="twitter:site" content="@{{ . }}" />
+<meta name="twitter:creator" content="@{{ . }}" />
+{{- end }}
+{{- with .Site.Params.fb_app_id }}
+<meta property="fb:app_id" content="{{ . }}" />
+{{- end }}
+<meta property="og:url" content="{{ .Permalink | absLangURL }}" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="{{ .Site.Title }}" />
+
+<!-- Hugo Version number -->
+{{ hugo.Generator -}}
+
+<!-- Links and stylesheets -->
+<link rel="canonical" href="{{ .Permalink | absLangURL }}" />
+<link rel="alternate" href="{{ "index.xml" | absLangURL }}" type="application/rss+xml" title="{{ .Site.Title }}">
+
+<!-- mine -->
+<link rel="stylesheet" media="only screen" href="{{ "/fonts/Serif/cmun-serif.css" }}" />
+<link rel="stylesheet" media="only screen" href="{{ "/css/mobile.css" }}" />
+{{ $stylesheet := .Site.Data.webpack.main }}
+{{ with $stylesheet.css }}
+    <link href="{{ relURL . }}" rel="stylesheet">
+{{ end }}
+
+{{ if isset .Params "draft" }}
+<style>
+body.draft [data-draft] div::after {
+  content: '[DRAFT]';
+  font-size: 10px;
+  color: black;
+  background-color: transparent;
+}
+</style>
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    document.body.classList.add('draft');
+  })
+</script>
+{{ end }}
+
+<!-- link rel="preload" polyfill -->
+<script src="/js/vendor/cssrelpreload.js" inline></script>

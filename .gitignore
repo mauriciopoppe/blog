@@ -1,16 +1,15 @@
-# ignore compiled files
+# ignore output
+/dist
+
 # compiled from ./scripts/flatten-render-tree.js
-/data/metadata
-# compiled from ./packages/
-/static/js/browser/**
-# compiled from ./sass/
-/static/css/main.css
-/static/css/mobile.css
+/site/layouts/partials/sitemap-content.html
+/site/data/metadata
 
-package-lock.json
+# compiled from webpack
+/site/data/webpack.json
 
-# Hugo default output directory
-/public
+/site/static/css/main.css
+/site/static/css/mobile.css
 
 ## OS Files
 # Windows

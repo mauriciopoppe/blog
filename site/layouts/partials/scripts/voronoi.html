@@ -1,0 +1,13 @@
+{{ $script := .Site.Data.webpack.voronoi }}
+{{ with $script.js }}
+    <script src="{{ relURL . }}"></script>
+{{ end }}
+<script>
+(function () {
+  var target = document.querySelector({{ if .Scratch.Get "isIndex" }} 'body' {{ else }} 'section.hero' {{ end}})
+  window.voronoi.generate({
+    target: target,
+    n: 300
+  })
+})()
+</script>
