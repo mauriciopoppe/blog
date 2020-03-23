@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const AssetsPlugin = require('assets-webpack-plugin')
+const isDevMode = process.env.NODE_ENV !== 'production'
 
 module.exports = {
   entry: {
@@ -37,7 +38,17 @@ module.exports = {
       {
         test: /\.(sa|sc|c)ss$/,
         exclude: /node_modules/,
-        use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader']
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: isDevMode
+            }
+          },
+          'css-loader',
+          'postcss-loader',
+          'sass-loader'
+        ]
       }
     ]
   },
@@ -51,6 +62,13 @@ module.exports = {
   plugins: [
     new webpack.ProvidePlugin({
       fetch: 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
+    }),
+
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: isDevMode ? '[name].css' : '[name].[hash].css',
+      chunkFilename: isDevMode ? '[id].css' : '[id].[hash].css'
     }),
 
     new AssetsPlugin({

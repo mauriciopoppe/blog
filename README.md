@@ -15,11 +15,6 @@ npm i
 npm start
 ```
 
-### New article
-
-- should have the extension .md
-- the breadcrumb component should be rerendered `npm run build:sitemap`
-
 ### Prod like server
 
 ```bash
@@ -33,6 +28,7 @@ mkcert -install
 Server:
 
 ```bash
+npm run build
 npm run serve:prod
 ```
 

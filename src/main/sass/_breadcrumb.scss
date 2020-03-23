@@ -1,0 +1,4 @@
+.breadcrumb li + li::before {
+  color: $text;
+  font-weight: bold;
+}
