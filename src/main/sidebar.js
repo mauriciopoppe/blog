@@ -86,12 +86,15 @@ function main() {
     return
   }
 
+  // tocbot offset for the links
+  const hero = document.querySelector('section.hero')
   const tocbotOpts = {
     tocSelector: '.toc',
-    contentSelector: 'article[role=main]',
+    contentSelector: 'body',
     headingSelector: 'h1,h2,h3,h4,h5,h6',
     collapseDepth: 6,
-    throttleTimeout: 200
+    throttleTimeout: 200,
+    headingsOffset: -hero.getBoundingClientRect().height
   }
 
   const tocSidebar = new Sidebar(toc, tocWrapper)
@@ -111,10 +114,6 @@ function main() {
 
   function sidebarToc() {
     tocbot.init(tocbotOpts)
-
-    // tocbot offset for the links
-    const hero = document.querySelector('section.hero')
-    tocbot.zenscroll.setup(hero.getBoundingClientRect().height, tocSidebar.navbarHeight + tocSidebar.articleTopMargin)
   }
 
   function embeddedToc() {
