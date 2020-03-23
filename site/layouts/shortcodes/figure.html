@@ -1,4 +1,4 @@
-<!-- image -->
+<!-- figure -->
 <figure class="image is-responsive {{ with .Get "class" }}{{.}}{{ end }}" {{ with .Get "id" }}id="{{.}}"{{end}}>
     {{ with .Get "link"}}<a href="{{.}}">{{ end }}
         <img class="lazy-load" data-src="{{ .Get "src" }}" {{ if (.Get "title") }}alt="{{ with .Get "title"}}{{.}}{{ end }}" {{ end }}{{ with .Get "width" }}width="{{.}}" {{ end }}/>
@@ -15,4 +15,4 @@
     </figcaption>
     {{ end }}
 </figure>
-<!-- image -->
+<!-- figure -->

@@ -1,17 +1,23 @@
-figure.is-responsive.is-25p img {
-  max-width: 25%;
+figure.is-responsive {
+  img {
+    max-width: 75%;
+  }
+
+  &.is-25p img {
+    max-width: 25%;
+  }
+
+  &.is-50p img {
+    max-width: 50%;
+  }
+
+  &.is-100p img {
+    max-width: 100%;
+  }
 }
 
-figure.is-responsive.is-50p img {
-  max-width: 50%;
-}
-
-figure.is-responsive.is-100p img {
-  max-width: 100%;
-}
-
-figure.is-responsive img {
-  max-width: 75%;
+figure.is-invert img {
+  filter: invert(1);
 }
 
 @media screen and (max-width: 960px) {

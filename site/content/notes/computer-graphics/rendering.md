@@ -28,7 +28,7 @@ If an image has $n_x$ columns and $n_y$ rows a common convention is to count row
 
 Note that because of the definition gave to a pixel the coordinate $(0,0)$ is mapped to the center of the pixel $(0,0)$, therefore half-pixel will exist in both the $-\mathbf{x}$-axis and the $-\mathbf{y}$-axis
 
-{{< figure src="/images/rendering!pixel-coordinates.jpg" title="pixel coordinates" >}}
+{{< figure src="/images/rendering!pixel-coordinates.jpg" title="pixel coordinates" class="is-responsive" >}}
 
 So the domain of a $n_x \times n_y$ image is
 

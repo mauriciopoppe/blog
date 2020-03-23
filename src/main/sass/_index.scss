@@ -27,3 +27,9 @@
   }
 }
 
+.my-button {
+  border: 1px solid $link;
+  padding: 10px;
+  margin-left: 10px;
+  border-radius: $radius;
+}
