@@ -42,7 +42,6 @@
 
 <!-- mine -->
 <link rel="stylesheet" media="only screen" href="{{ "/fonts/Serif/cmun-serif.css" }}" />
-<link rel="stylesheet" media="only screen" href="{{ "/css/mobile.css" }}" />
 {{ $stylesheet := .Site.Data.webpack.main }}
 {{ with $stylesheet.css }}
     <link href="{{ relURL . }}" rel="stylesheet">

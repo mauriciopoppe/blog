@@ -1,11 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const AssetsPlugin = require('assets-webpack-plugin')
-
-const camelCase = require('camelcase')
-// const location = path.join(__dirname, 'dist/static/js/browser/', path.basename(process.cwd()))
 
 module.exports = {
   entry: {
@@ -15,8 +11,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    libraryTarget: 'umd',
-    library: '[id]'
+    library: '[name]'
   },
   module: {
     rules: [
@@ -62,14 +57,6 @@ module.exports = {
       filename: 'webpack.json',
       path: path.join(process.cwd(), 'site/data'),
       prettyPrint: true
-    }),
-
-    new CopyWebpackPlugin([
-      {
-        from: './site/static/fonts/',
-        to: 'fonts/',
-        flatten: true
-      }
-    ])
+    })
   ]
 }

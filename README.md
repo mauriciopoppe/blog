@@ -15,14 +15,6 @@ npm i
 npm start
 ```
 
-To update the JS code go to packages/* and run
-
-```text
-npm start
-```
-
-NOTE: scss livereload is not working so a hard refresh is needed every time the css is compiled
-
 ### New article
 
 - should have the extension .md
@@ -38,10 +30,23 @@ mkcert localhost 127.0.0.1 ::1
 mkcert -install
 ```
 
+Server:
+
+```bash
+npm run serve:prod
+```
+
+## Production
+
+```sh
+npm run build
+```
+
 ## Tech
 
 - Hugo (static pages)
-- React + Redux
+- Webpack (tooling)
+- d3, React (browser)
 
 ## Upgrade notes
 
