@@ -69,7 +69,7 @@
 
 // override settings set by the scroll spy
 @media screen and (max-width: $desktop) {
-  nav[role=sitemap] {
+  .sitemap {
     position: initial !important;
     top: initial !important;
     height: auto !important;

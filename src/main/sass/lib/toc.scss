@@ -5,7 +5,7 @@
   height: 100%;
 }
 
-nav[role="toc"] {
+.toc {
   position: relative;
   opacity: 0.3;
   transition: opacity $time;
@@ -18,7 +18,7 @@ nav[role="toc"] {
 }
 
 @media screen and (max-width: $desktop) {
-  nav[role="toc"] {
+  .toc {
     opacity: 1;
     position: static !important;
   }
