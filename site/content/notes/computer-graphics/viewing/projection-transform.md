@@ -33,7 +33,7 @@ An orthographic projection matrix is built with 6 parameters
 
 These parameters bound the view volume which is an axis-aligned bounding box
 
-![orthographic projection](http://www.songho.ca/opengl/files/gl_projectionmatrix02.png)
+![orthographic projection](https://www.songho.ca/opengl/files/gl_projectionmatrix02.png)
 
 Since the mapping of the range $[l, r]$ to the range $[-1, 1]$ is linear we can use the equation of the line $y = mx + b$ and find the values of $m$ and $b$ however we can intuitively get a similar equation by creating a function $f(x)$ so that $f(0) = -1$ and $f(1) = 1$, we can create a nested function $g(x)$ so that $g(l) = 0$ and $g(r) = 1$ (note that $[l, r]$ is the input range) then $f(x)$ has the form
 
