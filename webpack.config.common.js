@@ -42,7 +42,8 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              hmr: isDevMode
+              hmr: isDevMode,
+              reloadAll: true
             }
           },
           'css-loader',
@@ -58,7 +59,7 @@ module.exports = {
   //     Components: path.resolve(process.cwd(), 'src/components/')
   //   }
   // },
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'eval-cheap-module-source-map',
   plugins: [
     new webpack.ProvidePlugin({
       fetch: 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
@@ -67,8 +68,8 @@ module.exports = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: isDevMode ? '[name].css' : '[name].[hash].css',
-      chunkFilename: isDevMode ? '[id].css' : '[id].[hash].css'
+      filename: isDevMode ? '[name].css' : '[name].[hash:5].css',
+      chunkFilename: isDevMode ? '[id].css' : '[id].[hash:5].css'
     }),
 
     new AssetsPlugin({
