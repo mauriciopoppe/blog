@@ -112,25 +112,9 @@ function main() {
     sitemapSidebar.onScroll()
   }
 
-  function sidebarToc() {
-    tocbot.init(tocbotOpts)
-  }
-
-  function embeddedToc() {
-    const headingsArray = tocbot._parseContent.selectHeadings(tocbotOpts.contentSelector, tocbotOpts.headingSelector)
-    if (headingsArray === null) {
-      return
-    }
-
-    const nestedHeadingsObj = tocbot._parseContent.nestHeadingsArray(headingsArray)
-    const nestedHeadings = nestedHeadingsObj.nest
-
-    tocbot._buildHtml.render('.toc-embedded', nestedHeadings)
-  }
-
   function setup() {
-    sidebarToc()
-    embeddedToc()
+    // initialize tocbot
+    tocbot.init(tocbotOpts)
   }
 
   setup()
