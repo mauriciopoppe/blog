@@ -8,7 +8,8 @@
 
 {{ if (ne .Params.toc "false") }}
 <div class="sitemap-wrapper">
-  <nav aria-label="Sitemap" class="sitemap">
+  <!-- the breadcrumb has links that link to this place -->
+  <nav id="sitemap" aria-label="Sitemap" class="sitemap">
     {{ partial "sitemap-content.html" . }}
   </nav>
 </div>

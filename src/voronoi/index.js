@@ -34,8 +34,8 @@ export function generate({ target, n }) {
       let dist = Math.sqrt(dx * dx + dy * dy) / Math.sqrt(2)
 
       // magic numbers to select what colors should be displayed
-      dist = 0.1 + dist * 0.5
-      context.fillStyle = t(dist)
+      // dist = 0 + dist * 0.5
+      context.fillStyle = t(1 - dist)
       voronoi.renderCell(i, context)
       context.fill()
     }

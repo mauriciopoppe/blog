@@ -1,9 +1,14 @@
 // override
+//$grey-lighter: #98a4ad;
+//$grey-light:   #7A8288;
+//$grey:         #52575C;
+//$grey-dark:    #3A3F44;
+//$grey-darker:  #272B30;
+$grey-darker:  #121032;
+$grey-dark:    #2C2A4C;
+$grey:         #797799;
+$grey-light:   #ABA9CB;
 $grey-lighter: #98a4ad;
-$grey-light:   #7A8288;
-$grey:         #52575C;
-$grey-dark:    #3A3F44;
-$grey-darker:  #272B30;
 
 $orange: #f89406;
 $green: #62c462;
@@ -11,10 +16,13 @@ $blue: #5bc0de;
 $red: #ee5f5b;
 
 // override
-$primary: $color35 !default;
-$info: $color75 !default;
+$primary: $color0 !default;
+$info: $color50 !default;
 $warning: $color99 !default;
 $warning-invert: #fff;
+
+// override
+$body-size: 18px; // 16px;
 
 $black-bis: rgb(18, 18, 18);
 
