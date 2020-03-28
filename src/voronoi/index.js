@@ -6,16 +6,20 @@ const d3 = { select, Delaunay }
 export function generate({ target, n }) {
   // canvas setup
   const { width, height } = target.getBoundingClientRect()
+  const scale = window.devicePixelRatio
   const canvas = document.createElement('canvas')
-  canvas.width = width
-  canvas.height = height
+  canvas.width = width * scale
+  canvas.height = height * scale
+  canvas.style.width = width + 'px'
+  canvas.style.height = height + 'px'
   canvas.style.position = 'absolute'
   canvas.style.top = 0
   canvas.style.left = 0
   target.insertBefore(canvas, target.firstChild)
+  const context = canvas.getContext('2d')
+  context.scale(scale, scale)
 
   // voronoi setup
-  const context = canvas.getContext('2d')
   const particles = Array.from({ length: n }, () => [Math.random() * width, Math.random() * height])
 
   function update() {
