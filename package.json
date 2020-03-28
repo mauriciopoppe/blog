@@ -10,7 +10,7 @@
     "start": "node src/util/flatten-render-tree.js && run-p start:*",
     "start:hugo": "hugo server -e development -D -F --bind 0.0.0.0 -d ../dist -s site -vw --disableLiveReload",
     "start:webpack": "webpack-dev-server --config webpack.config.dev.js --hot",
-    "build": "node src/util/flatten-render-tree.js && npm run build:webpack && npm run build:hugo",
+    "build": "NODE_ENV=production node src/util/flatten-render-tree.js && npm run build:webpack && npm run build:hugo",
     "build:hugo": "hugo -d ../dist -s site -v",
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
     "serve:prod": "http-server -S -C site/cert/localhost.pem -K site/cert/localhost-key.pem dist"
