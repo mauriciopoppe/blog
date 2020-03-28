@@ -1,5 +1,6 @@
 import tocbot from 'tocbot'
 import debounce from 'debounce'
+import isMobile from 'is-mobile'
 
 const content = document.querySelector('article[role=main]')
 
@@ -15,7 +16,7 @@ class Sidebar {
   constructor(el, wrapper) {
     this.el = el
     this.wrapper = wrapper
-    this.scrollTrigger = 0
+    this.scrollTrigger = 1e9
     this.articleTopMargin = 30
     this.navbarHeight = 0
     this.refresh()
@@ -38,7 +39,7 @@ class Sidebar {
   }
 
   computeTrigger() {
-    if (!window.matchMedia('(pointer:coarse)').matches) {
+    if (isMobile()) {
       this.scrollTrigger = content.getBoundingClientRect().top - this.articleTopMargin
     }
   }
@@ -68,7 +69,11 @@ class Sidebar {
   }
 
   refresh() {
-    this.el.style.maxHeight = `calc(100vh - ${this.articleTopMargin * 2}px)`
+    if (isMobile()) {
+      this.el.style.maxHeight = 'initial'
+    } else {
+      this.el.style.maxHeight = `calc(100vh - ${this.articleTopMargin * 2}px)`
+    }
     this.computeTrigger()
     this.computeWidth()
     this.computeTop()

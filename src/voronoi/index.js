@@ -1,8 +1,8 @@
 import { select } from 'd3-selection'
 import { Delaunay } from 'd3-delaunay'
-const { interpolateLab } = require('d3-interpolate')
-
 import { t } from '../main/colors'
+import { interpolateLab } from 'd3-interpolate'
+
 const d3 = { select, Delaunay }
 
 export function generate({ target, n }) {
