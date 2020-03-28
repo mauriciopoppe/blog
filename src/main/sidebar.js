@@ -15,23 +15,14 @@ class Sidebar {
   constructor(el, wrapper) {
     this.el = el
     this.wrapper = wrapper
-    this.position = ''
-    this.scrollTrigger = 1e9
-    this.articleTopMargin = 20
+    this.scrollTrigger = 0
+    this.articleTopMargin = 30
     this.navbarHeight = 0
     this.refresh()
   }
 
-  setPosition(position) {
-    if (position !== this.position) {
-      this.el.style.position = this.position = position
-      this.computeTop()
-      this.computeWidth()
-    }
-  }
-
   computeTop() {
-    if (this.position === 'fixed') {
+    if (this.el.style.position === 'fixed') {
       this.el.style.top = `${this.navbarHeight + this.articleTopMargin}px`
     } else {
       this.el.style.top = ''
@@ -39,7 +30,7 @@ class Sidebar {
   }
 
   computeWidth() {
-    if (this.position === 'fixed') {
+    if (this.el.style.position === 'fixed') {
       this.el.style.width = `${this.wrapper.getBoundingClientRect().width}px`
     } else {
       this.el.style.width = 'auto'
@@ -48,17 +39,17 @@ class Sidebar {
 
   computeTrigger() {
     if (!window.matchMedia('(pointer:coarse)').matches) {
-      this.scrollTrigger = window.scrollY + content.getBoundingClientRect().top - this.navbarHeight
+      this.scrollTrigger = content.getBoundingClientRect().top - this.articleTopMargin
     }
   }
 
   updateHeight() {
-    if (this.position === 'fixed') {
+    if (this.el.style.position === 'fixed') {
       // max height is bounded by the footer
-      const fTop = footer.getBoundingClientRect().top
-      if (fTop < window.innerHeight) {
+      const footerTop = footer.getBoundingClientRect().top
+      if (footerTop < window.innerHeight) {
         // 50: padding and other stuff
-        this.el.style.height = `${fTop - 50}px`
+        this.el.style.height = `${footerTop - this.articleTopMargin}px`
       } else {
         this.el.style.height = 'auto'
       }
@@ -66,15 +57,18 @@ class Sidebar {
   }
 
   onScroll = () => {
-    let newPosition = ''
-    if (window.scrollY > this.scrollTrigger - this.articleTopMargin) {
-      newPosition = 'fixed'
+    if (window.scrollY > this.scrollTrigger) {
+      this.el.style.position = 'fixed'
+    } else {
+      this.el.style.position = ''
     }
-    this.setPosition(newPosition)
+    this.computeTop()
+    this.computeWidth()
     this.updateHeight()
   }
 
   refresh() {
+    this.el.style.maxHeight = `calc(100vh - ${this.articleTopMargin * 2}px)`
     this.computeTrigger()
     this.computeWidth()
     this.computeTop()

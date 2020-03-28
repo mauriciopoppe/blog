@@ -1,5 +1,7 @@
 import { select } from 'd3-selection'
 import { Delaunay } from 'd3-delaunay'
+const { interpolateLab } = require('d3-interpolate')
+
 import { t } from '../main/colors'
 const d3 = { select, Delaunay }
 
@@ -19,14 +21,18 @@ export function generate({ target, n }) {
   const context = canvas.getContext('2d')
   context.scale(scale, scale)
 
+  const animationStart = performance.now()
+
   // voronoi setup
   const particles = Array.from({ length: n }, () => [Math.random() * width, Math.random() * height])
+  let delaunay, voronoi
+  const lastTouched = {}
+  const fadeOutTime = 1000
 
-  function update() {
-    const delaunay = d3.Delaunay.from(particles)
-    const voronoi = delaunay.voronoi([0.5, 0.5, width - 0.5, height - 0.5])
+  function tick(time) {
+    requestAnimationFrame(tick)
+
     context.clearRect(0, 0, width, height)
-
     // render colors based on t
     // context.beginPath()
     for (let i = 0; i < n; i += 1) {
@@ -40,20 +46,35 @@ export function generate({ target, n }) {
       // magic numbers to select what colors should be displayed
       // dist = 0 + dist * 0.5
       context.fillStyle = t(1 - dist)
+      if (lastTouched[i]) {
+        if (time - lastTouched[i] < fadeOutTime) {
+          context.fillStyle = interpolateLab('#aaaaaa', t(1 - dist))((time - lastTouched[i]) / fadeOutTime)
+        } else {
+          delete lastTouched[i]
+        }
+      }
       voronoi.renderCell(i, context)
       context.fill()
     }
-
     context.beginPath()
     delaunay.renderPoints(context)
     context.fill()
   }
 
+  function update() {
+    // requestAnimationFrame(update)
+    delaunay = d3.Delaunay.from(particles)
+    voronoi = delaunay.voronoi([0.5, 0.5, width - 0.5, height - 0.5])
+  }
+
   context.canvas.ontouchmove = context.canvas.onmousemove = (event) => {
     event.preventDefault()
-    particles[0] = [event.layerX, event.layerY]
+    // particles[0] = [event.layerX, event.layerY]
+    const closestPoint = delaunay.find(event.layerX, event.layerY)
+    lastTouched[closestPoint] = performance.now() - animationStart
     update()
   }
 
   update()
+  requestAnimationFrame(tick)
 }
