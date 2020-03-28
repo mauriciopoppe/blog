@@ -27,7 +27,7 @@ export function generate({ target, n }) {
   const particles = Array.from({ length: n }, () => [Math.random() * width, Math.random() * height])
   let delaunay, voronoi
   const lastTouched = {}
-  const fadeOutTime = 1000
+  const fadeOutTime = 2000
 
   function tick(time) {
     requestAnimationFrame(tick)
@@ -48,7 +48,7 @@ export function generate({ target, n }) {
       context.fillStyle = t(1 - dist)
       if (lastTouched[i]) {
         if (time - lastTouched[i] < fadeOutTime) {
-          context.fillStyle = interpolateLab('#aaaaaa', t(1 - dist))((time - lastTouched[i]) / fadeOutTime)
+          context.fillStyle = interpolateLab(t(dist), t(1 - dist))((time - lastTouched[i]) / fadeOutTime)
         } else {
           delete lastTouched[i]
         }
