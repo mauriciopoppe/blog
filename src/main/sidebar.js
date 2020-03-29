@@ -119,7 +119,9 @@ function main() {
   setup()
   window.addEventListener('resize', onResize)
   window.addEventListener('orientationchange', onResize)
-  window.addEventListener('scroll', onScroll)
+  if (!isMobile()) {
+    window.addEventListener('scroll', onScroll)
+  }
 }
 
 main()
