@@ -39,9 +39,7 @@ class Sidebar {
   }
 
   computeTrigger() {
-    if (isMobile()) {
-      this.scrollTrigger = content.getBoundingClientRect().top - this.articleTopMargin
-    }
+    this.scrollTrigger = content.getBoundingClientRect().top - this.articleTopMargin
   }
 
   updateHeight() {
@@ -119,6 +117,7 @@ function main() {
   setup()
   window.addEventListener('resize', onResize)
   window.addEventListener('orientationchange', onResize)
+  // only enable fixing the position of the sidebars on scroll in desktop
   if (!isMobile()) {
     window.addEventListener('scroll', onScroll)
   }
