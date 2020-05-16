@@ -29,9 +29,7 @@ export function generate({ target, n }) {
   const lastTouched = {}
   const fadeOutTime = 2000
 
-  function tick(time) {
-    requestAnimationFrame(tick)
-
+  function paint(time) {
     context.clearRect(0, 0, width, height)
     // render colors based on t
     // context.beginPath()
@@ -61,10 +59,11 @@ export function generate({ target, n }) {
     context.fill()
   }
 
-  function update() {
+  function initialize() {
     // requestAnimationFrame(update)
     delaunay = d3.Delaunay.from(particles)
     voronoi = delaunay.voronoi([0.5, 0.5, width - 0.5, height - 0.5])
+    paint(0)
   }
 
   context.canvas.ontouchmove = context.canvas.onmousemove = (event) => {
@@ -72,9 +71,15 @@ export function generate({ target, n }) {
     // particles[0] = [event.layerX, event.layerY]
     const closestPoint = delaunay.find(event.layerX, event.layerY)
     lastTouched[closestPoint] = performance.now() - animationStart
-    update()
   }
 
-  update()
-  requestAnimationFrame(tick)
+  initialize()
+  ;(function tick(time) {
+    requestAnimationFrame(tick)
+
+    if (!Object.keys(lastTouched).length) {
+      return
+    }
+    paint(time)
+  })(0)
 }
