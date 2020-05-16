@@ -25,14 +25,11 @@ Strategies
 - Queries per second (QPS) to a web server
 - Ratio of read/writes in a DB
 - Cache hit/miss rate
-- # of simultaneous users in a realtime system
+- number of simultaneous users in a realtime system
 
 #### Approximations for back of the envelope calculations
 
-```text
-1 req/s = 80k req/day = 2.5 million req/month
-40 req/s = 100 million req/month
-```
+<iframe src="https://instacalc.com/53733/embed" width="100%" height="210" frameborder="0"></iframe>
 
 #### Handling load
 
