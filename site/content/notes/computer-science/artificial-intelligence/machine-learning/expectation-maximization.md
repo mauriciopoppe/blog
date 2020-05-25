@@ -1,7 +1,7 @@
 ---
 title: "Expectation maximization"
 description: "Expectation maximization"
-tags: []
+tags: ["machine learning", "expectation maximization", "k-means clustering", "gaussian distribution", "multivariate gaussian distribution"]
 date: 2020-03-16 21:21:00
 references:
   - Do, C. . (2008 10). The Multivariate Gaussian Distribution. Retrieved March 20, 2020, from http://cs229.stanford.edu/section/gaussians.pdf
