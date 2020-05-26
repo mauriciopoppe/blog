@@ -6,7 +6,7 @@
  */
 /** @type HTMLDivElement */
 var container = document.querySelector('article[role=main]')
-if (container) run()
+if (container && window.MathJax) run()
 
 function run() {
   /** @type HTMLDivElement */

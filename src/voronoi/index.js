@@ -16,8 +16,8 @@ export function generate({ target, n }) {
   canvas.style.width = width + 'px'
   canvas.style.height = height + 'px'
   canvas.style.position = 'absolute'
-  canvas.style.top = 0
-  canvas.style.left = 0
+  canvas.style.top = '0px'
+  canvas.style.left = '0px'
   target.insertBefore(canvas, target.firstChild)
 
   /** @type CanvasRenderingContext2D */
@@ -38,7 +38,7 @@ export function generate({ target, n }) {
     // requestAnimationFrame(update)
     delaunay = d3.Delaunay.from(particles)
     voronoi = delaunay.voronoi([0.5, 0.5, width - 0.5, height - 0.5])
-    animationStart = performance.now()
+    animationStart = window.performance.now()
   }
 
   function paint(time) {

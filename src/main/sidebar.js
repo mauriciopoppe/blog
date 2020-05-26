@@ -13,6 +13,10 @@ const tocWrapper = document.querySelector('.toc-wrapper')
 const footer = document.querySelector('footer')
 
 class Sidebar {
+  /**
+   * @param {HTMLElement} el
+   * @param {HTMLElement} wrapper
+   */
   constructor(el, wrapper) {
     this.el = el
     this.wrapper = wrapper

@@ -71,7 +71,7 @@ The following things are commonly found in headers
 trunk
 ├── bin     : for all executables (applications)
 ├── lib     : for all other binaries (static and shared libraries (.so or .dll))
-├── include : for all project header files, other third party header files that do not exist in `/usr/local/include` should be here
+├── include : for all project header files, 3rd party files not present in `/usr/local/include` should be here
 ├── src     : for source files
 ├── doc     : for documentation
 ├── build   : for all the object files, removed by `clean`
@@ -141,39 +141,11 @@ cin.get(name, 20);      // read 20 characters or until before newline
 ```cpp
 #include <string>
 
-string str;
+string str;           // ""
 string name = "john";
-```
 
-Operations
-
-```cpp
-#include <string>
-
-string first = "john";
-string last = "smith";
-string dest;
-
-// length
-string empty;
-first.size();    // 4
-empty.size();    // 0
-
-// concatenation
-string name = first + " " + last;
-// append
-name += " " + "smith";
-
-// copy
-dest = name;
-```
-
-Input
-
-```cpp
-string name;
 cin >> name;          // reads until space or newline
-getline(cin, name);   // reads until newline
+cin.getline(name);   // reads until newline
 ```
 
 ---
@@ -305,7 +277,7 @@ Since `p` is a pointer to the first element which is `&a` and `&a` is another po
 int** q = p;
 ```
 
-### Runtime allocation of memory with `new`
+### Runtime allocation: new
 
 Pointers are sort of an alias for memory accessed which could be accessed by named variables (memory allocated in compile time), however we can allocate memory in runtime with the operator `new`, runtime allocated memory can be freed with the operator `delete`
 
