@@ -6,7 +6,7 @@
  */
 /** @type HTMLDivElement */
 var container = document.querySelector('article[role=main]')
-if (container && window.MathJax) run()
+if (container) run()
 
 function run() {
   /** @type HTMLDivElement */
@@ -52,6 +52,9 @@ function run() {
   }
 
   document.addEventListener('DOMContentLoaded', async function () {
+    // some pages don't have mathjax enabled by default
+    if (!window.MathJax) return
+
     await window.MathJax.startup.promise
     Array.from(document.querySelectorAll('.MathJax_ref')).forEach((el) => {
       el.addEventListener('mouseover', onMouseOver)
