@@ -5,12 +5,12 @@
  * Licensed under the MIT license.
  */
 /** @type HTMLDivElement */
-var container = document.querySelector('article[role=main]')
+const container = document.querySelector('article[role=main]')
 if (container) run()
 
 function run() {
   /** @type HTMLDivElement */
-  var tooltip = document.createElement('div')
+  const tooltip = document.createElement('div')
   tooltip.classList.add('mathjax-tooltip')
   Object.assign(tooltip.style, {
     display: 'none',
@@ -29,13 +29,13 @@ function run() {
   }
 
   function onMouseOver(ev) {
-    var href = getTarget(ev)
+    const href = getTarget(ev)
     if (!href) return
     /** @type HTMLLinkElement */
-    var number = document.querySelector(href.hash)
-    var equation = number.closest('.MathJax')
+    const number = document.querySelector(href.hash)
+    const equation = number.closest('.MathJax')
 
-    var equationBounds = equation.getBoundingClientRect()
+    const equationBounds = equation.getBoundingClientRect()
     Object.assign(tooltip.style, {
       top: href.closest('.MathJax').offsetTop - equationBounds.height - 50 + 'px',
       display: 'block'
@@ -45,7 +45,7 @@ function run() {
   }
 
   function onMouseOut(ev) {
-    var href = getTarget(ev)
+    const href = getTarget(ev)
     if (!href) return
     tooltip.innerHTML = ''
     Object.assign(tooltip.style, { display: 'none' })
