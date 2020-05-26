@@ -31,6 +31,11 @@ Strategies
 
 <iframe src="https://instacalc.com/53733/embed" width="100%" height="210" frameborder="0"></iframe>
 
+Approximations for 1 rps:
+
+- 2.5M requests per month
+- 86k requests per day
+
 #### Handling load
 
 - scaling up (vertical scaling), simple

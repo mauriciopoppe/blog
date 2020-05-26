@@ -6,6 +6,7 @@ export * from './lazy-load'
 export * from './sidebar'
 export * from './sitemap'
 export * from './colors'
+export * from './equation-preview'
 
 // if (module.hot) {
 //   module.hot.accept('./print.js', function () {
