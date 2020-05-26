@@ -1,7 +1,7 @@
 ---
 title: "Kafka"
 description: "Kafka"
-tags: ["distributed-systems"]
+tags: ["distributed systems"]
 date: 2020-02-29T15:36:00Z
 ---
 

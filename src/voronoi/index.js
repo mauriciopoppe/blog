@@ -9,6 +9,7 @@ export function generate({ target, n }) {
   // canvas setup
   const { width, height } = target.getBoundingClientRect()
   const scale = window.devicePixelRatio
+  /** @type HTMLCanvasElement */
   const canvas = document.createElement('canvas')
   canvas.width = width * scale
   canvas.height = height * scale
@@ -18,16 +19,27 @@ export function generate({ target, n }) {
   canvas.style.top = 0
   canvas.style.left = 0
   target.insertBefore(canvas, target.firstChild)
+
+  /** @type CanvasRenderingContext2D */
   const context = canvas.getContext('2d')
   context.scale(scale, scale)
 
-  const animationStart = performance.now()
+  let animationStart
 
   // voronoi setup
   const particles = Array.from({ length: n }, () => [Math.random() * width, Math.random() * height])
   let delaunay, voronoi
+
+  /** @type {Object.<number, number>} */
   const lastTouched = {}
   const fadeOutTime = 2000
+
+  function initialize() {
+    // requestAnimationFrame(update)
+    delaunay = d3.Delaunay.from(particles)
+    voronoi = delaunay.voronoi([0.5, 0.5, width - 0.5, height - 0.5])
+    animationStart = performance.now()
+  }
 
   function paint(time) {
     context.clearRect(0, 0, width, height)
@@ -59,13 +71,6 @@ export function generate({ target, n }) {
     context.fill()
   }
 
-  function initialize() {
-    // requestAnimationFrame(update)
-    delaunay = d3.Delaunay.from(particles)
-    voronoi = delaunay.voronoi([0.5, 0.5, width - 0.5, height - 0.5])
-    paint(0)
-  }
-
   context.canvas.ontouchmove = context.canvas.onmousemove = (event) => {
     event.preventDefault()
     // particles[0] = [event.layerX, event.layerY]
@@ -73,13 +78,16 @@ export function generate({ target, n }) {
     lastTouched[closestPoint] = performance.now() - animationStart
   }
 
+  // initialization and event loop
   initialize()
   ;(function tick(time) {
     requestAnimationFrame(tick)
 
-    if (!Object.keys(lastTouched).length) {
+    // trigger a paint for the first time, time == null
+    if (time !== null && !Object.keys(lastTouched).length) {
       return
     }
+
     paint(time)
-  })(0)
+  })(null)
 }

@@ -446,23 +446,26 @@ Let's say that we throw an object into the air and we want to know the maximum h
 
 More generally if $y$ is a function of $x$ it seems that to find the maximum value of $y$ we must find $y'$ and set it to 0
 
-Let's graph a function and study its peaks
+Let's see an example, the following function has a maximum value of $3.333$ near $x = 1$ and a minimum value of $2$ near $x = 3$, 
+if we analyze the slope of the function near those points we will see that on the left of $x = 1$ the slope is positive and on the 
+right of $x = 1$ the slope is negative, since we know that the derivative represents the slope of a function we can also expect that 
+the derivative of this function near $x = 1$ will go from a positive value to a negative value intersecting the x-axis, 
+if we analyze the slope near $x = 3$ will will see the same behavior with the slope but it's going from a negative value to a positive one
 
-<div>$$
-y = \frac{x^3}{3} - 2x^2 + 3x + 2
-$$</div>
-
-<div id="maxima-minima-f"></div>
-
-We can see that the function has a maximum value of $3$ near $x = 1$ and a minimum value of $2$ near $x = 3$, if we analyze the slope of the function near those points we will see that on the left of $x = 1$ the slope is positive and on the right of $x = 1$ the slope is negative, since we know that the derivative represents the slope of a function we can also expect that the derivative of this function near $x = 1$ will go from a positive value to a negative value intersecting the x-axis, if we analyze the slope near $x = 3$ will will see the same behavior with the slope but it's going from a negative value to a positive one
-
-Graphing the derivative function confirms our expectations
-
-<div>$$
-y' = x^2 - 4x + 3
-$$</div>
-
-<div id="maxima-minima-f-derivative"></div>
+<div class="columns">
+    <div class="column">
+        $$
+            y = x^3/3 - 2x^2 + 3x + 2 
+        $$
+        <div id="maxima-minima-f"></div>
+    </div>
+    <div class="column">
+        $$
+            y' = x^2 - 4x + 3
+        $$
+        <div id="maxima-minima-f-derivative"></div>
+    </div>
+</div>
 
 Now the problem reduces to finding the points where $y' = 0$ in the derivative function, finding them will tell us exactly the maximum/minimum value of $y$, finding the values of $x$ when $y' = 0$
 

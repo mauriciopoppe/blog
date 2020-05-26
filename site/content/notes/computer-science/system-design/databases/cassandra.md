@@ -1,7 +1,7 @@
 ---
 title: "Cassandra"
 description: "The cassandra DB"
-tags: ["distributed-systems"]
+tags: ["distributed systems"]
 date: 2020-02-28T20:47:00Z
 ---
 
