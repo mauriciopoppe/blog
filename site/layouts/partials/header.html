@@ -14,8 +14,18 @@
     <div class="container">
       <h1 class="title is-1 is-spaced">{{ $.Scratch.Get "title" }}</h1>
       <p class="subtitle">{{ $.Scratch.Get "subtitle" }}</p>
-      <p class="subtitle">{{ .Date.Format "Monday, January 2, 2006" }}</p>
+
+      <!-- nested path to file -->
       {{ partial "breadcrumb.html" . }}
+
+      <p class="subtitle is-size-7">Created: {{ .Date.Format "Monday, January 2, 2006" }} <br /> Last Modified: {{ .Page.Lastmod.Format "Monday, January 2, 2006" }}</p>
+
+      <!--tags-->
+      <div class="tags is-centered">
+        {{ range .Params.tags }}
+          <span class="tag is-primary">{{ . }}</span>
+        {{ end }}
+      </div>
     </div>
   </div>
 </section>

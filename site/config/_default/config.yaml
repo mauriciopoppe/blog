@@ -3,7 +3,7 @@ title: "Mauricio Poppe's notes"
 params:
   description: "My notes about the things I learn every day"
   favicon: "favicon/favicon.ico"
-  logo: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAArtAAAAJGNjODBiMzQ0LTllOWMtNGNmOS04MGJhLWE5YmIyMTgzY2NmMg.jpg"
+  logo: "https://mauriciopoppe.com/images/2017-square.jpg"
 
 author:
   name: "Mauricio Poppe"
@@ -15,6 +15,7 @@ baseURL: "https://www.mauriciopoppe.com/"
 languageCode: "en-us"
 
 metadataFormat: 'yaml'
+enableGitInfo: true
 
 markup:
   highlight:

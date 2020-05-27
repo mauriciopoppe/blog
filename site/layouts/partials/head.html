@@ -1,13 +1,14 @@
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+
 <!-- Site Title, Description, Author, and Favicon -->
 {{- with .Title | default .Site.Title }}
 <title>{{ . }} - {{ $.Site.Author.name }}</title>
 <meta property="og:title" content="{{ . }}" />
 <meta name="twitter:title" content="{{ . | truncate 70 }}" />
 {{- end }}
-{{- with .Site.Params.description | default .Params.subtitle | default .Summary }}
+{{- with .Params.description | default .Summary }}
 <meta name="description" content="{{ . }}">
 <meta property="og:description" content="{{ . }}">
 <meta name="twitter:description" content="{{ . | truncate 200 }}">
@@ -16,6 +17,7 @@
 {{- with .Site.Params.favicon }}
 <link href='{{ . | absURL }}' rel='icon' type='image/x-icon'/>
 {{- end -}}
+
 <!-- Social Media Tags -->
 {{- with .Params.share_img | default .Params.image | default .Site.Params.logo }}
 <meta property="og:image" content="{{ . | absURL }}" />
@@ -33,15 +35,50 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="{{ .Site.Title }}" />
 
+<!--additional meta tags-->
+<meta http-equiv="last-modified" content='{{ .Page.Lastmod.Format "Monday, January 2, 2006" }}' />
+<meta http-equiv="date" content='{{ .Date.Format "Monday, January 2, 2006" }}' />
+
+{{ .Scratch.Set "permalink" (.Permalink | absURL)  }}
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": {{ .Permalink | absLangURL }}
+        },
+        "image": {{ .Params.share_img | default .Params.image | default .Site.Params.logo | absURL }},
+        "headline": "{{ .Title | default .Site.Title }}",
+        "datePublished": "{{ .Date.Format "2006-01-02T15:04:05.999Z" }}",
+        "dateModified": "{{ .Page.Lastmod.Format "2006-01-02T15:04:05.999Z" }}",
+        "description": {{ .Params.description | default .Summary }},
+        "mainEntityOfPage": {{ .Site.BaseURL }},
+        "author": {
+            "@type": "Person",
+            "name": "{{ .Site.Author.name }}"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Mauricio Poppe",
+            "logo": {
+                "@type": "ImageObject",
+                "url": {{ .Site.Params.logo | absURL }}
+            }
+        }
+    }
+</script>
+
 <!-- Hugo Version number -->
 {{ hugo.Generator -}}
 
 <!-- Links and stylesheets -->
 <link rel="canonical" href="{{ .Permalink | absLangURL }}" />
-<link rel="alternate" href="{{ "index.xml" | absLangURL }}" type="application/rss+xml" title="{{ .Site.Title }}">
+<link rel="alternate" href='{{ "index.xml" | absLangURL }}" type="application/rss+xml" title="{{ .Site.Title }}'>
 
 <!-- mine -->
-<link rel="stylesheet" media="only screen" href="{{ "/fonts/Serif/cmun-serif.css" }}" />
+<link rel="stylesheet" media="only screen" href='{{ "/fonts/Serif/cmun-serif.css" }}' />
 {{ $stylesheet := .Site.Data.webpack.main }}
 {{ with $stylesheet.css }}
     <link href="{{ relURL . }}" rel="stylesheet">

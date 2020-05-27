@@ -1,6 +1,6 @@
 ---
-
 title: "C++ refresher"
+description: "Refresher notes on C++, includes mechanics of a C++ program, program structure, pointers, functions, classes and misc operations"
 date: 2016-03-26 12:30:00
 references:
   - "C++ project organisation (with gtest, c. (2016). C++ project organisation (with gtest, cmake and doxygen). [online] Stackoverflow.com. Available at: http://stackoverflow.com/a/13522826/3341726 [Accessed 5 Apr. 2016]."
@@ -614,8 +614,8 @@ int main() {
 http://andybohn.com/deciphering-variable-types/
 
 1. Find the identifier and start there
-2. Sweep to the right, translating the symbols you see. You should stop your sweep to the right when you get to the end of the type, or if you see a lone right parenthesis ). (Seeing a left parenthesis ( is the start of a function symbol, so continue sweeping right.)
-3. Sweep left of the identifier until you run out of symbols, or you hit a left parenthesis (. If you hit the left parenthesis now, you should go back to part 2, sweeping right, but now on the outside of the enclosing ), and continuing onto part 3 on the outside of the enclosing (.
+2. Sweep to the right, translating the symbols you see. You should stop your sweep to the right when you get to the end of the type, or if you see a lone right parenthesis `)`. Seeing a left parenthesis `(` is the start of a function symbol, so continue sweeping right.
+3. Sweep left of the identifier until you run out of symbols, or you hit a left parenthesis `(`. If you hit the left parenthesis now, you should go back to part 2, sweeping right, but now on the outside of the enclosing `)`, and continuing onto part 3 on the outside of the enclosing `(`.
 
 ### Reading examples
 

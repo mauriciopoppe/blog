@@ -1,3 +1,5 @@
+//check https://github.com/jgthms/bulma/blob/master/bulma.sass
+
 @import "_variables.scss";
 @import "~bulma/sass/utilities/_all";
 @import "~bulma/sass/base/_all";
@@ -5,6 +7,7 @@
 @import "~bulma/sass/elements/box";
 @import "~bulma/sass/elements/container";
 @import "~bulma/sass/elements/content";
+@import "~bulma/sass/elements/tag";
 @import "~bulma/sass/elements/title";
 
 @import "~bulma/sass/components/breadcrumb";
