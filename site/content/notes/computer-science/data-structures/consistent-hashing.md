@@ -1,6 +1,5 @@
 ---
 title: "Consistent hashing"
-description: "Consistent hashing"
 tags: []
 date: 2017-09-16T21:05:42Z
 ---

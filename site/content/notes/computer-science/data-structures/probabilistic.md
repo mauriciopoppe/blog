@@ -1,6 +1,5 @@
 ---
 title: "Probabilistic Data Structures"
-description: ""
 tags: []
 date: 2020-05-09 17:24:19
 references:
