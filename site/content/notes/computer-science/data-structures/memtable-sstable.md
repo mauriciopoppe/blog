@@ -1,6 +1,5 @@
 ---
 title: "Memtable & SSTable (Sorted String Table)"
-description: "Memtables & Sorted String Table"
 tags: []
 date: 2020-02-29T15:04:00Z
 references:
