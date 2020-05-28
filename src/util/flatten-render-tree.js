@@ -5,7 +5,7 @@ const fm = require('front-matter')
 const fs = require('fs-extra')
 const { titleCase } = require('title-case')
 const defined = require('defined')
-const parseISO = require('date-fns/parseISO')
+const toDate = require('date-fns/toDate')
 
 const isProduction = process.env.NODE_ENV === 'production'
 
@@ -60,8 +60,8 @@ function byDate(a, b) {
   if (a[dateSortAttribute] || b[dateSortAttribute]) {
     if (a[dateSortAttribute] && b[dateSortAttribute]) {
       // convert to dates and toDate
-      const aDate = parseISO(a[dateSortAttribute])
-      const bDate = parseISO(b[dateSortAttribute])
+      const aDate = toDate(a[dateSortAttribute])
+      const bDate = toDate(b[dateSortAttribute])
       // console.log('by date')
       // console.log(a.title, aDate)
       // console.log(b.title, bDate)
