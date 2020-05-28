@@ -1,11 +1,19 @@
 document.addEventListener('DOMContentLoaded', function () {
   var functionPlot = window.functionPlot
 
-  functionPlot.globals.DEFAULT_WIDTH = 600
-  functionPlot.globals.DEFAULT_HEIGHT = 350
+  var contentsBounds = document.querySelector('article[role=main]').getBoundingClientRect()
+  var width = 600
+  var height = 350
+  if (contentsBounds.width < width) {
+    var ratio = contentsBounds.width / width
+    width *= ratio
+    height *= ratio
+  }
 
   functionPlot({
     target: '#geometric-representation',
+    width: width,
+    height: height,
     yAxis: { domain: [-1, 9] },
     data: [
       {
@@ -16,6 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
   ;(function () {
     var instance = functionPlot({
       target: '#geometric-representation-two-points',
+      width: width,
+      height: height,
       yAxis: { domain: [-1, 9] },
       data: [
         {
@@ -28,6 +38,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   functionPlot({
     target: '#geometric-representation-secant',
+    width: width,
+    height: height,
     tip: {
       xLine: true
     },
@@ -48,6 +60,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   functionPlot({
     target: '#slope-static-x-1',
+    width: width,
+    height: height,
     yAxis: { domain: [-1, 9] },
     data: [
       {
@@ -65,6 +79,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   functionPlot({
     target: '#slope-graph',
+    width: width,
+    height: height,
     data: [
       {
         fn: '2 * x'
@@ -75,6 +91,8 @@ document.addEventListener('DOMContentLoaded', function () {
   // slope example + dynamic line
   functionPlot({
     target: '#slope-dynamic',
+    width: width,
+    height: height,
     yAxis: { domain: [-1, 9] },
     tip: {
       xLine: true,
@@ -149,6 +167,8 @@ document.addEventListener('DOMContentLoaded', function () {
   ;(function () {
     var options = {
       target: '#newton-raphson',
+      width: width,
+      height: height,
       yAxis: { domain: [-3, 7] },
       annotations: [],
       data: [

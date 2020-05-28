@@ -56,12 +56,14 @@ $$</div>
 If $\mathbf{M}$ is a $2 \times 2$ matrix then
 
 <div>$$
-\begin{equation} \label{lambda}
-\left | \mathbf{M} - \lambda \mathbf{I} \right | = \begin{vmatrix}
+\begin{align*} \label{lambda}
+\left | \mathbf{M} - \lambda \mathbf{I} \right | &= \begin{vmatrix}
 m_{11} - \lambda & m_{12} \\
 m_{21} & m_{22} - \lambda
-\end{vmatrix} = \lambda^2 - (m_{11}+m_{22})\lambda + (m_{11}m_{22} - m_{12}m_{21})= 0
-\end{equation}
+\end{vmatrix} \\
+ & = \lambda^2 - (m_{11}+m_{22})\lambda + (m_{11}m_{22} - m_{12}m_{21}) \\
+ & = 0
+\end{align*}
 $$</div>
 
 From \eqref{lambda} we can find two values for $\lambda$ which may be unique/imaginary, a similar manipulation for a $n \times n$ matrix will yield an $n$th degree polynomial, for $n \leq 4$ we can compute the solutions by analytical methods, for $n > 4$ only numeric methods are used

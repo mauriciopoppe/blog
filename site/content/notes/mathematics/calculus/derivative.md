@@ -67,9 +67,10 @@ $$</div>
 
 Let's register more computations of the above process with smaller and smaller intervals of time in a table
 
-|time elapsed after 4 seconds|1|0.1|0.01|0.001|0.0001|
-|---|---|---|---|---|---|
-|average speed (in feet/s)|144|129.6|128.16|128.016|128.0016|
+```sh
+|time elapsed after 4 seconds|  1|  0.1|  0.01|  0.001|  0.0001|
+|average speed (in feet/s)   |144|129.6|128.16|128.016|128.0016|
+```
 
 Of course no matter how small the interval is the result is not the instant speed at the instant $t=4$ however we now see that the average speed for the intervals seem to be approaching to the fixed number **128 feet/s**
 
