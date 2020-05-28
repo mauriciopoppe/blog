@@ -38,13 +38,12 @@ export function generate({ target, n }) {
     // requestAnimationFrame(update)
     delaunay = d3.Delaunay.from(particles)
     voronoi = delaunay.voronoi([0.5, 0.5, width - 0.5, height - 0.5])
-    animationStart = window.performance.now()
+    animationStart = performance.now()
   }
 
   function paint(time) {
     context.clearRect(0, 0, width, height)
-    // render colors based on t
-    // context.beginPath()
+
     for (let i = 0; i < n; i += 1) {
       context.beginPath()
       // map x, y to [0, 1]
@@ -75,7 +74,7 @@ export function generate({ target, n }) {
     event.preventDefault()
     // particles[0] = [event.layerX, event.layerY]
     const closestPoint = delaunay.find(event.layerX, event.layerY)
-    lastTouched[closestPoint] = performance.now() - animationStart
+    lastTouched[closestPoint] = performance.now()
   }
 
   // initialization and event loop
