@@ -89,3 +89,9 @@ code {
   white-space: pre-wrap;
 }
 
+@media screen and (max-width: 769px) {
+  .container.is-fluid {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}

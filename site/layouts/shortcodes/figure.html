@@ -1,5 +1,9 @@
 <!-- figure -->
-<figure class="image is-responsive {{ with .Get "class" }}{{.}}{{ end }}" {{ with .Get "id" }}id="{{.}}"{{end}}>
+<!-- see figure.scss for the additional classes -->
+<figure class="image is-responsive {{ with .Get "class" }}{{.}}{{ end }}"
+        {{ with .Get "style" }}style="{{.}}"{{ end }}
+        {{ with .Get "id" }}id="{{.}}"{{end}}
+>
     {{ with .Get "link"}}<a href="{{.}}">{{ end }}
         <img class="lazy-load" data-src="{{ .Get "src" }}" {{ if (.Get "title") }}alt="{{ with .Get "title"}}{{.}}{{ end }}" {{ end }}{{ with .Get "width" }}width="{{.}}" {{ end }}/>
     {{ if .Get "link"}}</a>{{ end }}

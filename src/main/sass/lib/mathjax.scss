@@ -2,5 +2,8 @@
 mjx-container.MathJax {
   overflow-y: hidden;
   overflow-x: auto;
+
+  // MathJax will set a min width with JS
+  min-width: auto !important;
 }
 

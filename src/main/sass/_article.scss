@@ -13,6 +13,12 @@ article[role=main] {
   }
 }
 
+@media screen and (max-width: 769px) {
+  article[role=main] {
+    text-align: justify;
+  }
+}
+
 section.main {
   margin: 2em 0;
 }

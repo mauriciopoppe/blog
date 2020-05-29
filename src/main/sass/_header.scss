@@ -1,13 +1,9 @@
-// let the canvas that's behind the element take control of all the events
 section.hero {
-  //background-image: linear-gradient(
-  //  to bottom right,
-  //  $color0,
-  //  $color99
-  //);
-
-  .hero-body {
-    pointer-events: none;
+  @media screen and (min-width: $desktop) {
+    // let the canvas that's behind the element take control of all the events
+    .hero-body {
+      pointer-events: none;
+    }
   }
 }
 

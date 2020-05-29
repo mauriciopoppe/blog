@@ -33,7 +33,7 @@ An orthographic projection matrix is built with 6 parameters
 
 These parameters bound the view volume which is an axis-aligned bounding box
 
-![orthographic projection](https://www.songho.ca/opengl/files/gl_projectionmatrix02.png)
+{{< figure src="https://www.songho.ca/opengl/files/gl_projectionmatrix02.png" title="Ortographic Projection" >}}
 
 Since the mapping of the range $[l, r]$ to the range $[-1, 1]$ is linear we can use the equation of the line $y = mx + b$ and find the values of $m$ and $b$ however we can intuitively get a similar equation by creating a function $f(x)$ so that $f(0) = -1$ and $f(1) = 1$, we can create a nested function $g(x)$ so that $g(l) = 0$ and $g(r) = 1$ (note that $[l, r]$ is the input range) then $f(x)$ has the form
 
@@ -184,7 +184,7 @@ A perspective projection matrix is built with 6 parameters, *left, right, bottom
 
 These parameters define a truncated pyramid also called a [ frustum ](https://www.wikiwand.com/en/Frustum)
 
-![perspective projection](/images/projection-matrix!perspective-all.png)
+{{< figure src="/images/projection-matrix!perspective-all.png" title="Perspective projection" >}}
 
 ### General perspective projection matrix
 
@@ -193,8 +193,14 @@ The mapping of the range $[l,r]$ to the range $[-1,1]$ can be split into two ste
 - Project all the points to the *near* plane, this way all the $x$- and $y$-coordinates will be inside the range $[l,r] \times [b,t]$
 - Map all the values in the range $[l,r]$ and $[b,t]$ to the range $[-1, 1]$
 
-
-![top view of the frustum](/images/projection-matrix!top-view-frustum.png) ![side view of the frustum](/images/projection-matrix!side-view-frustum.png)
+<div class="columns">
+    <div class="column">
+        {{< figure src="/images/projection-matrix!top-view-frustum.png" title="Top view of the frustum">}}          
+    </div>
+    <div class="column">
+        {{< figure src="/images/projection-matrix!side-view-frustum.png" title="Side view of the frustum">}}
+    </div>
+</div>
 
 Let $\mathbf{v}_{view}$ be a vector in *view space* which is going to be transformed to *clip space*, by similar triangles we see that the value of $x_p$ and $y_p$ (the coordinates projected to the *near* plane) is
 
@@ -223,14 +229,15 @@ OpenGL will then project any 4D homogeneous coordinate to the 3D hyperplane $w=1
 We can take advantage of this process and use $-z_{view}$ as our $w$, with this in mind we can construct a transformation matrix so that transformed points have $w = -z_{view}$
 
 <div>$$
-\begin{equation} \label{pm1}
+\begin{aligned} \label{pm1}
 \begin{bmatrix} x_{clip} \\ y_{clip} \\ z_{clip} \\ w_{clip} \end{bmatrix} = \begin{bmatrix}
 . & . & . & . \\
 . & . & . & . \\
 . & . & . & . \\
 0 & 0 & -1 & 0
-\end{bmatrix} \begin{bmatrix} x_{view} \\ y_{view} \\ z_{view} \\ w_{view} \end{bmatrix}  \quad \therefore w_{clip} = -z_{view}
-\end{equation}
+\end{bmatrix} \begin{bmatrix} x_{view} \\ y_{view} \\ z_{view} \\ w_{view} \end{bmatrix}  \quad \\
+\therefore w_{clip} = -z_{view}
+\end{aligned}
 $$</div>
 
 Where $x_{clip}, y_{clip}, z_{clip}, w_{clip}$ are expressed in terms of the *clip space*, when each coordinate is divided by $w_{clip}$ we'll have NDC
@@ -242,10 +249,10 @@ $$</div>
 Next $x_p$ and $y_p$ are mapped linearly to $[-1,1]$, we can use the function to perform linear mapping \eqref{linear-mapping}
 
 <div>$$
-\begin{equation} \label{ndc-near}
+\begin{aligned} \label{ndc-near}
 x_{ndc} = \frac{2}{r - l}x_p - \frac{r + l}{r - l} \\
 y_{ndc} = \frac{2}{t - b}y_p - \frac{t + b}{t - b}
-\end{equation}
+\end{aligned}
 $$</div>
 
 Next we substitute the values of $x_p$ \eqref{projection-near} in $x_{ndc}$ \eqref{ndc-near}
@@ -389,7 +396,7 @@ $$</div>
 - *field of view* ($fov$) which specifies the field of view angle in the $y$ direction
 - *aspect* ($aspect$) which is the aspect ratio that determines the field of view in the $x$ direction calculated as $\tfrac{x}{y}$, the value is commonly $\tfrac{screen \; width}{screen \; height}$
 
-![fov](/images/projection-matrix!fov.png)
+{{< figure src="/images/projection-matrix!fov.png" title="fov" >}}
 
 We see that the value of $t$ (top) is
 
