@@ -14,7 +14,7 @@ article[role=main] {
 }
 
 @media screen and (max-width: 769px) {
-  article[role=main] {
+  article[role=main] p {
     text-align: justify;
   }
 }
