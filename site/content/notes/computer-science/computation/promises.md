@@ -325,7 +325,7 @@ it('should queue callbacks when the promise is not rejected immediately', done =
 })
 ```
 
-Let's add a queue to the promise, it's purpose is to store handlers that will be called once the promise state changes from `PENDING` to something else, at the same time our `.then` method should check the promise state to decide whether to call the handler immediately or to store the handler, let's move this logic to a new helper function `handle`
+Let's add a queue to the promise, its purpose is to store handlers that will be called once the promise state changes from `PENDING` to something else, at the same time our `.then` method should check the promise state to decide whether to call the handler immediately or to store the handler, let's move this logic to a new helper function `handle`
 
 {{< snippet lang="javascript" line="4-5,10,14-25,27-30" >}}
 class APromise {
