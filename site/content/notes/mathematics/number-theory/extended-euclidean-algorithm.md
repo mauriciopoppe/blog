@@ -93,17 +93,15 @@ $$</div>
 Comparing to the original expression \eqref{bezout} we obtain the required coefficients $x$ and $y$ based on subsequent values found
 
 <div>$$
-x =
-\begin{cases}
-1, & \text{when $a \% b = 0$} \\
+x = \begin{cases}
+1, & \text{when $a \mod b = 0$} \\
 y_1, & \text{otherwise}
 \end{cases}
-</div>
+$$</div>
 
 <div>$$
-y =
-\begin{cases}
-0, & \text{when $a \% b = 0$} \\
+y = \begin{cases}
+0, & \text{when $a \mod b = 0$} \\
 x_1 - \left \lfloor \frac{a}{b} \right \rfloor \cdot y_1, & \text{otherwise}
 \end{cases}
 $$</div>

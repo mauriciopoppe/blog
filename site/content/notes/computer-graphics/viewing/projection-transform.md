@@ -229,15 +229,15 @@ OpenGL will then project any 4D homogeneous coordinate to the 3D hyperplane $w=1
 We can take advantage of this process and use $-z_{view}$ as our $w$, with this in mind we can construct a transformation matrix so that transformed points have $w = -z_{view}$
 
 <div>$$
-\begin{aligned} \label{pm1}
-\begin{bmatrix} x_{clip} \\ y_{clip} \\ z_{clip} \\ w_{clip} \end{bmatrix} = \begin{bmatrix}
+\begin{align} 
+\begin{bmatrix} x_{clip} \\ y_{clip} \\ z_{clip} \\ w_{clip} \end{bmatrix} &= \begin{bmatrix}
 . & . & . & . \\
 . & . & . & . \\
 . & . & . & . \\
 0 & 0 & -1 & 0
-\end{bmatrix} \begin{bmatrix} x_{view} \\ y_{view} \\ z_{view} \\ w_{view} \end{bmatrix}  \quad \\
-\therefore w_{clip} = -z_{view}
-\end{aligned}
+\end{bmatrix} \begin{bmatrix} x_{view} \\ y_{view} \\ z_{view} \\ w_{view} \end{bmatrix} \label{pm1} \\
+\therefore w_{clip} &= -z_{view}  \nonumber
+\end{align}
 $$</div>
 
 Where $x_{clip}, y_{clip}, z_{clip}, w_{clip}$ are expressed in terms of the *clip space*, when each coordinate is divided by $w_{clip}$ we'll have NDC
@@ -249,10 +249,10 @@ $$</div>
 Next $x_p$ and $y_p$ are mapped linearly to $[-1,1]$, we can use the function to perform linear mapping \eqref{linear-mapping}
 
 <div>$$
-\begin{aligned} \label{ndc-near}
-x_{ndc} = \frac{2}{r - l}x_p - \frac{r + l}{r - l} \\
-y_{ndc} = \frac{2}{t - b}y_p - \frac{t + b}{t - b}
-\end{aligned}
+\begin{align} 
+x_{ndc} = \frac{2}{r - l}x_p - \frac{r + l}{r - l} \nonumber \\
+y_{ndc} = \frac{2}{t - b}y_p - \frac{t + b}{t - b} \label{ndc-near}
+\end{align}
 $$</div>
 
 Next we substitute the values of $x_p$ \eqref{projection-near} in $x_{ndc}$ \eqref{ndc-near}

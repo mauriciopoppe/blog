@@ -9,10 +9,9 @@ references:
 ---
 
 > Let $a,b \in \mathbb{Z}$, we say that $a$ _**divides**_ $b$, written $a \given b$, if there's an integer $n$ so that
->
-<div>$$
+> $$
 b = na
-$$</div>
+$$
 
 If $a$ divides $b$ then $b$ is _**divisible**_ by $a$ and $a$ is a _**divisor or factor**_ of $b$, also $b$ is called a _**multiple**_ of $a$.
 
@@ -34,10 +33,9 @@ Proof.
 ## Division algorithm
 
 > Let $a, b \in \mathbb{Z}$ with $b > 0$, then there exists $q, r \in \mathbb{Z}$ such that
->
-<div>$$
+> $$
 a = bq + r, \quad \text{where $0 \leq r \lt b$}
-$$</div>
+$$
 
 Proof. if $bq$ is the largest multiple of $b$ that does not exceed $a$ then $r = a - bq$ is positive and since $b(q + 1) > a$ then $r \lt b$.
 
@@ -48,10 +46,9 @@ Also, if $r = 0$ then $a = bq$ which implies that $q \given a$.
 Let $a, b \in \mathbb{N}$, the greatest common divisor of $a$ and $b$, written as $gcd(a,b)$ or $(a,b)$, is the element $d$ in $\mathbb{N}$ such that $d \given a$ and $d \given b$ and every common divisor of $a$ and $b$ also divides $d$.
 
 > Let $a$ and $b$ be two numbers in $\mathbb{N}$, the value of $(a,b)$ is a *linear combination* of $a$ and $b$ i.e. there exists $s,t$ in $\mathbb{Z}$ such that
->
-<div>$$
+> $$
 sa + tb = (a, b)
-$$</div>
+$$
 
 Proof.
 
@@ -109,10 +106,9 @@ A very efficient method to compute the *greatest common denominator*
 The euclidean algorithm depends on the following lemma
 
 > Let $a, b$ be integers with $a \ge b \gt 0$. Let $r$ be the remainder of dividing $a$ by $b$ then
->
-<div>$$
+> $$
 (a,b) = (b, r)
-$$</div>
+$$
 
 *Proof.* Let $q$ be the quotient of dividing $a$ by $b$ so that $a = bq + r$. If $d = (a,b)$ then it must divide any other *linear combination* of $a$ and $b$ like $r = a - bq$, therefore $d \given r$. Finally we can conclude that $d = (b,r)$.
 

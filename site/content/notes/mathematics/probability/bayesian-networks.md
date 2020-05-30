@@ -110,7 +110,25 @@ Working with the example below we can answer some queries:
   clone.style.margin = '20px'
   clone.style.bottom = 0
   clone.style.left = 0
+  clone.style.opacity = 0
+  clone.style.transition = 'opacity 0.2s'
+  clone.style.display = 'none'
   document.body.appendChild(clone)
+  
+  new IntersectionObserver(entries => {
+    if (entries[0]) {
+      var elBounds = entries[0].boundingClientRect
+      var isVisible = entries[0].isIntersecting
+      if (isVisible || elBounds.bottom <= 0) {
+        clone.style.display = 'block'
+        setTimeout(() => clone.style.opacity = 1, 200)
+      } else {      
+        clone.style.opacity = 0
+        setTimeout(() => clone.style.display = 'none', 200)
+      }
+    }
+  }).observe(el)
+  
 })();
 {{< /script >}}
 

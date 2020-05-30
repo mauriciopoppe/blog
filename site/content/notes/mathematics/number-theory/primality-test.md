@@ -44,16 +44,15 @@ If we have to make constants queries to check for numbers that are prime less th
 ### Fermat's little theorem
 
 > If $a$ is an integer, $p$ a prime number where $0 < a < p$ then
->
-<div>$$
+> $$
 a^p \equiv a \pmod{p}
-$$</div>
+$$
 >
 > or alternatively
 >
-<div>$$
+> $$
 a^{p-1} \equiv 1 \pmod{p}
-$$</div>
+$$
 
 Proofs of this theorem can be found [here](http://artofproblemsolving.com/wiki/index.php/Fermat's_Little_Theorem)
 
@@ -66,13 +65,7 @@ $$</div>
 
 The converse of this theorem is **not always** true
 
-> If
->
-<div>$$
-a^{n - 1} \equiv 1 \pmod{n}
-$$</div>
->
-> for some value of $0 &lt; a &lt; n$ then $n$ is prime
+> If $$ a^{n - 1} \equiv 1 \pmod{n} $$ for some value of $0 &lt; a &lt; n$ then $n$ is prime
 
 an example:
 
@@ -98,11 +91,7 @@ No matter how many iterations we use in the algorithm above there's a chance tha
 
 Euler primality test is an improvement over the Fermat primality test because it adds another equality condition that a prime number must fulfill, assuming that $p$ is a prime number and $a$ is an integer where $0 < a < p$ then
 
-> If $a$ is an integer, $p$ a prime number where $0 < a < p$, $p > 2$ then
->
-<div>$$
-a^{\tfrac{p - 1}{2}} \equiv \pm 1 \pmod{p}
-$$</div>
+> If $a$ is an integer, $p$ a prime number where $0 < a < p$, $p > 2$ then $$ a^{\tfrac{p - 1}{2}} \equiv \pm 1 \pmod{p} $$
 
 The motivation to this definition comes to the fact that any prime $> 2$ is an odd number, then the prime number can be expressed as $2q + 1$ where $q$ is an integer thus
 
