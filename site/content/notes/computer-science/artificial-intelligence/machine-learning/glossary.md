@@ -32,3 +32,6 @@ From https://www.analyticsvidhya.com/blog/2018/05/improve-model-performance-cros
 4. Repeat this until each of the k-folds has served as the test set
 5. The average of your k recorded errors is called the cross-validation error and will serve as your performance metric for the model
 
+### feature extraction
+
+Merge several correlated features into one. Also see dimensionality reduction
