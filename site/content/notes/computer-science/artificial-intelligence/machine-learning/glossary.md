@@ -7,8 +7,6 @@ date: 2020-05-25 15:04:38
 
 Check https://developers.google.com/machine-learning/glossary
 
-My understanding of some of these terms:
-
 ### iterations, batch, batch size and epoch
 
 - A batch is the set of examples used in one iteration, the number of examples in the set is the **batch size**. 
@@ -35,3 +33,8 @@ From https://www.analyticsvidhya.com/blog/2018/05/improve-model-performance-cros
 ### feature extraction
 
 Merge several correlated features into one. Also see dimensionality reduction
+
+### sampling noise/bias
+
+Sampling noise: nonrepresentative sample data as result of chance (typically when the sample is too small)
+Sampling bias: nonrepresentative sample data as result of a flaw in the sampling method

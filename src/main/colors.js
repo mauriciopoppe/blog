@@ -10,7 +10,7 @@ const { interpolateLab } = require('d3-interpolate')
 // const colors = ['#A45571', '#631836', '#451035', '#2E0B1A']
 // const colors = ['#A45571', '#631836', '#451035']
 // const colors = ['#B42761', '#712753', '#642157', '#121032']
-const colors = ['#9F415C', '#121211']
+const colors = ['#9F415C', '#212220']
 
 // NOTE: this function is run in both node and the browser
 function getColors() {

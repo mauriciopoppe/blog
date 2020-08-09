@@ -4,7 +4,7 @@
 //$grey:         #52575C;
 //$grey-dark:    #3A3F44;
 //$grey-darker:  #272B30;
-$grey-darker:  #121211;
+$grey-darker:  #212220;
 $grey-dark:    #454544;
 $grey:         #ABABAA;
 $grey-light:   #C5C5C4;
@@ -38,11 +38,11 @@ $footer-background-color: $background;
 $button-background-color: $background;
 $button-border-color: lighten($button-background-color, 15);
 
-$title-color: #aaa;
-$subtitle-color: $grey-light;
-$subtitle-strong-color: $grey-light;
+$title-color: $grey-lighter;
+$subtitle-color: $grey-lighter;
+$subtitle-strong-color: $grey-lighter;
 
-$text: #aaa;
+$text: $grey-light;
 $text-light: lighten($text, 10);
 $text-strong: darken($text, 5);
 
