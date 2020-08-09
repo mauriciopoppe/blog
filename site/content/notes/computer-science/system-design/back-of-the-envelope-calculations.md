@@ -52,6 +52,8 @@ Notes
 - 6-7 world-wide round trips per second
 - 2000 round trips per second within a data center
 
+<!--
+
 ## Exercises
 
 - In-memory cache: cached values are stored in RAM memory.
@@ -76,3 +78,5 @@ $$</div>
 <div>$$
 1MB * \underbrace{\frac{1 ms}{1MB}}_\text{read 1MB from SSD} + \underbrace{500 us}_\text{round trip within same datacenter} = 1.5 ms
 $$</div>
+
+-->

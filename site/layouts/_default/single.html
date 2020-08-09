@@ -30,7 +30,7 @@
           <!-- the references if set in the front matter -->
           {{ if isset .Params "references" }}
             <hr />
-            <div class="is-size-3">References</div>
+            <h2 id="references">References</h2>
             <div class="references">
               <ul>
               {{ range .Params.references }}
