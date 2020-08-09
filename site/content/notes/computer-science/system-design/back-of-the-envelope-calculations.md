@@ -4,8 +4,8 @@ description: "Back of the envelope calculations"
 tags: ["system design", "architecture", "scalability"]
 date: 2020-08-08 15:45:36
 references:
-- https://github.com/donnemartin/system-design-primer#latency-numbers-every-programmer-should-know
-- http://venkateshcm.com/2014/06/Web-Application-Cache/
+  - https://github.com/donnemartin/system-design-primer#latency-numbers-every-programmer-should-know
+  - http://venkateshcm.com/2014/06/Web-Application-Cache/
 ---
 
 Calculate with exponents. A lot of back-of-the-envelope calculations are done with just coefficients and exponents, e.g. $c * 10^e$.
