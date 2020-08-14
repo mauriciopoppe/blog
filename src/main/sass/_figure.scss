@@ -11,6 +11,10 @@ figure.is-responsive {
     max-width: 50%;
   }
 
+  &.is-90p img {
+    max-width: 90%;
+  }
+
   &.is-100p img {
     max-width: 100%;
   }

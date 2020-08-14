@@ -73,7 +73,7 @@ $$</div>
 1MB * \frac{250 us}{1MB} + \underbrace{500 us}_\text{round trip within same datacenter} = 750 us
 $$</div>
 
-**Read 1MB of data from an persistent and out-of-process cache**
+**Read 1MB of data from a persistent and out-of-process cache**
 
 <div>$$
 1MB * \underbrace{\frac{1 ms}{1MB}}_\text{read 1MB from SSD} + \underbrace{500 us}_\text{round trip within same datacenter} = 1.5 ms
