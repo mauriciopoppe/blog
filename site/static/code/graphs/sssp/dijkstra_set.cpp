@@ -8,14 +8,14 @@
  * Time complexity: O(m log n)
  * Space complexity: O(n)
  *
- * @param {vector<vector<pair<int, int> > >} g The adjacency list representation
+ * @param {vector<vector<pair<int, int>>>} g The adjacency list representation
  *  of `G`, each entry `g_{ij}` holds a pair which represents an edge
  * (vertex, weight) which tells that there's an edge from `i` to `vertex`
  * with weight `weight`
  * @param {int} s The source vertex
  * @return {vector<int>} The shortest path from `s` to all the other vertices
  */
-int dijkstra(vector<vector<pair<int, int> > > &g, int source) {
+int dijkstra(vector<vector<pair<int, int>>> &g, int source) {
   int n = g.size();
   int INF = 1e9;
   int total = 0;
@@ -29,26 +29,24 @@ int dijkstra(vector<vector<pair<int, int> > > &g, int source) {
   d[s] = 0;
 
   // accumulated weight, next vertex (weight, v)
-  set<pair<int, int> > q;
+  set<pair<int, int>> q;
   q.insert({0, s});
 
   while (!q.empty()) {
     pair<int, int> edge = *(q.begin());
-    int v = edge.second;
+    int from = edge.second;
     q.erase(q.begin());
 
     for (int i = 0; i < g[v].size(); i += 1) {
-      pair<int, int> next = g[v][i];
+      int to, weight;
 
       // note that in the graph the first element is the neighbor vertex
       // but in the set the first element is the edge weight
-      int to = next.first;
-      int weight = next.second;
-      int new_distance = d[to] + weight;
+      tie(to, weight) = g[v][i];
 
-      if (new_distance < d[to]) {
+      if (d[from] + weight < d[to]) {
         q.erase({ d[to], to });
-        d[to] = new_distance;
+        d[to] = d[from] + weight;
         parent[to] = v;
         q.insert({ d[to], to });
       }
