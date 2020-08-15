@@ -66,6 +66,16 @@ The solution is to transform the matrix such that the word-context pair frequenc
 the occurrences of words and contexts are kept in other hash maps.
  
 - **Range queries** Use a segment tree where each node is a CMS
+
+<div class="columns">
+    <div class="column">
+      {{< figure src="/images/count_min_sketch_st.png" title="Update" class="is-90p" >}}
+    </div>
+    <div class="column">
+      {{< figure src="/images/count_min_sketch_st_read.png" title="Read" class="is-90p" >}}
+    </div>
+</div>
+
 - **e-approximate heavy hitters** In a stream where the total number of frequences is $n$ (for example if frequencies are all 1, 
 then $N$ corresponds to the number of elements encountered thus far in the stream) output all of the items that occur
 at least $n/k$ times, when $k=2$ this problem is known as the majority element.
