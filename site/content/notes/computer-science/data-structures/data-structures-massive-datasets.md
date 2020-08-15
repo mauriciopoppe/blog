@@ -6,8 +6,9 @@ references:
   - https://florian.github.io/count-min-sketch/
   - https://florian.github.io/bloom-filters/
   - https://florian.github.io/reservoir-sampling/
+  - https://web.stanford.edu/class/cs168/l/l2.pdf
+  - https://livebook.manning.com/book/algorithms-and-data-structures-for-massive-datasets
 ---
-
 
 ## Bloom filter
 
@@ -27,6 +28,8 @@ see a new key/value we add it to all the $d$ counter hash maps (`update`), to ge
 take the hash of the key and return the minimum value of the counters in all the $d$ hash maps, 
 because the counter hash maps size is finite we will have collisions and a hash map may report a higher sum than what's
 the true value.
+
+- stretching the CMS width will reduce how much different elements’ hashes collide within any one row on average
 
 <div class="columns">
     <div class="column">
@@ -61,6 +64,20 @@ the word A appears in the context B, the problem is that the number of word cont
 
 The solution is to transform the matrix such that the word-context pair frequencies are stored in the count-min sketch,
 the occurrences of words and contexts are kept in other hash maps.
+ 
+- **Range queries** Use a segment tree where each node is a CMS
+- **e-approximate heavy hitters** In a stream where the total number of frequences is $n$ (for example if frequencies are all 1, 
+then $N$ corresponds to the number of elements encountered thus far in the stream) output all of the items that occur
+at least $n/k$ times, when $k=2$ this problem is known as the majority element.
+
+If $n$ is known in advance we can process the array elements using a count-min sketch in a single pass, 
+and remember an element once its estimated frequency (according to the count-min sketch) is at least $n/k$
+
+If $n$ is not known in advance we use a min-heap, in a single pass we maintain the number of elements seen so far $m$
+when processing the next element $x$ we call `update(x, 1)` and then `estimate(x)`,
+if the estimate is $\geq m/k$ we store $x$ in the heap, Also, whenever $m$ grows to the point that some object $x$ stored 
+in the heap has a key less than $m/k$ (checkable in O(1) time via Find-Min),
+we delete $x$ from the heap (via Extract-Min). After finishing the pass, we output all of the objects in the heap
  
 ## Reservoir sampling
 

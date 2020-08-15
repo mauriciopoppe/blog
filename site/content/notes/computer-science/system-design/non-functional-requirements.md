@@ -1,13 +1,13 @@
 ---
-title: "Reliability and Scalability"
-description: "Reliability and Scalability"
-tags: []
+title: "Non Functional Requirements"
+description: ""
+tags: ["system design", "availability", "scalability", "reliability"]
 date: 2018-01-02T02:14:56Z
 references:
 - http://venkateshcm.com/2014/06/Web-Application-Cache/
 ---
 
-## Reliability
+## Reliability & Availability
 
 A system should be *resilient* (fault-tolerant) and performant under expected load
 
@@ -17,26 +17,26 @@ Strategies
 - consider hardware faults such as blackouts, hard disk crashes, add redundancy as necessary
 - consider software faults such as
   - processes that slow down or that return corrupted responses
-  - fault cascadig where the a fault triggers faults in other components
+  - fault cascading where the a fault triggers faults in other components
 - measure/monitor the system to identify faults
 
 ## Scalability
 
-### Load
+A system should be able to handle load increases
 
 - Queries per second (QPS) to a web server
 - Ratio of read/writes in a DB
 - Cache hit/miss rate
 - Number of simultaneous users in a realtime system
 
-#### Handling load
+Handling load
 
 - scaling up (vertical scaling), simple
 - scaling out (horizontal scaling), complex
 - manual scale, for predictable systems, simple
 - elastic scale, add resources as load increases, for unpredictable systems, complex
 
-### Performance
+## Performant
 
 - throughput: number of requests processed per second
 - latency: time to handle the request
@@ -46,3 +46,11 @@ For the response time we use percentiles, given some metrics gathered for a set 
 from fastests to slowest, the common metrics are p50, p95, p99, p999 (used in SLAs)
 
 When a requests involves parallel calls to multiple services, the response time is equal to the service which took the maximum time
+
+## Durability
+
+Data should not be lost once sent to a system
+
+## Monitoring & metrics collection
+
+Capture metrics about the data going in/out of the system
