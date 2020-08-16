@@ -29,8 +29,6 @@ take the hash of the key and return the minimum value of the counters in all the
 because the counter hash maps size is finite we will have collisions and a hash map may report a higher sum than what's
 the true value.
 
-- stretching the CMS width will reduce how much different elements’ hashes collide within any one row on average
-
 <div class="columns">
     <div class="column">
       {{< figure src="/images/count_min_sketch_update.png" title="Update" class="is-90p" >}}
@@ -46,9 +44,10 @@ https://florian.github.io/count-min-sketch/
 
 ### Applications
 
-- **Top k elements**, every time we `update` the count min sketch we also call `estimate` and insert the record
+**Top k elements**, every time we `update` the count min sketch we also call `estimate` and insert the record
 to a min heap, when the heap's capacity is greater than $k$ we remove the topmost item from the heap.
-- **Similarity of words**, assume that we have a stream of pairs `(word, context)`, the problem is to find if two words
+
+**Similarity of words**, assume that we have a stream of pairs `(word, context)`, the problem is to find if two words
 A, B are similar in meaning based on the context where they appear, the similarity of two words is computed with:
 
 <div>$$
@@ -65,7 +64,7 @@ the word A appears in the context B, the problem is that the number of word cont
 The solution is to transform the matrix such that the word-context pair frequencies are stored in the count-min sketch,
 the occurrences of words and contexts are kept in other hash maps.
  
-- **Range queries** Use a segment tree where each node is a CMS
+**Range queries** Use a segment tree where each node is a CMS
 
 <div class="columns">
     <div class="column">
@@ -76,7 +75,7 @@ the occurrences of words and contexts are kept in other hash maps.
     </div>
 </div>
 
-- **e-approximate heavy hitters** In a stream where the total number of frequences is $n$ (for example if frequencies are all 1, 
+**e-approximate heavy hitters** In a stream where the total number of frequences is $n$ (for example if frequencies are all 1, 
 then $N$ corresponds to the number of elements encountered thus far in the stream) output all of the items that occur
 at least $n/k$ times, when $k=2$ this problem is known as the majority element.
 
