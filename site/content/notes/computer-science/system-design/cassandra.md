@@ -1,8 +1,14 @@
 ---
 title: "Cassandra"
 description: "The cassandra DB"
-tags: ["distributed systems"]
+tags: ["distributed systems", "databases"]
 date: 2020-02-28T20:47:00Z
+references:
+- https://www.slideshare.net/DataStax/scalable-data-modeling-by-example-carlos-alonso-job-and-talent-cassandra-summit-2016
+- https://blog.emumba.com/apache-cassandra-part-5-data-modelling-in-cassandra-9e81a58f4ada
+- https://www.datastax.com/blog/2015/02/basic-rules-cassandra-data-modeling
+- https://tech.ebayinc.com/engineering/cassandra-data-modeling-best-practices-part-1/
+- https://www.datastax.com/sites/default/files/content/whitepaper/files/2019-10/CM2019236%20-%20Data%20Modeling%20in%20Apache%20Cassandra%20%E2%84%A2%20White%20Paper-4.pdf
 ---
 
 <style>
@@ -73,12 +79,23 @@ img {
 primary key = partition key + clustering columns
 ```
 
+Legend:
+
+```text
+K Partition key
+C Clustering key and their ordering (ascending or descending)
+S Static columns, fixed and shared per partition
+```
+
+{{< figure src="/images/cassandra-table-structure.png" title="Cassandra table structure" >}}
+
 ### Validation
 
 - Is data evenly spread?
 - 1 partition per read?
 - Are writes (overwrites) possible?
-- How large are the partitions? $n_{cells} = n_{rows} * (n_{cols} - n_{PK} - n_{static}) + n_{static} < 1M$
+- How large are the partitions? Let's assume that each partition should have at most 1M cells,
+ $n_{cells} = n_{rows} * (n_{cols} - n_{K} - n_{S}) + n_{S} < 1M$
 - How much data duplication?
 
 ## Examples
@@ -271,9 +288,3 @@ $$</div>
   </div>
 </div>
 
-## Resources
-
-- https://www.slideshare.net/DataStax/scalable-data-modeling-by-example-carlos-alonso-job-and-talent-cassandra-summit-2016
-- https://blog.emumba.com/apache-cassandra-part-5-data-modelling-in-cassandra-9e81a58f4ada
-- https://www.datastax.com/blog/2015/02/basic-rules-cassandra-data-modeling
-- https://tech.ebayinc.com/engineering/cassandra-data-modeling-best-practices-part-1/

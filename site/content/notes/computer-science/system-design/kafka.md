@@ -1,8 +1,10 @@
 ---
 title: "Kafka"
 description: "Kafka"
-tags: ["distributed systems"]
+tags: ["distributed systems", "message broker", "data streams"]
 date: 2020-02-29T15:36:00Z
+references: 
+- https://www.cloudamqp.com/blog/2019-12-12-when-to-use-rabbitmq-or-apache-kafka.html
 ---
 
 ## Kafka
@@ -13,8 +15,7 @@ date: 2020-02-29T15:36:00Z
 
 - pub/sub messaging pattern
 - messages are persistent (stored in disk)
-- producer/brokers/consumers/queue distributed
-- consumer keep their own state
+- consumer keep their own state (stored in zookeeper)
 
 ### Technology Summary
 
@@ -26,7 +27,7 @@ date: 2020-02-29T15:36:00Z
 | Replication | Partitions are replicated, one broker is the leader and all writes/reads must go through it (replication is for fault tolerance only), replication can be tuned to write to N replicas |
 | Producer | Responsible for load balancing messages among brokers, they can discover all brokers from a single one <br /> High level api: `Producer#send(String topic, K key, V value)` <br /> Determines the partition based on the key (default hash mod) e.g. `send("A", "foo", message)`  in the example below: `"foo" mod 2` <br /> No total ordering across partitions <br /> Guaranteed ordering inside the partition. Useful if the key is a PK, if so all the messages related with that key will be ordered. |
 | Consumer | Request a range of messages from a broker, responsible for their own state i.e. its own iterator <br /> High level api: `Map<String, List<KafkaStream>> Consumer.connector(Collections.singletonMap("topic", nPartitions))` <br /> Blocking/non blocking behavior |
-| Consumer Group | Multiple consumers can be part of a consumer group coordinated with zookeper, in a group each partition will be consumed by exactly one consumer <br /> Consequence: broadcast/pubsub (If all the consumer instances have different consumer groups) and load balance/queue (If all the consumer instances have the same consumer group) |
+| Consumer Group | Multiple consumers can be part of a consumer group coordinated with zookeeper, **in a group each partition will be consumed by exactly one consumer** <br /> Consequence: broadcast/pubsub (If all the consumer instances have different consumer groups) and load balance/queue (If all the consumer instances have the same consumer group) |
 
 ### Useful numbers
 
