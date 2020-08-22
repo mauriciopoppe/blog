@@ -24,13 +24,19 @@ Main memory reference                      100   ns                      20x L2 
 Compress 1K bytes with Zippy            10,000   ns       10 us
 Send 1 KB bytes over 1 Gbps network     10,000   ns       10 us
 Read 4 KB randomly from SSD*           150,000   ns      150 us          ~1GB/sec SSD
-Read 1 MB sequentially from memory     250,000   ns      250 us
-Round trip within same datacenter      500,000   ns      500 us
+Read 1 MB sequentially from memory     250,000   ns      250 us  .25 ms
+Round trip within same datacenter      500,000   ns      500 us   .5 ms
 Read 1 MB sequentially from SSD*     1,000,000   ns    1,000 us    1 ms  ~1GB/sec SSD, 4X memory
 HDD seek                            10,000,000   ns   10,000 us   10 ms  20x datacenter roundtrip
 Read 1 MB sequentially from 1 Gbps  10,000,000   ns   10,000 us   10 ms  40x memory, 10X SSD
 Read 1 MB sequentially from HDD     30,000,000   ns   30,000 us   30 ms 120x memory, 30X SSD
 Send packet CA->Netherlands->CA    150,000,000   ns  150,000 us  150 ms
+
+Notes
+-----
+1 ns = 10^-9 seconds
+1 us = 10^-6 seconds = 1,000 ns
+1 ms = 10^-3 seconds = 1,000 us = 1,000,000 ns
 
 Cost Numbers
 ------------
@@ -43,12 +49,6 @@ SSD	      1 GB	     $0.1
 HDD  	  1 GB	    $0.01
 S3, GCS   1 GB	    $0.01
 Network	  1 GB	    $0.01
-
-Notes
------
-1 ns = 10^-9 seconds
-1 us = 10^-6 seconds = 1,000 ns
-1 ms = 10^-3 seconds = 1,000 us = 1,000,000 ns
 ```
 
 <iframe src="https://instacalc.com/53733/embed" width="100%" height="210" frameborder="0"></iframe>
@@ -57,14 +57,15 @@ Notes
 - Read sequentially from SSD, 1MB at 1ms, 1 GB/s
 - Read sequentially from 1 Gbps Ethernet, 1MB at 10ms, 100 MB/s
 - Read sequentially from HDD, 1MB at 30ms, 30 MB/s
-- 86.4k queries per day, ~ 9 * 10^4 queries / second
-- 2.5M queries per month, ~ 2.5 * 10^6 queries / second
+- 1 query per second = 86.4k queries / day, 9 * 10^4 queries / second (10^5 seconds every day)
+- 2.5M queries per month = 2.5 * 10^6 queries / second
 - 40 requests per second = 100 million requests per month
 - 400 requests per second = 1 billion requests per month
 - 1M requests per day = 10 requests per second (exact = 11.6)
 - 6-7 world-wide round trips per second
 - 2000 round trips per second within a data center
 - 100k commands per second in an in-memory single-threaded data store
+- It's typically the case that we can ignore any memory latency as soon as I/O is involved
 - Writes are 40 times more expensive than reads, therefore architect for scaling writes!
 
 ## Exercises
@@ -74,22 +75,16 @@ Notes
   - (b) out-of-process: caching in another process
 - Persistent cache : caching in persistent systems like files or database.
 
-> Read 1MB of data from an in-memory and in-process cache
-
-<div>$$
-1MB * \frac{0.25 ms}{1MB} = 0.25 ms
-$$</div>
-
 > Read 1MB of data from an in-memory and out-of-process cache
 
 <div>$$
-1MB * \frac{0.25 ms}{1MB} + \underbrace{0.5 ms}_\text{round trip within same datacenter} = 0.75 ms
+1MB * \frac{0.25 ms}{1MB} + \underbrace{(10 * 10^-3ms) * 10^3}_\text{1MB over 1 Gbps network} = 10.25 ms
 $$</div>
 
 > Read 1MB of data from a persistent and out-of-process cache
 
 <div>$$
-1MB * \underbrace{\frac{1 ms}{1MB}}_\text{read 1MB from SSD} + \underbrace{0.5 ms}_\text{round trip within same datacenter} = 1.5 ms
+1MB * \underbrace{\frac{1 ms}{1MB}}_\text{read 1MB from SSD} + \underbrace{(10 * 10^-3ms) * 10^3}_\text{1MB over 1 Gbps network} = 11 ms
 $$</div>
 
 > Your SSD-backed database has a usage-pattern that rewards you with a 80% page-cache hit-rate
@@ -110,4 +105,4 @@ IO: 50 pages (50 * 16KB = 800KB) transmitted in 10ms, overall result 10ms + 1ms 
 
 > How many commands-per-second can a simple, in-memory, single-threaded data-store do?
 
-I/O controls the number of ops/s, 10 us TCP echo (32KB), $\frac{1s}{10 us} = 10^5$ = 100k ops/s
+I/O controls the number of ops/s, assuming that we transmit 1KB $\frac{1s}{10 us} = 10^5$ = 100k ops/s
