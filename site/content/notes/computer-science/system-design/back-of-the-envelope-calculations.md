@@ -15,8 +15,10 @@ Your goal is to get within an order of magnitude right that's just $e$. $c$ matt
 Only worrying about single-digit coefficients and exponents makes it much easier on a napkin (not to speak of all the zeros you avoid writing).
 
 ```markdown
-Latency Comparison Numbers (From 2017 in https://colin-scott.github.io/personal_website/research/interactive_latency.html)
+Latency Comparison Numbers
 --------------------------
+(From 2017 in https://colin-scott.github.io/personal_website/research/interactive_latency.html)
+
 L1 cache reference                           0.5 ns
 Branch mispredict                            5   ns
 L2 cache reference                           7   ns                      14x L1 cache
@@ -76,7 +78,7 @@ Network	  1 GB	    $0.01
 > Read 1MB of data from an in-memory and out-of-process cache
 
 <div>$$
-1MB * \frac{0.01 ms}{1MB} + \underbrace{(10 * 10^-3ms) * 10^3}_\text{1MB over 1 Gbps network} = 10.01 ms
+1MB * \frac{10^{-2} ms}{1MB} + \underbrace{(10 * 10^{-3} ms) * 10^3}_\text{1MB over 1 Gbps network} = 10.01 ms
 $$</div>
 
 > Read 1MB of data from a persistent and out-of-process cache
