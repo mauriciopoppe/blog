@@ -7,6 +7,7 @@ references:
   - https://github.com/donnemartin/system-design-primer#latency-numbers-every-programmer-should-know
   - https://sirupsen.com/napkin/
   - http://venkateshcm.com/2014/06/Web-Application-Cache/
+  - https://colin-scott.github.io/personal_website/research/interactive_latency.html
 ---
 
 Calculate with exponents. A lot of back-of-the-envelope calculations are done with just coefficients and exponents, e.g. $c * 10^e$.
@@ -14,7 +15,7 @@ Your goal is to get within an order of magnitude right that's just $e$. $c$ matt
 Only worrying about single-digit coefficients and exponents makes it much easier on a napkin (not to speak of all the zeros you avoid writing).
 
 ```markdown
-Latency Comparison Numbers
+Latency Comparison Numbers (2020)
 --------------------------
 L1 cache reference                           0.5 ns
 Branch mispredict                            5   ns
@@ -22,14 +23,13 @@ L2 cache reference                           7   ns                      14x L1 
 Mutex lock/unlock                           25   ns
 Main memory reference                      100   ns                      20x L2 cache, 200x L1 cache
 Compress 1K bytes with Zippy            10,000   ns       10 us
-Send 1 KB bytes over 1 Gbps network     10,000   ns       10 us
-Read 4 KB randomly from SSD*           150,000   ns      150 us          ~1GB/sec SSD
-Read 1 MB sequentially from memory     250,000   ns      250 us  .25 ms
+Read 4 KB randomly from SSD*           150,000   ns      150 us          
+Read 1 MB sequentially from memory      10,000   ns       10 us  .01 ms
+Read 1 MB sequentially from SSD*       100,000   ns      100 us   .1 ms
+Read 1 MB sequentially from HDD      1,000,000   ns    1,000 us    1 ms
+Send 1 KB bytes over 1 Gbps network     10,000   ns       10 us  .01 ms
+Read 1 MB sequentially from 1 Gbps  10,000,000   ns   10,000 us   10 ms
 Round trip within same datacenter      500,000   ns      500 us   .5 ms
-Read 1 MB sequentially from SSD*     1,000,000   ns    1,000 us    1 ms  ~1GB/sec SSD, 4X memory
-HDD seek                            10,000,000   ns   10,000 us   10 ms  20x datacenter roundtrip
-Read 1 MB sequentially from 1 Gbps  10,000,000   ns   10,000 us   10 ms  40x memory, 10X SSD
-Read 1 MB sequentially from HDD     30,000,000   ns   30,000 us   30 ms 120x memory, 30X SSD
 Send packet CA->Netherlands->CA    150,000,000   ns  150,000 us  150 ms
 
 Notes
@@ -53,10 +53,7 @@ Network	  1 GB	    $0.01
 
 <iframe src="https://instacalc.com/53733/embed" width="100%" height="210" frameborder="0"></iframe>
 
-- Read sequentially from main memory, 1MB at 0.25ms, 4 GB/s or 4k 1MB fetches/s
-- Read sequentially from SSD, 1MB at 1ms, 1 GB/s
-- Read sequentially from 1 Gbps Ethernet, 1MB at 10ms, 100 MB/s
-- Read sequentially from HDD, 1MB at 30ms, 30 MB/s
+- For reads: 1 SSD = 10 memory, 1 HDD = 100 SSD
 - 1 query per second = 86.4k queries / day, 9 * 10^4 queries / second (10^5 seconds every day)
 - 2.5M queries per month = 2.5 * 10^6 queries / second
 - 40 requests per second = 100 million requests per month
@@ -78,13 +75,13 @@ Network	  1 GB	    $0.01
 > Read 1MB of data from an in-memory and out-of-process cache
 
 <div>$$
-1MB * \frac{0.25 ms}{1MB} + \underbrace{(10 * 10^-3ms) * 10^3}_\text{1MB over 1 Gbps network} = 10.25 ms
+1MB * \frac{0.01 ms}{1MB} + \underbrace{(10 * 10^-3ms) * 10^3}_\text{1MB over 1 Gbps network} = 10.01 ms
 $$</div>
 
 > Read 1MB of data from a persistent and out-of-process cache
 
 <div>$$
-1MB * \underbrace{\frac{1 ms}{1MB}}_\text{read 1MB from SSD} + \underbrace{(10 * 10^-3ms) * 10^3}_\text{1MB over 1 Gbps network} = 11 ms
+1MB * \underbrace{\frac{.1 ms}{1MB}}_\text{read 1MB from SSD} + \underbrace{(10 * 10^-3ms) * 10^3}_\text{1MB over 1 Gbps network} = 10.1 ms
 $$</div>
 
 > Your SSD-backed database has a usage-pattern that rewards you with a 80% page-cache hit-rate
@@ -95,13 +92,11 @@ $$</div>
 [The default size of a page in InnoDB is 16KB](https://www.percona.com/blog/2006/06/04/innodb-page-size/),
 for each query we read 50 pages, 50 * 0.8 = 40 are read from memory and 10 from SSD
 
-- 40 pages read from memory: $(40 * 16KB) * \frac{0.25 ms}{1MB} = 640KB * \frac{1MB}{1 * 10^3 KB} * \frac{0.25 us}{1MB} = 0.16 ms$
-- 10 pages read from SSD: $(10 * 16KB) * \frac{1 ms}{1MB} = 160KB * \frac{1MB}{1 * 10^3 KB} * \frac{1 ms}{1MB} = 0.16 ms$
-
-Total time: 0.32ms, the results are the same because we're reading 4x from memory more than SSD and SSD is 4x times slower than memory.
+- 40 pages read from memory: $(40 * 16KB) * \frac{0.01 ms}{1MB} = 640KB * \frac{1MB}{1 * 10^3 KB} * \frac{0.01 us}{1MB} = 0.0064 ms$
+- 10 pages read from SSD: $(10 * 16KB) * \frac{0.1 ms}{1MB} = 160KB * \frac{1MB}{1 * 10^3 KB} * \frac{0.1 ms}{1MB} = 0.016 ms$
 
 In real life we just round the numbers, 1ms tops for the sum. **It’s typically the case that we can ignore any memory latency as soon as I/O is involved.**,
-IO: 50 pages (50 * 16KB = 800KB) transmitted in 10ms, overall result 10ms + 1ms = 11ms
+IO: 50 pages (50 * 16KB = 800KB) transmitted in about 10ms, overall result 10ms + 1ms = 11ms
 
 > How many commands-per-second can a simple, in-memory, single-threaded data-store do?
 
