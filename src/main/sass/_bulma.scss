@@ -75,6 +75,10 @@ body {
   -webkit-font-smoothing: auto;
 }
 
+strong {
+  color: $text-light;
+}
+
 pre[class*=language-] {
   font-size: 0.7em !important;
   border-radius: $radius;

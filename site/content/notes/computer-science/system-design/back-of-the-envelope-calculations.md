@@ -78,13 +78,13 @@ Network	  1 GB	    $0.01
 > Read 1MB of data from an in-memory and out-of-process cache
 
 <div>$$
-1MB * \frac{10^{-2} ms}{1MB} + \underbrace{(10 * 10^{-3} ms) * 10^3}_\text{1MB over 1 Gbps network} = 10.01 ms
+1MB * \underbrace{\frac{10^{-2} ms}{1MB}}_\text{read 1MB from memory} + \underbrace{10 ms}_\text{1MB over 1 Gbps network} = 10.01 ms
 $$</div>
 
 > Read 1MB of data from a persistent and out-of-process cache
 
 <div>$$
-1MB * \underbrace{\frac{.1 ms}{1MB}}_\text{read 1MB from SSD} + \underbrace{(10 * 10^-3ms) * 10^3}_\text{1MB over 1 Gbps network} = 10.1 ms
+1MB * \underbrace{\frac{10^{-1} ms}{1MB}}_\text{read 1MB from SSD} + \underbrace{10 ms}_\text{1MB over 1 Gbps network} = 10.1 ms
 $$</div>
 
 > Your SSD-backed database has a usage-pattern that rewards you with a 80% page-cache hit-rate
@@ -95,7 +95,7 @@ $$</div>
 [The default size of a page in InnoDB is 16KB](https://www.percona.com/blog/2006/06/04/innodb-page-size/),
 for each query we read 50 pages, 50 * 0.8 = 40 are read from memory and 10 from SSD
 
-- 40 pages read from memory: $(40 * 16KB) * \frac{0.01 ms}{1MB} = 640KB * \frac{1MB}{1 * 10^3 KB} * \frac{0.01 us}{1MB} = 0.0064 ms$
+- 40 pages read from memory: $(40 * 16KB) * \frac{0.01 ms}{1MB} = 640KB * \frac{1MB}{1 * 10^3 KB} * \frac{0.01 ms}{1MB} = 0.0064 ms$
 - 10 pages read from SSD: $(10 * 16KB) * \frac{0.1 ms}{1MB} = 160KB * \frac{1MB}{1 * 10^3 KB} * \frac{0.1 ms}{1MB} = 0.016 ms$
 
 In real life we just round the numbers, 1ms tops for the sum. **It’s typically the case that we can ignore any memory latency as soon as I/O is involved.**,
@@ -108,7 +108,7 @@ I/O controls the number of ops/s, assuming that we transmit 1KB $\frac{1s}{10 us
 > Amount of computing power to process 1PB everyday, assume that the time required for the computation of 1MB is 0.1s
 
 <div>$$
-10^9 MB * \frac{10^-1 s}{1 MB} = 10^8 s
+10^9 MB * \frac{10^{-1} s}{1 MB} = 10^8 s
 $$</div>
 
 The above has to be computed everyday or in $10^5 s$
@@ -117,8 +117,8 @@ The above has to be computed everyday or in $10^5 s$
 10^8 s * \frac{1 day}{10^5 s}= 10^3 days
 $$</div>
 
-We would need 10^3 machines to get the work done, assuming that the servers should be running at 50% capacity and 
-with possible spikes we can provision 4 * 10^3 processes.
+We would need $10^3$ machines to get the work done, assuming that the servers should be running at 50% capacity and 
+with possible spikes we can provision $4 * 10^3$ processes.
 
 > Store information about 2 billion users including basic info and a profile picture
 
