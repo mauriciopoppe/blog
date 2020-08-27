@@ -1,5 +1,11 @@
 // colors and bulma
 @import './palette_neon';
+
+// bulma css variables polyfill
+@import '../bulma-generated/generated-fallback.css';
+@import '../bulma-generated/generated-bulma-vars.sass';
+@import "_variables.scss";
+@import '../../../node_modules/bulma-css-vars/bulma-cv-lib';
 @import './bulma';
 
 // libs
@@ -22,4 +28,3 @@
 @import './footer';
 @import './profile';
 @import './figure';
-

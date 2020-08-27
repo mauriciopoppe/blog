@@ -1,50 +1,45 @@
-// override
-//$grey-lighter: #98a4ad;
-//$grey-light:   #7A8288;
-//$grey:         #52575C;
-//$grey-dark:    #3A3F44;
-//$grey-darker:  #272B30;
-$grey-darker:  #212220;
-$grey-dark:    #454544;
-$grey:         #ABABAA;
-$grey-light:   #C5C5C4;
-$grey-lighter: #DEDEDD;
+// defined in bulma-css-vars.config.js
+//$grey-darker:  #212220;
+//$grey-dark:    #454544;
+//$grey:         #ABABAA;
+//$grey-light:   #C5C5C4;
+//$grey-lighter: #DEDEDD;
+//$orange: #f89406;
+//$green: #62c462;
+//$blue: #5bc0de;
+//$red: #ee5f5b;
 
-$orange: #f89406;
-$green: #62c462;
-$blue: #5bc0de;
-$red: #ee5f5b;
-
-// override
-$primary: $color0 !default;
-$info: $color50 !default;
-$warning: $color99 !default;
-$warning-invert: #fff;
+// defined in bulma-css-vars.config.js
+//$primary: $color0 !default;
+//$info: $color50 !default;
+//$warning: $color99 !default;
+//$warning-invert: #fff;
 
 // override
 $body-size: 18px; // 16px;
+$radius: 5px;
 
 $black-bis: rgb(18, 18, 18);
 
-$dark: darken($grey-darker, 3);
-
-$border: $grey;
-
-$size-7: 0.85rem;
+$border: $grey-light;
 
 $body-background-color: $grey-darker;
 $background: $grey-dark;
 $footer-background-color: $background;
 $button-background-color: $background;
-$button-border-color: lighten($button-background-color, 15);
+//$button-border-color: lighten($button-background-color, 15);
+
+$family-serif: "Merriweather", "Georgia", serif;
+$family-primary: $family-serif;
+$time: 250ms;
 
 $title-color: $grey-lighter;
 $subtitle-color: $grey-lighter;
 $subtitle-strong-color: $grey-lighter;
 
 $text: $grey-light;
-$text-light: lighten($text, 10);
-$text-strong: darken($text, 5);
+$text-light: $grey-lighter;
+$text-strong: $grey-lighter;
 
 $box-shadow: none;
 $box-background-color: $grey-dark;
@@ -55,13 +50,14 @@ $card-header-shadow: none;
 $card-header-background-color: rgba($black-bis, 0.2);
 $card-footer-background-color: rgba($black-bis, 0.2);
 
-$link: #fafafa;
-$link-invert: $grey;
-$link-hover: lighten($link, 5);
-$link-focus: darken($link, 5);
-$link-active: darken($link, 15);
-$link-focus-border: darken($link, 5);
-$link-active-border: $link-focus-border;
+// defined in bulma-css-vars.config.js
+//$link: #fafafa;
+//$link-invert: $link;
+//$link-hover: lighten($link, 5);
+//$link-focus: darken($link, 5);
+//$link-active: darken($link, 15);
+//$link-focus-border: darken($link, 5);
+//$link-active-border: $link-focus-border;
 
 $button-color: #fafafa;
 
@@ -74,11 +70,11 @@ $label-color: $text;
 $table-color: $text;
 $table-head: $grey-lighter;
 $table-background-color: $grey-dark;
-$table-cell-border: 1px solid $grey;
+$table-cell-border: 1px solid $grey-light;
 
 $table-row-hover-background-color: $grey-darker;
 $table-striped-row-even-background-color: $grey-darker;
-$table-striped-row-even-hover-background-color: lighten($grey-darker, 4);
+//$table-striped-row-even-hover-background-color: lighten($grey-darker, 4);
 
 $pagination-border-color: $border;
 
@@ -87,13 +83,13 @@ $navbar-background-color: $background;
 $navbar-item-color: rgba($link, 0.5);
 $navbar-item-hover-color: $link;
 $navbar-item-active-color: $link;
-$navbar-item-hover-background-color: darken($grey-dark, 5);
-$navbar-item-active-background-color: darken($grey-dark, 5);
+//$navbar-item-hover-background-color: darken($grey-dark, 5);
+//$navbar-item-active-background-color: darken($grey-dark, 5);
 $navbar-dropdown-background-color: $background;
 $navbar-dropdown-item-hover-color: $link;
 $navbar-dropdown-item-active-color: $link;
-$navbar-dropdown-item-hover-background-color: darken($grey-dark, 5);
-$navbar-dropdown-item-active-background-color: darken($grey-dark, 5);
+//$navbar-dropdown-item-hover-background-color: darken($grey-dark, 5);
+//$navbar-dropdown-item-active-background-color: darken($grey-dark, 5);
 
 $dropdown-content-background-color: $background;
 $dropdown-item-color: $text;

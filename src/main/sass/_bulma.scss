@@ -1,26 +1,20 @@
 //check https://github.com/jgthms/bulma/blob/master/bulma.sass
 
-@import "_variables.scss";
-@import "~bulma/sass/utilities/_all";
-@import "~bulma/sass/base/_all";
-
-@import "~bulma/sass/elements/box";
-@import "~bulma/sass/elements/container";
-@import "~bulma/sass/elements/content";
-@import "~bulma/sass/elements/tag";
-@import "~bulma/sass/elements/title";
-
-@import "~bulma/sass/components/breadcrumb";
-@import "~bulma/sass/components/card";
-
-@import "~bulma/sass/grid/columns";
-
-@import "~bulma/sass/layout/_all";
-
-// custom variables
-$family-serif: "Merriweather", "Georgia", serif;
-$family-primary: $family-serif;
-$time: 250ms;
+//@import "../../../node_modules/bulma/sass/utilities/_all";
+//@import "../../../node_modules/bulma/sass/base/_all";
+//
+//@import "../../../node_modules/bulma/sass/elements/box";
+//@import "../../../node_modules/bulma/sass/elements/container";
+//@import "../../../node_modules/bulma/sass/elements/content";
+//@import "../../../node_modules/bulma/sass/elements/tag";
+//@import "../../../node_modules/bulma/sass/elements/title";
+//
+//@import "../../../node_modules/bulma/sass/components/breadcrumb";
+//@import "../../../node_modules/bulma/sass/components/card";
+//
+//@import "../../../node_modules/bulma/sass/grid/columns";
+//
+//@import "../../../node_modules/bulma/sass/layout/_all";
 
 @mixin word-wrap() {
   overflow-wrap: break-word;
@@ -59,7 +53,7 @@ a {
 // neon box shadow
 .box {
   //box-shadow: 0px 0px 10px 3px rgba($primary, 0.5);
-  border: 2px solid rgba($primary, 1);
+  border: 2px solid $primary;
 }
 
 // neon separator
@@ -82,7 +76,7 @@ strong {
 pre[class*=language-] {
   font-size: 0.7em !important;
   border-radius: $radius;
-  background-color: lighten($body-background-color, 2) !important;
+  background-color: $grey-darker;
 }
 
 code {

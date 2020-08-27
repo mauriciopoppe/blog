@@ -4,17 +4,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
 
-  background-image:
-    linear-gradient(
-      to bottom right,
-      $color0, $color75
-    );
+  a {
+    pointer-events: all;
+  }
 
   .sitemap {
     opacity: 1;
     overflow: scroll;
     max-height: calc(100vh - 200px);
+    pointer-events: all;
+  }
+
+  .card {
+    background-color: transparent;
+    backdrop-filter: blur(10px);
   }
 }
 
@@ -27,8 +32,8 @@
   }
 }
 
-.my-button {
-  border: 1px solid $link;
+.social-button {
+  border: 1px solid $primary;
   padding: 10px;
   margin-left: 10px;
   border-radius: $radius;

@@ -4,9 +4,10 @@
 {{ end }}
 <script>
 (function () {
-  var target = document.querySelector({{ if .Scratch.Get "isIndex" }} 'body' {{ else }} 'section.hero' {{ end}})
+  var target = {{ if .Scratch.Get "isIndex" }} 'body' {{ else }} 'section.hero' {{ end}}
   window.voronoi.generate({
-    target: target,
+    target: document.querySelector(target),
+    rainbow: target === 'body',
     n: 300
   })
 })()

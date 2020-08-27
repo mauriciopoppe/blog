@@ -8,3 +8,8 @@ footer.footer {
   position: relative;
   height: 500px;
 }
+
+.footer--profile {
+  background-color: transparent;
+  backdrop-filter: blur(10px);
+}

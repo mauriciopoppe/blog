@@ -1,11 +1,11 @@
 import { select } from 'd3-selection'
 import { Delaunay } from 'd3-delaunay'
-import { t } from '../main/colors'
+import { t, bannerColorChanger } from '../main/colors'
 import { interpolateLab } from 'd3-interpolate'
 
 const d3 = { select, Delaunay }
 
-export function generate({ target, n }) {
+export function generate({ target, n, rainbow }) {
   // canvas setup
   const { width, height } = target.getBoundingClientRect()
   const scale = window.devicePixelRatio
@@ -24,11 +24,9 @@ export function generate({ target, n }) {
   const context = canvas.getContext('2d')
   context.scale(scale, scale)
 
-  let animationStart
-
   // voronoi setup
   const particles = Array.from({ length: n }, () => [Math.random() * width, Math.random() * height])
-  let delaunay, voronoi
+  let delaunay, voronoi, animationStart
 
   /** @type {Object.<number, number>} */
   const lastTouched = {}
@@ -42,6 +40,10 @@ export function generate({ target, n }) {
   }
 
   function paint(time) {
+    if (rainbow) {
+      bannerColorChanger(time)
+    }
+
     context.clearRect(0, 0, width, height)
 
     for (let i = 0; i < n; i += 1) {
@@ -81,11 +83,6 @@ export function generate({ target, n }) {
   initialize()
   ;(function tick(time) {
     requestAnimationFrame(tick)
-
-    // trigger a paint for the first time, time == null
-    if (time !== null && !Object.keys(lastTouched).length) {
-      return
-    }
 
     paint(time)
   })(null)
