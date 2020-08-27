@@ -1,7 +1,5 @@
 const { interpolateLab } = require('d3-interpolate')
 const { ColorUpdater } = require('bulma-css-vars')
-const { bulmaCssVariablesDefs } = require('./bulma-generated/bulma-colors')
-const colorUpdater = new ColorUpdater(bulmaCssVariablesDefs)
 
 // https://i.redd.it/aepphltiqy911.png
 // const colors = ['#D40078', '#F6019D', '#920075', '#650D89', '#023788']
@@ -17,6 +15,9 @@ const colors = ['#B94B69', '#212220']
 const bannerColors = ['#B94B69', '#00b1e6', '#48F913', '#F9C80E', '#B94B69']
 
 function bannerColorChanger(delta) {
+  const { bulmaCssVariablesDefs } = require('./bulma-generated/bulma-colors')
+  const colorUpdater = new ColorUpdater(bulmaCssVariablesDefs)
+
   const k = (Math.sin(delta / 5000) + 1) / 2
   colors[0] = t(k, bannerColors)
 

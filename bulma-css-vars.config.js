@@ -4,7 +4,6 @@
  * - define only colors in this file, other bulma variables should be defined in _variables.scss
  */
 
-// const { hsl, rgb } = require('bulma-css-vars')
 const Color = require('color')
 const colors = require('./src/main/colors')
 
