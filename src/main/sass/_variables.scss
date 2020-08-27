@@ -27,7 +27,7 @@ $body-background-color: $grey-darker;
 $background: $grey-dark;
 $footer-background-color: $background;
 $button-background-color: $background;
-//$button-border-color: lighten($button-background-color, 15);
+$button-border-color: lighten($button-background-color, 15);
 
 $family-serif: "Merriweather", "Georgia", serif;
 $family-primary: $family-serif;
@@ -50,7 +50,7 @@ $card-header-shadow: none;
 $card-header-background-color: rgba($black-bis, 0.2);
 $card-footer-background-color: rgba($black-bis, 0.2);
 
-// defined in bulma-css-vars.config.js
+// defined in /bulma-css-vars.config.js
 //$link: #fafafa;
 //$link-invert: $link;
 //$link-hover: lighten($link, 5);
@@ -74,7 +74,7 @@ $table-cell-border: 1px solid $grey-light;
 
 $table-row-hover-background-color: $grey-darker;
 $table-striped-row-even-background-color: $grey-darker;
-//$table-striped-row-even-hover-background-color: lighten($grey-darker, 4);
+$table-striped-row-even-hover-background-color: lighten($grey-darker, 4);
 
 $pagination-border-color: $border;
 
@@ -83,13 +83,13 @@ $navbar-background-color: $background;
 $navbar-item-color: rgba($link, 0.5);
 $navbar-item-hover-color: $link;
 $navbar-item-active-color: $link;
-//$navbar-item-hover-background-color: darken($grey-dark, 5);
-//$navbar-item-active-background-color: darken($grey-dark, 5);
+$navbar-item-hover-background-color: darken($grey-dark, 5);
+$navbar-item-active-background-color: darken($grey-dark, 5);
 $navbar-dropdown-background-color: $background;
 $navbar-dropdown-item-hover-color: $link;
 $navbar-dropdown-item-active-color: $link;
-//$navbar-dropdown-item-hover-background-color: darken($grey-dark, 5);
-//$navbar-dropdown-item-active-background-color: darken($grey-dark, 5);
+$navbar-dropdown-item-hover-background-color: darken($grey-dark, 5);
+$navbar-dropdown-item-active-background-color: darken($grey-dark, 5);
 
 $dropdown-content-background-color: $background;
 $dropdown-item-color: $text;

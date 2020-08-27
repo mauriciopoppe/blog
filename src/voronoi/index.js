@@ -83,7 +83,6 @@ export function generate({ target, n, rainbow }) {
   initialize()
   ;(function tick(time) {
     requestAnimationFrame(tick)
-
     paint(time)
   })(null)
 }
