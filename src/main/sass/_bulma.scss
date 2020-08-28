@@ -2,18 +2,14 @@
 
 //@import "../../../node_modules/bulma/sass/utilities/_all";
 //@import "../../../node_modules/bulma/sass/base/_all";
-//
 //@import "../../../node_modules/bulma/sass/elements/box";
 //@import "../../../node_modules/bulma/sass/elements/container";
 //@import "../../../node_modules/bulma/sass/elements/content";
 //@import "../../../node_modules/bulma/sass/elements/tag";
 //@import "../../../node_modules/bulma/sass/elements/title";
-//
 //@import "../../../node_modules/bulma/sass/components/breadcrumb";
 //@import "../../../node_modules/bulma/sass/components/card";
-//
 //@import "../../../node_modules/bulma/sass/grid/columns";
-//
 //@import "../../../node_modules/bulma/sass/layout/_all";
 
 @mixin word-wrap() {
@@ -52,7 +48,7 @@ a {
 
 // neon box shadow
 .box {
-  //box-shadow: 0px 0px 10px 3px rgba($primary, 0.5);
+  box-shadow: $box-shadow;
   border: 2px solid $primary;
 }
 

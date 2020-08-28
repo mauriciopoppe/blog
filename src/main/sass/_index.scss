@@ -19,7 +19,7 @@
 
   .card {
     background-color: transparent;
-    //backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
   }
 }
 
@@ -33,8 +33,15 @@
 }
 
 .social-button {
-  border: 1px solid $primary;
+  border: 2px solid $primary;
   padding: 10px;
   margin-left: 10px;
   border-radius: $radius;
+  transition: all $time;
+
+  &:hover {
+    color: $primary;
+    background-color: $body-background-color;
+    box-shadow: $box-shadow;
+  }
 }

@@ -58,7 +58,7 @@ Network	  1 GB	    $0.01
 
 - For reads: 1 SSD = 10 memory, 1 HDD = 10 SSD
 - 1 query per second = 86.4k queries / day, 9 * 10^4 queries / second (10^5 seconds every day)
-- 2.5M queries per month = 2.5 * 10^6 queries / second
+- 1 query per second = 2.5M queries / month, 
 - 40 requests per second = 100 million requests per month
 - 400 requests per second = 1 billion requests per month
 - 1M requests per day = 10 requests per second (exact = 11.6)
