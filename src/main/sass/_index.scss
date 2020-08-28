@@ -26,6 +26,8 @@
 @media screen and (max-width: $desktop) {
   .is-index {
     height: auto;
+    pointer-events: initial;
+
     .sitemap {
       max-height: none;
     }
