@@ -48,6 +48,7 @@
     "core-js": "^3.6.4",
     "css-loader": "^3.4.2",
     "d3-delaunay": "^5.2.1",
+    "d3-ease": "^2.0.0",
     "d3-interpolate": "^1.4.0",
     "d3-scale": "^3.2.1",
     "d3-selection": "^1.4.1",

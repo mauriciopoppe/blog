@@ -1,5 +1,6 @@
 import { select } from 'd3-selection'
 import { Delaunay } from 'd3-delaunay'
+import { easeQuadInOut } from 'd3-ease'
 import { t, bannerColorChanger } from '../main/colors'
 import { interpolateLab } from 'd3-interpolate'
 
@@ -26,7 +27,9 @@ export function generate({ target, n, rainbow }) {
 
   // voronoi setup
   const particles = Array.from({ length: n }, () => [Math.random() * width, Math.random() * height])
-  let delaunay, voronoi, animationStart
+  let delaunay, voronoi, animationStart, animationLast
+  let invert = { x: false, y: false }
+  let ref = { x: 0, y: 0 }
 
   /** @type {Object.<number, number>} */
   const lastTouched = {}
@@ -39,19 +42,61 @@ export function generate({ target, n, rainbow }) {
     animationStart = performance.now()
   }
 
+  function rowAnimation() {
+    const invertX = Math.random() < 0.5
+    const invertY = Math.random() < 0.5
+    for (let i = 0; i < n; i += 1) {
+      const [x, y] = particles[i]
+      const dx = invertX ? x / width : (width - x) / width
+      const dy = invertY ? y / height : (height - y) / height
+      let dist = Math.sqrt(dx * dx + dy * dy) / Math.sqrt(2)
+      setTimeout(() => {
+        lastTouched[i] = performance.now()
+      }, easeQuadInOut(dist) * fadeOutTime)
+    }
+    return [invertX, invertY]
+  }
+
   function paint(time) {
+    // the color changer only runs in the index page
     if (rainbow) {
       bannerColorChanger(time)
     }
 
     context.clearRect(0, 0, width, height)
 
+    // spawn from corner
+    if (time % 10000 < animationLast % 10000) {
+      rowAnimation()
+    }
+
+    // move refs according to time
+    let perimeterAnimationTime = 50000
+    let timeLeft = time % perimeterAnimationTime
+    /*
+      map time to perimeter
+     10000  =   2a + 2b
+        x    =   ?
+     */
+    let perimeter = (timeLeft * (2 * width + 2 * height)) / perimeterAnimationTime
+    if (perimeter < width) {
+      ref = { x: perimeter, y: 0 }
+    } else if (perimeter < width + height) {
+      ref = { x: width, y: perimeter - width }
+    } else if (perimeter < 2 * width + height) {
+      ref = { x: width - (perimeter - width - height), y: height }
+    } else {
+      ref = { x: 0, y: height - (perimeter - 2 * width - height) }
+    }
+
     for (let i = 0; i < n; i += 1) {
       context.beginPath()
       // map x, y to [0, 1]
       const [x, y] = particles[i]
-      const dx = x / width
-      const dy = y / height
+      // const dx = invertX ? (width - x) / width : x / width
+      // const dy = invertY ? (height - y) / height : y / height
+      const dx = (x - ref.x) / width
+      const dy = (y - ref.y) / height
       let dist = Math.sqrt(dx * dx + dy * dy) / Math.sqrt(2)
 
       // magic numbers to select what colors should be displayed
@@ -70,6 +115,9 @@ export function generate({ target, n, rainbow }) {
     context.beginPath()
     delaunay.renderPoints(context)
     context.fill()
+
+    // trigger for next iterations
+    animationLast = time
   }
 
   function onCanvasMouseMove(event) {
@@ -88,8 +136,20 @@ export function generate({ target, n, rainbow }) {
 
   // initialization and event loop
   initialize()
+
+  function isMobile() {
+    const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i]
+
+    return toMatch.some((toMatchItem) => {
+      return navigator.userAgent.match(toMatchItem)
+    })
+  }
+
   ;(function tick(time) {
-    requestAnimationFrame(tick)
     paint(time)
-  })(null)
+
+    if (!isMobile()) {
+      requestAnimationFrame(tick)
+    }
+  })(0)
 }

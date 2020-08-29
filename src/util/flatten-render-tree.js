@@ -124,6 +124,9 @@ function createNavBarRecursive(node, depth) {
     target = `
       data-full-path="${node.fullPath}"
     `
+    content = `
+      <span data-toggle-text>${content}</span>
+    `
   }
 
   const childrenToggle = node.children.length ? `<i class="children-toggle"></i>` : ''

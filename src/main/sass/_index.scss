@@ -10,12 +10,35 @@
     overflow: scroll;
     max-height: calc(100vh - 200px);
     pointer-events: all;
+
+    // suppress the border
+    li div {
+      border-right: none;
+    }
   }
 
   .card {
     background-color: rgba($black, 0.5);
     //background-color: transparent;
     //backdrop-filter: blur(20px);
+  }
+
+  .social-button {
+    display: inline-block;
+    border: 2px solid $primary;
+    padding: 10px;
+    margin-left: 10px;
+    border-radius: $radius;
+    transition: all $time;
+
+    &:hover {
+      background-color: transparent;
+      box-shadow: $box-shadow;
+    }
+  }
+
+  a:hover, [data-toggle-text]:hover {
+    color: $primary;
   }
 }
 
@@ -27,19 +50,5 @@
     .sitemap {
       max-height: none;
     }
-  }
-}
-
-.social-button {
-  border: 2px solid $primary;
-  padding: 10px;
-  margin-left: 10px;
-  border-radius: $radius;
-  transition: all $time;
-
-  &:hover {
-    color: $primary;
-    background-color: $body-background-color;
-    box-shadow: $box-shadow;
   }
 }

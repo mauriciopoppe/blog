@@ -15,15 +15,16 @@ const colors = ['#B94B69', '#212220']
 const bannerColors = ['#B94B69', '#00b1e6', '#48F913', '#F9C80E', '#B94B69']
 
 function bannerColorChanger(delta) {
+  // fast updates kill the browser, the color doesn't need to match while the animation is going on
   const { bulmaCssVariablesDefs } = require('./bulma-generated/bulma-colors')
   const colorUpdater = new ColorUpdater(bulmaCssVariablesDefs)
 
   const k = (Math.sin(delta / 5000) + 1) / 2
   colors[0] = t(k, bannerColors)
 
-  // fast updates kill the browser, the color doesn't need to match while the animation is going on
-  if (Math.random() < 0.1) {
+  if (!bannerColorChanger.last || delta - bannerColorChanger.last > 500) {
     colorUpdater.updateVarsInDocument('primary', colors[0])
+    bannerColorChanger.last = delta
   }
 }
 
