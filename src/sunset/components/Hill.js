@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSpring, animated } from 'react-spring'
-import { area, curveBasis } from 'd3-shape'
+import { area, curveBasis, curveLinear } from 'd3-shape'
 import { select } from 'd3-selection'
 
 function generateData(props) {
@@ -22,7 +22,7 @@ export function Hill(props) {
     .x(mapX)
     .y0((d) => d.y - scrollOverLast(d))
     .y1((d) => y(0))
-    .curve(curveBasis)
+    .curve(curveLinear)
 
   function mapX(d) {
     // map to [-1, 1]

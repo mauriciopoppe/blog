@@ -31,6 +31,7 @@ export function Canvas() {
       >
         {[...Array(n).keys()].map((i) => {
           const alpha = 0.5
+          const k = 0 + (i / n) * 0.75
           return (
             <Hill
               key={i}
@@ -42,7 +43,7 @@ export function Canvas() {
               scrollY={scrollY}
               mouseX={clientX}
               mouseY={clientY}
-              fill={t(0 + (i / n) * 0.75)}
+              fill={t(k)}
             />
           )
         })}

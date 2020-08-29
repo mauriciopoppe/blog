@@ -72,11 +72,18 @@ export function generate({ target, n, rainbow }) {
     context.fill()
   }
 
-  context.canvas.ontouchmove = context.canvas.onmousemove = (event) => {
+  function onCanvasMouseMove(event) {
     event.preventDefault()
-    // particles[0] = [event.layerX, event.layerY]
-    const closestPoint = delaunay.find(event.layerX, event.layerY)
+    const closestPoint = delaunay.find(event.pageX, event.pageY)
     lastTouched[closestPoint] = performance.now()
+  }
+
+  context.canvas.ontouchmove = context.canvas.onmousemove = onCanvasMouseMove
+
+  // if we're in the root page then also fire the on mousemove in the banner
+  const rootBanner = document.querySelector('.index__banner')
+  if (rootBanner) {
+    rootBanner.addEventListener('mousemove', onCanvasMouseMove)
   }
 
   // initialization and event loop
