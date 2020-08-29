@@ -1,9 +1,9 @@
 import { select } from 'd3-selection'
 import { Delaunay } from 'd3-delaunay'
 import { easeQuadInOut } from 'd3-ease'
-import { t, bannerColorChanger } from '../main/colors'
 import { interpolateLab } from 'd3-interpolate'
 
+import { t, bannerColorChanger } from '../main/colors'
 const d3 = { select, Delaunay }
 
 export function generate({ target, n, rainbow }) {
@@ -28,7 +28,6 @@ export function generate({ target, n, rainbow }) {
   // voronoi setup
   const particles = Array.from({ length: n }, () => [Math.random() * width, Math.random() * height])
   let delaunay, voronoi, animationStart, animationLast
-  let invert = { x: false, y: false }
   let ref = { x: 0, y: 0 }
 
   /** @type {Object.<number, number>} */
@@ -57,9 +56,31 @@ export function generate({ target, n, rainbow }) {
     return [invertX, invertY]
   }
 
+  function perimeterAnimation(time, perimeterAnimationTime = 50000) {
+    // move refs according to time
+    const timeLeft = time % perimeterAnimationTime
+    let ref
+    /*
+      map time to perimeter
+     10000   =   2a + 2b
+        x    =   ?
+     */
+    const perimeter = (timeLeft * (2 * width + 2 * height)) / perimeterAnimationTime
+    if (perimeter < width) {
+      ref = { x: perimeter, y: 0 }
+    } else if (perimeter < width + height) {
+      ref = { x: width, y: perimeter - width }
+    } else if (perimeter < 2 * width + height) {
+      ref = { x: width - (perimeter - width - height), y: height }
+    } else {
+      ref = { x: 0, y: height - (perimeter - 2 * width - height) }
+    }
+    return ref
+  }
+
   function paint(time) {
     // the color changer only runs in the index page
-    if (rainbow) {
+    if (rainbow && !isMobile()) {
       bannerColorChanger(time)
     }
 
@@ -70,25 +91,7 @@ export function generate({ target, n, rainbow }) {
       rowAnimation()
     }
 
-    // move refs according to time
-    let perimeterAnimationTime = 50000
-    let timeLeft = time % perimeterAnimationTime
-    /*
-      map time to perimeter
-     10000  =   2a + 2b
-        x    =   ?
-     */
-    let perimeter = (timeLeft * (2 * width + 2 * height)) / perimeterAnimationTime
-    if (perimeter < width) {
-      ref = { x: perimeter, y: 0 }
-    } else if (perimeter < width + height) {
-      ref = { x: width, y: perimeter - width }
-    } else if (perimeter < 2 * width + height) {
-      ref = { x: width - (perimeter - width - height), y: height }
-    } else {
-      ref = { x: 0, y: height - (perimeter - 2 * width - height) }
-    }
-
+    ref = perimeterAnimation(time)
     for (let i = 0; i < n; i += 1) {
       context.beginPath()
       // map x, y to [0, 1]
@@ -131,7 +134,7 @@ export function generate({ target, n, rainbow }) {
   // if we're in the root page then also fire the on mousemove in the banner
   const rootBanner = document.querySelector('.index__banner')
   if (rootBanner) {
-    rootBanner.addEventListener('mousemove', onCanvasMouseMove)
+    rootBanner.addEventListener('mousemove', context.canvas.onmousemove)
   }
 
   // initialization and event loop

@@ -5,6 +5,11 @@
   align-items: center;
   justify-content: center;
 
+  hr {
+    height: 1px;
+    //background-color: transparent;
+  }
+
   .sitemap {
     opacity: 1;
     overflow: scroll;
@@ -26,13 +31,13 @@
   .social-button {
     display: inline-block;
     border: 2px solid $primary;
-    padding: 10px;
-    margin-left: 10px;
+    padding: 5px 10px;
+    text-align: center;
+    background-color: transparent;
     border-radius: $radius;
     transition: all $time;
 
     &:hover {
-      background-color: transparent;
       box-shadow: $box-shadow;
     }
   }
