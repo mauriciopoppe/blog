@@ -1,6 +1,6 @@
 import { select } from 'd3-selection'
 import { Delaunay } from 'd3-delaunay'
-import { easeQuadInOut } from 'd3-ease'
+import { easeLinear } from 'd3-ease'
 import { interpolateLab } from 'd3-interpolate'
 
 import { t, bannerColorChanger } from '../main/colors'
@@ -51,7 +51,7 @@ export function generate({ target, n, rainbow }) {
       let dist = Math.sqrt(dx * dx + dy * dy) / Math.sqrt(2)
       setTimeout(() => {
         lastTouched[i] = performance.now()
-      }, easeQuadInOut(dist) * fadeOutTime)
+      }, easeLinear(dist) * fadeOutTime)
     }
     return [invertX, invertY]
   }
