@@ -87,6 +87,19 @@ when processing the next element $x$ we call `update(x, 1)` and then `estimate(x
 if the estimate is $\geq m/k$ we store $x$ in the heap, Also, whenever $m$ grows to the point that some object $x$ stored 
 in the heap has a key less than $m/k$ (checkable in O(1) time via Find-Min),
 we delete $x$ from the heap (via Extract-Min). After finishing the pass, we output all of the objects in the heap
+
+**trending hashtags** Quantify how different the currently observed activity is compared to an estimate of what the 
+expected activity is, for each hashtag/place store how many pieces of media were shared in an X-minute window over the
+last Y days $C(h, t)$ (normalized to get $P(h, t)$), at a new time $t$ we can compute $C(h, t)$ and $P'(h, t)$ then use
+KL divergence to measure the difference between the probabilities
+
+<div>$$
+S(h, t) = P(h, t) ln \left ( \frac{P(h, t}{P'(h, t)} \right )
+$$</div>
+
+The top $k$ trending hashtags can be computed with a heap
+
+Based on https://instagram-engineering.com/trending-on-instagram-b749450e6d93
  
 ## Reservoir sampling
 
