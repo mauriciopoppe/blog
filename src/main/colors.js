@@ -19,7 +19,7 @@ function bannerColorChanger(delta) {
   const { bulmaCssVariablesDefs } = require('./bulma-generated/bulma-colors')
   const colorUpdater = new ColorUpdater(bulmaCssVariablesDefs)
 
-  const k = (Math.sin(delta / 5000) + 1) / 2
+  const k = (Math.cos(delta / 5000) + 1) / 2
   colors[0] = t(k, bannerColors)
 
   if (!bannerColorChanger.last || delta - bannerColorChanger.last > 500) {

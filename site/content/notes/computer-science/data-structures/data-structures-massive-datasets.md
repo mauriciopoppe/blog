@@ -75,7 +75,7 @@ the occurrences of words and contexts are kept in other hash maps.
     </div>
 </div>
 
-**e-approximate heavy hitters** In a stream where the total number of frequences is $n$ (for example if frequencies are all 1, 
+**e-approximate heavy hitters** In a stream where the total number of frequencies is $n$ (for example if frequencies are all 1, 
 then $N$ corresponds to the number of elements encountered thus far in the stream) output all of the items that occur
 at least $n/k$ times, when $k=2$ this problem is known as the majority element.
 
