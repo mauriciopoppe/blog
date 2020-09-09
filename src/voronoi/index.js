@@ -62,8 +62,8 @@ export function generate({ target, n, rainbow }) {
     let ref
     /*
       map time to perimeter
-     10000   =   2a + 2b
-        x    =   ?
+     animTime   =   2a + 2b
+        x       =   ?
      */
     const perimeter = (timeLeft * (2 * width + 2 * height)) / perimeterAnimationTime
     if (perimeter < width) {

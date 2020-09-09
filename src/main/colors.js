@@ -1,5 +1,4 @@
 const { interpolateLab } = require('d3-interpolate')
-const { ColorUpdater } = require('bulma-css-vars')
 
 // https://i.redd.it/aepphltiqy911.png
 // const colors = ['#D40078', '#F6019D', '#920075', '#650D89', '#023788']
@@ -16,14 +15,12 @@ const bannerColors = ['#B94B69', '#00b1e6', '#48F913', '#F9C80E', '#B94B69']
 
 function bannerColorChanger(delta) {
   // fast updates kill the browser, the color doesn't need to match while the animation is going on
-  const { bulmaCssVariablesDefs } = require('./bulma-generated/bulma-colors')
-  const colorUpdater = new ColorUpdater(bulmaCssVariablesDefs)
+  if (!bannerColorChanger.last || delta - bannerColorChanger.last > 100) {
+    const k = (Math.cos(delta / 5000) + 1) / 2
+    colors[0] = bannerColorsInterpolator(k)
 
-  const k = (Math.cos(delta / 5000) + 1) / 2
-  colors[0] = t(k, bannerColors)
-
-  if (!bannerColorChanger.last || delta - bannerColorChanger.last > 500) {
-    colorUpdater.updateVarsInDocument('primary', colors[0])
+    window.document.documentElement.style.setProperty('--primary', colors[0])
+    // colorUpdater.updateVarsInDocument('primary', colors[0])
     bannerColorChanger.last = delta
   }
 }
@@ -45,17 +42,34 @@ function getColors() {
 }
 
 /**
- * interpolates n in colors
+ * Interpolate over `colors`, the returning function should be called with a number in the range [0, 1[
+ *
+ * @param colors
+ * @returns {function(*): *}
  */
-function t(n, c = colors) {
-  // [0,1] -> [0,n]
-  const norm = n * c.length
-  // floor(norm) for colors
-  const i = Math.floor(norm)
-  // [0, 1]
-  const left = norm - i
-  return interpolateLab(c[i], c[i + 1])(left)
+function genColorsInterpolator(colors) {
+  return function (n) {
+    // [0,1] -> [0,n]
+    const norm = n * colors.length
+    // index in colors
+    const i = Math.floor(norm)
+    // [0, 1]
+    const left = norm - i
+    return interpolateLab(colors[i], colors[i + 1])(left)
+  }
 }
+
+/**
+ * Interpolates over the application colors
+ * @type {function(*): *}
+ */
+const t = genColorsInterpolator(colors)
+
+/**
+ * Interpolates over the banner colors
+ * @type {function(*): *}
+ */
+const bannerColorsInterpolator = genColorsInterpolator(bannerColors)
 
 module.exports = {
   getColors,
