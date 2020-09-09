@@ -41,7 +41,7 @@ export function generate({ target, n, rainbow }) {
     animationStart = performance.now()
   }
 
-  function rowAnimation() {
+  function waveAnimation() {
     const invertX = Math.random() < 0.5
     const invertY = Math.random() < 0.5
     for (let i = 0; i < n; i += 1) {
@@ -86,12 +86,14 @@ export function generate({ target, n, rainbow }) {
 
     context.clearRect(0, 0, width, height)
 
-    // spawn from corner
+    // spawns a wave from a random corner
     if (time % 10000 < animationLast % 10000) {
-      rowAnimation()
+      waveAnimation()
     }
 
+    // animate the start location of the gradient
     ref = perimeterAnimation(time)
+
     for (let i = 0; i < n; i += 1) {
       context.beginPath()
       // map x, y to [0, 1]
