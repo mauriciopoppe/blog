@@ -3,7 +3,7 @@ title: "Derivative"
 date: 2015-04-02 10:00:00
 image: images/derivative.jpg
 tags: ["math", "calculus"]
-libraries: [d3, function-plot]
+libraries: ["function-plot"]
 ---
 
 ## Physical interpretation of the derivative

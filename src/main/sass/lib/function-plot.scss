@@ -1,5 +1,9 @@
 .function-plot {
+  margin: 0px auto 20px;
+  display: block;
+
   text {
+    font-size: 15px;
     fill: $text;
     font-family: "Computer Modern Serif", "Merriweather", "Georgia", serif;
   }

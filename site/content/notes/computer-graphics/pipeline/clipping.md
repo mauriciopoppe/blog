@@ -3,7 +3,7 @@ title: "Clipping"
 date: 2016-03-16 11:03:05
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
-libraries: ["d3", "function-plot"]
+libraries: ["function-plot"]
 ---
 
 There's a problem when the objects transformed to NDC need to be rasterized, some objects that are behind the eye might be rendered leading to incorrect results

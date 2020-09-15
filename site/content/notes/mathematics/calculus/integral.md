@@ -2,7 +2,7 @@
 title:  "Integral"
 date:   2015-04-02 10:00:00
 categories: math calculus
-libraries: [d3, function-plot]
+libraries: ["function-plot"]
 ---
 
 <style>

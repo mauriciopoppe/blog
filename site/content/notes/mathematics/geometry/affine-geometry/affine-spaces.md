@@ -2,7 +2,7 @@
 
 title: "Affine spaces"
 date: 2016-03-15 12:19:52
-libraries: [d3, function-plot]
+libraries: ["function-plot"]
 references:
   - "Bærentzen, J. A., Gravesen, J., Anton François, & Aanæs, H. (2012). Guide to computational geometry processing: foundations, algorithms, and methods. London: Springer."
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Complex numbers"
 date: 2015-09-08 13:30:00
-libraries: [d3, function-plot]
+libraries: ["function-plot"]
 ---
 
 ## Imaginary numbers

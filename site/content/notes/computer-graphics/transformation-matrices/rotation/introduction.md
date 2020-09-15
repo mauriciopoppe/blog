@@ -1,7 +1,7 @@
 ---
 title: "Introduction"
 date: 2015-12-15 13:00:00
-libraries: ["d3", "function-plot"]
+libraries: ["function-plot"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
  - "Vince, J. (2011). Quaternions for computer graphics. London: Springer."

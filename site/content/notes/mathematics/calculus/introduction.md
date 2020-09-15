@@ -3,7 +3,7 @@
 title:  "Introduction"
 date:   2015-03-31 15:35:06
 categories: math calculus
-libraries: ["d3", "function-plot"]
+libraries: ["function-plot"]
 ---
 
 ### why?
