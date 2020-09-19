@@ -22,10 +22,12 @@
     }
   }
 
+  .quote-highlight {
+    color: $primary;
+  }
+
   .card {
     background-color: rgba($black, 0.5);
-    //background-color: transparent;
-    //backdrop-filter: blur(20px);
   }
 
   .social-button {
