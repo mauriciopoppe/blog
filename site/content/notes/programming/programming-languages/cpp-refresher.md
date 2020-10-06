@@ -768,7 +768,7 @@ class ThreadPool {
 
             {
                 std::unique_lock<std::mutex> g(_m);
-                // block while the queue is empty
+                // wait while the queue is empty
                 while (!q.size()) {
                     _cond.wait(g);
                 }
