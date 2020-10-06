@@ -40,7 +40,8 @@
     transition: all $time;
 
     &:hover {
-      box-shadow: $box-shadow;
+      background-color: $primary;
+      color: $text-invert;
     }
   }
 
