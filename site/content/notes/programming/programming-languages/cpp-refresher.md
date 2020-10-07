@@ -745,80 +745,10 @@ for (auto n : {1, 2, 3, 4}) { ... }
 
 ## Multithreading
 
+- **Back to basics: Concurrency CppCon 2020** https://www.youtube.com/watch?v=F6Ipn7gCOsY
 - Multithreading basics: https://classroom.udacity.com/courses/ud923
 - Concurrent Programming with C++: https://www.youtube.com/playlist?list=PL5jc9xFGsL8E12so1wlMS0r0hTQoJL74M
 
 ### Threadpool
 
-```cpp
-#include <iostream>
-#include <queue>
-#include <vector>
-#include <thread>
-
-class ThreadPool {
-    std::queue<std::function<void()>> q;
-    std::vector<std::thread> threads;
-    std::mutex _m;
-    std::condition_variable _cond;
-
-    void ThreadRunner() {
-        while (true) {
-            std::function<void()> fn;
-
-            {
-                std::unique_lock<std::mutex> g(_m);
-                // wait while the queue is empty
-                while (!q.size()) {
-                    _cond.wait(g);
-                }
-
-                fn = std::move(q.front());
-                q.pop();
-            }
-
-            fn();
-        }
-    }
-
-public:
-    ThreadPool(int n) {
-        threads.resize(n);
-        for (int i = 0; i < (int) threads.size(); i += 1) {
-            // send the scope as the first arg to the thread
-            std::thread t(&ThreadPool::ThreadRunner, std::ref(*this));
-            threads[i] = std::move(t);
-        }
-    }
-
-    void Enqueue(std::function<void()> fn) {
-        std::unique_lock<std::mutex> g(_m);
-        q.push(std::move(fn));
-        _cond.notify_one();
-    }
-
-    void Start() {
-        for (int i = 0; i < (int) threads.size(); i += 1) {
-            if (threads[i].joinable()) {
-                threads[i].join();
-            }
-        }
-    }
-};
-
-int main() {
-    std::hash<std::thread::id> hasher;
-
-    ThreadPool threadPool(5);
-
-    for (int i = 0; i < 10; i += 1) {
-        threadPool.Enqueue([i, hasher]() {
-            printf("Task: %d, Thread: %zu\n", i, hasher(std::this_thread::get_id()));
-            std::this_thread::sleep_for(std::chrono::seconds{1});
-        });
-    }
-
-    threadPool.Start();
-    return 0;
-}
-```
+{{< repl id="@mauriciopoppe/Threadpool" >}}
