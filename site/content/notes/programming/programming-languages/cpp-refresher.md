@@ -7,6 +7,14 @@ references:
   - "GCC, C. (2008). Compilation process in GCC ~ Codingfreak. [online] Codingfreak.blogspot.com. Available at: http://codingfreak.blogspot.com/2008/02/compilation-process-in-gcc.html [Accessed 5 Apr. 2016]."
 ---
 
+## If you have spare time
+
+Watch some CppCon 'Back to Basics' videos
+
+- [Back to Basics: The Structure of a Program - Bob Steagall - CppCon 2020](https://www.youtube.com/watch?v=3KoXeegncrs)
+- [Back to Basics: RAII and the Rule of Zero - Arthur O'Dwyer - CppCon 2019](https://www.youtube.com/watch?v=7Qgd9B1KuMQ)
+- [Back to Basics: Concurrency - Arthur O'Dwyer - CppCon 2020](https://www.youtube.com/watch?v=F6Ipn7gCOsY)
+
 ## Mechanics of a C++ program
 
 1. **Write source code**
