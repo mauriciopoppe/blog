@@ -99,7 +99,7 @@ body.draft [data-draft] div::after {
 </script>
 {{ end }}
 
-<link rel="preload" href="{{ .Params.share_img | default .Params.image | default .Site.Params.logo | absURL }}" as="image" type="image/jpg" crossorigin="anonymous">
+<link rel="preload" href="{{ .Params.share_img | default .Params.image | default .Site.Params.logo | absURL }}" as="image" crossorigin="anonymous">
 
 <!-- link rel="preload" polyfill -->
 <script src="/js/vendor/cssrelpreload.js" inline></script>
