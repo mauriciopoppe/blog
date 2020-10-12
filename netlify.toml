@@ -5,6 +5,6 @@ HUGO_ENABLEGITINFO = "true"
 
 [[headers]]
   # Define which paths this specific [[headers]] block will cover.
-  for = "/images"
+  for = "/*"
     [headers.values]
     Access-Control-Allow-Origin = "*"

@@ -103,3 +103,10 @@ body.draft [data-draft] div::after {
 
 <!-- link rel="preload" polyfill -->
 <script src="/js/vendor/cssrelpreload.js" inline></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/quicklink/2.0.0/quicklink.umd.js"></script>
+<script>
+  window.addEventListener('load', () => {
+    quicklink.listen({ limit: 15 });
+  });
+</script>
