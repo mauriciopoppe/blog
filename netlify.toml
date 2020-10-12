@@ -2,3 +2,9 @@
 HUGO_VERSION = "0.67.1"
 HUGO_ENV = "production"
 HUGO_ENABLEGITINFO = "true"
+
+[[headers]]
+  # Define which paths this specific [[headers]] block will cover.
+  for = "/images"
+    [headers.values]
+    Access-Control-Allow-Origin = "*"
