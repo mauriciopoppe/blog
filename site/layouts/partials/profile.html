@@ -2,11 +2,13 @@
 {{ $quotes := index .Site.Data.quotes "content" }}
 {{ $random := mod now.Second (len $quotes) }}
 {{ $quote := index $quotes $random }}
-{{ $image := "/images/2017-square.jpg" }}
+{{ $image := .Params.share_img | default .Params.image | default .Site.Params.logo | absURL }}
 
 <div class="profile-wrapper">
   <a href="/">
-    <img class="profile-pic lazy-load" src="{{ $image }}" data-src="{{ $image }}" alt="Me" />
+    <span class="profile-pic-wrapper">
+      <img class="profile-pic lazy-load" src="{{ $image }}" data-src="{{ $image }}" alt="Me" />
+    </span>
     <p class="is-size-3">Mauricio Poppe</p>
     <p>
       <span>I'm just getting started 😃</span>
