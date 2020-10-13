@@ -1,0 +1,6 @@
+<div class="interview interview--{{ .Get "who" }}">
+    <span class="interview__logo"></span>
+    <div class="interview__content">
+        {{ .Inner | markdownify  }}
+    </div>
+</div>

@@ -1,0 +1,50 @@
+$interview-border-width: 2px;
+
+$airbnb: #FF5A5E;
+$facebook: #2B5297;
+$google-blue: #4285F3;
+$google-red: #EA4335;
+$google-yellow: #FABD0A;
+$google-green: #35A852;
+
+.interview {
+  position: relative;
+  padding: 10px;
+  margin-bottom: 1em;
+
+  .interview__logo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    background-size: 50px;
+  }
+
+  &--all {
+
+  }
+
+  &--airbnb {
+    border: $interview-border-width solid $airbnb;
+    .interview__logo {
+      background-image: url("/images/airbnb__logo.png");
+    }
+  }
+
+  &--facebook {
+    border: $interview-border-width solid $facebook;
+    .interview__logo {
+      background-image: url("/images/facebook__logo.png");
+    }
+  }
+
+  &--google {
+    border: $interview-border-width solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(to bottom right, $google-red, $google-yellow, $google-green, $google-blue);
+    .interview__logo {
+      background-image: url("/images/google__logo.png");
+    }
+  }
+}

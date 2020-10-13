@@ -11,6 +11,10 @@ article[role=main] {
     position: relative;
     transition: .2s ease-out;
   }
+
+  .quote-highlight {
+    color: $primary;
+  }
 }
 
 @media screen and (min-width: 769px) {
