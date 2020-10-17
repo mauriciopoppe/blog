@@ -1,7 +1,6 @@
 ---
 title: "Interview Preparation"
 date: 2020-10-12 21:23:30
-draft: true
 ---
 
 ## Before you start
