@@ -1,4 +1,4 @@
-$interview-border-width: 2px;
+$interview-border-width: 5px;
 
 $airbnb: #FF5A5E;
 $facebook: #2B5297;
@@ -9,7 +9,7 @@ $google-green: #35A852;
 
 .interview {
   position: relative;
-  padding: 10px;
+  padding: 10px 50px 10px 10px;
   margin-bottom: 1em;
 
   .interview__logo {
@@ -40,11 +40,17 @@ $google-green: #35A852;
   }
 
   &--google {
-    border: $interview-border-width solid;
-    border-image-slice: 1;
-    border-image-source: linear-gradient(to bottom right, $google-red, $google-yellow, $google-green, $google-blue);
+    border-top: $interview-border-width solid $google-red;
+    border-left: $interview-border-width solid $google-yellow;
+    border-right: $interview-border-width solid $google-blue;
+    border-bottom: $interview-border-width solid $google-green;
     .interview__logo {
       background-image: url("/images/google__logo.png");
     }
   }
+}
+
+.interview-example {
+  border: 1px solid $text;
+  padding: 1em;
 }
