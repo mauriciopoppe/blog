@@ -47,7 +47,7 @@ now I realize that the interview process gave me invaluable information that hel
 if you fail, it just means that you've failed that attempt, after all of your rounds reflect what you did good and bad and focus on improving 
 that part for the next attempt.
 
-<div class="columns is-mobile is-size-3">
+<div class="columns is-size-3">
 <div class="column is-half is-offset-one-quarter">
 <p><span class="has-text-primary">Luck</span> is what happens when <span class="has-text-primary">preparation</span> meets <span class="has-text-primary">opportunity</span></p>
 <p class="has-text-right"><i>Seneca</i></p>
@@ -209,9 +209,9 @@ I see that the solution above will create cases where we're trying to solve the 
 again, I think we can use DP and the recurrence would be: 
 
 ```
-T(i) = min(height[k]) from k = i up to k = books.size() + T(k + 1)
+T(i) = min(max(height[i], height[i+1], ..., height[i+k]) + T(k + 1))   from i = 0 up to i = books.size()
 T(books.size()) = 0
-constraint for T(i): sum(width[k], width[k + 1], ...) <= shelf_width
+constraint for T(i): sum(width[i], width[i+1], ..., width[i+k]) <= shelf_width
 ```
 
 The time complexity would be `O(mn)` where `m` is a variable whose value depends on how many books I can put in a shelf,
@@ -511,7 +511,7 @@ Pure behavioral round, if you're targeting L5+ show that you're a leader!
 
 ## The end?
 
-<div class="columns is-mobile is-size-3">
+<div class="columns is-size-3">
 <div class="column is-half is-offset-one-quarter">
 <p>Success is not final, failure is not fatal, it is the courage to continue that counts.</p>
 <p class="has-text-right"><i>Winston Churchill</i></p>
