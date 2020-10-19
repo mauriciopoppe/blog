@@ -103,7 +103,7 @@ produce/support, [Kubernetes](https://kubernetes.io/) is the core component in t
 {{< /interview >}}
 
 NOTE about picking your companies: I only interviewed with the companies that I wanted to work for, another strategy is to apply to all the top
-companies hoping to get multiple offers and then choosing one that's fair.
+companies hoping to get multiple offers which helps during the negotiation phase.
 
 When I was ready to interview
 
