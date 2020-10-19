@@ -1,6 +1,6 @@
 ---
 title: "Software Engineering Interview Preparation"
-tags: ["interview", "system design", "back of the envelope"]
+tags: ["interview", "system design"]
 date: 2020-10-12 21:23:30
 ---
 
@@ -9,7 +9,7 @@ date: 2020-10-12 21:23:30
 Congrats! **Preparing** for an interview is a rewarding and fun journey, note that I said **preparing** for an interview instead of
 acing it because passing an interview could be the outcome of enough and good preparation (luck is involved too but I'll get to this shortly), the process is rewarding because
 you improve your ability to come up with a solution to an algorithmic problem in a short amount of time, also, the concepts that you learn when you're preparing for the 
-system design interview are invaluable and will be helpful throughout your career.
+system design interviews are invaluable and will be helpful throughout your career.
 
 My plan was to interview with my target top companies (Airbnb, Facebook, Google) at once and I wanted to do the onsites close to each other (with at
 least one day to rest between interviews), I got awesome recruiters that helped me schedule the 3 onsites in 2 weeks. This plan contains notes that are applicable 
@@ -39,13 +39,12 @@ so after cycling through some data structures I decided to write some examples, 
 the data structures and algorithms that would help me solve the problem. If you can't make progress ask for help! If you get
 a good interviewer he/she might realize you need help but in any case keep this step as a last resort when you're completely stuck.
 
-For external factors there's nothing you can do, just focus your energy on the next interview instead of thinking what you could've done better
-in a past one.
+For external factors there's nothing you can do, just focus your energy on the next interview instead of thinking what you could've done better.
 
 Finally my journey wasn't without failures, I failed multiple interviews with top companies, I was naive in the past and when I decided to 
 interview I'd "put all of my eggs in one basket" (meaning interviewing only with one company at a time in years) and fail but 
 now I realize that the interview process gave me invaluable information that helped me in my next attempts, 
-if you fail it just means that you've failed that attempt, after all of your rounds reflect what you did good and bad and focus on improving 
+if you fail, it just means that you've failed that attempt, after all of your rounds reflect what you did good and bad and focus on improving 
 that part for the next attempt.
 
 <div class="columns is-mobile is-size-3">
@@ -63,7 +62,7 @@ that you should keep up to date. Good luck!
 
 *(If you haven't interviewed in the past and wanna get noticed)*
 
-- If you're a student enjoy the student life! (I miss those awesome days) work on something that's challenging and interesting
+- If you're a student, enjoy the student life! (I miss those awesome days) work on something that's challenging and interesting
 that makes you stand out from the rest, in my case I used to be a competitive programmer and was also really into creating my own
 projects for fun, [I actually managed to have a JS library featured in a magazine once!](https://javascriptweekly.com/issues/194), 
 ([link to the project](https://mauriciopoppe.github.io/PojoViz/public/vulcanize.html#readme)) 
@@ -86,7 +85,7 @@ I've been a fan of their engineering
 blog ever since I saw this article [Rearchitecting Airbnb’s Frontend](https://medium.com/airbnb-engineering/rearchitecting-airbnbs-frontend-5e213efc24d2), 
 moreover I had the opportunity to use part of their work presented in [Dynein: Building an Open-source Distributed Delayed Job Queueing System](https://medium.com/airbnb-engineering/dynein-building-a-distributed-delayed-job-queueing-system-93ab10f05f99) at work,
 in addition, the obsession for what "belong anywhere" means matches my core values, if you don't know what it means I highly 
-recommend this [Ted talk by Joe Gebbia, one of the cofounders of Airbnb](https://www.ted.com/talks/joe_gebbia_how_airbnb_designs_for_trust?language=en) and 
+recommend this [Ted talk by Joe Gebbia, one of the co-founders of Airbnb](https://www.ted.com/talks/joe_gebbia_how_airbnb_designs_for_trust?language=en) and 
 if you know spanish listen to this [story by a writer that had a heart attack while staying at an Airbnb](https://www.youtube.com/watch?v=sVuMmcFu9uI)
 {{< /interview >}}
 
@@ -117,17 +116,17 @@ were as close as possible to a target date with enough breathing room to rest.
 - Practice behavioral type of questions, each company has its own way to assess this part that's described below.
 - Go through the onsites, get to a mental state where you're ready for the next interview regardless of the outcome
 of the previous one.
-- Receive feedback from the recruiters and the HC, go through team matching if that's an option, remember that **you don't have an offer yet**.
+- Receive feedback from the recruiters and the HC, go through the team matching interviews if you passed the HC, remember that **you don't have an offer yet**.
 - If you get offers, learn to negotiate, read [Salary negotiation strategies everyone in tech already knows — but you don’t](https://candor.co/guides/salary-negotiation) and/or
 get professional help.
-- If you don't get an offer learn from your mistakes and move on, you'll have enough time to reflect and think about the plan for the next attempt.
+- If you don't get an offer, learn from your mistakes and move on, you'll have enough time to reflect and think about the plan for the next attempt.
 
 ## Coding
 
-### Phone screen preparation (3 to 4 weeks)
+### Phone screen preparation
 
-- Warmup for the 1st week: solve a few easy/medium problems in Leetcode, get familiarized with the STL ([if your programming language is C++ I have a refresher article](/notes/computer-science/programming-languages/cpp-refresher/)).
-- When you start focus on breadth, a nice schedule based on your timeline can be found in the EPI book.
+- My phone screen preparation took 3 to 4 weeks, warmup for the 1st week: solve a few easy/medium problems in Leetcode, remember the STL ([if your programming language is C++ I have a refresher article](/notes/computer-science/programming-languages/cpp-refresher/)).
+- Focus on breadth, a nice schedule based on your timeline can be found in the EPI book, then pick problems from your weakest area.
 - Practice EPI questions, I've already read EPI multiple times so I just had to review their intro for STL methods for every chapter and glance
 through the questions and the solutions if I need to, to practice and test if your implementation works use the [EPI Judge](https://github.com/adnanaziz/EPIJudge).
 - Start solving medium type of questions and target hard questions, review medium questions that you may have solved in the past, also review how other people solved it (you'll learn
@@ -295,10 +294,11 @@ theorem so you don't need to memorize it, [learn how to solve recurrences by doi
 - **Pair with a friend and do 45 minute interviews, take turns to interview each other**, this according to me is the best way 
 to prepare because you're actually doing what you're supposed to do in an interview.
 
-### Onsite preparation (4 weeks)
- 
+### Onsite preparation
+
 - After the phone screen interviews, schedule onsites in 4 to 6 weeks (I did 4 weeks)
-- Pick new problems based on the patterns from the leetcode master link, I discarded some that had a bad thumb up/thumbs down ratio
+- Pick new problems based on how weak I felt in the patterns shown in the [leetcode master link](https://Leetcode.com/discuss/general-discussion/665604/important-and-useful-links-from-all-over-the-Leetcode), 
+I discarded some problems that had a bad thumbs up/thumbs down ratio
 - Pick solved problems and review your solutions if you did them recently, if you solved them a long time ago redo them, re-read solutions by other people
 - Do mock interviews again and again, I eventually went through all the onsite mock interviews for Google and Facebook
 - Participate in the weekly Leetcode contest
@@ -330,7 +330,7 @@ recruiting coordinator will give you unique links for each one).
 with some test cases.
 - Back of the envelope calculations might be needed for coding too, make sure you understand the memory layout
 of the data structures that you'll use in your programming language.
-- For followups that you won't be able to solve because of the time limit, get into the habit of expressing your ideas
+- For the followups that you won't be able to solve because of the time limit, get into the habit of expressing your ideas
 clearly in typed text, I don't know if these notes are used by the interviewer or read by the HC, for example:
   - **Interviewer**: The solution that you proposed should work fine, how would you modify your algorithm so that it runs faster if there are no resource constraints?
   - **You**: I can improve the performance of my algorithm by using multiple threads doing X or I can parallelize the work by using map reduce where the map function is M 
@@ -386,7 +386,7 @@ that was one of the reasons why I stayed there for so long.
 
 - Master the structure of the interview, [I followed this system design template](https://leetcode.com/discuss/career/229177/My-System-Design-Template)
   - Spend some time asking the right questions, don't make too many assumptions and if you do say them out loud so your interviewer is aware of this
-  - Define functional and non functional requirements, decide what are you going to optimize for e.g. high availability or consistency 
+  - Define functional and non-functional requirements, decide what are you going to optimize for e.g. high availability or consistency 
   - Do some back of the envelope calculations if needed, always clarify with your interviewer, this step is crucial at big
     companies where you need to design for scale and think about capacity planning
   - Define the API (signature, inputs, outputs)
@@ -433,7 +433,7 @@ Attachment data = number of emails with attachments * average attachment size
                 = 5% * 50 * 2B * 1 MB = 5 PB
 ```
 
-So total space requirement is `Email data + Attachment data = 20TB + 5 PB` per day. 
+So the total space requirement is `Email data + Attachment data = 20TB + 5 PB` per day. 
 This is a naively optimistic estimate, since we must account for redundancy (to improve performance and fault tolerance).
 `Estimated total space requirement = (20TB + 5 PB) * 3 ~ ​15PB per day`.
 {{< /interview-example >}}
@@ -456,7 +456,7 @@ List of books
 - [Web Scalability for Startup Engineers - Artur Ejsmont](https://www.amazon.com/Scalability-Startup-Engineers-Artur-Ejsmont-ebook/dp/B00ZPS4KI0/) - Great intro to all of the components in a complex
 web application
 - [Distributed Systems for Practicioners - Dimos Raptis](https://leanpub.com/distributed-systems-for-practitioners) - The why behind a technology and use cases in the industry, I really 
-liked the way its structured with theory first and then practice.
+liked the way it's structured with theory first and then practice.
 - [Designing Data Intensive Applications - Martin Kleppmann](https://dataintensive.net/) - Deep into how distributed systems work, I think this is a standard resource at this point.
 
 List of courses:
@@ -483,7 +483,7 @@ that I use is:
 - practice with a friend, I'm friends with an awesome googler that helped me a lot here with mock interviews, we practiced many times and he noticed that my 
 answers were not specific enough or were not structured pretty well, to improve I wrote down my answers for all of these questions and rehearsed them many times:
   - Tell me about a challenging project
-  - What did you enjoyed/learned the most?
+  - What did you enjoy learning the most?
   - Tell me about a time you had a conflict of priorities with your manager
   - Tell me about a time you made a mistake
   - Tell me about a time you had to make a difficult decision
@@ -511,8 +511,6 @@ Pure behavioral round, if you're targeting L5+ show that you're a leader!
 {{< /interview >}}
 
 ## The end?
-
-You can never predict the future and even though you're hyped about working at your dream job that doesn't mean that it'll be like this forever.
 
 <div class="columns is-mobile is-size-3">
 <div class="column is-half is-offset-one-quarter">
