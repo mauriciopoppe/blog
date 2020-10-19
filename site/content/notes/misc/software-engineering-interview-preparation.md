@@ -49,7 +49,7 @@ that part for the next attempt.
 
 <div class="columns is-mobile is-size-3">
 <div class="column is-half is-offset-one-quarter">
-<p><span class="quote-highlight">Luck</span> is what happens when <span class="quote-highlight">preparation</span> meets <span class="quote-highlight">opportunity</span></p>
+<p><span class="has-text-primary">Luck</span> is what happens when <span class="has-text-primary">preparation</span> meets <span class="has-text-primary">opportunity</span></p>
 <p class="has-text-right"><i>Seneca</i></p>
 </div>
 </div>
@@ -114,8 +114,7 @@ because I'll burn out even before practicing the system design questions.
 were as close as possible to a target date with enough breathing room to rest.
 - Practice mainly system design and coding to a less extent, give yourself enough breathing room to not burn out.
 - Practice behavioral type of questions, each company has its own way to assess this part that's described below.
-- Go through the onsites, get to a mental state where you're ready for the next interview regardless of the outcome
-of the previous one.
+- Go through the onsites, get to a mental state where you're ready for the next interview regardless of the outcome of the previous one.
 - Receive feedback from the recruiters and the HC, go through the team matching interviews if you passed the HC, remember that **you don't have an offer yet**.
 - If you get offers, learn to negotiate, read [Salary negotiation strategies everyone in tech already knows — but you don’t](https://candor.co/guides/salary-negotiation) and/or
 get professional help.
@@ -469,7 +468,7 @@ to do back of the envelope calculations
 
 ## Behavioral Questions
 
-Google and Facebook has 1 behavioral round, Airbnb has 2 behavioral rounds, for this part Cracking the Coding interview helped a lot.
+Google and Facebook have 1 behavioral round, Airbnb has 2 behavioral rounds, for this part Cracking the Coding interview helped a lot.
 
 - the level inside the company is based on your answers of this round, talk about your leadership skills!
 - learn to introduce yourself, you might do this in some coding rounds too, definitely a must for the team matching phase at Google or Airbnb, the template

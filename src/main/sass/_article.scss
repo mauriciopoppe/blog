@@ -8,12 +8,9 @@ article[role=main] {
 
   &.content a {
     color: $primary;
+    text-decoration: underline;
     position: relative;
     transition: .2s ease-out;
-  }
-
-  .quote-highlight {
-    color: $primary;
   }
 }
 
