@@ -10,7 +10,7 @@ const colors = require('./src/main/colors')
 const c = {}
 
 c['grey-darker'] = '#212220'
-c['grey-dark'] = '#454544'
+c['grey-dark'] = '#2b2b2b'
 c['grey'] = '#ABABAA'
 c['grey-light'] = '#C5C5C4'
 c['grey-lighter'] = '#DEDEDD'

@@ -12,7 +12,7 @@
 <section class="hero is-primary is-bold is-large has-text-centered">
   <div class="hero-body">
     <div class="container">
-      <h1 class="title is-1 is-spaced">{{ $.Scratch.Get "title" }}</h1>
+      <h1 class="title is-2 is-spaced">{{ $.Scratch.Get "title" }}</h1>
       <p class="subtitle">{{ $.Scratch.Get "subtitle" }}</p>
 
       <!-- nested path to file -->
@@ -21,7 +21,7 @@
       <!-- dates -->
       <p class="subtitle is-size-6">
         Created at {{ .Date.Format "Mon, Jan 2, 2006" }} <br />
-        Last Modified at {{ .Page.Lastmod.Format "Mon, Jan 2, 2006" }} <br>
+        Last Modified on {{ .Page.Lastmod.Format "Mon, Jan 2, 2006" }} <br>
         <a style="pointer-events: all; text-decoration: underline" target="_blank" href="https://github.com/mauriciopoppe/blog/tree/master/site/content/{{ .File.Path }}">Source code of this page</a>
       </p>
 

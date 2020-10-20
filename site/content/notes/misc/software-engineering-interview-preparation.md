@@ -12,8 +12,8 @@ you improve your ability to come up with a solution to an algorithmic problem in
 system design interviews are invaluable and will be helpful throughout your career.
 
 My plan was to interview with my target top companies (Airbnb, Facebook, Google) at once and I wanted to do the onsites close to each other (with at
-least one day to rest between interviews), I got awesome recruiters that helped me schedule the 3 onsites in 2 weeks. This plan contains notes that are applicable 
-to any company as well as specifics for each of my target companies.
+least one day to rest between interviews), I got awesome recruiters that helped me schedule the 3 onsites in 2 weeks. My plan contains notes that are applicable 
+to any company as well as specifics for each of my target companies, disclaimer: *this is my plan and it worked for me and it might work for you*.
 
 Understand that **luck is involved in the interview process**, you may have prepared a lot but:
 
@@ -148,14 +148,14 @@ what we want to do is accumulate consecutive books in the shelves of a bookshelf
 than the input `shelf_width`, the height of a single shelf is the max height across all the books on the shelf, what we're looking for is to minimize
 the total height of the bookshelf which is the sum of all the max heights across all of the shelves.
 
-```
+```text
 Input: books = [[1,1],[2,3],[2,3],[1,1],[1,1],[1,1],[1,2]], shelf_width = 4
 Output: 6
 ```
 
 I'm trying to understand why the output is 6, I think I'd get 6 if I do:
 
-```
+```text
 [
    [1,1],                         sum(width) = 1, max height = 1
    [2,3], [2,3]                   sum(width) = 4, max height = 3
@@ -182,7 +182,7 @@ in the sum of the max heights and not in the location of each book right?
 **Possible greedy strategy**: It looks like I can solve it with a greedy strategy, if take items from right to left (i.e. starting at the bottom) 
 and I can keep accumulating books until I get enough books for the current shelf whose sum doesn't go beyond `shelf_width` e.g.
 
-```
+```text
 [
     [1,2], [1,1], [1,1], [1,1]
     [2,3], [2,3],
@@ -193,7 +193,7 @@ and I can keep accumulating books until I get enough books for the current shelf
 **Possible question that I might get asked**: is this greedy strategy going to work for all the cases? is there an example where it fails?
 I'll think about a case that might break the greedy solution, the case that breaks it is:
 
-```
+```text
 books = [5,5], [5,5], [2,2], shelf_width = 7
 ```
 
@@ -208,7 +208,7 @@ of books, to decide how many books I can put in a shelf I'd also need an accumul
 I see that the solution above will create cases where we're trying to solve the problem with the same parameters
 again, I think we can use DP and the recurrence would be: 
 
-```
+```text
 T(i) = min(max(height[i], height[i+1], ..., height[i+k]) + T(k + 1))   from i = 0 up to i = books.size()
 T(books.size()) = 0
 constraint for T(i): sum(width[i], width[i+1], ..., width[i+k]) <= shelf_width
@@ -422,7 +422,7 @@ with exercises and estimates that could be helpful](/notes/computer-science/syst
 Let's say each email has 200 characters, on average. A user receives emails from useful connections, companies and spam.
 Assume 20 spam emails, 20 marketing emails and 10 useful emails, per user per day.
 
-```
+```text
 Email data = Emails * Characters * Users 
            = 50 * 200 * 2B 
            = 20 TB
