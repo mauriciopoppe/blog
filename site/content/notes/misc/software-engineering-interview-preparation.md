@@ -13,7 +13,8 @@ system design interviews are invaluable and will be helpful throughout your care
 
 My plan was to interview with my target top companies (Airbnb, Facebook, Google) at once and I wanted to do the onsites close to each other (with at
 least one day to rest between interviews), I got awesome recruiters that helped me schedule the 3 onsites in 2 weeks. My plan contains notes that are applicable 
-to any company as well as specifics for each of my target companies, disclaimer: *this is my plan and it worked for me and it might work for you*.
+to any company as well as specifics for each of my target companies, disclaimer: *this is my plan and it worked for me and it might or might not work for you*, I focused
+more on system design in my preparation because that's where I failed the last time I interviewed.
 
 Understand that **luck is involved in the interview process**, you may have prepared a lot but:
 
@@ -65,18 +66,20 @@ that you should keep up to date. Good luck!
 - If you're a student, enjoy the student life! (I miss those awesome days) work on something that's challenging and interesting
 that makes you stand out from the rest, in my case I used to be a competitive programmer and was also really into creating my own
 projects for fun, [I actually managed to have a JS library featured in a magazine once!](https://javascriptweekly.com/issues/194), 
-([link to the project](https://mauriciopoppe.github.io/PojoViz/public/vulcanize.html#readme)) 
+([link to the project](https://mauriciopoppe.github.io/PojoViz/public/vulcanize.html#readme)).
 - [Participate in Coding Contests](https://www.youtube.com/watch?v=ueNT-w7Oluw), I solved thousands of problems over the years,
- all of my solutions are in [this repo](https://github.com/mauriciopoppe/competitive-programming)
-- Google has something cool called https://foobar.withgoogle.com/ learn about it [here](https://medium.com/plutonic-services/things-you-should-know-about-google-foobar-invitation-703a535bf30f), you could try to get it
-- If you are working full time look for opportunities to work on hard problems to show leadership, **take the opportunity, no pain no gain**
-- Make sure your resume shines and aim for a 1 page resume, [here's the CV I used for this round (with my personal details removed)](https://www.overleaf.com/read/fvdmbqtskgsw)
+ all of my solutions are in [this repo](https://github.com/mauriciopoppe/competitive-programming).
+- Google has this website called https://foobar.withgoogle.com/ learn about it [here](https://medium.com/plutonic-services/things-you-should-know-about-google-foobar-invitation-703a535bf30f), 
+when I was reading about web performance I saw a pink button somewhere inside the [Web Fundamentals Rendering Performance Guides](https://developers.google.com/web/fundamentals/performance/rendering)
+which led me to the foobar site, I solved 3 problems in python and got an interview invitation and then I solved the remaining 2 and got more invitations to give to friends.
+- If you are working full time look for opportunities to work on hard problems to show leadership, **take the opportunity, no pain no gain**.
+- Make sure your resume shines and aim for a 1 page resume, [here's the CV I used for this round (with my personal details removed)](https://www.overleaf.com/read/fvdmbqtskgsw).
 
-Before I wanted to interview
+Before looking to interview:
 
-- Do the daily Leetcode challenge, it's an awesome way to keep the interview coding skill up to date
-- Participate in Leetcode contests every Saturday, or Codeforces when it's available 
-- Read/code/have experience in scalable systems, collect/read interesting papers and read the red book [Designing Data Intensive Applications](https://dataintensive.net/),
+- Do the daily Leetcode challenge, it's an awesome way to keep the coding interview skill up to date
+- Participate in Leetcode contests every Saturday, or Codeforces when it's available
+- Read about or code scalable systems, read interesting papers and read the red book [Designing Data Intensive Applications](https://dataintensive.net/),
 I focused a lot on this part since the last time I failed my last onsite was because of system design.
 - Get to know myself and the places I'd like to work, check if my values match the company core values
 
@@ -102,8 +105,9 @@ as making sure that their research is available to the world, a lot of companies
 produce/support, [Kubernetes](https://kubernetes.io/) is the core component in the infra of many companies and it looks like a magic box to the engineers that use it.
 {{< /interview >}}
 
-NOTE about picking your companies: I only interviewed with the companies that I wanted to work for, another strategy is to apply to all the top
-companies hoping to get multiple offers which helps during the negotiation phase.
+NOTE about picking your companies: I only interviewed with the companies that I wanted to work for which is risky, another strategy is to apply to all the top
+companies hoping to get multiple offers which definitely helps during the negotiation phase, during my preparation I watched videos from various founders
+from all of the top companies and discovered that I'd really like to work at [Stripe](https://www.youtube.com/watch?v=NprBQi0cSHU) too.
 
 When I was ready to interview
 
@@ -128,8 +132,8 @@ get professional help.
 - Focus on breadth, a nice schedule based on your timeline can be found in the EPI book, then pick problems from your weakest area.
 - Practice EPI questions, I've already read EPI multiple times so I just had to review their intro for STL methods for every chapter and glance
 through the questions and the solutions if I need to, to practice and test if your implementation works use the [EPI Judge](https://github.com/adnanaziz/EPIJudge).
-- Start solving medium type of questions and target hard questions, review medium questions that you may have solved in the past, also review how other people solved it (you'll learn
-something new every time).
+- Start solving medium type of questions and target hard questions in Leetcode, review medium questions that you may have solved in the past, 
+also review how other people solved it (you'll learn something new every time).
 - Go through this list of lists of patterns [Important and Useful links from all over Leetcode](https://Leetcode.com/discuss/general-discussion/665604/important-and-useful-links-from-all-over-the-Leetcode),
 it's by far the best source of knowledge and problems to solve for your preparation.
 - Participate in the weekly Leetcode contest every Saturday at 7:30PM PT.
@@ -183,6 +187,7 @@ in the sum of the max heights and not in the location of each book right?
 and I can keep accumulating books until I get enough books for the current shelf whose sum doesn't go beyond `shelf_width` e.g.
 
 ```text
+(reversed order e.g. bottom to top)
 [
     [1,2], [1,1], [1,1], [1,1]
     [2,3], [2,3],
@@ -194,10 +199,15 @@ and I can keep accumulating books until I get enough books for the current shelf
 I'll think about a case that might break the greedy solution, the case that breaks it is:
 
 ```text
-books = [5,5], [5,5], [2,2], shelf_width = 7
+books = [5,5], [2,5], [2,2], shelf_width = 7
+
+[
+    [2,2], [2,5]
+    [5,5]
+]
 ```
 
-In the case above I'd take `[2,2], [5,5]` in the last row and `[5,5]` in the first one with a total height of 10, the optimal is 7
+In the case above I'd take `[2,2], [2,5]` in the last row and `[5,5]` in the first one with a total height of 10, the optimal is 7
 so I think that the greedy approach won't work.
 
 **Brainstorm brute force**: For a brute for solution I'd put some books in a shelf and then attempt to put the remaining books
@@ -344,75 +354,79 @@ I used this template with a friend: [Google Docs template](https://docs.google.c
 
 ### Reading list
 
-Problems
+Interesting Problems + Hints:
 
-- [Given a string N and a dictionary of words D, find if N can be created by concatenating words from D](https://Leetcode.com/problems/word-break/description/)
-- Given a tree find the longest path between any two leaf nodes
-- [Find the next permutation of a list of numbers](https://Leetcode.com/problems/next-permutation/description/)
-- [Largest rectangle in histogram](https://Leetcode.com/problems/largest-rectangle-in-histogram/)
-- [Find the largest rectangle made out of ones in a matrix of ones and zeros](https://Leetcode.com/problems/maximal-rectangle/description/)
-- [Find the number of square submatrices filled with ones in a matrix](https://Leetcode.com/problems/count-square-submatrices-with-all-ones/)
-- [Given a binary tree find the maximum path sum](https://Leetcode.com/problems/binary-tree-maximum-path-sum/description/)
-- [Sort a linked list in O(n log n) with O(1) space complexity](https://Leetcode.com/problems/sort-list/description/)
-- [The skyline problem](https://Leetcode.com/problems/the-skyline-problem/)
-- [Given an array and a sliding window of size k find all the minimum/maximum numbers in every window](https://Leetcode.com/problems/sliding-window-maximum/description/)
-- Given a list of integers, find the smallest consecutive set of integers that sums up to a given number k
+- [Google Docs - Coding Interview Notes](https://docs.google.com/document/d/10DrjF-C73AnuPwvLC2yJiiiBYJV9pXtphC20x86--rM/edit?usp=sharing)
 
 Books:
 
 - [Elements of Programming Interviews](https://www.amazon.com/Elements-Programming-Interviews-Insiders-Guide/dp/1479274836) - Standard resource
+- [Competitive Programmer's Handbook](https://cses.fi/book/book.pdf) - This may look advanced for the interviews but the chapters 6 (Greedy Algorithms)
+, 8 (Amortized Analysis), 10 (Bit Manipulation), 26 (String Algorithms) have techniques that are commonly used in coding interviews.
 - [Cracking the Coding Interview](https://www.amazon.com/Cracking-Coding-Interview-Programming-Questions/dp/0984782850) - Great resource, I really like
 how problems are solved in EPI more though 
 
 ## System Design
 
 System design interviews are very unpredictable, you could practice a lot but the problem that you may get touches
-a point that you've never seen before so you have to come up with something based on your experience.
+a point that you've never seen before so you have to come up with something based on your experience, if you're targeting L5+ you'll have
+at least one System Design interview.
 
 ### Acquiring knowledge
 
 - Watch all the videos from the [MIT 6.824 Distributed Systems](https://pdos.csail.mit.edu/6.824/schedule.html) course and **do the labs**,
 this resource helped immensely during the team matching phase at Google where I had a chance to show what I learned
-and how I could be useful to the team (I matched the Anthos GKE Storage team), 
+and how I could be useful to the team, 
 my favorite lectures: [all the Raft ones](https://thesquareplanet.com/blog/students-guide-to-raft/) and how Facebook uses Memcached.
 - Watch tons of presentations about how big companies solve problems at scale, my links will be below
 - Learn algorithms and data structures used in distributed systems, my links will be below
-- If you're a full time software engineer then you have to ask for a challenging problem to your manager, I'm really blessed to
-have an awesome manager that really cared about me in my previous company and actually helped me create projects from scratch, 
+- Read [the cloud design patterns](https://docs.microsoft.com/en-us/azure/architecture/patterns/) for building reliable, scalable, secure applications in the cloud.
+- If you're a full time software engineer then you have to ask for challenging problems to your manager, I'm really blessed to
+have had an awesome manager that really cared about me in my previous company and actually helped me create projects from scratch where I had the chance to learn and grow, 
 that was one of the reasons why I stayed there for so long.
 
 ### Interview preparation
 
-- Master the structure of the interview, [I followed this system design template](https://leetcode.com/discuss/career/229177/My-System-Design-Template)
-  - Spend some time asking the right questions, don't make too many assumptions and if you do say them out loud so your interviewer is aware of this
-  - Define functional and non-functional requirements, decide what are you going to optimize for e.g. high availability or consistency 
-  - Do some back of the envelope calculations if needed, always clarify with your interviewer, this step is crucial at big
-    companies where you need to design for scale and think about capacity planning
-  - Define the API (signature, inputs, outputs)
-  - High level design, make sure that your design covers all the use functional requirements, don't go too deep here or you'll waste invaluable time
-  - Pick a component (or alternatively the interviewer may pick it for you) and then explain why you need it, big focus here on tradeoffs
-  - Since this is a design for scale you'll need to split processing or data into multiple machines, learn how to handle failures at scale
-  - If you have time talk about security and monitoring, things that you'd do to maintain the system   
 - Learn how to use google drawings, [this is my google drawings template](https://docs.google.com/drawings/d/11GQ_JBU5AH9BV40BulAuFIv66CexIad1zalG26OzZh4/edit?usp=sharing) and
  [this is an example of how I used it](https://docs.google.com/drawings/d/1PbxOaBTwC3BfTMpZx9WtRmoSnWfMM5cmCSAT5mrqODA/edit?usp=sharing)
-- Big focus on mentioning tradeoffs, for example, let's say that you want to have a chat app that needs to send and
-receive messages in real time
+- Master the structure of the interview, [I followed this system design template](https://leetcode.com/discuss/career/229177/My-System-Design-Template)
+- Define functional and non-functional requirements, don't make too many assumptions and if you do say them out loud so your interviewer is aware of this,
+big focus on mentioning tradeoffs
+  
+{{< interview-example >}}   
+> Design a system that does X and handles REQ requests doing W writes and R reads
 
-{{< interview-example >}}
-For this problem I think that there are multiple ways to solve it:
+- what are the most important features?
+- daily active users, traffic volume, read/write ratio?
+- are these writes in a single/multiple regions?
+- access patterns, even load vs spikes throughout the day?
+- latency requirements, tradeoff fast reads with slow writes?
+- data consistency, eventual vs strong consistency
+
+--- 
+
+> Design a chat system where users send and receive messages in real time
+
+(after talking about the functional and non-functional requirements...)
+
+The client can use the following approaches:
 
 - **polling**, here the client will periodically make requests at some fixed rate like every 30s, the disadvantage
 is that every time we're creating a new connection and wasting server resources because we might not have
-any message to send or receive
-- **long polling**, in this approach similar to polling we instead keep the connection opened and wait for the 
+any message to send or receive.
+- **long polling**, in this approach similar to polling but instead we keep the connection open and wait for the 
 server to send some data across the wire, as soon as we receive data we reopen/create a connection
-- **web sockets**, in this approach we keep the connection open since ws connections are persistent and is made
-for bidirectional communication, for the application protocol we can use the XMPP protocol. 
+- **web sockets**, in this approach we keep the connection open since ws connections are persistent and are made
+for bidirectional communication, for the application protocol it could depend on the devices we'll use for the chat system, if
+it's a battery powered device then the overhead of the XMPP protocol is having to parse XML which could be detrimental to the battery life,
+instead, the MQTT protocol is designed to use bandwidth and battery sparingly, at the same time the 
+XMPP protocol is extensible and adaptable that we could use if we want for additional functionality like bots.
 {{< /interview-example >}}
 
-- Know the numbers, in an interview you might be given some numbers to work with or you might need to make them on your
-own based on your experience, you get better at estimating things with practice, [I have created an article
-with exercises and estimates that could be helpful](/notes/computer-science/system-design/back-of-the-envelope-calculations/),
+- Do some [back of the envelope calculations](/notes/computer-science/system-design/back-of-the-envelope-calculations/) if needed, 
+always clarify with your interviewer, this step is crucial at big
+companies where you need to design for scale and think about capacity planning before you design your system,
+[I have created an article with exercises and estimates that could be helpful](/notes/computer-science/system-design/back-of-the-envelope-calculations/),
  I've taken this example from [Gaurav Sen's awesome course on system design](https://get.interviewready.io/)
 
 {{< interview-example >}}
@@ -436,6 +450,12 @@ So the total space requirement is `Email data + Attachment data = 20TB + 5 PB` p
 This is a naively optimistic estimate, since we must account for redundancy (to improve performance and fault tolerance).
 `Estimated total space requirement = (20TB + 5 PB) * 3 ~ ​15PB per day`.
 {{< /interview-example >}}
+
+- Define the API (signature, inputs, outputs) and the data model, I moved between these two back and forth during the interview
+- High level design, make sure that your design covers all the use functional requirements, don't go too deep here or you'll waste invaluable time
+- Pick a component (or alternatively the interviewer may pick it for you) and then explain why you need it, big focus here again on tradeoffs
+- Since this is a design for scale you'll need to split processing or data into multiple machines, learn how to handle failures at scale
+- If you have time talk about things that you'd do to maintain the system including monitoring and security.
 
 ### Reading list
 
