@@ -466,6 +466,38 @@ This is a naively optimistic estimate, since we must account for redundancy (to 
 - Since this is a design for scale, you'll need to split processing or data into multiple machines, learn how to handle failures at scale
 - If you have time, talk about things you'd do to maintain the system, including monitoring and security.
 
+### Low level system design
+
+For higher levels L5+ you might encounter questions involving designing and coding the internals of a class. 
+This type of question is more of a coding question than a system design question, but you should be aware of the tradeoffs you make at every stage in your design:
+
+If you haven't taken any Operating Systems class, I recommend the [Graduate Introduction to Operating Systems by Georgia Tech](https://omscs.gatech.edu/cs-6200-introduction-operating-systems),
+I'm in grad school as I write this, and I recently took this class. Unfortunately, the labs aren't public, but the 
+material is nevertheless a great introduction. 
+
+I'd suggest you learn concepts: mutex, condition variable, atomics, readers-writers, boss-worker model, pipeline model, cache lines, and so many others!
+Also, implement the following classes from scratch, either with C++ 11 Multithreading primitives or pthreads.
+
+- Semaphore
+- Threadpool - [I implemented a threadpool in my Cpp refresher algorithm](/notes/computer-science/programming-languages/cpp-refresher/#multithreading)
+- Thread-safe dictionary, queue, stack, and priority queue
+- Parallel sort
+- Multithreaded crawler
+- Multithreaded cache system
+- Multithreaded file system - The Georgia Tech Graduate Introduction to Operating Systems course's Project 4 is all about this.
+
+Resources:
+
+- [Graduate Introduction to Operating Systems by Georgia Tech](https://omscs.gatech.edu/cs-6200-introduction-operating-systems)
+- [Concurrent Programming with C++](https://www.youtube.com/playlist?list=PL5jc9xFGsL8E12so1wlMS0r0hTQoJL74M) - 
+Excellent intro to multithreading concepts and primitives, a perfect mix of theory and practice.
+- [Back to Basics: Concurrency - Arthur O'Dwyer - CppCon 2020](https://www.youtube.com/watch?v=F6Ipn7gCOsY) - Modern multithreading primitives.
+- [Chapter 19 in EPI](https://www.amazon.com/Elements-Programming-Interviews-Insiders-Guide/dp/1479274836/)
+- [CPU Caches and Why You Care](https://www.youtube.com/watch?v=WDIkqP4JbkE) - Fantastic introduction to cache lines. I learned
+more about data locality and that having more threads will not always improve your program's performance as you thought it would.
+- [Gaurav Sen's System design course](https://get.interviewready.io/) - In addition to system design questions, it also has low-level design problems.
+
+
 ### Reading list
 
 These are my notes about interesting tech
