@@ -17,8 +17,8 @@ HUGO_ENABLEGITINFO = "true"
   query = {path = ":path"}
 
 [[redirects]]
-  from = "/notes/programming/programming-languages/cpp-refresher/*"
-  to = "/notes/computer-science/programming-languages/cpp-refresher/:splat"
+  from = "/notes/programming/programming-languages/cpp-refresher/index.html"
+  to = "/notes/computer-science/programming-languages/cpp-refresher/"
   status = 301
   force = true
   query = {path = ":path"}
