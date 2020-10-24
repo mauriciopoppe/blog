@@ -12,7 +12,7 @@ it's stressful on every single stage from the first time you send your resume an
 until the last day you negotiate your offer with your recruiter. However, the process is rewarding because you improve your problem-solving skills. 
 On top of that, the concepts you learn when you're preparing for the system design part of the interview are invaluable and will be helpful throughout your career.
 
-**luck is involved in the interview process**. You may have prepared a lot but:
+**Luck is involved in the interview process**. You may have prepared a lot but:
 
 - you might get stage fright during the interview, you can decrease the anxiety effect with enough practice, but I guess that this feeling will always be there
 - you might be unable to make progress because the problem is too hard to solve because you didn't practice that topic enough, or you just missed that small insight
@@ -308,52 +308,53 @@ theorem so you don't need to memorize it, [learn how to solve recurrences by mak
 
 ### Onsite preparation
 
-- After the phone screen interviews, schedule onsites in 4 to 6 weeks (I did 4 weeks)
+- After the phone screen interviews, schedule the onsites in 4 to 6 weeks (I did 4 weeks)
 - Pick new problems based on how weak I felt in the patterns shown in the [leetcode master link](https://Leetcode.com/discuss/general-discussion/665604/important-and-useful-links-from-all-over-the-Leetcode), 
 I discarded some problems that had a bad thumbs up/thumbs down ratio
-- Pick solved problems and review your solutions if you did them recently, if you solved them a long time ago redo them, re-read solutions by other people
-- Do mock interviews again and again, I eventually went through all the onsite mock interviews for Google and Facebook
+- Pick LC solved problems (medium and hard) and review your solutions if you did them recently. 
+If you solved them a long time ago, redo them, read explanations by other coders in the discussion tab.
+- Do mock interviews again and again. I eventually went through all the onsite mock interviews for Google and Facebook
 - Participate in the weekly Leetcode contest
 
 Some additional notes for each of my target companies
 
 {{< interview who="airbnb" >}}
 - They may ask a single LC Hard Question in the 45m interview, check the ones tagged with Airbnb in Leetcode
-- The code that you write MUST compile and run with test cases that you prepare, make sure to know the libraries 
+- The code that you write MUST compile and run with test cases that you prepare. Make sure to know the libraries 
 that you need to include in your file to compile your code
 {{< /interview >}}
 
 {{< interview who="facebook" >}}
-- One of their core values is `move fast` therefore they expect you to come up with a brute force solution and an
+- One of their core values is `move fast` therefore, they expect you to come up with a brute force solution and an
 optimized solution pretty fast, practice for speed.
 - The coding platform is coderpad with their logo watermark
-- You can't run your code so make sure you check it once after you're done coding and before testing it and debug it
+- You can't run your code, so make sure you check it once after you're done coding and before testing it and debug it
 with some test cases
-- They typically ask 2 LC easy to medium type of questions, it might be possible that you run out of time explaining
-your approach! As I said practice for speed.
+- They typically ask 2 LC easy to medium type of questions. It might be possible that you run out of time explaining
+your approach! As I said, practice for speed.
 {{< /interview >}}
 
 {{< interview who="google" >}}
-- Hardest one to practice because of how unpredictable is, you may get a warmup question that has a follow up that turns it into medium or hard, you
-may also get a question with a nice story that's hiding a well known algorithm like sliding window.
-- Interviews used to be in google docs but now they have their own coding platform https://interview.google.com (the 
-recruiting coordinator will give you unique links for each one).
-- You can't run your code so make sure you check it once after you're done coding and before testing it and debug it
+- Hardest one to practice because of how unpredictable it is. You may get a warmup question that has a follow up that turns it into medium or hard. 
+You may also get a problem with a nice story hiding a well-known algorithm like sliding-window.
+- Interviews used to be in google docs, but now they have their proprietary coding platform https://interview.google.com 
+(the recruiting coordinator will give you unique links for each one).
+- You can't run your code, so make sure you check it once after you're done coding and before testing it and debug it
 with some test cases.
-- Back of the envelope calculations might be needed for coding too, make sure you understand the memory layout
-of the data structures that you'll use in your programming language.
+- You may need to run Back of the envelope calculations in the coding section too, make sure you understand the [memory layout
+of a program](https://gabrieletolomei.wordpress.com/miscellanea/operating-systems/in-memory-layout/). 
+It could help you estimate the memory required for your program in a real-life scenario.
 - For the followups that you won't be able to solve because of the time limit, get into the habit of expressing your ideas
-clearly in typed text, I don't know if these notes are used by the interviewer or read by the HC, for example:
-  - **Interviewer**: The solution that you proposed should work fine, how would you modify your algorithm so that it runs faster if there are no resource constraints?
-  - **You**: I can improve the performance of my algorithm by using multiple threads doing X or I can parallelize the work by using map reduce where the map function is M 
-    and the reduce function is R
-
+clearly in typed text. I don't know if these notes are used by the Interviewer or read by the HC, for example:
+  - **Interviewer**: The solution you proposed should work fine. How would you modify your algorithm so that it runs faster if there are no resource constraints?
+  - **You**: I can improve the performance of my algorithm by using multiple threads doing X, 
+  or I can parallelize the work by using map reduce where the map function is M and the reduce function is R.
 {{< /interview >}}
 
 ### About practicing with someone
 
-Practicing with someone and taking turns is the best way to get used to the interview environment, to practice
-I used this template with a friend: [Google Docs template](https://docs.google.com/document/d/1TKNUaBdgzEoPaD8LNexz9JlquRKc1ZSBnNJuZmhFp4Y/edit?usp=sharing)
+Practicing with someone and taking turns is the best way to get used to the interview environment.
+To practice, I used this template with a friend: [Google Docs template](https://docs.google.com/document/d/1TKNUaBdgzEoPaD8LNexz9JlquRKc1ZSBnNJuZmhFp4Y/edit?usp=sharing)
 
 ### Reading list
 
@@ -363,78 +364,77 @@ Interesting Problems + Hints:
 
 Sites to practice:
 
-- [Leetcode](http://leetcode.com/), I have a university discount so I got premium for a year for 99$, the contests start on Saturdays at 7PM PDT
-- [Binary Search](https://binarysearch.com/), high quality problems too, the contests happen on Saturdays at 11AM PDT
-- [Codeforces](https://codeforces.com/), if you like harder problems then try Codeforces, I think the Div2 A, B and C problems 
+- [Leetcode](http://leetcode.com/), I have a university discount, so I got the premium for a year for 99$. The LC contests start on Saturdays at 7PM PDT
+- [Binary Search](https://binarysearch.com/), high-quality problems too, the contests start on Saturdays at 11AM PDT
+- [Codeforces](https://codeforces.com/), if you like harder problems, then try Codeforces. I think the Div2 A, B, and C problems 
 are similar to what you'd get in an interview
 
 Books:
 
 - [Elements of Programming Interviews](https://www.amazon.com/Elements-Programming-Interviews-Insiders-Guide/dp/1479274836) - Standard resource
-- [Competitive Programmer's Handbook](https://cses.fi/book/book.pdf) - This may look advanced for the interviews but the chapters 6 (Greedy Algorithms)
-, 8 (Amortized Analysis), 10 (Bit Manipulation), 26 (String Algorithms) have techniques that are commonly used in coding interviews.
-- [Cracking the Coding Interview](https://www.amazon.com/Cracking-Coding-Interview-Programming-Questions/dp/0984782850) - Great resource, I really like
-how problems are solved in EPI more though 
+- [Competitive Programmer's Handbook](https://cses.fi/book/book.pdf) - This may look advanced for the interviews, but chapters 6 (Greedy Algorithms)
+, 8 (Amortized Analysis), 10 (Bit Manipulation), 26 (String Algorithms) have techniques commonly used in coding interviews.
+- [Cracking the Coding Interview](https://www.amazon.com/Cracking-Coding-Interview-Programming-Questions/dp/0984782850) - Great resource. I like
+how problems are solved in EPI more, though.
 
 ## System Design
 
-System design interviews are very unpredictable, you could practice a lot but the problem that you may get touches
-a point that you've never seen before so you have to come up with something based on your experience, if you're targeting L5+ you'll have
-at least one System Design interview.
+System design interviews are very unpredictable. You could practice a lot, but the problem you may get touches a point that you've never seen before, 
+so you have to develop something based on your experience. If you're targeting L5+ at Google and Airbnb or L4+ at Facebook you'll have at least one System Design interview.
 
 ### Acquiring knowledge
 
 - Watch all the videos from the [MIT 6.824 Distributed Systems](https://pdos.csail.mit.edu/6.824/schedule.html) course and **do the labs**,
-this resource helped immensely during the team matching phase at Google where I had a chance to show what I learned
+this resource helped immensely during the team matching phase at Google, where I had a chance to show what I learned
 and how I could be useful to the team, 
 my favorite lectures: [all the Raft ones](https://thesquareplanet.com/blog/students-guide-to-raft/) and how Facebook uses Memcached.
-- Watch tons of presentations about how big companies solve problems at scale, my links will be below
-- Learn algorithms and data structures used in distributed systems, my links will be below
+- Watch tons of presentations about how big companies solve problems at scale; my links will be below
+- Learn algorithms and data structures used in distributed systems; my links will be below
 - Read [the cloud design patterns](https://docs.microsoft.com/en-us/azure/architecture/patterns/) for building reliable, scalable, secure applications in the cloud.
-- If you're a full time software engineer then you have to ask for challenging problems to your manager, I'm really blessed to
-have had an awesome manager that really cared about me in my previous company and actually helped me create projects from scratch where I had the chance to learn and grow, 
-that was one of the reasons why I stayed there for so long.
+- If you're a full-time Software Engineer, then ask your manager for more challenging problems.
+I'm honored to have had a fantastic manager who genuinely cared about me in my previous company and helped me work on big projects 
+where I had the chance to learn and grow. That was one of the reasons why I stayed there for so long.
 
 ### Interview preparation
 
 - Learn how to use google drawings, [this is my google drawings template](https://docs.google.com/drawings/d/11GQ_JBU5AH9BV40BulAuFIv66CexIad1zalG26OzZh4/edit?usp=sharing) and
  [this is an example of how I used it](https://docs.google.com/drawings/d/1PbxOaBTwC3BfTMpZx9WtRmoSnWfMM5cmCSAT5mrqODA/edit?usp=sharing)
 - Master the structure of the interview, [I followed this system design template](https://leetcode.com/discuss/career/229177/My-System-Design-Template)
-- Define functional and non-functional requirements, don't make too many assumptions and if you do say them out loud so your interviewer is aware of this,
-big focus on mentioning tradeoffs
+- Define functional and non-functional requirements, don't make too many assumptions, and if you do say them out loud, 
+so your interviewer is aware of this, big focus on mentioning tradeoffs
   
 {{< interview-example >}}   
 > Design a system that does X and handles REQ requests doing W writes and R reads
 
-- what are the most important features?
-- daily active users, traffic volume, read/write ratio?
-- are these writes in a single/multiple regions?
-- access patterns, even load vs spikes throughout the day?
-- latency requirements, tradeoff fast reads with slow writes?
-- data consistency, eventual vs strong consistency
+- What are the most critical features?
+- Daily active users, traffic volume, read/write ratio?
+- Are these writes in single/multiple regions?
+- Access patterns, even load vs. spikes throughout the day?
+- Latency requirements, tradeoff fast reads for slow writes?
+- Data consistency, eventual vs. strong consistency
 
 --- 
 
-> Design a chat system where users send and receive messages in real time
+> Design a chat system where users send and receive messages in real-time
 
-(after talking about the functional and non-functional requirements...)
+(after talking about the functional and non-functional requirements)
 
 The client can use the following approaches:
 
 - **polling**, here the client will periodically make requests at some fixed rate like every 30s, the disadvantage
 is that every time we're creating a new connection and wasting server resources because we might not have
 any message to send or receive.
-- **long polling**, in this approach similar to polling but instead we keep the connection open and wait for the 
-server to send some data across the wire, as soon as we receive data we reopen/create a connection
-- **web sockets**, in this approach we keep the connection open since ws connections are persistent and are made
-for bidirectional communication, for the application protocol it could depend on the devices we'll use for the chat system, if
-it's a battery powered device then the overhead of the XMPP protocol is having to parse XML which could be detrimental to the battery life,
-instead, the MQTT protocol is designed to use bandwidth and battery sparingly, at the same time the 
-XMPP protocol is extensible and adaptable that we could use if we want for additional functionality like bots.
+- **long polling**, this approach is similar to polling. However, we keep the connection open and wait for the 
+server to send some data across the wire, as soon as we receive data, we reopen/create a connection
+- **web sockets**, in this approach, we keep the connection open since web sockets connections are persistent and made
+for bidirectional communication, for the application protocol, it could depend on the devices we'll use for the chat system, if
+it's a battery-powered device, then the overhead of the XMPP protocol is the fact that the device has to parse XML, which could be detrimental to the battery life,
+instead, the MQTT protocol is designed to use bandwidth and battery sparingly. At the same time, the 
+XMPP protocol is extensible and adaptable that we could use if we want additional functionality like bots.
 {{< /interview-example >}}
 
 - Do some [back of the envelope calculations](/notes/computer-science/system-design/back-of-the-envelope-calculations/) if needed, 
-always clarify with your interviewer, this step is crucial at big
+always clarify with your interviewer. This step is crucial at big
 companies where you need to design for scale and think about capacity planning before you design your system,
 [I have created an article with exercises and estimates that could be helpful](/notes/computer-science/system-design/back-of-the-envelope-calculations/),
  I've taken this example from [Gaurav Sen's awesome course on system design](https://get.interviewready.io/)
@@ -461,11 +461,11 @@ This is a naively optimistic estimate, since we must account for redundancy (to 
 `Estimated total space requirement = (20TB + 5 PB) * 3 ~ ​15PB per day`.
 {{< /interview-example >}}
 
-- Define the API (signature, inputs, outputs) and the data model, I moved between these two back and forth during the interview
-- High level design, make sure that your design covers all the use functional requirements, don't go too deep here or you'll waste invaluable time
-- Pick a component (or alternatively the interviewer may pick it for you) and then explain why you need it, big focus here again on tradeoffs
-- Since this is a design for scale you'll need to split processing or data into multiple machines, learn how to handle failures at scale
-- If you have time talk about things that you'd do to maintain the system including monitoring and security.
+- Define the API (signature, inputs, outputs) and the data model. I moved between these two back and forth during the interview
+- High-level design, make sure that your design covers all the functional requirements, don't go too deep here, or you'll waste invaluable time
+- Pick a component (alternatively, the interviewer may pick it for you) and then explain why you need it; big focus here again on tradeoffs
+- Since this is a design for scale, you'll need to split processing or data into multiple machines, learn how to handle failures at scale
+- If you have time, talk about things you'd do to maintain the system, including monitoring and security.
 
 ### Reading list
 
@@ -481,54 +481,53 @@ These are my notes about interesting tech
 
 List of books
 
-- [System design Interview - Alex Xu](https://www.amazon.com/System-Design-Interview-Questions-Solutions-ebook/dp/B08B3FWYBX) - My favorite book about system design interviews
-- [Web Scalability for Startup Engineers - Artur Ejsmont](https://www.amazon.com/Scalability-Startup-Engineers-Artur-Ejsmont-ebook/dp/B00ZPS4KI0/) - Great intro to all of the components in a complex
-web application
-- [Distributed Systems for Practicioners - Dimos Raptis](https://leanpub.com/distributed-systems-for-practitioners) - The why behind a technology and use cases in the industry, I really 
-liked the way it's structured with theory first and then practice.
-- [Designing Data Intensive Applications - Martin Kleppmann](https://dataintensive.net/) - Deep into how distributed systems work, I think this is a standard resource at this point.
+- [System design Interview - Alex Xu](https://www.amazon.com/System-Design-Interview-Questions-Solutions-ebook/dp/B08B3FWYBX) - 
+My favorite book about system design interviews
+- [Web Scalability for Startup Engineers - Artur Ejsmont](https://www.amazon.com/Scalability-Startup-Engineers-Artur-Ejsmont-ebook/dp/B00ZPS4KI0/) - 
+Great intro to all of the components in a complex web application
+- [Distributed Systems for Practicioners - Dimos Raptis](https://leanpub.com/distributed-systems-for-practitioners) - 
+The why behind a technology and use cases in the industry, I liked the way it's structured with the theory first and then practice.
+- [Designing Data Intensive Applications - Martin Kleppmann](https://dataintensive.net/) - 
+Deep into how distributed systems work, I think this is a standard resource by now.
 
 List of courses:
 
-- [Grokking the system design interview](https://www.educative.io/courses/grokking-the-system-design-interview) - Standard resource at this point
-- [System Design Primer](https://github.com/donnemartin/system-design-primer) - Standard resource at this point
+- [Grokking the system design interview](https://www.educative.io/courses/grokking-the-system-design-interview) - Standard resource
+- [System Design Primer](https://github.com/donnemartin/system-design-primer) - Standard resource
 - [System Design Interview – Step By Step Guide](https://www.youtube.com/watch?v=bUHFg8CZFws) - Amazing youtube channel for system design interviews
-- [Gaurav Sen's System design course](https://get.interviewready.io/) - Really good to learn about making iterations over time in your design and
-to do back of the envelope calculations
+- [Gaurav Sen's System design course](https://get.interviewready.io/) - Perfect resource to learn about making iterations over time in your design and to do back of the envelope calculations
 
 ## Behavioral Questions
 
-Google and Facebook have 1 behavioral round, Airbnb has 2 behavioral rounds, for this part Cracking the Coding interview helped a lot.
+Google and Facebook have 1 behavioral round, and Airbnb has 2 behavioral rounds. For this part, Cracking the Coding interview helped a lot.
 
-- the level inside the company is based on your answers of this round, talk about your leadership skills!
-- learn to introduce yourself, you might do this in some coding rounds too, definitely a must for the team matching phase at Google or Airbnb, the template
-that I use is:
+- your level inside the company is based on your answers to this round. Talk about your leadership skills!
+- learn to introduce yourself; you might do this in some coding rounds too. A must for the team matching phase at Google or Airbnb, the template that I use is:
 
 > Hello, my name is `{your name}` and I'm a software engineer at `{current company}` where we do `{description of the product}`, 
-> I'm currently working on `{project A doing frontend, backend, infra, ml, etc}`. In the past I worked at `{past company}` where I did `{more projects}`.
-> On the side I'm doing `{school coursework or extracurricular activities}` and my next objective is to achieve `{objective in the short term}`.
+> I'm currently working on `{project A doing front-end, back-end, infra, ml, etc.}`. In the past, I worked at `{past company}` where I did `{more projects}`.
+> On the side, I'm doing `{school coursework or extracurricular activities}`, and my next objective is to achieve `{objective in the short term}`.
 
-- learn about STAR, create a grid with questions, projects and answers for each one
-- practice with a friend, I'm friends with an awesome googler that helped me a lot here with mock interviews, we practiced many times and he noticed that my 
-answers were not specific enough or were not structured pretty well, to improve I wrote down my answers for all of these questions and rehearsed them many times:
+- learn about STAR, create a grid with questions, projects, and answers for each one
+- practice with a friend. I'm friends with an awesome googler that helped me a lot here with mock interviews, we practiced many times, and he noticed that my 
+answers were not specific enough or were not structured pretty well. To improve, I wrote down my answers to all of these questions and rehearsed them many times:
   - Tell me about a challenging project
   - What did you enjoy learning the most?
   - Tell me about a time you had a conflict of priorities with your manager
   - Tell me about a time you made a mistake
   - Tell me about a time you had to make a difficult decision
   - Tell me how you solved an unambiguous task at work
-  - What are the qualities of a good leader according to you?
-
+  - What are the qualities of a good leader, according to you?
+  
 {{< interview who="airbnb" >}}
-
 A special note about Airbnb, they do care about the culture fit more than anyone, spend some time understanding what `belong anywhere` means, 
-I watched a lot of interviews to Brian Chesky which helped me solidify my willing to work with Airbnb [(6 golden rules)](https://www.youtube.com/watch?v=jgPYSogOOTY), 
-in the onsite you have 2 behavioral rounds with questions that can be found here: https://candor.co/interviews/airbnb, the most important ones are
+I watched a lot of interviews with Brian Chesky, which helped me solidify my willingness to work with Airbnb [(6 golden rules)](https://www.youtube.com/watch?v=jgPYSogOOTY), 
+On the onsite, you have 2 behavioral rounds with questions that can be found here: https://candor.co/interviews/airbnb; the most important ones are
 
 - **What does belonging mean to you? What is your understanding of Airbnb culture?**
 - **Why Airbnb?**
 
-Make sure you practice some of these even before you apply to Airbnb, the recruiter wants to know if you're really interested in Airbnb
+Make sure you practice some of these even before you apply to Airbnb. The recruiter wants to know if you're genuinely interested in Airbnb
 {{< /interview >}}
 
 {{< interview who="facebook" >}}
@@ -549,4 +548,4 @@ Pure behavioral round, if you're targeting L5+ show that you're a leader!
 </div>
 </div>
 
-Regardless of the outcome, just enjoy the experience!
+Regardless of the outcome, enjoy the experience!
