@@ -531,7 +531,8 @@ Make sure you practice some of these even before you apply to Airbnb, the recrui
 {{< /interview >}}
 
 {{< interview who="facebook" >}}
-They have a behavioral round of 30m with questions and an easy coding question at the end.
+They have a behavioral round of 30m with questions and an easy coding question at the end. Read this awesome article
+about [Ramping Up a Senior Software Engineer](https://jdxcode.com/posts/2020-09-16-10-tips-ramping-up-as-a-senior-engineer/)
 {{< /interview >}}
 
 {{< interview who="google" >}}

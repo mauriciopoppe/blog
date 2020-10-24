@@ -10,6 +10,12 @@ HUGO_ENABLEGITINFO = "true"
     Access-Control-Allow-Origin = "*"
 
 [[redirects]]
+  from = "https://doctor-stella-56144.netlify.app/*"
+  to = "https://www.mauriciopoppe.com/:splat"
+  status = 301
+  force = true #COMMENT: ensure that we always redirect
+
+[[redirects]]
   from = "/notes/programming/programming-languages/cpp-refresher/"
   to = "/notes/computer-science/programming-languages/cpp-refresher/"
   status = 301
