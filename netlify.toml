@@ -11,7 +11,21 @@ HUGO_ENABLEGITINFO = "true"
 
 [[redirects]]
   from = "https://www.mauriciopoppe.com/notes/programming/programming-languages/cpp-refresher/index.html"
-  to = "https://www.mauriciopoppe.com/notes/computer-science/programming-languages/cpp-refresher/"
+  to = "https://www.mauriciopoppe.com/"
+  status = 301
+  force = true
+  query = {path = ":path"}
+
+[[redirects]]
+  from = "https://www.mauriciopoppe.com/notes/programming/programming-languages/cpp-refresher/"
+  to = "https://www.mauriciopoppe.com/"
+  status = 301
+  force = true
+  query = {path = ":path"}
+
+[[redirects]]
+  from = "https://www.mauriciopoppe.com/notes/programming/programming-languages/cpp-refresher/*"
+  to = "https://www.mauriciopoppe.com/"
   status = 301
   force = true
   query = {path = ":path"}
