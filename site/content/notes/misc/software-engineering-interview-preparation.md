@@ -6,49 +6,50 @@ date: 2020-10-12 21:23:30
 
 ## Before you start
 
-**Preparing** for an interview is a rewarding, stressful and interesting experience, note that I said **preparing** for an interview instead of
-passing it because passing an interview could be the outcome of enough and good preparation (luck is involved too but I'll get to this shortly),
+**Preparing** for an interview is a rewarding, stressful, and exciting experience. Passing an interview could be the outcome of enough focused preparation 
+(luck is involved too, but I'll get to this shortly),
 it's stressful on every single stage from the first time you send your resume and wait for the automated program or the recruiter not to reject it 
-until the last day you negotiate your offer with your recruiter, however, the process is rewarding because you improve your problem solving skills
-and some of the concepts and techniques that you learn when you're preparing for the coding interview as well as the
-system design interview are invaluable and will be helpful throughout your career.
+until the last day you negotiate your offer with your recruiter. However, the process is rewarding because you improve your problem-solving skills. 
+On top of that, the concepts you learn when you're preparing for the system design part of the interview are invaluable and will be helpful throughout your career.
 
-My plan was to interview with my target top companies (Airbnb, Facebook, Google) at once and I wanted to do the onsites close to each other (with at
-least one day to rest between interviews), I got awesome recruiters that helped me schedule the 3 onsites in 2 weeks. My plan contains notes that are applicable 
-to any company as well as specifics for each of my target companies, disclaimer: *this is my plan and it worked for me and it might or might not work for you*, I focused
-more on system design in my preparation because that's where I failed the last time I interviewed.
+**luck is involved in the interview process**. You may have prepared a lot but:
 
-**Luck is involved in the interview process**, you may have prepared a lot but:
+- you might get stage fright during the interview, you can decrease the anxiety effect with enough practice, but I guess that this feeling will always be there
+- you might be unable to make progress because the problem is too hard to solve because you didn't practice that topic enough, or you just missed that small insight
+- there might be an external factor that you can't control; for example, you might not click with your interviewer, your interviewer might be having a bad day or 
+during the Hiring Committee review, someone dislikes something about your round even though all the interviewers gave you a positive score
+ (as an anecdote [not even the Hiring Committee members are safe from themselves](https://youtu.be/r8RxkpUvxK0?t=530)).
 
-- you might get stage fright during the interview, you can decrease the anxiety effect with enough practice but I guess that this feeling will always be there
-- you might be unable to make progress because the problem is too hard to solve because you didn't practice that topic enough or you just missed that small insight
-- there might be an external factor that you can't control, for example you might not click with your interviewer, your interviewer might be having a bad day or 
-during the HC review there's someone that dislikes something about the interview round notes even though all the interviewers gave you a positive score. 
-
-You increase your chances of landing a job at a top company if you interview with more of them, this seems obvious but it
-took me some courage to attempt more times because I was afraid of the rejection, 
+You increase your chances of landing a job at a top company if you interview with more of them. It may seem obvious, but it
+took me some courage to attempt more times because I was afraid of rejection, 
 it helped to switch my mentality to focus more on the preparation rather than the result.
 
-For stage fright just practice a lot either at pramp or with a friend that's experienced in interviews (highly recommended), 
-the more you practice the better you'll become at communicating your solution as well as controlling the time, 
-when I started I could come up with a solution for a coding problem but I'd present it in a disordered way, I'd explain the solution and start coding it right
-away without realizing that I was solving the wrong problem or I'd talk too much without considering the time and I'd eat valuable time in the interview that I could
-use for the follow up question or for tests, when I practiced system design interviews I'd jump across the system design
-stages or I'd go way too deep into the detailed design when I was talking about the high level design. After I did enough mock
-interview rounds with my friend I was able to correct these problems as well as come up with an ordered way to tackle each coding problem.
+For stage fright, practice a lot either at pramp or with a friend experienced in interviews (highly recommended), 
+the more you practice, the better you'll become at communicating your solution as well as keeping control of the time, 
+when I started, I could come up with a solution for a coding problem, but I'd present it in a disordered way, I'd explain a solution and start coding it right
+away without realizing that I was solving the wrong problem or I'd talk too much without considering the time, and I'd eat valuable time in the interview that I could
+use for the follow-up question or tests, when I practiced system design interviews, I'd jump across the system design
+stages or I'd go way too deep into the detailed design when I talked about the high-level design. After I did enough mock
+interview rounds with my friend, I corrected these problems and came up with a systematic way to tackle each coding and system design problem.
 
-For hard problems always try to come up with examples, I got followup questions where I didn't have an idea of where to start
-so after cycling through some data structures I decided to write some examples, then I could find a pattern and finally
-the data structures and algorithms that would help me solve the problem. If you can't make progress ask for help! If you get
-a good interviewer he/she might realize you need help but in any case keep this step as a last resort when you're completely stuck.
+For challenging problems, always try to come up with examples. I got follow-up questions where I didn't know where to start, 
+so after cycling through some data structures, I'd write some examples, find a pattern, and finally,
+the data structures and algorithms that would help me solve the problem. If you can't make progress, ask for help! If you get
+an excellent interviewer, he/she might realize you need help but in any case, keep this step as a last resort when you're completely stuck.
 
-For external factors there's nothing you can do, just focus your energy on the next interview instead of thinking what you could've done better.
+For external factors, there's nothing you can do. Just focus your energy on the next interview instead of thinking about what you could've done better.
 
-Finally my journey wasn't without failures, I failed multiple interviews with top companies, I was naive in the past and when I decided to 
-interview I'd "put all of my eggs in one basket" (meaning interviewing only with one company at a time in years) and fail but 
+I planned to interview with my target top companies (Airbnb, Facebook, Google) at once, and I wanted to do the on sites close to each other (with at
+least one day to rest between interviews). I got excellent recruiters that helped me schedule the 3 on-sites in 2 weeks. 
+My plan contains notes that apply to any company and specifics for each of my target companies. 
+Disclaimer: *this is my plan, and it worked for me. It might or might not work for you*. I focused
+more on system design in my preparation because I failed this part of the interview the last time I interviewed.
+
+Finally, my journey wasn't without failures. I failed multiple interviews with top companies, I was naive in the past, and when I decided to 
+go for an interview I'd "put all of my eggs in one basket" (meaning interviewing only with one company at a time in years) and fail but 
 now I realize that the interview process gave me invaluable information that helped me in my next attempts, 
-if you fail, it just means that you've failed that attempt, after all of your rounds reflect what you did good and bad and focus on improving 
-that part for the next attempt.
+if you fail, it just means that you've failed that attempt. After all of your rounds, reflect on what you did right and wrong and focus on improving 
+that part for the next shot.
 
 <div class="columns is-size-3">
 <div class="column is-half is-offset-one-quarter">
@@ -57,74 +58,74 @@ that part for the next attempt.
 </div>
 </div>
 
-Getting an offer is not the end of the journey, it might be possible that even after you reach your target company and you
-work there for some years you might look for new challenges in other top companies, the interview skill is something
+Getting an offer is not the end of the journey. It might be possible that even after you reach your target company and you
+work there for some years, you might look for new challenges in other top companies. The interview skill is something
 that you should keep up to date. Good luck! 
 
 ## Summary
 
 *(If you haven't interviewed in the past and wanna get noticed)*
 
-- If you're a student, enjoy the student life! Work on challenging projects that makes you stand out from the rest, 
-in my case I used to be a competitive programmer and was also really into creating my own
-projects for fun, [I actually managed to have a JS library featured in a magazine once!](https://javascriptweekly.com/issues/194), 
+- If you're a student, enjoy the student lifestyle! Work on challenging projects that make you stand out from the rest. 
+In my case, I used to be a competitive programmer and was also really into creating my 
+projects for fun, [I managed to have a JS library featured in a magazine once!](https://javascriptweekly.com/issues/194), 
 ([link to the project](https://mauriciopoppe.github.io/PojoViz/public/vulcanize.html#readme)).
-- [Participate in Coding Contests](https://www.youtube.com/watch?v=ueNT-w7Oluw), I solved thousands of problems over the years,
- all of my solutions are in [this repo](https://github.com/mauriciopoppe/competitive-programming).
-- Google has this website called https://foobar.withgoogle.com/ learn about it [here](https://medium.com/plutonic-services/things-you-should-know-about-google-foobar-invitation-703a535bf30f), 
-when I was reading about web performance I saw a pink button somewhere inside the [Web Fundamentals Rendering Performance Guides](https://developers.google.com/web/fundamentals/performance/rendering)
-which led me to the foobar site, I solved 3 problems in python and got an interview invitation and then I solved the remaining 2 and got more invitations to give to friends.
-- If you are working full time look for opportunities to work on hard problems and show leadership, **take the opportunity, no pain no gain**.
-- Make sure your resume shines and aim for a 1 page resume, [here's the CV I used for this round (with my personal details removed)](https://www.overleaf.com/read/fvdmbqtskgsw).
+- [Participate in Coding Contests](https://www.youtube.com/watch?v=ueNT-w7Oluw), I solved thousands of problems over the years; 
+my solutions are in [this repo](https://github.com/mauriciopoppe/competitive-programming).
+- Google has this website called https://foobar.withgoogle.com/. Learn about it [here](https://medium.com/plutonic-services/things-you-should-know-about-google-foobar-invitation-703a535bf30f).
+When I was reading about web performance, I saw a pink button somewhere inside the [Web Fundamentals Rendering Performance Guides](https://developers.google.com/web/fundamentals/performance/rendering)
+which led me to the foobar site, I solved 3 problems in python and got an interview invitation, and then I solved the remaining 2 and got more invitations to give to friends.
+- If you are working full-time, look for opportunities to work on challenging problems and show leadership, **take the chance, no pain, no gain**.
+- Make sure your resume shines and aim for a 1-page resume, [here's the CV I used for this round (with my details removed)](https://www.overleaf.com/read/fvdmbqtskgsw).
 
 Before looking to interview:
 
-- Do the daily Leetcode challenge, it's an awesome way to keep the coding interview skill up to date
+- Do the daily Leetcode challenge. It's a great way to keep the coding interview skill up to date
 - Participate in Leetcode contests every Saturday, or Codeforces when it's available
 - Read about or code scalable systems, read interesting papers and read the red book [Designing Data Intensive Applications](https://dataintensive.net/),
-I focused a lot on this part since the last time I failed my last onsite was because of system design.
-- Get to know myself and the places I'd like to work, check if my values match the company core values
+I focused a lot on this part since the last time I failed my previous onsite was because of system design.
+- Get to know me and the places I'd like to work, check if my values match the company core values
 
 {{< interview who="airbnb" >}}
 I've been a fan of their engineering
-blog ever since I saw this article [Rearchitecting Airbnb’s Frontend](https://medium.com/airbnb-engineering/rearchitecting-airbnbs-frontend-5e213efc24d2), 
-moreover I had the opportunity to use part of their work presented in [Dynein: Building an Open-source Distributed Delayed Job Queueing System](https://medium.com/airbnb-engineering/dynein-building-a-distributed-delayed-job-queueing-system-93ab10f05f99) at work,
-in addition, the obsession for what "belong anywhere" means matches my core values, if you don't know what it means I highly 
+blog ever since I saw this article [Rearchitecting Airbnb's Frontend](https://medium.com/airbnb-engineering/rearchitecting-airbnbs-frontend-5e213efc24d2), 
+moreover, I had the opportunity to use part of their work presented in [Dynein: Building an Open-source Distributed Delayed Job Queueing System](https://medium.com/airbnb-engineering/dynein-building-a-distributed-delayed-job-queueing-system-93ab10f05f99) at work,
+also, the obsession for what "belong anywhere" means matches my core values. If you don't know what it means, I highly 
 recommend this [Ted talk by Joe Gebbia, one of the co-founders of Airbnb](https://www.ted.com/talks/joe_gebbia_how_airbnb_designs_for_trust?language=en) and 
-if you know spanish listen to this [story by a writer that had a heart attack while staying at an Airbnb](https://www.youtube.com/watch?v=sVuMmcFu9uI)
+if you understand Spanish, listen to this [story by a writer that had a heart attack while staying at an Airbnb](https://www.youtube.com/watch?v=sVuMmcFu9uI)
 {{< /interview >}}
 
 {{< interview who="facebook" >}}
-In the Facebook HQ you see their core values everywhere, one phrase that stuck with me in one of their buildings is *what would you do if you weren't afraid?*.
-A few of my friends work there for a long time already and it's been one of my target companies for a while, [their engineering blog](https://engineering.fb.com/) is filled with 
-so many gems across multiple fields, as a Frontend developer I learned a lot from [Browserlab](https://engineering.fb.com/web/browserlab-automated-regression-detection-for-the-web/) whose
-infrastructure design I used as inspiration in a project I did at work with [WebPagetest](https://www.webpagetest.org/). 
+In the Facebook HQ you see their core values everywhere. One phrase that stuck with me in one of their buildings is *what would you do if you weren't afraid?*.
+A few of my friends have been working there for a long time, Facebook's  been one of my target companies for a while, [their engineering blog](https://engineering.fb.com/) is filled with 
+so many gems across multiple fields, as a Frontend developer, I learned a lot from [Browserlab](https://engineering.fb.com/web/browserlab-automated-regression-detection-for-the-web/),
+whose infrastructure design I used as inspiration in a project I did at work with [WebPagetest](https://www.webpagetest.org/). 
 {{< /interview >}}
 
 {{< interview who="google" >}}
-I use a lot of Google products every day and I really love their high quality, they're always setting standards in engineering in the industry as well
-as making sure that their research is available to the world, a lot of companies including mine have benefited from all the open source projects that they
-produce/support, [Kubernetes](https://kubernetes.io/) is the core component in the infra of many companies and it looks like a magic box to the engineers that use it.
+I use a lot of Google products every day, and I admire their high quality. Google's always setting standards in engineering in the industry 
+and ensuring that their research is available to the world. Many companies, including mine, have benefited from all the open-source projects they
+produce/support. [Kubernetes](https://kubernetes.io/) is the core component in many companies' infra, and it looks like a magic box to the engineers that use it.
 {{< /interview >}}
 
-NOTE about picking your companies: I only interviewed with the companies that I wanted to work for which is risky, another strategy is to apply to all the top
-companies hoping to get multiple offers which definitely helps during the negotiation phase, during my preparation I watched videos from various founders
-from all of the top companies and discovered that I'd really like to work at [Stripe](https://www.youtube.com/watch?v=NprBQi0cSHU) too.
+NOTE about picking your companies: I only interviewed with the companies I wanted to work for, which is risky. Another strategy is to apply to all the top
+companies hoping to get multiple offers, which helps during the negotiation phase. During my preparation, I watched videos from various founders
+from all of the top companies and discovered that I'd like to work at [Stripe](https://www.youtube.com/watch?v=NprBQi0cSHU) too.
 
 When I was ready to interview
 
-- Contact the recruiters, schedule phone screens in 3 to 4 weeks, more time to prepare for the phone screen is an overkill
+- Contact the recruiters, schedule phone screens in 3 to 4 weeks. More time to prepare for the phone screen is risky
 because I'll burn out even before practicing the system design questions.
-- Practice only coding for the phone screens, the plan is detailed below.
-- After the phone screen interviews, schedule onsites in 4 to 6 weeks (I did 4 weeks), I also made sure that the onsites
+- Practice only coding for the phone screens. The plan is detailed below.
+- After the phone screen interviews, schedule on sites in 4 to 6 weeks (I did 4 weeks), I also ensured that the onsites
 were as close as possible to a target date with enough breathing room to rest.
-- Practice mainly system design and coding to a less extent, give yourself enough breathing room to not burn out.
-- Practice behavioral type of questions, each company has its own way to assess this part that's described below.
-- Go through the onsites, get to a mental state where you're ready for the next interview regardless of the outcome of the previous one.
+- Practice mainly system design and coding to a less extent, give yourself enough breathing room not to burn out.
+- Practice behavioral types of questions. Each company has its way to assess this part that's described below.
+- Go through the onsites, get to a mental state where you're ready for the next interview regardless of the outcome of the previous round.
 - Receive feedback from the recruiters and the HC, go through the team matching interviews if you passed the HC, remember that **you don't have an offer yet**.
-- If you get offers, learn to negotiate, read [Salary negotiation strategies everyone in tech already knows — but you don’t](https://candor.co/guides/salary-negotiation) and/or
+- If you get offers, learn to negotiate, read [Salary negotiation strategies everyone in tech already knows — but you don't](https://candor.co/guides/salary-negotiation) or
 get professional help.
-- If you don't get an offer, learn from your mistakes and move on, you'll have enough time to reflect and think about the plan for the next attempt.
+- If you don't get an offer, learn from your mistakes, and move on, you'll have enough time to reflect and think about the plan for the next attempt.
 
 ## Coding
 
@@ -132,27 +133,27 @@ get professional help.
 
 - My phone screen preparation took 3 to 4 weeks, warmup for the 1st week: solve a few easy/medium problems in Leetcode, remember the STL ([if your programming language is C++ I have a refresher article](/notes/computer-science/programming-languages/cpp-refresher/)).
 - Focus on breadth, a nice schedule based on your timeline can be found in the EPI book, then pick problems from your weakest area.
-- Practice EPI questions, I've already read EPI multiple times so I just had to review their intro for STL methods for every chapter and glance
-through the questions and the solutions if I need to, to practice and test if your implementation works use the [EPI Judge](https://github.com/adnanaziz/EPIJudge).
-- Start solving medium type of questions and target hard questions in Leetcode, review medium questions that you may have solved in the past, 
-also review how other people solved it (you'll learn something new every time).
-- Go through this list of lists of patterns [Important and Useful links from all over Leetcode](https://Leetcode.com/discuss/general-discussion/665604/important-and-useful-links-from-all-over-the-Leetcode),
-it's by far the best source of knowledge and problems to solve for your preparation.
+- Practice EPI questions. I've already read EPI multiple times, so I just had to review their intro for each chapter's STL methods and glance
+through the problems and the solutions. To practice and test if your implementation works, use the [EPI Judge](https://github.com/adnanaziz/EPIJudge).
+Start solving medium-type questions and target hard questions in Leetcode, review medium questions that you may have solved in the past, 
+and study how other people solved it (you'll learn something new every time).
+- Go through this list of patterns: [Important and Useful links from all over Leetcode](https://Leetcode.com/discuss/general-discussion/665604/important-and-useful-links-from-all-over-the-Leetcode). 
+It's by far the best source of knowledge and problems to solve for your preparation.
 - Participate in the weekly Leetcode contest every Saturday at 7:30PM PT.
 - Buy Leetcode premium and do a lot of mock interviews (at least 2 per day), force yourself to be in the session and don't exit prematurely, 
-get into the habit of drawing examples in comments (when I interviewed there were only virtual onsites).
+get into the habit of drawing examples in comments (when I interviewed, there were only virtual onsites).
 
-Here's an example of what I'd do in my head and in code, say what you're thinking out loud, your thought process might
-make you come up with an strategy or might help the interviewer guide you if you're stuck
+Here's an example of what I'd do in my head and code, say what you're thinking out loud. Your thought process might
+make you come up with a strategy or might help the interviewer guide you if you're stuck
 
 {{< interview-example >}}
 
 Example Problem: [1105. Filling Bookcase Shelves](https://leetcode.com/problems/filling-bookcase-shelves/)
 
-We're given an array of books represented as `[width, height]` and a parameter `shelf_width`, 
-what we want to do is accumulate consecutive books in the shelves of a bookshelf, the sum of the widths of the books must not be greater 
-than the input `shelf_width`, the height of a single shelf is the max height across all the books on the shelf, what we're looking for is to minimize
-the total height of the bookshelf which is the sum of all the max heights across all of the shelves.
+We're given an array of books represented as `[width, height]` and a parameter `shelf_width`. 
+We want to accumulate consecutive books on the shelves of a bookshelf. The sum of the widths of the books must not be greater than the input `shelf_width`. 
+The height of a single shelf is the max height across all the books on the shelf. We're looking to minimize the bookshelf's total height,
+which is the sum of all the max heights across all of the shelves.
 
 ```text
 Input: books = [[1,1],[2,3],[2,3],[1,1],[1,1],[1,1],[1,2]], shelf_width = 4
@@ -174,7 +175,7 @@ sum(max height) = 6
 
 **Answer**: not possible
 
-**Question**: it looks like I could have several solutions whose output is the optimal value, I guess we're only interested
+**Question**: it looks like I could have several solutions whose output is the optimal value. I guess we're only interested
 in the sum of the max heights and not in the location of each book right?
 
 **Answer**: yes, not interested in the location of the books, just in the height of the bookshelf
@@ -185,7 +186,7 @@ in the sum of the max heights and not in the location of each book right?
 
 ----
 
-**Possible greedy strategy**: It looks like I can solve it with a greedy strategy, if take items from right to left (i.e. starting at the bottom) 
+**Possible greedy strategy**: It looks like I can solve it with a greedy strategy if take items from right to left (i.e., starting at the bottom) 
 and I can keep accumulating books until I get enough books for the current shelf whose sum doesn't go beyond `shelf_width` e.g.
 
 ```text
@@ -197,8 +198,9 @@ and I can keep accumulating books until I get enough books for the current shelf
 ]
 ```
 
-**Possible question that I might get asked**: is this greedy strategy going to work for all the cases? is there an example where it fails?
-I'll think about a case that might break the greedy solution, the case that breaks it is:
+**Possible question that I might get asked**: is this greedy strategy going to work for all the cases? Is there an example where it fails?
+
+**My answer**: I'll think about a case that might break the greedy solution, the case that breaks it is:
 
 ```text
 books = [5,5], [2,5], [2,2], shelf_width = 7
@@ -209,16 +211,16 @@ books = [5,5], [2,5], [2,2], shelf_width = 7
 ]
 ```
 
-In the case above I'd take `[2,2], [2,5]` in the last row and `[5,5]` in the first one with a total height of 10, the optimal is 7
+In the case above, I'd take `[2,2], [2,5]` in the last row and `[5,5]` in the first one with a total height of 10; the optimal is 7
 so I think that the greedy approach won't work.
 
-**Brainstorm brute force**: For a brute for solution I'd put some books in a shelf and then attempt to put the remaining books
-in the next shelf and so on recursively, in the recursion I'd have a parameter `i` that's would tell me where to start in the array
-of books, to decide how many books I can put in a shelf I'd also need an accumulator that keeps track of the current width sum
+**Brainstorm brute force**: For a brute-force solution, I'd put some books on a shelf and then attempt to put the remaining books
+in the next shelf and so on recursively, in the recursion, I'd have a parameter `i` that's would tell me where to start in the array
+of books, to decide how many books I can put on a shelf I'd also need an accumulator that keeps track of the current width sum
 
 **Optimized brute force width dp**:
 I see that the solution above will create cases where we're trying to solve the problem with the same parameters
-again, I think we can use DP and the recurrence would be: 
+again, I think we can use DP, and the recurrence would be: 
 
 ```text
 T(i) = min(max(height[i], height[i+1], ..., height[i+k]) + T(k + 1))   from i = 0 up to i = books.size()
@@ -226,10 +228,10 @@ T(books.size()) = 0
 constraint for T(i): sum(width[i], width[i+1], ..., width[i+k]) <= shelf_width
 ```
 
-The time complexity would be `O(mn)` where `m` is a variable whose value depends on how many books I can put in a shelf,
-I think that in the worst case it could be `n` so overall it's `O(n^2)`.
+The time complexity would be `O(mn)` where'm` is a variable whose value depends on how many books I can put on a shelf,
+I think that in the worst case it could be `n` so overall, it's `O(n^2)`.
 
-The space complexity would be `O(n)` since we're storing a solution for every index of the array of books.
+The space complexity would be `O(n)` because we're storing a solution for every index of the books' array.
 
 **Question for the interviewer** Do you think that this algorithm would work? I don't know what's the max value of `n`?
 
@@ -237,7 +239,7 @@ The space complexity would be `O(n)` since we're storing a solution for every in
 
 ---
 
-Finally you can code it and test it, make sure you review your implementation before testing as you may find variables
+Finally, you can code it and test it, make sure you review your implementation before testing as you may find variables
 that are invalid or small logic errors
 
 <style>
@@ -292,18 +294,17 @@ T(2) =
 Then compute the last `T(x)` (the ones closer to the end of the array) and propagate the values up the stack. 
 
 Come up with additional tests if you have time, probably you can handle edge cases like what if the array is empty too.
-If you get a good question the above will not be enough and you might have a followup question where you attempt to solve the problem with less
-space or with a better time complexity.
+If you get a good question, the above will not be enough, and you might have a followup question where you attempt to solve the problem with less
+space or with better time complexity.
 
 {{< /interview-example >}}
 
-- Also go through the questions sorted by company, depending on the company you might get asked questions from their
-pool, don't memorize questions, instead learn the techniques used in each problem.
+- Also, go through the questions sorted by company. Depending on the company, you might get asked questions from their
+pool, don't memorize questions; instead, learn the techniques used in each problem.
 - Master Big O notation and understand [the time/space complexity of all the data structures that you might use](https://www.bigocheatsheet.com/), big focus here on the differences between
 a `map`, `unordered_map`, `set`, `unordered_set`, `multiset`, `priority_queue`, `queue`, `stack`, `vector`, etc. Also master Big O for recurrences (you can derive the master
-theorem so you don't need to memorize it, [learn how to solve recurrences by doing a guess and proving your guess by induction or by unrolling the recurrence](https://courses.engr.illinois.edu/cs473/sp2010/notes/99-recurrences.pdf)) 
-- **Pair with a friend and do 45 minute interviews, take turns to interview each other**, this according to me is the best way 
-to prepare because you're actually doing what you're supposed to do in an interview.
+theorem so you don't need to memorize it, [learn how to solve recurrences by making a guess and proving your guess by induction or by unrolling the recurrence](https://courses.engr.illinois.edu/cs473/sp2010/notes/99-recurrences.pdf)) 
+- **Pair with a friend and do 45 minute interviews. Take turns to interview each other**, this, in my opinion, is the best way to prepare because you're doing what you're supposed to do in an interview.
 
 ### Onsite preparation
 
