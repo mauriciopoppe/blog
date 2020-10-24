@@ -27,7 +27,7 @@ during the HC review there's someone that dislikes something about the interview
 
 You increase your chances of landing a job at a top company if you interview with more of them, this seems obvious but it
 took me some courage to attempt more times because I was afraid of the rejection, 
-it helped to switch my mentality to focus more on the preparation instead of the result.
+it helped to switch my mentality to focus more on the preparation rather than the result.
 
 For stage fright just practice a lot either at pramp or with a friend that's experienced in interviews (highly recommended), 
 the more you practice the better you'll become at communicating your solution as well as controlling the time, 
@@ -65,8 +65,8 @@ that you should keep up to date. Good luck!
 
 *(If you haven't interviewed in the past and wanna get noticed)*
 
-- If you're a student, enjoy the student life! (I miss those awesome days) work on something that's challenging and interesting
-that makes you stand out from the rest, in my case I used to be a competitive programmer and was also really into creating my own
+- If you're a student, enjoy the student life! Work on challenging projects that makes you stand out from the rest, 
+in my case I used to be a competitive programmer and was also really into creating my own
 projects for fun, [I actually managed to have a JS library featured in a magazine once!](https://javascriptweekly.com/issues/194), 
 ([link to the project](https://mauriciopoppe.github.io/PojoViz/public/vulcanize.html#readme)).
 - [Participate in Coding Contests](https://www.youtube.com/watch?v=ueNT-w7Oluw), I solved thousands of problems over the years,
@@ -74,7 +74,7 @@ projects for fun, [I actually managed to have a JS library featured in a magazin
 - Google has this website called https://foobar.withgoogle.com/ learn about it [here](https://medium.com/plutonic-services/things-you-should-know-about-google-foobar-invitation-703a535bf30f), 
 when I was reading about web performance I saw a pink button somewhere inside the [Web Fundamentals Rendering Performance Guides](https://developers.google.com/web/fundamentals/performance/rendering)
 which led me to the foobar site, I solved 3 problems in python and got an interview invitation and then I solved the remaining 2 and got more invitations to give to friends.
-- If you are working full time look for opportunities to work on hard problems to show leadership, **take the opportunity, no pain no gain**.
+- If you are working full time look for opportunities to work on hard problems and show leadership, **take the opportunity, no pain no gain**.
 - Make sure your resume shines and aim for a 1 page resume, [here's the CV I used for this round (with my personal details removed)](https://www.overleaf.com/read/fvdmbqtskgsw).
 
 Before looking to interview:
