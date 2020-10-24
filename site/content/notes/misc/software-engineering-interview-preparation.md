@@ -7,10 +7,9 @@ date: 2020-10-12 21:23:30
 ## Before you start
 
 **Preparing** for an interview is a rewarding, stressful, and exciting experience. Passing an interview could be the outcome of enough focused preparation 
-(luck is involved too, but I'll get to this shortly),
-it's stressful on every single stage from the first time you send your resume and wait for the automated program or the recruiter not to reject it 
-until the last day you negotiate your offer with your recruiter. However, the process is rewarding because you improve your problem-solving skills. 
-On top of that, the concepts you learn when you're preparing for the system design part of the interview are invaluable and will be helpful throughout your career.
+(luck is involved too, but I'll get to this shortly).
+The process is stressful on every single stage from the first time you send your resume and wait for the automated program or the recruiter not to reject it 
+until the last day you negotiate your offer with your recruiter. However, the process is rewarding because you improve your problem-solving skills
 
 **Luck is involved in the interview process**. You may have prepared a lot but:
 

@@ -20,3 +20,9 @@ from = "/notes/programming/programming-languages/cpp-refresher/"
 to = "/notes/computer-science/programming-languages/cpp-refresher/"
 status = 301
 force = false
+
+[[redirects]]
+from = "/notes/misc/interview-preparation/"
+to = "/notes/misc/software-engineering-interview-preparation/"
+status = 301
+force = false
