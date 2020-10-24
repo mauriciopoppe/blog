@@ -9,7 +9,8 @@ date: 2020-10-12 21:23:30
 **Preparing** for an interview is a rewarding, stressful, and exciting experience. Passing an interview could be the outcome of enough focused preparation 
 (luck is involved too, but I'll get to this shortly).
 The process is stressful on every single stage from the first time you send your resume and wait for the automated program or the recruiter not to reject it 
-until the last day you negotiate your offer with your recruiter. However, the process is rewarding because you improve your problem-solving skills
+until the last day you negotiate your offer with your recruiter. However, the process is rewarding because you improve your problem-solving skills, also, 
+the concepts that you learn when you're preparing for the system design interviews are invaluable and will be helpful throughout your career.
 
 **Luck is involved in the interview process**. You may have prepared a lot but:
 
@@ -484,14 +485,14 @@ Also, implement the following classes from scratch, either with C++ 11 Multithre
 - Parallel sort
 - Multithreaded crawler
 - Multithreaded cache system
-- Multithreaded file system - The Georgia Tech Graduate Introduction to Operating Systems course's Project 4 is all about this.
+- Distributed file system - The Georgia Tech Graduate Introduction to Operating Systems course's Project 4 is all about this.
 
 Resources:
 
 - [Graduate Introduction to Operating Systems by Georgia Tech](https://omscs.gatech.edu/cs-6200-introduction-operating-systems)
 - [Concurrent Programming with C++](https://www.youtube.com/playlist?list=PL5jc9xFGsL8E12so1wlMS0r0hTQoJL74M) - 
 Excellent intro to multithreading concepts and primitives, a perfect mix of theory and practice.
-- [Back to Basics: Concurrency - Arthur O'Dwyer - CppCon 2020](https://www.youtube.com/watch?v=F6Ipn7gCOsY) - Modern multithreading primitives.
+- [Back to Basics: Concurrency - Arthur O'Dwyer - CppCon 2020](https://www.youtube.com/watch?v=F6Ipn7gCOsY) - Overview of modern concurrency in C++ 11.
 - [Chapter 19 in EPI](https://www.amazon.com/Elements-Programming-Interviews-Insiders-Guide/dp/1479274836/)
 - [CPU Caches and Why You Care](https://www.youtube.com/watch?v=WDIkqP4JbkE) - Fantastic introduction to cache lines. I learned
 more about data locality and that having more threads will not always improve your program's performance as you thought it would.
