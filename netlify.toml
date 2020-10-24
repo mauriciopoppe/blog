@@ -10,15 +10,8 @@ HUGO_ENABLEGITINFO = "true"
     Access-Control-Allow-Origin = "*"
 
 [[redirects]]
-  from = "/notes/programming/programming-languages/cpp-refresher/"
-  to = "/notes/computer-science/programming-languages/cpp-refresher/"
-  status = 301
-  force = true
-  query = {path = ":path"}
-
-[[redirects]]
   from = "https://www.mauriciopoppe.com/notes/programming/programming-languages/cpp-refresher/index.html"
-  to = "/notes/computer-science/programming-languages/cpp-refresher/"
+  to = "https://www.mauriciopoppe.com/notes/computer-science/programming-languages/cpp-refresher/"
   status = 301
   force = true
   query = {path = ":path"}
