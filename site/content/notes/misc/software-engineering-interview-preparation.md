@@ -6,17 +6,19 @@ date: 2020-10-12 21:23:30
 
 ## Before you start
 
-Congrats! **Preparing** for an interview is a rewarding and fun journey, note that I said **preparing** for an interview instead of
-acing it because passing an interview could be the outcome of enough and good preparation (luck is involved too but I'll get to this shortly), the process is rewarding because
-you improve your ability to come up with a solution to an algorithmic problem in a short amount of time, also, the concepts that you learn when you're preparing for the 
-system design interviews are invaluable and will be helpful throughout your career.
+**Preparing** for an interview is a rewarding, stressful and interesting experience, note that I said **preparing** for an interview instead of
+passing it because passing an interview could be the outcome of enough and good preparation (luck is involved too but I'll get to this shortly),
+it's stressful on every single stage from the first time you send your resume and wait for the automated program or the recruiter not to reject it 
+until the last day you negotiate your offer with your recruiter, however, the process is rewarding because you improve your problem solving skills
+and some of the concepts and techniques that you learn when you're preparing for the coding interview as well as the
+system design interview are invaluable and will be helpful throughout your career.
 
 My plan was to interview with my target top companies (Airbnb, Facebook, Google) at once and I wanted to do the onsites close to each other (with at
 least one day to rest between interviews), I got awesome recruiters that helped me schedule the 3 onsites in 2 weeks. My plan contains notes that are applicable 
 to any company as well as specifics for each of my target companies, disclaimer: *this is my plan and it worked for me and it might or might not work for you*, I focused
 more on system design in my preparation because that's where I failed the last time I interviewed.
 
-Understand that **luck is involved in the interview process**, you may have prepared a lot but:
+**Luck is involved in the interview process**, you may have prepared a lot but:
 
 - you might get stage fright during the interview, you can decrease the anxiety effect with enough practice but I guess that this feeling will always be there
 - you might be unable to make progress because the problem is too hard to solve because you didn't practice that topic enough or you just missed that small insight
@@ -357,6 +359,13 @@ I used this template with a friend: [Google Docs template](https://docs.google.c
 Interesting Problems + Hints:
 
 - [Google Docs - Coding Interview Notes](https://docs.google.com/document/d/10DrjF-C73AnuPwvLC2yJiiiBYJV9pXtphC20x86--rM/edit?usp=sharing)
+
+Sites to practice:
+
+- [Leetcode](http://leetcode.com/), I have a university discount so I got premium for a year for 99$, the contests start on Saturdays at 7PM PDT
+- [Binary Search](https://binarysearch.com/), high quality problems too, the contests happen on Saturdays at 11AM PDT
+- [Codeforces](https://codeforces.com/), if you like harder problems then try Codeforces, I think the Div2 A, B and C problems 
+are similar to what you'd get in an interview
 
 Books:
 
