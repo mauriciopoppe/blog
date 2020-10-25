@@ -72,9 +72,9 @@ projects for fun, [I managed to have a JS library featured in a magazine once!](
 ([link to the project](https://mauriciopoppe.github.io/PojoViz/public/vulcanize.html#readme)).
 - [Participate in Coding Contests](https://www.youtube.com/watch?v=ueNT-w7Oluw), I solved thousands of problems over the years; 
 my solutions are in [this repo](https://github.com/mauriciopoppe/competitive-programming).
-- Google has this website called https://foobar.withgoogle.com/. Learn about it [here](https://medium.com/plutonic-services/things-you-should-know-about-google-foobar-invitation-703a535bf30f).
+- Google has this website called https://foobar.withgoogle.com/ (learn about it [here](https://medium.com/plutonic-services/things-you-should-know-about-google-foobar-invitation-703a535bf30f)).
 When I was reading about web performance, I saw a pink button somewhere inside the [Web Fundamentals Rendering Performance Guides](https://developers.google.com/web/fundamentals/performance/rendering)
-which led me to the foobar site, I solved 3 problems in python and got an interview invitation, and then I solved the remaining 2 and got more invitations to give to friends.
+which led me to the foobar site, I solved 3 problems in python and got an interview invitation and then I solved the remaining 2 and got more invitations to give to friends.
 - If you are working full-time, look for opportunities to work on challenging problems and show leadership, **take the chance, no pain, no gain**.
 - Make sure your resume shines and aim for a 1-page resume, [here's the CV I used for this round (with my details removed)](https://www.overleaf.com/read/fvdmbqtskgsw).
 
@@ -311,8 +311,8 @@ theorem so you don't need to memorize it, [learn how to solve recurrences by mak
 - After the phone screen interviews, schedule the onsites in 4 to 6 weeks (I did 4 weeks)
 - Pick new problems based on how weak I felt in the patterns shown in the [leetcode master link](https://Leetcode.com/discuss/general-discussion/665604/important-and-useful-links-from-all-over-the-Leetcode), 
 I discarded some problems that had a bad thumbs up/thumbs down ratio
-- Pick LC solved problems (medium and hard) and review your solutions if you did them recently. 
-If you solved them a long time ago, redo them, read explanations by other coders in the discussion tab.
+- Pick LC solved problems (medium and hard) and review my solutions if I did them recently. 
+If I solved them a long time ago, redo them, read explanations by other coders in the discussion tab.
 - Do mock interviews again and again. I eventually went through all the onsite mock interviews for Google and Facebook
 - Participate in the weekly Leetcode contest
 
@@ -355,6 +355,13 @@ clearly in typed text. I don't know if these notes are used by the Interviewer o
 
 Practicing with someone and taking turns is the best way to get used to the interview environment.
 To practice, I used this template with a friend: [Google Docs template](https://docs.google.com/document/d/1TKNUaBdgzEoPaD8LNexz9JlquRKc1ZSBnNJuZmhFp4Y/edit?usp=sharing)
+
+### About the post onsite hype
+
+After going through 5 rounds in an onsite I'd feel that I've nailed the interview. 
+In reality, your performance might be around average or even below average; you never know. 
+If you're doing multiple onsites consecutively, always **assume the worst but hope for the best**,
+don't let the hype felt after an onsite impact your performance on the next one!
 
 ### Reading list
 
@@ -552,7 +559,7 @@ answers were not specific enough or were not structured pretty well. To improve,
   
 {{< interview who="airbnb" >}}
 A special note about Airbnb, they do care about the culture fit more than anyone, spend some time understanding what `belong anywhere` means, 
-I watched a lot of interviews with Brian Chesky, which helped me solidify my willingness to work with Airbnb [(6 golden rules)](https://www.youtube.com/watch?v=jgPYSogOOTY), 
+I watched a lot of interviews with Brian Chesky, which helped me solidify my willingness to work at Airbnb [(6 golden rules)](https://www.youtube.com/watch?v=jgPYSogOOTY), 
 On the onsite, you have 2 behavioral rounds with questions that can be found here: https://candor.co/interviews/airbnb; the most important ones are
 
 - **What does belonging mean to you? What is your understanding of Airbnb culture?**
@@ -562,7 +569,7 @@ Make sure you practice some of these even before you apply to Airbnb. The recrui
 {{< /interview >}}
 
 {{< interview who="facebook" >}}
-They have a behavioral round of 30m with questions and an easy coding question at the end. Read this awesome article
+They have a behavioral round of 30m with common behavioral questions and an easy coding question at the end. Read this article
 about [Ramping Up a Senior Software Engineer](https://jdxcode.com/posts/2020-09-16-10-tips-ramping-up-as-a-senior-engineer/)
 {{< /interview >}}
 
