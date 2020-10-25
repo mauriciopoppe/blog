@@ -1,4 +1,8 @@
-{{ define "header" }}
-{{ end }}
-{{ define "main" }}
-{{ end }}
+<main id="main">
+    <div>
+        <h1 id="title">{{ .Title }}</h1>
+        {{ range .Pages }}
+        {{ .Render "summary"}}
+        {{ end }}
+    </div>
+</main>

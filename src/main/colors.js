@@ -15,7 +15,7 @@ const bannerColors = ['#b95a70', '#00b1e6', '#48F913', '#F9C80E', '#B94B69']
 
 function bannerColorChanger(delta) {
   // fast updates kill the browser, the color doesn't need to match while the animation is going on
-  if (!bannerColorChanger.last || delta - bannerColorChanger.last > 100) {
+  if (!bannerColorChanger.last || delta - bannerColorChanger.last > 50) {
     const k = (Math.cos(delta / 5000) + 1) / 2
     colors[0] = bannerColorsInterpolator(k)
 

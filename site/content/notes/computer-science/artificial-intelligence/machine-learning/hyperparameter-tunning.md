@@ -1,7 +1,7 @@
 ---
 title: "Hyperparameter tunning"
 description: "Hyperparameter tunning"
-tags: ["machine learning", "neural networks"]
+tags: ["machine learning"]
 date: 2020-05-25 12:13:51
 ---
 

@@ -2,6 +2,8 @@
 title: "C++ refresher"
 description: "Refresher notes on C++, includes mechanics of a C++ program, program structure, pointers, functions, classes and misc operations"
 date: 2016-03-26 12:30:00
+aliases:
+  - /notes/programming/programming-languages/cpp-refresher/
 references:
   - "C++ project organisation (with gtest, c. (2016). C++ project organisation (with gtest, cmake and doxygen). [online] Stackoverflow.com. Available at: http://stackoverflow.com/a/13522826/3341726 [Accessed 5 Apr. 2016]."
   - "GCC, C. (2008). Compilation process in GCC ~ Codingfreak. [online] Codingfreak.blogspot.com. Available at: http://codingfreak.blogspot.com/2008/02/compilation-process-in-gcc.html [Accessed 5 Apr. 2016]."

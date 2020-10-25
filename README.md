@@ -56,6 +56,15 @@ Manual steps in Netlify (setup done only once)
 - Webpack (tooling)
 - d3, React (browser)
 
+## Useful variables:
+
+```text
+from within a page, path to itself:
+{{ .File.Dir }}{{ .File.ContentBaseName }}/
+
+
+```
+
 ## Upgrade notes
 
 From mmark to goldmark:

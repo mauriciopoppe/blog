@@ -101,3 +101,7 @@ $tabs-toggle-link-active-background-color: $background;
 $tabs-toggle-link-active-border-color: $border;
 $tabs-toggle-link-active-color: #FFF;
 $tabs-boxed-link-active-background-color: $body-background-color;
+
+// override to https://github.com/jgthms/bulma/blob/master/sass/components/tabs.sass
+$tabs-link-active-color: $primary;
+$tabs-link-active-border-bottom-color: $primary;

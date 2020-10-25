@@ -1,6 +1,8 @@
 ---
 title: "Software Engineering Interview Preparation"
 tags: ["interview", "system design"]
+aliases:
+  - /notes/misc/interview-preparation/
 date: 2020-10-12 21:23:30
 ---
 
@@ -544,7 +546,7 @@ Google and Facebook have 1 behavioral round, and Airbnb has 2 behavioral rounds.
 - learn to introduce yourself; you might do this in some coding rounds too. A must for the team matching phase at Google or Airbnb, the template that I use is:
 
 > Hello, my name is `{your name}` and I'm a software engineer at `{current company}` where we do `{description of the product}`, 
-> I'm currently working on `{project A doing front-end, back-end, infra, ml, etc.}`. In the past, I worked at `{past company}` where I did `{more projects}`.
+> I'm currently working on `{project A doing front-end, back-end, infra, ml, etc.}`. In the past, I worked at `{previous company}` where I did `{more projects}`.
 > On the side, I'm doing `{school coursework or extracurricular activities}`, and my next objective is to achieve `{objective in the short term}`.
 
 - learn about STAR, create a grid with questions, projects, and answers for each one

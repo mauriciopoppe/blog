@@ -11,13 +11,23 @@
 <!-- sitemap wrapper, used only for positioning -->
 <div style="position: relative" class="sitemap-wrapper">
 
+<!--  {{ if .Scratch.Get "isIndex" }}-->
+<!--  <div class="tabs is-centered is-fullwidth">-->
+<!--    <ul>-->
+<!--      <li class="is-active"><a class="tab-trigger" data-target="#sitemap-chronological">Chronological</a></li>-->
+<!--      <li><a class="tab-trigger" data-target="#sitemap-tree">Tree</a></li>-->
+<!--    </ul>-->
+<!--  </div>-->
+<!--  {{ end }}-->
+
   <!-- the breadcrumb points to this id, don't change it Mauricio! -->
   <div id="sitemap" class="sitemap">
-    <nav id="sitemap-chronological" aria-label="Sitemap">
-      {{ partial "sitemap-chronological.html" . }}
-    </nav>
-
-    <nav id="sitemap-tree" aria-label="Sitemap">
+<!--    {{ if .Scratch.Get "isIndex" }}-->
+<!--    <nav id="sitemap-chronological" aria-label="Sitemap" class="sitemap-content">-->
+<!--      {{ partial "sitemap-chronological.html" . }}-->
+<!--    </nav>-->
+<!--    {{ end }}-->
+    <nav id="sitemap-tree" aria-label="Sitemap" class="sitemap-content">
       {{ partial "sitemap-tree.auto.html" . }}
     </nav>
   </div>

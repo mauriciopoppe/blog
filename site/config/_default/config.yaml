@@ -16,6 +16,7 @@ languageCode: "en-us"
 
 metadataFormat: 'yaml'
 enableGitInfo: true
+summaryLength: 50
 
 markup:
   highlight:

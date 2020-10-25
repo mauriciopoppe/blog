@@ -1,6 +1,7 @@
 import expoInOut from 'eases/expo-in-out'
 
-const sitemapEl = document.querySelector('.sitemap')
+const sitemapWrapper = document.querySelector('.sitemap')
+const sitemapTree = document.querySelector('#sitemap-tree')
 
 function animate({ timing, draw, duration }) {
   return new Promise((resolve) => {
@@ -55,8 +56,32 @@ const activeItems = {
   }
 }
 
+/**
+ * Adds tabs listener so that only one of the sitemaps is visible at a time
+ */
+function addTabsListener() {
+  const tabs = Array.from(document.querySelectorAll('.tab-trigger'))
+  const targets = Array.from(document.querySelectorAll('.sitemap-content'))
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', (event) => {
+      // hide everything
+      tabs.forEach((tab) => tab.parentNode.classList.remove('is-active'))
+      targets.forEach((target) => target.classList.add('is-hidden'))
+
+      // display selectively
+      const toOpen = event.target.dataset.target
+      document.querySelector(toOpen).classList.remove('is-hidden')
+      tab.parentNode.classList.add('is-active')
+    })
+  })
+
+  // simulate tab click on root
+  const rootTrigger = document.querySelector('a.tab-trigger')
+  if (rootTrigger) rootTrigger.click()
+}
+
 function addClickListener() {
-  sitemapEl.addEventListener('click', function (e) {
+  sitemapTree.addEventListener('click', function (e) {
     // find closest ancestor that is li
     const li = e.target.closest('li')
     const liPath = li.getAttribute('data-full-path')
@@ -129,14 +154,15 @@ function setActiveItemInSidebar() {
     })
   } else {
     // expand all the items
-    const items = Array.from(sitemapEl.querySelectorAll('.list-is-collapsed'))
+    const items = Array.from(sitemapTree.querySelectorAll('.list-is-collapsed'))
     items.forEach((el) => {
       el.classList.remove('list-is-collapsed')
     })
   }
 }
 
-if (sitemapEl) {
+if (sitemapWrapper) {
+  addTabsListener()
   addClickListener()
   setActiveItemInSidebar()
 }

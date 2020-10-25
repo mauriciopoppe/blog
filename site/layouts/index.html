@@ -4,6 +4,7 @@
 
 {{ define "main" }}
 {{ partial "svg/defs.html" . }}
+{{ .Scratch.Set "isIndex" true }}
 <div class="is-index">
   <div class="container">
     <div class="box card index__banner">
