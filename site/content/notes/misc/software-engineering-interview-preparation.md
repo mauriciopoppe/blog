@@ -344,7 +344,7 @@ You may also get a problem with a nice story hiding a well-known algorithm like 
 (the recruiting coordinator will give you unique links for each one).
 - You can't run your code, so make sure you check it once after you're done coding and before testing it and debug it
 with some test cases.
-- You may need to run Back of the envelope calculations in the coding section too, make sure you understand the [memory layout
+- You may need to do back of the envelope calculations in the coding section too, make sure you understand the [memory layout
 of a program](https://gabrieletolomei.wordpress.com/miscellanea/operating-systems/in-memory-layout/). 
 It could help you estimate the memory required for your program in a real-life scenario.
 - For the followups that you won't be able to solve because of the time limit, get into the habit of expressing your ideas
