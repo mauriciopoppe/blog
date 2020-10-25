@@ -4,6 +4,13 @@ tags: ["interview", "system design"]
 date: 2020-10-12 21:23:30
 ---
 
+This interview preparation plan contains notes that apply to any company and specifics for my target companies. 
+I planned to interview with my target companies Airbnb, Facebook, and Google at once. I wanted to have the onsites close to each other (with at
+least one day to rest between interviews) to maximize my chances to get into a big company. 
+I got excellent recruiters that helped me schedule the 3 on-sites in 2 weeks. 
+I was able to pass all of the Hiring Committees and got offers from Airbnb, Facebook, and Google.
+Disclaimer: *This plan worked for me. It might or might not work for you*. 
+
 ## Before you start
 
 **Preparing** for an interview is a rewarding, stressful, and exciting experience. Passing an interview could be the outcome of enough focused preparation 
@@ -38,12 +45,6 @@ the data structures and algorithms that would help me solve the problem. If you 
 an excellent interviewer, he/she might realize you need help and give you hints but in any case, keep this step as a last resort when you're completely stuck.
 
 For external factors, there's nothing you can do. Just focus your energy on the next interview instead of thinking about what you could've done better.
-
-I planned to interview with my target top companies (Airbnb, Facebook, Google) at once, and I wanted to do the on sites close to each other (with at
-least one day to rest between interviews). I got excellent recruiters that helped me schedule the 3 on-sites in 2 weeks. 
-My plan contains notes that apply to any company and specifics for each of my target companies. 
-Disclaimer: *this is my plan, and it worked for me. It might or might not work for you*. I focused
-more on system design in my preparation because I failed this part of the interview the last time I interviewed.
 
 Finally, my journey wasn't without failures. I failed multiple interviews with top companies, I was naive in the past, and when I decided to 
 go for an interview I'd "put all of my eggs in one basket" (meaning interviewing only with one company at a time in years) and fail but 
@@ -294,8 +295,8 @@ T(2) =
 Then compute the last `T(x)` (the ones closer to the end of the array) and propagate the values up the stack. 
 
 Come up with additional tests if you have time, probably you can handle edge cases like what if the array is empty too.
-If you get a good question, the above will not be enough, and you might have a followup question where you attempt to solve the problem with less
-space or with better time complexity.
+If you get [a good question](https://youtu.be/r8RxkpUvxK0?t=1798), the above will not be enough, and you might have a 
+followup question where you attempt to solve the problem with less space or with better time complexity.
 
 {{< /interview-example >}}
 
