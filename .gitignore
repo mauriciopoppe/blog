@@ -1,8 +1,8 @@
 # ignore output
 /dist
 
-# compiled from ./scripts/flatten-render-tree.js
-/site/layouts/partials/sitemap-content.html
+# compiled from ./src/util
+/site/layouts/partials/*auto*
 /site/data/metadata
 
 # compiled from webpack

@@ -1,6 +1,7 @@
 ---
 title: make
 date: 2016-03-31 19:34:48
+nomath: true
 references:
   - "Lipschitz, H. (2013). A Simple C++ Project Structure - Hiltmon. [online] Hiltmon.com. Available at: http://hiltmon.com/blog/2013/07/03/a-simple-c-plus-plus-project-structure/ [Accessed 5 Apr. 2016]."
 ---

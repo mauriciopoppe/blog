@@ -40,7 +40,7 @@ npm run build
 
 Steps (from `package.json`):
 
-- build the sidebar html fragment with the `flatten-render-tree.js` script
+- build the sidebar html fragment with the `sitemap-tree-generator.js` script
 - interpolate the application colors with the `palette-generator` script, also transform the JS colors to css vars using `bulma-css-vars`
 - create the site scripts with webpack, read `webpack.common.js`, write the output to `dist/`
 - build the static files, write the output to `dist/`

@@ -7,11 +7,21 @@
 {{ end }}
 
 {{ if (ne .Params.toc "false") }}
-<div class="sitemap-wrapper">
-  <!-- the breadcrumb has links that link to this place -->
-  <nav id="sitemap" aria-label="Sitemap" class="sitemap">
-    {{ partial "sitemap-content.html" . }}
-  </nav>
+
+<!-- sitemap wrapper, used only for positioning -->
+<div style="position: relative" class="sitemap-wrapper">
+
+  <!-- the breadcrumb points to this id, don't change it Mauricio! -->
+  <div id="sitemap" class="sitemap">
+    <nav id="sitemap-chronological" aria-label="Sitemap">
+      {{ partial "sitemap-chronological.html" . }}
+    </nav>
+
+    <nav id="sitemap-tree" aria-label="Sitemap">
+      {{ partial "sitemap-tree.auto.html" . }}
+    </nav>
+  </div>
+
 </div>
 {{ end }}
 

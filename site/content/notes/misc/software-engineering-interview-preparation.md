@@ -97,8 +97,8 @@ if you understand Spanish, listen to this [story by a writer that had a heart at
 
 {{< interview who="facebook" >}}
 In the Facebook HQ you see their core values everywhere. One phrase that stuck with me in one of their buildings is *what would you do if you weren't afraid?*.
-A few of my friends have been working there for a long time, Facebook's  been one of my target companies for a while, [their engineering blog](https://engineering.fb.com/) is filled with 
-so many gems across multiple fields, as a Frontend developer, I learned a lot from [Browserlab](https://engineering.fb.com/web/browserlab-automated-regression-detection-for-the-web/),
+A few of my friends have been working there for a long time, Facebook's been one of my target companies for a while, [their engineering blog](https://engineering.fb.com/) is filled with 
+so many gems across multiple fields. As a Frontend developer, I learned a lot from [Browserlab](https://engineering.fb.com/web/browserlab-automated-regression-detection-for-the-web/)
 whose infrastructure design I used as inspiration in a project I did at work with [WebPagetest](https://www.webpagetest.org/). 
 {{< /interview >}}
 
@@ -215,7 +215,7 @@ In the case above, I'd take `[2,2], [2,5]` in the last row and `[5,5]` in the fi
 so I think that the greedy approach won't work.
 
 **Brainstorm brute force**: For a brute-force solution, I'd put some books on a shelf and then attempt to put the remaining books
-in the next shelf and so on recursively, in the recursion, I'd have a parameter `i` that's would tell me where to start in the array
+in the next shelf and so on recursively, in the recursion, I'd have a parameter `i` that would tell me where to start in the array
 of books, to decide how many books I can put on a shelf I'd also need an accumulator that keeps track of the current width sum
 
 **Optimized brute force width dp**:
@@ -228,7 +228,7 @@ T(books.size()) = 0
 constraint for T(i): sum(width[i], width[i+1], ..., width[i+k]) <= shelf_width
 ```
 
-The time complexity would be `O(mn)` where'm` is a variable whose value depends on how many books I can put on a shelf,
+The time complexity would be `O(mn)` where `m` is a variable whose value depends on how many books I can put on a shelf,
 I think that in the worst case it could be `n` so overall, it's `O(n^2)`.
 
 The space complexity would be `O(n)` because we're storing a solution for every index of the books' array.
@@ -395,7 +395,7 @@ my favorite lectures: [all the Raft ones](https://thesquareplanet.com/blog/stude
 I'm honored to have had a fantastic manager who genuinely cared about me in my previous company and helped me work on big projects 
 where I had the chance to learn and grow. That was one of the reasons why I stayed there for so long.
 
-### Interview preparation
+### Onsite preparation
 
 - Learn how to use google drawings, [this is my google drawings template](https://docs.google.com/drawings/d/11GQ_JBU5AH9BV40BulAuFIv66CexIad1zalG26OzZh4/edit?usp=sharing) and
  [this is an example of how I used it](https://docs.google.com/drawings/d/1PbxOaBTwC3BfTMpZx9WtRmoSnWfMM5cmCSAT5mrqODA/edit?usp=sharing)
