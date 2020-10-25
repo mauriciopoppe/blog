@@ -33,9 +33,9 @@ stages or I'd go way too deep into the detailed design when I talked about the h
 interview rounds with my friend, I corrected these problems and came up with a systematic way to tackle each coding and system design problem.
 
 For challenging problems, always try to come up with examples. I got follow-up questions where I didn't know where to start, 
-so after cycling through some data structures, I'd write some examples, find a pattern, and finally,
+so after cycling through some data structures and algorithms I'd write some examples, I'd find a pattern, and finally,
 the data structures and algorithms that would help me solve the problem. If you can't make progress, ask for help! If you get
-an excellent interviewer, he/she might realize you need help but in any case, keep this step as a last resort when you're completely stuck.
+an excellent interviewer, he/she might realize you need help and give you hints but in any case, keep this step as a last resort when you're completely stuck.
 
 For external factors, there's nothing you can do. Just focus your energy on the next interview instead of thinking about what you could've done better.
 
@@ -437,11 +437,11 @@ XMPP protocol is extensible and adaptable that we could use if we want additiona
 always clarify with your interviewer. This step is crucial at big
 companies where you need to design for scale and think about capacity planning before you design your system,
 [I have created an article with exercises and estimates that could be helpful](/notes/computer-science/system-design/back-of-the-envelope-calculations/),
- I've taken this example from [Gaurav Sen's awesome course on system design](https://get.interviewready.io/)
+ I've taken this example from [Gaurav Sen's awesome course on system design](https://interviewready.io/)
 
 {{< interview-example >}}
 > We're going to design an email server for 2B users, when a user sends an email it can attach files with a size up to 1MB,
-> How much storage do we need per day to store emails? 
+> How much storage do we need per day to store emails?
 
 Let's say each email has 200 characters, on average. A user receives emails from useful connections, companies and spam.
 Assume 20 spam emails, 20 marketing emails and 10 useful emails, per user per day.
@@ -469,15 +469,15 @@ This is a naively optimistic estimate, since we must account for redundancy (to 
 
 ### Low level system design
 
-For higher levels L5+ you might encounter questions involving designing and coding the internals of a class. 
-This type of question is more of a coding question than a system design question, but you should be aware of the tradeoffs you make at every stage in your design:
+For senior levels L5+ you might encounter questions involving designing and coding the internals of a class. 
+This type of question is more of a coding question than a system design question, but you should be aware of the tradeoffs you make at every stage in your design.
 
 If you haven't taken any Operating Systems class, I recommend the [Graduate Introduction to Operating Systems by Georgia Tech](https://omscs.gatech.edu/cs-6200-introduction-operating-systems),
 I'm in grad school as I write this, and I recently took this class. Unfortunately, the labs aren't public, but the 
 material is nevertheless a great introduction. 
 
-I'd suggest you learn concepts: mutex, condition variable, atomics, readers-writers, boss-worker model, pipeline model, cache lines, and so many others!
-Also, implement the following classes from scratch, either with C++ 11 Multithreading primitives or pthreads.
+I'd suggest you learn concepts: mutexes, condition variables, atomics, readers-writers, boss-worker model, pipeline model, cache lines, and so many others!
+Also, read and attempt to implement the following classes from scratch, either with C++ 11 Multithreading primitives or pthreads.
 
 - Semaphore
 - Threadpool - [I implemented a threadpool in my Cpp refresher algorithm](/notes/computer-science/programming-languages/cpp-refresher/#multithreading)
@@ -497,7 +497,6 @@ Excellent intro to multithreading concepts and primitives, a perfect mix of theo
 - [CPU Caches and Why You Care](https://www.youtube.com/watch?v=WDIkqP4JbkE) - Fantastic introduction to cache lines. I learned
 more about data locality and that having more threads will not always improve your program's performance as you thought it would.
 - [Gaurav Sen's System design course](https://get.interviewready.io/) - In addition to system design questions, it also has low-level design problems.
-
 
 ### Reading list
 
