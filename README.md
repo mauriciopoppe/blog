@@ -60,9 +60,7 @@ Manual steps in Netlify (setup done only once)
 
 ```text
 from within a page, path to itself:
-{{ .File.Dir }}{{ .File.ContentBaseName }}/
-
-
+/{{ .File.Dir }}{{ .File.ContentBaseName }}/
 ```
 
 ## Upgrade notes
