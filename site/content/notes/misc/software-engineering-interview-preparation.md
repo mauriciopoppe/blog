@@ -486,7 +486,7 @@ If you haven't taken any Operating Systems class, I recommend the [Graduate Intr
 I'm in grad school as I write this, and I recently took this class. Unfortunately, the labs aren't public, but the 
 material is nevertheless a great introduction. 
 
-I'd suggest you learn concepts: mutexes, condition variables, atomics, readers-writers, boss-worker model, pipeline model, cache lines, and so many others!
+I'd suggest you learn about mutexes, condition variables, atomics, readers-writers, boss-worker model, pipeline model, cache lines, and so many others!
 Also, read and attempt to implement the following classes from scratch, either with C++ 11 Multithreading primitives or pthreads.
 
 - Semaphore
