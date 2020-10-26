@@ -523,7 +523,9 @@ These are my notes about interesting tech
 List of books
 
 - [System design Interview - Alex Xu](https://www.amazon.com/System-Design-Interview-Questions-Solutions-ebook/dp/B08B3FWYBX) - 
-My favorite book about system design interviews
+My favorite book about system design interviews, it covers the system design interview structure and has many real life examples.
+What I really like about this is the focus on tradeoffs, it has 4 different rate limitting algorithms and all of them are valid,
+having the ability to demonstrate why you picked a solution over others is what the interview is about.
 - [Web Scalability for Startup Engineers - Artur Ejsmont](https://www.amazon.com/Scalability-Startup-Engineers-Artur-Ejsmont-ebook/dp/B00ZPS4KI0/) - 
 Great intro to all of the components in a complex web application
 - [Distributed Systems for Practicioners - Dimos Raptis](https://leanpub.com/distributed-systems-for-practitioners) - 

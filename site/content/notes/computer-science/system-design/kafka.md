@@ -29,6 +29,15 @@ references:
 | Consumer | Request a range of messages from a broker, responsible for their own state i.e. its own iterator <br /> High level api: `Map<String, List<KafkaStream>> Consumer.connector(Collections.singletonMap("topic", nPartitions))` <br /> Blocking/non blocking behavior |
 | Consumer Group | Multiple consumers can be part of a consumer group coordinated with zookeeper, **in a group each partition will be consumed by exactly one consumer** <br /> Consequence: broadcast/pubsub (If all the consumer instances have different consumer groups) and load balance/queue (If all the consumer instances have the same consumer group) |
 
+<div class="columns">
+    <div class="column">
+        {{< figure src="/images/kafka-broker-topic-partition.png" title="Broker - Partition - Topic" >}}
+    </div>
+    <div class="column">
+        {{< figure src="/images/kafka-consumer-groups.png" title="Consumer Groups" >}}
+    </div>
+</div>
+
 ### Useful numbers
 
 - 50MB/s (producer throughput), 100 MB/s (consumer throughput)
