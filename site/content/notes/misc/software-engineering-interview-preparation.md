@@ -496,7 +496,7 @@ Also, read and attempt to implement the following classes from scratch, either w
 - Thread-safe dictionary, queue, stack, and priority queue
 - Parallel sort
 - Multithreaded crawler
-- Distributed cache system - [MIT's Distributed System course has a lab on it](https://pdos.csail.mit.edu/6.824/labs/lab-raft.html)
+- Distributed key-value store - [MIT's Distributed System course has a lab on it](https://pdos.csail.mit.edu/6.824/labs/lab-raft.html)
 - Distributed file system - The Georgia Tech Graduate Introduction to Operating Systems course's Project 4 is all about this.
 
 Resources:
