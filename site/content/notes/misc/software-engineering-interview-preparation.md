@@ -136,6 +136,8 @@ get professional help.
 
 ### Phone screen preparation
 
+{{< figure src="/images/epi-ctci.webp" title="The standard coding interview books" >}}
+
 - My phone screen preparation took 3 to 4 weeks, warmup for the 1st week: solve a few easy/medium problems in Leetcode, remember the STL ([if your programming language is C++ I have a refresher article](/notes/computer-science/programming-languages/cpp-refresher/)).
 - Focus on breadth, a nice schedule based on your timeline can be found in the EPI book, then pick problems from your weakest area.
 - Practice EPI questions. I've already read EPI multiple times, so I just had to review their intro for each chapter's STL methods and glance
