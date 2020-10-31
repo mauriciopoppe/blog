@@ -13,7 +13,7 @@ I got excellent recruiters that helped me schedule the 3 on-sites in 2 weeks.
 I was able to pass all of the Hiring Committees and got offers from Airbnb, Facebook, and Google.
 Disclaimer: *This plan worked for me. It might or might not work for you*.
 
-{{< figure src="/images/airbnb_facebook_google.png" title="" >}}
+{{< figure src="/images/airbnb_facebook_google.png" title="Airbnb, Facebook, Google" >}}
 
 ## Before you start
 
