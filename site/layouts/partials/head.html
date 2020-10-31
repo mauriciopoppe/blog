@@ -4,7 +4,7 @@
 
 <!-- Site Title, Description, Author, and Favicon -->
 {{- with .Title | default .Site.Title }}
-<title>{{ . }} - {{ $.Site.Author.name }}</title>
+<title>{{ . }} | {{ $.Site.Author.name }}</title>
 <meta property="og:title" content="{{ . }}" />
 <meta name="twitter:title" content="{{ . | truncate 70 }}" />
 {{- end }}
