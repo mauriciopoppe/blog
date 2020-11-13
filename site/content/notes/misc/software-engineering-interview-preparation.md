@@ -545,7 +545,7 @@ List of courses:
 - [Gaurav Sen's System design course](https://get.interviewready.io/) - Perfect resource to learn about making iterations over time in your design and to do back of the envelope calculations
 - [Reliable Google Cloud Infrastructure: Design and Process](https://www.coursera.org/learn/cloud-infrastructure-design-process) - A guide from Google on how to design systems for Google Cloud,
 even though the implementation is done with Google Cloud Services the videos about the functional/non functional requirement phase is very helpful, 
-I learned about KPI and it's relationship with SLI and SLO.
+I learned about KPI and it's relationship with SLI, SLO and SLA.
 
 ## Behavioral Questions
 
