@@ -1,14 +1,5 @@
-
 <footer class="footer">
   <div id="browser-sunset"></div>
-
-  <div class="container has-text-centered {{if isset . "isRoot"}}root{{end}}">
-    <div class="columns is-centered">
-      <div class="column is-two-thirds card box footer--profile">
-        {{ partial "profile" . }}
-      </div>
-    </div>
-  </div>
 </footer>
 
 <!-- always included -->
@@ -19,6 +10,8 @@
 
 {{ partial "lib/polyfill.html" . }}
 {{ partial "lib/prism.html" . }}
+
+<!-- math is enabled by default -->
 {{ if isset .Params "nomath" }}
   {{ $s := true }}
 {{ else }}

@@ -1,26 +1,24 @@
-.profile-wrapper {
-  .profile-pic-wrapper {
-    border-radius: 50px;
-    border: 3px solid $primary;
-    display: inline-block;
-    max-width: 100px;
-    max-height: 100px;
-    padding: 5px;
+.profile-pic-wrapper {
+  border-radius: 50px;
+  border: 3px solid $primary;
+  display: inline-block;
+  max-width: 100px;
+  max-height: 100px;
+  padding: 5px;
+}
 
-    img.profile-pic {
-      border-radius: 50px;
-    }
-  }
+.profile-pic {
+  border-radius: 50px;
+}
 
+.about-me {
+  max-width: 70%;
+  margin-left: auto;
+}
+
+@media screen and (max-width: $desktop) {
   .about-me {
-    max-width: 70%;
-    margin-left: auto;
-  }
-
-  @media screen and (max-width: $desktop) {
-    .about-me {
-      max-width: 100%;
-    }
+    max-width: 100%;
   }
 }
 

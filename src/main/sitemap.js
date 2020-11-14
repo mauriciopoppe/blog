@@ -1,3 +1,10 @@
+/*
+    Sitemap controls the state of the sitemap component including:
+
+    - how items are expanded/collapsed
+    - which folders where expanded (saved in local storage)
+ */
+
 import expoInOut from 'eases/expo-in-out'
 
 const sitemapWrapper = document.querySelector('.sitemap')

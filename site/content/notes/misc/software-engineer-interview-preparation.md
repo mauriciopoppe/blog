@@ -73,7 +73,7 @@ that you should keep up to date. Good luck!
 *(If you haven't interviewed in the past and wanna get noticed)*
 
 - If you're a student, enjoy the student lifestyle! Work on challenging projects that make you stand out from the rest.
-In my case, I used to be a competitive programmer and was also really into creating my
+In my case, I used to be a competitive programmer and also liked creating some
 projects for fun, [I managed to have a JS library featured in a magazine once!](https://javascriptweekly.com/issues/194),
 ([link to the project](https://mauriciopoppe.github.io/PojoViz/public/vulcanize.html#readme)).
 - [Participate in Coding Contests](https://www.youtube.com/watch?v=ueNT-w7Oluw), I solved thousands of problems over the years;

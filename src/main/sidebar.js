@@ -1,3 +1,7 @@
+/*
+ * Sidebar controls the positioning, height and other visual attributes of the sidebars in an article
+ */
+
 import tocbot from 'tocbot'
 import debounce from 'debounce'
 import isMobile from 'is-mobile'

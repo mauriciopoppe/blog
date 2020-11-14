@@ -6,6 +6,14 @@ import { interpolateLab } from 'd3-interpolate'
 import { t, bannerColorChanger } from '../main/colors'
 const d3 = { select, Delaunay }
 
+function isMobile() {
+  const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i]
+
+  return toMatch.some((toMatchItem) => {
+    return navigator.userAgent.match(toMatchItem)
+  })
+}
+
 export function generate({ target, n, rainbow }) {
   // canvas setup
   const { width, height } = target.getBoundingClientRect()
@@ -141,20 +149,29 @@ export function generate({ target, n, rainbow }) {
 
   // initialization and event loop
   initialize()
-
-  function isMobile() {
-    const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i]
-
-    return toMatch.some((toMatchItem) => {
-      return navigator.userAgent.match(toMatchItem)
-    })
+  let tickRaf
+  let lastTime = 0
+  function tick(time) {
+    lastTime = time
+    paint(time)
+    tickRaf = requestAnimationFrame(tick)
   }
 
-  ;(function tick(time) {
-    paint(time)
+  // only run the animation when the element is visible in the screen!
+  const observer = new IntersectionObserver(
+    (entries) => {
+      // no need to run the animation on mobile devices
+      if (isMobile()) return
 
-    if (!isMobile()) {
-      requestAnimationFrame(tick)
-    }
-  })(0)
+      entries.forEach(async function (entry) {
+        if (entry.isIntersecting) {
+          tick(lastTime)
+        } else {
+          cancelAnimationFrame(tickRaf)
+        }
+      })
+    },
+    { rootMargin: '0px' }
+  )
+  observer.observe(target)
 }
