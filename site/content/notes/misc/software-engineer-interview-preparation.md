@@ -1,6 +1,6 @@
 ---
 title: "Software Engineer Interview Preparation"
-tags: ["interview", "system design"]
+tags: ["interview preparation", "software engineering", "system design"]
 aliases:
   - /notes/misc/interview-preparation/
   - /notes/misc/software-engineering-interview-preparation/
