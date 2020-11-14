@@ -1,8 +1,9 @@
 ---
-title: "Software Engineering Interview Preparation"
+title: "Software Engineer Interview Preparation"
 tags: ["interview", "system design"]
 aliases:
   - /notes/misc/interview-preparation/
+  - /notes/misc/software-engineering-interview-preparation/
 date: 2020-10-12 21:23:30
 ---
 
@@ -94,7 +95,8 @@ I focused a lot on this part since the last time I failed my previous onsite was
 {{< interview who="airbnb" >}}
 I've been a fan of their engineering
 blog ever since I saw this article [Rearchitecting Airbnb's Frontend](https://medium.com/airbnb-engineering/rearchitecting-airbnbs-frontend-5e213efc24d2),
-moreover, I had the opportunity to use part of their work presented in [Dynein: Building an Open-source Distributed Delayed Job Queueing System](https://medium.com/airbnb-engineering/dynein-building-a-distributed-delayed-job-queueing-system-93ab10f05f99) at work,
+moreover, I had the opportunity to use part of their work presented in 
+[Dynein: Building an Open-source Distributed Delayed Job Queueing System](https://medium.com/airbnb-engineering/dynein-building-a-distributed-delayed-job-queueing-system-93ab10f05f99) at work,
 also, the obsession for what "belong anywhere" means matches my core values. If you don't know what it means, I highly
 recommend this [Ted talk by Joe Gebbia, one of the co-founders of Airbnb](https://www.ted.com/talks/joe_gebbia_how_airbnb_designs_for_trust?language=en) and
 if you understand Spanish, listen to this [story by a writer that had a heart attack while staying at an Airbnb](https://www.youtube.com/watch?v=sVuMmcFu9uI)
@@ -128,7 +130,8 @@ were as close as possible to a target date with enough breathing room to rest.
 - Practice behavioral types of questions. Each company has its way to assess this part that's described below.
 - Go through the onsites, get to a mental state where you're ready for the next interview regardless of the outcome of the previous round.
 - Receive feedback from the recruiters and the HC, go through the team matching interviews if you passed the HC, remember that **you don't have an offer yet**.
-- If you get offers, learn to negotiate, read [Salary negotiation strategies everyone in tech already knows — but you don't](https://candor.co/guides/salary-negotiation), [How I negotiated a \$300,000 job offer in Silicon Valley](https://medium.com/@bayareabelletrist/how-i-negotiated-a-software-engineer-offer-in-silicon-valley-f11590f5c656), and/or
+- If you get offers, learn to negotiate, read [Salary negotiation strategies everyone in tech already knows — but you don't](https://candor.co/guides/salary-negotiation), 
+[How I negotiated a \$300,000 job offer in Silicon Valley](https://medium.com/@bayareabelletrist/how-i-negotiated-a-software-engineer-offer-in-silicon-valley-f11590f5c656), and/or
 get professional help.
 - If you don't get an offer, learn from your mistakes, and move on, you'll have enough time to reflect and think about the plan for the next attempt.
 
@@ -138,7 +141,8 @@ get professional help.
 
 {{< figure src="/images/epi-ctci.webp" title="The standard coding interview books" >}}
 
-- My phone screen preparation took 3 to 4 weeks, warmup for the 1st week: solve a few easy/medium problems in Leetcode, remember the STL ([if your programming language is C++ I have a refresher article](/notes/computer-science/programming-languages/cpp-refresher/)).
+- My phone screen preparation took 3 to 4 weeks, warmup for the 1st week: solve a few easy/medium problems in Leetcode, remember the C++ STL 
+([if your programming language is C++ I have a refresher article](/notes/computer-science/programming-languages/cpp-refresher/)).
 - Focus on breadth, a nice schedule based on your timeline can be found in the EPI book, then pick problems from your weakest area.
 - Practice EPI questions. I've already read EPI multiple times, so I just had to review their intro for each chapter's STL methods and glance
 through the problems and the solutions. To practice and test if your implementation works, use the [EPI Judge](https://github.com/adnanaziz/EPIJudge).
@@ -310,13 +314,15 @@ followup question where you attempt to solve the problem with less space or with
 pool, don't memorize questions; instead, learn the techniques used in each problem.
 - Master Big O notation and understand [the time/space complexity of all the data structures that you might use](https://www.bigocheatsheet.com/), big focus here on the differences between
 a `map`, `unordered_map`, `set`, `unordered_set`, `multiset`, `priority_queue`, `queue`, `stack`, `vector`, etc. Also master Big O for recurrences (you can derive the master
-theorem so you don't need to memorize it, [learn how to solve recurrences by making a guess and proving your guess by induction or by unrolling the recurrence](https://courses.engr.illinois.edu/cs473/sp2010/notes/99-recurrences.pdf))
+theorem so you don't need to memorize it, 
+[learn how to solve recurrences by making a guess and proving your guess by induction or by unrolling the recurrence](https://courses.engr.illinois.edu/cs473/sp2010/notes/99-recurrences.pdf))
 - **Pair with a friend and do 45 minute interviews. Take turns to interview each other**, this, in my opinion, is the best way to prepare because you're doing what you're supposed to do in an interview.
 
 ### Onsite preparation
 
 - After the phone screen interviews, schedule the onsites in 4 to 6 weeks (I did 4 weeks)
-- Pick new problems based on how weak I felt in the patterns shown in the [leetcode master link](https://Leetcode.com/discuss/general-discussion/665604/important-and-useful-links-from-all-over-the-Leetcode),
+- Pick new problems based on how weak I felt in the patterns shown in the 
+[leetcode master link](https://Leetcode.com/discuss/general-discussion/665604/important-and-useful-links-from-all-over-the-Leetcode),
 I discarded some problems that had a bad thumbs up/thumbs down ratio
 - Pick LC solved problems (medium and hard) and review my solutions if I did them recently.
 If I solved them a long time ago, redo them, read explanations by other coders in the discussion tab.
