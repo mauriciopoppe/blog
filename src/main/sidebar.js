@@ -55,9 +55,11 @@ class Sidebar {
       // max height is bounded by the footer
       const footerTop = footer.getBoundingClientRect().top
       if (footerTop < window.innerHeight) {
+        this.wrapper.classList.add('hide')
         // 50: padding and other stuff
-        this.el.style.height = `${footerTop - this.articleTopMargin}px`
+        // this.el.style.height = `${footerTop - this.articleTopMargin}px`
       } else {
+        this.wrapper.classList.remove('hide')
         this.el.style.height = 'auto'
       }
     }

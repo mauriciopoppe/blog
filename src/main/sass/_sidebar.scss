@@ -1,0 +1,8 @@
+.sidebar {
+  transition: all $time;
+  opacity: 1;
+}
+
+.sidebar.hide {
+  opacity: 0;
+}

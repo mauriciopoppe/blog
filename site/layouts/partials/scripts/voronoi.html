@@ -5,8 +5,9 @@
 <script>
 (function () {
   var target = {{ if .Scratch.Get "isIndex" }} 'body' {{ else }} 'section.hero' {{ end}}
-  window.voronoi.generate({
-    target: document.querySelector(target),
+  var targetEl = document.querySelector(target)
+  targetEl && window.voronoi.generate({
+    target: targetEl,
     rainbow: target === 'body',
     n: 300
   })

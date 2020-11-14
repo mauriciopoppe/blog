@@ -6,15 +6,16 @@ const target = document.querySelector('footer')
 const options = {
   rootMargin: '400px'
 }
-let loaded = false
+let shouldRender = false
 function callback(entries) {
   entries.forEach(async function (entry) {
-    if (loaded || !entry.isIntersecting) return
-    loaded = true
+    if (entry.isIntersecting === shouldRender) return
+    shouldRender = entry.isIntersecting
 
     const app = await import('./components/app')
     app.render({
-      target: document.querySelector('#browser-sunset')
+      target: document.querySelector('#browser-sunset'),
+      shouldRender: shouldRender
     })
   })
 }
