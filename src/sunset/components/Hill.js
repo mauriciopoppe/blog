@@ -27,7 +27,7 @@ function generateData(props) {
 }
 
 export function Hill(props) {
-  const { y, scrollY, mouseX } = props
+  const { y, mouseX } = props
   const [data] = useState(generateData(props))
   const l = area()
     .x(mapX)
@@ -41,9 +41,10 @@ export function Hill(props) {
     return d.x + normalize * props.order * 10
   }
 
-  function scrollOverLast() {
-    const current = Math.max(0, scrollY + window.innerHeight - document.body.scrollHeight + props.canvasHeight)
-    return ((current * 0.15 * (props.total - props.order)) / props.total) * 2
+  function scrollOverLast(d) {
+    const current = Math.max(0, props.scrollT * props.canvasHeight)
+    // some math to perform the animation while scrolling down
+    return (current * 0.2 * (props.total - props.order)) / props.total
   }
 
   return <animated.path depth={props.depth} d={l(data)} fill={props.fill} />

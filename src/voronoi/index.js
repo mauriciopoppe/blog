@@ -160,8 +160,11 @@ export function generate({ target, n, rainbow }) {
   // only run the animation when the element is visible in the screen!
   const observer = new IntersectionObserver(
     (entries) => {
-      // no need to run the animation on mobile devices
-      if (isMobile()) return
+      // no need to run the animation on mobile devices, only paint once and that's it!
+      if (isMobile()) {
+        paint(lastTime)
+        return
+      }
 
       entries.forEach(async function (entry) {
         if (entry.isIntersecting) {
