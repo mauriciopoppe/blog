@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useSpring, animated } from 'react-spring'
 import { area, curveBasis, curveLinear } from 'd3-shape'
-import { randomBetween } from './utils'
+import { randomBetween, isMobile } from './utils'
 
 function generateData(props) {
   const { x, y, depth, total } = props
-  const subhills = 10
+  const subhills = isMobile() ? 5 : 10
   const step = window.innerWidth / subhills
   const seed = [...Array(subhills + 4).keys()].map((i) => i - 1)
   const data = seed.map((sx) => {

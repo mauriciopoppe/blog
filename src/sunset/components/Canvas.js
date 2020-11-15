@@ -93,7 +93,7 @@ export function Canvas({ target, width, height, x, y }) {
         }}
         preserveAspectRatio="none"
       >
-        {renderStars(10)}
+        {renderStars()}
         {renderHills(10)}
       </svg>
     </div>
