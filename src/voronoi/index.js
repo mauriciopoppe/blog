@@ -56,7 +56,7 @@ export function generate({ target, n, rainbow }) {
       const [x, y] = particles[i]
       const dx = invertX ? x / width : (width - x) / width
       const dy = invertY ? y / height : (height - y) / height
-      let dist = Math.sqrt(dx * dx + dy * dy) / Math.sqrt(2)
+      const dist = Math.sqrt(dx * dx + dy * dy) / Math.sqrt(2)
       setTimeout(() => {
         lastTouched[i] = performance.now()
       }, easeLinear(dist) * fadeOutTime)
@@ -174,7 +174,7 @@ export function generate({ target, n, rainbow }) {
         }
       })
     },
-    { rootMargin: '0px' }
+    { rootMargin: '200px' }
   )
   observer.observe(target)
 }

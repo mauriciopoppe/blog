@@ -40,7 +40,6 @@
 <meta http-equiv="date" content='{{ .Date.Format "Monday, January 2, 2006" }}' />
 
 {{ .Scratch.Set "permalink" (.Permalink | absURL)  }}
-
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -103,6 +102,12 @@ body.draft [data-draft] div::after {
 
 <!-- link rel="preload" polyfill -->
 <script src="/js/vendor/cssrelpreload.js" inline></script>
+
+<!-- gtag local (will be overridden by the injected script in netlify, it's here so that I can have the gtag function) -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/quicklink/2.0.0/quicklink.umd.js"></script>
 <script>

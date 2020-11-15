@@ -16,6 +16,12 @@ const tocWrapper = document.querySelector('.toc-wrapper')
 
 const footer = document.querySelector('footer')
 
+const SidebarState = {
+  AUTO: 'auto',
+  FIXED: 'fixed',
+  RELATIVE: 'relative'
+}
+
 class Sidebar {
   /**
    * @param {HTMLElement} el
@@ -24,56 +30,55 @@ class Sidebar {
   constructor(el, wrapper) {
     this.el = el
     this.wrapper = wrapper
-    this.scrollTrigger = 1e9
+    this.contentLocationInPage = 1e9
     this.articleTopMargin = 30
     this.navbarHeight = 0
+    this.state = SidebarState.AUTO
     this.refresh()
   }
 
-  computeTop() {
-    if (this.el.style.position === 'fixed') {
-      this.el.style.top = `${this.navbarHeight + this.articleTopMargin}px`
-    } else {
+  computePosition() {
+    if (this.state === SidebarState.AUTO) {
+      this.el.style.position = 'initial'
       this.el.style.top = ''
-    }
-  }
-
-  computeWidth() {
-    if (this.el.style.position === 'fixed') {
+      this.el.style.width = 'auto'
+    } else if (this.state === SidebarState.FIXED) {
+      this.el.style.position = 'fixed'
+      this.el.style.top = `${this.navbarHeight + this.articleTopMargin}px`
       this.el.style.width = `${this.wrapper.getBoundingClientRect().width}px`
-    } else {
+    } else if (this.state === SidebarState.RELATIVE) {
+      this.el.style.position = 'relative'
+      this.el.style.top = this._getFooterLocationFromDocument() - this.contentLocationInPage + 'px'
       this.el.style.width = 'auto'
     }
   }
 
-  computeTrigger() {
-    this.scrollTrigger = content.getBoundingClientRect().top - this.articleTopMargin
+  /**
+   * Returns the top location of the footer with respect to the document root element,
+   * the value can't be cached because there are images and other layout things going on
+   * while scrolling
+   *
+   * @returns {number}
+   * @private
+   */
+  _getFooterLocationFromDocument() {
+    return footer.getBoundingClientRect().top + document.documentElement.scrollTop - window.innerHeight
   }
 
-  updateHeight() {
-    if (this.el.style.position === 'fixed') {
-      // max height is bounded by the footer
-      const footerTop = footer.getBoundingClientRect().top
-      if (footerTop < window.innerHeight) {
-        this.wrapper.classList.add('hide')
-        // 50: padding and other stuff
-        // this.el.style.height = `${footerTop - this.articleTopMargin}px`
-      } else {
-        this.wrapper.classList.remove('hide')
-        this.el.style.height = 'auto'
-      }
-    }
+  _computeTrigger() {
+    this.contentLocationInPage = content.getBoundingClientRect().top - this.articleTopMargin
   }
 
   onScroll = () => {
-    if (window.scrollY > this.scrollTrigger) {
-      this.el.style.position = 'fixed'
-    } else {
-      this.el.style.position = ''
+    this.state = SidebarState.AUTO
+    if (window.scrollY > this.contentLocationInPage) {
+      this.state = SidebarState.FIXED
     }
-    this.computeTop()
-    this.computeWidth()
-    this.updateHeight()
+    if (window.scrollY > this._getFooterLocationFromDocument()) {
+      this.state = SidebarState.RELATIVE
+    }
+
+    this.computePosition()
   }
 
   refresh() {
@@ -82,9 +87,8 @@ class Sidebar {
     } else {
       this.el.style.maxHeight = `calc(100vh - ${this.articleTopMargin * 2}px)`
     }
-    this.computeTrigger()
-    this.computeWidth()
-    this.computeTop()
+    this._computeTrigger()
+    this.computePosition()
   }
 }
 
