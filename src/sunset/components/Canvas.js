@@ -3,6 +3,7 @@ import { useMouseState, useWindowScroll } from 'beautiful-react-hooks'
 import { scaleLinear } from 'd3-scale'
 
 import { Hill } from './Hill'
+import { Plane } from './Plane'
 import { t } from '../../main/colors'
 import { randomBetween, gtagEvents } from './utils'
 
@@ -95,6 +96,7 @@ export function Canvas({ target, width, height, x, y }) {
       >
         {renderStars()}
         {renderHills(10)}
+        <Plane />
       </svg>
     </div>
   )

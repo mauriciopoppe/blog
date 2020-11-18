@@ -66,9 +66,9 @@ module.exports = {
   // },
   devtool: 'eval-cheap-module-source-map',
   plugins: [
-    new webpack.ProvidePlugin({
-      fetch: 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
-    }),
+    // new webpack.ProvidePlugin({
+    //   fetch: 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
+    // }),
 
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
