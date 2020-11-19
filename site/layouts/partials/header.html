@@ -21,7 +21,7 @@
       {{ partial "breadcrumb.html" . }}
 
       <!-- meta & dates -->
-      <div class="is-flex is-justify-content-center is-align-content-center m-4">
+      <div class="is-flex is-justify-content-center is-align-content-center mb-4 mt-4">
         <div class="has-text-right mr-3">
           <a href="/" style="pointer-events: all;">
             <span class="profile-pic-wrapper">
@@ -30,7 +30,7 @@
           </a>
         </div>
         <div class="has-text-left">
-          <p class="is-size-6">
+          <p class="is-size-6 is-size-7-touch">
             Written by <a href="/" style="pointer-events: all; text-decoration: underline" target="_blank">Mauricio Poppe</a> <br />
             Created at {{ .Date.Format "Mon, Jan 2, 2006" }} <br />
             Last Modified at {{ .Page.Lastmod.Format "Mon, Jan 2, 2006" }} <br>

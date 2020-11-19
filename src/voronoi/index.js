@@ -139,7 +139,10 @@ export function generate({ target, n, rainbow }) {
     lastTouched[closestPoint] = performance.now()
   }
 
-  context.canvas.ontouchmove = context.canvas.onmousemove = onCanvasMouseMove
+  if (!isMobile()) {
+    // capture mouse and touch events only in desktop
+    context.canvas.ontouchmove = context.canvas.onmousemove = onCanvasMouseMove
+  }
 
   // if we're in the root page then also fire the on mousemove in the banner
   const rootBanner = document.querySelector('.index__banner')
