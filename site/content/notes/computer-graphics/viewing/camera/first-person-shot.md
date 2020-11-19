@@ -1,7 +1,9 @@
 ---
-title: "First Person camera"
+title: "First Person (Point of View) Shot"
 date: 2016-04-29 22:10:40
-categories: ["camera", "euler angles"]
+categories: ["camera", "fps", "pov", "euler angles"]
+aliases:
+  - /notes/computer-graphics/viewing/camera/first-person/   
 ---
 
 A first person camera captures objects from the viewpoint of a player's character, the camera has the following charateristics:
@@ -16,7 +18,7 @@ Assuming that the world space axes are as follows
 
 <figure>
   <div class="figure-images">
-    <img class="lazy-load" data-src="/images/xyz.jpg" alt="">
+    <img class="lazy-load" data-src="/images/xyz.jpg" alt="" />
   </div>
   <figcaption>Chosen world space \(+x\) (right), \(+y\) (up) and \(+z\) (backward), note that the choice is just personal preference</figcaption>
 </figure>
@@ -55,8 +57,10 @@ The angles $\alpha$ and $\beta$ are computed as follows:
 - let $\Delta{\alpha}$ and $\Delta{\beta}$ represent the change in the rotation around the $\mathbf{Y}$ and $\mathbf{X}$ axis respectively, the values of $\alpha$ and $\beta$ are computed based on the previous state
 
 <div>$$
-\beta := \beta + \Delta{\beta} \\
-\alpha := \alpha + \Delta{\alpha}
+\begin{align*}
+\beta &:= \beta + \Delta{\beta} \\
+\alpha &:= \alpha + \Delta{\alpha}
+\end{align*}
 $$</div>
 
 <span></span>
@@ -80,8 +84,10 @@ Note that $y_{new} - y_{old}$ will be positive if we move the mouse down which i
 The next step is to update the values of $\alpha$ (yaw) and $\beta$ (pitch) using $\Delta x$ and $\Delta y$, note that when we move the mouse to the right we're moving clockwise with respect to the $+y$ axis and when we move the mouse upward we're moving counterclockwise with respect to the $+x$-axis therefore
 
 <div>$$
-\alpha := \alpha - \Delta x \\
-\beta := \beta + \Delta y
+\begin{align*}
+\alpha &:= \alpha - \Delta x \\
+\beta &:= \beta + \Delta y
+\end{align*}
 $$</div>
 
 Note that the we also need to value of $\beta$ to be inside the range $-\deg{90} \leq \beta \leq \deg{90}$ to avoid looking backwards
