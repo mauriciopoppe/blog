@@ -12,10 +12,10 @@ export function render(opts = {}) {
   const x = scaleLinear().domain([0, width]).range([0, width])
   const y = scaleLinear().domain([0, height]).range([height, 0])
 
-  if (opts.shouldRender) {
-    // ReactDOM.render(<Canvas target={opts.target} width={width} height={height} x={x} y={y} />, opts.target)
-    ReactDOM.render(<Scene />, opts.target)
-  } else {
-    ReactDOM.unmountComponentAtNode(opts.target)
-  }
+  // if (opts.shouldRender) {
+  ReactDOM.render(<Canvas target={opts.target} width={width} height={height} x={x} y={y} />, opts.target)
+  // ReactDOM.render(<Scene />, opts.target)
+  // } else {
+  //   ReactDOM.unmountComponentAtNode(opts.target)
+  // }
 }

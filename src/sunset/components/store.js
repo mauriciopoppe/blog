@@ -5,12 +5,12 @@ import { ImprovedNoise } from 'three/examples/jsm/math/ImprovedNoise'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 extend({ OrbitControls })
 
-// poor man seeded random generator
-let seed = Math.PI / 4
-window.Math.random = function () {
-  const x = Math.sin(seed++) * 10000
-  return x - Math.floor(x)
-}
+// // poor man seeded random generator
+// let seed = Math.PI / 4
+// window.Math.random = function () {
+//   const x = Math.sin(seed++) * 10000
+//   return x - Math.floor(x)
+// }
 
 function generateHeight(width, height) {
   const size = width * height

@@ -8,6 +8,7 @@ import { t } from '../../main/colors'
 import { randomBetween, gtagEvents } from './utils'
 
 export function Canvas({ target, width, height, x, y }) {
+  const { clientX, clientY } = useMouseState()
   const [scrollY, setScrollY] = useState(window.scrollY)
   /**
    * Represents how much we've scrolled inside the footer as a number in the range [0, 1]
@@ -19,6 +20,10 @@ export function Canvas({ target, width, height, x, y }) {
    * @type {number}
    */
   const scrollT = (scrollY - (document.documentElement.scrollHeight - window.innerHeight - height)) / height
+  /**
+   * A number in the range [-1, -1]
+   */
+  const mouseXT = (clientX / window.innerWidth - 0.5) * 2
 
   // gtag custom event
   if (scrollT > 0.8 && !gtagEvents.footerAnimation.firedOnce) {
@@ -28,8 +33,6 @@ export function Canvas({ target, width, height, x, y }) {
   }
 
   useWindowScroll((e) => setScrollY(window.scrollY))
-
-  const { clientX, clientY } = useMouseState()
   const [stars] = useState(() => {
     return [...Array(50).keys()].map((i) => {
       const cx = randomBetween(0, width)
@@ -52,17 +55,15 @@ export function Canvas({ target, width, height, x, y }) {
           return (
             <Hill
               key={i}
-              order={i}
               x={x}
               y={y}
+              z={i}
               canvasWidth={width}
               canvasHeight={height}
-              depth={i}
               total={n}
               scrollT={scrollT}
-              mouseX={clientX}
-              mouseY={clientY}
-              fill={t(k)}
+              mouseXT={mouseXT}
+              pathStyle={{ fill: t(k) }}
             />
           )
         })}

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useSpring, animated } from 'react-spring'
-import { area, curveBasis, curveLinear } from 'd3-shape'
+import { area, curveLinear } from 'd3-shape'
 import { randomBetween, isMobile } from './utils'
 
 function generateData(props) {
-  const { x, y, depth, total } = props
+  const { x, y, z, total } = props
   const subhills = isMobile() ? 5 : 10
   const step = window.innerWidth / subhills
   const seed = [...Array(subhills + 4).keys()].map((i) => i - 1)
@@ -12,7 +12,7 @@ function generateData(props) {
     // controls at which height a hill should start
     const yBaselineBottom = props.canvasHeight * 0.1
     // controls the height from the bottom baseline and above
-    const yHeightFromBottom = (1 - depth / total) * props.canvasHeight * 0.2
+    const yHeightFromBottom = (1 - z / total) * props.canvasHeight * 0.3
     const yBaselineHeight = yBaselineBottom + yHeightFromBottom
 
     // controls how much each hill moves up or down as noise
@@ -27,25 +27,31 @@ function generateData(props) {
 }
 
 export function Hill(props) {
-  const { y, mouseX } = props
-  const [data] = useState(generateData(props))
-  const l = area()
-    .x(mapX)
-    .y0((d) => d.y - scrollOverLast(d))
-    .y1((d) => y(0))
-    .curve(curveLinear)
+  const { y, mouseXT, z, total } = props
+  const [pathData] = useState(() => generateData(props))
 
-  function mapX(d) {
-    // map to [-1, 1]
-    const normalize = (mouseX / window.innerWidth - 0.5) * 2
-    return d.x + normalize * props.order * 10
-  }
+  const { xy } = useSpring({
+    xy: [
+      // to the left and right
+      (mouseXT * 100 * z) / total,
+      // up an down based on the scroll, front layers will move more (inverse depth)
+      ((z * 500) / total) * (1 - Math.max(0, props.scrollT))
+    ]
+  })
 
-  function scrollOverLast(d) {
-    const current = Math.max(0, props.scrollT * props.canvasHeight)
-    // some math to perform the animation while scrolling down
-    return (current * 0.2 * (props.total - props.order)) / props.total
-  }
+  const l = useMemo(
+    () =>
+      area()
+        .x((d) => d.x)
+        .y0((d) => d.y)
+        .y1((d) => y(0))
+        .curve(curveLinear),
+    [y]
+  )
 
-  return <animated.path depth={props.depth} d={l(data)} fill={props.fill} />
+  return (
+    <animated.g transform={xy.interpolate((x, y) => `translate(${x} ${y})`)}>
+      <animated.path d={l(pathData)} {...props.pathStyle} />
+    </animated.g>
+  )
 }
