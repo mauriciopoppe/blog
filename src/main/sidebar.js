@@ -30,7 +30,6 @@ class Sidebar {
   constructor(el, wrapper) {
     this.el = el
     this.wrapper = wrapper
-    this.contentLocationInPage = 1e9
     this.articleTopMargin = 30
     this.navbarHeight = 0
     this.state = SidebarState.AUTO
@@ -48,7 +47,7 @@ class Sidebar {
       this.el.style.width = `${this.wrapper.getBoundingClientRect().width}px`
     } else if (this.state === SidebarState.RELATIVE) {
       this.el.style.position = 'relative'
-      this.el.style.top = this._getFooterLocationFromDocument() - this.contentLocationInPage + 'px'
+      this.el.style.top = this.footerLocationFromDocument - this.contentLocationInPage + 'px'
       this.el.style.width = 'auto'
     }
   }
@@ -61,12 +60,12 @@ class Sidebar {
    * @returns {number}
    * @private
    */
-  _getFooterLocationFromDocument() {
+  get footerLocationFromDocument() {
     return footer.getBoundingClientRect().top + document.documentElement.scrollTop - window.innerHeight
   }
 
-  _computeTrigger() {
-    this.contentLocationInPage = content.getBoundingClientRect().top - this.articleTopMargin
+  get contentLocationInPage() {
+    return content.getBoundingClientRect().top + document.documentElement.scrollTop - this.articleTopMargin
   }
 
   onScroll = () => {
@@ -74,7 +73,7 @@ class Sidebar {
     if (window.scrollY > this.contentLocationInPage) {
       this.state = SidebarState.FIXED
     }
-    if (window.scrollY > this._getFooterLocationFromDocument()) {
+    if (window.scrollY > this.footerLocationFromDocument) {
       this.state = SidebarState.RELATIVE
     }
 
@@ -87,7 +86,6 @@ class Sidebar {
     } else {
       this.el.style.maxHeight = `calc(100vh - ${this.articleTopMargin * 2}px)`
     }
-    this._computeTrigger()
     this.computePosition()
   }
 }

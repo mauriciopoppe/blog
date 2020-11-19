@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 import { useMouseState, useWindowScroll } from 'beautiful-react-hooks'
-import { scaleLinear } from 'd3-scale'
 
-import { Hill } from './Hill'
-import { Plane } from './Plane'
-import { t } from '../../main/colors'
-import { randomBetween, gtagEvents } from './utils'
+import { Hills } from './Hills'
+import { Stars } from './Stars'
+import { ShootingStars } from './ShootingStars'
+import { gtagEvents } from './utils'
 
 export function Canvas({ target, width, height, x, y }) {
   const { clientX, clientY } = useMouseState()
   const [scrollY, setScrollY] = useState(window.scrollY)
+  useWindowScroll((e) => setScrollY(window.scrollY))
+
   /**
    * Represents how much we've scrolled inside the footer as a number in the range [0, 1]
    *
@@ -32,73 +33,23 @@ export function Canvas({ target, width, height, x, y }) {
     gtagEvents.footerAnimation.firedOnce = true
   }
 
-  useWindowScroll((e) => setScrollY(window.scrollY))
-  const [stars] = useState(() => {
-    return [...Array(50).keys()].map((i) => {
-      const cx = randomBetween(0, width)
-      const cy = randomBetween(height * 0.5, height)
-      const cr = Math.random() * 2
-      return {
-        cx,
-        cy,
-        cr
-      }
-    })
-  })
-
-  function renderHills(n) {
-    return (
-      <>
-        {[...Array(n).keys()].map((i) => {
-          const alpha = 0.5
-          const k = 0 + (i / n) * 0.75
-          return (
-            <Hill
-              key={i}
-              x={x}
-              y={y}
-              z={i}
-              canvasWidth={width}
-              canvasHeight={height}
-              total={n}
-              scrollT={scrollT}
-              mouseXT={mouseXT}
-              pathStyle={{ fill: t(k) }}
-            />
-          )
-        })}
-      </>
-    )
-  }
-
-  function renderStars() {
-    return (
-      <>
-        {stars.map(({ cx, cy, cr }, i) => {
-          return <circle key={i} cx={x(cx)} cy={y(cy)} r={cr + Math.random()} style={{ fill: 'var(--link)' }} />
-        })}
-      </>
-    )
-  }
-
+  const childProps = { width, height, x, y, scrollT, mouseXT }
   return (
-    <div>
-      <svg
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          display: 'block',
-          opacity: scrollT,
-          left: 0,
-          top: 0
-        }}
-        preserveAspectRatio="none"
-      >
-        {renderStars()}
-        {renderHills(10)}
-        <Plane />
-      </svg>
-    </div>
+    <svg
+      style={{
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        display: 'block',
+        opacity: scrollT,
+        left: 0,
+        top: 0
+      }}
+      preserveAspectRatio="none"
+    >
+      <Stars n={50} {...childProps} />
+      <ShootingStars {...childProps} />
+      <Hills n={10} {...childProps} />
+    </svg>
   )
 }
