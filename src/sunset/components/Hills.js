@@ -81,9 +81,6 @@ function Hill(props) {
   return (
     <animated.g transform={xy.interpolate((x, y) => `translate(${x} ${y})`)}>
       <animated.path ref={pathRef} d={d} {...props.pathStyle} />
-      {/*<animated.path ref={lineRef} d={l(pathData)} style={{ display: 'none' }} />*/}
-      {/*{z === total - 2 &&*/}
-      {/*  pathLocations.map((pathLocation, i) => <Tree key={i} px={pathLocation.x} py={pathLocation.y} />)}*/}
     </animated.g>
   )
 }
