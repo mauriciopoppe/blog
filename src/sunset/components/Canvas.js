@@ -6,7 +6,7 @@ import { Stars } from './Stars'
 import { ShootingStars } from './ShootingStars'
 import { gtagEvents } from './utils'
 
-export function Canvas({ target, width, height, x, y }) {
+export function Canvas({ width, height, x, y }) {
   const { clientX, clientY } = useMouseState()
   const [scrollY, setScrollY] = useState(window.scrollY)
   useWindowScroll((e) => setScrollY(window.scrollY))
@@ -48,7 +48,7 @@ export function Canvas({ target, width, height, x, y }) {
       preserveAspectRatio="none"
     >
       <Stars n={50} {...childProps} />
-      <ShootingStars {...childProps} />
+      {/*<ShootingStars {...childProps} />*/}
       <Hills n={10} {...childProps} />
     </svg>
   )

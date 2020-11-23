@@ -1,8 +1,10 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useSpring, animated } from 'react-spring'
-import { area, curveLinear } from 'd3-shape'
+import { area, line, curveLinear, curveBasis } from 'd3-shape'
 import { randomBetween, isMobile } from './utils'
+
 import { t } from '../../main'
+import { Tree } from './Tree'
 
 function generateData(props) {
   const { x, y, z, total } = props
@@ -28,7 +30,7 @@ function generateData(props) {
 }
 
 function Hill(props) {
-  const { y, mouseXT, z, total } = props
+  const { x, y, z, mouseXT, total } = props
   const [pathData] = useState(() => generateData(props))
 
   const { xy } = useSpring({
@@ -50,9 +52,38 @@ function Hill(props) {
     [y, pathData]
   )
 
+  const l = useMemo(
+    () =>
+      line()
+        .x((d) => d.x)
+        .y((d) => d.y)
+        .curve(curveLinear),
+    []
+  )
+
+  const pathRef = useRef(null)
+  const lineRef = useRef(null)
+  // const [pathLocations, setPathLocations] = useState([])
+  // post render effect to get the path node
+  // useEffect(() => {
+  //   /** @type SVGPathElement */
+  //   const path = lineRef.current
+  //   const length = path.getTotalLength()
+  //   const locations = []
+  //   for (let i = 1; i <= 10; i += 1) {
+  //     const t = i / 10
+  //     const svgPoint = path.getPointAtLength(length * t)
+  //     locations.push(svgPoint)
+  //   }
+  //   setPathLocations(locations)
+  // }, [])
+
   return (
     <animated.g transform={xy.interpolate((x, y) => `translate(${x} ${y})`)}>
-      <animated.path d={d} {...props.pathStyle} />
+      <animated.path ref={pathRef} d={d} {...props.pathStyle} />
+      {/*<animated.path ref={lineRef} d={l(pathData)} style={{ display: 'none' }} />*/}
+      {/*{z === total - 2 &&*/}
+      {/*  pathLocations.map((pathLocation, i) => <Tree key={i} px={pathLocation.x} py={pathLocation.y} />)}*/}
     </animated.g>
   )
 }
