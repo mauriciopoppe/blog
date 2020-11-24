@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { randomBetween } from './utils'
 
 export function Stars({ n, width, height, x, y, scrollT }) {
-  const [stars] = useState(() => {
+  const [cnt, setCnt] = useState(0)
+  const [stars, setStars] = useState(() => {
     return [...Array(n).keys()].map((i) => {
       const cx = randomBetween(0, width)
       const cy = randomBetween(height * 0.5, height * 1.1)
-      const cr = Math.random() * 2
+      const cr = Math.random()
       return {
         cx,
         cy,
@@ -14,6 +15,17 @@ export function Stars({ n, width, height, x, y, scrollT }) {
       }
     })
   })
+
+  useEffect(() => {
+    const mouseListener = ({ clientX: x, clientY: y }) => {
+      setCnt(cnt + 1)
+    }
+
+    document.addEventListener('mousemove', mouseListener)
+    return () => {
+      document.removeEventListener('mousemove', mouseListener)
+    }
+  }, [cnt])
 
   return (
     <g>
@@ -24,7 +36,7 @@ export function Stars({ n, width, height, x, y, scrollT }) {
           <circle
             key={i}
             cx={x(cx)}
-            cy={y(cy - cr * scrollT * 50)}
+            cy={y(cy - cr * scrollT * 100)}
             r={cr + Math.random()}
             style={{ fill: 'var(--link)' }}
           />
