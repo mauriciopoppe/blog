@@ -3,7 +3,6 @@ import { useMouseState, useWindowScroll } from 'beautiful-react-hooks'
 
 import { Hills } from './Hills'
 import { Stars } from './Stars'
-import { Plane } from './Plane'
 import { gtagEvents } from './utils'
 
 export function Canvas({ width, height, x, y }) {
@@ -49,7 +48,6 @@ export function Canvas({ width, height, x, y }) {
     >
       <Stars n={150} {...childProps} />
       <Hills n={10} {...childProps} />
-      {/*<Plane />*/}
     </svg>
   )
 }
