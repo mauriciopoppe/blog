@@ -6,10 +6,14 @@ import { Stars } from './Stars'
 import { gtagEvents } from './utils'
 
 export function Canvas({ width, height, x, y }) {
-  const { clientX, clientY } = useMouseState()
+  // const { clientX, clientY } = useMouseState()
+  // /**
+  //  * A number in the range [-1, -1]
+  //  */
+  // const mouseXT = (clientX / window.innerWidth - 0.5) * 2
+
   const [scrollY, setScrollY] = useState(window.scrollY)
   useWindowScroll((e) => setScrollY(window.scrollY))
-
   /**
    * Represents how much we've scrolled inside the footer as a number in the range [0, 1]
    *
@@ -20,10 +24,6 @@ export function Canvas({ width, height, x, y }) {
    * @type {number}
    */
   const scrollT = (scrollY - (document.documentElement.scrollHeight - window.innerHeight - height)) / height
-  /**
-   * A number in the range [-1, -1]
-   */
-  const mouseXT = (clientX / window.innerWidth - 0.5) * 2
 
   // gtag custom event
   if (scrollT > 0.8 && !gtagEvents.footerAnimation.firedOnce) {
@@ -32,7 +32,7 @@ export function Canvas({ width, height, x, y }) {
     gtagEvents.footerAnimation.firedOnce = true
   }
 
-  const childProps = { width, height, x, y, scrollT, mouseXT }
+  const childProps = { width, height, x, y, scrollT, mouseXT: 0 }
   return (
     <svg
       style={{
