@@ -56,26 +56,6 @@ function Hill(props) {
     [pathData]
   )
 
-  const pathRef = useRef(null)
-  const lineRef = useRef(null)
-  const [pathLocations, setPathLocations] = useState([])
-  useEffect(() => {
-    // post render effect to get the path node
-    /** @type SVGPathElement */
-    const path = lineRef.current
-    const length = path.getTotalLength()
-    const locations = []
-    const k = 1
-    for (let i = 1; i <= k; i += 1) {
-      const t = 0.5
-      for (let j = 0; j < 10; j += 1) {
-        const svgPoint = path.getPointAtLength(length * t + randomBetween(-300, 300))
-        locations.push(svgPoint)
-      }
-    }
-    setPathLocations(locations)
-  }, [])
-
   useEffect(() => {
     let lastX = 0,
       lastY = 0
@@ -107,11 +87,7 @@ function Hill(props) {
 
   return (
     <animated.g transform={mouseProps.xy.interpolate((x, y) => `translate(${x} ${y})`)}>
-      <animated.path ref={pathRef} d={d} {...props.pathStyle} />
-      <animated.path ref={lineRef} d={ld} style={{ display: 'none' }} />
-      {pathLocations.map((pathLocation, i) => (
-        <Tree key={i} pathStyle={props.pathStyle} px={pathLocation.x} py={pathLocation.y} />
-      ))}
+      <animated.path d={d} {...props.pathStyle} />
     </animated.g>
   )
 }
