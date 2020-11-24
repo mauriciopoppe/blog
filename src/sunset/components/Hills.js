@@ -61,31 +61,9 @@ function Hill(props) {
     []
   )
 
-  // const lineRef = useRef(null)
-  // const [pathLocations, setPathLocations] = useState([])
-  // // post render effect to get the path node
-  // useEffect(() => {
-  //   /** @type SVGPathElement */
-  //   const path = lineRef.current
-  //   const length = path.getTotalLength()
-  //   const locations = []
-  //   for (let i = 1; i <= 1; i += 1) {
-  //     const t = Math.random()
-  //     for (let j = 0; j < 10; j += 1) {
-  //       const svgPoint = path.getPointAtLength(length * t + randomBetween(-100, 100))
-  //       locations.push(svgPoint)
-  //     }
-  //   }
-  //   setPathLocations(locations)
-  // }, [])
-
   return (
     <animated.g transform={xy.interpolate((x, y) => `translate(${x} ${y})`)}>
       <animated.path d={d} {...props.pathStyle} />
-      {/*<animated.path ref={lineRef} d={l(pathData)} style={{ display: 'none' }} />*/}
-      {/*{pathLocations.map((pathLocation, i) => (*/}
-      {/*  <Tree key={i} pathStyle={props.pathStyle} px={pathLocation.x} py={pathLocation.y} />*/}
-      {/*))}*/}
     </animated.g>
   )
 }
