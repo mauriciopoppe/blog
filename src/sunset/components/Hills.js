@@ -67,9 +67,9 @@ function Hill(props) {
     const locations = []
     const k = 1
     for (let i = 1; i <= k; i += 1) {
-      const t = Math.random()
+      const t = 0.5
       for (let j = 0; j < 10; j += 1) {
-        const svgPoint = path.getPointAtLength(length * t + randomBetween(-100, 100))
+        const svgPoint = path.getPointAtLength(length * t + randomBetween(-300, 300))
         locations.push(svgPoint)
       }
     }
