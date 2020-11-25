@@ -2,8 +2,6 @@
 title: "First Person (Point of View) Shot"
 date: 2016-04-29 22:10:40
 categories: ["camera", "fps", "pov", "euler angles"]
-aliases:
-  - /notes/computer-graphics/viewing/camera/first-person/   
 ---
 
 A first person camera captures objects from the viewpoint of a player's character, the camera has the following charateristics:

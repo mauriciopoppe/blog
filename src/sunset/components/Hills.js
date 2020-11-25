@@ -83,7 +83,7 @@ function Hill(props) {
       document.removeEventListener('mousemove', mouseListener)
       document.removeEventListener('scroll', scrollListener)
     }
-  }, [])
+  }, [height, set, total, z])
 
   return (
     <animated.g transform={mouseProps.xy.interpolate((x, y) => `translate(${x} ${y})`)}>

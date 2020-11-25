@@ -14,3 +14,33 @@ from = "https://doctor-stella-56144.netlify.app/*"
 to = "https://www.mauriciopoppe.com/:splat"
 status = 301
 force = true
+
+[[redirects]]
+from = "/notes/programming/programming-languages/cpp-refresher/"
+to = "/notes/computer-science/programming-languages/cpp-refresher/"
+status = 301
+force = false
+
+[[redirects]]
+from = "/notes/misc/software-engineering-interview-preparation/"
+to = "/notes/misc/software-engineer-interview-preparation/"
+status = 301
+force = false
+
+[[redirects]]
+from = "/notes/misc/interview-preparation/"
+to = "/notes/misc/software-engineer-interview-preparation/"
+status = 301
+force = false
+
+[[redirects]]
+from = "/notes/programming/programming-languages/cpp-refresher/"
+to = "/notes/computer-science/programming-languages/cpp-refresher/"
+status = 301
+force = false
+
+[[redirects]]
+from = "/notes/computer-graphics/viewing/camera/first-person/"
+to = "/notes/computer-graphics/viewing/camera/first-person-shot/"
+status = 301
+force = false

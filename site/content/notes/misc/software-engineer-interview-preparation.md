@@ -1,9 +1,6 @@
 ---
 title: "Software Engineer Interview Preparation"
 tags: ["interview preparation", "software engineering", "system design"]
-aliases:
-  - /notes/misc/interview-preparation/
-  - /notes/misc/software-engineering-interview-preparation/
 date: 2020-10-12 21:23:30
 ---
 
