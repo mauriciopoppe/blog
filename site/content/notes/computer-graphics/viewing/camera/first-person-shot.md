@@ -4,10 +4,10 @@ date: 2016-04-29 22:10:40
 categories: ["camera", "fps", "pov", "euler angles"]
 ---
 
-A first person camera captures objects from the viewpoint of a player's character, the camera has the following charateristics:
+A first person camera captures objects from the viewpoint of a player's character, the camera has the following characteristics:
 
 - orbit: the character can look to the left, right, up & down, however if we imagine the head of the character it can't be tilted
-- translation: the charater can move in 4 directions, forward backward, to the left and to the right, note that the vector that represents the direction the character is looking at doesn't change (the orbit is not affected by translation)
+- translation: the character can move in 4 directions, forward backward, to the left and to the right, note that the vector that represents the direction the character is looking at doesn't change (the orbit is not affected by translation)
   - our camera will always move in the same direction the camera is looking at, this is usually done differently on first person shooters where the character may move in a different direction than the direction the camera is looking at
 
 Both characteristics can be implemented by creating a space for the camera and defining the direction in this space, that way translation doesn't modify the direction the camera is looking at and for orbit we would rotate the basis vectors of the space
