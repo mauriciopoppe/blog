@@ -18,16 +18,16 @@ figure.is-responsive {
   &.is-100p img {
     max-width: 100%;
   }
+
+  @include until($desktop) {
+    & img {
+      max-width: 100% !important;
+    }
+  }
 }
 
 figure.is-inverted img {
   filter: invert(1);
-}
-
-@media screen and (max-width: 960px) {
-    figure.is-responsive img {
-        max-width: 100% !important;
-    }
 }
 
 // override to the default width: 100%

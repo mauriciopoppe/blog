@@ -1,5 +1,5 @@
 section.hero {
-  @media screen and (min-width: $desktop) {
+  @include desktop {
     // let the canvas that's behind the element take control of all the events
     .hero-body {
       pointer-events: none;

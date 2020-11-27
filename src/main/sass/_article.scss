@@ -12,27 +12,55 @@ article[role=main] {
     position: relative;
     transition: .2s ease-out;
   }
-}
 
-@media screen and (min-width: 769px) {
-  article[role=main] {
-    font-size: 1.25em;
+  @include desktop {
+    & {
+      font-size: 1.25em;
+    }
+  }
+
+  @include until($desktop) {
+    & {
+      font-size: 1.1em;
+    }
   }
 }
 
-@media screen and (max-width: 769px) {
-  //article[role=main] p {
-  //  text-align: justify;
-  //}
-  article[role=main] {
-    font-size: 1.1em;
+.article-signature {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin: 1em 0 1em 0;
+
+  @include until($desktop) {
+    & {
+      flex-direction: column;
+    }
+  }
+}
+
+.article-signature__image {
+  text-align: right;
+  margin-right: 1em;
+
+  @include until($desktop) {
+    & {
+      text-align: center;
+      margin-bottom: 1em;
+    }
+  }
+}
+
+.article-signature__metadata {
+  text-align: left;
+
+  @include until($desktop) {
+    & {
+      text-align: center;
+    }
   }
 }
 
 section.main {
   margin: 2em 0;
-}
-
-.reverse-row-order {
-  flex-direction: row-reverse;
 }

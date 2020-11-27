@@ -14,11 +14,10 @@
 .about-me {
   max-width: 70%;
   margin-left: auto;
-}
 
-@media screen and (max-width: $desktop) {
-  .about-me {
-    max-width: 100%;
+  @include until($desktop) {
+    & {
+      max-width: 100%;
+    }
   }
 }
-

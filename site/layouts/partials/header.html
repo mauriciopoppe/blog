@@ -21,16 +21,16 @@
       {{ partial "breadcrumb.html" . }}
 
       <!-- meta & dates -->
-      <div class="is-flex is-justify-content-center is-align-content-center mb-4 mt-4">
-        <div class="has-text-right mr-3">
+      <div class="article-signature">
+        <div class="article-signature__image">
           <a href="/" style="pointer-events: all;">
             <span class="profile-pic-wrapper">
               <img class="profile-pic" src="{{ $image }}" data-src="{{ $image }}" crossorigin="anonymous" alt="Me" />
             </span>
           </a>
         </div>
-        <div class="has-text-left">
-          <p class="is-size-6 is-size-7-touch">
+        <div class="article-signature__metadata">
+          <p class="is-size-6">
             Written by <a href="/" style="pointer-events: all; text-decoration: underline" target="_blank">Mauricio Poppe</a> <br />
             Created at {{ .Date.Format "Mon, Jan 2, 2006" }} <br />
             Last Modified at {{ .Page.Lastmod.Format "Mon, Jan 2, 2006" }} <br>
@@ -38,6 +38,33 @@
           </p>
         </div>
       </div>
+
+<!--      <div class="columns">-->
+<!--        <div class="column is-half is-offset-one-quarter">-->
+
+<!--          &lt;!&ndash; meta & dates &ndash;&gt;-->
+<!--          <div class="columns">-->
+<!--            <div class="column has-text-right-desktop">-->
+<!--              <a href="/" style="pointer-events: all;">-->
+<!--            <span class="profile-pic-wrapper">-->
+<!--              <img class="profile-pic" src="{{ $image }}" data-src="{{ $image }}" crossorigin="anonymous" alt="Me" />-->
+<!--            </span>-->
+<!--              </a>-->
+<!--            </div>-->
+<!--            <div class="column has-text-left-desktop">-->
+<!--              <p class="is-size-6">-->
+<!--                Written by <a href="/" style="pointer-events: all; text-decoration: underline" target="_blank">Mauricio Poppe</a> <br />-->
+<!--                Created at {{ .Date.Format "Mon, Jan 2, 2006" }} <br />-->
+<!--                Last Modified at {{ .Page.Lastmod.Format "Mon, Jan 2, 2006" }} <br>-->
+<!--                <a style="pointer-events: all; text-decoration: underline" target="_blank" href="https://github.com/mauriciopoppe/blog/tree/master/site/content/{{ .File.Path }}">Source code of this page</a>-->
+<!--              </p>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--        </div>-->
+<!--      </div>-->
+
+
 
       <!--tags-->
       <div class="tags is-centered">

@@ -44,15 +44,16 @@
   a:hover, [data-toggle-text]:hover {
     color: $primary;
   }
-}
 
-@media screen and (max-width: $desktop) {
-  .is-index {
-    height: auto;
-    pointer-events: initial;
+  @include until($desktop) {
+    & {
+      height: auto;
+      pointer-events: initial;
 
-    #sitemap {
-      max-height: none;
+      #sitemap {
+        max-height: none;
+      }
     }
   }
 }
+
