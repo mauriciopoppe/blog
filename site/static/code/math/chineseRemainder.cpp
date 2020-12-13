@@ -14,13 +14,14 @@
  * @return {int} A solution for the system if it exists
  */
 int chinese_remainder(vector<int> &a, vector<int> &p) {
-  x = 0;
+  int x = 0;
   int product = 1;
   for (int i = 0; i < p.size(); i += 1) {
     product *= p[i];
   }
   for (int i = 0; i < a.size(); i += 1) {
-    x += a[i] * modular_multiplicative_inverse(product / p[i], p[i]);
+    int k = product / p[i];
+    x += a[i] * modular_multiplicative_inverse(k, p[i]) * k;
     x %= product;
   }
   return x;
