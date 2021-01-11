@@ -8,7 +8,7 @@
     {"id": 4},
     {"id": 5}
   ],
-  "links": [
+  "edges": [
     {"source": 0, "target": 1},
     {"source": 1, "target": 2},
     {"source": 1, "target": 3},

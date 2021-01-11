@@ -2,7 +2,7 @@
 
 title: "Topological sorting"
 date: 2015-06-24 11:30:00
-libraries: ["d3", "greuler"]
+libraries: ["greuler"]
 ---
 
 Let $G$ be a digraph, the **topological sorting** algorithm is a linear ordering of the vertices of $G$ such that for every directed edge $u \rightarrow v$ where $u,v \in V(G)$, $u$ comes before $v$ in the ordering, the ordering is possible only if the graph *has no directed cycles*

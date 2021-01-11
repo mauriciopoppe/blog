@@ -12,7 +12,7 @@
     {"id": 7, "label": "d1" },
     {"id": 8, "label": "d0" }
   ],
-  "links": [
+  "edges": [
     {"source":  0, "target":  1},
     {"source":  0, "target":  2},
     {"source":  0, "target":  3},

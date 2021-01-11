@@ -1,7 +1,7 @@
 ---
 title: "Eulerian Graph"
 date: 2015-07-05 15:22:15
-libraries: ["d3", "greuler"]
+libraries: ["greuler"]
 ---
 
 A circuit $C$ in a graph $G$ is called an **Eulerian circuit** if $C$ contains every edge of $G$ (remember that a circuit is a closed trail, i.e. a walk in which no edge is traversed more than once and it and that it begins and ends in the same vertex)
@@ -77,6 +77,8 @@ Let $C$ be a cycle in an Eulerian graph, removing $E(C)$ from $G$ will create a 
 
 In the implementation a source vertex $u$ is chosen to be arbitrary or to be the one of the two odd degree vertices, then an edge $uv$ is marked as visited, then we move to the vertex $v$, next an edge $vw$ is marked as visited, eventually we will get to a vertex $z$ that doesn't have unvisited edges, this means that there's a circuit starting at vertex $z$ and ending at vertex $z$, next there might be one vertex $y$ in the circuit $z-z$ that has unvisited edges, if one is found we know that there's other circuit $y-y$, both circuits $z-z$ and $y-y$ might have nested circuits themselves, when the $y-y$ circuit doesn't have a vertex with unvisited edges then the result is appended to the main circuit $z-z$ i.e. $u-v-\ldots-z-y-y-z$
 
+<!--
+
 <style>
 #stack, #trail {
   height: 40px;
@@ -97,6 +99,7 @@ In the implementation a source vertex $u$ is chosen to be arbitrary or to be the
     trail:
   </div>
 </div>
+-->
 
 {{< snippet file="static/code/graphs/eulerian/eulerian_graph.cpp" lang="cpp" />}}
 

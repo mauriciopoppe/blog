@@ -30,7 +30,6 @@
 <!-- selectively included -->
 {{ if isset .Params "libraries" }}
   {{ range .Params.libraries }}
-    {{ if eq . "d3" }} {{ partial "lib/d3.html" . }} {{ end }}
     {{ if eq . "function-plot" }} {{ partial "lib/function-plot.html" . }} {{ end }}
     {{ if eq . "greuler" }} {{ partial "lib/greuler.html" . }} {{ end }}
   {{ end }}

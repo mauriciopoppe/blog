@@ -1,7 +1,7 @@
 ---
 title: "Introduction"
 date: 2015-06-30 15:00:00
-libraries: ["d3", "greuler"]
+libraries: ["greuler"]
 ---
 
 A graph $G$ is called **acyclic** if it has no cycles, a **tree** is an acyclic connected graph

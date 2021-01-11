@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-  var d3 = window.d3
   var functionPlot = window.functionPlot
-  var chart
 
   var contentsBounds = document.querySelector('article[role=main]').getBoundingClientRect()
   var width = 600
@@ -79,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     ]
   })
-
   ;(function () {
     var options = {
       target: '#sum-area',

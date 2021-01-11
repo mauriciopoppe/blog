@@ -1,7 +1,7 @@
 ---
 title: "Hamiltonian Graphs"
 date: 2015-07-07 19:30:51
-libraries: ["d3", "greuler"]
+libraries: ["greuler"]
 ---
 
 A cycle that contains every vertex of a graph $G$ is called a **Hamiltonian cycle**, a Hamiltonian cycle is a spanning cycle of $G$, a **Hamiltonian graph** is a graph that contains a Hamiltonian cycle
@@ -19,7 +19,13 @@ $$</div>
 
 {{< script >}}
 document.addEventListener('DOMContentLoaded', function () {
-  d3.json('/js/graph/data/hamiltonian-graph.json', function (error, data) {
+  function getJson(file, callback) {
+    fetch(file)
+      .then((response) => response.json())
+      .then((data) => callback(null, data))
+      .catch((err) => callback(err))
+  }
+  getJson('/js/graph/data/hamiltonian-graph.json', function (error, data) {
     var options = {
       target: '#figure-hamiltonian-graph',
       data: data
@@ -30,12 +36,12 @@ document.addEventListener('DOMContentLoaded', function () {
     var last = path.shift();
     function run() {
       var next = path.shift();
-      var link = options.data.links.filter(function (e) {
+      var edge = options.data.edges.filter(function (e) {
         return (e.source.index === last && e.target.index === next) ||
           (e.source.index === next && e.target.index === last);
       })
 
-      link[0]['class'] = 'highlight';
+      edge[0]['class'] = 'highlight';
       last = next;
       instance.update();
 

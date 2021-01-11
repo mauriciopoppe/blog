@@ -1,20 +1,32 @@
 document.addEventListener('DOMContentLoaded', function () {
-  var width = document.querySelector('article.content').clientWidth
-  d3.json('/js/graph/data/spanning-tree.json', function (err, data) {
-    if (err) { throw err }
-    greuler({
-      target: '#figure-spanning-tree',
-      data: data,
-      width: width
-    }).update()
+  function getJson(file, callback) {
+    fetch(file)
+      .then((response) => response.json())
+      .then((data) => callback(null, data))
+      .catch((err) => callback(err))
+  }
+
+  getJson('/js/graph/data/spanning-tree.json', function (err, data) {
+    if (err) {
+      throw err
+    }
+    window
+      .greuler({
+        target: '#figure-spanning-tree',
+        data: data
+      })
+      .update()
   })
 
-  d3.json('/js/graph/data/minimum-spanning-tree.json', function (err, data) {
-    if (err) { throw err }
-    greuler({
-      target: '#figure-minimum-spanning-tree',
-      data: data,
-      width: width
-    }).update()
+  getJson('/js/graph/data/minimum-spanning-tree.json', function (err, data) {
+    if (err) {
+      throw err
+    }
+    window
+      .greuler({
+        target: '#figure-minimum-spanning-tree',
+        data: data
+      })
+      .update()
   })
 })

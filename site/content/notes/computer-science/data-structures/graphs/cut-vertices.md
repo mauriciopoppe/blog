@@ -2,7 +2,7 @@
 
 title: "Cut-vertices (articulation points)"
 date: 2015-06-24 15:00:00
-libraries: ["d3", "greuler"]
+libraries: ["greuler"]
 ---
 
 A vertex $v$ in a connected graph $G$ is called a **cut-vertex** if $G - v$ results in a disconnected graph, note that $G - v$ is an induced subgraph of $G$ (meaning that $G - v$ contains all the vertices of $G$ but $v$ and a set of edges $G - V$ where $V$ consists of all the edges incident to $v$)
@@ -66,30 +66,26 @@ There are other measures of how connected a graph is, let $X$ be a set of edges 
 
 {{< script >}}
 document.addEventListener('DOMContentLoaded', function () {
-  var width = document.querySelector('article.content').clientWidth
-  d3.json('/js/graph/data/cut-vertex.json', function (err, data) {
+  function getJson(file, callback) {
+    fetch(file)
+      .then((response) => response.json())
+      .then((data) => callback(null, data))
+      .catch((err) => callback(err))
+  }
+  getJson('/js/graph/data/cut-vertex.json', function (err, data) {
     if (err) { throw err }
     var options = {
       target: '#figure-cut-vertex',
-      data: data,
-      width: width
+      data: data
     };
     greuler(options).update();
   });
-  d3.json('/js/graph/data/cut-vertex-2.json', function (err, data) {
+  getJson('/js/graph/data/cut-vertex-2.json', function (err, data) {
     if (err) { throw err }
     greuler({
       target: '#figure-cut-vertex-2',
-      data: data,
-      width: width
+      data: data
     }).update();
   });
-  // greuler({
-  //   data: '/js/graph/data/cut-vertex.json'
-  // });
-  // greuler({
-  //   target: '#figure-cut-vertex-2',
-  //   data: '/js/graph/data/cut-vertex-2.json'
-  // });
 })
 {{< /script >}}

@@ -1,7 +1,7 @@
 ---
 title: "Cut-edges (bridges)"
 date: 2015-06-24 14:51:12
-libraries: ["d3", "greuler"]
+libraries: ["greuler"]
 ---
 
 An edge $e = uv$ of a connected graph $G$ is called a bridge if $G - e$ is disconnected (obviously it increases the number of components)
@@ -53,23 +53,26 @@ http://www.sofsem.cz/sofsem12/files/presentations/Thursday/GiuseppeItaliano.pdf
 
 {{< script >}}
 document.addEventListener('DOMContentLoaded', function () {
-  var width = document.querySelector('article.content').clientWidth
-  d3.json('/js/graph/data/bridges.json', function (err, data) {
+  function getJson(file, callback) {
+    fetch(file)
+      .then((response) => response.json())
+      .then((data) => callback(null, data))
+      .catch((err) => callback(err))
+  }
+
+  getJson('/js/graph/data/bridges.json', function (err, data) {
     if (err) { throw err }
     greuler({
-      height: 400,
       target: '#figure-bridges',
-      data: data,
-      width: width
+      data: data
     }).update()
   });
-  d3.json('/js/graph/data/bridges-directed.json', function (err, data) {
+  getJson('/js/graph/data/bridges-directed.json', function (err, data) {
     if (err) { throw err }
     greuler({
       directed: true,
       target: '#figure-bridges-directed',
-      data: data,
-      width: width
+      data: data
     }).update()
   });
 }, false)

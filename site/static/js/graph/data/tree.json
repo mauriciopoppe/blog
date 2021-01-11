@@ -11,7 +11,7 @@
     {"id": 8},
     {"id": 9}
   ],
-  "links": [
+  "edges": [
     {"source": 0, "target": 1},
     {"source": 0, "target": 2},
     {"source": 0, "target": 3},
@@ -22,6 +22,6 @@
     {"source": 3, "target": 8},
     {"source": 3, "target": 9}
   ],
-  "flowLayout": ["y", 70],
-  "symmetricDiffLinkLengths": 70
+  "flowLayout": ["y", 20],
+  "symmetricDiffLinkLengths": 20
 }

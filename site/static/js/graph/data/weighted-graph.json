@@ -6,11 +6,11 @@
     {"id": 3},
     {"id": 4}
   ],
-  "links": [
-    {"source": 0, "target": 1, "weight": 3},
-    {"source": 1, "target": 2, "weight": 1},
-    {"source": 2, "target": 3, "weight": 4},
-    {"source": 0, "target": 3, "weight": 15},
-    {"source": 3, "target": 4, "weight": 42}
+  "edges": [
+    {"source": 0, "target": 1, "displayWeight": 3},
+    {"source": 1, "target": 2, "displayWeight": 1},
+    {"source": 2, "target": 3, "displayWeight": 4},
+    {"source": 0, "target": 3, "displayWeight": 15},
+    {"source": 3, "target": 4, "displayWeight": 42}
   ]
 }

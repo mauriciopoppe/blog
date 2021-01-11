@@ -6,7 +6,7 @@
     {"id": 2},
     {"id": 3}
   ],
-  "links": [
+  "edges": [
     {"source": 0, "target": 0},
     {"source": 0, "target": 1},
     {"source": 0, "target": 2},
