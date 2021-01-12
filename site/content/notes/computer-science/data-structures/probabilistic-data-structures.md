@@ -1,5 +1,5 @@
 ---
-title: "Data Structures for Massive Datasets"
+title: "Probabilistic Data Structures"
 tags: ["data structures", "big data", "probability"]
 date: 2020-05-09 17:24:19
 references:
@@ -9,15 +9,6 @@ references:
   - https://web.stanford.edu/class/cs168/l/l2.pdf
   - https://livebook.manning.com/book/algorithms-and-data-structures-for-massive-datasets
 ---
-
-## Bloom filter
-
-Problem: test if an element exists in a set
-
-Approximate solution: same as count min sketch, if the returned value is zero then we're sure that the element
-is not in the set otherwise it might be in the set
-
-https://florian.github.io/bloom-filters/
 
 ## Count min sketch
 
@@ -102,7 +93,16 @@ $$</div>
 The top $k$ trending hashtags can be computed with a heap
 
 Based on https://instagram-engineering.com/trending-on-instagram-b749450e6d93
- 
+
+## Bloom filter
+
+Problem: test if an element exists in a set
+
+Approximate solution: same as count min sketch, if the returned value is zero then we're sure that the element
+is not in the set otherwise it might be in the set
+
+https://florian.github.io/bloom-filters/
+
 ## Reservoir sampling
 
 Problem: given a stream of elements, we want to sample k random ones, without replacement and by using uniform probabilities
