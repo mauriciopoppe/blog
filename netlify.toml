@@ -1,5 +1,5 @@
 [context.production.environment]
-HUGO_VERSION = "0.67.1"
+HUGO_VERSION = "0.80.0"
 HUGO_ENV = "production"
 HUGO_ENABLEGITINFO = "true"
 
