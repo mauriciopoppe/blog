@@ -30,7 +30,7 @@ the true value.
     </div>
 </div>
 
-{{< repl id="@mauriciopoppe/Count-Min-Sketch" >}}
+{{< repl id="@mauriciopoppe/Count-Min-Sketch" >}}   
 
 https://florian.github.io/count-min-sketch/
 
@@ -96,10 +96,11 @@ Based on https://instagram-engineering.com/trending-on-instagram-b749450e6d93
 
 ## Bloom filter
 
-Problem: test if an element exists in a set
+Problem: test if an element doesn't exist in a set
 
-Approximate solution: same as count min sketch, if the returned value is zero then we're sure that the element
-is not in the set otherwise it might be in the set
+Approximate solution: same as count min sketch, if the returned value is zero then we're sure the element
+is not in the set, otherwise, it might be in the set, and we need to test for existence typically using the underlaying
+data structure
 
 https://florian.github.io/bloom-filters/
 
