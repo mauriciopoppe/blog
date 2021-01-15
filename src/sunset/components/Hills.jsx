@@ -4,7 +4,7 @@ import { area, line, curveLinear } from 'd3-shape'
 import { randomBetween, isMobile } from './utils'
 
 import { t } from '../../main'
-import { Tree } from './Tree'
+import { Tree } from './Tree.jsx'
 
 function generateData(props) {
   const { x, y, z, total } = props

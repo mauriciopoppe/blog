@@ -5,6 +5,7 @@ date: 2016-02-26 16:59:48
 tags: ['Computer Graphics', 'Basics']
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
+  - https://github.com/ssloy/tinyrenderer/wiki/Lesson-1-Bresenham%E2%80%99s-Line-Drawing-Algorithm
 ---
 
 Rendering is a process that takes an input a set of objects and produces as its output an array of pixels (image) each of which stores information about the color of the image at a particular point in a grid (determined by the target width and height)
@@ -46,4 +47,3 @@ The value of a pixel depends on the precision and range of value needed, for exa
 - 12- to 14-bit RGB, 36-42 bits per pixel - raw camera images for professional photography
 - 16-bit half precision RGB, 48 bits per pixel - HDR images used in real time rendering
 - 32-bit floating-point RGB, 96 bits per pixel - HDR images for software rendering
-

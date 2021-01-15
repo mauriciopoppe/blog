@@ -69,7 +69,7 @@ the occurrences of words and contexts are kept in other hash maps.
 </div>
 
 **e-approximate heavy hitters** In a stream where the total number of frequencies is $n$ (for example if frequencies are all 1, 
-then $N$ corresponds to the number of elements encountered thus far in the stream) output all of the items that occur
+then $N$ corresponds to the number of elements encountered thus far in the stream) output all the items that occur
 at least $n/k$ times, when $k=2$ this problem is known as the majority element.
 
 If $n$ is known in advance we can process the array elements using a count-min sketch in a single pass, 
@@ -79,15 +79,15 @@ If $n$ is not known in advance we use a min-heap, in a single pass we maintain t
 when processing the next element $x$ we call `update(x, 1)` and then `estimate(x)`,
 if the estimate is $\geq m/k$ we store $x$ in the heap, Also, whenever $m$ grows to the point that some object $x$ stored 
 in the heap has a key less than $m/k$ (checkable in O(1) time via Find-Min),
-we delete $x$ from the heap (via Extract-Min). After finishing the pass, we output all of the objects in the heap
+we delete $x$ from the heap (via Extract-Min). After finishing the pass, we output all the objects in the heap
 
-**trending hashtags** Quantify how different the currently observed activity is compared to an estimate of what the 
-expected activity is, for each hashtag/place store how many pieces of media were shared in an X-minute window over the
-last Y days $C(h, t)$ (normalized to get $P(h, t)$), at a new time $t$ we can compute $C(h, t)$ and $P'(h, t)$ then use
+**trending hashtags** Quantify how different the currently observed activity against an estimate of the 
+expected activity, for each hashtag store how many times it's shared in an X-minute window over the
+last Y days $C(h, t)$ (normalized to get $P(h, t)$ i.e. $P(h, t) = \tfrac{C(h, t)}{\sum_{i=0}^{n}C(h, t_i)}$), at a new time $t$ we can compute $C(h, t)$ and $P'(h, t)$ then use
 KL divergence to measure the difference between the probabilities
 
 <div>$$
-S(h, t) = P(h, t) ln \left ( \frac{P(h, t}{P'(h, t)} \right )
+S(h, t) = P(h, t) ln \left ( \frac{P(h, t)}{P'(h, t)} \right )
 $$</div>
 
 The top $k$ trending hashtags can be computed with a heap
@@ -99,10 +99,15 @@ Based on https://instagram-engineering.com/trending-on-instagram-b749450e6d93
 Problem: test if an element doesn't exist in a set
 
 Approximate solution: same as count min sketch, if the returned value is zero then we're sure the element
-is not in the set, otherwise, it might be in the set, and we need to test for existence typically using the underlaying
-data structure
+is not in the set, otherwise, it might be in the set, and we need to test for existence with another (more expensive) data structure
 
 https://florian.github.io/bloom-filters/
+
+### Applications
+
+**SSTable reads** In the read path, Cassandra merges data on disk (in SSTables) with data in RAM (in memtables). 
+To avoid checking every SSTable data file for the partition being requested we can query the SSTable
+bloom filter.
 
 ## Reservoir sampling
 

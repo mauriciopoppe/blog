@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useMouseState, useWindowScroll } from 'beautiful-react-hooks'
 
-import { Hills } from './Hills'
-import { Stars } from './Stars'
+import { Hills } from './Hills.jsx'
+import { Stars } from './Stars.jsx'
 import { gtagEvents } from './utils'
 
 export function Canvas({ width, height, x, y }) {

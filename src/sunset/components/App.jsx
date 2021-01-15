@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { scaleLinear } from 'd3-scale'
 
-import { Canvas } from './Canvas'
+import { Canvas } from './Canvas.jsx'
 
 export function render({ target, shouldRender }) {
   const { width, height } = target.getBoundingClientRect()

@@ -12,7 +12,7 @@ function callback(entries) {
     if (entry.isIntersecting === shouldRender) return
     shouldRender = entry.isIntersecting
 
-    const app = await import('./components/app')
+    const app = await import('./components/App.jsx')
     app.render({
       target: document.querySelector('#browser-sunset'),
       shouldRender: shouldRender
