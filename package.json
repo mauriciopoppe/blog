@@ -110,6 +110,7 @@
     "zustand": "^3.2.0"
   },
   "devDependencies": {
+    "@mojs/core": "^0.288.2",
     "exports-loader": "^1.1.1",
     "imports-loader": "^1.2.0",
     "whatwg-fetch": "^3.5.0"
