@@ -1,5 +1,5 @@
 ---
-title: "Probabilistic Data Structures"
+title: "Data structures for massive datasets"
 tags: ["data structures", "big data", "probability"]
 date: 2020-05-09 17:24:19
 references:
