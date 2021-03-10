@@ -1,5 +1,5 @@
 ---
-title: "Combining transformations"
+title: "Combining Matrix transformations"
 date: 2016-02-10 21:13:17
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
