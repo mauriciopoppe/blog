@@ -1,4 +1,4 @@
 ---
 title: "Sandbox | Sunset"
-layout: "sandbox"
+layout: "sandbox-sunset"
 ---

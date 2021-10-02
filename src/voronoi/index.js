@@ -7,6 +7,9 @@ import { t, bannerColorChanger } from '../main/colors'
 const d3 = { select, Delaunay }
 
 function isMobile() {
+  if (navigator.userAgentData) {
+    return navigator.userAgentData.mobile
+  }
   const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i]
 
   return toMatch.some((toMatchItem) => {
