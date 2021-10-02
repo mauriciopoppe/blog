@@ -11,7 +11,7 @@ export async function loadAssets() {
 }
 
 export function registerGlobalListeners() {
-  const apiKey = 'AIzaSyD9tfFg9jh01ziREY2BqMgmZZUN8eoaLqA'
+  const apiKey = 'dummy'
   function initClient() {
     gapi.client.init({
       apiKey: apiKey,
