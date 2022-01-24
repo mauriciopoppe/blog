@@ -2,14 +2,14 @@ import { shake } from '../utils'
 import { assets } from '../assets'
 
 export class Text {
-  constructor(parent, { message, size }) {
+  constructor(parent, { message, size, color }) {
     this.parent = parent
     this.root = new THREE.Object3D()
 
     const shapes = assets.font.generateShapes(message, size)
     const geometry = new THREE.ShapeBufferGeometry(shapes)
     const material = new THREE.MeshBasicMaterial( {
-      color: '#ffffff',
+      color: color || '#ffffff',
       transparent: true,
       opacity: 0.4,
       side: THREE.DoubleSide

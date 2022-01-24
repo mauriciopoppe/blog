@@ -49,18 +49,8 @@ function intro() {
 }
 
 function runApp() {
-
-  // setup done before the application runs
-  // document.querySelector('#overlay').style.display = 'none'
-  new YouTubeToHtml5()
-
   new App().loop()
   anime.timeline()
-    .add({
-      targets: '#overlay',
-      opacity: [1, 0],
-      duration: skipIntro() ? 1 : 1000
-    })
     .add({
       targets: 'canvas, body',
       easing: 'linear',

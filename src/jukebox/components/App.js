@@ -4,6 +4,7 @@ import { Video } from './Video'
 import { VideoControls } from './VideoControls'
 import { Text } from './Text'
 import { Subtitles } from './Subtitles'
+import { Claps } from './Claps'
 import { between } from '../utils'
 import { assets } from '../assets'
 
@@ -96,9 +97,6 @@ class App extends EventEmitter {
     // var axesHelper = new THREE.AxesHelper( 5 );
     // this.scene.add( axesHelper );
 
-    // this.image = new Image(this, this.current)
-    // this.scene.add(this.image.root)
-
     this.video = new Video(this)
     this.scene.add(this.video.root)
 
@@ -106,6 +104,7 @@ class App extends EventEmitter {
     this.scene.add(this.videoControls.root)
 
     this.title = new Text(this, {
+      color: '#fc0349',
       message: 'Kay One feat. Cristobal - Bachata',
       size: 1.5
     })
@@ -133,6 +132,13 @@ class App extends EventEmitter {
       video: this.video
     })
     this.scene.add(this.subtitles.root)
+
+    this.claps = new Claps(this, {
+      claps: assets.claps,
+      video: this.video
+    })
+    // nothing added yet
+    this.scene.add(this.claps.root)
 
     this.raycastTargets = [this.videoControls.root]
   }
@@ -207,7 +213,7 @@ class App extends EventEmitter {
       this.renderer.toneMappingExposure = Math.pow(factor, 4.0)
       this.bloomPassDelta = 0
       this.bloomPassDeltaTotal += 1
-      this.bloomPassDeltaNext = Math.random() * 0.3
+      this.bloomPassDeltaNext = 0.5
       this.emit('factor', factor)
     }
 
