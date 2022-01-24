@@ -1,5 +1,5 @@
 import { App } from './components/App'
-import { loadAssets, registerGlobalListeners } from './assets'
+import { loadAssets } from './assets'
 
 function skipIntro() {
   return !!location.search.match('skip')
@@ -49,10 +49,12 @@ function intro() {
 }
 
 function runApp() {
-  document.querySelector('#overlay').style.display = 'none'
-  console.log('Playback resumed successfully')
-  const app = new App
-  app.loop()
+
+  // setup done before the application runs
+  // document.querySelector('#overlay').style.display = 'none'
+  new YouTubeToHtml5()
+
+  new App().loop()
   anime.timeline()
     .add({
       targets: '#overlay',
@@ -63,14 +65,13 @@ function runApp() {
       targets: 'canvas, body',
       easing: 'linear',
       opacity: [0, 1],
-      duration: skipIntro() ? 1 : 15000
+      duration: skipIntro() ? 1 : 5000
     })
 }
 
 (async function () {
-  registerGlobalListeners()
   await loadAssets()
-  await intro()
+  // await intro()
   runApp()
 })()
 

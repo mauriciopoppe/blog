@@ -5,84 +5,28 @@
     <meta name="viewport" content="width=device-width" />
     <title>100 Days of Songs</title>
     {{ partial "head.html" . }}
-
     <style>
         body {
-            font-family: 'The Girl Next Door', cursive;
-            background-color: #000000;
-            margin: 0;
-            overflow: hidden;
-            opacity: 0;
-        }
-        canvas {
-            width: 100%;
-            height: 100%
-        }
-        #root {
-            position: relative;
-        }
-        #music {
-            position: absolute;
-            bottom: 0;
-        }
-
-        #overlay {
-            position: absolute;
-            top: 0;
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 0;
-
-            color: #ffffff;
-            white-space: pre-line;
-            font-size: 2em;
-            overflow: hidden;
-        }
-
-        #overlay .letter {
-            display: inline-block;
-        }
-
-        #start {
-            opacity: 0;
-            cursor: pointer;
-            border: 1px solid #ffffff;
-            padding: 10px 20px;
-            float: right;
+            background-color: black;
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=The+Girl+Next+Door" rel="stylesheet">
 
     <script charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.6/dat.gui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
-
-    <script async defer src="https://apis.google.com/js/api.js"
-            onload="this.onload=function(){};handleClientLoad();"
-            onreadystatechange="if (this.readyState === 'complete') this.onload();">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@thelevicole/youtube-to-html5-loader@4.0.1/dist/YouTubeToHtml5.min.js"></script>
 </head>
 <body>
-<div id="root"></div>
-<div id="overlay">
-    <div>
-        <div class="letters"> My friend, </div>
-        <br />
-        <div class="letters"> These songs mean a lot to me, </div>
-        <div class="letters"> thanks for checking them out </div>
-        <br />
-        <div class="mauricio"> Mauricio </div>
-        <div class="mauricio"> Feb 14, 2021 </div>
-        <div id="start">Start</div>
+
+    <video id="video-source" src="/sandbox/jukebox/bachata.mp4"
+            style="width: 0; height: 0; position: absolute;" controls></video>
+
+    <div id="root">
     </div>
-</div>
-<div id="player"></div>
-<!-- <iframe id="music" width="500" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/259932444&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true" style="transform: scale(0.8); opacity: 0.3"></iframe> -->
-{{ partial "scripts/jukebox.html" . }}
+
+    {{ partial "scripts/jukebox.html" . }}
+
 </body>
 </html>

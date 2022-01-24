@@ -11,7 +11,7 @@
     </header>
     {{ .Summary }}
     <footer>
-        <a href='{{ .Dir }}'>Read more →</a>
+        <a href='{{ with .File }}{{.Dir}}{{ end  }}'>Read more →</a>
     </footer>
 
     <hr />

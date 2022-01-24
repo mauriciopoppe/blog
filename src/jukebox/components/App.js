@@ -1,8 +1,9 @@
 import EventEmitter from 'events'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { Image } from './Image'
-import { Calendar } from './Calendar'
+import { Video } from './Video'
+import { VideoControls } from './VideoControls'
 import { Text } from './Text'
+import { Subtitles } from './Subtitles'
 import { between } from '../utils'
 import { assets } from '../assets'
 
@@ -22,7 +23,6 @@ const stats = new Stats()
 stats.domElement.style.position = 'absolute'
 document.querySelector('#root').appendChild(stats.domElement)
 const clock = new THREE.Clock()
-const gui = new dat.GUI()
 const raycaster = new THREE.Raycaster();
 
 const mouse = new THREE.Vector2();
@@ -32,7 +32,6 @@ class App extends EventEmitter {
     this.setup()
     this.addLights()
     this.addObjects()
-    this.gui()
     this.timers()
     this.listeners()
     this.audio()
@@ -47,7 +46,7 @@ class App extends EventEmitter {
     this.renderer.domElement.style.opacity = 0
     document.body.querySelector('#root').appendChild(this.renderer.domElement);
 
-    this.camera.position.z = 10
+    this.camera.position.z = 15
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.minDistance = 1;
@@ -58,15 +57,15 @@ class App extends EventEmitter {
     var renderPass = new THREE.RenderPass(this.scene, this.camera);
     this.composer.addPass( renderPass );
 
-    var effectGrayScale = new THREE.ShaderPass(THREE.LuminosityShader);
-    this.composer.addPass( effectGrayScale );
+    // var effectGrayScale = new THREE.ShaderPass(THREE.LuminosityShader);
+    // this.composer.addPass( effectGrayScale );
 
-    var effectSobel = new THREE.ShaderPass( THREE.SobelOperatorShader );
-    effectSobel.uniforms[ "resolution" ].value.x = window.innerWidth;
-    effectSobel.uniforms[ "resolution" ].value.y = window.innerHeight;
-    this.effectSobel = effectSobel
-    this.effectSobel.enabled = true
-    this.composer.addPass( effectSobel );
+    // var effectSobel = new THREE.ShaderPass( THREE.SobelOperatorShader );
+    // effectSobel.uniforms[ "resolution" ].value.x = window.innerWidth;
+    // effectSobel.uniforms[ "resolution" ].value.y = window.innerHeight;
+    // this.effectSobel = effectSobel
+    // this.effectSobel.enabled = true
+    // this.composer.addPass( effectSobel );
 
     var afterImage = new THREE.AfterimagePass();
     this.afterimagePass = afterImage
@@ -97,24 +96,30 @@ class App extends EventEmitter {
     // var axesHelper = new THREE.AxesHelper( 5 );
     // this.scene.add( axesHelper );
 
-    this.image = new Image(this, this.current)
-    this.scene.add(this.image.root)
+    // this.image = new Image(this, this.current)
+    // this.scene.add(this.image.root)
 
-    this.calendar = new Calendar(this)
-    this.scene.add(this.calendar.root)
+    this.video = new Video(this)
+    this.scene.add(this.video.root)
+
+    this.videoControls = new VideoControls(this, this.video)
+    this.scene.add(this.videoControls.root)
 
     this.title = new Text(this, {
-      message: '100 Days of Songs',
-      size: 1
+      message: 'Kay One feat. Cristobal - Bachata',
+      size: 1.5
     })
-    this.title.root.position.y += 6
+    this.title.root.position.y += 8
     this.scene.add(this.title.root)
 
     this.poem = new Text(this, {
       message: `
-What would you do if you weren't afraid?
 
-                                  Mauricio
+        Lo unico que quiero es bailar...
+        Bailar esta bachata
+
+                                  Jan 23, 2022
+                                      Mauricio
       `,
       size: 0.3
     })
@@ -123,7 +128,13 @@ What would you do if you weren't afraid?
     this.poem.root.rotation.y = Math.PI
     this.scene.add(this.poem.root)
 
-    this.raycastTargets = [this.calendar.root]
+    this.subtitles = new Subtitles(this, {
+      subtitles: assets.subtitles,
+      video: this.video
+    })
+    this.scene.add(this.subtitles.root)
+
+    this.raycastTargets = [this.videoControls.root]
   }
 
   listeners() {
@@ -181,45 +192,6 @@ What would you do if you weren't afraid?
     })
   }
 
-  gui() {
-    var params = {
-      exposure: 1,
-      bloomStrength: 1.5,
-      bloomThreshold: 0,
-      bloomRadius: 0,
-      damp: 0.7,
-      playSound: true,
-      sobel: true
-    }
-    gui.localStorage = true
-    gui.add( params, 'exposure', 0.1, 2 ).onChange(value => {
-      this.renderer.toneMappingExposure = Math.pow( value, 4.0 );
-    });
-    gui.add( params, 'bloomThreshold', 0.0, 1.0 ).onChange(value => {
-      this.bloomPass.threshold = Number( value );
-    });
-    gui.add( params, 'bloomStrength', 0.0, 3.0 ).onChange(value => {
-      this.bloomPass.strength = Number( value );
-    }).listen();
-    gui.add( params, 'bloomRadius', 0.0, 5.0 ).step( 0.01 ).onChange(value => {
-      this.bloomPass.radius = Number( value );
-    });
-    gui.add( params, 'sobel').onChange(value => {
-      this.effectSobel.enabled = value
-    })
-    gui.add( params, 'damp', 0, 1 ).step( 0.001 ).onChange(value => {
-      this.afterimagePass.uniforms['damp'].value = value
-    })
-    gui.add(params, 'playSound').onChange(value => {
-      if (value) {
-        this.sound.play();
-      } else {
-        this.sound.pause();
-      }
-    })
-    gui.close()
-  }
-
   timers() {
     this.bloomPassDelta = 0
     this.bloomPassDeltaTotal = 0
@@ -227,25 +199,17 @@ What would you do if you weren't afraid?
   }
 
   update(delta) {
+
     // update the filters to do the flickering
     this.bloomPassDelta += delta
     if (this.bloomPassDelta > this.bloomPassDeltaNext) {
-      const factor = between(0.9, .95)
+      const factor = between(0.98, .99)
       this.renderer.toneMappingExposure = Math.pow(factor, 4.0)
-      // this.bloomPass.strength = between(0.2, 0.8)
       this.bloomPassDelta = 0
       this.bloomPassDeltaTotal += 1
       this.bloomPassDeltaNext = Math.random() * 0.3
       this.emit('factor', factor)
     }
-
-    // position of the arrows
-    this.calendar.root.position.copy(this.camera.position)
-    this.calendar.root.lookAt(this.camera.position.clone().multiplyScalar(2))
-    const negPos = this.calendar.root.position.clone()
-    negPos.normalize()
-    negPos.multiplyScalar(-1)
-    this.calendar.root.position.add(negPos)
 
     // raycast
     raycaster.setFromCamera( mouse, this.camera );

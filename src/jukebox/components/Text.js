@@ -1,4 +1,4 @@
-import { between, shake } from '../utils'
+import { shake } from '../utils'
 import { assets } from '../assets'
 
 export class Text {

@@ -10,7 +10,7 @@ class MoHeart extends CustomShape {
 }
 mojs.addShape('heart', MoHeart)
 
-function animateHeart(rootEl) {
+function setupHearts(rootEl) {
   const heartShapes = []
   for (let i = 0; i < 10; i++) {
     const heart = new ShapeSwirl({
@@ -41,14 +41,28 @@ function animateHeart(rootEl) {
     rootEl.style[k] = styles[k]
   }
   rootEl.addEventListener('mouseenter', animateHearts)
-  rootEl.addEventListener('click', animateHearts)
+  rootEl.addEventListener('click', () => {
+    gtag('event', 'profile_easter_egg')
+
+    new mojs.Html({
+      el: document.body,
+      duration: 2000,
+      opacity: {1: 0},
+      scaleX: {1: 2},
+      scaleY: {1: 2},
+      onComplete() {
+        document.location = "/sandbox/jukebox"
+      }
+    })
+      .play()
+  })
 }
 
 function main() {
   const hearts = Array.from(document.querySelectorAll('.heart'))
   // exit early if no hearts were found
   if (!hearts.length) return
-  hearts.forEach(h => animateHeart(h))
+  hearts.forEach(h => setupHearts(h))
 }
 
 main()
