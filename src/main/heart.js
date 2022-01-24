@@ -42,7 +42,6 @@ function setupHearts(rootEl) {
   }
   rootEl.addEventListener('mouseenter', animateHearts)
   rootEl.addEventListener('click', () => {
-    gtag('event', 'profile_easter_egg')
 
     new mojs.Html({
       el: document.body,
@@ -51,7 +50,8 @@ function setupHearts(rootEl) {
       scaleX: {1: 2},
       scaleY: {1: 2},
       onComplete() {
-        document.location = "/sandbox/jukebox"
+        gtag('event', 'profile_easter_egg')
+        document.location = "/sandbox/jukebox/"
       }
     })
       .play()
