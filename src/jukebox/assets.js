@@ -1,4 +1,3 @@
-
 export const assets = {}
 export async function loadAssets() {
   const loader = new THREE.FontLoader()
@@ -6,7 +5,7 @@ export async function loadAssets() {
     new Promise((resolve, reject) =>
       loader.load('/sandbox/jukebox/fonts/font.typeface.json', resolve, null, reject)),
     fetch('/sandbox/jukebox/bachata.srt').then(response => response.text()),
-    fetch('/sandbox/jukebox/claps.json').then(response => response.json())
+    fetch('/sandbox/jukebox/claps.json').then(response => response.json()),
   ])
   assets.font = font
   assets.subtitles = subtitles

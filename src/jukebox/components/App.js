@@ -35,7 +35,7 @@ class App extends EventEmitter {
     this.addObjects()
     this.timers()
     this.listeners()
-    this.audio()
+    // this.audio()
   }
 
   setup() {
@@ -168,21 +168,23 @@ class App extends EventEmitter {
 
   }
 
-  audio() {
-    // create an AudioListener and add it to the camera
-    const listener = new THREE.AudioListener();
-    this.camera.add(listener);
+  // audio() {
+  //   // create an AudioListener and add it to the camera
+  //   const listener = new THREE.AudioListener();
+  //   this.camera.add(listener);
 
-    // create an Audio source
-    this.sound = new THREE.Audio(listener);
-    this.sound.setBuffer(assets.audioBuffer)
-    this.sound.setLoop(true);
-    this.sound.setVolume(0);
-    this.sound.play();
+  //   // create an Audio source
+  //   this.sound = new THREE.Audio(listener)
+  //   const audioCtx = new window.AudioContext()
+  //   const track = audioCtx.createMediaElementSource()
 
-    // create an AudioAnalyser, passing in the sound and desired fftSize
-    this.analyser = new THREE.AudioAnalyser(this.sound, 128);
-  }
+  //   this.sound.setBuffer(await audioCtx.decodeAudioData(assets.videoBuffer))
+  //   this.sound.setVolume(0)
+  //   this.sound.play()
+
+  //   // create an AudioAnalyser, passing in the sound and desired fftSize
+  //   this.analyser = new THREE.AudioAnalyser(this.sound, 128);
+  // }
 
   onMove(step) {
     this.current = this.current + step
@@ -238,10 +240,10 @@ class App extends EventEmitter {
     })
 
     // get the average frequency of the sound
-    this.sound.setVolume(Math.min(0.5, clock.getElapsedTime() / 10));
-    const avg = this.analyser.getAverageFrequency()
-    const soundNormalized = avg / 100
-    this.bloomPass.strength = soundNormalized
+    // this.sound.setVolume(Math.min(0.5, clock.getElapsedTime() / 10));
+    // const avg = this.analyser.getAverageFrequency()
+    // const soundNormalized = avg / 100
+    // this.bloomPass.strength = soundNormalized
 
     // const lo = 0
     // const hi = 100

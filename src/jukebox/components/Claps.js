@@ -46,7 +46,7 @@ export class Claps {
       })
         .add({
           targets: clap,
-          duration: 10000,
+          duration: 8000,
           opacity: 0,
           complete: (anim) => {
             rootDom.removeChild(clap)

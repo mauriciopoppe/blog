@@ -1,4 +1,5 @@
 import { between } from '../utils'
+
 const loader = new THREE.TextureLoader()
 
 const format = v =>
@@ -7,16 +8,22 @@ const format = v =>
 class Video {
   constructor(app) {
     const self = this
-    const video = document.querySelector('#video-source')
-    const texture = new THREE.VideoTexture(video)
 
+    const video = document.querySelector('#video-source')
+    video.volume = 0
     this.video = video
+
+    const audio = document.querySelector('#audio-source')
+    this.audio = audio
+
+    // set to true on user interaction
+    this.audioSetupDone = false
+
     this.geometry = new THREE.PlaneGeometry(20, 10)
     this.material = new THREE.MeshLambertMaterial({
-      map: texture,
+      map: new THREE.VideoTexture(this.video),
       transparent: true,
       side: THREE.DoubleSide
-      // map: loader.load('https://s3.amazonaws.com/duhaime/blog/tsne-webgl/assets/cat.jpg')
     })
     this.root = new THREE.Mesh(this.geometry, this.material);
 
@@ -46,10 +53,33 @@ class Video {
 
   pause() {
     this.video.pause()
+    this.audio.pause()
   }
 
   play() {
-    this.video.play()
+    if (!this.audioSetupDone) {
+      // create an Audio source
+      const audioCtx = new window.AudioContext()
+      const gainNode = audioCtx.createGain()
+      const track = audioCtx.createMediaElementSource(this.audio)
+      track.connect(gainNode).connect(audioCtx.destination)
+      this.track = track
+
+      const volumeControl = document.querySelector('#volume')
+      volumeControl.addEventListener('input', function() {
+          gainNode.gain.value = this.value
+      }, false)
+      this.audioSetupDone = true
+    }
+
+    this.audio.play()
+    // it looks like processing audio is an expensive operation (takes a few
+    // ms to complete), I did the following hacks:
+    // - load the audio and the video in different sources (mp4 and mp3)
+    // - delay playing the video because of the processing lag
+    setTimeout(() => {
+      this.video.play()
+    }, 100)
   }
 
   isPlaying() {
