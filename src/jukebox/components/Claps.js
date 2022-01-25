@@ -39,19 +39,21 @@ export class Claps {
       clap.style.left = `${between(delta, window.innerWidth - delta)}px`
       rootDom.appendChild(clap)
 
-      anime.timeline({
+      anime({
         targets: clap,
+        easing: 'easeInOutQuad',
         translateY: -50,
-        duration: 250
+        opacity: 0,
+        duration: 1000,
+        complete: (anim) => {
+          rootDom.removeChild(clap)
+        }
       })
-        .add({
-          targets: clap,
-          duration: 8000,
-          opacity: 0,
-          complete: (anim) => {
-            rootDom.removeChild(clap)
-          }
-        })
+        // .add({
+        //   targets: clap,
+        //   duration: 8000,
+        //   opacity: 0,
+        // })
 
       this.clapsIdx += 1
     }

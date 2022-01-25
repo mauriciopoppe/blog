@@ -31,7 +31,7 @@ class VideoControls {
     }
     this.root.add(this.playButton)
 
-    const letsgo = this.createText("let's go")
+    const letsgo = this.createText("play/pause")
     letsgo.position.y = -9
     this.root.add(letsgo)
 

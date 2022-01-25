@@ -20,9 +20,9 @@ import '../postprocessing/ShaderPass'
 import '../postprocessing/UnrealBloomPass'
 import '../postprocessing/AfterimagePass'
 
-const stats = new Stats()
-stats.domElement.style.position = 'absolute'
-document.querySelector('#root').appendChild(stats.domElement)
+// const stats = new Stats()
+// stats.domElement.style.position = 'absolute'
+// document.querySelector('#root').appendChild(stats.domElement)
 const clock = new THREE.Clock()
 const raycaster = new THREE.Raycaster();
 
@@ -35,7 +35,6 @@ class App extends EventEmitter {
     this.addObjects()
     this.timers()
     this.listeners()
-    // this.audio()
   }
 
   setup() {
@@ -44,7 +43,7 @@ class App extends EventEmitter {
     this.renderer = new THREE.WebGLRenderer({ alpha: true });
     this.renderer.setSize( window.innerWidth, window.innerHeight );
     this.renderer.setClearColor(0xffffff, 0)
-    this.renderer.domElement.style.opacity = 0
+    // this.renderer.domElement.style.opacity = 0
     document.body.querySelector('#root').appendChild(this.renderer.domElement);
 
     this.camera.position.z = 15
@@ -57,16 +56,6 @@ class App extends EventEmitter {
     this.composer = new THREE.EffectComposer(this.renderer );
     var renderPass = new THREE.RenderPass(this.scene, this.camera);
     this.composer.addPass( renderPass );
-
-    // var effectGrayScale = new THREE.ShaderPass(THREE.LuminosityShader);
-    // this.composer.addPass( effectGrayScale );
-
-    // var effectSobel = new THREE.ShaderPass( THREE.SobelOperatorShader );
-    // effectSobel.uniforms[ "resolution" ].value.x = window.innerWidth;
-    // effectSobel.uniforms[ "resolution" ].value.y = window.innerHeight;
-    // this.effectSobel = effectSobel
-    // this.effectSobel.enabled = true
-    // this.composer.addPass( effectSobel );
 
     var afterImage = new THREE.AfterimagePass();
     this.afterimagePass = afterImage
@@ -145,7 +134,7 @@ class App extends EventEmitter {
 
   listeners() {
     this.on('move', this.onMove.bind(this))
-    const rootDom = document.body
+    const rootDom = document.body.querySelector('#root')
 
     window.addEventListener('mousemove', (event) => {
       mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
@@ -167,24 +156,6 @@ class App extends EventEmitter {
     }, false);
 
   }
-
-  // audio() {
-  //   // create an AudioListener and add it to the camera
-  //   const listener = new THREE.AudioListener();
-  //   this.camera.add(listener);
-
-  //   // create an Audio source
-  //   this.sound = new THREE.Audio(listener)
-  //   const audioCtx = new window.AudioContext()
-  //   const track = audioCtx.createMediaElementSource()
-
-  //   this.sound.setBuffer(await audioCtx.decodeAudioData(assets.videoBuffer))
-  //   this.sound.setVolume(0)
-  //   this.sound.play()
-
-  //   // create an AudioAnalyser, passing in the sound and desired fftSize
-  //   this.analyser = new THREE.AudioAnalyser(this.sound, 128);
-  // }
 
   onMove(step) {
     this.current = this.current + step
@@ -239,12 +210,6 @@ class App extends EventEmitter {
       }
     })
 
-    // get the average frequency of the sound
-    // this.sound.setVolume(Math.min(0.5, clock.getElapsedTime() / 10));
-    // const avg = this.analyser.getAverageFrequency()
-    // const soundNormalized = avg / 100
-    // this.bloomPass.strength = soundNormalized
-
     // const lo = 0
     // const hi = 100
     // const c = (Math.min(Math.max(avg, lo), hi) - lo) / (hi - lo)
@@ -255,14 +220,18 @@ class App extends EventEmitter {
     this.emit('update', { delta })
   }
 
+  setBloomPassStrength(strength) {
+    this.bloomPass.strength = strength
+  }
+
   loop() {
     requestAnimationFrame(this.loop.bind(this));
-    stats.begin()
+    // stats.begin()
     this.controls.update()
     this.update(clock.getDelta())
     this.composer.render()
     TWEEN.update()
-    stats.end()
+    // stats.end()
   }
 }
 

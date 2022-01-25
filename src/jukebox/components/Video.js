@@ -8,6 +8,7 @@ const format = v =>
 class Video {
   constructor(app) {
     const self = this
+    this.parent = app
 
     const video = document.querySelector('#video-source')
     video.volume = 0
@@ -38,6 +39,11 @@ class Video {
       self.duration = this.duration
     })
 
+    document.querySelector('#start')
+      .addEventListener('click', () => {
+        this.setupOnUserInput()
+      })
+
     app.on('factor', () => {
       const scaleFactor = 0.99 + Math.random() * 0.01
       const rotationFactor = between(-0.5, 0.5) * Math.PI / 180
@@ -49,6 +55,8 @@ class Video {
       this.root.scale.y = scaleFactor
       this.root.scale.z = scaleFactor
     })
+
+    app.on('update', this.onFrameUpdate.bind(this))
   }
 
   pause() {
@@ -57,20 +65,6 @@ class Video {
   }
 
   play() {
-    if (!this.audioSetupDone) {
-      // create an Audio source
-      const audioCtx = new window.AudioContext()
-      const gainNode = audioCtx.createGain()
-      const track = audioCtx.createMediaElementSource(this.audio)
-      track.connect(gainNode).connect(audioCtx.destination)
-      this.track = track
-
-      const volumeControl = document.querySelector('#volume')
-      volumeControl.addEventListener('input', function() {
-          gainNode.gain.value = this.value
-      }, false)
-      this.audioSetupDone = true
-    }
 
     this.audio.play()
     // it looks like processing audio is an expensive operation (takes a few
@@ -82,12 +76,68 @@ class Video {
     }, 100)
   }
 
+  setupOnUserInput() {
+    if (!this.audioSetupDone) {
+      // create an Audio source
+      const audioCtx = new window.AudioContext()
+      const gainNode = audioCtx.createGain()
+      const track = audioCtx.createMediaElementSource(this.audio)
+      this.track = track
+
+      // const volumeControl = document.querySelector('#volume')
+      // volumeControl.addEventListener('input', function() {
+      //     gainNode.gain.value = this.value
+      // }, false)
+
+      const analyser = audioCtx.createAnalyser()
+      this.audioAnalyserData = new Uint8Array(analyser.frequencyBinCount)
+      this.audioAnalyser = analyser
+
+      const modifiedTrack = track.connect(gainNode)
+      modifiedTrack.connect(this.audioAnalyser)
+      modifiedTrack.connect(audioCtx.destination)
+
+      this.audioSetupDone = true
+    }
+  }
+
+  getAudioAverageFrequency() {
+      let value = 0;
+      this.audioAnalyser.getByteFrequencyData(this.audioAnalyserData)
+      const data = this.audioAnalyserData
+      for (let i = 0; i < data.length; i++) {
+          value += data[i];
+      }
+      return value/data.length;
+  }
+
   isPlaying() {
     return !this.video.paused
   }
 
   getElapsedTime() {
     return this.currentTime
+  }
+
+  setCurrentTime(time) {
+    this.video.currentTime = time
+    this.audio.currentTime = time
+  }
+
+  onFrameUpdate() {
+    // we can only modify the strength after user interaction
+    if (!this.audioSetupDone) return
+
+    // modify the strength of the bloompass shader
+    const avg = this.getAudioAverageFrequency()
+    const soundNormalized = avg / 300
+    // console.log(soundNormalized)
+    this.parent.setBloomPassStrength(0.2 + Math.pow(soundNormalized, 1.5))
+
+    const videoScale = Math.pow(soundNormalized, 2)
+    this.root.scale.x = 1 + videoScale
+    this.root.scale.y = 1 + videoScale
+
   }
 }
 

@@ -7,52 +7,28 @@ function skipIntro() {
 
 function intro() {
   if (skipIntro()) return true;
-
-  const chars = Array.from(document.querySelectorAll('.letters,.mauricio'))
-  chars.forEach(chEl => {
-    chEl.innerHTML = chEl.innerHTML.replace(/([^\x00-\x80]|\w|,|\.|\d|\/)/g, "<span class='letter'>$&</span>")
-  })
-
-  anime.timeline()
-    .add({
-      targets: 'body',
-      opacity: [0, 1]
-    })
-    .add({
-      targets: '.letters .letter',
-      translateY: [-100, 0],
-      opacity: [0, 1],
-      easing: "easeOutExpo",
-      duration: 2500,
-      delay: function(el, i) {
-        return 30 * i;
-      }
-    })
-    .add({
-      targets: '.mauricio .letter',
-      translateY: [-100, 0],
-      opacity: [0, 1],
-      easing: "easeOutExpo",
-      duration: 2500,
-      delay: function(el, i) {
-        return 50 * i;
-      }
-    })
-    .add({
-      targets: '#start',
-      opacity: [0, 1]
-    })
-
   return new Promise(resolve => {
-    document.querySelector('#start').addEventListener('click', resolve)
+    document.querySelector('#overlay').addEventListener('click', () => {
+      anime({
+        targets: '#overlay',
+        easing: 'easeInQuart',
+        opacity: 0,
+        duration: 5000,
+        complete: () => {
+          document.querySelector('#overlay').style.display = 'none'
+          resolve()
+        }
+      })
+    })
   })
 }
 
 function runApp() {
-  new App().loop()
+  window.app = new App()
+  window.app.loop()
   anime.timeline()
     .add({
-      targets: 'canvas, body',
+      targets: '#root',
       easing: 'linear',
       opacity: [0, 1],
       duration: skipIntro() ? 1 : 5000
@@ -61,7 +37,8 @@ function runApp() {
 
 (async function () {
   await loadAssets()
-  // await intro()
   runApp()
+
+  await intro()
 })()
 
