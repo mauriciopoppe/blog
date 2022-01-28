@@ -36,7 +36,7 @@ function setupHearts(rootEl) {
     })
   }
 
-  const styles = { 'font-size': '1em', color: 'deeppink', position: 'relative', cursor: 'pointer' }
+  const styles = { 'font-size': '0.7em', color: 'white', position: 'relative', cursor: 'pointer' }
   for (const k in styles) {
     rootEl.style[k] = styles[k]
   }
