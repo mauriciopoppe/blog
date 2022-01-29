@@ -46,11 +46,11 @@ class App extends EventEmitter {
     // this.renderer.domElement.style.opacity = 0
     document.body.querySelector('#root').appendChild(this.renderer.domElement);
 
-    this.camera.position.z = 15
+    this.camera.position.z = 18
 
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.controls.minDistance = 1;
-    this.controls.maxDistance = 20;
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+    this.controls.minDistance = 1
+    this.controls.maxDistance = 20
     this.controls.update()
 
     this.composer = new THREE.EffectComposer(this.renderer );
@@ -97,7 +97,7 @@ class App extends EventEmitter {
       message: 'Kay One feat. Cristobal - Bachata',
       size: 1.5
     })
-    this.title.root.position.y += 8
+    this.title.root.position.y += 10
     this.scene.add(this.title.root)
 
     this.poem = new Text(this, {
@@ -117,10 +117,19 @@ class App extends EventEmitter {
     this.scene.add(this.poem.root)
 
     this.subtitles = new Subtitles(this, {
+      color: '#ff8300',
       subtitles: assets.subtitles,
       video: this.video
     })
+    this.subtitles.root.position.y += 8
     this.scene.add(this.subtitles.root)
+
+    this.subtitlesEnglish = new Subtitles(this, {
+      subtitles: assets.subtitlesEnglish,
+      video: this.video
+    })
+    this.subtitlesEnglish.root.position.y += 6
+    this.scene.add(this.subtitlesEnglish.root)
 
     this.claps = new Claps(this, {
       claps: assets.claps,

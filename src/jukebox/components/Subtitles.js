@@ -11,12 +11,13 @@ function durationToMs(duration) {
 }
 
 export class Subtitles {
-  constructor(parent, { subtitles, video }) {
+  constructor(parent, { subtitles, video, color }) {
     this.parent = parent
     this.root = new THREE.Object3D()
     this.subtitles = this.processSubtitles(subtitles)
     this.subtitleIdx = 0
     this.video = video
+    this.color = color
     this.lastTextAdded = null
 
     this.parent.on('update', this.onUpdate.bind(this))
@@ -57,7 +58,7 @@ export class Subtitles {
       const shapes = assets.font.generateShapes(this.subtitles[this.subtitleIdx].text, 1)
       const geometry = new THREE.ShapeBufferGeometry(shapes)
       const material = new THREE.MeshBasicMaterial( {
-        color: '#ffffff',
+        color: this.color || '#ffffff',
         transparent: true,
         opacity: 0.4,
         side: THREE.DoubleSide
@@ -66,7 +67,6 @@ export class Subtitles {
       const xMid = - 0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x);
       geometry.translate(xMid, 0, 0)
       const text = new THREE.Mesh(geometry, material)
-      text.position.y += 6
 
       this.lastTextAdded = text
       this.root.add(text)
