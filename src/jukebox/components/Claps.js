@@ -27,17 +27,20 @@ export class Claps {
 
     if (elapsedTime > this.claps[this.clapsIdx]) {
       const clap = document.createElement("span")
+      rootDom.appendChild(clap)
       clap.innerHTML = "👏🏽"
       clap.style.position = 'absolute'
       clap.style.fontSize = `10em`
+      let clapBoundsDelta = 20
       // make the last clap larger
       if (this.clapsIdx % 8 == 7) {
         clap.style.fontSize = `20em`
       }
-      const delta = 50
-      clap.style.top = `${between(delta, window.innerHeight - delta)}px`
-      clap.style.left = `${between(delta, window.innerWidth - delta)}px`
-      rootDom.appendChild(clap)
+
+      // it should be right border - image width and bottom border - image
+      const { width: imageWidth, height: imageHeight } = clap.getBoundingClientRect()
+      clap.style.top = `${between(clapBoundsDelta, window.innerHeight - imageHeight - clapBoundsDelta)}px`
+      clap.style.left = `${between(clapBoundsDelta, window.innerWidth - imageWidth - clapBoundsDelta)}px`
 
       anime({
         targets: clap,

@@ -1,4 +1,9 @@
 export function between(lo, hi) {
+  if (lo > hi) {
+    let t = lo
+    lo = hi
+    hi = t
+  }
   return lo + Math.random() * (hi - lo)
 }
 

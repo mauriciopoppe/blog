@@ -121,13 +121,15 @@ class App extends EventEmitter {
       subtitles: assets.subtitles,
       video: this.video
     })
-    this.subtitles.root.position.y += 8
+    this.subtitles.root.position.y += 7.5
     this.scene.add(this.subtitles.root)
 
     this.subtitlesEnglish = new Subtitles(this, {
       subtitles: assets.subtitlesEnglish,
       video: this.video
     })
+    this.subtitlesEnglish.root.scale.x *= 0.7
+    this.subtitlesEnglish.root.scale.y *= 0.7
     this.subtitlesEnglish.root.position.y += 6
     this.scene.add(this.subtitlesEnglish.root)
 
