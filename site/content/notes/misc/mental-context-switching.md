@@ -77,8 +77,8 @@ remember valuable things.
 To quickly switch across codebases and the terminal layouts that I'm used to I use
 [tmux](https://github.com/tmux/tmux), [tmuxinator](https://github.com/tmuxinator/tmuxinator) and a combination of a
 few scripts that I'll talk about later and [fzf](https://github.com/junegunn/fzf). First I'll write about
-some concepts around tmux and tmuxinator, my usual workflow, a description of the scripts that I use,
-and other tools that I tried that didn't work for me. But first a quick look into what it looks like:
+some concepts around tmux and tmuxinator, a description of the scripts that I use and my workflow,
+and other tools that I tried that didn't work for me. First a quick look into what it looks like:
 
 <script id="asciicast-h9bEclMKVl9SONRqMe3yoyryF" src="https://asciinema.org/a/h9bEclMKVl9SONRqMe3yoyryF.js" async></script>
 
@@ -89,7 +89,7 @@ session name I should remember.
 Once I'm in that session I usually have a predefined terminal layout, in most of the codebases I keep a 3 pane layout
 with my editor on the left and two terminals stacked vertically on the right, because this is a common layout
 across many of the codebases I work on I have to save it so that the next time I open the codebase I keep the same
-layout, to do so I use the following `.tmuxinator.yaml` file stored at `~/.tmuxinator.yaml`
+layout, to do so I use the following file stored at `~/.tmuxinator.yaml`
 
 ```yaml
 # I use · instead of . because . is reserved in tmuxinator
@@ -122,14 +122,14 @@ the codebases worth remembering I 'bookmark' them in the file `~/.bookmarks.data
 ```
 
 Once I clone a codebase worth remembering I cd into it and invoke a script [`bookmark`](https://github.com/mauriciopoppe/dotfiles/blob/main/zsh/bin/bookmark)
-that will save the absolute path into the file `~/.bookmarks.data`.
+that will save the absolute path in the file `~/.bookmarks.data`.
 
 Finally it comes time to pick a codebase that I want to work on, to do so I use a
 [ruby script](https://github.com/mauriciopoppe/dotfiles/blob/main/zsh/bin/tmux-switch-client) that reads
 the `~/.bookmarks.data` file and feeds it to `fzf` which on selection will call `tmuxinator local` on the
 selected path, `tmuxinator local` needs a `.tmuxinator.yaml` file at the codebase root and if a codebase
-doesn't override it then I just copy the `~/.tmuxinator.yaml` file to the codebase before running `tmuxinator local`,
-also at this stage I have to combine existing `tmux` session that are already opened and apply some sorting
+doesn't override it then I just symlink the `~/.tmuxinator.yaml` file to the codebase before running `tmuxinator local`,
+also at this stage I have to combine existing `tmux` sessions that are already opened and apply some sorting
 so that they're shown first and the ones that are not opened last. This ruby script is mapped be called whenever
 I type `<ctrl+space><ctrl+j>` with this [tmux config](https://github.com/mauriciopoppe/dotfiles/blob/22fdba7e6f179077dce2f780d598a1a6c4c12a3a/tmux/.tmux.conf#L72).
 
@@ -144,10 +144,11 @@ With the concepts learned above it comes time to talk about my workflow:
   I can context switch and work on a different project, I switch to it with the same keyboard combination above.
 - After working on the other codebase remember that I created a kubernetes dev cluster! I might run another long
   running command before jumping to a different codebase.
+- Rinse and repeat
 
-Things that I've tried in the past that didn't work for me:
+Things that I've tried in the past:
 
 - tmux-resurrect - This tool saves your tmux session layout automatically which is great! However when I used
-  it it'd reopen all of the tmux session that were stored, imagine having tens of codebases and seeing all of
+  it it'd reopen all the tmux sessions that were stored, imagine having tens of codebases and seeing all of
   them getting created when you invoke tmux-resurrect!
 
