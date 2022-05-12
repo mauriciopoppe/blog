@@ -25,17 +25,16 @@ mind rest and let the diffuse mode of thinking act. I learned this from the book
 by Barbara Oakley which goes deeper into balancing the focussed and diffuse modes of thinking. For
 this reason, taking break is really important and helps me reset my mind.
 
-Getting interrupted during these periods ruins my train of thought and is something that I avoid
+However getting interrupted during the focused periods ruins my train of thought and is something that I avoid
 by disabling notifications and blocking time in my calendar.
 
 Having a routine helps tremendously and keeps me sane, regular exercise in the morning keeps my mind clean
 and gives me energy for the rest of the day to focus better.
 
-## Communication
+## Emails
 
-I start my day by reading emails, the first tip that I got
-from a coworker is to group all the incoming email by tags, while I use an internal tool
-and a custom set of filters at work I think that https://github.com/mbrt/gmailctl or a
+The first tip that I got from a coworker is to group all the incoming email by tags, while I use an internal tool
+and a custom set of filters at work to tag emails I think that https://github.com/mbrt/gmailctl or a
 similar tool can help.
 
 The first thing is to free your inbox from emails that aren't that useful to have your attention
@@ -56,8 +55,8 @@ There's also spam that should be tagged and marked as read by default, for examp
 team where I'm also part of might generate an automated email for all the members of the team, emails
 like this can be marked as read, tagged and archived.
 
-With time I got used to check my inbox regularly following this priority: first my inbox, `bugs-me`, `cl-me`, `org`,
-other tags.
+With time I got used to check my inbox regularly following this priority: first my inbox, `bugs-me`, `cl-me` and
+if I feel like it then I read `org` emails and other tags.
 
 ## Keeping notes
 
