@@ -4,10 +4,32 @@ tags: ["life", "software engineer"]
 date: 2022-05-11 21:16:00
 ---
 
-As a Software Engineer I think about solutions for the problems I have committed to work
-on in the quarter, many of the challenges at work deal with making changes to multiple
-projects at the same time, this blogpost is about the strategies/tools that I use at work
-and in my personal projects that helped me develop my context switching skills.
+Multitasking might seem like a task that decreases your productivity but from my experience
+it's a skill that I must develop to better use my time, this blogpost is about the strategies/tools
+that I use at work and in my personal projects that helped me develop my context switching skills.
+
+## Getting used to context switching
+
+First suggestion is to ask more experienced people about the way they tackle it,
+at work managers and tech leads are very good at this skill and it's because they have
+been more exposed to it, as you start growing in your career your scope will also increase
+and you'll have to participate in different discussions about different topics as you go from
+one meeting to another.
+
+I guess you become better by getting more exposure to it, at work I take advantage of
+executing long running commands to switch to something else.
+
+I'm becoming better at focusing by meditating to be away from my thoughts for some time,
+while having period of time for deep thinking is a must it's also really important to let the conscious
+mind rest and let the diffuse mode of thinking act. I learned this from the book "A mind for numbers"
+by Barbara Oakley which goes deeper into balancing the focussed and diffuse modes of thinking. For
+this reason, taking break is really important and helps me reset my mind.
+
+Getting interrupted during these periods ruins my train of thought and is something that I avoid
+by disabling notifications and blocking time in my calendar.
+
+Having a routine helps tremendously and keeps me sane, regular exercise in the morning keeps my mind clean
+and gives me energy for the rest of the day to focus better.
 
 ## Communication
 
@@ -34,9 +56,24 @@ There's also spam that should be tagged and marked as read by default, for examp
 team where I'm also part of might generate an automated email for all the members of the team, emails
 like this can be marked as read, tagged and archived.
 
-I read emails by priority: first my inbox, `bugs-me`, `cl-me`, `org`, other tags.
+With time I got used to check my inbox regularly following this priority: first my inbox, `bugs-me`, `cl-me`, `org`,
+other tags.
 
-## Terminal tools
+## Keeping notes
+
+At work almost all the meetings have meeting notes where we write topics that were discussed and their conclusions,
+I can't emphasize enough how useful these notes are, they help: remember discussions and outcomes, in preparation
+for the next meeting if it's a regular meeting, if you missed a meeting then you could read the notes and reach
+out to people if needed.
+
+For example [these are the meeting notes of the Kubernetes Storage Special Interest Group](https://docs.google.com/document/d/1-8KEG8AjAgKznS9NFm3qWqkGyCHmvU6HVl0sk5hwoAE/edit), as you can see it's split by
+dates, topics discussed and conclussions.
+
+In my day to day I look at these notes just like I check my emails, outside work I keep a weekly checklist
+of the things I have to do, having more things written and outside my mind gives me more room to
+remember valuable things.
+
+## Development tools
 
 To quickly switch across codebases and the terminal layouts that I'm used to I use
 [tmux](https://github.com/tmux/tmux), [tmuxinator](https://github.com/tmuxinator/tmuxinator) and a combination of a
