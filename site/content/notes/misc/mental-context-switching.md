@@ -12,58 +12,55 @@ that I use at work and in my personal projects that helped me develop my context
 
 First suggestion is to ask more experienced people about the way they tackle it,
 at work managers and tech leads are very good at this skill and it's because they have
-been more exposed to it, as you start growing in your career your scope will also increase
-and you'll have to participate in different discussions about different topics as you go from
-one meeting to another.
+been more exposed to it, as you start growing in your career your scope will increase
+together with the amount of knowledge that you have, it's natural in meetings to jump
+from one topic to the next one and therefore with enough practice you get good at it.
 
-I guess you become better by getting more exposure to it, at work I take advantage of
-executing long running commands to switch to something else.
-
-I'm becoming better at focusing by meditating to be away from my thoughts for some time,
-while having period of time for deep thinking is a must it's also really important to let the conscious
+Having periods of time for deep focus is a must but it's also really important to let the conscious
 mind rest and let the diffuse mode of thinking act. I learned this from the book "A mind for numbers"
 by Barbara Oakley which goes deeper into balancing the focussed and diffuse modes of thinking. For
-this reason, taking break is really important and helps me reset my mind.
+this reason, taking break is really important and helps me reset my mind, some of the solutions
+for problems at work that I can't solve when I'm focused usually come after me taking a break
+and going back to my workstation.
 
-However getting interrupted during the focused periods ruins my train of thought and is something that I avoid
-by disabling notifications and blocking time in my calendar.
+Getting interrupted during the periods for deep focus ruins my train of thought and is something
+that I avoid by disabling notifications and blocking time in my calendar to focus on specific areas.
 
 Having a routine helps tremendously and keeps me sane, regular exercise in the morning keeps my mind clean
 and gives me energy for the rest of the day to focus better.
 
 ## Emails
 
-The first tip that I got from a coworker is to group all the incoming email by tags, while I use an internal tool
+A tip that I got from a coworker is to tag all the incoming email, while I use an internal tool
 and a custom set of filters at work to tag emails I think that https://github.com/mbrt/gmailctl or a
 similar tool can help.
 
-The first thing is to free your inbox from emails that aren't that useful to have your attention
-at the moment and that you can read anytime you feel like it, I identified that emails coming
-from our bug tracker are most of the time not directed to me but to my team instead, the first
-filter group bugs by the team they're targetted to and moves them to a tag e.g. `bugs-team-a`,
-`bugs-team-b` and skips the inbox.
+The first thing is to free your inbox from emails that aren't that aren't that important to read,
+I identified that emails coming from our bug tracker are most of the time not directed to me but
+to my team inbox instead, the first filter group bugs by the team they're targetted to and moves
+them to a tag e.g. `bugs-team-a`, `bugs-team-b` and archives them skipping the inbox.
 Some of these bugs might need my attention because I'm mentioned in them and therefore if I'm
-marked as CC on it then I also need to add another tag to it e.g. `bugs-me`.
+CCed on them then I also need to add another tag to it e.g. `bugs-me`.
 
-I receive emails directed to a google groups I'm subscribed, to my org or company wide,
+I receive emails directed to a google groups I'm subscribed, to my org and company wide,
 while these are important messages they're not urgent and they can also be tagged to something like `org`.
 
 I do the same with changelist & github emails, I group them by the team e.g. `cl-team-a`, `cl-team-b` and
-skip the inbox, for bugs that are assigned to me or CC to me I have `cl-me` and they stay in my inbox.
+skip the inbox, for bugs that are where I'm the reviewer or where I'm CCed I add `cl-me` and they stay in my inbox.
 
 There's also spam that should be tagged and marked as read by default, for example a person joining a big
 team where I'm also part of might generate an automated email for all the members of the team, emails
 like this can be marked as read, tagged and archived.
 
 With time I got used to check my inbox regularly following this priority: first my inbox, `bugs-me`, `cl-me` and
-if I feel like it then I read `org` emails and other tags.
+if I feel like it then I read other tags.
 
 ## Keeping notes
 
-At work almost all the meetings have meeting notes where we write topics that were discussed and their conclusions,
-I can't emphasize enough how useful these notes are, they help: remember discussions and outcomes, in preparation
-for the next meeting if it's a regular meeting, if you missed a meeting then you could read the notes and reach
-out to people if needed.
+At work almost all the meetings have meeting notes where we write the topics that were discussed and their conclusions,
+I can't emphasize enough how useful these notes are, they help remember discussions and outcomes, they prepare
+you for the next meeting if it's a regular meeting and if you missed a meeting then you could read the notes taken and
+reach out to people if needed.
 
 For example [these are the meeting notes of the Kubernetes Storage Special Interest Group](https://docs.google.com/document/d/1-8KEG8AjAgKznS9NFm3qWqkGyCHmvU6HVl0sk5hwoAE/edit), as you can see it's split by
 dates, topics discussed and conclussions.
@@ -121,14 +118,15 @@ the codebases worth remembering I 'bookmark' them in the file `~/.bookmarks.data
 ...
 ```
 
-Once I clone a codebase worth remembering I cd into it and invoke a script [`bookmark`](https://github.com/mauriciopoppe/dotfiles/blob/main/zsh/bin/bookmark)
+Once I clone a codebase worth remembering I cd into it and invoke a script
+[`bookmark`](https://github.com/mauriciopoppe/dotfiles/blob/main/zsh/bin/bookmark)
 that will save the absolute path in the file `~/.bookmarks.data`.
 
 Finally it comes time to pick a codebase that I want to work on, to do so I use a
 [ruby script](https://github.com/mauriciopoppe/dotfiles/blob/main/zsh/bin/tmux-switch-client) that reads
-the `~/.bookmarks.data` file and feeds it to `fzf` which on selection will call `tmuxinator local` on the
-selected path, `tmuxinator local` needs a `.tmuxinator.yaml` file at the codebase root and if a codebase
-doesn't override it then I just symlink the `~/.tmuxinator.yaml` file to the codebase before running `tmuxinator local`,
+the `~/.bookmarks.data` file and feeds it to `fzf` which on selection will call `tmuxinator start .` on the
+selected path, `tmuxinator start .` needs a `.tmuxinator.yaml` file at the codebase root and if a codebase
+doesn't override it then I just symlink the `~/.tmuxinator.yaml` file to the codebase before running `tmuxinator start .`,
 also at this stage I have to combine existing `tmux` sessions that are already opened and apply some sorting
 so that they're shown first and the ones that are not opened last. This ruby script is mapped be called whenever
 I type `<ctrl+space><ctrl+j>` with this [tmux config](https://github.com/mauriciopoppe/dotfiles/blob/22fdba7e6f179077dce2f780d598a1a6c4c12a3a/tmux/.tmux.conf#L72).
