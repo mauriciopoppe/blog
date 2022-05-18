@@ -4,24 +4,28 @@ tags: ["life", "software engineer"]
 date: 2022-05-11 21:16:00
 ---
 
-Multitasking might seem like a task that decreases your productivity but from my experience
-it's a skill that I must develop to better use my time, this blogpost is about the strategies/tools
-that I use at work and in my personal projects that helped me develop my context switching skills.
+Multitasking is a skill that I must develop to better use my time, while it may seem detrimental
+to my performance because I'm not completely focused on a task, I believe that there are situations
+where being able to do a mental context switch can save you a lot of time, this blogpost is about the
+strategies/tools that I use at work and in my personal projects that helped me develop my context switching skills.
 
 ## Getting used to context switching
 
-First suggestion is to ask more experienced people about the way they tackle it,
-at work managers and tech leads are very good at this skill and it's because they have
-been more exposed to it, as you start growing in your career your scope will increase
-together with the amount of knowledge that you have, it's natural in meetings to jump
-from one topic to the next one and therefore with enough practice you get good at it.
+First suggestion is to ask more experienced people about the way they do it,
+at work managers and tech leads are very good at context switching and it's because they get lots
+of exposure to it, as you start growing in your career your scope will increase
+as well as the amount of knowledge that you have, you'll participate in more meetings for many
+different topics that you'll have to juggle around in your head, with lots of opportunities to
+practice every day you eventually get used to it.
+
+## Deep focus
 
 Having periods of time for deep focus is a must but it's also really important to let the conscious
 mind rest and let the diffuse mode of thinking act. I learned this from the book "A mind for numbers"
 by Barbara Oakley which goes deeper into balancing the focussed and diffuse modes of thinking. For
 this reason, taking break is really important and helps me reset my mind, some of the solutions
-for problems at work that I can't solve when I'm focused usually come after me taking a break
-and going back to my workstation.
+for problems at work that I can't solve when I'm focused usually come after I take a break
+and go back to my desk.
 
 Getting interrupted during the periods for deep focus ruins my train of thought and is something
 that I avoid by disabling notifications and blocking time in my calendar to focus on specific areas.
@@ -31,11 +35,11 @@ and gives me energy for the rest of the day to focus better.
 
 ## Emails
 
-A tip that I got from a coworker is to tag all the incoming email, while I use an internal tool
-and a custom set of filters at work to tag emails I think that https://github.com/mbrt/gmailctl or a
-similar tool can help.
+A tip that I got from a coworker is to tag all the incoming emails, I use an internal tool
+at work that helps me tag emails with a declarative language,
+I think that https://github.com/mbrt/gmailctl or a similar tool can help.
 
-The first thing is to free your inbox from emails that aren't that aren't that important to read,
+The first thing is to free your inbox from emails that aren't that important to read,
 I identified that emails coming from our bug tracker are most of the time not directed to me but
 to my team inbox instead, the first filter group bugs by the team they're targetted to and moves
 them to a tag e.g. `bugs-team-a`, `bugs-team-b` and archives them skipping the inbox.
@@ -57,8 +61,8 @@ if I feel like it then I read other tags.
 
 ## Keeping notes
 
-At work almost all the meetings have meeting notes where we write the topics that were discussed and their conclusions,
-I can't emphasize enough how useful these notes are, they help remember discussions and outcomes, they prepare
+At work almost all the meetings have meeting notes, we write the topics that were discussed and their conclusions,
+I can't emphasize enough how useful these notes are, they help remember discussions and conclusions, they prepare
 you for the next meeting if it's a regular meeting and if you missed a meeting then you could read the notes taken and
 reach out to people if needed.
 
@@ -71,8 +75,9 @@ remember valuable things.
 
 ## Development tools
 
-To quickly switch across codebases and the terminal layouts that I'm used to I use
-[tmux](https://github.com/tmux/tmux), [tmuxinator](https://github.com/tmuxinator/tmuxinator) and a combination of a
+At work I make changes to many codebases during the day, to quickly switch across codebases
+and the terminal layouts that I'm used to I use [tmux](https://github.com/tmux/tmux),
+[tmuxinator](https://github.com/tmuxinator/tmuxinator), a combination of a
 few scripts that I'll talk about later and [fzf](https://github.com/junegunn/fzf). First I'll write about
 some concepts around tmux and tmuxinator, a description of the scripts that I use and my workflow,
 and other tools that I tried that didn't work for me. First a quick look into what it looks like:
@@ -146,7 +151,7 @@ With the concepts learned above it comes time to talk about my workflow:
 
 Things that I've tried in the past:
 
-- tmux-resurrect - This tool saves your tmux session layout automatically which is great! However when I used
+- tmux-continuum - This tool saves your tmux session layout automatically which is great! However when I used
   it it'd reopen all the tmux sessions that were stored, imagine having tens of codebases and seeing all of
-  them getting created when you invoke tmux-resurrect!
+  them getting created when you invoke tmux-continuum!
 
