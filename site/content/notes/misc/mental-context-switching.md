@@ -46,11 +46,11 @@ them to a tag e.g. `bugs-team-a`, `bugs-team-b` and archives them skipping the i
 Some of these bugs might need my attention because I'm mentioned in them and therefore if I'm
 CCed on them then I also need to add another tag to it e.g. `bugs-me`.
 
-I receive emails directed to a google groups I'm subscribed, to my org and company wide,
-while these are important messages they're not urgent and they can also be tagged to something like `org`.
+I receive emails directed to the google groups I'm subscribed, to my org and company wide,
+while these are important messages they're not urgent and they can also be tagged to something like `google-groups`, `org`, `company`, etc.
 
 I do the same with changelist & github emails, I group them by the team e.g. `cl-team-a`, `cl-team-b` and
-skip the inbox, for bugs that are where I'm the reviewer or where I'm CCed I add `cl-me` and they stay in my inbox.
+skip the inbox, for bugs where I'm the reviewer or where I'm CCed I add `cl-me` and they stay in my inbox.
 
 There's also spam that should be tagged and marked as read by default, for example a person joining a big
 team where I'm also part of might generate an automated email for all the members of the team, emails
@@ -78,8 +78,8 @@ remember valuable things.
 At work I make changes to many codebases during the day, to quickly switch across codebases
 and the terminal layouts that I'm used to I use [tmux](https://github.com/tmux/tmux),
 [tmuxinator](https://github.com/tmuxinator/tmuxinator), a combination of a
-few scripts that I'll talk about later and [fzf](https://github.com/junegunn/fzf). First I'll write about
-some concepts around tmux and tmuxinator, a description of the scripts that I use and my workflow,
+few scripts that I'll talk about later and [fzf](https://github.com/junegunn/fzf). I'll describe
+some concepts around tmux and tmuxinator, the scripts that I use and my workflow,
 and other tools that I tried that didn't work for me. First a quick look into what it looks like:
 
 <script id="asciicast-h9bEclMKVl9SONRqMe3yoyryF" src="https://asciinema.org/a/h9bEclMKVl9SONRqMe3yoyryF.js" async></script>
@@ -151,7 +151,7 @@ With the concepts learned above it comes time to talk about my workflow:
 
 Things that I've tried in the past:
 
-- tmux-continuum - This tool saves your tmux session layout automatically which is great! However when I used
-  it it'd reopen all the tmux sessions that were stored, imagine having tens of codebases and seeing all of
-  them getting created when you invoke tmux-continuum!
+- [tmux-continuum](https://github.com/tmux-plugins/tmux-continuum) - This tool saves your tmux session layout
+  automatically which is great! However when I used it it'd reopen all the tmux sessions that were stored,
+  imagine having tens of codebases and seeing all of them getting created when you invoke tmux-continuum!
 
