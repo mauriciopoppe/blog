@@ -46,7 +46,7 @@ export function Canvas({ width, height, x, y }) {
       }}
       preserveAspectRatio="none"
     >
-      <Stars n={150} {...childProps} />
+      <Stars n={250} {...childProps} />
       <Hills n={10} {...childProps} />
     </svg>
   )

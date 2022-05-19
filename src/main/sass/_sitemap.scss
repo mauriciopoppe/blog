@@ -61,9 +61,11 @@
     }
   }
 
-  // override primary color set on links
   a {
+    // override primary color set on links
     color: currentColor;
+    display: inline-block;
+    line-height: 1em;
   }
 }
 

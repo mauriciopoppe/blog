@@ -6,7 +6,7 @@ export function Stars({ n, width, height, x, y, scrollT }) {
   const [stars, setStars] = useState(() => {
     return [...Array(n).keys()].map((i) => {
       const cx = randomBetween(0, width)
-      const cy = randomBetween(height * 0.5, height * 1.1)
+      const cy = randomBetween(height * 0, height * 1.0)
       const cr = Math.random()
       return {
         cx,
