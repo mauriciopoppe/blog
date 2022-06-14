@@ -96,9 +96,8 @@ export function Hills({ n, ...props }) {
   return (
     <>
       {[...Array(n).keys()].map((i) => {
-        const alpha = 0.5
-        // const k = 0 + (i / n) * 1
-        const k = 0 + ((n - i) / n) * 1
+        const startK = 0.25
+        const k = startK + ((n - i) / n) * (1 - startK)
         return <Hill key={i} z={i} total={n} pathStyle={{ fill: t(k) }} {...props} />
       })}
     </>
