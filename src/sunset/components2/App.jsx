@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Sky, PerspectiveCamera } from '@react-three/drei'
-// import { KernelSize } from 'postprocessing'
 import { EffectComposer, Bloom, DepthOfField } from '@react-three/postprocessing'
 
 import { Stars, Plane } from './Models.jsx'
