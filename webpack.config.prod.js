@@ -15,6 +15,7 @@ module.exports = merge(common, {
   },
   devtool: 'cheap-source-map',
   optimization: {
+    minimize: true,
     minimizer: [
       new TerserWebpackPlugin({})
       // NOTE: css is instead modified by netlify

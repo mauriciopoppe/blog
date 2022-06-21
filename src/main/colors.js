@@ -55,7 +55,6 @@ function genColorsInterpolator(colors) {
     const i = Math.floor(norm)
     // [0, 1]
     const left = norm - i
-    console.log(n, norm, i, left)
     return interpolateLab(colors[i], colors[i + 1])(left)
   }
 }

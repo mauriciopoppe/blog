@@ -4,7 +4,7 @@ import { scaleLinear } from 'd3-scale'
 
 import { Canvas } from './Canvas.jsx'
 
-export function render({ target, shouldRender }) {
+export function render({ target }) {
   const { width, height } = target.getBoundingClientRect()
   const x = scaleLinear().domain([0, width]).range([0, width])
   const y = scaleLinear().domain([0, height]).range([height, 0])

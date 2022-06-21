@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { animated, useSpring } from 'react-spring'
+import { animated, useSpring } from '@react-spring/web'
 
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
@@ -14,11 +14,24 @@ function genTree() {
 
 export function Plane(props) {
   const [open, toggle] = useState(false)
+
+  const to = []
+  for (let i = 0; i < 50; i += 1) {
+    const randFreq = () => {
+      const a = 0.25 + Math.random() * 0.1
+      const b = 0 + Math.random() * 0.1
+      return `${a}, ${b}`
+    }
+    to.push(
+      { scale: 10, opacity: 1, transform: 'scale(1)', freq: `${randFreq()}` },
+      { scale: 10, opacity: 1, transform: 'scale(1)', freq: `${randFreq()}` },
+    )
+  }
+
   const { freq, scale, transform, opacity } = useSpring({
-    reverse: open,
-    from: { scale: 10, opacity: 1, transform: 'scale(0.9)', freq: '0.0275, 0.0' },
-    to: { scale: 150, opacity: 1, transform: 'scale(1)', freq: '0.0, 0.0' },
-    config: { duration: 3000 }
+    from: { scale: 10, opacity: 1, transform: 'scale(1)', freq: '0.0275, 0.0' },
+    to: to,
+    config: { duration: 50000 },
   })
 
   return (
