@@ -1,0 +1,20 @@
+{{ $image := .Params.share_img | default .Params.image | default .Site.Params.logo | absURL }}
+
+<div class="article-signature">
+  <div class="article-signature__image">
+    <a href="/" style="pointer-events: all;">
+      <span class="profile-pic-wrapper">
+        <img class="profile-pic" src="{{ $image }}" data-src="{{ $image }}" crossorigin="anonymous" alt="Me" />
+      </span>
+    </a>
+  </div>
+
+  <div class="article-signature__metadata">
+    <p class="is-size-6">
+      Written by <a href="/" style="pointer-events: all; text-decoration: underline" target="_blank">Mauricio Poppe</a> <br />
+      Created at {{ .Date.Format "Mon, Jan 2, 2006" }} <br />
+      Last Modified at {{ .Page.Lastmod.Format "Mon, Jan 2, 2006" }} <br>
+      <a style="pointer-events: all; text-decoration: underline" target="_blank" href="https://github.com/mauriciopoppe/blog/tree/main/site/content/{{ .File.Path }}">Source code of this page</a>
+    </p>
+  </div>
+</div>
