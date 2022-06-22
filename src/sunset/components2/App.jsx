@@ -5,7 +5,7 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Sky, PerspectiveCamera } from '@react-three/drei'
 import { EffectComposer, Bloom, DepthOfField } from '@react-three/postprocessing'
 
-import { Stars, Plane } from './Models.jsx'
+import { Stars, Plane, Moon, Ground } from './Models.jsx'
 // import Plane from './Plane.jsx'
 
 export function render({ target }) {
@@ -16,11 +16,12 @@ export function render({ target }) {
 
 export default function App(props) {
   const plane = useRef()
+  const moon = [10, 10, -50]
 
   return (
-    <Canvas frameloop="demand" camera={{ position: [0, 0, 10] }}>
+    <Canvas frameloop="demand" camera={{ position: [0, 3, 10] }}>
       <RenderController target={props.target} />
-      <Lights />
+      <Lights moon={moon} />
 
       {/*<Sky
         distance={3000}
@@ -34,14 +35,21 @@ export default function App(props) {
 
       <Suspense fallback={null}>
         <Stars />
-        <Plane position={[-15, 0, 0]} />
+        <Moon position={moon} />
+        <Plane position={[-15, 5, 0]} />
+        <Ground />
       </Suspense>
 
       <EffectComposer multisampling={1}>
         <Bloom kernelSize={3} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={0.3} />
       </EffectComposer>
 
-      <OrbitControls enableZoom={false} autoRotate={true} autoRotateSpeed={0.1} />
+      <OrbitControls
+        enableZoom={false}
+        autoRotate={true}
+        autoRotateSpeed={0.1}
+        maxPolarAngle={Math.PI/2 - 0.1}
+      />
     </Canvas>
   )
 }
@@ -69,12 +77,11 @@ function RenderController(props) {
   return null
 }
 
-function Lights() {
+function Lights(props) {
   return (
     <>
       <ambientLight intensity={1} />
-      <pointLight position={[20, 30, 10]} />
-      <pointLight position={[-10, -10, -10]} color="blue" />
+      <pointLight position={props.moon} />
     </>
   )
 }
