@@ -110,8 +110,8 @@ The last character is the *null character* `\0`
 
 ```cpp
 char name[20];              // initialized with random data
-char name[5] = {'j', 'h', 'o', 'n', '\0'};
-char name[8] = {'j', 'h', 'o', 'n', '\0'};    // right padded with \0
+char name[5] = {'j', 'o', 'h', 'n', '\0'};
+char name[8] = {'j', 'o', 'h', 'n', '\0'};    // right padded with \0
 char name[5] = "john";      // the \0 is understood
 char name[8] = "john";      // right padded with \0
 char name[] = "john";       // let the compiler count
