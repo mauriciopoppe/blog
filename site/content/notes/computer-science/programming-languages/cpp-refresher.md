@@ -211,7 +211,7 @@ int* q = p;             // value: 0x000, address: 0x008
 *q;                     // 5
 ```
 
-If we want to create a pointer to a pointer we use extra '*', for the declaration the number of '*' must be equal to the length of pointers (including this one), in the same fashion we must use the same number of '*' for dereferencing.
+If we want to create a pointer to a pointer we use extra `*`, for the declaration the number of `*` must be equal to the length of pointers (including this one), in the same fashion we must use the same number of `*` for dereferencing.
 
 ```cpp
 int oranges = 5;        // value: 5,     address: 0x000
