@@ -86,6 +86,8 @@ export function Stars(props) {
     const radius = 100
     const points = new Float32Array(n * 3)
     for (let i = 0; i < n; i += 1) {
+      const u = Math.pow(rng.value(), 1 / 3)
+
       let x = rng.value() * 2 - 1
       let y = rng.value() * 2 - 1
       let z = rng.value() * 2 - 1

@@ -5,6 +5,7 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Sky, PerspectiveCamera } from '@react-three/drei'
 import { EffectComposer, Bloom, DepthOfField } from '@react-three/postprocessing'
 
+import { t } from '../../main/colors.js'
 import { Stars, Plane, Moon, Ground } from './Models.jsx'
 // import Plane from './Plane.jsx'
 
@@ -19,7 +20,7 @@ export default function App(props) {
   const moon = [10, 10, -50]
 
   return (
-    <Canvas frameloop="demand" camera={{ position: [0, 3, 10] }}>
+    <Canvas frameloop="demand" camera={{ position: [0, 5, 10] }}>
       <RenderController target={props.target} />
       <Lights moon={moon} />
 
@@ -47,7 +48,7 @@ export default function App(props) {
       <OrbitControls
         enableZoom={false}
         autoRotate={true}
-        autoRotateSpeed={0.1}
+        autoRotateSpeed={0.2}
         maxPolarAngle={Math.PI/2 - 0.1}
       />
     </Canvas>
@@ -57,6 +58,12 @@ export default function App(props) {
 function RenderController(props) {
   // grab the canvas
   props.target.style.cursor = "grab"
+  props.target.addEventListener("mousedown", () => {
+    props.target.style.cursor = "grabbing"
+  })
+  props.target.addEventListener("mouseup", () => {
+    props.target.style.cursor = "grab"
+  })
 
   // run the event loop only if the footer is visible
   const [pause, setPause] = useState(null)
@@ -82,6 +89,7 @@ function Lights(props) {
     <>
       <ambientLight intensity={1} />
       <pointLight position={props.moon} />
+      <pointLight position={props.moon} color={t(0)} />
     </>
   )
 }
