@@ -55,14 +55,29 @@ export default function App(props) {
   )
 }
 
-function RenderController(props) {
+/**
+ * Captures internal state of gtag custom events
+ * @type {object}
+ */
+const gtagEvents = {
+  footerAnimation: {
+    firedOnce: false
+  }
+}
+
+function RenderController({ target }) {
   // grab the canvas
-  props.target.style.cursor = "grab"
-  props.target.addEventListener("mousedown", () => {
-    props.target.style.cursor = "grabbing"
+  target.style.cursor = "grab"
+  target.addEventListener("mousedown", () => {
+    // eslint-disable-next-line no-undef
+    if (!gtagEvents.footerAnimation.firedOnce) {
+      gtag('event', 'footer_animation')
+      gtagEvents.footerAnimation.firedOnce = true
+    }
+    target.style.cursor = "grabbing"
   })
-  props.target.addEventListener("mouseup", () => {
-    props.target.style.cursor = "grab"
+  target.addEventListener("mouseup", () => {
+    target.style.cursor = "grab"
   })
 
   // run the event loop only if the footer is visible
@@ -72,7 +87,7 @@ function RenderController(props) {
       setPause(!entry.isIntersecting)
     })
   })
-  observer.observe(props.target)
+  observer.observe(target)
 
   useFrame(({ gl, scene, camera, invalidate }) => {
     if (pause) return
