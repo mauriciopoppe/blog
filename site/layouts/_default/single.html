@@ -40,11 +40,19 @@
             </div>
           {{ end }}
 
+
           <hr />
+
+          <script src="https://utteranc.es/client.js"
+                  repo="mauriciopoppe/blog"
+                  issue-term="pathname"
+                  theme="github-dark"
+                  crossorigin="anonymous"
+                  async>
+          </script>
+
         </article>
       </div>
-
-      <hr class="is-hidden-desktop" />
 
       <!-- sitemap -->
       <aside class="column is-one-fifth">
@@ -58,6 +66,5 @@
 {{ end }}
 
 {{ define "footer" }}
-  {{ partial "article-signature.html" . }}
   {{ partial "footer.html" . }}
 {{ end }}
