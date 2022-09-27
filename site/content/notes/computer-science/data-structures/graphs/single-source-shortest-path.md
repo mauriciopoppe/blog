@@ -1,10 +1,9 @@
 ---
-
 title: "Single Source Shortest Path (SSSP)"
 date: 2015-07-03 13:21:32
 ---
 
-Given a weighted graph $G$ of order $n$ and size $m$ where all the weights are non-negative and given a source vertex $s$, the single source shortest path problem consists in finding the distance from $s$ to all the other vertices
+Given a weighted graph $G$ with $V$ vertices and $E$ edges where all the weights are non-negative and given a source vertex $s$, the single source shortest path problem consists in finding the distance from $s$ to all the other vertices.
 
 ## Unweighted graph
 
@@ -45,13 +44,13 @@ We need a data structure that supports the following 3 operations quickly:
 
 #### Implementation with an array
 
-An array supports the operations above in $O(n)$, $O(1)$, and $O(1)$ respectively leading to an overall $O(n^2 + m)$ which is optimal for dense graphs (when $m \approx n^2$)
+An array supports the operations above in $O(V)$, $O(1)$, and $O(1)$ respectively leading to an overall $O(V^2 + E)$ which is optimal for dense graphs (when $E \approx V^2$)
 
 {{< snippet file="static/code/graphs/sssp/dijkstra_array.cpp" lang="cpp" />}}
 
-#### Implementation with an BST
+#### Implementation with a BST
 
-A balanced searth tree supports the operations above in $O(log\;n)$, $O(log\;n)$, and $O(log\;n)$ respectively leading to an overal $O(m\;log\;n)$ time complexity optimal for sparse graphs (when $m \approx n$)
+A balanced searth tree supports the operations above in $O(\log V)$, $O(\log V)$, and $O(\log V)$ respectively leading to an overal $O(E \log V)$ time complexity optimal for sparse graphs (when $E \approx V$)
 
 {{< snippet file="static/code/graphs/sssp/dijkstra_set.cpp" lang="cpp" />}}
 

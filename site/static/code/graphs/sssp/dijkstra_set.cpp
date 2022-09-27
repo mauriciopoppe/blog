@@ -3,10 +3,10 @@
  *
  * An implementation of Dijkstra's algorithm which computes
  * the shortest path from a source vertex `s` to all the other vertices
- * in a graph `G` of order `n` and size `m`
+ * in a graph `G` of order `V` and size `E`
  *
- * Time complexity: O(m log n)
- * Space complexity: O(n)
+ * Time complexity: O(E log V)
+ * Space complexity: O(V)
  *
  * @param {vector<vector<pair<int, int>>>} g The adjacency list representation
  *  of `G`, each entry `g_{ij}` holds a pair which represents an edge
@@ -16,14 +16,14 @@
  * @return {vector<int>} The shortest path from `s` to all the other vertices
  */
 int dijkstra(vector<vector<pair<int, int>>> &g, int source) {
-  int n = g.size();
+  int V = g.size();
   int INF = 1e9;
   int total = 0;
 
   // the vertex predecessor of `i` in the `s-i` path
-  vector<int> parent(n, -1);
+  vector<int> parent(V, -1);
   // holds the estimated distance
-  vector<int> d(n, INF);
+  vector<int> d(V, INF);
 
   // the estimated distance from the source vertex is zero
   d[s] = 0;

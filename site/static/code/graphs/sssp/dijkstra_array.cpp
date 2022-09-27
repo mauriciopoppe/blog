@@ -1,10 +1,10 @@
 /**
  * An implementation of Dijkstra's algorithm which computes
  * the shortest path from a source vertex `s` to all the other vertices
- * in a graph `G` of order `n` and size `m`
+ * in a graph `G` with `V` vertices and `E` edges.
  *
- * Time complexity: O(n^2 + m)
- * Space complexity: O(n)
+ * Time complexity: O(V^2 + E)
+ * Space complexity: O(V)
  *
  * @param {vector<vector<pair<int, int> > >} g The adjacency list representation
  *  of `G`, each entry `g_{ij}` holds the end `v` of the edge `iv` and the weight
@@ -13,22 +13,22 @@
  * @return {vector<int>} The shortest path from `s` to all the other vertices
  */
 vector<int> dijkstra(vector<vector<pair<int, int> > > &g, int s) {
-  int n = g.size();
+  int V = g.size();
   int INF = 1e9;
 
-  vector<bool> visited(n);
+  vector<bool> visited(V);
   // the vertex predecessor of `i` in the `s-i` path
-  vector<int> parent(n, -1);
+  vector<int> parent(V, -1);
   // holds the estimated distance
-  vector<int> d(n, INF);
+  vector<int> d(V, INF);
 
   // the estimated distance from the source vertex is zero
   d[s] = 0;
 
-  for (int i = 0; i < n; i += 1) {
+  for (int i = 0; i < V; i += 1) {
     // the vertex with the minimum estimated distance
     int v = -1;
-    for (int j = 0; j < n; j += 1) {
+    for (int j = 0; j < V; j += 1) {
       // find the vertices which haven't been visited yet
       // among them find a vertex with the minimum estimated distance
       if (!visited[j] && (v == -1 || d[j] < d[v])) {
