@@ -50,7 +50,7 @@ An array supports the operations above in $O(V)$, $O(1)$, and $O(1)$ respectivel
 
 #### Implementation with a BST
 
-A balanced searth tree supports the operations above in $O(\log V)$, $O(\log V)$, and $O(\log V)$ respectively leading to an overal $O(E \log V)$ time complexity optimal for sparse graphs (when $E \approx V$)
+A balanced searth tree supports the operations above in $O(\log V)$, $O(\log V)$, and $O(\log V)$ respectively leading to an overal $O((E + V) \log V)$ time complexity optimal for sparse graphs (when $E \approx V$)
 
 {{< snippet file="static/code/graphs/sssp/dijkstra_set.cpp" lang="cpp" />}}
 

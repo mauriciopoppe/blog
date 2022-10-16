@@ -5,7 +5,7 @@
  * the shortest path from a source vertex `s` to all the other vertices
  * in a graph `G` of order `V` and size `E`
  *
- * Time complexity: O(E log V)
+ * Time complexity: O((E+V) log V)
  * Space complexity: O(V)
  *
  * @param {vector<vector<pair<int, int>>>} g The adjacency list representation

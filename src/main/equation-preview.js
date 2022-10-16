@@ -32,7 +32,10 @@ function run() {
     const href = getTarget(ev)
     if (!href) return
     /** @type HTMLLinkElement */
-    const number = document.querySelector(href.hash)
+
+    let target = decodeURIComponent(href.hash)
+    target = target.replace(/:/g, '\\:')
+    const number = document.querySelector(target)
     const equation = number.closest('.MathJax')
 
     const equationBounds = equation.getBoundingClientRect()
