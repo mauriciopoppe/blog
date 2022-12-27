@@ -1,6 +1,6 @@
 ---
-title: "Mental Context Switching"
-tags: ["life", "software engineer"]
+title: 'Mental Context Switching'
+tags: ['life', 'software engineer', 'task management', 'time management']
 date: 2022-05-11 21:16:00
 ---
 
@@ -59,6 +59,18 @@ like this can be marked as read, tagged and archived.
 With time I got used to check my inbox regularly following this priority: first my inbox, `bugs-me`, `cl-me` and
 if I feel like it then I read other tags.
 
+## Task management
+
+Throughout my day/week I get emails with action items, in meetings after taking some notes we realize that there
+are some action items that I should act on soon (for example reading and reviewing a design doc, work on an upcoming release, etc).
+While I can create an internal bug for some of these with an assigned priority there are some items like
+asking and giving feedback in a design doc, for some items with deadlines I also need a reminder to work on it soon
+and to block space in my calendar for it.
+
+For this reason I use Google Tasks as my task management tool, it's easy to add tasks (with substasks too 🙂), set calendar
+reminders and manually order to give some priority to them. What's super cool is that I can see it every time I go
+to my email tab ([read this article for more info](https://support.google.com/mail/answer/106237?hl=en&co=GENIE.Platform%3DDesktop#zippy=%2Csave-an-email-as-a-task%2Corganize-your-tasks-into-lists:~:text=Slides%20in%20Keep-,Create%20a%20task,-Go%20to%C2%A0)).
+
 ## Keeping notes
 
 At work almost all the meetings have meeting notes, we write the topics that were discussed and their conclusions,
@@ -66,8 +78,8 @@ I can't emphasize enough how useful these notes are, they help remember discussi
 you for the next meeting if it's a regular meeting and if you missed a meeting then you could read the notes taken and
 reach out to people if needed.
 
-For example [these are the meeting notes of the Kubernetes Storage Special Interest Group](https://docs.google.com/document/d/1-8KEG8AjAgKznS9NFm3qWqkGyCHmvU6HVl0sk5hwoAE/edit), as you can see it's split by
-dates, topics discussed and conclussions.
+For example [these are the meeting notes of the Kubernetes Storage Special Interest Group](https://docs.google.com/document/d/1-8KEG8AjAgKznS9NFm3qWqkGyCHmvU6HVl0sk5hwoAE/edit),
+as you can see it's split by dates, topics discussed and conclussions.
 
 In my day to day I look at these notes just like I check my emails, outside work I keep a weekly checklist
 of the things I have to do, having more things written and outside my mind gives me more room to
@@ -154,4 +166,3 @@ Things that I've tried in the past:
 - [tmux-continuum](https://github.com/tmux-plugins/tmux-continuum) - This tool saves your tmux session layout
   automatically which is great! However when I used it it'd reopen all the tmux sessions that were stored,
   imagine having tens of codebases and seeing all of them getting created when you invoke tmux-continuum!
-
