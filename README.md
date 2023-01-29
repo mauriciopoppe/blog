@@ -12,7 +12,29 @@
 
 ### Code structure
 
+Generated with `tree --gitignore -L 3 -I dist/ -d .`
 
+```
+.
+├── site
+│   ├── config
+│   │   ├── _default     # Hugo config
+│   │   └── development  # Hugo config overrides for development
+│   ├── content
+│   │   ├── notes        # Blogposts
+│   │   └── sandbox      # Sandbox pages
+│   ├── layouts
+│   │   ├── _default     # Base layouts
+│   │   ├── partials     # Fragments included in the base layouts
+│   │   └── shortcodes   # Custom shortcodes (see hugo for more info)
+│   └── static           # Static content
+└── src
+    ├── jukebox          # The easter egg page
+    ├── main             # Animations, controls sidebars, header, footer
+    ├── sunset           # Footer animation
+    ├── util             # Shared utilities
+    └── voronoi          # Main page and header animation
+```
 
 ### Installation
 
