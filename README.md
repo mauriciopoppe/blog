@@ -2,14 +2,26 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/255139b6-5e24-4e50-ae6a-1dcf7531befd/deploy-status)](https://app.netlify.com/sites/doctor-stella-56144/deploys)
 
-## Installation
+## Tech
+
+- Hugo (static pages)
+- Webpack (tooling)
+- d3, React (browser)
+
+## Development
+
+### Code structure
+
+
+
+### Installation
 
 ```sh
 brew install hugo
 npm i
 ```
 
-## Development
+### Local development
 
 ```sh
 npm start
@@ -36,7 +48,7 @@ npm run build
 npm run serve:prod
 ```
 
-## Production
+### Building for prod
 
 ```sh
 npm run build
@@ -54,44 +66,4 @@ Manual steps in Netlify (setup done only once)
 - Configure the DNS redirects
 - Configure the site root directory to `dist/`
 
-## Tech
-
-- Hugo (static pages)
-- Webpack (tooling)
-- d3, React (browser)
-
-## Useful variables:
-
-```text
-from within a page, path to itself:
-/{{ .File.Dir }}{{ .File.ContentBaseName }}/
-```
-
-## Upgrade notes
-
-From mmark to goldmark:
-
-- replace extension from `mmark` to `md`
-
-```text
-find . -depth -name "*.mmark" -exec sh -c 'mv "$1" "${1%.mmark}.md"' _ {} \;
-```
-
-- Perform some text replacements
-
-```text
-# inline math
-find: \$\$([^\s].*?)\$\$
-replace: \$$1\$
-
-# block math
-find: \$\$([\s\S]*?)\$\$
-replace: <div>\n\$\$$1\$\$\n</div>
-
-# block math to live template:
-find: <div>\s+\$\$
-replace: <div>\$\$
-
-find: \$\$\s+</div>
-replace: \$\$</div>
-```
+2015 - Present

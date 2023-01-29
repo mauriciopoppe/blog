@@ -64,11 +64,12 @@ if I feel like it then I read other tags.
 Throughout my day/week I get emails with action items, in meetings after taking some notes we realize that there
 are some action items that I should act on soon (for example reading and reviewing a design doc, work on an upcoming release, etc).
 While I can create an internal bug for some of these with an assigned priority there are some items like
-asking and giving feedback in a design doc, for some items with deadlines I also need a reminder to work on it soon
-and to block space in my calendar for it.
+asking and giving feedback in a design doc where I wouldn't need to create a bug, in addition, for some items with deadlines
+I also need a reminder to work on it soon.
 
-For this reason I use Google Tasks as my task management tool, it's easy to add tasks (with substasks too 🙂), set calendar
-reminders and manually order to give some priority to them. What's super cool is that I can see it every time I go
+For these reasons I use [Google Tasks](https://www.youtube.com/watch?v=b82GeFbxIj8) as my task management tool, 
+it's easy to add tasks by hand, tasks from emails (with substasks too 🙂), set calendar
+reminders and manually order to give some priority among them. What's super cool is that I can see it every time I go
 to my email tab ([read this article for more info](https://support.google.com/mail/answer/106237?hl=en&co=GENIE.Platform%3DDesktop#zippy=%2Csave-an-email-as-a-task%2Corganize-your-tasks-into-lists:~:text=Slides%20in%20Keep-,Create%20a%20task,-Go%20to%C2%A0)).
 
 ## Keeping notes
