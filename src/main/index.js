@@ -8,6 +8,7 @@ export * from './sitemap'
 export * from './heart'
 export * from './colors'
 export * from './equation-preview'
+export * from './footnotes-preview'
 
 // if (module.hot) {
 //   module.hot.accept('./print.js', function () {

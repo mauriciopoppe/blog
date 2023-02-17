@@ -1,46 +1,46 @@
 ---
-title: 'Mental Context Switching'
-tags: ['life', 'software engineer', 'task management', 'time management']
+title: 'Productivity skills'
+tags: ['life', 'software engineer', 'task management', 'time management', 'productivity']
 date: 2022-05-11 21:16:00
 ---
 
-Multitasking is a skill that I must develop to better use my time, while it may seem detrimental
+Improving your productivity skills is a lifetime task, this is a summary of the things
+I'm used to doing in my everyday life.
+
+## Getting used to multitasking
+
+Multitasking is a skill that I try to get better at to better use my time, while it may seem detrimental
 to my performance because I'm not completely focused on a task, I believe that there are situations
-where being able to do a mental context switch can save you a lot of time, this blogpost is about the
-strategies/tools that I use at work and in my personal projects that helped me develop my context switching skills.
+where being able to do a mental context switch[^1] can save you a lot of time.
 
-## Getting used to context switching
+As you start growing in your career your scope will increase as well as the amount of knowledge that you have,
+you'll participate in more meetings for many different topics that you'll have to juggle around in your head,
+with lots of opportunities to practice every day you eventually get used to it. So the short answer
+like any other skill is practice.
 
-First suggestion is to ask more experienced people about the way they do it,
-at work managers and tech leads are very good at context switching and it's because they get lots
-of exposure to it, as you start growing in your career your scope will increase
-as well as the amount of knowledge that you have, you'll participate in more meetings for many
-different topics that you'll have to juggle around in your head, with lots of opportunities to
-practice every day you eventually get used to it.
-
-## Deep focus
+## Time for deep focus, time for a break
 
 Having periods of time for deep focus is a must but it's also really important to let the conscious
 mind rest and let the diffuse mode of thinking act. I learned this from the book "A mind for numbers"
-by Barbara Oakley which goes deeper into balancing the focussed and diffuse modes of thinking. For
-this reason, taking break is really important and helps me reset my mind, some of the solutions
+by Barbara Oakley which goes deeper into balancing the focussed and diffuse modes of thinking.
+For this reason, taking breaks is really important and helps me reset my mind, some of the solutions
 for problems at work that I can't solve when I'm focused usually come after I take a break
 and go back to my desk.
 
 Getting interrupted during the periods for deep focus ruins my train of thought and is something
-that I avoid by disabling notifications and blocking time in my calendar to focus on specific areas.
+that I avoid by disabling notifications and blocking time in my calendar to focus better on the task.
 
-Having a routine helps tremendously and keeps me sane, regular exercise in the morning keeps my mind clean
+Having a routine helps tremendously and keeps me happy, regular exercise in the morning keeps my mind clean
 and gives me energy for the rest of the day to focus better.
 
 ## Emails
 
-A tip that I got from a coworker is to tag all the incoming emails, I use an internal tool
+A tip that I got from a coworker is to tag and filter all the incoming emails, I use an internal tool
 at work that helps me tag emails with a declarative language,
 I think that https://github.com/mbrt/gmailctl or a similar tool can help.
 
-The first thing is to free your inbox from emails that aren't that important to read,
-I identified that emails coming from our bug tracker are most of the time not directed to me but
+Once you tag email the first thing is to free your inbox from emails that aren't that important to read,
+lots emails coming from our bug tracker are most of the time not directed to me but
 to my team inbox instead, the first filter group bugs by the team they're targetted to and moves
 them to a tag e.g. `bugs-team-a`, `bugs-team-b` and archives them skipping the inbox.
 Some of these bugs might need my attention because I'm mentioned in them and therefore if I'm
@@ -67,10 +67,10 @@ While I can create an internal bug for some of these with an assigned priority t
 asking and giving feedback in a design doc where I wouldn't need to create a bug, in addition, for some items with deadlines
 I also need a reminder to work on it soon.
 
-For these reasons I use [Google Tasks](https://www.youtube.com/watch?v=b82GeFbxIj8) as my task management tool, 
+For these reasons I use [Google Tasks](https://www.youtube.com/watch?v=b82GeFbxIj8) as my task management tool,
 it's easy to add tasks by hand, tasks from emails (with substasks too 🙂), set calendar
 reminders and manually order to give some priority among them. What's super cool is that I can see it every time I go
-to my email tab ([read this article for more info](https://support.google.com/mail/answer/106237?hl=en&co=GENIE.Platform%3DDesktop#zippy=%2Csave-an-email-as-a-task%2Corganize-your-tasks-into-lists:~:text=Slides%20in%20Keep-,Create%20a%20task,-Go%20to%C2%A0)).
+to my email tab. ([Read this article for more info about how to set it up.](https://support.google.com/mail/answer/106237?hl=en&co=GENIE.Platform%3DDesktop#zippy=%2Csave-an-email-as-a-task%2Corganize-your-tasks-into-lists:~:text=Slides%20in%20Keep-,Create%20a%20task,-Go%20to%C2%A0)).
 
 ## Keeping notes
 
@@ -167,3 +167,7 @@ Things that I've tried in the past:
 - [tmux-continuum](https://github.com/tmux-plugins/tmux-continuum) - This tool saves your tmux session layout
   automatically which is great! However when I used it it'd reopen all the tmux sessions that were stored,
   imagine having tens of codebases and seeing all of them getting created when you invoke tmux-continuum!
+
+[^1]: A mental context switch is an analogy of what an OS does under the hood to [share a single CPU among processes](https://en.wikipedia.org/wiki/Context_switch),
+      but applied to our day to day mental tasks, after all we only have 1 brain that's already multitasking
+      with unconcious processes like perception or breathing.
