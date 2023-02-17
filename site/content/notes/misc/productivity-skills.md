@@ -142,22 +142,21 @@ that will save the absolute path in the file `~/.bookmarks.data`.
 
 Finally it comes time to pick a codebase that I want to work on, to do so I use a
 [ruby script](https://github.com/mauriciopoppe/dotfiles/blob/main/zsh/bin/tmux-switch-client) that reads
-the `~/.bookmarks.data` file and feeds it to `fzf` which on selection will call `tmuxinator start .` on the
-selected path, `tmuxinator start .` needs a `.tmuxinator.yaml` file at the codebase root and if a codebase
-doesn't override it then I just symlink the `~/.tmuxinator.yaml` file to the codebase before running `tmuxinator start .`,
-also at this stage I have to combine existing `tmux` sessions that are already opened and apply some sorting
-so that they're shown first and the ones that are not opened last. This ruby script is mapped be called whenever
-I type `<ctrl+space><ctrl+j>` with this [tmux config](https://github.com/mauriciopoppe/dotfiles/blob/22fdba7e6f179077dce2f780d598a1a6c4c12a3a/tmux/.tmux.conf#L72).
+the `~/.bookmarks.data` file and feeds it to `fzf` to provide fuzzy finding over all the existing and
+saved (but not started) sessions, after a bookmark (or tmux session) is selected then it comes time
+to call tmuxinator within that directory and start a new tmux session or just switch to an existing
+one if the selected item was already a tmux session.
+
+This ruby script is keymapped be called whenever I type `<ctrl+space><ctrl+j>` with this [tmux config](https://github.com/mauriciopoppe/dotfiles/blob/22fdba7e6f179077dce2f780d598a1a6c4c12a3a/tmux/.tmux.conf#L72).
 
 With the concepts learned above it comes time to talk about my workflow:
 
 - Log into my computer, start the tmux server, I'll usually see the session 0.
 - Think to the project that I want to work on first e.g. the kubernetes/kubernetes repo, I only need to remember kubernetes.
-- Type `<ctrl+space><ctrl+j>`, that'll open fzf with the list of all the codebases that I work on.
-- I filter them by typing <kbd>kubernetes</kbd> and select the codebase that I want.
-- That will create a new tmux session with the layout that I wanted.
-- I may run a long running command like building kubernetes or creating a dev cluster, in the meantime
-  I can context switch and work on a different project, I switch to it with the same keyboard combination above.
+- Type `<ctrl+space><ctrl+j>`, that'll open fzf with my bookmarks.
+- I filter the kubernetes repo by typing <kbd>kubernetes</kbd> and select it in the list. That will create a new tmux session in the kubernetes codebase with the tmux layout that I have.
+- I may run a long running command like building kubernetes or creating a dev cluster. In the meantime
+  I can work on a different project, I switch to it with the same keymap used before `<ctrl+space><ctrl+j>`.
 - After working on the other codebase remember that I created a kubernetes dev cluster! I might run another long
   running command before jumping to a different codebase.
 - Rinse and repeat
