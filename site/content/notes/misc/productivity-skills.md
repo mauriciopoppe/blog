@@ -1,11 +1,11 @@
 ---
 title: 'Productivity skills'
+description: "I'm trying to improve my productivity every day so that I get better use of my time. This article a summary of the things I'm used to doing in my everyday life. These are divided into: getting used to multitasking, time for deep focus and a break, emails, task management and development tools."
 tags: ['life', 'software engineer', 'task management', 'time management', 'productivity']
 date: 2022-05-11 21:16:00
 ---
 
-Improving your productivity skills is a lifetime task, this is a summary of the things
-I'm used to doing in my everyday life.
+I'm trying to improve my productivity every day so that I get better use of my time. This article a summary of the things I'm used to doing in my everyday life. These are divided into: getting used to multitasking, time for deep focus and a break, emails, task management and development tools.
 
 ## Getting used to multitasking
 

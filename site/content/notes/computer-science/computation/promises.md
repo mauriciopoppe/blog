@@ -1,7 +1,7 @@
 ---
 title: "Promises"
-description: "Implementing promises from scratch the TDD way"
-tags: ["Promises", "JavaScript"]
+description: "My objective is to write a Promises/A+ conformant implementation similar to `then/promise`, also, I'll do it the TDD way where I'll write the some tests first and then implement what's needed to make the tests pass (tests will be written on the platform Jest"
+tags: ["Promises", "JavaScript", "Futures", "Software Engineering"]
 date: 2017-09-16T21:05:42Z
 nomath: true
 ---

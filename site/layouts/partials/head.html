@@ -40,31 +40,56 @@
 <meta http-equiv="date" content='{{ .Date.Format "Monday, January 2, 2006" }}' />
 
 {{ .Scratch.Set "permalink" (.Permalink | absURL)  }}
+{{ $author :=  or (.Params.author) (.Site.Author.name) }}
+{{ $org_name :=  .Site.Title }}
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "BlogPosting",
+        "@type": "Article",
+        "articleSection": "{{ .Section }}",
+        "name": "{{ .Title | safeJS }}",
+        "headline": "{{ .Title | safeJS }}",
+        "alternativeHeadline": "{{ .Params.lead }}",
+        "description": {{ .Params.description | default .Summary }},
+        "inLanguage": {{ .Site.LanguageCode | default "en-us" }},
+        "isFamilyFriendly": "true",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": {{ .Permalink | absLangURL }}
         },
-        "image": {{ .Params.share_img | default .Params.image | default .Site.Params.logo | absURL }},
-        "headline": {{ .Title | default .Site.Title | htmlEscape }},
-        "datePublished": "{{ .Date.Format "2006-01-02T15:04:05.999Z" }}",
-        "dateModified": "{{ .Page.Lastmod.Format "2006-01-02T15:04:05.999Z" }}",
-        "description": {{ .Params.description | default .Summary }},
-        "author": {
+        "author" : {
             "@type": "Person",
-            "name": "{{ .Site.Author.name }}"
+            "name": "{{ $author }}"
         },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Mauricio Poppe",
+        "creator" : {
+            "@type": "Person",
+            "name": "{{ $author }}"
+        },
+        "accountablePerson" : {
+            "@type": "Person",
+            "name": "{{ $author }}"
+        },
+        "image": {{ if .Params.images }}[{{ range $i, $e := .Params.images }}{{ if $i }}, {{ end }}{{ $e | absURL }}{{ end }}]{{ else}}{{.Site.Params.logo | absURL }}{{ end }},
+        "url" : "{{ .Permalink }}",
+        "wordCount" : "{{ .WordCount }}",
+        "dateCreated": "{{ .Date.Format "2006-01-02T15:04:05.00Z" | safeHTML }}",
+        "datePublished": "{{ .PublishDate.Format "2006-01-02T15:04:05.00Z" | safeHTML }}",
+        "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05.00Z" | safeHTML }}",
+        "genre" : [ {{ range $index, $tag := .Params.tags }}{{ if $index }}, {{ end }}"{{ $tag }}" {{ end }}],
+        "keywords" : [ {{ range $index, $keyword := .Params.keywords }}{{ if $index }}, {{ end }}"{{ $keyword }}" {{ end }}],
+        "copyrightHolder" : "{{ $org_name }}",
+        "copyrightYear" : "{{ .Date.Format "2006" }}",
+        "publisher":{
+            "@type":"Organization",
+            "name": {{ $org_name }},
+            "url": {{ .Site.BaseURL }},
             "logo": {
                 "@type": "ImageObject",
-                "url": {{ .Site.Params.logo | absURL }}
+                "url": "{{ .Site.Params.logo | absURL }}",
+                "width":"32",
+                "height":"32"
             }
-        }
+        },
     }
 </script>
 
