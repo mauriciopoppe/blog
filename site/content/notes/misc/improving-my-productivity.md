@@ -1,11 +1,12 @@
 ---
-title: 'Productivity skills'
-description: "I'm trying to improve my productivity every day so that I get better use of my time. This article a summary of the things I'm used to doing in my everyday life. These are divided into: getting used to multitasking, time for deep focus and a break, emails, task management and development tools."
+title: 'Improving my productivity'
+description: "I'm trying to improve my productivity every day so that I get better use of my time. This article a summary of the things I'm used to doing in my everyday life. These are divided into: getting used to multitasking, time for deep focus and a break, emails, task management and development tools. "
 tags: ['life', 'software engineer', 'task management', 'time management', 'productivity']
+image: /images/productivity-skills.jpeg
 date: 2022-05-11 21:16:00
 ---
 
-I'm trying to improve my productivity every day so that I get better use of my time. This article a summary of the things I'm used to doing in my everyday life. These are divided into: getting used to multitasking, time for deep focus and a break, emails, task management and development tools.
+<!-- {{< figure src="/images/productivity-skills.jpeg" title="Improve my productivity one day at a time." >}} -->
 
 ## Getting used to multitasking
 

@@ -7,7 +7,7 @@ article[role=main] {
   }
 
   &.content a {
-    color: $primary;
+    // color: $primary;
     text-decoration: underline;
     position: relative;
     transition: .2s ease-out;
@@ -28,8 +28,8 @@ article[role=main] {
 
 .article-signature {
   display: flex;
-  justify-content: center;
-  align-content: center;
+  justify-content: left;
+  align-content: left;
   margin: 1em 0 1em 0;
 
   @include until($desktop) {
