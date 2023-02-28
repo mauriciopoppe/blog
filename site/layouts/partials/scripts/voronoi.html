@@ -4,7 +4,8 @@
 {{ end }}
 <script>
 (function () {
-  var target = {{ if .Scratch.Get "isIndex" }} 'body' {{ else }} 'section.hero' {{ end}}
+  var target = {{ if .Scratch.Get "isIndex" }} 'body' {{ else }} null {{ end}}
+  if (target == null) return;
   var targetEl = document.querySelector(target)
   targetEl && window.voronoi.generate({
     target: targetEl,

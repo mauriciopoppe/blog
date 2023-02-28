@@ -1,11 +1,14 @@
 ---
 title: "Diffuse shading"
 date: 2016-06-03 14:49:37
+description: |
+  Diffuse shading is a technique to render the surface of objects that are not shinny.
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
+tags: ["shading", "surface", "computer graphics"]
 ---
 
-Many objects will have a surface that is not shinny for example wood and paper, such objects can be modeled using the Lambertian Model
+Many objects will have a surface that is not shiny for example wood and paper, such objects can be modeled using the Lambertian Model
 
 ## Lambertian shading model
 

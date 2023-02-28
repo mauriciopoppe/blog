@@ -1,0 +1,66 @@
+{{ $image := default .Params.image | default .Site.Params.logo | absURL }}
+
+{{/* NOTE: tag header is used in the scripts */}}
+<header class="hero is-bold is-small">
+  <div class="hero-body">
+    <div class="container">
+
+      <div class="tags">
+        {{ range .Params.tags }}
+          <span class="tag is-primary">{{ . }}</span>
+        {{ end }}
+      </div>
+
+      <h1 class="title is-1 is-spaced">{{ .Title }}</h1>
+      <div class="columns" style="max-height: 450px">
+        <div class="column has-text-right">
+          <img src="{{ $image }}" alt="{{ .Title }}" style="max-width: 100%; max-height: 100%"/>
+        </div>
+        <div class="column is-flex is-flex-direction-column is-justify-content-space-between">
+          <div class="subtitle">
+            {{ $description := .Params.description | default .Summary }}
+            {{ $description | markdownify }}
+          </div>
+          <div>
+            {{ partial "article-signature.html" . }}
+          </div>
+        </div>
+      </div>
+
+      <!-- nested path to file -->
+      <!-- {{ partial "breadcrumb.html" . }} -->
+
+      <!-- meta & dates -->
+      <!-- {{ partial "article-signature.html" . }} -->
+
+<!--      <div class="columns">-->
+<!--        <div class="column is-half is-offset-one-quarter">-->
+
+<!--          &lt;!&ndash; meta & dates &ndash;&gt;-->
+<!--          <div class="columns">-->
+<!--            <div class="column has-text-right-desktop">-->
+<!--              <a href="/" style="pointer-events: all;">-->
+<!--            <span class="profile-pic-wrapper">-->
+<!--              <img class="profile-pic" src="{{ $image }}" data-src="{{ $image }}" crossorigin="anonymous" alt="Me" />-->
+<!--            </span>-->
+<!--              </a>-->
+<!--            </div>-->
+<!--            <div class="column has-text-left-desktop">-->
+<!--              <p class="is-size-6">-->
+<!--                Written by <a href="/" style="pointer-events: all; text-decoration: underline" target="_blank">Mauricio Poppe</a> <br />-->
+<!--                Created at {{ .Date.Format "Mon, Jan 2, 2006" }} <br />-->
+<!--                Last Modified at {{ .Page.Lastmod.Format "Mon, Jan 2, 2006" }} <br>-->
+<!--                <a style="pointer-events: all; text-decoration: underline" target="_blank" href="https://github.com/mauriciopoppe/blog/tree/master/site/content/{{ .File.Path }}">Source code of this page</a>-->
+<!--              </p>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--        </div>-->
+<!--      </div>-->
+
+
+
+      <!--tags-->
+    </div>
+  </div>
+</header>

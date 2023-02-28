@@ -96,14 +96,14 @@ function main() {
   }
 
   // tocbot offset for the links
-  const hero = document.querySelector('section.hero')
+  const header = document.querySelector('header')
   const tocbotOpts = {
     tocSelector: '.toc',
     contentSelector: 'body',
     headingSelector: 'h1,h2,h3,h4,h5,h6',
     collapseDepth: 6,
     throttleTimeout: 200,
-    headingsOffset: -hero.getBoundingClientRect().height
+    headingsOffset: -header.getBoundingClientRect().height
   }
 
   const tocSidebar = new Sidebar(toc, tocWrapper)

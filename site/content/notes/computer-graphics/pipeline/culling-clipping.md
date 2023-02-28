@@ -1,6 +1,13 @@
 ---
 title: "Culling & Clipping"
 date: 2016-03-16 11:03:05
+description: |
+  The math behind culling and clipping and how it's related with the camera and with what it sees.
+
+  <br>
+
+  - **Culling** is a process where geometry that’s not visible from the camera is discarded to save processing time.
+  - **Clipping** is a process that removes parts of primitives that are outside the view volume (clipping against the six faces of the view volume).
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
 libraries: ["function-plot"]
