@@ -10,6 +10,8 @@ description: |
   - **Clipping** is a process that removes parts of primitives that are outside the view volume (clipping against the six faces of the view volume).
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
+image: /images/ray-tracing!camera.jpg
+tags: ["computer graphics", "culling", "clipping", "geometry", "3d"]
 libraries: ["function-plot"]
 ---
 

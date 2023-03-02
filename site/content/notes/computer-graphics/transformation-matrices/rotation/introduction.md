@@ -1,7 +1,16 @@
 ---
-title: "Introduction"
+title: "Introduction to rotation for computer graphics"
 date: 2015-12-15 13:00:00
+description: |
+  The basics of rotation in 2d and 3d for computer graphics with a focus on 3d rotation about
+  cardinal axes and 3d rotation with quaternions.
+
+  <br />
+
+  For quaternions, please also look at [https://eater.net/quaternions](https://eater.net/quaternions) amazing animations!
+image: /images/flat-shading.svg
 libraries: ["function-plot"]
+tags: ["rotation", "quaternions", "2d", "3d", "computer graphics"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
  - "Vince, J. (2011). Quaternions for computer graphics. London: Springer."

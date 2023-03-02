@@ -3,6 +3,11 @@ title: "Diffuse shading"
 date: 2016-06-03 14:49:37
 description: |
   Diffuse shading is a technique to render the surface of objects that are not shinny.
+  <br />
+  <br />
+  As an example on the [picture (credits to Marc Kleen)](https://unsplash.com/photos/8hU6vtwY8l8)
+  we see a real life car with a matte coating which we want to emulate using the Lambertian shading model.
+image: /images/diffuse-shading.jpeg
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
 tags: ["shading", "surface", "computer graphics"]

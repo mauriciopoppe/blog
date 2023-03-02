@@ -1,5 +1,11 @@
 ---
 title: "Ray Tracing"
+description: |
+  Ray tracing is the process to identify the color of all the pixels in a 2d screen by emitting
+  rays from all the pixels simulating how light travels in real life. This article covers the math for
+  the ray generation from each pixel for both orthographic and perspective cameras.
+image: /images/ray-tracing!perspective.jpg
+tags: ["computer graphics", "ray tracing", "orthographic projection", "perspective projection"]
 date: 2016-02-26 17:03:44
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."

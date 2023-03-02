@@ -1,5 +1,18 @@
 ---
-title: "Viewport transform"
+title: "Transformation matrix to transform objects from NDC coordinates to screen coordinates (viewport tranform)"
+date: 2016-02-14 12:18:26
+description: |
+  One matrix transformation in the 3D to a 2D transformation pipeline is the viewport transform
+  where objects are transformed from normalized device coordinates (NDC) to screen coordinates (SC).
+
+  <br />
+  In short it's the transformation of numbers in the range [-1, 1] to numbers corresponding to pixels
+  on the screen, which is a linear mapping computed with linear interpolation.
+
+  <br />
+  In this article I cover the math behind the generation of the viewport transformation matrix.
+image: /images/rendering!pixel-coordinates.jpg
+tags: ["computer graphics", "transformation matrix", "viewport transform", "3d", "2d"]
 date: 2016-03-08 22:20:58
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."

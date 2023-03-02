@@ -1,12 +1,16 @@
 ---
 title: "Normals"
 date: 2016-03-08 14:18:11
+description: |
+  A **normal vector** to a curve at a particular point is a vector perpendicular to the *tangent* vector of the curve at that point (also called a *gradient*).
+image: /images/diffuse-shading!lambertian.jpg
+tags: ["computer graphics", "geometry", "normal"]
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
   - "Online Graphics Transforms 2: Normals. (2016). [online] YouTube. Available at: https://www.youtube.com/watch?v=fK45BV7QJe0 [Accessed 8 Mar. 2016]."
 ---
 
-A **normal vector** to a curve at a particular point is a vector perpendicular to the *tangent* vector of the curve at that point (also called a *gradient*), for an implicit 2D function in the form $f(x,y) = 0$ the 2D gradient is
+A **normal vector** to a curve at a particular point is a vector perpendicular to the *tangent* vector of the curve at that point (also called a *gradient*). For an implicit 2D function in the form $f(x,y) = 0$ the 2D gradient is
 
 <div>
 <div>$$

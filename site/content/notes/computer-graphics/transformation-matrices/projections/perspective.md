@@ -1,11 +1,21 @@
 ---
 title: "Perspective projection"
+description: |
+  Perspective projection is a fundamental projection technique that transforms objects
+  in a higher dimension to a lower dimension. This transformation is usually used for
+  objects in a 3d world to be rendered into a screen (a 2d surface), in the transformation
+  these objects give the realistic impression of depth.
+  <br />
+  <br />
+  This article covers the math behind it and how to generate the transformation
+  matrix to achieve the transformation.
 date: 2016-02-06 18:00:00
+tags: ["computer graphics", "perspective projection"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---
 
-As seen on [projective geometry](/static/math/geometry/projective-geometry) the perspective phenomenon is where an object appears to be smaller the further away is from the point of view
+As seen on [projective geometry](/notes/mathematics/geometry/projective-geometry/projective-space/) the perspective phenomenon is where an object appears to be smaller the further away is from the point of view
 
 We can again use some concepts of projective geometry to understand perspective projection, particularly the fact that any object in our 3D world is represented in the 4D projective hyperplane by the homogeneous coordinate $(x, y, z, 1)$, now any finite point with $w \not = 1$ can be projected to the 4D hyperplane $w = 1$ by dividing each coordinate by $w$ i.e. $(\tfrac{x}{w}, \tfrac{y}{w}, \tfrac{z}{w})$, a key observation in the values of $w$ is that *the higher the value of $w$ the smaller the object will be when they get projected to the $w=1$ hyperplane*
 

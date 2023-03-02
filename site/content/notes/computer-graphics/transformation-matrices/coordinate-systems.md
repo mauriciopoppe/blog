@@ -1,6 +1,16 @@
 ---
-title: "Coordinate systems"
+title: "Coordinate systems and transformations between them"
 date: 2015-10-15 12:00:00
+description: |
+  The position and orientation of an object in real life can be described with
+  direction and magnitude e.g. the TV is 3 meters in front of me. While that description is good
+  for me it might be that for someone else in a room the TV is 5 meters to the right of that
+  person. Information about objects are given in the context of a reference frame.
+  Usually in Computer Graphics objects need to be expressed with respect to the camera frame,
+  this article covers why we need to have multiple reference frames as well as the math
+  needed to express objects in a different reference frame.
+image: /images/combining-transformations!coordinate-systems.jpg
+tags: ["computer graphics", "transformation matrix", "coordinate systems", "object space", "upright space", "world space"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---
