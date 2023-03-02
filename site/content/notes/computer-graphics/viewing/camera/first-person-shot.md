@@ -1,7 +1,16 @@
 ---
-title: "First Person (Point of View) Shot"
+title: "Building a first person shooter camera in C++"
 date: 2016-04-29 22:10:40
-categories: ["camera", "fps", "pov", "euler angles"]
+description: |
+  A first person camera captures objects from the viewpoint of a player's character.
+  Some aspects have to be considered like the characteristics of the camera (orbiting
+  with the mouse and translation with keyboard keys) as well as how we could capture
+  all these characteristics with math and linear algebra.
+
+  <br />
+  In this article I analyze the math needed to design and implement a 1st person shooter camera in C++.
+image: /images/first-person-pov.jpeg
+tags: ["camera", "first person", "pov", "euler angles", "linear algebra"]
 ---
 
 A first person camera captures objects from the viewpoint of a player's character, the camera has the following characteristics:

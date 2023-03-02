@@ -1,6 +1,18 @@
 ---
-title: "Projection transform"
+title: "Transformation matrix for projection of 3D objects into a 2D plane"
 date: 2016-02-14 12:18:26
+description: |
+  In Computer Graphics 3D objects created in an abstract 3d world will eventually
+  need to be displayed, to view these objects in a 2d plane like a screen
+  objects will need to be projected from the 3D space to the 2D plane with
+  a transformation matrix.
+
+  <br />
+  In this article I cover two types of transformations: Orthographic projection
+  and Perspective projection and analyze the matrix behind the
+  transformation matrices for both transformations.
+image: /images/projection-matrix!perspective-all.png
+tags: ["computer graphics", "transformation matrix", "orthographic projection", "perspective projection", "3d", "2d"]
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
   - "Ahn, S. (2016). OpenGL Projection Matrix. [online] Songho.ca. Available at: http://www.songho.ca/opengl/gl_projectionmatrix.html [Accessed 7 Mar. 2016]."
@@ -33,7 +45,7 @@ An orthographic projection matrix is built with 6 parameters
 
 These parameters bound the view volume which is an axis-aligned bounding box
 
-{{< figure src="https://www.songho.ca/opengl/files/gl_projectionmatrix02.png" title="Ortographic Projection" >}}
+{{< figure src="/images/projection-matrix!orthographic.png" title="Ortographic Projection" >}}
 
 Since the mapping of the range $[l, r]$ to the range $[-1, 1]$ is linear we can use the equation of the line $y = mx + b$ and find the values of $m$ and $b$ however we can intuitively get a similar equation by creating a function $f(x)$ so that $f(0) = -1$ and $f(1) = 1$, we can create a nested function $g(x)$ so that $g(l) = 0$ and $g(r) = 1$ (note that $[l, r]$ is the input range) then $f(x)$ has the form
 
@@ -195,7 +207,7 @@ The mapping of the range $[l,r]$ to the range $[-1,1]$ can be split into two ste
 
 <div class="columns">
     <div class="column">
-        {{< figure src="/images/projection-matrix!top-view-frustum.png" title="Top view of the frustum">}}          
+        {{< figure src="/images/projection-matrix!top-view-frustum.png" title="Top view of the frustum">}}
     </div>
     <div class="column">
         {{< figure src="/images/projection-matrix!side-view-frustum.png" title="Side view of the frustum">}}
@@ -229,7 +241,7 @@ OpenGL will then project any 4D homogeneous coordinate to the 3D hyperplane $w=1
 We can take advantage of this process and use $-z_{view}$ as our $w$, with this in mind we can construct a transformation matrix so that transformed points have $w = -z_{view}$
 
 <div>$$
-\begin{align} 
+\begin{align}
 \begin{bmatrix} x_{clip} \\ y_{clip} \\ z_{clip} \\ w_{clip} \end{bmatrix} &= \begin{bmatrix}
 . & . & . & . \\
 . & . & . & . \\
@@ -249,7 +261,7 @@ $$</div>
 Next $x_p$ and $y_p$ are mapped linearly to $[-1,1]$, we can use the function to perform linear mapping \eqref{linear-mapping}
 
 <div>$$
-\begin{align} 
+\begin{align}
 x_{ndc} = \frac{2}{r - l}x_p - \frac{r + l}{r - l} \nonumber \\
 y_{ndc} = \frac{2}{t - b}y_p - \frac{t + b}{t - b} \label{ndc-near}
 \end{align}

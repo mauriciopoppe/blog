@@ -1,6 +1,14 @@
 ---
-title: "Combining Matrix transformations"
+title: "Combining transformation matrix"
 date: 2016-02-10 21:13:17
+description: |
+  Taking multiple matrices each encoding a single transformations and combining them
+  is how we transform vectors between different spaces. This article creating a
+  trasformation matrix that combines a  rotation followed by a translation, a translation
+  followed by a rotation and creating transformation matrices to transform between
+  different coordinate systems.
+image: /images/scaling-rotation-translation.png
+tags: ["computer graphics", "transformation matrix", "linear algebra"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---

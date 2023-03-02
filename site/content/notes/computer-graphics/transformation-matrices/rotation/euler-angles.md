@@ -1,12 +1,17 @@
 ---
 title: "Euler angles"
 date: 2016-02-05 13:00:00
+description: |
+  Euler angles are a way to describe the orientation of a rigid body with 3 values, these
+  values represent 3 angles:
+  - *yaw* - Rotation around the vertical axis
+  - *pitch* - Rotation around the side-to-side axis
+  - *roll* - Rotation around the front-to-back axis
+image: https://upload.wikimedia.org/wikipedia/commons/8/85/Euler2a.gif?1461803605967
+tags: ["geometry", "rotation", "computer graphics", "euler angles"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
  - "Images taken from https://www.wikiwand.com/en/Euler_angles#/Rotation_matrix, Author: Lionel Brits"
-updates:
-  - update: 'hello world'
-    date: 2017-09-10T22:40:47Z
 ---
 
 <style>

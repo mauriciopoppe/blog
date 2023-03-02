@@ -1,14 +1,14 @@
 ---
 title: "Rendering"
-description: "Intro to rendering in computer graphics"
+description: |
+  Rendering is a process that takes an input a set of objects and produces as its output an array of pixels (image) each of which stores information about the color of the image at a particular point in a grid (determined by the target width and height).
+image: /images/rendering.jpeg
 date: 2016-02-26 16:59:48
-tags: ['Computer Graphics', 'Basics']
+tags: ["computer graphics", "rendering"]
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
   - https://github.com/ssloy/tinyrenderer/wiki/Lesson-1-Bresenham%E2%80%99s-Line-Drawing-Algorithm
 ---
-
-Rendering is a process that takes an input a set of objects and produces as its output an array of pixels (image) each of which stores information about the color of the image at a particular point in a grid (determined by the target width and height)
 
 An image can be abstracted as a function
 

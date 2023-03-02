@@ -1,6 +1,14 @@
 ---
 title: "Transformation matrix"
 date: 2015-10-15 13:00:00
+description: |
+  A linear transformation can be represented with a matrix which transforms vectors from
+  one space to another. Transformation matrices allow arbitrary transformations
+  to be displayed in the same format. Also matrices can be multiplied to enable
+  [composition](../combining-transformations). This article covers how to think
+  and reason about these matrices and the way we can represent them (row vectors vs column vectors).
+image: /images/scaling-rotation-translation.png
+tags: ["computer graphics", "transformation matrix", "2d", "3d", "linear algebra", "geometry"]
 references:
   - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."

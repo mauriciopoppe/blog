@@ -1,5 +1,15 @@
 ---
-title: "View transform"
+title: "Transformation matrix to transform 3D objects from World Space to View Space (View tranform)"
+date: 2016-02-14 12:18:26
+description: |
+  One matrix transformation in the 3D to a 2D transformation pipeline is the view transform
+  where objects are transformed from world space to view space.
+  a transformation matrix.
+
+  <br />
+  In this article I cover the math behind the generation of this transformation matrix.
+image: /images/camera-transformation!camera-space.jpg
+tags: ["computer graphics", "transformation matrix", "view transform", "3d", "2d"]
 date: 2016-02-13 11:59:56
 references:
   - "Schaback, J. (2016). Camera Transformation and View Matrix. [online] Schabby.de. Available at: http://schabby.de/view-matrix/ [Accessed 7 Mar. 2016]."
