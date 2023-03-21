@@ -125,6 +125,22 @@ body.draft [data-draft] div::after {
 
 <link rel="preload" href="{{ .Params.share_img | default .Params.image | default .Site.Params.logo | absURL }}" as="image" crossorigin="anonymous">
 
+<!-- inline script to set the right theme from local storage -->
+<script>
+(function () {
+    window.blog = {
+        setTheme: function(theme) {
+            document.documentElement.dataset.theme = theme
+        }
+    }
+
+    const theme = localStorage.getItem('theme')
+    // getItem returns null if the item is not set
+    if (theme == null) return
+    window.blog.setTheme(theme)
+})()
+</script>
+
 <!-- link rel="preload" polyfill -->
 <script src="/js/vendor/cssrelpreload.js" inline></script>
 

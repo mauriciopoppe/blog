@@ -13,6 +13,9 @@
 /site/static/css/main.css
 /site/static/css/mobile.css
 
+# sass generated
+/src/main/sass/bulma-generated/
+
 ## OS Files
 # Windows
 Thumbs.db
@@ -180,4 +183,3 @@ fabric.properties
 .idea/**/markdown-navigator/
 
 # End of https://www.gitignore.io/api/intellij
-/src/main/bulma-generated/

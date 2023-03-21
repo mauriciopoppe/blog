@@ -3,7 +3,7 @@ import { Delaunay } from 'd3-delaunay'
 import { easeLinear } from 'd3-ease'
 import { interpolateLab } from 'd3-interpolate'
 
-import { t, bannerColorChanger } from '../main/colors'
+import { theme } from '../main/colors'
 const d3 = { select, Delaunay }
 
 function isMobile() {
@@ -40,13 +40,14 @@ export function generate({ target, n, rainbow }) {
   const particles = Array.from({ length: n }, () => [Math.random() * width, Math.random() * height])
   let delaunay, voronoi, animationStart, animationLast
   let ref = { x: 0, y: 0 }
+  // lastBannerInterpolation is the last time the banner interpolation was run.
+  let lastBannerInterpolation
 
   /** @type {Object.<number, number>} */
   const lastTouched = {}
   const fadeOutTime = 2000
 
   function initialize() {
-    // requestAnimationFrame(update)
     delaunay = d3.Delaunay.from(particles)
     voronoi = delaunay.voronoi([0.5, 0.5, width - 0.5, height - 0.5])
     animationStart = performance.now()
@@ -92,7 +93,13 @@ export function generate({ target, n, rainbow }) {
   function paint(time) {
     // the color changer only runs in the index page
     if (rainbow && !isMobile()) {
-      bannerColorChanger(time)
+      // Run the banner interpolation animation every some milliseconds and not on every frame.
+      if (!lastBannerInterpolation || time - lastBannerInterpolation > 50) {
+        const k = (Math.cos(time / 5000) + 1) / 2
+        theme.colors[0] = theme.bannerInterpolation(k)
+        window.document.documentElement.style.setProperty('--primary', theme.colors[0])
+        lastBannerInterpolation = time
+      }
     }
 
     context.clearRect(0, 0, width, height)
@@ -117,10 +124,10 @@ export function generate({ target, n, rainbow }) {
 
       // magic numbers to select what colors should be displayed
       // dist = 0 + dist * 0.5
-      context.fillStyle = t(1 - dist)
+      context.fillStyle = theme.t(1 - dist)
       if (lastTouched[i]) {
         if (time - lastTouched[i] < fadeOutTime) {
-          context.fillStyle = interpolateLab(t(dist), t(1 - dist))((time - lastTouched[i]) / fadeOutTime)
+          context.fillStyle = interpolateLab(theme.t(dist), theme.t(1 - dist))((time - lastTouched[i]) / fadeOutTime)
         } else {
           delete lastTouched[i]
         }
@@ -156,9 +163,7 @@ export function generate({ target, n, rainbow }) {
   // initialization and event loop
   initialize()
   let tickRaf
-  let lastTime = 0
   function tick(time) {
-    lastTime = time
     paint(time)
     tickRaf = requestAnimationFrame(tick)
   }
@@ -168,13 +173,13 @@ export function generate({ target, n, rainbow }) {
     (entries) => {
       // no need to run the animation on mobile devices, only paint once and that's it!
       if (isMobile()) {
-        paint(lastTime)
+        paint(0)
         return
       }
 
       entries.forEach(async function (entry) {
         if (entry.isIntersecting) {
-          tick(lastTime)
+          tick(0)
         } else {
           cancelAnimationFrame(tickRaf)
         }

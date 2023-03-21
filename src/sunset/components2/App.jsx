@@ -5,7 +5,7 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Sky, PerspectiveCamera } from '@react-three/drei'
 import { EffectComposer, Bloom, DepthOfField } from '@react-three/postprocessing'
 
-import { t } from '../../main/colors.js'
+import { theme } from '../../main/colors.js'
 import { Stars, Plane, Moon, Ground } from './Models.jsx'
 // import Plane from './Plane.jsx'
 
@@ -104,7 +104,7 @@ function Lights(props) {
     <>
       <ambientLight intensity={1} />
       <pointLight position={props.moon} />
-      <pointLight position={props.moon} color={t(0)} />
+      <pointLight position={props.moon} color={theme.t(0)} />
     </>
   )
 }
