@@ -1,5 +1,7 @@
 ---
 title: "Hamiltonian Graphs"
+description: "Hamiltonian graphs and hamiltonian cycles."
+tags: ["graph theory", "hamiltonian graph", "hamiltonian cycle"]
 date: 2015-07-07 19:30:51
 libraries: ["greuler"]
 ---

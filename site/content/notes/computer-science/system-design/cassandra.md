@@ -1,7 +1,15 @@
 ---
 title: "Cassandra"
-description: "The cassandra DB"
-tags: ["distributed systems", "databases"]
+description: |
+  Cassandra is a highly scalable, distributed NoSQL (non-relational) database management system designed for handling large 
+  amounts of data across multiple commodity servers.
+
+  <br />
+  This article covers key design features of cassandra such as the usage of consistent hashing, the write
+  pattern to a write ahead log and a memtable, the read pattern from the memtable and from sstables,
+  and finally and most important, some examples about data modeling for different types of queries.
+image: https://upload.wikimedia.org/wikipedia/commons/5/5e/Cassandra_logo.svg
+tags: ["system design", "distributed systems", "databases", "columnar datastore", "memtable", "sstable", "quorum", "data modeling"]
 date: 2020-02-28T20:47:00Z
 references:
 - https://www.slideshare.net/DataStax/scalable-data-modeling-by-example-carlos-alonso-job-and-talent-cassandra-summit-2016

@@ -10,6 +10,7 @@ description: |
   <br />
   This article covers the math behind it and how to generate the transformation
   matrix to achieve the transformation.
+image: https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Axonometric_projection.svg/800px-Axonometric_projection.svg.png
 tags: ["computer graphics", "orthographic projection"]
 bibliography:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."

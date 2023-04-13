@@ -1,9 +1,21 @@
 ---
 title: make
+description: |
+  "Make" is a build automation tool commonly used in software development to compile source code and
+  create executable programs or other output files. It automates the process of building complex
+  software projects, including compiling source code, linking object files, and creating executable files or other types of output.
+
+  <br />
+  In this article I cover the following: targets and prerequisites, variables, recipes to build an out of date target and
+  finally an example of how to use it in a simple C++ project.
+image: https://interrupt.memfault.com/img/gnu-make-guidelines/gnu-make.png
+tags: ["make", "makefile", "tooling", "build automation tools", "c++", "c"]
+
 date: 2016-03-31 19:34:48
 nomath: true
 references:
   - "Lipschitz, H. (2013). A Simple C++ Project Structure - Hiltmon. [online] Hiltmon.com. Available at: http://hiltmon.com/blog/2013/07/03/a-simple-c-plus-plus-project-structure/ [Accessed 5 Apr. 2016]."
+  - Makefile tutorial by example. Makefile Tutorial. (n.d.). Retrieved April 12, 2023, from https://makefiletutorial.com/ 
 ---
 
 [`make`](http://www.gnu.org/software/make/manual/make.html) is a tool to simplify building executables from many sources, `make` will only re-build things that need to be re-built

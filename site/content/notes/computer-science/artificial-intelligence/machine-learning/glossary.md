@@ -1,22 +1,24 @@
 ---
-title: "Glossary"
-description: "Glossary"
-tags: ["machine learning"]
+title: "Machine Learning Glossary"
+description: |
+  A glossary of terms used in machine learning.
+  <br />
+  For an up to date glossary also check https://developers.google.com/machine-learning/glossary
+image: /images/dictionary.jpeg
+tags: ["machine learning", "iterations", "batch", "epoch", "k-fold", "feature extraction", "sampling"]
 date: 2020-05-25 15:04:38
 ---
 
-Check https://developers.google.com/machine-learning/glossary
-
 ### iterations, batch, batch size and epoch
 
-- A batch is the set of examples used in one iteration, the number of examples in the set is the **batch size**. 
+- A batch is the set of examples used in one iteration, the number of examples in the set is the **batch size**.
 - For example, the batch size of SGD is 1, while the batch size of a mini-batch is usually between 10 and 1000.
 Batch size is usually fixed during training and inference; however, TensorFlow does permit dynamic batch sizes.
 - Each iteration is the span in which the system processes one **batch** of size **batch size**.
 - An **epoch** spans spans sufficient iterations to process every example in the dataset i.e. an **epoch** represents $\frac{N}{batchSize}$ training iterations
 where $N$ is the number of samples.
 
-{{< figure src="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F99A7774E5B7E1B302D" 
+{{< figure src="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F99A7774E5B7E1B302D"
   title="Batch, batch size, epoch" class="bg" >}}
 <style> .bg { filter: invert(1); } </style>
 

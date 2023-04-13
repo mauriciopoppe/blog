@@ -1,26 +1,31 @@
 ---
+title: "Cut-vertices (articulation points) in Graph Theory"
+description: |
 
-title: "Cut-vertices (articulation points)"
+  A vertex $v$ in a connected graph $G$ is called a **cut-vertex** if $G - v$ results in a disconnected graph, note that $G - v$ is an induced subgraph of $G$ (meaning that $G - v$ contains all the vertices of $G$ but $v$ and a set of edges $G - V$ where $V$ consists of all the edges incident to $v$).
+
+  <br />
+  In this article I implement an algorthm to find the articulation points in an undirected graph,
+  also I explain biconnected components in an undirected graph and explain concepts such as
+  edge connectivity and vertex connectivity.
+tags: ["graph theory", "cut vertices", "articulation points", "biconnected components", "edge connectivity", "vertex connectivity", "depth first search"]
+image: /images/articulation-points.png
 date: 2015-06-24 15:00:00
 libraries: ["greuler"]
 ---
 
-A vertex $v$ in a connected graph $G$ is called a **cut-vertex** if $G - v$ results in a disconnected graph, note that $G - v$ is an induced subgraph of $G$ (meaning that $G - v$ contains all the vertices of $G$ but $v$ and a set of edges $G - V$ where $V$ consists of all the edges incident to $v$)
+All the facts/properties below are considered for an undirected connected graph $G$
 
-## Undirected graph
+- if $v$ is a vertex incident with a bridge in a graph $G$ then $v$ is a cut-vertex if $deg(v) \geq 2$ (if $deg(v) = 1$ then $v$ is an end-vertex of $G$ so $G - v$ is still connected)
+- given that the order $G$ is $\geq 3$, if it contains a bridge then it also contains a cut-vertex
+- if $v$ is a cut-vertex of $G$ and $u$, $w$ are vertices in different components formed by $G - v$ then $v$ is part of every $u-w$ path in $G$
+- let $u \in V(G)$, if $v$ is a vertex that is farthest from $u$ then $v$ is not a cut-vertex
 
 <div id="figure-cut-vertex"></div>
 
 <div>$$
 \text{$v_0, v_2$ are cut vertices }
 $$</div>
-
-All the facts/properties below are considered for an undirected connected graph $G$
-
-- if $v$ is a vertex incident with a bridge in a graph $G$ then $v$ is a cut-vertex if $deg \;v \geq 2$ (if $deg \; v = 1$ then $v$ is an end-vertex of $G$ so $G - v$ is still connected)
-- given that the order $G$ is $\geq 3$, if it contains a bridge then it also contains a cut-vertex
-- if $v$ is a cut-vertex of $G$ and $u$, $w$ are vertices in different components formed by $G - v$ then $v$ is part of every $u-w$ path in $G$
-- let $u \in V(G)$, if $v$ is a vertex that is farthest from $u$ then $v$ is not a cut-vertex
 
 Let $G$ be an undirected graph, by analyzing the properties of the dfs tree we can determine if a vertex is an articulation point given the following facts:
 

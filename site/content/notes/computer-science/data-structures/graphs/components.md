@@ -1,9 +1,19 @@
 ---
-title: "Components"
+title: "Strongly Connected Components in Graph Theory"
+description: |
+  Strongly connected component of a directed graph is a subgraph in which there exists a path from every vertex to every other vertex in the subgraph.
+
+  <br />
+  In this article I implement Tarjan's algorithm to find strongly connected components in a graph.
+image: https://upload.wikimedia.org/wikipedia/commons/6/60/Tarjan%27s_Algorithm_Animation.gif?1435613160896
+tags: ["graph theory", "tarjan's algorithm", "strongly connected components"]
 date: 2015-06-25 15:00:00
 ---
 
 A connected subgraph of $G$ that is not a proper subgraph of any other connected subgraph of $G$ is a **component** of $G$, i.e. there's a $u-v$ path in the mentioned subgraph
+
+Strongly connected components are useful in a variety of graph algorithms, including finding the shortest path between two vertices, detecting cycles in a graph, and determining the structure of a graph.
+  They can be computed efficiently using algorithms such as Tarjan's algorithm and Kosaraju's algorithm.
 
 ## Undirected graphs
 
@@ -36,6 +46,6 @@ Let $u$ be a node that belongs to a SCC, if it's known that there's a $u-v$ cycl
 
 A stack is also needed to keep track of the nodes that were visited, the working of the stack follows the invariant: a node remains on the stack after exploration if and only if it has a path to some node earlier in the stack
 
-<img class="lazy-load center" data-src="https://upload.wikimedia.org/wikipedia/commons/6/60/Tarjan%27s_Algorithm_Animation.gif?1435613160896" style="display: block" alt="">
+{{< figure src="https://upload.wikimedia.org/wikipedia/commons/6/60/Tarjan%27s_Algorithm_Animation.gif?1435613160896" >}}
 
 {{< snippet file="static/code/graphs/components/strongly_connected_components_tarjan.cpp" lang="cpp" />}}

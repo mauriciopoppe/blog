@@ -1,18 +1,21 @@
 ---
-title: "Promises"
-description: "My objective is to write a Promises/A+ conformant implementation similar to `then/promise`, also, I'll do it the TDD way where I'll write the some tests first and then implement what's needed to make the tests pass (tests will be written on the platform Jest"
+title: "Implementing an A+ conformat Promise library in JavaScript the TDD way"
+description: |
+  Future/promises refer to constructs used to synchronize program execution.
+  Learning how it works under the hood by implementing it is a great fundamental skill to know.
+  <br />
+  <br />
+  This article is about writing an A+ Promise implementation from scratch
+  following the A+ promise spec in JavaScript the TDD way.
+image: /images/promises.png
 tags: ["Promises", "JavaScript", "Futures", "Software Engineering"]
 date: 2017-09-16T21:05:42Z
 nomath: true
 ---
 
-## Implementing promises from scratch
-
 My objective is to write a Promises/A+ conformant implementation similar to [`then/promise`](https://github.com/then/promise/blob/master/src/core.js), also, I'll do it the TDD way where I'll write the some tests first and then implement what's needed to make the tests pass (tests will be written on the platform [Jest](https://facebook.github.io/jest/))
 
-[This article](https://www.promisejs.org/implementing/) was one of the best references I found online, this implementation is heavily inspired by it.
-
-I'll also refer to the [A+ promise spec](https://promisesaplus.com/) when necessary.
+[This article](https://www.promisejs.org/implementing/) was one of the best references I found online, this implementation is heavily inspired by it. I'll also refer to the [A+ promise spec](https://promisesaplus.com/) when necessary.
 
 ### Promise state
 

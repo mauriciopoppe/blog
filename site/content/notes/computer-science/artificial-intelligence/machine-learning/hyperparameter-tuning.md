@@ -1,7 +1,11 @@
 ---
 title: "Hyperparameter tuning"
-description: "Hyperparameter tuning"
-tags: ["machine learning"]
+description: |
+  Hyperparameter tuning is a process of finding out by trial and error the
+  hyperparemeteres (the parameters fed into the model for it to change its inner parameters)
+  to converge efficiently.
+image: /images/neural-network.jpeg
+tags: ["machine learning", "hyperparameter tuning"]
 date: 2020-05-25 12:13:51
 ---
 

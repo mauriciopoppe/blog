@@ -1,6 +1,19 @@
 ---
-title: "Spanning Tree"
+title: "Minimum Spanning Tree"
 date: 2015-06-24 18:31:59
+description: |
+  This article covers minimum spanning tree (MST), MSTs have important applications, MST can be used to minimize the cost of
+  building a communication network, or it can be used to identify important features or patterns in
+  a dataset.
+
+  <br />
+
+  I implement the Prim and Kruskal algorithms to find the minimum spanning tree in a graph
+  with different implementations for sparse and dense graphs,
+  also with the theory covered I also implement an algorithm to find the number of
+  nimal spanning trees in a graph.
+image: /images/minimum-spanning-tree.png
+tags: ["minimum spanning tree", "prim", "kruskal", "graph theory", "disjoint set", "union find"]
 libraries: ["greuler"]
 ---
 
@@ -13,6 +26,8 @@ Let $T = G - X$ be a tree with the same vertex set of $G$
 <div id="figure-spanning-tree"></div>
 
 ## Minimum spanning tree
+
+The purpose of finding the minimum spanning tree (MST) is to identify the subset of edges of a given connected, undirected graph that form a tree, connecting all the vertices and having the minimum possible total edge weight.
 
 Let $G$ be a *connected weighted graph* where the weight of an edge $e \in E(G)$ is denoted by $w(e)$, for each subgraph $H$ of $G$ the weight of the subgraph $W$ is the sum of the weights of its edges
 

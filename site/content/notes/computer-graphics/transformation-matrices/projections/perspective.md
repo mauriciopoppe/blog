@@ -9,8 +9,9 @@ description: |
   <br />
   This article covers the math behind it and how to generate the transformation
   matrix to achieve the transformation.
-date: 2016-02-06 18:00:00
+image: /images/perspective-projection-real-life.jpeg
 tags: ["computer graphics", "perspective projection"]
+date: 2016-02-06 18:00:00
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---

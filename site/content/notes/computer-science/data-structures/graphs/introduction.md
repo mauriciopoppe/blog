@@ -1,6 +1,15 @@
 ---
-title: "Introduction"
+title: "Introduction to Graph Theory"
 date: 2015-06-22 17:03:41
+description: |
+  Graph Theory has numerous applications in real life, it can be used in problems found in
+  social networks, transportation networks, the internet, chemistry, computer sciense, electrical networks
+  among others.
+
+  <br />
+  In general, any problem that involves relationships between objects can be modeled as a graph.
+image: /images/graph-theory.png
+tags: ["graph theory", "directed graph", "undirected graph", "complete graph", "dense graph", "sparse graph", "complement graph", "bipartite graph", "k-partite graph", "biconnected graph", "multigraphs", "pseudographs", "weighted graph", "digraphs", "degree"]
 libraries: ["greuler"]
 ---
 
@@ -135,7 +144,7 @@ A **directed graph** $D$ is a finite nonempty set $V$ of vertices and a set $E$ 
 
 ## Degrees
 
-The **degree** of a vertex $v$ is the number of edges incident with $v$ denoted by $deg \; v$ (with loops counted twice)
+The **degree** of a vertex $v$ is the number of edges incident with $v$ denoted by $deg(v)$ (with loops counted twice)
 
 - the minimum degree of a graph $G$ is the minimum degree among all the vertices of $G$ denoted as $\delta(G)$
 - the maximum degree of a graph $G$ is the maximum degree among all the vertices of $G$ denoted as $\Delta(G)$
@@ -149,7 +158,7 @@ The **degree** of a vertex $v$ is the number of edges incident with $v$ denoted 
 In a graph $G$ of $n$ vertices the following equality relation holds
 
 <div>$$
-0 \leq \delta(G) \leq deg\; v \leq \Delta(G) \leq n - 1
+0 \leq \delta(G) \leq deg(v) \leq \Delta(G) \leq n - 1
 $$</div>
 
 **First theorem of graph theory**
@@ -157,7 +166,7 @@ $$</div>
 > if $G$ is a graph of size $m$ then
 >
 <div>$$
-\sum_{v \in V(G)} deg \; v = 2m
+\sum_{v \in V(G)} deg(v) = 2m
 $$</div>
 
 When summing the degrees of $G$ each edge is counted twice
@@ -167,7 +176,7 @@ When summing the degrees of $G$ each edge is counted twice
 Suppose that $G$ is a bipartite graph with two partite sets $U$ and $W$, then
 
 <div>$$
-\sum_{u \in V(U)}deg \; u = \sum_{w \in V(W)} deg \; w = m
+\sum_{u \in V(U)}deg(u) = \sum_{w \in V(W)} deg(w) = m
 $$</div>
 
 **Corollary: every graph has an even number of odd vertices**
@@ -175,10 +184,10 @@ $$</div>
 *Proof:* Let $G$ be a graph of size $m$, dividing $V(G)$ into two subsets $V_{even}$ which consists of even vertices and $V_{odd}$ which consists of odd vertices then by the first theorem of graph theory
 
 <div>$$
-\sum_{v \in V_{even}(G)} deg \; v + \sum_{v \in V_{odd}(G)} deg \; v = 2m
+\sum_{v \in V_{even}(G)} deg(v) + \sum_{v \in V_{odd}(G)} deg(v) = 2m
 $$</div>
 
-the number $\sum_{v \in V_{even}(G)} deg \; v$ is even since it's a sum of even numbers thus $\sum_{v \in V_{odd}(G)} deg \; v$ is also even and it can be even only if the number of odd vertices is even (a sum of two odd numbers gives an even number)
+the number $\sum_{v \in V_{even}(G)} deg(v)$ is even since it's a sum of even numbers thus $\sum_{v \in V_{odd}(G)} deg(v)$ is also even and it can be even only if the number of odd vertices is even (a sum of two odd numbers gives an even number)
 
 ### Degree sequences
 
