@@ -1,10 +1,16 @@
 ---
-title: "Cut-edges (bridges)"
+title: "Cut-edges (bridges) in Graph Theory"
 date: 2015-06-24 14:51:12
+description: |
+  An edge $e = uv$ of a connected graph $G$ is called a bridge if $G - e$ is disconnected (it increases the number of components).
+
+  <br />
+  In this article I implement an algorthm to find the bridges of an undirected graph using DFS.
+  Next I describe an algorithm to find strong bridges in directed graphs.
+tags: ["graph theory", "cut edges", "bridges", "depth first search"]
+image: /images/cut-edges-bridges.png
 libraries: ["greuler"]
 ---
-
-An edge $e = uv$ of a connected graph $G$ is called a bridge if $G - e$ is disconnected (obviously it increases the number of components)
 
 ## Undirected graph
 

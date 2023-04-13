@@ -1,9 +1,20 @@
 ---
 title: "Partitioning"
-description: "Partitioning"
-tags: ["distributed-systems"]
+description: |
+  Data partitioning refers to the process of dividing a system's data into smaller, more manageable subsets,
+  which are distributed across multiple storage locations or nodes.
+
+  <br />
+  This article covers some strategies for partitioning including random partitioning, by hash key, by range
+  and a hybrid approach for skewed workloads. We also see strategies to rebalance partitions if there's
+  a static or dynamic number of partitions.
+
+image: https://cdn-images-1.medium.com/max/640/1*zDfepdN0iQeqwhBTYeKS2w.png
+tags: ["distributed-systems", "data modeling", "system design", "partitioning"]
 date: 2018-01-08T22:43:20Z
 ---
+
+**Image taken from https://www.enjoyalgorithms.com/blog/data-partitioning-system-design-concept**
 
 ## With replication
 

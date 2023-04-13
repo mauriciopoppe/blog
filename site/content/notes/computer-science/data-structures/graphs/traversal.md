@@ -1,6 +1,15 @@
 ---
+title: "Traversal of graphs"
+description: |
+  There are many ways to traverse a graph. For example through breadth-first search and depth-first search. Exploring it with a breadth-first search has interesting
+  properties like implicitly computing the distance from a source $s$ to all the reachable vertices. Exploring it with a depth-first search has properties about edges like
+  finding back edges, forward edges and cross edges.
 
-title: "Traversal"
+  <br />
+  This article has implementations for both BFS and DFS.
+
+image: /images/graph-theory.png
+tags: ["graph theory", "bfs", "dfs", "cycle finding", "tree edge", "back edge", "forward edge", "cross edge"]
 date: 2015-06-24 11:00:00
 ---
 

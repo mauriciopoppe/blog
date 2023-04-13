@@ -1,6 +1,10 @@
 ---
 title: "Expectation maximization"
-description: "Expectation maximization"
+description: |
+  Expectation maximization is a method of finding maximum likelihood estimates of parameters of a model.
+  The method alternates between making an expectation (E) step based on the current estimate of
+  the parameters and a maximization (M) step which computes new parameters.
+image: /images/covariance-matrix.jpeg
 tags: ["machine learning", "expectation maximization", "k-means clustering", "gaussian distribution", "multivariate gaussian distribution"]
 date: 2020-03-16 21:21:00
 references:
@@ -70,7 +74,7 @@ if its probability density function is given by
 p(x; \mu, \Sigma) = \frac{1}{(2 \pi) ^ {n/2} \norm{\Sigma}^{1/2} } \exp \left ( -\frac{1}{2} (x - \mu)^T \Sigma ^{-1} (x - \mu) \right )
 $$</div>
 
-Like in the univariate case the argument of the exponential function is a downward opening bowl, the coefficient in front 
+Like in the univariate case the argument of the exponential function is a downward opening bowl, the coefficient in front
 is a normalization factor used to ensure that
 
 <div>$$

@@ -1,19 +1,22 @@
 ---
-title: "Introduction"
-description: "Introduction"
+title: "Introduction to Machine Learning"
+description: |
+  A super brief introduction to what ML is for, the problems where it
+  can be applied along with some example applications.
 order: 1
+image: /images/machine-learning.jpeg
 tags: ["machine learning"]
 date: 2020-06-25 23:05:30
 references:
-- Aurélien Géron. "Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow." 
+- Aurélien Géron. "Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow."
 ---
 
 Machine Learning is great for:
 
-- Problems for which existing solutions require a lot of fine-tuning or long lists of 
-rules: one Machine Learning algorithm can often simplify code and perform better than 
+- Problems for which existing solutions require a lot of fine-tuning or long lists of
+rules: one Machine Learning algorithm can often simplify code and perform better than
 the traditional approach.
-- Complex problems for which using a traditional approach yields no good solution: 
+- Complex problems for which using a traditional approach yields no good solution:
 the best Machine Learning techniques can perhaps find a solution.
 - Fluctuating environments: a Machine Learning system can adapt to new data.
 Getting insights about complex problems and large amounts of data.

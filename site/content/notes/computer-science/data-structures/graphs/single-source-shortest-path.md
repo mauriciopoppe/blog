@@ -1,9 +1,16 @@
 ---
-title: "Single Source Shortest Path (SSSP)"
+title: "Single Source Shortest Path (SSSP) in a graph"
+description: |
+  Given a weighted graph $G$ with $V$ vertices and $E$ edges where all the weights are non-negative and given a source vertex $s$, the single source shortest path problem consists in finding the distance from $s$ to all the other vertices.
+
+  <br />
+  In this article I describe the problem in a weighted and unweighted graph as well as
+  implementations using BFS for unweighted graphs and Dijkstra's algorithm for weighted graphs
+  using an array and a priority queue.
+image: https://upload.wikimedia.org/wikipedia/commons/5/57/Dijkstra_Animation.gif
+tags: ["graph theory", "single source shortest path", "weighted graph", "unweighted graph", "dijkstra", "bfs", "set", "priority queue"]
 date: 2015-07-03 13:21:32
 ---
-
-Given a weighted graph $G$ with $V$ vertices and $E$ edges where all the weights are non-negative and given a source vertex $s$, the single source shortest path problem consists in finding the distance from $s$ to all the other vertices.
 
 ## Unweighted graph
 

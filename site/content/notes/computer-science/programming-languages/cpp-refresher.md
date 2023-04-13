@@ -1,6 +1,8 @@
 ---
 title: "C++ refresher"
 description: "Refresher notes on C++, includes mechanics of a C++ program, program structure, pointers, functions, classes and misc operations"
+image: https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg
+tags: ["c++", "c", "pointers", "classes", "multithreading"]
 date: 2016-03-26 12:30:00
 references:
   - "C++ project organisation (with gtest, c. (2016). C++ project organisation (with gtest, cmake and doxygen). [online] Stackoverflow.com. Available at: http://stackoverflow.com/a/13522826/3341726 [Accessed 5 Apr. 2016]."
