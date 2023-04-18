@@ -31,7 +31,6 @@ article[role=main] {
 
 .article-header__summary {
   @include desktop {
-    min-height: 450px;
     max-height: 450px;
   }
 }
