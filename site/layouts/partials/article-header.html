@@ -2,7 +2,7 @@
 
 {{/* NOTE: tag header is used in the scripts */}}
 <header class="hero is-bold is-small">
-  <div class="hero-body">
+  <div class="hero-body article-header__hero-body">
     <div class="container">
 
       <div class="tags">
@@ -12,7 +12,7 @@
       </div>
 
       <h1 class="title is-1 is-spaced">{{ .Title }}</h1>
-      <div class="columns" style="min-height: 450px; max-height: 450px">
+      <div class="columns reverse-column-order article-header__summary">
         <div class="column has-text-right">
           <img src="{{ $image }}" alt="{{ .Title }}" style="max-width: 100%; max-height: 100%"/>
         </div>
@@ -21,9 +21,7 @@
             {{ $description := .Params.description | default .Summary }}
             {{ $description | markdownify }}
           </div>
-          <div>
-            {{ partial "article-signature.html" . }}
-          </div>
+          {{ partial "article-signature.html" . }}
         </div>
       </div>
 

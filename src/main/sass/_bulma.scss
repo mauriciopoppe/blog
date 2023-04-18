@@ -83,9 +83,19 @@ code {
   //white-space: pre-wrap;
 }
 
-@media screen and (max-width: 769px) {
-  .container.is-fluid {
+@media screen and (max-width: $tablet) {
+  .container.is-fluid, .hero.is-small .hero-body {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     padding-left: 0.75rem;
     padding-right: 0.75rem;
+  }
+}
+
+// New utility function that reverses the flex direction on mobile only.
+.reverse-column-order {
+  @include until($desktop) {
+    display: flex;
+    flex-direction: column-reverse;
   }
 }

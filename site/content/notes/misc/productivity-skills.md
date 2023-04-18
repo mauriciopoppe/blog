@@ -1,5 +1,5 @@
 ---
-title: 'Productivity skills'
+title: Productivity skills
 description: |
   I'm trying to improve my productivity every day so that I get better use of my time.
   This article a summary of the things I'm used to doing in my life everyday.

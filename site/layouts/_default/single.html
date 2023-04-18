@@ -15,8 +15,6 @@
         {{ partial "toc.html" . }}
       </aside>
 
-      <hr class="is-hidden-desktop" />
-
       <!-- content -->
       <div class="column is-three-fifths">
 
@@ -28,7 +26,6 @@
 
           <!-- the references if set in the front matter -->
           {{ if isset .Params "references" }}
-            <hr />
             <h2 id="references">References</h2>
             <div class="references">
               <ul>
@@ -38,9 +35,6 @@
               </ul>
             </div>
           {{ end }}
-
-
-          <hr />
 
           <script src="https://utteranc.es/client.js"
                   repo="mauriciopoppe/blog"

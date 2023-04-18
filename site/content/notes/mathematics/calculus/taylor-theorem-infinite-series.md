@@ -5,7 +5,7 @@ description: |
   whose antiderivative is hard to find. This article explains the key ideas
   behind Taylor's Theorem and an example of approximating its value with
   a polynomial function.
-image: http://www.sosmath.com/calculus/tayser/tayser01/img5.gif
+image: /images/math-generic.jpeg
 tags: ["math", "calculus", "taylor series", "function"]
 date: 2015-04-02 10:00:00
 ---
