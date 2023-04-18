@@ -26,41 +26,36 @@ article[role=main] {
   }
 }
 
+.article-header__hero-body {
+}
+
+.article-header__summary {
+  @include desktop {
+    min-height: 450px;
+    max-height: 450px;
+  }
+}
+
 .article-signature {
   display: flex;
   justify-content: left;
   align-content: left;
-  margin: 1em 0 1em 0;
-
-  @include until($desktop) {
-    & {
-      flex-direction: column;
-    }
-  }
 }
 
 .article-signature__image {
-  text-align: right;
   margin-right: 1em;
-
-  @include until($desktop) {
-    & {
-      text-align: center;
-      margin-bottom: 1em;
-    }
-  }
 }
 
 .article-signature__metadata {
   text-align: left;
 
   @include until($desktop) {
-    & {
-      text-align: center;
-    }
+    line-height: 1.25em;
   }
 }
 
 section.main {
-  margin: 2em 0;
+  @include desktop {
+    margin: 2em 0;
+  }
 }

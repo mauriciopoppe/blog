@@ -11,7 +11,7 @@
 {{ $image := .Params.share_img | default .Params.image | default .Site.Params.logo | absURL }}
 
 <section class="hero is-primary is-bold is-medium has-text-centered">
-  <div class="hero-body">
+  <div class="hero-body article-header__hero-body">
     <div class="container">
 
       <h1 class="title is-2 is-spaced">{{ $.Scratch.Get "title" }}</h1>
