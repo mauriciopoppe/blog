@@ -1,5 +1,5 @@
 ---
-title: "Transformation matrix for projection of 3D objects into a 2D plane"
+title: "Transformation matrix for projection of 3D objects into a 2D plane (projection transform)"
 date: 2016-02-14 12:18:26
 description: |
   In Computer Graphics 3D objects created in an abstract 3d world will eventually
