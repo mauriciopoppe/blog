@@ -1,5 +1,12 @@
 ---
 title: "Bayesian Networks"
+description: |
+  A Bayesian network is a directed graph in which each node is annotated with quantitative probability
+  information. This article covers the definition of a bayesian network with a graphical representation,
+  the determination of independence between variables and the problem of finding the probability
+  distribution of a set of query values given some observed events.
+image: /images/math-generic.jpeg
+tags: ["math", "probability", "bayesian networks", "exact inference", "conditional independence relations", "full joint distribution"]
 date: 2020-03-05 18:11:00
 ---
 
@@ -114,7 +121,7 @@ Working with the example below we can answer some queries:
   clone.style.transition = 'opacity 0.2s'
   clone.style.display = 'none'
   document.body.appendChild(clone)
-  
+
   new IntersectionObserver(entries => {
     if (entries[0]) {
       var elBounds = entries[0].boundingClientRect
@@ -122,13 +129,13 @@ Working with the example below we can answer some queries:
       if (isVisible || elBounds.bottom <= 0) {
         clone.style.display = 'block'
         setTimeout(() => clone.style.opacity = 1, 200)
-      } else {      
+      } else {
         clone.style.opacity = 0
         setTimeout(() => clone.style.display = 'none', 200)
       }
     }
   }).observe(el)
-  
+
 })();
 {{< /script >}}
 

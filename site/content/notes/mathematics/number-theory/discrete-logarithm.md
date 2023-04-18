@@ -1,6 +1,11 @@
 ---
-
 title: "Discrete Logarithm"
+description: |
+  The discrete logarithms finds a solution for $x$ in the congruence $a^x \equiv b \pmod{n}$ where
+  $a$, $b$ and $n$ are **integers**, $a$ and $n$ are coprime. I cover two algorithms to solve this
+  problem: by trial multiplication and using baby step giant step.
+image: /images/math-generic.jpeg
+tags: ["math", "number theory", "discrete logarithm"]
 date: 2015-06-08 12:11:38
 categories: algorithms number-theory
 ---

@@ -1,7 +1,16 @@
 ---
 title: "Derivative"
+description: |
+  The derivative is a concept that represents the rate of change or the slope of a function
+  at a particular point. It is a fundamental concept in calculus and is used to analyze how
+  a function changes with respect to its input as the input changes very slightly.
+
+  <br />
+  This article covers physical and geometric interpretation of the derivative as well
+  as some applications like finding maxima and minima in a function and newton-raphson.
+tags: ["math", "calculus", "derivative", "maxima minima"]
+image: /images/derivative.jpg
 date: 2015-04-02 10:00:00
-tags: ["math", "calculus"]
 libraries: ["function-plot"]
 ---
 
@@ -447,16 +456,16 @@ Let's say that we throw an object into the air and we want to know the maximum h
 
 More generally if $y$ is a function of $x$ it seems that to find the maximum value of $y$ we must find $y'$ and set it to 0
 
-Let's see an example, the following function has a maximum value of $3.333$ near $x = 1$ and a minimum value of $2$ near $x = 3$, 
-if we analyze the slope of the function near those points we will see that on the left of $x = 1$ the slope is positive and on the 
-right of $x = 1$ the slope is negative, since we know that the derivative represents the slope of a function we can also expect that 
-the derivative of this function near $x = 1$ will go from a positive value to a negative value intersecting the x-axis, 
+Let's see an example, the following function has a maximum value of $3.333$ near $x = 1$ and a minimum value of $2$ near $x = 3$,
+if we analyze the slope of the function near those points we will see that on the left of $x = 1$ the slope is positive and on the
+right of $x = 1$ the slope is negative, since we know that the derivative represents the slope of a function we can also expect that
+the derivative of this function near $x = 1$ will go from a positive value to a negative value intersecting the x-axis,
 if we analyze the slope near $x = 3$ will will see the same behavior with the slope but it's going from a negative value to a positive one
 
 <div class="columns">
     <div class="column">
         $$
-            y = x^3/3 - 2x^2 + 3x + 2 
+            y = x^3/3 - 2x^2 + 3x + 2
         $$
         <div id="maxima-minima-f"></div>
     </div>

@@ -1,6 +1,14 @@
 ---
-
 title: "Quaternions"
+description: |
+  Quaternions are a set of 4-dimensional vectors that are used to represent rotations in computer
+  graphics, they were discovered by William Hamilton as an extension of 2d complex numbers
+  to a 3d equivalent.
+
+  <br />
+  This article covers the definition of a quaternion, its notation and operations.
+image: /images/math-generic.jpeg
+tags: ["math", "numeral systems", "complex numbers", "imaginary numbers", "quaternions"]
 date: 2015-09-08 20:00:00
 ---
 
@@ -357,6 +365,3 @@ To isolate the scalar part of $q$ we could add $q^*$ to it
 2 S(q) = q + q^*
 $$</div>
 
-Suggested reading
-
-- [Complex numbers](/static/math/numeral-systems/complex-numbers.html)

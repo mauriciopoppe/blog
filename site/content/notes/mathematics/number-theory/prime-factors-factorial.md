@@ -1,8 +1,11 @@
 ---
-
 title: "Prime factors of a factorial"
+description: |
+  This article describes and implements a solution for the following problem,
+  given two numbers $n$ and $k$ find the greatest power of $k$
+image: /images/math-generic.jpeg
+tags: ["math", "number theory", "prime numbers", "integer factorization"]
 date: 2015-06-09 14:00:03
-categories: algorithms math
 ---
 
 > Given two numbers $n$ and $k$ find the greatest power of $k$ that divides $n!$

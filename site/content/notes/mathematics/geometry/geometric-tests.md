@@ -1,5 +1,9 @@
 ---
 title: "Geometric tests"
+description: |
+  Different algorithms to test geometric properties like finding the intersection of two lines.
+image: /images/geometric-tests!line-line.jpg
+tags: ["math", "geometry", "euclidean geometry", "line line intersection"]
 date: 2016-03-09 22:52:35
 references:
   - "Intersection between two segments. [online] Stackoverflow.com. Available at: http://stackoverflow.com/a/565282/3341726 [Accessed 10 Mar. 2016]."

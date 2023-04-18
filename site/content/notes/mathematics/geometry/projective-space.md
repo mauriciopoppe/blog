@@ -1,7 +1,12 @@
 ---
-
 title: "Projective space"
 date: 2016-03-04 10:00:00
+description: |
+  In projective geometry unlike euclidean geometry, two parallel lines meet at a point. Desargues
+  introduced the concept of a line at finity where a point at infinity can be defined. This article
+  covers the need of a point at infinity in projective space, the line at infinity and the projective plane.
+image: /images/projective-geometry!perspective.jpg
+tags: ["math", "geometry", "projective geometry", "projective space"]
 references:
   - "Birchfield, S. (1998). An Introduction to Projective Geometry [online] Robotics.stanford.edu. Available at: http://robotics.stanford.edu/~birch/projective/projective.pdf [Accessed 15 Mar. 2016]."
   - "MathHistory8: Projective geometry. (2011). [online] YouTube. Available at: https://www.youtube.com/watch?v=NYK0GBQVngs [Accessed 02 Mar. 2016]."
@@ -9,13 +14,11 @@ references:
 
 In Euclidean geometry two lines are said to be parallel if they lie in the same plane and never meet, moreover properties like this one don't change when an Euclidean transformation is applied (translation/rotation), however what we perceive in real life is different from what's described with Euclidean geometry.
 
-This problem coincided with the one the renaissance artists had while trying to paint on a canvas, when they tried to paint tiles on a canvas they realized that the following rules applied
+This problem coincided with the one the renaissance artists had while trying to paint on a canvas, when they tried to paint tiles on a canvas they realized that the following rules applied:
 
-> parallel lines meet on the horizon
-
-> straight lines must be represented on the page by straight lines
-
-> the image of a conic is also a conic (for example a circle is drawn as an ellipse depending on the perspective)
+> - parallel lines meet on the horizon
+> - straight lines must be represented on the page by straight lines
+> - the image of a conic is also a conic (for example a circle is drawn as an ellipse depending on the perspective)
 
 {{< figure src="/images/projective-geometry!perspective.jpg" title="projection" >}}
 

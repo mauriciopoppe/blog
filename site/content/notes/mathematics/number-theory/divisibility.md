@@ -1,8 +1,16 @@
 ---
-date: 2017-05-21T23:18:42-07:00
-subtitle: ""
-categories: []
 title: Divisibility
+description: |
+  Let $a,b \in \mathbb{Z}$, we say that $a$ _**divides**_ $b$, written $a \given b$, if there's an integer $n$ so that:
+  $b = na$. If $a$ divides $b$ then $b$ is _**divisible**_ by $a$ and $a$ is a
+  _**divisor or factor**_ of $b$, also $b$ is called a _**multiple**_ of $a$.
+
+  <br />
+  This article covers the greatest common divisor and how to find it using the euclidean algorithm,
+  the extended euclidean algorithm to find solutions to the equation $ax + by = gcd(a, b)$ where $a, b$ are unknowns.
+image: /images/math-generic.jpeg
+tags: ["math", "number theory", "divisibility", "modulo", "euclidean algorithm", "extended euclidean algorithm"]
+date: 2017-05-21 23:18:42
 references:
   - http://www.cs.cmu.edu/~adamchik/21-127/lectures/divisibility_1_print.pdf
   - https://math.berkeley.edu/~sagrawal/su14_math55/notes_gcd.pdf
