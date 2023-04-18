@@ -11,7 +11,9 @@
 
   <p class="article-signature__metadata">
     <a href="/" style="pointer-events: all; text-decoration: underline" target="_blank">Mauricio Poppe</a> <br />
-    {{ .Page.Lastmod.Format "Mon, Jan 2, 2006" }} - <a style="pointer-events: all; text-decoration: underline" target="_blank"
-            href="https://github.com/mauriciopoppe/blog/tree/main/site/content/{{ .File.Path }}">Page Source</a>
+    {{ .Page.Lastmod.Format "Mon, Jan 2, 2006" }} -
+        <a style="pointer-events: all; text-decoration: underline" target="_blank"
+            href="https://github.com/mauriciopoppe/blog/tree/main/site/content/{{ .File.Path }}">Page Source</a> -
+        {{ .WordCount }} words.
   </p>
 </div>
