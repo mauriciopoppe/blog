@@ -1,20 +1,26 @@
 ---
-
 title: "Vector spaces"
+description: |
+  A vector space is a set whose elements are called "vectors" (denoted as $\v{v}$ or $\mathbf{v}$) which have two operations defined on them: addition of vectors and multiplication of an scalar by a vector.
+
+  <br />
+  This article covers some examples of vector spaces, basis of vectores spaces and linear maps.
+image: /images/xyz-z-up.jpg
+tags: ["vector spaces", "geometry", "computer graphics"]
 date: 2016-03-14 17:07:51
 references:
-  - "Nearing, J. (2016). Vector spaces. [online] Physics.miami.edu. Available at: http://www.physics.miami.edu/~nearing/mathmethods/vector_spaces.pdf [Accessed 15 Mar. 2016]." 
+  - "Nearing, J. (2016). Vector spaces. [online] Physics.miami.edu. Available at: http://www.physics.miami.edu/~nearing/mathmethods/vector_spaces.pdf [Accessed 15 Mar. 2016]."
   - "Bærentzen, J. A., Gravesen, J., Anton François, & Aanæs, H. (2012). Guide to computational geometry processing: foundations, algorithms, and methods. London: Springer."
 ---
 
-A vector space is a set whose elements are called "vectors" (denoted as $\v{v}$ or $\mathbf{v}$) which have two operations defined on them: addition of vectors and multiplication of an scalar by a vector 
+A vector space is a set whose elements are called "vectors" (denoted as $\v{v}$ or $\mathbf{v}$) which have two operations defined on them: addition of vectors and multiplication of an scalar by a vector
 
 Formally a vector space $V$ is a set with two operations $+$ and $*$ that satisfy the following properties
 
 - if $\mathbf{u},\mathbf{v} \in V$ then $\mathbf{u + v} \in V$
   - $\mathbf{u + v} = \mathbf{v + u}$
   - $\mathbf{u + (v + w)} = \mathbf{(u + v) + w}$
-  - There is an special element called the zero vector $\mathbf{0} \in V$ such that $\mathbf{u + 0} = \mathbf{0 + u} = \mathbf{u}$  
+  - There is an special element called the zero vector $\mathbf{0} \in V$ such that $\mathbf{u + 0} = \mathbf{0 + u} = \mathbf{u}$
   - For every $\mathbf{u} \in V$ there's an inverse element $-\mathbf{u}$ such that $\mathbf{u + (-u)} = \mathbf{0}$
 - if $\mathbf{u} \in V$ and $\alpha \in \mathbb{R}$ then $\alpha\mathbf{u} \in V$
   - $(\alpha + \beta) \mathbf{u} = \alpha \mathbf{u} + \beta \mathbf{u}$
@@ -45,7 +51,7 @@ $$</div>
 
 The numbers $a_1, a_2, \ldots, a_n$ are called the **components** of $\mathbf{v}$ in the specified basis, note that the basis doesn't need to be orthogonal nor have unit vectors
 
-The set of vectors $[1,0,0], [0,1,0], [0,0,1]$ is an example of a basis of dimension 3 
+The set of vectors $[1,0,0], [0,1,0], [0,0,1]$ is an example of a basis of dimension 3
 
 ## Linear maps
 
@@ -71,4 +77,4 @@ The scalar product of two vectors is a function $f: V \times V \rightarrow \math
 - $\left \langle \mathbf{w, (u + v)} \right \rangle = \left \langle \mathbf{w,u} \right \rangle + \left \langle \mathbf{w,v} \right \rangle$
 - $\left \langle \mathbf{w},\alpha \mathbf{v} \right \rangle = \alpha \left \langle \mathbf{w,v} \right \rangle$
 - $\left \langle \mathbf{v,v} \right \rangle \geq 0$
- 
+

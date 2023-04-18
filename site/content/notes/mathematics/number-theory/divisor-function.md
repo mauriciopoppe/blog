@@ -1,11 +1,15 @@
 ---
-
 title: "Divisor Function"
+description: |
+  The divisor function returns the number of divisors of an integer. This article
+  covers important relations of the divisor function and 
+  prime numbers.
+image: /images/math-generic.jpeg
+tags: ["math", "number theory", "divisor function", "prime numbers"]
 date: 2015-06-13 14:29:59
-categories: algorithms math
 ---
 
-The divisor function represented as $d(n)$ counts the number of a divisors of an integer
+The divisor function represented as $d(n)$ counts the number of divisors of an integer
 
 example: $d(18)$
 

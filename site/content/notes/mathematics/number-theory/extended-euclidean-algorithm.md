@@ -1,8 +1,13 @@
 ---
-
 title:  "Extended Euclidean Algorithm"
+description: |
+  The extended euclidean algorithm finds solutions to the equation $ax + by = gcd(a, b)$
+  where $a, b$ are unknowns. This article covers a few applications of the extended euclidean algorithm
+  like finding the modular multiplicative inverse of a number, and finding solutions for
+  linear congruence equations.
+image: /images/math-generic.jpeg
+tags: ["math", "number theory", "divisibility", "modulo", "linear congruence equations", "mudular multiplicative inverse", "extended euclidean algorithm", "euclidean algorithm", "diophantine equations"]
 date:   2015-06-02 12:00:00
-categories: algorithms math
 ---
 
 ## Bezout's identity
@@ -25,86 +30,7 @@ $$</div>
 
 ## Extended Euclidean Algorithm
 
-By reversing the steps of the [Euclidean algorithm](./euclidean-algorithm.html) it's possible to find these integers $x$ and $y$, by repeated applications of the euclidean division algorithm we have
-
-<div>$$
-\begin{align*}
-a &= b q_1 + r_1 \\
-b &= r_1 q_2 + r_2 \\
-& \; \vdots \\
-r_{n-3} &= r_{n - 2} q_{n - 1} + r_{n - 1} \\
-r_{n-2} &= r_{n - 1} q_{n} + r_{n} \\
-r_{n-1} &= r_n q_{n + 1}
-\end{align*}
-$$</div>
-
-Where $r_n = gcd(a, b)$, rewriting $r_n$ in terms of the previous $r_i$
-
-<div>$$
-r_n = r_{n - 2} - r_{n - 1} q_n
-$$</div>
-
-Substituting for $r_{n - 1}$ from the previous equation
-
-<div>$$
-\begin{align*}
-r_n &= r_{n - 2} - (r_{n - 3} - r_{n - 2} q_{n - 1}) q_n \\
-r_n &= r_{n - 2} (1 + q_n q_{n - 1}) - r_{n - 3} q_n \\
-r_n &= r_{n - 2}m + r_{n - 3}n \\
-\end{align*}
-$$</div>
-
-<!--
-Substituting for $r_{n - 2}$
-<div>$$
-\begin{align*}
-r_n &= (r_{n - 4} - r_{n - 3} q_{n - 2})m + r_{n - 3}n \\
-r_n &= r_{n - 3}(n - q_{n - 2}m) + r_{n - 4}m
-\end{align*}
-$$</div>
- -->
-
-Where $m = 1 + q_n q_{n - 1}$ and $n = -q_n$, this process is repeated until $r_n = ax + by$ where $x$ and $y$ are integers
-
-Since $ax + by = gcd(a, b)$ it's also true that
-
-<div>$$
-\begin{equation}\label{iteration}
-bx_1 + (a \% b)y_1 = gcd(a, b)
-\end{equation}
-$$</div>
-
-Where $(x_1, y_1)$ are solutions to the new tuple $(b, a \% b)$, converting the value of $a \% b$
-
-<div>$$
-a \% b = a - \left \lfloor \frac{a}{b} \right \rfloor \cdot b
-$$</div>
-
-Substituting this value in \eqref{iteration}
-
-<div>$$
-\begin{align*}
-b \cdot x_1 + \Big(a - \left \lfloor \frac{a}{b} \right \rfloor \cdot b \Big) \cdot y_1 &= gcd(a, b) \\
-b \cdot x_1 + a \cdot y_1 - \left \lfloor \frac{a}{b} \right \rfloor \cdot b \cdot y_1 &= gcd(a, b) \\
-a \cdot y_1 + b \Big( x_1 - \left \lfloor \frac{a}{b} \right \rfloor \cdot y_1 \Big) &= gcd(a, b)
-\end{align*}
-$$</div>
-
-Comparing to the original expression \eqref{bezout} we obtain the required coefficients $x$ and $y$ based on subsequent values found
-
-<div>$$
-x = \begin{cases}
-1, & \text{when $a \mod b = 0$} \\
-y_1, & \text{otherwise}
-\end{cases}
-$$</div>
-
-<div>$$
-y = \begin{cases}
-0, & \text{when $a \mod b = 0$} \\
-x_1 - \left \lfloor \frac{a}{b} \right \rfloor \cdot y_1, & \text{otherwise}
-\end{cases}
-$$</div>
+See [divisibility](../divisibility/) for more details.
 
 ### Implementation
 
@@ -174,7 +100,7 @@ Where $k \in \mathbb{Z}$
 
 ### Modular multiplicative inverse
 
-Discussed [here](./modular-arithmetic.html#modular-multiplicative-inverse)
+See [Modular Arithmetic](../modular-arithmetic/) for more info.
 
 ### Linear congruence equations
 

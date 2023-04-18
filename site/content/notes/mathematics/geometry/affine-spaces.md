@@ -1,6 +1,9 @@
 ---
-
 title: "Affine spaces"
+description: |
+  An affine space is a generalization of the notion of a vector space, but without the requirement of a fixed origin or a notion of "zero".
+image: /images/affine-space!translation.jpg
+tags: ["math", "geometry", "affine geometry", "affine spaces"]
 date: 2016-03-15 12:19:52
 libraries: ["function-plot"]
 references:

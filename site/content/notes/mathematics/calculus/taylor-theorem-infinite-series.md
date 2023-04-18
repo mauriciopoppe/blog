@@ -1,8 +1,13 @@
 ---
-
-title:  "Taylor's Theorem and Infinite Series"
-date:   2015-04-02 10:00:00
-categories: math calculus
+title: "Taylor's Theorem and Infinite Series"
+description: |
+  Taylor Series helps approximate the value of a definite integral for a function
+  whose antiderivative is hard to find. This article explains the key ideas
+  behind Taylor's Theorem and an example of approximating its value with
+  a polynomial function.
+image: http://www.sosmath.com/calculus/tayser/tayser01/img5.gif
+tags: ["math", "calculus", "taylor series", "function"]
+date: 2015-04-02 10:00:00
 ---
 
 There are simple functions for which we cannot find antiderivatives in terms of the functions we know, some examples are
@@ -96,3 +101,5 @@ f(x) = f(a) + f'(a)(x - a) + f''(a)\frac{(x - a)^2}{2!} + \cdots + f^n(a) \frac{
 $$</div>
 
 Where $\mu$ is between $x$ and $a$
+
+*Image taken from http://www.sosmath.com/calculus/tayser/tayser01/tayser01.html*

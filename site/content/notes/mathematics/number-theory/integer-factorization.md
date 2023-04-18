@@ -1,11 +1,17 @@
 ---
-
 title: "Integer Factorization"
-date: 2015-06-14 15:08:08
-categories: algorithms math
----
+description: |
+  Integer factorization is the process of decomposing a *composite* number into a product of
+  smaller integers, if these integers are restricted to be prime numbers then the process is
+  called **prime factorization**.
 
-Integer factorization is the process of decomposing a *composite* number into a product of smaller integers, if these integers are restricted to be prime numbers then the process is called **prime factorization**
+  <br />
+  This article covers factorization using trial division and fermat factorization through
+  Pollard's Rho algorithm and using the sieve of eratosthenes.
+image: /images/math-generic.jpeg
+tags: ["math", "number theory", "integer factorization", "divisibility", "prime factorization", "erathosthenes sieve", "prime numbers"]
+date: 2015-06-14 15:08:08
+---
 
 The fundamental theorem of arithmetic states that ever positive integer can be written uniquely as a product of primes
 

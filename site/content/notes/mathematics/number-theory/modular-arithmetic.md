@@ -1,8 +1,18 @@
 ---
-
 title: "Modular Arithmetic"
+description: |
+  Modular arithmetic is a type of arithmetic that deals with integers and remains within a fixed range
+  of values. It involves performing arithmetic operations such as addition, subtraction, multiplication,
+  and division, but with the added concept of a "modulus" or a "mod" value.
+
+  <br />
+  This article covers the definition a congruence relation, and some of its properties like
+  addition, multiplication, exponentiation and inverse.
+  Next I show how we can use the extended euclidean algorithm to find the modular multiplicative inverse
+  in a general case and in the case of coprime numbers.
+image: /images/math-generic.jpeg
+tags: ["math", "number theory", "divisibility", "modulo"]
 date: 2015-06-04 16:29:18
-categories: algorithms math
 ---
 
 ## Congruence relation
@@ -100,7 +110,7 @@ $$</div>
 
 Where $k$ is a positive integer
 
-Implementation based on [Binary Exponentiation](./binary-exponentiation.markdown)
+Implementation based on [Binary Exponentiation](../binary-exponentiation/)
 
 {{< snippet file="static/code/math/binaryExponentiationModuloM.cpp" lang="cpp" />}}
 
@@ -118,7 +128,7 @@ $$</div>
 
 Such a number exists only if *$a$ and $m$ are coprime*, e.g. $gcd(a, m) = 1$
 
-The number $x$ can be found using the [Extended Euclidean Algorithm](./extended-euclidean-algorithm.html), by the definition of the congruence relation $m \mid ax - 1$
+The number $x$ can be found using the [Extended Euclidean Algorithm](../extended-euclidean-algorithm/), by the definition of the congruence relation $m \mid ax - 1$
 
 <div>$$
 ax - 1 = mq
@@ -142,7 +152,7 @@ The modular multiplicative inverse can be also found using Euler's theorem, if $
 a^{\phi(m)} \equiv 1 \pmod m
 $$</div>
 
-Where $\phi(n)$ is [Euler's Phi Function](./eulers-phi.html)
+Where $\phi(n)$ is [Euler's Phi Function](../eulers-phi/)
 
 In the special case where $m$ is a prime number
 

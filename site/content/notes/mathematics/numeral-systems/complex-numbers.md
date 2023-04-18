@@ -1,5 +1,15 @@
 ---
 title: "Complex numbers"
+description: |
+  Imaginary numbers were invented to solve problems for equestions with no real roots,
+  complex numbers extend imaginary numbers by adding a real number.
+
+  <br />
+  This article covers the definition of complex numbers, operations such as addition,
+  product, norm, conjugate, inverse and square root. Finally, this article covers
+  the geometric and polar representations of complex numbers.
+image: /images/math-generic.jpeg
+tags: ["math", "numeral systems", "complex numbers", "imaginary numbers"]
 date: 2015-09-08 13:30:00
 libraries: ["function-plot"]
 ---

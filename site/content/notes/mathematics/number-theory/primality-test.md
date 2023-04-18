@@ -1,8 +1,15 @@
 ---
-
 title: "Primality Test"
+description: |
+  A prime number is a natural number greater than $1$ which has no positive divisors other
+  than $1$ and itself.
+
+  <br />
+  This article covers different algorithms for checking if a number is prime or not including
+  a naive test, the erathostenes sieve, the euler primality test and the miller-rabin primality test.
+image: /images/math-generic.jpeg
+tags: ["math", "number theory", "prime numbers", "erathostenes sieve", "fermat primality test", "euler primality test", "miller-rabin primality test"]
 date: 2015-06-11 13:16:59
-categories: algorithms math number-theory
 ---
 
 > A prime number is a natural number greater than $1$ which has no positive divisors other than $1$ and itself
@@ -37,7 +44,7 @@ bool is_prime(int n) {
 
 ## Erathostenes Sieve
 
-If we have to make constants queries to check for numbers that are prime less than some number $n$ we can preprocess them using the [Erathostenes Sieve](./eathostenes-sieve.html) and answer each query in $O(1)$
+If we have to make constants queries to check for numbers that are prime less than some number $n$ we can preprocess them using the [Erathostenes Sieve](../eathostenes-sieve/) and answer each query in $O(1)$
 
 ## Fermat primality test
 

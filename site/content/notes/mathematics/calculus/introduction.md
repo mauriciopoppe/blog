@@ -1,8 +1,13 @@
 ---
-
-title:  "Introduction"
-date:   2015-03-31 15:35:06
-categories: math calculus
+title: "Introduction to Calculus"
+description: |
+  This article gives an introduction to calculus starting with the concept of a function
+  and how calculus helps us solve problems related to determining tangents to curves (expressed
+  as functions), finding the minim/maxima like determinining the maximum range of a projectile,
+  and to find the length of curves areas and volumes.
+image: https://wordsmithofbengal.files.wordpress.com/2021/08/calculus_score-sheet.png
+date: 2015-03-31 15:35:06
+tags: ["math", "calculus", "function"]
 libraries: ["function-plot"]
 ---
 
@@ -60,3 +65,6 @@ does not have a valid value when $x = 0$, this means that the function exists fo
 The concept of a function then doesn't require that there's a $y$ for every $x$ but it does require a $y$-value for each value $x$ in some collection/set of $x$ values, the collection of $x$ values for which a $y$ value exist is called *domain* and the collection of the corresponding $y$ values is called *range*.
 
 <script src="/js/calculus/intro.js"></script>
+
+*Image taken from https://wordsmithofbengal.wordpress.com/2021/08/02/dr-philos-the-creative-fantasy-of-differential-and-integral-calculus/*
+

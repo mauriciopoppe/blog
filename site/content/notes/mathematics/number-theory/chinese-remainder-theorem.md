@@ -1,6 +1,13 @@
 ---
-
 title: "Chinese Remainder Theorem"
+description: |
+  The chinese remainder theorem (CRT) is a theorem that deals with finding a
+  solution to a system of congruences.
+
+  <br />
+  This article covers the defition of the CRT and an example implementation in C++.
+image: /images/math-generic.jpeg
+tags: ["math", "number theory", "chinese remainder theorem", "congruences"]
 date: 2015-06-05 12:00:00
 categories: algorithms math
 ---
@@ -20,7 +27,7 @@ All the solutions of this system are congruent modulo $p_1p_2 \ldots p_n$
 
 [nrich's article on the chinese remainder](http://nrich.maths.org/5466) illustrates the system of equations with a coordinate system in $n$-dimensions, basically a number can represent a point in the coordinate system defined by the equation system and the point itself is a sum of unit vectors scaled by some amount
 
-Example: Represent the number $17$ in the coordinate system defined by the integers that belong to the set of integers $\mathbb{Z}/5$, $\mathbb{Z}/7$ and $\mathbb{Z}/5$ ($\mathbb{Z}/n$ has $n$ elements which are all the number in the range $0, 1, \ldots, n - 1$)
+Example: Represent the number $17$ in the coordinate system defined by the integers that belong to the set of integers $\mathbb{Z}/5$, $\mathbb{Z}/7$ and $\mathbb{Z}/11$ ($\mathbb{Z}/n$ has $n$ elements which are all the number in the range $0, 1, \ldots, n - 1$)
 
 The statement above is equivalent to
 
