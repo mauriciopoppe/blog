@@ -118,6 +118,7 @@ function main() {
 
   window.addEventListener('resize', onResize)
   window.addEventListener('orientationchange', onResize)
+
   // only enable fixing the position of the sidebars on scroll in desktop
   if (!isMobile()) {
     window.addEventListener('scroll', function () {
@@ -127,6 +128,11 @@ function main() {
         sidebar.onScroll()
       }
     })
+  } else {
+    // Show the sidebars immediately in mobile devices.
+    for (let sidebar of sidebars) {
+      sidebar.showIfHidden()
+    }
   }
 
   // tocbot offset for the links
