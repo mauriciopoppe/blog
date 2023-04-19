@@ -30,6 +30,8 @@ class Sidebar {
   constructor(el, wrapper) {
     this.el = el
     this.wrapper = wrapper
+    // initially the Sidebar is hidden
+    this.hidden = true
     this.articleTopMargin = 30
     this.navbarHeight = 0
     this.state = SidebarState.AUTO
@@ -72,6 +74,7 @@ class Sidebar {
     this.state = SidebarState.AUTO
     if (window.scrollY > this.contentLocationInPage) {
       this.state = SidebarState.FIXED
+      this.showIfHidden()
     }
     if (window.scrollY > this.footerLocationFromDocument) {
       this.state = SidebarState.RELATIVE
@@ -88,6 +91,14 @@ class Sidebar {
     }
     this.computePosition()
   }
+
+  // showIfHidden shows the sidebar if it's hidden
+  showIfHidden() {
+    if (this.hidden) {
+      this.wrapper.classList.remove('hide')
+      this.hidden = false
+    }
+  }
 }
 
 function main() {
@@ -95,43 +106,43 @@ function main() {
     return
   }
 
+  const tocSidebar = new Sidebar(toc, tocWrapper)
+  const sitemapSidebar = new Sidebar(sitemap, sitemapWrapper)
+  const sidebars = [tocSidebar, sitemapSidebar]
+
+  const onResize = debounce(function onResize() {
+    for (let sidebar of sidebars) {
+      sidebar.refresh()
+    }
+  }, 250)
+
+  window.addEventListener('resize', onResize)
+  window.addEventListener('orientationchange', onResize)
+  // only enable fixing the position of the sidebars on scroll in desktop
+  if (!isMobile()) {
+    window.addEventListener('scroll', function () {
+      // function is not debounced since the scroll waypoints
+      // need to be tested everytime
+      for (let sidebar of sidebars) {
+        sidebar.onScroll()
+      }
+    })
+  }
+
   // tocbot offset for the links
   const header = document.querySelector('header')
-  const tocbotOpts = {
+  tocbot.init({
     tocSelector: '.toc',
     contentSelector: 'body',
     headingSelector: 'h1,h2,h3,h4,h5,h6',
     collapseDepth: 6,
     throttleTimeout: 200,
     headingsOffset: -header.getBoundingClientRect().height
-  }
+  })
 
-  const tocSidebar = new Sidebar(toc, tocWrapper)
-  const sitemapSidebar = new Sidebar(sitemap, sitemapWrapper)
-
-  const onResize = debounce(function onResize() {
-    tocSidebar.refresh()
-    sitemapSidebar.refresh()
-  }, 250)
-
-  // function is not debounced since the scroll waypoints
-  // need to be tested everytime
-  const onScroll = function () {
-    tocSidebar.onScroll()
-    sitemapSidebar.onScroll()
-  }
-
-  function setup() {
-    // initialize tocbot
-    tocbot.init(tocbotOpts)
-  }
-
-  setup()
-  window.addEventListener('resize', onResize)
-  window.addEventListener('orientationchange', onResize)
-  // only enable fixing the position of the sidebars on scroll in desktop
-  if (!isMobile()) {
-    window.addEventListener('scroll', onScroll)
+  // initial refresh
+  for (const sidebar of sidebars) {
+    sidebar.onScroll()
   }
 }
 

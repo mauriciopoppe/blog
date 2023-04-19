@@ -101,30 +101,16 @@
 <link rel="canonical" href="{{ .Permalink | absLangURL }}" />
 <link rel="alternate" href='{{ "index.xml" | absLangURL }}" type="application/rss+xml" title="{{ .Site.Title }}'>
 
-<!-- mine -->
+<!-- Font -->
 <link rel="stylesheet" media="only screen" href='{{ "/fonts/Serif/cmun-serif.css" }}' />
+
+<!-- My styles -->
 {{ $stylesheet := .Site.Data.webpack.main }}
 {{ with $stylesheet.css }}
     <link href="{{ relURL . }}" rel="stylesheet">
 {{ end }}
 
-{{ if isset .Params "draft" }}
-<style>
-body.draft [data-draft] div::after {
-  content: '[DRAFT]';
-  font-size: 10px;
-  color: white;
-  background-color: red;
-}
-</style>
-<script>
-  window.addEventListener('DOMContentLoaded', function () {
-    document.body.classList.add('draft');
-  })
-</script>
-{{ end }}
-
-<link rel="preload" href="{{ .Params.image | default .Site.Params.logo | absURL }}" as="image">
+<link rel="preload" href="{{ .Params.image | default .Site.Params.logo | absURL }}" as="image" crossorigin>
 <link rel="preload" href="{{ .Site.Params.logo | absURL }}" as="image">
 
 <!-- inline script to set the right theme from local storage -->
@@ -142,15 +128,9 @@ body.draft [data-draft] div::after {
 })()
 </script>
 
-<!-- gtag local (will be overridden by the injected script in netlify, it's here so that I can have the gtag function) -->
+<!-- gtag function (will be overridden by the injected script in netlify),
+    it's here so that I can have the gtag function) -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-</script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/quicklink/2.0.0/quicklink.umd.js"></script>
-<script>
-  window.addEventListener('load', () => {
-    quicklink.listen({ limit: 15 });
-  });
 </script>
