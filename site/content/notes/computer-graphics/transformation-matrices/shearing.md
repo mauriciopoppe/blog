@@ -5,6 +5,7 @@ description: |
   Shearing is a transformation that skews the coordinate space, the idea is to add a multiple of one coordinate to the other
 image: /images/normals!transformation.jpg
 tags: ["computer graphics", "transformation matrix", "shearing", "2d", "3d", "linear algebra"]
+libraries: ["math"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---

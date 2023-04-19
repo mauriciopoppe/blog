@@ -8,6 +8,7 @@ description: |
   euler angles called gimbal lock.
 image: /images/flat-shading.svg
 tags: ["quaternions", "3d", "computer graphics", "rotation"]
+libraries: ["math"]
 ---
 
 ## Quaternions as rotations

@@ -6,6 +6,7 @@ description: |
   of scaled vector. This article covers defining all the points in a triangle in an affine space.
 image: /images/triangle!barycentric.jpg
 tags: ["geometry", "triangle", "affine space", "affine geometry"]
+libraries: ["math"]
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
 ---

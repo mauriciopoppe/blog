@@ -10,6 +10,7 @@ description: |
   the extended euclidean algorithm to find solutions to the equation $ax + by = gcd(a, b)$ where $a, b$ are unknowns.
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "divisibility", "modulo", "euclidean algorithm", "extended euclidean algorithm"]
+libraries: ["math"]
 date: 2017-05-21 23:18:42
 references:
   - http://www.cs.cmu.edu/~adamchik/21-127/lectures/divisibility_1_print.pdf

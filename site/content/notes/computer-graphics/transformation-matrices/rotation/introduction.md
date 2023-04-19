@@ -9,7 +9,7 @@ description: |
 
   For quaternions, please also look at [https://eater.net/quaternions](https://eater.net/quaternions) amazing animations!
 image: /images/flat-shading.svg
-libraries: ["function-plot"]
+libraries: ["function-plot", "math"]
 tags: ["rotation", "quaternions", "2d", "3d", "computer graphics"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."

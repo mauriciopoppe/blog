@@ -7,6 +7,7 @@ description: |
   covers the need of a point at infinity in projective space, the line at infinity and the projective plane.
 image: /images/projective-geometry!perspective.jpg
 tags: ["math", "geometry", "projective geometry", "projective space"]
+libraries: ["math"]
 references:
   - "Birchfield, S. (1998). An Introduction to Projective Geometry [online] Robotics.stanford.edu. Available at: http://robotics.stanford.edu/~birch/projective/projective.pdf [Accessed 15 Mar. 2016]."
   - "MathHistory8: Projective geometry. (2011). [online] YouTube. Available at: https://www.youtube.com/watch?v=NYK0GBQVngs [Accessed 02 Mar. 2016]."

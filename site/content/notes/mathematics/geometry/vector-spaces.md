@@ -7,6 +7,7 @@ description: |
   This article covers some examples of vector spaces, basis of vectores spaces and linear maps.
 image: /images/xyz-z-up.jpg
 tags: ["vector spaces", "geometry", "computer graphics"]
+libraries: ["math"]
 date: 2016-03-14 17:07:51
 references:
   - "Nearing, J. (2016). Vector spaces. [online] Physics.miami.edu. Available at: http://www.physics.miami.edu/~nearing/mathmethods/vector_spaces.pdf [Accessed 15 Mar. 2016]."

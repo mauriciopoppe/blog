@@ -11,6 +11,7 @@ description: |
   needed to express objects in a different reference frame.
 image: /images/combining-transformations!coordinate-systems.jpg
 tags: ["computer graphics", "transformation matrix", "coordinate systems", "object space", "upright space", "world space"]
+libraries: ["math"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---

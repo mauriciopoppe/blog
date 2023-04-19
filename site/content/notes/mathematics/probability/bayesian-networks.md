@@ -7,6 +7,7 @@ description: |
   distribution of a set of query values given some observed events.
 image: /images/math-generic.jpeg
 tags: ["math", "probability", "bayesian networks", "exact inference", "conditional independence relations", "full joint distribution"]
+libraries: ["math"]
 date: 2020-03-05 18:11:00
 ---
 

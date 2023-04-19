@@ -6,6 +6,7 @@ description: |
   arbitrary axes in 2d and 3d with matrix multiplication!
 image: /images/scale!arbitrary-axis.png
 tags: ["computer graphics", "transformation matrix", "2d", "3d", "linear algebra", "scaling"]
+libraries: ["math"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---

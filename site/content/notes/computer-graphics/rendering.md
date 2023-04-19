@@ -5,6 +5,7 @@ description: |
 image: /images/rendering.jpeg
 date: 2016-02-26 16:59:48
 tags: ["computer graphics", "rendering"]
+libraries: ["math"]
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
   - https://github.com/ssloy/tinyrenderer/wiki/Lesson-1-Bresenham%E2%80%99s-Line-Drawing-Algorithm

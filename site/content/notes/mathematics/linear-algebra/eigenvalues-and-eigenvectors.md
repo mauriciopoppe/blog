@@ -5,6 +5,7 @@ description: |
   a square matrix as well as how it's applicable in compute graphics.
 image: https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Eigenvalue_equation.svg/250px-Eigenvalue_equation.svg.png
 tags: ["math", "linear algebra", "eigenvalue", "eigenvector", "computer graphics"]
+libraries: ["math"]
 date: 2016-03-07 12:50:15
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."

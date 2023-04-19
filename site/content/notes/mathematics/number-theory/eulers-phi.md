@@ -4,6 +4,7 @@ description: |
   *Euler's phi function* represented as $\phi(n)$ gives for a number $n$ the number of coprimes in the range $[1..n]$, in other words the quantity numbers in the range $[1..n]$ whose greatest common divisor with $n$ is the unity. In this article I try to explain how it works and implement it in C++.
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "divisibility", "euler's phi function", "prime numbers", "greatest common divisor", "gcd"]
+libraries: ["math"]
 date:   2015-06-01 00:00:00
 ---
 

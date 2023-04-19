@@ -10,6 +10,7 @@ description: |
 
 image: /images/graph-theory.png
 tags: ["graph theory", "bfs", "dfs", "cycle finding", "tree edge", "back edge", "forward edge", "cross edge"]
+libraries: ["math"]
 date: 2015-06-24 11:00:00
 ---
 

@@ -12,7 +12,7 @@ module.exports = merge(common, {
   },
 
   devServer: {
-    host: '0.0.0.0',
+    host: 'localhost',
     port: process.env.PORT || 3000,
     contentBase: path.join(process.cwd(), './dist'),
     disableHostCheck: true,

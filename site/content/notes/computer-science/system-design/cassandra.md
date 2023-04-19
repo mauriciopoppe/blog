@@ -10,6 +10,7 @@ description: |
   and finally and most important, some examples about data modeling for different types of queries.
 image: https://upload.wikimedia.org/wikipedia/commons/5/5e/Cassandra_logo.svg
 tags: ["system design", "distributed systems", "databases", "columnar datastore", "memtable", "sstable", "quorum", "data modeling"]
+libraries: ["math"]
 date: 2020-02-28T20:47:00Z
 references:
 - https://www.slideshare.net/DataStax/scalable-data-modeling-by-example-carlos-alonso-job-and-talent-cassandra-summit-2016

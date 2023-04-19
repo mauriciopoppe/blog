@@ -9,34 +9,17 @@
   </div>
 </footer>
 
-<!--<script>-->
-<!--  (function() {-->
-<!--    // force the sunset wrapper to have the same height as the page!-->
-<!--    document.querySelector('.browser-sunset-wrapper').style.height = window.innerHeight + 'px'-->
-<!--  })()-->
-<!--</script>-->
-
-<!-- always included -->
-<!--{{ partial "lib/hypothesis.html" . }}-->
-{{ partial "scripts/main.html" . }}
-{{ partial "scripts/voronoi.html" . }}
-{{ partial "scripts/sunset.html" . }}
-
 {{ partial "lib/polyfill.html" . }}
 {{ partial "lib/prism.html" . }}
-
-<!-- math is enabled by default -->
-{{ if isset .Params "nomath" }}
-  {{ $s := true }}
-{{ else }}
-  {{ partial "lib/mathjax3.html" . }}
-{{ end }}
+{{ partial "scripts/main.html" . }}
+{{ partial "scripts/sunset.html" . }}
 
 <!-- selectively included -->
 {{ if isset .Params "libraries" }}
   {{ range .Params.libraries }}
     {{ if eq . "function-plot" }} {{ partial "lib/function-plot.html" . }} {{ end }}
     {{ if eq . "greuler" }} {{ partial "lib/greuler.html" . }} {{ end }}
+    {{ if eq . "math" }} {{ partial "lib/mathjax3.html" . }} {{ end }}
   {{ end }}
 {{ end }}
 

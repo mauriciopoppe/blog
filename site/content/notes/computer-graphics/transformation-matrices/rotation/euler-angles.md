@@ -9,6 +9,7 @@ description: |
   - *roll* - Rotation around the front-to-back axis
 image: https://upload.wikimedia.org/wikipedia/commons/8/85/Euler2a.gif?1461803605967
 tags: ["geometry", "rotation", "computer graphics", "euler angles"]
+libraries: ["math"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
  - "Images taken from https://www.wikiwand.com/en/Euler_angles#/Rotation_matrix, Author: Lionel Brits"

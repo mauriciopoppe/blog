@@ -10,6 +10,7 @@ description: |
   in system design calculations and some challenges to put all of these info into practice.
 image: /images/back-of-the-envelope.jpeg
 tags: ["system design", "architecture", "scalability", "back of the envelope"]
+libraries: ["math"]
 date: 2020-08-08 15:45:36
 references:
   - https://github.com/donnemartin/system-design-primer#latency-numbers-every-programmer-should-know

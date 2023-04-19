@@ -12,6 +12,7 @@ description: |
   In this article I cover the math behind the generation of the viewport transformation matrix.
 image: /images/rendering!pixel-coordinates.jpg
 tags: ["computer graphics", "transformation matrix", "viewport transform", "3d", "2d"]
+libraries: ["math"]
 date: 2016-03-08 22:20:58
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."

@@ -9,6 +9,7 @@ description: |
   different coordinate systems.
 image: /images/scaling-rotation-translation.png
 tags: ["computer graphics", "transformation matrix", "linear algebra"]
+libraries: ["math"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---

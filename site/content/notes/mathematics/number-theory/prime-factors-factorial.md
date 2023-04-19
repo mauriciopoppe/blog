@@ -5,6 +5,7 @@ description: |
   given two numbers $n$ and $k$ find the greatest power of $k$
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "prime numbers", "integer factorization"]
+libraries: ["math"]
 date: 2015-06-09 14:00:03
 ---
 
