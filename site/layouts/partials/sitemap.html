@@ -2,14 +2,16 @@
 <!-- if this is the index page then start uncollapsed -->
 {{ if .Scratch.Get "isIndex" }}
   {{ .Scratch.Set "collapsed" "" }}
+  {{ .Scratch.Set "sidebar-hide" "" }}
 {{ else }}
   {{ .Scratch.Set "collapsed" "list-is-collapsed" }}
+  {{ .Scratch.Set "sidebar-hide" "hide" }}
 {{ end }}
 
 {{ if (ne .Params.toc "false") }}
 
 <!-- sitemap wrapper, used only for positioning -->
-<div style="position: relative" class="sidebar sitemap-wrapper">
+<div style="position: relative" class="sidebar sitemap-wrapper {{ .Scratch.Get "sidebar-hide" }}">
 
 <!--  {{ if .Scratch.Get "isIndex" }}-->
 <!--  <div class="tabs is-centered is-fullwidth">-->
