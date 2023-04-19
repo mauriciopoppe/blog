@@ -9,6 +9,7 @@ description: |
   using an array and a priority queue.
 image: https://upload.wikimedia.org/wikipedia/commons/5/57/Dijkstra_Animation.gif
 tags: ["graph theory", "single source shortest path", "weighted graph", "unweighted graph", "dijkstra", "bfs", "set", "priority queue"]
+libraries: ["math"]
 date: 2015-07-03 13:21:32
 ---
 

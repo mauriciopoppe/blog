@@ -11,7 +11,7 @@ description: |
 tags: ["graph theory", "cut vertices", "articulation points", "biconnected components", "edge connectivity", "vertex connectivity", "depth first search"]
 image: /images/articulation-points.png
 date: 2015-06-24 15:00:00
-libraries: ["greuler"]
+libraries: ["greuler", "math"]
 ---
 
 All the facts/properties below are considered for an undirected connected graph $G$

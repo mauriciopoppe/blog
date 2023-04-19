@@ -14,6 +14,7 @@ image: https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Axonometric_pro
 tags: ["computer graphics", "orthographic projection"]
 bibliography:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
+libraries: ["math"]
 ---
 
 ## Orthographic projection

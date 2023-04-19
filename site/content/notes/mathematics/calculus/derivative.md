@@ -11,7 +11,7 @@ description: |
 tags: ["math", "calculus", "derivative", "maxima minima"]
 image: /images/derivative.jpg
 date: 2015-04-02 10:00:00
-libraries: ["function-plot"]
+libraries: ["function-plot", "math"]
 ---
 
 ## Physical interpretation of the derivative

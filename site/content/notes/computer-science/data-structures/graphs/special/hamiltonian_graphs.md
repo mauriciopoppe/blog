@@ -3,7 +3,7 @@ title: "Hamiltonian Graphs"
 description: "Hamiltonian graphs and hamiltonian cycles."
 tags: ["graph theory", "hamiltonian graph", "hamiltonian cycle"]
 date: 2015-07-07 19:30:51
-libraries: ["greuler"]
+libraries: ["greuler", "math"]
 ---
 
 A cycle that contains every vertex of a graph $G$ is called a **Hamiltonian cycle**, a Hamiltonian cycle is a spanning cycle of $G$, a **Hamiltonian graph** is a graph that contains a Hamiltonian cycle

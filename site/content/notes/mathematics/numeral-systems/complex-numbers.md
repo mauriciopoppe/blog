@@ -10,8 +10,8 @@ description: |
   the geometric and polar representations of complex numbers.
 image: /images/math-generic.jpeg
 tags: ["math", "numeral systems", "complex numbers", "imaginary numbers"]
+libraries: ["function-plot", "math"]
 date: 2015-09-08 13:30:00
-libraries: ["function-plot"]
 ---
 
 ## Imaginary numbers

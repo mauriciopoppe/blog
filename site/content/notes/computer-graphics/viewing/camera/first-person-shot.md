@@ -11,6 +11,7 @@ description: |
   In this article I analyze the math needed to design and implement a 1st person shooter camera in C++.
 image: /images/first-person-pov.jpeg
 tags: ["camera", "first person", "pov", "euler angles", "linear algebra"]
+libraries: ["math"]
 ---
 
 A first person camera captures objects from the viewpoint of a player's character, the camera has the following characteristics:

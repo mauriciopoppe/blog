@@ -5,6 +5,7 @@ description: |
   A **normal vector** to a curve at a particular point is a vector perpendicular to the *tangent* vector of the curve at that point (also called a *gradient*).
 image: /images/diffuse-shading!lambertian.jpg
 tags: ["computer graphics", "geometry", "normal"]
+libraries: ["math"]
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
   - "Online Graphics Transforms 2: Normals. (2016). [online] YouTube. Available at: https://www.youtube.com/watch?v=fK45BV7QJe0 [Accessed 8 Mar. 2016]."

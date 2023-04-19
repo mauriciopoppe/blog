@@ -6,6 +6,7 @@ description: |
   the ray generation from each pixel for both orthographic and perspective cameras.
 image: /images/ray-tracing!perspective.jpg
 tags: ["computer graphics", "ray tracing", "orthographic projection", "perspective projection"]
+libraries: ["math"]
 date: 2016-02-26 17:03:44
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."

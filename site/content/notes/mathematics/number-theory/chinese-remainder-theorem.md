@@ -8,6 +8,7 @@ description: |
   This article covers the defition of the CRT and an example implementation in C++.
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "chinese remainder theorem", "congruences"]
+libraries: ["math"]
 date: 2015-06-05 12:00:00
 categories: algorithms math
 ---

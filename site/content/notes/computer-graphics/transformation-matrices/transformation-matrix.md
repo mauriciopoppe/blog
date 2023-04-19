@@ -9,6 +9,7 @@ description: |
   and reason about these matrices and the way we can represent them (row vectors vs column vectors).
 image: /images/scaling-rotation-translation.png
 tags: ["computer graphics", "transformation matrix", "2d", "3d", "linear algebra", "geometry"]
+libraries: ["math"]
 references:
   - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."

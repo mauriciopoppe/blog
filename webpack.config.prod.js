@@ -18,7 +18,8 @@ module.exports = merge(common, {
     minimize: true,
     minimizer: [
       new TerserWebpackPlugin({})
-      // NOTE: css is instead modified by netlify
+      // NOTE: optimized CSS is modified by netlify! 
+      // Let it optimize it and skip our optimization
       // new OptimizeCSSAssetsPlugin({})
     ]
   }

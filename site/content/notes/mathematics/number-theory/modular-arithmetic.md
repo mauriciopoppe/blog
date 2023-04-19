@@ -12,6 +12,7 @@ description: |
   in a general case and in the case of coprime numbers.
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "divisibility", "modulo"]
+libraries: ["math"]
 date: 2015-06-04 16:29:18
 ---
 

@@ -9,7 +9,7 @@ description: |
   Next I describe an algorithm to find strong bridges in directed graphs.
 tags: ["graph theory", "cut edges", "bridges", "depth first search"]
 image: /images/cut-edges-bridges.png
-libraries: ["greuler"]
+libraries: ["greuler", "math"]
 ---
 
 ## Undirected graph

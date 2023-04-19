@@ -76,7 +76,7 @@ npm start
 
 Sandbox pages:
 - http://localhost:3000/sandbox/sunset
-- http://localhost:3000/sandbox/jukbox
+- http://localhost:3000/sandbox/jukebox
 
 ### Prod like server
 

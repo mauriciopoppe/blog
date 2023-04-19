@@ -6,6 +6,7 @@ description: |
   problem: by trial multiplication and using baby step giant step.
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "discrete logarithm"]
+libraries: ["math"]
 date: 2015-06-08 12:11:38
 categories: algorithms number-theory
 ---

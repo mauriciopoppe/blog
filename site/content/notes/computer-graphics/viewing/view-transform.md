@@ -9,6 +9,7 @@ description: |
   In this article I cover the math behind the generation of this transformation matrix.
 image: /images/camera-transformation!camera-space.jpg
 tags: ["computer graphics", "transformation matrix", "view transform", "3d", "2d"]
+libraries: ["math"]
 date: 2016-02-13 11:59:56
 references:
   - "Schaback, J. (2016). Camera Transformation and View Matrix. [online] Schabby.de. Available at: http://schabby.de/view-matrix/ [Accessed 7 Mar. 2016]."

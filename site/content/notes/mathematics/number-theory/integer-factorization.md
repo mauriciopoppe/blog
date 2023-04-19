@@ -10,6 +10,7 @@ description: |
   Pollard's Rho algorithm and using the sieve of eratosthenes.
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "integer factorization", "divisibility", "prime factorization", "erathosthenes sieve", "prime numbers"]
+libraries: ["math"]
 date: 2015-06-14 15:08:08
 ---
 

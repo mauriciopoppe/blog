@@ -5,6 +5,7 @@ description: |
   using $O(n)$ space.
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "prime numbers", "erathostenes sieve"]
+libraries: ["math"]
 date:   2015-06-01 12:00:00
 categories: algorithms math
 ---

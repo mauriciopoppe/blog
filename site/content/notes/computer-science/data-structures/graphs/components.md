@@ -7,6 +7,7 @@ description: |
   In this article I implement Tarjan's algorithm to find strongly connected components in a graph.
 image: https://upload.wikimedia.org/wikipedia/commons/6/60/Tarjan%27s_Algorithm_Animation.gif?1435613160896
 tags: ["graph theory", "tarjan's algorithm", "strongly connected components"]
+libraries: ["math"]
 date: 2015-06-25 15:00:00
 ---
 

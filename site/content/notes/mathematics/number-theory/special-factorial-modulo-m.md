@@ -6,6 +6,7 @@ description: |
   an implementation in C++.
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "prime numbers", "modular arithmetic", "divisibility"]
+libraries: ["math"]
 date: 2015-06-09 14:00:03
 ---
 

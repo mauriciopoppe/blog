@@ -6,6 +6,7 @@ description: |
   prime numbers.
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "divisor function", "prime numbers"]
+libraries: ["math"]
 date: 2015-06-13 14:29:59
 ---
 

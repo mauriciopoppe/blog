@@ -9,6 +9,7 @@ description: |
   a naive test, the erathostenes sieve, the euler primality test and the miller-rabin primality test.
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "prime numbers", "erathostenes sieve", "fermat primality test", "euler primality test", "miller-rabin primality test"]
+libraries: ["math"]
 date: 2015-06-11 13:16:59
 ---
 

@@ -9,7 +9,7 @@ description: |
   This article also explains the Königsberg Bridge Problem and how it's impossible to find a trail on it. Finally there are two implementations in C++ to find Eulerian trails in directed and underected graphs.
 image: /images/eulerian-graph.png
 tags: ["graph theory", "eulerian graph", "eulerian trail"]
-libraries: ["greuler"]
+libraries: ["greuler", "math"]
 ---
 
 A circuit $C$ in a graph $G$ is called an **Eulerian circuit** if $C$ contains every edge of $G$ (remember that a circuit is a closed trail, i.e. a walk in which no edge is traversed more than once and it and that it begins and ends in the same vertex)

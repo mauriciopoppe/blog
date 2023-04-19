@@ -6,6 +6,7 @@ description: |
   the parameters and a maximization (M) step which computes new parameters.
 image: /images/covariance-matrix.jpeg
 tags: ["machine learning", "expectation maximization", "k-means clustering", "gaussian distribution", "multivariate gaussian distribution"]
+libraries: ["math"]
 date: 2020-03-16 21:21:00
 references:
   - Do, C. . (2008 10). The Multivariate Gaussian Distribution. Retrieved March 20, 2020, from http://cs229.stanford.edu/section/gaussians.pdf

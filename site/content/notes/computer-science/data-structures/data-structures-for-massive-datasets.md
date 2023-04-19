@@ -9,6 +9,7 @@ description: |
   and reservoir-sampling.
 image: /images/many-numbers.jpeg
 tags: ["data structures", "big data", "probability", "count-min sketch", "bloom filters", "reservoir-sampling"]
+libraries: ["math"]
 date: 2020-05-09 17:24:19
 references:
   - https://florian.github.io/count-min-sketch/

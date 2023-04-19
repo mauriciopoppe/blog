@@ -7,6 +7,7 @@ description: |
   linear congruence equations.
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "divisibility", "modulo", "linear congruence equations", "mudular multiplicative inverse", "extended euclidean algorithm", "euclidean algorithm", "diophantine equations"]
+libraries: ["math"]
 date:   2015-06-02 12:00:00
 ---
 

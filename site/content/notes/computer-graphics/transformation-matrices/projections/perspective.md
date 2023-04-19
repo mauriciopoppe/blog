@@ -12,6 +12,7 @@ description: |
 image: /images/perspective-projection-real-life.jpeg
 tags: ["computer graphics", "perspective projection"]
 date: 2016-02-06 18:00:00
+libraries: ["math"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---

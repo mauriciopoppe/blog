@@ -5,7 +5,7 @@ description: |
 image: /images/affine-space!translation.jpg
 tags: ["math", "geometry", "affine geometry", "affine spaces"]
 date: 2016-03-15 12:19:52
-libraries: ["function-plot"]
+libraries: ["function-plot", "math"]
 references:
   - "Bærentzen, J. A., Gravesen, J., Anton François, & Aanæs, H. (2012). Guide to computational geometry processing: foundations, algorithms, and methods. London: Springer."
 ---

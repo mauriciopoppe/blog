@@ -12,7 +12,7 @@ references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
 image: /images/ray-tracing!camera.jpg
 tags: ["computer graphics", "culling", "clipping", "geometry", "3d"]
-libraries: ["function-plot"]
+libraries: ["function-plot", "math"]
 ---
 
 There's a problem when the objects transformed to NDC need to be rasterized, some objects that are behind the eye might be rendered leading to incorrect results

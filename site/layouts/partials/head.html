@@ -46,6 +46,7 @@
     {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
+        "@id": "{{ .Permalink | absLangURL }}",
         "articleSection": "{{ .Section }}",
         "name": "{{ .Title | safeJS }}",
         "headline": "{{ .Title | safeJS }}",
@@ -55,7 +56,7 @@
         "isFamilyFriendly": "true",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": {{ .Permalink | absLangURL }}
+            "@id": "{{ .Permalink | absLangURL }}"
         },
         "author" : {
             "@type": "Person",
@@ -123,7 +124,8 @@ body.draft [data-draft] div::after {
 </script>
 {{ end }}
 
-<link rel="preload" href="{{ .Params.share_img | default .Params.image | default .Site.Params.logo | absURL }}" as="image" crossorigin="anonymous">
+<link rel="preload" href="{{ .Params.image | default .Site.Params.logo | absURL }}" as="image" crossorigin="anonymous">
+<link rel="preload" href="{{ .Site.Params.logo | absURL }}" as="image" crossorigin="anonymous">
 
 <!-- inline script to set the right theme from local storage -->
 <script>
@@ -133,16 +135,12 @@ body.draft [data-draft] div::after {
             document.documentElement.dataset.theme = theme
         }
     }
-
     const theme = localStorage.getItem('theme')
     // getItem returns null if the item is not set
     if (theme == null) return
     window.blog.setTheme(theme)
 })()
 </script>
-
-<!-- link rel="preload" polyfill -->
-<script src="/js/vendor/cssrelpreload.js" inline></script>
 
 <!-- gtag local (will be overridden by the injected script in netlify, it's here so that I can have the gtag function) -->
 <script>

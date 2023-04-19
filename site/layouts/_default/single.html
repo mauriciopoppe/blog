@@ -1,63 +1,11 @@
-{{ define "nav" }}
-{{ end }}
-
 {{ define "header" }}
   {{ partial "article-header.html" . }}
 {{ end }}
 
 {{ define "main" }}
-<section class="main">
-  <div class="container is-fluid">
-    <div class="columns">
-
-      <!-- table of contents -->
-      <aside class="column is-one-fifth">
-        {{ partial "toc.html" . }}
-      </aside>
-
-      <!-- content -->
-      <div class="column is-three-fifths">
-
-        <!-- article[role=main] is used in many places, remember not to change it-->
-        <article role="main" class="content">
-
-          <!-- the content -->
-          {{ .Content }}
-
-          <!-- the references if set in the front matter -->
-          {{ if isset .Params "references" }}
-            <h2 id="references">References</h2>
-            <div class="references">
-              <ul>
-              {{ range .Params.references }}
-                <li>{{ . | markdownify }}</li>
-              {{ end }}
-              </ul>
-            </div>
-          {{ end }}
-
-          <script src="https://utteranc.es/client.js"
-                  repo="mauriciopoppe/blog"
-                  issue-term="pathname"
-                  theme="github-dark"
-                  crossorigin="anonymous"
-                  async>
-          </script>
-
-        </article>
-      </div>
-
-      <!-- sitemap -->
-      <aside class="column is-one-fifth">
-        {{ partial "sitemap.html" . }}
-      </aside>
-
-    </div>
-  </div>
-
-</section>
+  {{ partial "article-content.html" . }}
 {{ end }}
 
 {{ define "footer" }}
-  {{ partial "footer.html" . }}
+  {{ partial "article-footer.html" . }}
 {{ end }}

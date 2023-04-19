@@ -7,6 +7,7 @@ description: |
   a polynomial function.
 image: /images/math-generic.jpeg
 tags: ["math", "calculus", "taylor series", "function"]
+libraries: ["math"]
 date: 2015-04-02 10:00:00
 ---
 

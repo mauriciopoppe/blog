@@ -14,7 +14,7 @@ description: |
   nimal spanning trees in a graph.
 image: /images/minimum-spanning-tree.png
 tags: ["minimum spanning tree", "prim", "kruskal", "graph theory", "disjoint set", "union find"]
-libraries: ["greuler"]
+libraries: ["greuler", "math"]
 ---
 
 If a connected graph $G$ of order $n$ has no cycles then of course $G$ is a tree, let's suppose that $G$ contains cycles, let $e_1$ be an edge lying on a cycle of $G$ we know that since $e_1$ is part of cycle it's not a bridge which means that $G - e_1$ is connected, if $G - e_1$ contains cycles then let $e_2$ be an edge lying on a cycle of $G - e_1$, $e_2$ is not a bridge and therefore $G - e_1 - e_2$ is still connected. Eventually we arrive to the set $X = {e_1, e_2, \ldots, e_k}$ of edges such that $G - X$ doesn't contain cycles (i.e. it's a tree) which has the same vertex set of $G$ ($V(G) = V(G - X)$).

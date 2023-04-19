@@ -6,6 +6,7 @@ description: |
   arbitrary axes in 2d and 3d with matrix multiplication!
 image: /images/affine-space!translation.jpg
 tags: ["computer graphics", "transformation matrix", "2d", "3d", "linear algebra", "translation"]
+libraries: ["math"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---

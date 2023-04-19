@@ -8,6 +8,7 @@ image: /images/ray-tracing!blinn-phong.jpg
 references:
   - https://thebookofshaders.com
 tags: ["shading", "surface", "computer graphics"]
+libraries: ["math"]
 ---
 
 Shading is the process of altering the color of a surface, different *shading models* capture the process of light reflection on a surface, these models use the following variables in the computation

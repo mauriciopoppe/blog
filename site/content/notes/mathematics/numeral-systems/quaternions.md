@@ -9,6 +9,7 @@ description: |
   This article covers the definition of a quaternion, its notation and operations.
 image: /images/math-generic.jpeg
 tags: ["math", "numeral systems", "complex numbers", "imaginary numbers", "quaternions"]
+libraries: ["math"]
 date: 2015-09-08 20:00:00
 ---
 

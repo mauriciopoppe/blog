@@ -8,7 +8,7 @@ description: |
 image: https://wordsmithofbengal.files.wordpress.com/2021/08/calculus_score-sheet.png
 date: 2015-03-31 15:35:06
 tags: ["math", "calculus", "function"]
-libraries: ["function-plot"]
+libraries: ["function-plot", "math"]
 ---
 
 ### why?
