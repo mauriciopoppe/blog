@@ -15,19 +15,26 @@
     opacity: 1;
   }
 
-}
-
-@media screen and (max-width: $desktop) {
-  .toc {
+  @include until($desktop) {
     opacity: 1;
     position: static !important;
   }
 }
 
+
+.toc-list {
+  padding-left: unset;
+}
+
+.toc-list-item {
+  padding-left: 10px;
+}
+
 .toc-link {
+
   &:before {
     width: 2px;
-    background-color: $text;
+    background-color: unset;
   }
 
   &.is-active-link {
@@ -35,7 +42,7 @@
     color: $primary;
   }
   &.is-active-link::before {
-    background-color: $primary;
+    background-color: unset;
   }
 }
 
