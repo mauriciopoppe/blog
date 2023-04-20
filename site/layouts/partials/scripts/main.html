@@ -2,7 +2,7 @@
 {{ $type := (printf "%T" $script.js) }}
 
 {{ if eq $type "[]interface {}" }}
-{{ range $script.js }}
+{{ with (index $script.js 0) }}
 <script src="{{ relURL . }}"></script>
 {{ end }}
 {{ end }}
