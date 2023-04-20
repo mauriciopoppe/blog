@@ -105,7 +105,7 @@
 <link rel="stylesheet" media="only screen" href='{{ "/fonts/Serif/cmun-serif.css" }}' />
 
 <!-- My styles -->
-{{ $stylesheet := .Site.Data.webpack.main }}
+{{ $stylesheet := .Site.Data.webpackAssets.main }}
 {{ with $stylesheet.css }}
     <link href="{{ relURL . }}" rel="stylesheet">
 {{ end }}

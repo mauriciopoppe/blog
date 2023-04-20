@@ -13,6 +13,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
+    publicPath: '',
     library: '[name]'
   },
   module: {
@@ -40,13 +41,7 @@ module.exports = {
         test: /\.(sa|sc|c)ss$/,
         exclude: /node_modules/,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: isDevMode,
-              reloadAll: true
-            }
-          },
+          MiniCssExtractPlugin.loader,
           'css-loader',
           'postcss-loader',
           {
@@ -74,12 +69,12 @@ module.exports = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: isDevMode ? '[name].css' : '[name].[hash:5].css',
-      chunkFilename: isDevMode ? '[id].css' : '[id].[hash:5].css'
+      filename: isDevMode ? '[name].css' : '[name].[contenthash:5].css',
+      chunkFilename: isDevMode ? '[id].css' : '[id].[contenthash:5].css'
     }),
 
     new AssetsPlugin({
-      filename: 'webpack.json',
+      filename: 'webpackAssets.json',
       path: path.join(process.cwd(), 'site/data'),
       prettyPrint: true
     })
