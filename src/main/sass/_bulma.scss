@@ -83,6 +83,11 @@ code {
   }
 }
 
+.tag {
+  border: 1px solid $primary;
+  font-weight: $weight-bold;
+}
+
 ::selection {
   background: $info;
 }
