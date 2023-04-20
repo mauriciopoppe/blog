@@ -10,9 +10,10 @@
     "start": "npm run generate:sitemap && npm run generate:colors && run-p start:*",
     "start:hugo": "hugo server -e development -D -F --bind 0.0.0.0 -d ../dist -s site --verbose --watch --disableFastRender --disableLiveReload",
     "start:webpack": "webpack-dev-server --config webpack.config.dev.js --hot",
-    "build": "NODE_ENV=production node src/util/sitemap-tree-generator.js && npm run generate:colors && npm run build:webpack && npm run build:hugo",
+    "build": "NODE_ENV=production node src/util/sitemap-tree-generator.js && npm run generate:colors && npm run build:webpack && npm run build:copyAssets && npm run build:hugo",
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
-    "build:hugo": "hugo -d ../dist -s site -v",
+    "build:copyAssets": "mkdir -p site/assets/ dist/ && cp dist/*.css site/assets/",
+    "build:hugo": "hugo --source site --destination ../dist --verbose --debug",
     "serve:prod": "http-server -S -C site/cert/localhost.pem -K site/cert/localhost-key.pem dist",
     "generate:colors": "node src/util/bulma-css-vars-generator.js && node src/util/palette-generator.js",
     "generate:sitemap": "node src/util/sitemap-tree-generator.js"

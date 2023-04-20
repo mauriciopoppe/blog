@@ -19,6 +19,7 @@
 {{ end }}
 
 {{ define "footer" }}
+  {{ partial "scripts/webpack-runtime.html" . }}
   {{ partial "scripts/main.html" . }}
   {{ partial "scripts/voronoi.html" . }}
 {{ end }}

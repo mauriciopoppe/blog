@@ -27,7 +27,7 @@ module.exports = merge(common, {
 
   plugins: [
     new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: ['dist/**/*.js', 'dist/**/*.css', 'site/data/webpackAssets.json']
+      cleanOnceBeforeBuildPatterns: ['dist/**/*.js', 'dist/**/*.css', 'site/assets', 'site/data/webpackAssets.json']
     })
   ]
 })
