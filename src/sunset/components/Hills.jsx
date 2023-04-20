@@ -3,7 +3,7 @@ import { useSpring, animated } from 'react-spring'
 import { area, line, curveLinear } from 'd3-shape'
 import { randomBetween, isMobile } from './utils'
 
-import { t } from '../../main'
+import { theme } from '../../main/colors'
 import { Tree } from './Tree.jsx'
 
 function generateData(props) {
@@ -98,7 +98,7 @@ export function Hills({ n, ...props }) {
       {[...Array(n).keys()].map((i) => {
         const startK = 0.25
         const k = startK + ((n - i) / n) * (1 - startK)
-        return <Hill key={i} z={i} total={n} pathStyle={{ fill: t(k) }} {...props} />
+        return <Hill key={i} z={i} total={n} pathStyle={{ fill: theme.t(k) }} {...props} />
       })}
     </>
   )
