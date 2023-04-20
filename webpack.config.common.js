@@ -60,7 +60,10 @@ module.exports = {
   //     Components: path.resolve(process.cwd(), 'src/components/')
   //   }
   // },
-  devtool: 'eval-cheap-module-source-map',
+  devtool: 'eval-source-map',
+  optimization: {
+    runtimeChunk: 'single'
+  },
   plugins: [
     // new webpack.ProvidePlugin({
     //   fetch: 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'

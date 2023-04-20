@@ -13,7 +13,7 @@ tags: ["distributed-systems", "data modeling", "system design", "partitioning"]
 date: 2018-01-08T22:43:20Z
 ---
 
-**Image taken from https://www.enjoyalgorithms.com/blog/data-partitioning-system-design-concept**
+*Image taken from https://www.enjoyalgorithms.com/blog/data-partitioning-system-design-concept*
 
 ## With replication
 
