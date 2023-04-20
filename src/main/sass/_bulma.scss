@@ -83,6 +83,14 @@ code {
   }
 }
 
+::selection {
+  background: $info;
+}
+
+:focus-visible {
+  outline: 3px solid $info;
+}
+
 @media screen and (max-width: $tablet) {
   .container.is-fluid, .hero.is-small .hero-body {
     padding-top: 1rem;

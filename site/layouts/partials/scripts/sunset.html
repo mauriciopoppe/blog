@@ -1,4 +1,13 @@
 {{ $script := .Site.Data.webpackAssets.sunset }}
+{{ $type := (printf "%T" $script.js) }}
+{{ if eq $type "[]interface {}" }}
+{{ range $script.js }}
+<script src="{{ relURL . }}"></script>
+{{ end }}
+{{ end }}
+
+{{ if eq $type "string" }}
 {{ with $script.js }}
-    <script src="{{ relURL . }}"></script>
+<script src="{{ relURL . }}"></script>
+{{ end }}
 {{ end }}

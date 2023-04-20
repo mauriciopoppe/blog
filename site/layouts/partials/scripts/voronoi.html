@@ -1,7 +1,17 @@
 {{ $script := .Site.Data.webpackAssets.voronoi }}
-{{ with $script.js }}
-    <script src="{{ relURL . }}"></script>
+{{ $type := (printf "%T" $script.js) }}
+{{ if eq $type "[]interface {}" }}
+{{ range $script.js }}
+<script src="{{ relURL . }}"></script>
 {{ end }}
+{{ end }}
+
+{{ if eq $type "string" }}
+{{ with $script.js }}
+<script src="{{ relURL . }}"></script>
+{{ end }}
+{{ end }}
+
 <script>
 (function () {
   var target = {{ if .Scratch.Get "isIndex" }} 'body' {{ else }} null {{ end}}
