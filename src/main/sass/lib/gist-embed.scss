@@ -2,7 +2,7 @@
   .gist-data {
     color: $text;
     background: transparent !important;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-family: $family-monospace;
     font-size: 0.7em !important;
     text-align: left;
     word-spacing: normal;

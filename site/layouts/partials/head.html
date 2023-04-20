@@ -102,12 +102,20 @@
 <link rel="alternate" href='{{ "index.xml" | absLangURL }}" type="application/rss+xml" title="{{ .Site.Title }}'>
 
 <!-- Font -->
-<link rel="stylesheet" media="only screen" href='{{ "/fonts/Serif/cmun-serif.css" }}' />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&display=swap" rel="stylesheet">
 
 <!-- My styles -->
 {{ $stylesheet := .Site.Data.webpackAssets.main }}
 {{ with $stylesheet.css }}
     <link href="{{ relURL . }}" rel="stylesheet">
+{{ end }}
+
+<!-- My webpack HMR fix (https://github.com/webpack/webpack-dev-server/issues/2792) -->
+{{ $script := .Site.Data.webpackAssets.runtime }}
+{{ with $script.js }}
+<script src="{{ relURL . }}"></script>
 {{ end }}
 
 <link rel="preload" href="{{ .Params.image | default .Site.Params.logo | absURL }}" as="image" crossorigin>

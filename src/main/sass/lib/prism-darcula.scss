@@ -13,14 +13,14 @@ pre[class*="language-"] {
   color: $text;
   background: none;
 
-  font-family: Consolas, Monaco, 'Andale Mono', monospace;
+  font-family: $family-monospace;
   direction: ltr;
   text-align: left;
   white-space: pre;
   word-spacing: normal;
   word-break: normal;
   word-wrap: normal;
-  line-height: 1.5;
+  line-height: 1;
 
   -moz-tab-size: 4;
   -o-tab-size: 4;

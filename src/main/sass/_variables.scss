@@ -16,22 +16,42 @@
 //$warning-invert: #fff;
 
 // override
-$body-size: 18px; // 16px;
+
+$family-serif: "Cormorant Garamond" , serif;
+$family-monospace: Consolas, monospace;
+$family-primary: $family-serif;
 $radius: 0px;
 $radius-large: 0px;
+
+$body-background-color: $grey-darker;
+$body-size: 18px; // 16px;
+
+$size-1: 3.5rem;
+$size-2: 3rem;
+$size-3: 2.5rem;
+$size-4: 2rem;
+$size-5: 1.5rem;
+$size-6: 1.25rem;
+$size-7: 1rem;
+
+$body-weight: 300;
+$body-font-size: 1.5em;
+$code-weight: 300;
+$code-padding: 0.25em;
+$code-size: 0.8em;
+$pre-font-size: 0.8em;
+$pre-padding: 1em 1.25em;
+$pre-code-font-size: 0.8em;
 
 $black-bis: rgb(18, 18, 18);
 
 $border: $grey-light;
 
-$body-background-color: $grey-darker;
 $background: $grey-dark;
 $footer-background-color: $background;
 $button-background-color: $background;
 $button-border-color: lighten($button-background-color, 15);
 
-$family-serif: "Merriweather", "Georgia", serif;
-$family-primary: $family-serif;
 $time: 150ms;
 
 $title-color: $grey-lighter;

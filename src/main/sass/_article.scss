@@ -13,17 +13,6 @@ article[role=main] {
     transition: .2s ease-out;
   }
 
-  @include desktop {
-    & {
-      font-size: 1.25em;
-    }
-  }
-
-  @include until($desktop) {
-    & {
-      font-size: 1.1em;
-    }
-  }
 }
 
 .article-header__hero-body {

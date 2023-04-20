@@ -58,29 +58,29 @@ hr {
 }
 
 body {
-  //text-shadow: 0px 0px 10px rgba($text, 0.2);
-  font-family: 'Computer Modern Serif', $family-serif;
   // disabling these properties to get a better font
   -moz-osx-font-smoothing: auto;
   -webkit-font-smoothing: auto;
-}
-
-strong {
-  color: $text-light;
+  @include until($desktop) {
+    line-height: 1.25;
+  }
 }
 
 pre[class*=language-] {
-  font-size: 0.7em !important;
   border-radius: $radius;
   background-color: $grey-darker;
 }
 
 code {
-  font-weight: normal;
-  padding: .25em;
   background-color: transparent;
   border-radius: $radius;
-  //white-space: pre-wrap;
+}
+
+.content ul {
+  @include until($desktop) {
+    margin-left: 1em;
+    margin-top: 1em;
+  }
 }
 
 @media screen and (max-width: $tablet) {
