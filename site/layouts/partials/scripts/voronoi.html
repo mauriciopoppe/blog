@@ -1,4 +1,4 @@
-{{ $script := .Site.Data.webpack.voronoi }}
+{{ $script := .Site.Data.webpackAssets.voronoi }}
 {{ with $script.js }}
     <script src="{{ relURL . }}"></script>
 {{ end }}

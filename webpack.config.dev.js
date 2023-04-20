@@ -14,11 +14,12 @@ module.exports = merge(common, {
   devServer: {
     host: 'localhost',
     port: process.env.PORT || 3000,
-    contentBase: path.join(process.cwd(), './dist'),
-    disableHostCheck: true,
-    watchContentBase: true,
-    quiet: false,
+    static: {
+      directory: path.join(process.cwd(), './dist')
+    },
+    allowedHosts: 'all',
     open: true,
+    hot: true,
     historyApiFallback: {
       rewrites: [{ from: /./, to: '404.html' }]
     }
@@ -26,7 +27,7 @@ module.exports = merge(common, {
 
   plugins: [
     new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: ['dist/**/*.js', 'dist/**/*.css', 'site/data/webpack.json']
+      cleanOnceBeforeBuildPatterns: ['dist/**/*.js', 'dist/**/*.css', 'site/data/webpackAssets.json']
     })
   ]
 })

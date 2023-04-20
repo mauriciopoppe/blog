@@ -8,7 +8,7 @@
 /site/data/metadata
 
 # compiled from webpack
-/site/data/webpack.json
+/site/data/webpackAssets.json
 
 /site/static/css/main.css
 /site/static/css/mobile.css

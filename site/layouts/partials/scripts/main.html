@@ -1,4 +1,4 @@
-{{ $script := .Site.Data.webpack.main }}
+{{ $script := .Site.Data.webpackAssets.main }}
 {{ with $script.js }}
     <script src="{{ relURL . }}"></script>
 {{ end }}
