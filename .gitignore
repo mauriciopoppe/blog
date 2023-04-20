@@ -10,6 +10,7 @@
 # compiled from webpack
 /site/data/webpackAssets.json
 
+/site/assets/
 /site/static/css/main.css
 /site/static/css/mobile.css
 

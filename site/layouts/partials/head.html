@@ -108,23 +108,21 @@
 
 <!-- My styles -->
 {{ $stylesheet := .Site.Data.webpackAssets.main }}
-{{ with $stylesheet.css }}
-    <link href="{{ relURL . }}" rel="stylesheet">
-{{ end }}
 
-<!-- My webpack HMR fix (https://github.com/webpack/webpack-dev-server/issues/2792) -->
-{{ $script := .Site.Data.webpackAssets.runtime }}
-{{ $type := (printf "%T" $script.js) }}
-{{ if eq $type "[]interface {}" }}
-{{ range $script.js }}
-<script src="{{ relURL . }}"></script>
-{{ end }}
-{{ end }}
-
-{{ if eq $type "string" }}
-{{ with $script.js }}
-<script src="{{ relURL . }}"></script>
-{{ end }}
+<!--
+This is an optimization from lighthouse to inline the css in production:
+- run webpack
+- copy webpack assets from dist to site/assets
+- run hugo, when it runs it'll read the css file from site/assets and inline it
+-->
+{{ if hugo.IsProduction }}
+    {{ with resources.Get $stylesheet.css }}
+        <style>{{ .Content | safeCSS }}</style>
+    {{ end }}
+{{ else }}
+    {{ with $stylesheet.css }}
+        <link href="{{ relURL . }}" rel="stylesheet">
+    {{ end }}
 {{ end }}
 
 <!-- inline script to set the right theme from local storage -->

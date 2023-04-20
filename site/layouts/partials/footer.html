@@ -9,8 +9,11 @@
   </div>
 </footer>
 
+
+<!-- My webpack HMR fix (https://github.com/webpack/webpack-dev-server/issues/2792) -->
 {{ partial "lib/polyfill.html" . }}
 {{ partial "lib/prism.html" . }}
+{{ partial "scripts/webpack-runtime.html" . }}
 {{ partial "scripts/main.html" . }}
 {{ partial "scripts/sunset.html" . }}
 
