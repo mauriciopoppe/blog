@@ -31,8 +31,8 @@ function colorsInterpolator(colors, n) {
 
 class Theme {
   constructor() {
-    this.colors = ['#b95a70', '#212220']
-    this.bannerColors = ['#b95a70', '#00b1e6', '#48F913', '#F9C80E', '#B94B69']
+    this.colors = ['#C27083', '#212220']
+    this.bannerColors = ['#C27083', '#00b1e6', '#48F913', '#F9C80E', '#B94B69']
     this.style = {
       dark: {
         'grey-darker': '#212220',
