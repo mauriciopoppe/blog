@@ -18,6 +18,7 @@
 // override
 
 $family-serif: "Cormorant Garamond" , serif;
+$family-sans-serif: "Lato" , serif;
 $family-monospace: Consolas, monospace;
 $family-primary: $family-serif;
 
@@ -53,8 +54,11 @@ $button-border-color: lighten($button-background-color, 15);
 $time: 150ms;
 
 $title-color: $grey-lighter;
+$title-weight: 300;
 $subtitle-color: $grey-lighter;
 $subtitle-strong-color: $grey-lighter;
+
+$content-heading-weight: 300;
 
 $text: $grey-light;
 $text-light: $grey-lighter;

@@ -97,6 +97,10 @@ code {
   outline: 3px solid $info;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: $family-sans-serif;
+}
+
 @media screen and (max-width: $tablet) {
   .container.is-fluid, .hero.is-small .hero-body {
     padding-top: 1rem;
