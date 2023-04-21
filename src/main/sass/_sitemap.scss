@@ -68,29 +68,15 @@
     display: inline-block;
     line-height: 1em;
   }
-}
 
-// override settings set by the scroll spy
-@media screen and (max-width: $desktop) {
-  .sitemap {
+  @include until($desktop) {
+    font-size: 1em;
     position: initial !important;
     top: initial !important;
     height: auto !important;
     width: auto !important;
     overflow: hidden;
     opacity: 1;
-  }
-}
-
-// remove active link styling on mobile to avoid content jump
-@media screen and (max-width: $desktop) {
-  .toc-link.is-active-link {
-    font-weight: normal !important;
-    color: currentColor !important;
-
-    &:before {
-      background-color: currentColor !important;
-    }
   }
 }
 

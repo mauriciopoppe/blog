@@ -25,17 +25,10 @@ $family-primary: $family-serif;
 $body-background-color: $grey-darker;
 $body-size: 18px; // 16px;
 
-$size-1: 3.5rem;
-$size-2: 3rem;
-$size-3: 2.5rem;
-$size-4: 2rem;
-$size-5: 1.5rem;
-$size-6: 1.25rem;
-$size-7: 1rem;
-
-$body-weight: 300;
-$body-font-size: 1.5em;
-$code-weight: 300;
+$body-weight: 400;
+$body-font-size: 1em;
+$body-line-height: 1.25;
+$code-weight: 400;
 $code-padding: 0.25em;
 $code-size: 0.75em;
 $pre-font-size: 0.8em;
@@ -54,11 +47,11 @@ $button-border-color: lighten($button-background-color, 15);
 $time: 150ms;
 
 $title-color: $grey-lighter;
-$title-weight: 300;
+$title-weight: 400;
 $subtitle-color: $grey-lighter;
 $subtitle-strong-color: $grey-lighter;
 
-$content-heading-weight: 300;
+$content-heading-weight: 400;
 
 $text: $grey-light;
 $text-light: $grey-lighter;

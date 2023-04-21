@@ -62,8 +62,11 @@ body {
   font-smooth: auto;
   -webkit-font-smoothing: auto;
   -moz-osx-font-smoothing: auto;
+  font-size: $body-font-size + 0.25em;
+
   @include until($desktop) {
-    line-height: 1.2;
+    line-height: 1.25;
+    font-size: $body-font-size;
   }
 }
 
@@ -91,6 +94,11 @@ code {
 
 ::selection {
   background: $info;
+}
+html[data-theme=light] {
+  ::selection {
+    background: $primary;
+  }
 }
 
 :focus-visible {

@@ -1,6 +1,11 @@
 .sidebar {
   transition: all $time;
   opacity: 1;
+
+  @include until($desktop) {
+    border: 1px solid $primary;
+    border-radius: $radius;
+  }
 }
 
 .sidebar.hide {
