@@ -23,6 +23,7 @@
   }
 
   .card {
+    color: #c5c5c5 !important;
     background-color: rgba($black, 0.5);
   }
 
@@ -39,6 +40,10 @@
       background-color: $primary;
       color: $text-invert;
     }
+  }
+
+  a {
+    color: $primary;
   }
 
   a:hover, [data-toggle-text]:hover {

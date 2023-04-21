@@ -55,12 +55,12 @@ class Theme {
         red: '#ee5f5b'
       },
       light: {
-        'grey-darker': '#fefefe',
-        'grey-dark': '#fafafa',
+        'grey-darker': '#fffcf3',
+        'grey-dark': '#f8f5eb',
         grey: '#f8f8f8',
         'grey-light': '#333333',
         'grey-lighter': '#151515',
-        primary: color(this.t(0)).formatHex(),
+        primary: color(this.t(0.1)).formatHex(),
         info: color(this.t(0.5)).formatHex(),
         warning: color(this.t(1)).formatHex(),
         link: '#555555',

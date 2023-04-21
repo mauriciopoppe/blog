@@ -42,6 +42,16 @@ article[role=main] {
   }
 }
 
+.theme-toggle {
+  display: none;
+}
+html[data-theme="dark"] .light-mode {
+  display: block;
+}
+html[data-theme="light"] .dark-mode {
+  display: block;
+}
+
 section.main {
   @include desktop {
     margin: 2em 0;

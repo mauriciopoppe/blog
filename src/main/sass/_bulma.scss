@@ -62,7 +62,7 @@ body {
   -moz-osx-font-smoothing: auto;
   -webkit-font-smoothing: auto;
   @include until($desktop) {
-    line-height: 1.25;
+    line-height: 1.2;
   }
 }
 

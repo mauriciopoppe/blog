@@ -1,5 +1,14 @@
 .greuler {
   text {
-    fill: $text;
+    font-family: $family-monospace;
+    fill: $body-background-color;
+  }
+
+  .label {
+    font-weight: $weight-light;
+  }
+
+  circle {
+    fill: $primary;
   }
 }
