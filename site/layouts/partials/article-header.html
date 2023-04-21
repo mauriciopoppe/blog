@@ -5,11 +5,21 @@
   <div class="hero-body article-header__hero-body">
     <div class="container">
 
-      <div class="tags">
-        {{ range .Params.tags }}
-          <span class="tag">{{ . }}</span>
-        {{ end }}
-      </div>
+      <!-- tags and toggle -->
+      <nav class="level" style="position: relative">
+        <div class="level-left">
+          <div class="tags">
+            {{ range .Params.tags }}
+              <span class="tag">{{ . }}</span>
+            {{ end }}
+          </div>
+        </div>
+        <div class="level-right" style="float: right">
+          <!-- class .theme-toggle is referenced from head.html -->
+          <button class="button is-dark is-small material-symbols-outlined theme-toggle dark-mode" data-nexttheme="dark"> dark_mode </button>
+          <button class="button is-dark is-small material-symbols-outlined theme-toggle light-mode" data-nexttheme="light"> light_mode </button>
+        </div>
+      </nav>
 
       <h1 class="title is-1 is-spaced">{{ .Title }}</h1>
       <div class="columns reverse-column-order article-header__summary">

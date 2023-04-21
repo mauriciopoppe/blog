@@ -106,15 +106,28 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&display=swap" rel="stylesheet">
 
-<!-- My styles -->
-{{ $stylesheet := .Site.Data.webpackAssets.main }}
+<!-- Icons -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<style>
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 300,
+  'GRAD' 0,
+  'opsz' 40
+}
+</style>
 
 <!--
-This is an optimization from lighthouse to inline the css in production:
+
+My styles
+
+The following is an optimization from lighthouse to inline the css in production:
 - run webpack
-- copy webpack assets from dist to site/assets
+- copy webpack assets from dist to site/assets (reason: resource.Get is relative to site/assets) using an npm script
 - run hugo, when it runs it'll read the css file from site/assets and inline it
 -->
+{{ $stylesheet := .Site.Data.webpackAssets.main }}
 {{ if hugo.IsProduction }}
     {{ with resources.Get $stylesheet.css }}
         <style>{{ .Content | safeCSS }}</style>
@@ -125,18 +138,50 @@ This is an optimization from lighthouse to inline the css in production:
     {{ end }}
 {{ end }}
 
-<!-- inline script to set the right theme from local storage -->
+<!-- inline script with critical functions -->
 <script>
 (function () {
-    window.blog = {
-        setTheme: function(theme) {
-            document.documentElement.dataset.theme = theme
-        }
+  const myBlog = {
+    // setTheme sets the theme on the webpage
+    setTheme(theme) {
+      if (theme == "dark" || theme == "light") {
+        document.documentElement.dataset.theme = theme
+        return
+      }
+      console.error(`Attempted to set an invalid theme=${theme}`)
+    },
+
+    setThemeFromLocalStorage() {
+      let theme = localStorage.getItem('theme')
+      if (theme == null || theme == "undefined" /* yes string "undefined" */) {
+        theme = "dark"
+      }
+      this.setTheme(theme)
+    },
+
+    // isMobile smoke tests if we're running in a browser.
+    isMobile() {
+      const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i]
+      return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem)
+      })
+    },
+
+    onLoad() {
+      const toggles = document.querySelectorAll('.theme-toggle')
+      toggles.forEach((toggle) => {
+        toggle.addEventListener('click', () => {
+          localStorage.setItem('theme', toggle.dataset.nexttheme)
+          this.setThemeFromLocalStorage()
+        })
+      })
     }
-    const theme = localStorage.getItem('theme')
-    // getItem returns null if the item is not set
-    if (theme == null) return
-    window.blog.setTheme(theme)
+  }
+  window.myBlog = myBlog
+  myBlog.setThemeFromLocalStorage()
+
+  // Toggle theme
+  document.addEventListener('DOMContentLoaded', () => myBlog.onLoad() )
 })()
 </script>
 

@@ -124,6 +124,10 @@ pre[class*="language-"] {
 .token.function {
   color: #ffc66d;
 }
+// override to make the color better in light mode.
+html[data-theme="light"] .token.function {
+  color: #97691f;
+}
 
 .token.regex {
   background: #364135;

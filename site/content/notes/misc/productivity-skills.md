@@ -158,7 +158,7 @@ With the concepts learned above it comes time to talk about my workflow:
 - Log into my computer, start the tmux server, I'll usually see the session 0.
 - Think to the project that I want to work on first e.g. the kubernetes/kubernetes repo, I only need to remember kubernetes.
 - Type `<ctrl+space><ctrl+j>`, that'll open fzf with my bookmarks.
-- I filter the kubernetes repo by typing <kbd>kubernetes</kbd> and select it in the list. That will create a new tmux session in the kubernetes codebase with the tmux layout that I have.
+- I filter the kubernetes repo by typing `kubernetes` and select it in the list. That will create a new tmux session in the kubernetes codebase with the tmux layout that I have.
 - I may run a long running command like building kubernetes or creating a dev cluster. In the meantime
   I can work on a different project, I switch to it with the same keymap used before `<ctrl+space><ctrl+j>`.
 - After working on the other codebase remember that I created a kubernetes dev cluster! I might run another long

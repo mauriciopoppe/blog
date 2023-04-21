@@ -1,6 +1,3 @@
-// colors and bulma
-@import './palette_neon';
-
 // bulma css variables polyfill
 @import './bulma-generated/generated-bulma-vars-dark.sass';
 @import './bulma-generated/generated-bulma-vars-light.sass';
@@ -26,7 +23,7 @@
 @import 'lib/gist-embed';
 
 // skeleton
-@import './index';
+@import './landing';
 @import './article';
 @import './breadcrumb';
 @import './sitemap';
