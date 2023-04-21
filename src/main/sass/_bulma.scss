@@ -58,15 +58,10 @@ hr {
 }
 
 body {
-  // disabling these properties to get a better font
-  font-smooth: auto;
-  -webkit-font-smoothing: auto;
-  -moz-osx-font-smoothing: auto;
   font-size: $body-font-size + 0.25em;
-
   @include until($desktop) {
-    line-height: 1.25;
     font-size: $body-font-size;
+    line-height: 1.25;
   }
 }
 
