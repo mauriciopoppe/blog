@@ -1,0 +1,15 @@
+<!-- usage: partial "webpack-script" (dict "ctx" . "id" "jukebox") -->
+
+{{ $script := index .ctx.Site.Data.webpackAssets .id }}
+{{ $type := (printf "%T" $script.js) }}
+{{ if eq $type "[]interface {}" }}
+{{ with (index $script.js 0) }}
+<script src="{{ relURL . }}"></script>
+{{ end }}
+{{ end }}
+
+{{ if eq $type "string" }}
+{{ with $script.js }}
+<script src="{{ relURL . }}"></script>
+{{ end }}
+{{ end }}
