@@ -14,8 +14,6 @@
 {{ partial "lib/polyfill.html" . }}
 {{ partial "lib/prism.html" . }}
 {{ partial "scripts/webpack-runtime.html" . }}
-{{ partial "scripts/main.html" . }}
-{{ partial "scripts/sunset.html" . }}
 
 <!-- selectively included -->
 {{ if isset .Params "libraries" }}
@@ -25,4 +23,7 @@
     {{ if eq . "math" }} {{ partial "lib/mathjax3.html" . }} {{ end }}
   {{ end }}
 {{ end }}
+
+{{ partial "scripts/main.html" . }}
+{{ partial "scripts/sunset.html" . }}
 
