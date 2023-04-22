@@ -1,15 +1,26 @@
 <!-- usage: partial "webpack-script" (dict "ctx" . "id" "jukebox") -->
 
-{{ $script := index .ctx.Site.Data.webpackAssets .id }}
-{{ $type := (printf "%T" $script.js) }}
-{{ if eq $type "[]interface {}" }}
-{{ with (index $script.js 0) }}
-<script src="{{ relURL . }}"></script>
-{{ end }}
+{{ $webpackScript := index .ctx.Site.Data.webpackAssets .id }}
+{{ $url := "" }}
+
+{{ $type := (printf "%T" $webpackScript.js) }}
+  {{ if eq $type "[]interface {}" }}
+  {{ with (index $webpackScript.js 0) }}
+    {{ $url = . }}
+  {{ end }}
 {{ end }}
 
 {{ if eq $type "string" }}
-{{ with $script.js }}
-<script src="{{ relURL . }}"></script>
+{{ with $webpackScript.js }}
+    {{ $url = . }}
 {{ end }}
 {{ end }}
+
+{{ if and (eq .embed "true") (hugo.IsProduction) }}
+{{ with resources.Get $url }}
+<script>{{ .Content | safeJS }}</script>
+{{ end }}
+{{ else }}
+<script src="{{ relURL $url }}" {{ if eq .defer "true"  }}defer{{ end }} {{ if eq .async "true"  }}async{{ end }}></script>
+{{ end }}
+

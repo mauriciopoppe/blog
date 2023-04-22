@@ -13,7 +13,7 @@
     "prebuild": "eslint src/",
     "build": "NODE_ENV=production node src/util/sitemap-tree-generator.js && npm run generate:colors && npm run build:webpack && npm run build:copyAssets && npm run build:hugo",
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
-    "build:copyAssets": "mkdir -p site/assets/ dist/ && cp dist/*.css site/assets/",
+    "build:copyAssets": "mkdir -p site/assets/ dist/ && cp dist/*.css dist/runtime.* site/assets/",
     "build:hugo": "hugo --source site --destination ../dist --verbose",
     "serve:prod": "http-server -S -C site/cert/localhost.pem -K site/cert/localhost-key.pem dist",
     "generate:colors": "node src/util/bulma-css-vars-generator.js && node src/util/palette-generator.js",
