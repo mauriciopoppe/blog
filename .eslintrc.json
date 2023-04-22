@@ -1,11 +1,21 @@
 {
+    "root": true,
     "extends": ["react-app", "standard"],
     "rules": {
-        "semi": ["warn", "never"],
         "space-before-function-paren": ["error", {
             "anonymous": "ignore",
             "named": "ignore",
             "asyncArrow": "ignore"
         }]
-    }
+    },
+    "globals": {
+        "THREE": "readonly",
+        "TWEEN": "readonly",
+        "anime": "readonly"
+    },
+    "ignorePatterns": [
+        "src/jukebox/postprocessing/*.js",
+        "src/jukebox/shaders/*.js",
+        "src/main/sass/bulma-generated/*.js"
+    ]
 }

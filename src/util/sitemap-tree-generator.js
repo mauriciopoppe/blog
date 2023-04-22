@@ -13,7 +13,7 @@ if (isProduction) {
   console.log('sitemap generator running in production mode')
 }
 
-const addFileToMap = (cwd, map) => (file, i) => {
+const addFileToMap = (cwd, map) => (file) => {
   const data = fs.readFileSync(path.join(cwd, file), { encoding: 'utf-8' })
   const { birthtime } = fs.statSync(path.join(cwd, file))
   const { attributes } = fm(data)
@@ -129,7 +129,7 @@ function createNavBarRecursive(node, depth) {
     `
   }
 
-  const childrenToggle = node.children.length ? `<i class="children-toggle"></i>` : ''
+  const childrenToggle = node.children.length ? '<i class="children-toggle"></i>' : ''
 
   return `
     <li ${target}>
@@ -155,7 +155,7 @@ async function main() {
   const sitemapJson = await dfs(path.join(hugo, '/content/'))
   await fs.ensureDir(path.join(hugo, '/data/metadata/'))
   await fs.writeJson(path.join(hugo, '/data/metadata/render-tree.json'), sitemapJson)
-  const navbar = await createNavBar(sitemapJson.children.filter((node) => node.path === 'notes')[0])
+  const navbar = createNavBar(sitemapJson.children.filter((node) => node.path === 'notes')[0])
   await fs.ensureDir(path.join(hugo, '/layouts/partials/'))
   await fs.writeFile(path.join(hugo, '/layouts/partials/sitemap-tree.auto.html'), navbar)
 }

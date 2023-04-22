@@ -6,15 +6,16 @@ const { runCli } = require('bulma-css-vars/dist/cli.js')
 // so that bulma-css-vars is unblocked
 async function touchDummySassFiles(theme) {
   const dummyFile = path.join(__dirname, `../main/sass/bulma-generated/generated-bulma-vars-${theme}.sass`)
-  execSync(`mkdir -p \$(dirname ${dummyFile}) && touch ${dummyFile}`)
+  execSync(`mkdir -p $(dirname ${dummyFile}) && touch ${dummyFile}`)
 }
 
 async function generateTheme(theme) {
-  const outPath = path.join(__dirname, `../main/sass/bulma-generated`)
+  const outPath = path.join(__dirname, '../main/sass/bulma-generated')
   const themePath = path.join(__dirname, `../main/theme-${theme}/`)
 
   // runs bulma-css-vars with a custom directory (the theme directory)
   await runCli(themePath)
+  // eslint-disable-next-line
   execSync(`sed -i 's/window/global/g' bulma-colors.js`, { cwd: outPath })
   execSync(`sed -i 's/#{":root"}/html[data-theme=${theme}]/g' generated-bulma-vars-${theme}.sass`, { cwd: outPath })
 }

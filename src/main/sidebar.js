@@ -111,7 +111,7 @@ function main() {
   const sidebars = [tocSidebar, sitemapSidebar]
 
   const onResize = debounce(function onResize() {
-    for (let sidebar of sidebars) {
+    for (const sidebar of sidebars) {
       sidebar.refresh()
     }
   }, 250)
@@ -124,13 +124,13 @@ function main() {
     window.addEventListener('scroll', function () {
       // function is not debounced since the scroll waypoints
       // need to be tested everytime
-      for (let sidebar of sidebars) {
+      for (const sidebar of sidebars) {
         sidebar.onScroll()
       }
     })
   } else {
     // Show the sidebars immediately in mobile devices.
-    for (let sidebar of sidebars) {
+    for (const sidebar of sidebars) {
       sidebar.showIfHidden()
     }
   }

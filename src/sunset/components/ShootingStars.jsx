@@ -13,7 +13,7 @@ export function ShootingStars({ width, height, x, y }) {
       set({ cx: x(Math.random() * width), cy: y(Math.random() * height), r: 0 })
       setCounter(counter + 1)
     }, 3000)
-  }, [set, width, height, counter])
+  }, [set, x, y, width, height, counter])
 
   return (
     <g>

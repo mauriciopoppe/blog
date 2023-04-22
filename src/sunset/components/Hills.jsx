@@ -1,10 +1,9 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useSpring, animated } from 'react-spring'
-import { area, line, curveLinear } from 'd3-shape'
+import { area, curveLinear } from 'd3-shape'
 import { randomBetween, isMobile } from './utils'
 
 import { theme } from '../../main/colors'
-import { Tree } from './Tree.jsx'
 
 function generateData(props) {
   const { x, y, z, total } = props
@@ -30,7 +29,7 @@ function generateData(props) {
 }
 
 function Hill(props) {
-  const { x, y, z, height, total } = props
+  const { y, z, height, total } = props
   const [pathData] = useState(() => generateData(props))
 
   const [mouseProps, set] = useSpring(() => ({
@@ -47,21 +46,11 @@ function Hill(props) {
     [y, pathData]
   )
 
-  const ld = useMemo(
-    () =>
-      line()
-        .x((d) => d.x)
-        .y((d) => d.y)
-        .curve(curveLinear)(pathData),
-    [pathData]
-  )
-
   useEffect(() => {
-    let lastX = 0,
-      lastY = 0
+    let lastX = 0
+    let lastY = 0
     const mouseListener = ({ clientX: x, clientY: y }) => {
       const mouseXT = (x / window.innerWidth - 0.5) * 2
-      const mouseYT = (y / window.innerHeight - 0.5) * 2
       const newX = (mouseXT * 100 * z) / total
       lastX = newX
       // console.log('mousext', mouseXT)

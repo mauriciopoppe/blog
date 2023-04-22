@@ -12,14 +12,20 @@ class VideoControls {
 
     const play = loader.load('/sandbox/jukebox/arrow_left.jpg')
 
-    const geometry = new THREE.PlaneGeometry( 1, 1, 1 );
-    const material = params => new THREE.MeshLambertMaterial(Object.assign({
-      transparent: true,
-      side: THREE.DoubleSide
-    }, params));
+    const geometry = new THREE.PlaneGeometry(1, 1, 1)
+    const material = (params) =>
+      new THREE.MeshLambertMaterial(
+        Object.assign(
+          {
+            transparent: true,
+            side: THREE.DoubleSide
+          },
+          params
+        )
+      )
     const xDelta = 0
     const yDelta = -7
-    this.playButton = new THREE.Mesh( geometry, material({ map: play }) );
+    this.playButton = new THREE.Mesh(geometry, material({ map: play }))
     this.playButton.position.x = xDelta
     this.playButton.position.y = yDelta
     this.playButton.onClick = () => {
@@ -31,14 +37,14 @@ class VideoControls {
     }
     this.root.add(this.playButton)
 
-    const letsgo = this.createText("play/pause")
+    const letsgo = this.createText('play/pause')
     letsgo.position.y = -9
     this.root.add(letsgo)
 
     this.parent.on('factor', (factor) => {
       const k = 5
-      const rotationFactor = between(-k, k) * Math.PI / 180
-      this.root.children.forEach(child => {
+      const rotationFactor = (between(-k, k) * Math.PI) / 180
+      this.root.children.forEach((child) => {
         if (child.isPicked) {
           child.scale.setScalar(1.5)
         } else {
@@ -49,20 +55,19 @@ class VideoControls {
         }
       })
     })
-
   }
 
   createText(message) {
     const shapes = assets.font.generateShapes(message, 1)
     const geometry = new THREE.ShapeBufferGeometry(shapes)
-    const material = new THREE.MeshBasicMaterial( {
+    const material = new THREE.MeshBasicMaterial({
       color: '#ffffff',
       transparent: true,
       opacity: 0.4,
       side: THREE.DoubleSide
     })
     geometry.computeBoundingBox()
-    const xMid = - 0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x);
+    const xMid = -0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x)
     geometry.translate(xMid, 0, 0)
     const text = new THREE.Mesh(geometry, material)
     return text

@@ -1,9 +1,9 @@
-import React, { Suspense, useRef, useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, Sky, PerspectiveCamera } from '@react-three/drei'
-import { EffectComposer, Bloom, DepthOfField } from '@react-three/postprocessing'
+import { OrbitControls } from '@react-three/drei'
+import { EffectComposer, Bloom } from '@react-three/postprocessing'
 
 import { theme } from '../../main/colors.js'
 import { Stars, Plane, Moon, Ground } from './Models.jsx'
@@ -16,7 +16,6 @@ export function render({ target }) {
 }
 
 export default function App(props) {
-  const plane = useRef()
   const moon = [10, 10, -50]
 
   return (
@@ -24,7 +23,7 @@ export default function App(props) {
       <RenderController target={props.target} />
       <Lights moon={moon} />
 
-      {/*<Sky
+      {/* <Sky
         distance={3000}
         turbidity={8}
         rayleigh={6}
@@ -32,7 +31,7 @@ export default function App(props) {
         mieDirectionalG={0.8}
         inclination={0}
         azimuth={0.25}
-      />*/}
+      /> */}
 
       <Suspense fallback={null}>
         <Stars />
@@ -45,12 +44,7 @@ export default function App(props) {
         <Bloom kernelSize={3} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={0.3} />
       </EffectComposer>
 
-      <OrbitControls
-        enableZoom={false}
-        autoRotate={true}
-        autoRotateSpeed={0.2}
-        maxPolarAngle={Math.PI/2 - 0.1}
-      />
+      <OrbitControls enableZoom={false} autoRotate={true} autoRotateSpeed={0.2} maxPolarAngle={Math.PI / 2 - 0.1} />
     </Canvas>
   )
 }
@@ -67,23 +61,23 @@ const gtagEvents = {
 
 function RenderController({ target }) {
   // grab the canvas
-  target.style.cursor = "grab"
-  target.addEventListener("mousedown", () => {
+  target.style.cursor = 'grab'
+  target.addEventListener('mousedown', () => {
     // eslint-disable-next-line no-undef
     if (!gtagEvents.footerAnimation.firedOnce) {
-      gtag('event', 'footer_animation')
+      window.gtag('event', 'footer_animation')
       gtagEvents.footerAnimation.firedOnce = true
     }
-    target.style.cursor = "grabbing"
+    target.style.cursor = 'grabbing'
   })
-  target.addEventListener("mouseup", () => {
-    target.style.cursor = "grab"
+  target.addEventListener('mouseup', () => {
+    target.style.cursor = 'grab'
   })
 
   // run the event loop only if the footer is visible
   const [pause, setPause] = useState(null)
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       setPause(!entry.isIntersecting)
     })
   })

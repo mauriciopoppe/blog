@@ -1,5 +1,6 @@
 // https://github.com/webpack/webpack/issues/7077#issuecomment-383029585
 const url = new URL(document.currentScript.src)
+// eslint-disable-next-line
 __webpack_public_path__ = url.origin + __webpack_public_path__ + '/'
 
 function isMobile() {
@@ -35,7 +36,7 @@ function callback(entries) {
     }
 
     app.render({
-      target: document.querySelector('#browser-sunset'),
+      target: document.querySelector('#browser-sunset')
     })
   })
 }

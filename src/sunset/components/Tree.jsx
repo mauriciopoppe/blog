@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { animated, useSpring } from 'react-spring'
-import { symbol, symbolTriangle } from 'd3-shape'
+import React from 'react'
+import { animated } from 'react-spring'
 
 function genBody() {
   return `
@@ -36,7 +35,7 @@ export const Tree = React.memo((props) => {
   return (
     <g transform={`translate(${px} ${py})`}>
       <animated.path {...props.pathStyle} stroke={'var(--primary)'} d={genBody()} />
-      <animated.path {...props.pathStyle} transform={`translate(0 -30)`} stroke={'var(--primary)'} d={genTree()} />
+      <animated.path {...props.pathStyle} transform={'translate(0 -30)'} stroke={'var(--primary)'} d={genTree()} />
     </g>
   )
 })

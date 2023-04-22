@@ -3,7 +3,7 @@ import { randomBetween } from './utils'
 
 export function Stars({ n, width, height, x, y, scrollT }) {
   const [cnt, setCnt] = useState(0)
-  const [stars, setStars] = useState(() => {
+  const [stars] = useState(() => {
     return [...Array(n).keys()].map((i) => {
       const cx = randomBetween(0, width)
       const cy = randomBetween(height * 0, height * 1.0)
