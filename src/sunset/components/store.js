@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import create from 'zustand'
-import { addEffect, extend } from 'react-three-fiber'
+import { extend } from 'react-three-fiber'
 import { ImprovedNoise } from 'three/examples/jsm/math/ImprovedNoise'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 extend({ OrbitControls })
@@ -59,7 +59,7 @@ const useStore = create((set, get) => {
     },
     actions: {
       init(camera) {
-        const { mutation, actions } = get()
+        const { mutation } = get()
         set({ camera })
         mutation.clock.start()
         console.log(mutation.clock)

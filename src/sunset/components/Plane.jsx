@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { animated, useSpring } from '@react-spring/web'
 
 const AnimFeTurbulence = animated('feTurbulence')
@@ -24,14 +24,14 @@ export function Plane(props) {
     }
     to.push(
       { scale: 10, opacity: 1, transform: 'scale(1)', freq: `${randFreq()}` },
-      { scale: 10, opacity: 1, transform: 'scale(1)', freq: `${randFreq()}` },
+      { scale: 10, opacity: 1, transform: 'scale(1)', freq: `${randFreq()}` }
     )
   }
 
   const { freq, scale, transform, opacity } = useSpring({
     from: { scale: 10, opacity: 1, transform: 'scale(1)', freq: '0.0275, 0.0' },
     to: to,
-    config: { duration: 50000 },
+    config: { duration: 50000 }
   })
 
   return (
@@ -53,7 +53,7 @@ export function Plane(props) {
 
       <animated.g filter="url(#water)" style={{ transform, opacity }}>
         <animated.path
-          transform={`translate(100 100)`}
+          transform={'translate(100 100)'}
           stroke={'var(--primary)'}
           d={genTree()}
           onClick={() => {

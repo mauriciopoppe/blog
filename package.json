@@ -10,6 +10,7 @@
     "start": "npm run generate:sitemap && npm run generate:colors && run-p start:*",
     "start:hugo": "hugo server -e development -D -F --bind 0.0.0.0 -d ../dist -s site --verbose --watch --disableFastRender --disableLiveReload",
     "start:webpack": "webpack-dev-server --config webpack.config.dev.js --hot",
+    "prebuild": "eslint src/",
     "build": "NODE_ENV=production node src/util/sitemap-tree-generator.js && npm run generate:colors && npm run build:webpack && npm run build:copyAssets && npm run build:hugo",
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
     "build:copyAssets": "mkdir -p site/assets/ dist/ && cp dist/*.css site/assets/",

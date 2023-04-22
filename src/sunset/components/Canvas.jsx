@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useMouseState, useWindowScroll } from 'beautiful-react-hooks'
+import { useWindowScroll } from 'beautiful-react-hooks'
 
 import { Hills } from './Hills.jsx'
 import { Stars } from './Stars.jsx'

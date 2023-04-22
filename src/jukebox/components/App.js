@@ -24,9 +24,9 @@ import '../postprocessing/AfterimagePass'
 // stats.domElement.style.position = 'absolute'
 // document.querySelector('#root').appendChild(stats.domElement)
 const clock = new THREE.Clock()
-const raycaster = new THREE.Raycaster();
+const raycaster = new THREE.Raycaster()
 
-const mouse = new THREE.Vector2();
+const mouse = new THREE.Vector2()
 class App extends EventEmitter {
   constructor() {
     super()
@@ -38,13 +38,13 @@ class App extends EventEmitter {
   }
 
   setup() {
-    this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    this.renderer = new THREE.WebGLRenderer({ alpha: true });
-    this.renderer.setSize( window.innerWidth, window.innerHeight );
+    this.scene = new THREE.Scene()
+    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+    this.renderer = new THREE.WebGLRenderer({ alpha: true })
+    this.renderer.setSize(window.innerWidth, window.innerHeight)
     this.renderer.setClearColor(0xffffff, 0)
     // this.renderer.domElement.style.opacity = 0
-    document.body.querySelector('#root').appendChild(this.renderer.domElement);
+    document.body.querySelector('#root').appendChild(this.renderer.domElement)
 
     this.camera.position.z = 18
 
@@ -53,20 +53,20 @@ class App extends EventEmitter {
     this.controls.maxDistance = 20
     this.controls.update()
 
-    this.composer = new THREE.EffectComposer(this.renderer );
-    var renderPass = new THREE.RenderPass(this.scene, this.camera);
-    this.composer.addPass( renderPass );
+    this.composer = new THREE.EffectComposer(this.renderer)
+    var renderPass = new THREE.RenderPass(this.scene, this.camera)
+    this.composer.addPass(renderPass)
 
-    var afterImage = new THREE.AfterimagePass();
+    var afterImage = new THREE.AfterimagePass()
     this.afterimagePass = afterImage
-    this.afterimagePass.uniforms['damp'].value = 0.7
-    this.composer.addPass(afterImage);
+    this.afterimagePass.uniforms.damp.value = 0.7
+    this.composer.addPass(afterImage)
 
-    var bloomPass = new THREE.UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
+    var bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85)
     bloomPass.threshold = 0
     bloomPass.strength = 0.5
     bloomPass.radius = 0
-    this.composer.addPass( bloomPass );
+    this.composer.addPass(bloomPass)
     this.bloomPass = bloomPass
 
     // index of the current frame
@@ -74,11 +74,11 @@ class App extends EventEmitter {
   }
 
   addLights() {
-    this.light = new THREE.PointLight( 0xffffff, 1, 0 );
-    this.light.position.set(0, 0, 100 );
+    this.light = new THREE.PointLight(0xffffff, 1, 0)
+    this.light.position.set(0, 0, 100)
     this.scene.add(this.light)
 
-    this.ambientLight = new THREE.AmbientLight( 0x333333 );
+    this.ambientLight = new THREE.AmbientLight(0x333333)
     this.scene.add(this.ambientLight)
   }
 
@@ -147,12 +147,16 @@ class App extends EventEmitter {
     this.on('move', this.onMove.bind(this))
     const rootDom = document.body.querySelector('#root')
 
-    window.addEventListener('mousemove', (event) => {
-      mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-      mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-      const mouseStyle = this.intersected ? 'pointer' : 'move'
-      rootDom.style.cursor = mouseStyle
-    }, false );
+    window.addEventListener(
+      'mousemove',
+      (event) => {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+        const mouseStyle = this.intersected ? 'pointer' : 'move'
+        rootDom.style.cursor = mouseStyle
+      },
+      false
+    )
 
     window.addEventListener('click', () => {
       if (this.intersected) {
@@ -160,12 +164,15 @@ class App extends EventEmitter {
       }
     })
 
-    window.addEventListener('resize', () => {
-      this.camera.aspect = window.innerWidth / window.innerHeight;
-      this.camera.updateProjectionMatrix();
-      this.renderer.setSize( window.innerWidth, window.innerHeight );
-    }, false);
-
+    window.addEventListener(
+      'resize',
+      () => {
+        this.camera.aspect = window.innerWidth / window.innerHeight
+        this.camera.updateProjectionMatrix()
+        this.renderer.setSize(window.innerWidth, window.innerHeight)
+      },
+      false
+    )
   }
 
   onMove(step) {
@@ -189,11 +196,10 @@ class App extends EventEmitter {
   }
 
   update(delta) {
-
     // update the filters to do the flickering
     this.bloomPassDelta += delta
     if (this.bloomPassDelta > this.bloomPassDeltaNext) {
-      const factor = between(0.98, .99)
+      const factor = between(0.98, 0.99)
       this.renderer.toneMappingExposure = Math.pow(factor, 4.0)
       this.bloomPassDelta = 0
       this.bloomPassDeltaTotal += 1
@@ -202,9 +208,9 @@ class App extends EventEmitter {
     }
 
     // raycast
-    raycaster.setFromCamera( mouse, this.camera );
-    this.raycastTargets.forEach(target => {
-      var intersects = raycaster.intersectObjects(target.children);
+    raycaster.setFromCamera(mouse, this.camera)
+    this.raycastTargets.forEach((target) => {
+      var intersects = raycaster.intersectObjects(target.children)
       if (intersects.length) {
         const candidate = intersects[0].object
         if (candidate !== this.intersected && !candidate.skipRaycast) {
@@ -236,7 +242,7 @@ class App extends EventEmitter {
   }
 
   loop() {
-    requestAnimationFrame(this.loop.bind(this));
+    requestAnimationFrame(this.loop.bind(this))
     // stats.begin()
     this.controls.update()
     this.update(clock.getDelta())

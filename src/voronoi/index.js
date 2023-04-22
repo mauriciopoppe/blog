@@ -38,7 +38,7 @@ export function generate({ target, n, rainbow }) {
 
   // voronoi setup
   const particles = Array.from({ length: n }, () => [Math.random() * width, Math.random() * height])
-  let delaunay, voronoi, animationStart, animationLast
+  let delaunay, voronoi, animationLast
   let ref = { x: 0, y: 0 }
   // lastBannerInterpolation is the last time the banner interpolation was run.
   let lastBannerInterpolation
@@ -50,7 +50,6 @@ export function generate({ target, n, rainbow }) {
   function initialize() {
     delaunay = d3.Delaunay.from(particles)
     voronoi = delaunay.voronoi([0.5, 0.5, width - 0.5, height - 0.5])
-    animationStart = performance.now()
   }
 
   function waveAnimation() {
@@ -120,7 +119,7 @@ export function generate({ target, n, rainbow }) {
       // const dy = invertY ? (height - y) / height : y / height
       const dx = (x - ref.x) / width
       const dy = (y - ref.y) / height
-      let dist = Math.sqrt(dx * dx + dy * dy) / Math.sqrt(2)
+      const dist = Math.sqrt(dx * dx + dy * dy) / Math.sqrt(2)
 
       // magic numbers to select what colors should be displayed
       // dist = 0 + dist * 0.5

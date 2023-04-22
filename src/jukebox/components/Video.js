@@ -1,10 +1,5 @@
 import { between } from '../utils'
 
-const loader = new THREE.TextureLoader()
-
-const format = v =>
-  v < 10 ? `00${v}` : v < 100 ? `0${v}` : v
-
 class Video {
   constructor(app) {
     const self = this
@@ -26,10 +21,10 @@ class Video {
       transparent: true,
       side: THREE.DoubleSide
     })
-    this.root = new THREE.Mesh(this.geometry, this.material);
+    this.root = new THREE.Mesh(this.geometry, this.material)
 
     // set the position of the image root in the x,y,z dimensions
-    this.root.position.set(0,0,0)
+    this.root.position.set(0, 0, 0)
     this.root.skipRaycast = true
 
     this.currentTime = 0
@@ -39,14 +34,13 @@ class Video {
       self.duration = this.duration
     })
 
-    document.querySelector('#start')
-      .addEventListener('click', () => {
-        this.setupOnUserInput()
-      })
+    document.querySelector('#start').addEventListener('click', () => {
+      this.setupOnUserInput()
+    })
 
     app.on('factor', () => {
       const scaleFactor = 0.99 + Math.random() * 0.01
-      const rotationFactor = between(-0.5, 0.5) * Math.PI / 180
+      const rotationFactor = (between(-0.5, 0.5) * Math.PI) / 180
       this.root.rotation.z = rotationFactor
       this.root.rotation.x = rotationFactor
       this.root.rotation.y = rotationFactor
@@ -65,7 +59,6 @@ class Video {
   }
 
   play() {
-
     this.audio.play()
     // it looks like processing audio is an expensive operation (takes a few
     // ms to complete), I did the following hacks:
@@ -102,13 +95,13 @@ class Video {
   }
 
   getAudioAverageFrequency() {
-      let value = 0;
-      this.audioAnalyser.getByteFrequencyData(this.audioAnalyserData)
-      const data = this.audioAnalyserData
-      for (let i = 0; i < data.length; i++) {
-          value += data[i];
-      }
-      return value/data.length;
+    let value = 0
+    this.audioAnalyser.getByteFrequencyData(this.audioAnalyserData)
+    const data = this.audioAnalyserData
+    for (let i = 0; i < data.length; i++) {
+      value += data[i]
+    }
+    return value / data.length
   }
 
   isPlaying() {
@@ -137,7 +130,6 @@ class Video {
     const videoScale = Math.pow(soundNormalized, 2)
     this.root.scale.x = 1 + videoScale
     this.root.scale.y = 1 + videoScale
-
   }
 }
 

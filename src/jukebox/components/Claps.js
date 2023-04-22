@@ -10,8 +10,8 @@ export class Claps {
     // it must be sorted
     this.claps = claps
     for (let i = 1; i < claps.length; i += 1) {
-      if (claps[i-1] > claps[i]) {
-        throw new Error("Claps must be increasing")
+      if (claps[i - 1] > claps[i]) {
+        throw new Error('Claps must be increasing')
       }
     }
     this.clapsIdx = 0
@@ -26,15 +26,15 @@ export class Claps {
     const rootDom = document.body.querySelector('#root')
 
     if (elapsedTime > this.claps[this.clapsIdx]) {
-      const clap = document.createElement("span")
+      const clap = document.createElement('span')
       rootDom.appendChild(clap)
-      clap.innerHTML = "👏🏽"
+      clap.innerHTML = '👏🏽'
       clap.style.position = 'absolute'
-      clap.style.fontSize = `10em`
-      let clapBoundsDelta = 20
+      clap.style.fontSize = '10em'
+      const clapBoundsDelta = 20
       // make the last clap larger
-      if (this.clapsIdx % 8 == 7) {
-        clap.style.fontSize = `20em`
+      if (this.clapsIdx % 8 === 7) {
+        clap.style.fontSize = '20em'
       }
 
       // it should be right border - image width and bottom border - image
@@ -52,14 +52,13 @@ export class Claps {
           rootDom.removeChild(clap)
         }
       })
-        // .add({
-        //   targets: clap,
-        //   duration: 8000,
-        //   opacity: 0,
-        // })
+      // .add({
+      //   targets: clap,
+      //   duration: 8000,
+      //   opacity: 0,
+      // })
 
       this.clapsIdx += 1
     }
   }
 }
-
