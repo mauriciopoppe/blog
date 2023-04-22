@@ -1,12 +1,10 @@
 {{ define "main" }}
   {{ partial "svg/defs.html" . }}
-  {{ .Scratch.Set "isIndex" true }}
   <div class="is-index">
     <div class="container">
       <div class="box card index__banner">
         <div class="columns">
           <div class="column is-half has-text-right">
-            {{ .Scratch.Set "isIndex" true }}
             {{ partial "profile" . }}
           </div>
           <div class="column is-half" style="overflow: scroll; opacity: 1">

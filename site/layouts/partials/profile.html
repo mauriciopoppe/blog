@@ -2,17 +2,15 @@
 {{ $quotes := index .Site.Data.quotes "content" }}
 {{ $random := mod now.Second (len $quotes) }}
 {{ $quote := index $quotes $random }}
-{{ $image := .Params.share_img | default .Params.image | default .Site.Params.logo | absURL }}
+{{ $image := .Site.Params.logo | absURL }}
 
-<div class="profile-wrapper">
+<div class="is-flex is-flex-direction-column is-justify-content-center" style="height: 100%">
   <a href="/">
-    <span class="profile-pic-wrapper">
-      <img class="profile-pic" src="{{ $image }}" data-src="{{ $image }}" alt="Me" />
-    </span>
-    <p class="is-size-3">Mauricio Poppe's blog</p>
+    <h1 class="is-size-2">Mauricio Poppe's blog</h1>
+    <!-- <img class="profile-pic" src="{{ $image }}" data-src="{{ $image }}" alt="Me" /> -->
   </a>
 
-  {{ if .Scratch.Get "isIndex" }}
+  {{ if .IsHome }}
   <p class="about-me">
     Hi 👋, my name is Mauricio and this is my blog, it has notes about what I learn
     and that I want to share, my main interest are Distributed Systems and Computer Graphics,

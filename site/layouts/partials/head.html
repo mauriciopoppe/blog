@@ -178,7 +178,11 @@ The following is an optimization from lighthouse to inline the css in production
     }
   }
   window.myBlog = myBlog
+
+  {{/* Only set the theme on the content page and not in the home page. */}}
+  {{ if not .IsHome }}
   myBlog.setThemeFromLocalStorage()
+  {{ end }}
 
   // Toggle theme
   document.addEventListener('DOMContentLoaded', () => myBlog.onLoad() )

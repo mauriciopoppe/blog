@@ -1,34 +1,22 @@
 
 <!-- if this is the index page then start uncollapsed -->
-{{ if .Scratch.Get "isIndex" }}
+{{ if .IsHome }}
   {{ .Scratch.Set "collapsed" "" }}
   {{ .Scratch.Set "sidebar-hide" "" }}
+  {{ .Scratch.Set "sidebar-style" "border: none" }}
 {{ else }}
   {{ .Scratch.Set "collapsed" "list-is-collapsed" }}
   {{ .Scratch.Set "sidebar-hide" "hide" }}
+  {{ .Scratch.Set "sidebar-style" "" }}
 {{ end }}
 
 {{ if (ne .Params.toc "false") }}
 
 <!-- sitemap wrapper, used only for positioning -->
-<div style="position: relative" class="sidebar sitemap-wrapper {{ .Scratch.Get "sidebar-hide" }}">
+<div style="position: relative; {{ .Scratch.Get "sidebar-style" }}" class="sidebar sitemap-wrapper {{ .Scratch.Get "sidebar-hide" }}">
 
-<!--  {{ if .Scratch.Get "isIndex" }}-->
-<!--  <div class="tabs is-centered is-fullwidth">-->
-<!--    <ul>-->
-<!--      <li class="is-active"><a class="tab-trigger" data-target="#sitemap-chronological">Chronological</a></li>-->
-<!--      <li><a class="tab-trigger" data-target="#sitemap-tree">Tree</a></li>-->
-<!--    </ul>-->
-<!--  </div>-->
-<!--  {{ end }}-->
-
-  <!-- the breadcrumb points to this id, don't change it Mauricio! -->
+  <!-- scripts use the id, don't change it Mauricio! -->
   <div id="sitemap" class="sitemap">
-<!--    {{ if .Scratch.Get "isIndex" }}-->
-<!--    <nav id="sitemap-chronological" aria-label="Sitemap" class="sitemap-content">-->
-<!--      {{ partial "sitemap-chronological.html" . }}-->
-<!--    </nav>-->
-<!--    {{ end }}-->
     <nav id="sitemap-tree" aria-label="Sitemap" class="sitemap-content">
       {{ partial "sitemap-tree.auto.html" . }}
     </nav>
