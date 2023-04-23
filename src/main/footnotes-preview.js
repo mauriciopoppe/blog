@@ -11,15 +11,7 @@ if (container) run()
 function run() {
   /** @type HTMLDivElement */
   const tooltip = document.createElement('div')
-  tooltip.classList.add('footnotes-tooltip')
-  tooltip.classList.add('footnotes')
-  Object.assign(tooltip.style, {
-    display: 'none',
-    width: '100%',
-    position: 'absolute',
-    border: '1px solid #aaa',
-    backgroundColor: '#121211'
-  })
+  tooltip.classList.add('footnotes', 'footnotes-tooltip', 'ref-tooltip-preview')
   container.appendChild(tooltip)
 
   /**

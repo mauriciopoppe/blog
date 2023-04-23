@@ -1,1 +1,2 @@
-{{ partial "webpack-script" (dict "ctx" . "id" "main" "async" "true") }}
+<!-- NOTE: use defer and not async, this must run after all other scripts that were marked with defer -->
+{{ partial "webpack-script" (dict "ctx" . "id" "main" "defer" "true") }}

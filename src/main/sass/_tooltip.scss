@@ -1,0 +1,9 @@
+// ref-tooltip-preview is the tooltip shown when hovering on equations and footnotes for preview.
+.ref-tooltip-preview {
+  display: none;
+  width: 100%;
+  position: absolute;
+  border: 1px solid $primary;
+  border-radius: $radius;
+  background-color: $body-background-color;
+}

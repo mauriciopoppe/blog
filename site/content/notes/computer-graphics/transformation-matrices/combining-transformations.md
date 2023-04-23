@@ -1,5 +1,5 @@
 ---
-title: "Combining transformation matrix"
+title: "Combining transformation matrices"
 date: 2016-02-10 21:13:17
 description: |
   Taking multiple matrices each encoding a single transformations and combining them

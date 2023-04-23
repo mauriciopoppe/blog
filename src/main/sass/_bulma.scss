@@ -43,16 +43,13 @@
 // wrap on links
 a {
   @include word-wrap();
-  //text-shadow: 0px 0px 10px rgba($link, 0.5);
 }
 
-// neon box shadow
 .box {
   box-shadow: $box-shadow;
   border: 2px solid $primary;
 }
 
-// neon separator
 hr {
   background-color: $primary;
 }

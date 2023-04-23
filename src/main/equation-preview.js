@@ -11,14 +11,7 @@ if (container) run()
 function run() {
   /** @type HTMLDivElement */
   const tooltip = document.createElement('div')
-  tooltip.classList.add('mathjax-tooltip')
-  Object.assign(tooltip.style, {
-    display: 'none',
-    width: '100%',
-    position: 'absolute',
-    border: '1px solid #aaa',
-    backgroundColor: '#121211'
-  })
+  tooltip.classList.add('mathjax-tooltip', 'ref-tooltip-preview')
   container.appendChild(tooltip)
 
   /**
@@ -33,7 +26,7 @@ function run() {
     if (!href) return
     /** @type HTMLLinkElement */
 
-    let target = decodeURIComponent(href.hash)
+    let target = decodeURIComponent(href.hash || href?.href?.baseVal)
     target = target.replace(/:/g, '\\:')
     const number = document.querySelector(target)
     const equation = number.closest('.MathJax')
