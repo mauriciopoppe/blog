@@ -183,7 +183,6 @@ pre[class*="language-"].line-numbers > code {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  line-height: 1.55em; /* override */
 }
 .line-numbers-rows > span {
   display: block;
@@ -208,14 +207,12 @@ pre[data-line] {
   left: 0;
   right: 0;
   padding: inherit 0;
-  margin-top: 0.8em; /* Same as .prism’s padding-top */
+  margin-top: 0.75em;
 
   background: hsla(24, 20%, 50%,.08);
   background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
 
   pointer-events: none;
-
-  line-height: 1.55em; /* override */
   white-space: pre;
 }
 

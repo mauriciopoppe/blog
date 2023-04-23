@@ -62,11 +62,16 @@ body {
   }
 }
 
+pre code {
+  font-size: unset; /* controlled by <pre> below instead. */
+}
+
 pre, .content pre {
   padding: $pre-padding; /* redefined because padding is set for pre but overriden by bulma for .content pre */
   overflow: auto;
   border-radius: $radius;
   background-color: $grey-dark;
+  font-size: 0.7em;
 }
 
 code, .content code {

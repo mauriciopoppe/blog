@@ -1,5 +1,9 @@
 # Design
 
+## Code highlighting
+
+- Through PrismJS, see prism.html and the prism-darcula.scss files
+
 ## Math rendering
 
 - katex
