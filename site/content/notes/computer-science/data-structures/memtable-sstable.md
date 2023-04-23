@@ -19,23 +19,90 @@ references:
 
 *Image taken from https://docs.datastax.com*
 
-### Memtable
+## Memtable
 
-In-memory data structure that holds data before it's flushed into an SStable, the implementation may use a RB Tree, a skiplist, a HashLinkList.
+In-memory data structure that holds data in memory before it's flushed into disk serving reads and writes.
 
-Example: let's design the interface for a Timeseries Database with the following requirements:
+For a write operation we write to memory which is fast compared to persistent storage,
+eventually, a memtable will surpass a memory threshold and it'll need to be flushed to disk, while we can define
+our own write format we can write the memtable in a sorted way to disk (see SSTable below). Once data is written
+to an SSTable it becomes immutable. With a new memtable, writes for the same key (update or deletion) go to
+it which is important to consider in the read operation.
+
+For a read operation we first check in the current memtable, if the read can't be fulfilled by the current
+memtable (maybe the data exists but it's no longer in memory, it was flushed to disk) then we check recently
+created SSTables in decreasing creation order. Because the SSTable is sorted it enables faster reads because
+we can use binary search to find it in the file.
+
+A memtable can be implemented with a Red-Blac Tree, a SkipList, a HashSkipList, a HashLinkList.
+For tradeoffs on these implementations please check the [RocksDB wiki](https://github.com/facebook/rocksdb/wiki/MemTable).
+
+### Applications
+
+Example: design a Timeseries Database with the following requirements:
 
 - For the current time, write a given value for a given list of labels, a label is a pair `labelKey=labelValue` e.g. `[method=http, type=POST, statusCode=200] 1` (value is `1`)
 - The labels can be arbitrary strings
 - Reads will be for an arbitrary combination of labels and it'll cover a range of time (common)
 - Reads will be for an arbitrary combination of labels and it'll cover a point in time (rare)
-- Heavy write system
+- Write heavy system
 - 99% of the data is never queried after 24h
+
+A memtable fits this problem because it's a write heavy system (therefore we need fast writes),
+the common scenario of reads for a range of time would also fit a linked list (either HashSkipList or HashLinkList),
+after a memtable is written to disk in a SSTable it enables slower reads for old data which is an acceptable
+tradeoff because 99% of the data is never queried after 24h.
 
 Let's define an entry to be a data structure that holds a collection of labels, a single value and a time.
 
-Since it's a write heavy system we have to ensure fast writes, after writing an entry to
-a write ahead log we can use a linked list to store the entry (at the tail of the list).
+```go
+type Entry struct {
+  id time.Time
+
+  // labels are the labels that identify the entry.
+  labels map[string]string
+
+  // value is the entry value.
+  value any
+
+  // next is an pointer to the next Entry.
+  next *Entry
+}
+```
+
+A memtable is a collection of entries with a pointer to the head and the tail of the linked list,
+to find entries by label faster we also add a hash map from a label to an entry.
+
+```go
+type Memtable struct {
+  // head is the head of the linked list.
+  head *Entry
+  // tail is the head of the linked list.
+  tail *Entry
+  // index is a reverse index of a label to an entry.
+  index map[string][]*Entry
+}
+```
+
+On write a new entry is added at the tail of the memtable linked list.
+
+```go
+func (m *Memtable) Write(labels map[string]string, value any) {
+	e := &Entry{
+		id:     time.Now(),
+		labels: labels,
+		value:  value,
+	}
+
+	// process entry
+	for k, v := range labels {
+		key := m.encode(k, v)  // encode creates a unique key in the HashMap
+		m.index[key] = append(m.index[key], e)
+	}
+	m.tail.next = e
+	m.tail = m.tail.next
+}
+```
 
 To read values for an arbitrary combination of labels we need to find for each label the
 values pointed by it which can be done through a dictionary (hashmap) that maps a single
@@ -45,9 +112,35 @@ we can also pay the penalty to build the mapping on write.
 With the above we got values for single labels, for multiple labels we combine the results
 by doing an intersection.
 
+```go
+func (m *Memtable) Read(labels map[string]string) []any {
+  // read temporary results for every label
+  entriesGroup := make([][]*Entry, 0)
+  for k, v := range labels {
+    key := m.encode(k, v)
+    entriesGroup = append(entriesGroup, m.index[key])
+  }
+
+  // intersect
+  if len(entriesGroup) == 0 {
+    return make([]any, 0)
+  }
+  intersectedEntries := entriesGroup[0]
+  for i := 1; i < len(entriesGroup); i += 1 {
+    intersectedEntries = intersect(intersectedEntries, entriesGroup[i])
+  }
+
+  out := make([]any, 0)
+  for _, entry := range intersectedEntries {
+    out = append(out, entry.value)
+  }
+  return out
+}
+```
+
 {{< repl id="@mauriciopoppe/Memtable-for-a-Timeseries-Database" >}}
 
-### SSTable
+## SSTable
 
 An **immutable data structure** that stores a large number of `key:value` pairs sorted by `key`
 
