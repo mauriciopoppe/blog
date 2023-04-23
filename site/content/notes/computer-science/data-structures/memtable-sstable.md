@@ -9,6 +9,8 @@ description: |
 
   <br />
 image: https://docs.datastax.com/eol/en/dse/6.7/dse-arch/universalcommons/graphics/dmlWriteProcess.png
+image_alt: |
+  Write path in Cassandra, source https://docs.datastax.com
 tags: ["memtable", "sorted string table", "data structures", "big data", "linked list"]
 date: 2020-02-29T15:04:00Z
 references:
@@ -16,8 +18,6 @@ references:
   - https://www.igvita.com/2012/02/06/sstable-and-log-structured-storage-leveldb/
   - https://web.archive.org/web/20180519083057/https://fabxc.org/tsdb/
 ---
-
-*Image taken from https://docs.datastax.com*
 
 ## Memtable
 

@@ -23,9 +23,12 @@
 
       <h1 class="title is-2">{{ .Title }}</h1>
       <div class="columns reverse-column-order article-header__summary">
-        <div class="column has-text-right">
+        <figure class="column has-text-right">
           <img src="{{ $image }}" alt="{{ .Title }}" style="max-width: 100%; max-height: 100%"/>
-        </div>
+          {{ if .Params.image_alt }}
+          <figcaption><i class="is-size-6">{{ .Params.image_alt | markdownify }}</i></figcaption>
+          {{ end }}
+        </figure>
         <div class="column is-flex is-flex-direction-column is-justify-content-space-between">
           <div class="subtitle is-size-4 is-size-5-mobile">
             {{ $description := .Params.description | default .Summary }}
