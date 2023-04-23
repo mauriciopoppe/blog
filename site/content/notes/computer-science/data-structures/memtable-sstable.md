@@ -24,15 +24,17 @@ references:
 In-memory data structure that holds data in memory before it's flushed into disk serving reads and writes.
 
 For a write operation we write to memory which is fast compared to persistent storage,
-eventually, a memtable will surpass a memory threshold and it'll need to be flushed to disk, while we can define
-our own write format we can write the memtable in a sorted way to disk (see SSTable below). Once data is written
-to an SSTable it becomes immutable. With a new memtable, writes for the same key (update or deletion) go to
-it which is important to consider in the read operation.
+eventually, a memtable will surpass a predefined memory threshold and it'll need to be flushed to disk,
+while we can define our own write format we can write the memtable in a sorted way to disk as an SSTable
+(see SSTable below). Once data is written disk the data becomes immutable (the SSTable cannot be modified),
+therefore, new writes go to a new memtable and operations like update or
+[delete](https://en.wikipedia.org/wiki/Tombstone_(data_store)) on existing data in the previous memtable
+are instead stored in the new memtable.
 
 For a read operation we first check in the current memtable, if the read can't be fulfilled by the current
-memtable (maybe the data exists but it's no longer in memory, it was flushed to disk) then we check recently
-created SSTables in decreasing creation order. Because the SSTable is sorted it enables faster reads because
-we can use binary search to find it in the file.
+memtable (maybe the data exists but it's no longer in memory because it was flushed to disk) then we check recently
+created SSTables in decreasing creation order until we find the desired record (or we might find it at all).
+Because the SSTable is sorted it enables faster reads because we can use binary search to find it in the file.
 
 A memtable can be implemented with a Red-Blac Tree, a SkipList, a HashSkipList, a HashLinkList.
 For tradeoffs on these implementations please check the [RocksDB wiki](https://github.com/facebook/rocksdb/wiki/MemTable).
@@ -49,7 +51,7 @@ Example: design a Timeseries Database with the following requirements:
 - 99% of the data is never queried after 24h
 
 A memtable fits this problem because it's a write heavy system (therefore we need fast writes),
-the common scenario of reads for a range of time would also fit a linked list (either HashSkipList or HashLinkList),
+the common scenario of reads for a range of time would also fit a linked list (either SkipList or HashLinkList),
 after a memtable is written to disk in a SSTable it enables slower reads for old data which is an acceptable
 tradeoff because 99% of the data is never queried after 24h.
 
@@ -57,14 +59,12 @@ Let's define an entry to be a data structure that holds a collection of labels, 
 
 ```go
 type Entry struct {
+	// id is the time an entry was created (not threadsafe)
   id time.Time
-
   // labels are the labels that identify the entry.
   labels map[string]string
-
   // value is the entry value.
   value any
-
   // next is an pointer to the next Entry.
   next *Entry
 }

@@ -62,13 +62,14 @@ body {
   }
 }
 
-pre[class*=language-] {
+pre, .content pre {
+  padding: $pre-padding; /* redefined because padding is set for pre but overriden by bulma for .content pre */
+  overflow: auto;
   border-radius: $radius;
-  background-color: $grey-darker;
+  background-color: $grey-dark;
 }
 
-code {
-  background-color: transparent;
+code, .content code {
   border-radius: $radius;
 }
 

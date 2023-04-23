@@ -8,11 +8,10 @@
  * @version 1.0
  */
 
+// NOTE: I wrote some overrides to the default for <pre> in _bulma.scss
+
 code[class*="language-"],
 pre[class*="language-"] {
-  color: $text;
-  background: none;
-
   font-family: $family-monospace;
   direction: ltr;
   text-align: left;
@@ -20,7 +19,6 @@ pre[class*="language-"] {
   word-spacing: normal;
   word-break: normal;
   word-wrap: normal;
-  line-height: 1;
 
   -moz-tab-size: 4;
   -o-tab-size: 4;
@@ -43,12 +41,6 @@ code[class*="language-"]::selection, code[class*="language-"] ::selection {
 }
 
 /* Code blocks */
-pre[class*="language-"] {
-  padding: 1em;
-  margin: .5em 0;
-  overflow: auto;
-}
-
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
   background: $background;
@@ -165,11 +157,50 @@ code.language-css .token.selector > .token.pseudo-element {
   color: #ffc66d;
 }
 
+/*
+line numbers plugin
+I copied the source code of the plugin CSS's from the cdnjs link ande made modifications.
+*/
+pre[class*="language-"].line-numbers {
+  position: relative;
+  padding-left: 3em; /* override */
+  counter-reset: linenumber;
+}
+pre[class*="language-"].line-numbers > code {
+  position: relative;
+  white-space: inherit;
+}
+.line-numbers .line-numbers-rows {
+  position: absolute;
+  pointer-events: none;
+  top: 0;
+  font-size: 100%;
+  left: -3.8em;
+  width: 3em;
+  letter-spacing: -1px;
+  border-right: 1px solid #999;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  line-height: 1.55em; /* override */
+}
+.line-numbers-rows > span {
+  display: block;
+  counter-increment: linenumber;
+}
+.line-numbers-rows > span:before {
+  content: counter(linenumber);
+  color: #999;
+  display: block;
+  padding-right: 0.8em;
+  text-align: right;
+}
+
 /* line highlight plugin start */
 
 pre[data-line] {
   position: relative;
-  padding: 1em 0 1em 3em;
 }
 
 .line-highlight {
@@ -177,14 +208,14 @@ pre[data-line] {
   left: 0;
   right: 0;
   padding: inherit 0;
-  margin-top: 1em; /* Same as .prism’s padding-top */
+  margin-top: 0.8em; /* Same as .prism’s padding-top */
 
   background: hsla(24, 20%, 50%,.08);
   background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
 
   pointer-events: none;
 
-  line-height: inherit;
+  line-height: 1.55em; /* override */
   white-space: pre;
 }
 
