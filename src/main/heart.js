@@ -37,10 +37,6 @@ function setupHearts(rootEl) {
     })
   }
 
-  const styles = { 'font-size': '0.7em', color: 'white', position: 'relative', cursor: 'pointer' }
-  for (const k in styles) {
-    rootEl.style[k] = styles[k]
-  }
   rootEl.addEventListener('mouseenter', animateHearts)
   rootEl.addEventListener('click', () => {
     new mojs.Html({

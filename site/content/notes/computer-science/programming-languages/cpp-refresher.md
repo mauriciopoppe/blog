@@ -29,7 +29,7 @@ Watch some CppCon 'Back to Basics' videos
 Compilation and linking is done with
 
 - *UNIX* - `CC`
-- *GNU C++* - `gcc,g++` ([notes on the difference](http://stackoverflow.com/a/173007/3341726)), [gcc small description](/static/*nix/bin/gcc.html)
+- *GNU C++* - `gcc,g++` ([notes on the difference](http://stackoverflow.com/a/173007/3341726)), [gcc small description](../../operating-systems/bin/gcc/)
 
 ### Preprocessor
 

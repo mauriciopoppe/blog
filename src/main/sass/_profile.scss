@@ -5,11 +5,10 @@
 }
 
 .about-me {
-  margin-left: 30%;
+  margin-left: 35%;
 
   @include until($desktop) {
-    & {
-      max-width: 100%;
-    }
+    margin-left: initial;
+    max-width: 100%;
   }
 }

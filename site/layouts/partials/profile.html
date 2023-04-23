@@ -6,22 +6,22 @@
 
 <div class="is-flex is-flex-direction-column is-justify-content-center" style="height: 100%">
   <a href="/">
-    <h1 class="is-size-2">Mauricio Poppe's blog</h1>
+    <h1 class="is-size-2 has-text-primary">Mauricio Poppe's blog</h1>
     <!-- <img class="profile-pic" src="{{ $image }}" data-src="{{ $image }}" alt="Me" /> -->
   </a>
 
   {{ if .IsHome }}
-  <p class="about-me">
-    Hi 👋, my name is Mauricio and this is my blog, it has notes about what I learn
-    and that I want to share, my main interest are Distributed Systems and Computer Graphics,
-    thanks for reading!
+  <div class="about-me">
+    <p>
+    Hi 👋, my name is Mauricio and this is my blog with notes about topics related to
+    Math, Computer Science and Computer Graphics. Thanks for reading!
+    </p>
 
-    <br/>
-    <br/>
-
+    <p>
     There's a hidden <span class="has-text-primary">easter egg</span> in this
     page, <br/> let me know if you found it 😄.
-  </p>
+    </p>
+  </div>
   <br />
   <p>
     <a class="social-button"
@@ -44,15 +44,16 @@
   </p>
   {{ end }}
 
-  <hr />
+  <!-- <hr /> -->
   <p class="quote is-size-6">
-    <p><span class="has-text-primary">Luck</span> is what happens when <span class="has-text-primary">preparation</span> meets <span class="has-text-primary">opportunity</span></p>
+    <span class="has-text-primary">Luck</span> is what happens when <span class="has-text-primary">preparation</span> meets <span class="has-text-primary">opportunity</span>
+    <br />
     <i class="has-text-right">Seneca</i>
   </p>
 
-  <hr />
+  <!-- <hr /> -->
   <p class="is-size-6">
-    Made with <span class="heart">♥</span> and
+    Made with <span class="heart" style="font-size: 0.7em; cursor: pointer; position: relative">♥</span> and
     <a href="https://gohugo.io/" target="noopener">Hugo</a>,
     <a href="https://bulma.io" target="noopener">Bulma</a>,
     <a href="https://netlify.com/" target="noopener">Netlify</a>. <br />
