@@ -33,6 +33,11 @@ class Theme {
   constructor() {
     this.colors = ['#C27083', '#212220']
     this.bannerColors = ['#C27083', '#00b1e6', '#48F913', '#F9C80E', '#B94B69']
+
+    // NOTE: changes to these variables require a server restart.
+    // The reason is that these values are fed into a node.js program
+    // that computes derivative css variables from them and includes them
+    // in the spreadsheet.
     this.style = {
       dark: {
         'grey-darker': '#212220',
@@ -43,7 +48,7 @@ class Theme {
         primary: color(this.t(0)).formatHex(),
         info: color(this.t(0.5)).formatHex(),
         warning: color(this.t(1)).formatHex(),
-        link: '#fafafa',
+        link: '#c5c5c5',
         'link-invert': '#fafafa',
         'link-hover': '#ffffff',
         'link-focus': '#d4d4d4',
