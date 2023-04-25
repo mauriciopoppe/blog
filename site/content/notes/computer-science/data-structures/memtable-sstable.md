@@ -60,13 +60,13 @@ Let's define an entry to be a data structure that holds a collection of labels, 
 ```go
 type Entry struct {
 	// id is the time an entry was created (not threadsafe)
-  id time.Time
-  // labels are the labels that identify the entry.
-  labels map[string]string
-  // value is the entry value.
-  value any
-  // next is an pointer to the next Entry.
-  next *Entry
+	id time.Time
+	// labels are the labels that identify the entry.
+	labels map[string]string
+	// value is the entry value.
+	value any
+	// next is an pointer to the next Entry.
+	next *Entry
 }
 ```
 
@@ -75,12 +75,12 @@ to find entries by label faster we also add a hash map from a label to an entry.
 
 ```go
 type Memtable struct {
-  // head is the head of the linked list.
-  head *Entry
-  // tail is the head of the linked list.
-  tail *Entry
-  // index is a reverse index of a label to an entry.
-  index map[string][]*Entry
+	// head is the head of the linked list.
+	head *Entry
+	// tail is the head of the linked list.
+	tail *Entry
+	// index is a reverse index of a label to an entry.
+	index map[string][]*Entry
 }
 ```
 
@@ -114,27 +114,27 @@ by doing an intersection.
 
 ```go
 func (m *Memtable) Read(labels map[string]string) []any {
-  // read temporary results for every label
-  entriesGroup := make([][]*Entry, 0)
-  for k, v := range labels {
-    key := m.encode(k, v)
-    entriesGroup = append(entriesGroup, m.index[key])
-  }
+	// read temporary results for every label
+	entriesGroup := make([][]*Entry, 0)
+	for k, v := range labels {
+		key := m.encode(k, v)
+		entriesGroup = append(entriesGroup, m.index[key])
+	}
 
-  // intersect
-  if len(entriesGroup) == 0 {
-    return make([]any, 0)
-  }
-  intersectedEntries := entriesGroup[0]
-  for i := 1; i < len(entriesGroup); i += 1 {
-    intersectedEntries = intersect(intersectedEntries, entriesGroup[i])
-  }
+	// intersect
+	if len(entriesGroup) == 0 {
+		return make([]any, 0)
+	}
+	intersectedEntries := entriesGroup[0]
+	for i := 1; i < len(entriesGroup); i += 1 {
+		intersectedEntries = intersect(intersectedEntries, entriesGroup[i])
+	}
 
-  out := make([]any, 0)
-  for _, entry := range intersectedEntries {
-    out = append(out, entry.value)
-  }
-  return out
+	out := make([]any, 0)
+	for _, entry := range intersectedEntries {
+		out = append(out, entry.value)
+	}
+	return out
 }
 ```
 

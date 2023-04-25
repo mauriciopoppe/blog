@@ -1,15 +1,16 @@
 ---
 title: Productivity skills
 description: |
-  I'm trying to improve my productivity every day so that I get better use of my time.
-  This article a summary of the things I'm used to doing in my life everyday.
-  These are divided into: getting used to multitasking, time for deep focus and a break, emails, task management and development tools.
+  I try to improve my productivity every day to get better use of my time.
+  This article summarizes the things I'm used to doing everyday at work.
+  These are divided into: getting used to multitasking, having time for deep focus and for breaks,
+  handling incoming emails, task management and development tools.
 tags: ['life', 'software engineer', 'task management', 'time management', 'productivity']
-image: /images/productivity-skills.jpg
+image: /images/productivity-skills.jpeg
+image_alt: |
+  Being productive is a skill, Photo by <a href="https://unsplash.com/@finesite?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">kris</a> on <a href="https://unsplash.com/photos/n9u9ZEoH2yM?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
 date: 2022-05-11 21:16:00
 ---
-
-<!-- {{< figure src="/images/productivity-skills.jpg" title="Improve my productivity one day at a time." >}} -->
 
 ## Getting used to multitasking
 

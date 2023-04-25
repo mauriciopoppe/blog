@@ -19,6 +19,9 @@ article[role=main] {
 }
 
 .article-header__summary {
+  a {
+    text-decoration: underline;
+  }
   @include desktop {
     max-height: 450px;
   }
