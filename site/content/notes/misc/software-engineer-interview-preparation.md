@@ -537,11 +537,11 @@ List of books
 
 - [System design Interview - Alex Xu](https://www.amazon.com/System-Design-Interview-Questions-Solutions-ebook/dp/B08B3FWYBX) -
 My favorite book about system design interviews, it covers the system design interview structure and has many real life examples.
-What I really like about this is the focus on tradeoffs, it has 4 different rate limitting algorithms and all of them are valid,
+What I really like about this is the focus on tradeoffs, it has 4 different rate limiting algorithms and all of them are valid,
 having the ability to demonstrate why you picked a solution over others is what the interview is about.
 - [Web Scalability for Startup Engineers - Artur Ejsmont](https://www.amazon.com/Scalability-Startup-Engineers-Artur-Ejsmont-ebook/dp/B00ZPS4KI0/) -
 Great intro to all of the components in a complex web application
-- [Distributed Systems for Practicioners - Dimos Raptis](https://leanpub.com/distributed-systems-for-practitioners) -
+- [Distributed Systems for Practitioners - Dimos Raptis](https://leanpub.com/distributed-systems-for-practitioners) -
 The why behind a technology and use cases in the industry, I liked the way it's structured with the theory first and then practice.
 - [Designing Data Intensive Applications - Martin Kleppmann](https://dataintensive.net/) -
 Deep into how distributed systems work, I think this is a standard resource by now.
