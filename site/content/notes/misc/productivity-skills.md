@@ -46,7 +46,7 @@ I think that https://github.com/mbrt/gmailctl or a similar tool can help.
 
 Once you tag email the first thing is to free your inbox from emails that aren't that important to read,
 lots emails coming from our bug tracker are most of the time not directed to me but
-to my team inbox instead, the first filter group bugs by the team they're targetted to and moves
+to my team inbox instead, the first filter group bugs by the team they're targeted to and moves
 them to a tag e.g. `bugs-team-a`, `bugs-team-b` and archives them skipping the inbox.
 Some of these bugs might need my attention because I'm mentioned in them and therefore if I'm
 CCed on them then I also need to add another tag to it e.g. `bugs-me`.
@@ -73,7 +73,7 @@ asking and giving feedback in a design doc where I wouldn't need to create a bug
 I also need a reminder to work on it soon.
 
 For these reasons I use [Google Tasks](https://www.youtube.com/watch?v=b82GeFbxIj8) as my task management tool,
-it's easy to add tasks by hand, tasks from emails (with substasks too 🙂), set calendar
+it's easy to add tasks by hand, tasks from emails (with subtasks too 🙂), set calendar
 reminders and manually order to give some priority among them. What's super cool is that I can see it every time I go
 to my email tab. ([Read this article for more info about how to set it up.](https://support.google.com/mail/answer/106237?hl=en&co=GENIE.Platform%3DDesktop#zippy=%2Csave-an-email-as-a-task%2Corganize-your-tasks-into-lists:~:text=Slides%20in%20Keep-,Create%20a%20task,-Go%20to%C2%A0)).
 
@@ -174,4 +174,4 @@ Things that I've tried in the past:
 
 [^1]: A mental context switch is an analogy of what an OS does under the hood to [share a single CPU among processes](https://en.wikipedia.org/wiki/Context_switch),
       but applied to our day to day mental tasks, after all we only have 1 brain that's already multitasking
-      with unconcious processes like perception or breathing.
+      with unconscious processes like perception or breathing.

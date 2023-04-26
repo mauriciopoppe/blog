@@ -4,7 +4,6 @@
   transition: opacity $time;
   position: relative;
   overflow: auto;
-  //color: currentColor;
 
   &:hover {
     opacity: 1;
@@ -19,7 +18,6 @@
       position: relative;
       cursor: pointer;
       height: 100%;
-      // border-right: 2px solid $text;
     }
 
     &[data-url-target]:hover {
@@ -31,7 +29,6 @@
       > div {
         font-weight: bold;
         color: $primary;
-        // border-right: 2px solid $primary;
       }
     }
   }

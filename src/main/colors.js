@@ -86,35 +86,6 @@ class Theme {
     return this.style[theme]
   }
 
-  // updateTheme(theme) {
-  //   if (!(theme in this.style)) {
-  //     throw new Error(`Theme ${theme} not found in the available styles`)
-  //   }
-  //   const updater = new ColorUpdater(global.bulmaCssVarsDef)
-  //   const selectedTheme = this.style[theme]
-  //   for (let key in selectedTheme) {
-  //     updater.updateVarsInDocument(key, selectedTheme[key])
-  //   }
-  // }
-
-  /**
-   * getFlattenedColorPalette returns a flattened interpolated version of the color palette.
-   */
-  getFlattenedColorPalette() {
-    const out = []
-    for (let i = 0; i < this.colors.length - 1; i += 1) {
-      const j = i + 1
-      const t = interpolateLab(this.colors[i], this.colors[j])
-      // create 100 colors
-      const n = 100 / (this.colors.length - 1)
-      for (let k = 0; k < n; k += 1) {
-        const v = t(k / n)
-        out.push(v)
-      }
-    }
-    return out
-  }
-
   /**
    * Interpolate over `colors`, the returning function should be called with a number in the range [0, 1[
    *
