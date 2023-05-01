@@ -1,10 +1,10 @@
 ---
-title: "Combining transformation matrices"
+title: "Combining Matrix Transformations"
 date: 2016-02-10 21:13:17
 description: |
   Taking multiple matrices each encoding a single transformations and combining them
   is how we transform vectors between different spaces. This article creating a
-  trasformation matrix that combines a  rotation followed by a translation, a translation
+  transformation matrix that combines a  rotation followed by a translation, a translation
   followed by a rotation and creating transformation matrices to transform between
   different coordinate systems.
 image: /images/scaling-rotation-translation.png

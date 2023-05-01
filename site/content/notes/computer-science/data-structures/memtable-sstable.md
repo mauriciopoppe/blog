@@ -26,17 +26,17 @@ In-memory data structure that holds data in memory before it's flushed into disk
 For a write operation we write to memory which is fast compared to persistent storage,
 eventually, a memtable will surpass a predefined memory threshold and it'll need to be flushed to disk,
 while we can define our own write format we can write the memtable in a sorted way to disk as an SSTable
-(see SSTable below). Once data is written disk the data becomes immutable (the SSTable cannot be modified),
+(see SSTable below). Once data is written to disk the data becomes immutable (the SSTable cannot be modified),
 therefore, new writes go to a new memtable and operations like update or
 [delete](https://en.wikipedia.org/wiki/Tombstone_(data_store)) on existing data in the previous memtable
 are instead stored in the new memtable.
 
 For a read operation we first check in the current memtable, if the read can't be fulfilled by the current
 memtable (maybe the data exists but it's no longer in memory because it was flushed to disk) then we check recently
-created SSTables in decreasing creation order until we find the desired record (or we might find it at all).
+created SSTables in decreasing creation order until we find the desired record (or we might not find it at all).
 Because the SSTable is sorted it enables faster reads because we can use binary search to find it in the file.
 
-A memtable can be implemented with a Red-Blac Tree, a SkipList, a HashSkipList, a HashLinkList.
+A memtable can be implemented with a Red-Black Tree, a SkipList, a HashSkipList, a HashLinkList.
 For tradeoffs on these implementations please check the [RocksDB wiki](https://github.com/facebook/rocksdb/wiki/MemTable).
 
 ### Applications
@@ -55,6 +55,8 @@ the common scenario of reads for a range of time would also fit a linked list (e
 after a memtable is written to disk in a SSTable it enables slower reads for old data which is an acceptable
 tradeoff because 99% of the data is never queried after 24h.
 
+The following implementation uses a HashLinkList.
+
 Let's define an entry to be a data structure that holds a collection of labels, a single value and a time.
 
 ```go
@@ -68,10 +70,21 @@ type Entry struct {
 	// next is an pointer to the next Entry.
 	next *Entry
 }
+
+// example:
+entry := &Entry{
+	id:     time.Now(),
+	labels: map[string]string{
+		"method":     "http",
+		"type":       "POST",
+		"statusCode": "200",
+	},
+	value:  1,
+}
 ```
 
-A memtable is a collection of entries with a pointer to the head and the tail of the linked list,
-to find entries by label faster we also add a hash map from a label to an entry.
+Our memtable is a collection of entries stored in a linked list, the memtable has a pointer to the head and the tail
+of the linked list. `index` is explained later in this article.
 
 ```go
 type Memtable struct {
@@ -104,10 +117,11 @@ func (m *Memtable) Write(labels map[string]string, value any) {
 }
 ```
 
-To read values for an arbitrary combination of labels we need to find for each label the
-values pointed by it which can be done through a dictionary (hashmap) that maps a single
-label to all the possible entries that have the label. While we can compute this on read
-we can also pay the penalty to build the mapping on write.
+To find entries by label(s) we can iterate the linked list starting from `head` until `tail` collecting
+entries that match our labels in `O(n)` where `n` is the size of the linked list. To improve the performance
+of a query we can use an index that maps a label to the locations of entries, this speeds up the find operation
+by `O(k)` where `k` is the max number of entries mapped to a label, the tradeoff is space
+and the fact that we have to update the index on every write.
 
 With the above we got values for single labels, for multiple labels we combine the results
 by doing an intersection.

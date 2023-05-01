@@ -2,6 +2,7 @@ import { DoubleSide } from 'three'
 import React, { useRef, useEffect, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF, useAnimations, MeshWobbleMaterial, Text, Points, PointMaterial } from '@react-three/drei'
+import { theme } from '../../main/colors'
 import * as random from 'maath/random/dist/maath-random.esm'
 
 export function Plane(props) {
@@ -56,7 +57,7 @@ export function Flag(props) {
 export function Thanks(props) {
   return (
     <Text
-      color="#b82245"
+      color={theme.t(0)}
       fontSize={12}
       maxWidth={200}
       lineHeight={1}
