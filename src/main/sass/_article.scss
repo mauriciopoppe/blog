@@ -53,10 +53,10 @@ article[role=main] {
   display: none;
 }
 html[data-theme="dark"] .light-mode {
-  display: block;
+  display: inline-block;
 }
 html[data-theme="light"] .dark-mode {
-  display: block;
+  display: inline-block;
 }
 
 section.main {
