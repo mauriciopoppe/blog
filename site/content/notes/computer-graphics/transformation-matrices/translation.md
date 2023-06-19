@@ -11,6 +11,14 @@ references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---
 
+This article is part 4 in the series about transformation matrices:
+
+- [Part 1: Coordinate systems and transformations between them](../coordinate-systems/)
+- [Part 2: Scaling objects with a transformation matrix](../scale/)
+- [Part 3: Shearing objects with a transformation matrix](../shearing/)
+- **[Part 4: Translating objects with a transformation matrix](../translation/) (this article)**
+- [Part 5: Combining Matrix Transformations](../combining-transformations/)
+
 ## 2D translation
 
 A translation is an affine transformation which is a linear transformation followed by some displacement

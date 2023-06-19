@@ -21,7 +21,7 @@ references:
 
 ## Memtable
 
-In-memory data structure that holds data in memory before it's flushed into disk serving reads and writes.
+A data structure that holds data in memory before it's flushed into disk.
 
 For a write operation we write to memory which is fast compared to persistent storage,
 eventually, a memtable will surpass a predefined memory threshold and it'll need to be flushed to disk,
@@ -54,8 +54,6 @@ A memtable fits this problem because it's a write heavy system (therefore we nee
 the common scenario of reads for a range of time would also fit a linked list (either SkipList or HashLinkList),
 after a memtable is written to disk in a SSTable it enables slower reads for old data which is an acceptable
 tradeoff because 99% of the data is never queried after 24h.
-
-The following implementation uses a HashLinkList.
 
 Let's define an entry to be a data structure that holds a collection of labels, a single value and a time.
 

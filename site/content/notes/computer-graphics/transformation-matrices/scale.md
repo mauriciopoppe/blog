@@ -11,6 +11,14 @@ references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---
 
+This article is part 2 in the series about transformation matrices:
+
+- [Part 1: Coordinate systems and transformations between them](../coordinate-systems/)
+- **[Part 2: Scaling objects with a transformation matrix](../scale/) (this article)**
+- [Part 3: Shearing objects with a transformation matrix](../shearing/)
+- [Part 4: Translating objects with a transformation matrix](../translation/)
+- [Part 5: Combining Matrix Transformations](../combining-transformations/)
+
 ## Scaling along the cardinal axes
 
 Intuitively the basis vectors should be multiplied by an scalar, also they are independently affected by the scale factors

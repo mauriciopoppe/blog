@@ -10,6 +10,14 @@ references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---
 
+This article is part 3 in the series about transformation matrices:
+
+- [Part 1: Coordinate systems and transformations between them](../coordinate-systems/)
+- [Part 2: Scaling objects with a transformation matrix](../scale/)
+- **[Part 3: Shearing objects with a transformation matrix](../shearing/) (this article)**
+- [Part 4: Translating objects with a transformation matrix](../translation/)
+- [Part 5: Combining Matrix Transformations](../combining-transformations/)
+
 ## 2D shearing
 
 In 2D we can skew points towards the $x$ axis by making $x' = x + sy$, if $s > 0$ then points will skew towards the positive $x$-axis, if $s < 0$ points will move towards the negative $x$-axis

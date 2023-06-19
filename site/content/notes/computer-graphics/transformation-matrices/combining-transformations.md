@@ -14,6 +14,14 @@ references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---
 
+This article is part 5 in the series about transformation matrices:
+
+- [Part 1: Coordinate systems and transformations between them](../coordinate-systems/)
+- [Part 2: Scaling objects with a transformation matrix](../scale/)
+- [Part 3: Shearing objects with a transformation matrix](../shearing/)
+- [Part 4: Translating objects with a transformation matrix](../translation/)
+- **[Part 5: Combining Matrix Transformations](../combining-transformations/) (this article)**
+
 We can compose a series of transformations by multiplying the matrices that define the transformation, for example if we have one object in the world with arbitrary position and orientation that we want to render through a camera lens located in the same world also with arbitrary position and orientation, to get the coordinates of the object relative to the camera lens we must transform the object from *object space* to *world space* (transformation known as **model transform**) denoted by the matrix $\mathbf{M}\_{world \leftarrow object}$, and then transform the vertices of the object from *world space* to *view space* (transformation known as **view transform**) denoted with $\mathbf{M}\_{view \leftarrow world}$
 
 <div>$$

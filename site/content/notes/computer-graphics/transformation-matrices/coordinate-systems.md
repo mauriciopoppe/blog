@@ -16,6 +16,14 @@ references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---
 
+This article is part 1 in the series about transformation matrices:
+
+- **[Part 1: Coordinate systems and transformations between them](../coordinate-systems/) (this article)**
+- [Part 2: Scaling objects with a transformation matrix](../scale/)
+- [Part 3: Shearing objects with a transformation matrix](../shearing/)
+- [Part 4: Translating objects with a transformation matrix](../translation/)
+- [Part 5: Combining Matrix Transformations](../combining-transformations/)
+
 ## World space[^space], upright space, object space
 
 > why bother having multiple spaces?
@@ -32,7 +40,7 @@ Information is given only in the context of a particular reference frame
 
 > Why do we have an upright space?
 
- Thanks to this space the problem of transforming a point between object space -> world space (and viceversa) can be divided in two subproblems
+ Thanks to this space the problem of transforming a point between object space -> world space (and vice-versa) can be divided in two subproblems
 
 - object space -> upright space (a rotation)
 - upright space -> world space (a change of location)
