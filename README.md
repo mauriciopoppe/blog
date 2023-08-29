@@ -47,7 +47,7 @@ I use bulma and bulma-css-vars with two themes, the flow is as follows:
   - `src/main/colors.js` defines anything related with colors
   - `src/main/theme-dark` has bulma-css-vars config to generated the dark theme
   - `src/main/theme-light` has bulma-css-vars config to generated the light theme
-- `node src/util/bulma-css-vars-generator.js` runs bulma-css-vars with 
+- `node src/util/bulma-css-vars-generator.js` runs bulma-css-vars with
   the two configurations, then some replacements are done in the generated
   code
   - in `src/main/sass/bulma-generated/generated-bulma-vars-${theme}.sass`
@@ -61,14 +61,31 @@ Drawbacks:
 - Changes to `src/main/colors.js` in the theme colors require running `npm start` again,
   the reason is that the CSS variables are generated with these JS values.
 
-### Installation
+### Bundled scripts
+
+Build strategy: create multiple webpack library outputs, export metadata about the generated
+assets through the AssetsPlugin to `site/data/webpackAssets.json`, later when a page
+is rendered have hugo read the json file and decide the urls to use in the script tag.
+
+To create a new global script:
+
+- create an entrypoint e.g. `src/<app>/index.js`
+- add it to `webpack.config.common.js`
+- create the partial that injects the script, create `site/layouts/partials/scripts/<app>.html`
+  similar to other files in the same directory
+- use it in the desired page through `{{ partial "scripts/learn-french.html" . }}`
+- restart the server
+
+## Local development
+
+Install dependencies
 
 ```sh
 brew install hugo
 npm i
 ```
 
-### Local development
+Start web server
 
 ```sh
 npm start

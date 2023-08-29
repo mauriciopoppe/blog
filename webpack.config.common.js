@@ -9,7 +9,8 @@ module.exports = {
     main: path.join(__dirname, './src/main/index.js'),
     sunset: path.join(__dirname, './src/sunset/index.js'),
     voronoi: path.join(__dirname, './src/voronoi/index.js'),
-    jukebox: path.join(__dirname, './src/jukebox/index.js')
+    jukebox: path.join(__dirname, './src/jukebox/index.js'),
+    learnFrench: path.join(__dirname, './src/learn-french/index.js')
   },
   output: {
     path: path.join(__dirname, 'dist'),
