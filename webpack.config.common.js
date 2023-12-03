@@ -43,7 +43,15 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           MiniCssExtractPlugin.loader,
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              // css-loader v4 introduced a change that makes url(/images/foo) fail
+              // I use the above for the image to use in the background of the
+              // interview preparation article, disabling it makes it work fine again.
+              url: false
+            }
+          },
           'postcss-loader',
           {
             loader: 'sass-loader',
