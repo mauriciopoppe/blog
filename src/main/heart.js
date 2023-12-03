@@ -60,4 +60,8 @@ function main() {
   hearts.forEach((h) => setupHearts(h))
 }
 
+export function heartHotReload() {
+  main()
+}
+
 main()

@@ -5,12 +5,11 @@
  * Licensed under the MIT license.
  */
 /** @type HTMLDivElement */
-const container = document.querySelector('article[role=main]')
-if (container) run()
 
 function run() {
   /** @type HTMLDivElement */
   const tooltip = document.createElement('div')
+  const container = document.querySelector('article[role=main]')
   tooltip.classList.add('mathjax-tooltip', 'ref-tooltip-preview')
   container.appendChild(tooltip)
 
@@ -58,3 +57,14 @@ function run() {
     })
   })
 }
+
+function main() {
+  const container = document.querySelector('article[role=main]')
+  if (container) run()
+}
+
+export function equationPreviewHotReload() {
+  main()
+}
+
+main()

@@ -1,7 +1,7 @@
 const { theme } = require('../colors')
 
 const colorDefs = theme.getTheme('light')
-module.exports = {
+const config = {
   jsOutputFile: '../sass/bulma-generated/bulma-colors.js',
   sassOutputFile: '../sass/bulma-generated/generated-bulma-vars-light.sass',
   cssFallbackOutputFile: '../sass/bulma-generated/generated-fallback-light.css',
@@ -10,3 +10,5 @@ module.exports = {
   transition: '0.15s ease',
   globalWebVar: true
 }
+
+module.exports = config

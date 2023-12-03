@@ -6,16 +6,6 @@ import tocbot from 'tocbot'
 import debounce from 'debounce'
 import isMobile from 'is-mobile'
 
-const content = document.querySelector('article[role=main]')
-
-const sitemap = document.querySelector('.sitemap')
-const sitemapWrapper = document.querySelector('.sitemap-wrapper')
-
-const toc = document.querySelector('.toc')
-const tocWrapper = document.querySelector('.toc-wrapper')
-
-const footer = document.querySelector('footer')
-
 const SidebarState = {
   AUTO: 'auto',
   FIXED: 'fixed',
@@ -63,10 +53,12 @@ class Sidebar {
    * @private
    */
   get footerLocationFromDocument() {
+    const footer = document.querySelector('footer')
     return footer.getBoundingClientRect().top + document.documentElement.scrollTop - window.innerHeight
   }
 
   get contentLocationInPage() {
+    const content = document.querySelector('article[role=main]')
     return content.getBoundingClientRect().top + document.documentElement.scrollTop - this.articleTopMargin
   }
 
@@ -102,6 +94,12 @@ class Sidebar {
 }
 
 function main() {
+  const sitemap = document.querySelector('.sitemap')
+  const sitemapWrapper = document.querySelector('.sitemap-wrapper')
+
+  const toc = document.querySelector('.toc')
+  const tocWrapper = document.querySelector('.toc-wrapper')
+
   if (!toc || !sitemap) {
     return
   }
@@ -123,7 +121,7 @@ function main() {
   if (!isMobile()) {
     window.addEventListener('scroll', function () {
       // function is not debounced since the scroll waypoints
-      // need to be tested everytime
+      // need to be tested every time
       for (const sidebar of sidebars) {
         sidebar.onScroll()
       }
@@ -152,4 +150,9 @@ function main() {
   }
 }
 
+export function sidebarHotReload() {
+  main()
+}
+
+// initial trigger
 main()

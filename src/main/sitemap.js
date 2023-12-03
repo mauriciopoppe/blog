@@ -7,9 +7,6 @@
 
 import expoInOut from 'eases/expo-in-out'
 
-const sitemapWrapper = document.querySelector('.sitemap')
-const sitemapTree = document.querySelector('#sitemap-tree')
-
 function animate({ timing, draw, duration }) {
   return new Promise((resolve) => {
     const start = window.performance.now()
@@ -88,6 +85,7 @@ function addTabsListener() {
 }
 
 function addClickListener() {
+  const sitemapTree = document.querySelector('#sitemap-tree')
   sitemapTree.addEventListener('click', function (e) {
     // find closest ancestor that is li
     const li = e.target.closest('li')
@@ -134,6 +132,7 @@ function addClickListener() {
 
 // open active items as needed
 function setActiveItemInSidebar() {
+  const sitemapTree = document.querySelector('#sitemap-tree')
   let pn = window.location.pathname
   // strips the / and adds .md
   pn = pn.substring(1, pn.length - 1) + '.md'
@@ -168,8 +167,18 @@ function setActiveItemInSidebar() {
   }
 }
 
-if (sitemapWrapper) {
-  addTabsListener()
-  addClickListener()
-  setActiveItemInSidebar()
+function main() {
+  const sitemapWrapper = document.querySelector('.sitemap')
+  if (sitemapWrapper) {
+    addTabsListener()
+    addClickListener()
+    setActiveItemInSidebar()
+  }
 }
+
+export function sitemapHotReload() {
+  main()
+}
+
+// initial load.
+main()

@@ -1,2 +1,7 @@
 const Lozad = require('lozad')
-new Lozad('.lazy-load').observe()
+
+export function lazyLoadhotReload() {
+  new Lozad('.lazy-load').observe()
+}
+
+lazyLoadhotReload()

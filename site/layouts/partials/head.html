@@ -178,6 +178,7 @@ The following is an optimization from lighthouse to inline the css in production
       })
     }
   }
+  // Remember not to change this! The main script depends on it and uses it when there's a pjax load.
   window.myBlog = myBlog
 
   {{/* Only set the theme on the content page and not in the home page. */}}
