@@ -5,6 +5,12 @@
 </head>
 <body>
     <div id="app"></div>
+    <!--
+      Webpack HMR runtime (https://github.com/webpack/webpack-dev-server/issues/2792)
+
+      Fix so that common code among all the js libraries is shared in a single file
+      before all of them start.
+    -->
     {{ partial "scripts/webpack-runtime.html" . }}
     {{ partial "scripts/learn-french.html" . }}
 </body>

@@ -35,6 +35,12 @@
 
     <!-- <input style="position: absolute; right: 0; top: 0" type="range" id="volume" min="0" max="2" value="1" step="0.01"> -->
 
+    <!--
+      Webpack HMR runtime (https://github.com/webpack/webpack-dev-server/issues/2792)
+
+      Fix so that common code among all the js libraries is shared in a single file
+      before all of them start.
+    -->
     {{ partial "scripts/webpack-runtime.html" . }}
     {{ partial "scripts/jukebox.html" . }}
 

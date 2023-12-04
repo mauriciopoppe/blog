@@ -76,6 +76,16 @@ To create a new global script:
 - use it in the desired page through `{{ partial "scripts/learn-french.html" . }}`
 - restart the server
 
+How does it work?
+
+- webpack.config.common.js is configured to emit metadata about the entrypoints
+  to site/data/webpackAssets.json
+- when the partial `site/layouts/partials/webpack-script.html` is used it'll
+  create a `<script>` tag with a src url equal taken from `webpackAssets.json` (mapped
+  using the `id` sent to `webpack-script.html`)
+- NOTE: in production the behavior is to embed the contents of the script directly
+  instead of through a `<script src="">` tag.
+
 ## Local development
 
 Install dependencies
