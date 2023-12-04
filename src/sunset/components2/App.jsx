@@ -36,7 +36,7 @@ export default function App(props) {
       <Suspense fallback={null}>
         <Stars />
         <Moon position={moon} />
-        <Plane position={[-15, 5, 0]} />
+        <Plane position={[-5, 5, 0]} />
         <Ground />
       </Suspense>
 

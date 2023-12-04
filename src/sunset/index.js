@@ -14,7 +14,7 @@ function isMobile() {
   })
 }
 
-const target = document.querySelector('footer')
+const target = document.querySelector('#browser-sunset')
 const options = {
   rootMargin: '400px'
 }
@@ -35,9 +35,7 @@ function callback(entries) {
       app = await import('./components2/App.jsx')
     }
 
-    app.render({
-      target: document.querySelector('#browser-sunset')
-    })
+    app.render({ target })
   })
 }
 
