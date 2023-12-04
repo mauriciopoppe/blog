@@ -1,4 +1,9 @@
-<section class="main">
+{{ $libraries := "" }}
+{{ if (isset .Params "libraries") }}
+  {{ $libraries = jsonify .Params.libraries }}
+{{ end }}
+
+<section class="main" data-libraries='{{ $libraries }}'>
   <div class="container is-fluid">
     <div class="columns">
 

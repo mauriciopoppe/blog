@@ -1,4 +1,8 @@
-<!-- usage: partial "webpack-script" (dict "ctx" . "id" "jukebox") -->
+{{- /*
+
+
+Usage: partial "webpack-script" (dict "ctx" . "id" "jukebox")
+*/ -}}
 
 {{ $webpackScript := index .ctx.Site.Data.webpackAssets .id }}
 {{ $url := "" }}

@@ -1,0 +1,15 @@
+<!-- code highlight -->
+{{ partial "lib/prism.html" . }}
+
+<!-- libraries that are selectively included depending on whether the post wants it -->
+{{ if isset .Params "libraries" }}
+  {{ range .Params.libraries }}
+    {{ if eq . "function-plot" }} {{ partial "lib/function-plot.html" . }} {{ end }}
+    {{ if eq . "greuler" }} {{ partial "lib/greuler.html" . }} {{ end }}
+    {{ if eq . "math" }} {{ partial "lib/mathjax3.html" . }} {{ end }}
+  {{ end }}
+{{ end }}
+
+<!-- my scripts -->
+{{ partial "scripts/main.html" . }}
+

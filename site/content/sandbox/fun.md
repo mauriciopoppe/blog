@@ -1,4 +1,4 @@
 ---
 title: "Fun!"
-layout: "sandbox-fun"
+layout: "layout-fun"
 ---

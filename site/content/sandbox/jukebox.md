@@ -1,4 +1,4 @@
 ---
 title: "Sandbox | Jukebox"
-layout: "sandbox-jukebox"
+layout: "layout-jukebox"
 ---
