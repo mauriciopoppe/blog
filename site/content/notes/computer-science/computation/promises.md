@@ -834,4 +834,3 @@ This implementation passed all the 872 tests, cool!
 - Performance improvements, the creator of BlueBird has a [detailed document](https://github.com/petkaantonov/bluebird/wiki/Optimization-killers) with some optimization tips
 - Async stack traces, see [`q`](https://github.com/kriskowal/q#long-stack-traces)
 
-<script> document.body.classList.add('high-performance') </script>
