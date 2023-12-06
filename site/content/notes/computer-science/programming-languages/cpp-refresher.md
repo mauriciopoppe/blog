@@ -586,8 +586,8 @@ Person::~Person() { /* ... */ }
 int main() {
   Person a;                               // default constructor
   Person b = Person("john", 25);          // with parameters
-  World c("john", 25);                    // alternative syntax
-  World* p_d = new Person("john", 25);    // pointer-to-Person
+  Person c("john", 25);                   // alternative syntax
+  Person* p_d = new Person("john", 25);   // pointer-to-Person
 
   b.show();
   p_d->show();
