@@ -6,28 +6,31 @@
 <body>
 
 <div class="container">
-  <h1 class="title is-1">I saw another rat 🐀!</h1>
+  <div class="columns">
+    <div class="column">
 
-  <form>
-    <div class="field">
-      <label class="label">Notes</label>
-      <div class="control">
-        <textarea class="textarea" style="background-color: #333333" name="notes"></textarea>
-      </div>
+      <h1 class="title is-1">I saw another rat 🐀!</h1>
+      <form>
+        <div class="field">
+          <label class="label">Notes</label>
+          <div class="control">
+            <textarea class="textarea" style="background-color: #333333" name="notes"></textarea>
+          </div>
+        </div>
+
+        <div class="field is-grouped">
+          <div class="control">
+            <button id="submit" style="visibility: hidden" class="button is-primary">Submit</button>
+          </div>
+        </div>
+
+        <div id="message-info" class="has-text-light"></div>
+        <div id="message-success" class="has-text-success"></div>
+        <div id="message-error" class="has-text-warning"></div>
+      </form>
+
     </div>
-
-    <div class="field is-grouped">
-      <div class="control">
-        <button id="submit" style="visibility: hidden" class="button is-primary">Submit</button>
-      </div>
-    </div>
-
-
-    <div id="message-info" class="has-text-light"></div>
-    <div id="message-success" class="has-text-success"></div>
-    <div id="message-error" class="has-text-warning"></div>
-  </form>
-
+  </div>
 </div>
 <!--
   Webpack HMR runtime (https://github.com/webpack/webpack-dev-server/issues/2792)
@@ -118,7 +121,17 @@ async function submitRatEntry() {
       /*
         Response shape:
         {
-          address: Object,
+          address: {
+            city: string,
+            country: string,
+            country_code: string,
+            house_number: string,
+            neighbourhood: string,
+            postcode: string,
+            road: string,
+            state: string,
+            suburb: string,
+          },
           display_name: string,
           lat: number,
           lon: number
@@ -131,9 +144,23 @@ async function submitRatEntry() {
   })
 
   const date = (new Date()).toLocaleString()
+  console.log(location)
   let values = [
-    // date, lat, lon, address, notes
-    [date, location.lat, location.lon, location.display_name, formProps.notes],
+    [
+      date,
+      location.lat,
+      location.lon,
+      location.display_name,
+      location.address.house_number,
+      location.address.road,
+      location.address.neighbourhood,
+      location.address.suburb,
+      location.address.county,
+      location.address.city,
+      location.address.postcode,
+      location.address.country,
+      formProps.notes
+    ],
   ]
   appendMessage('info', `Sending values ${JSON.stringify(values)}`)
   const body = { values: values, }
