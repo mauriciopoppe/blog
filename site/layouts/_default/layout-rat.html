@@ -137,7 +137,11 @@ async function submitRatEntry() {
           lon: number
         }
        */
-      const address = fetch(`https://geocode.maps.co/reverse?lat=${pos.lat}&lon=${pos.lon}`).then(r => r.json())
+
+      let geoCodeUrl = 'https://geocode' + '.maps.co/reverse'
+      geoCodeUrl += '?lat=' + pos.lat.toString(),
+      geoCodeUrl += '&lon=' + pos.lon.toString()
+      const address = fetch(geoCodeUrl).then(r => r.json())
       appendMessage('info', 'Reverse geoloc complete')
       resolve(address)
     }, reject)
