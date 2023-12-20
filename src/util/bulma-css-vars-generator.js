@@ -15,9 +15,15 @@ async function generateTheme(theme) {
 
   // runs bulma-css-vars with a custom directory (the theme directory)
   await runCli(themePath)
-  // eslint-disable-next-line
-  execSync(`sed -i '' 's/window/global/g' bulma-colors.js`, { cwd: outPath })
-  execSync(`sed -i '' 's/#{":root"}/html[data-theme=${theme}]/g' generated-bulma-vars-${theme}.sass`, { cwd: outPath })
+
+  let macOSSedHack = ''
+  if (process.platform === 'darwin') {
+    macOSSedHack = "''"
+  }
+  execSync(`sed -i ${macOSSedHack} 's/window/global/g' bulma-colors.js`, { cwd: outPath })
+  execSync(`sed -i ${macOSSedHack} 's/#{":root"}/html[data-theme=${theme}]/g' generated-bulma-vars-${theme}.sass`, {
+    cwd: outPath
+  })
 }
 
 async function main() {
