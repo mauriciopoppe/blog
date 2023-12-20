@@ -9,7 +9,7 @@
   "scripts": {
     "start": "npm run generate:sitemap && npm run generate:colors && run-p start:*",
     "start:hugo": "hugo server -e development -D -F --bind 0.0.0.0 -d ../dist -s site --verbose --watch --disableFastRender --disableLiveReload",
-    "start:webpack": "webpack-dev-server --config webpack.config.dev.js --hot",
+    "start:webpack": "webpack-dev-server --config webpack.config.dev.js --hot --host 0.0.0.0",
     "prebuild": "eslint src/",
     "build": "NODE_ENV=production npm run generate:sitemap && npm run generate:colors && npm run build:webpack && npm run build:copyAssets && npm run build:hugo",
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
