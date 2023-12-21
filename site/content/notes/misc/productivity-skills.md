@@ -146,7 +146,7 @@ Once I clone a codebase worth remembering I cd into it and invoke a script
 that will save the absolute path in the file `~/.bookmarks.data`.
 
 Finally it comes time to pick a codebase that I want to work on, to do so I use a
-[ruby script](https://github.com/mauriciopoppe/dotfiles/blob/main/zsh/bin/tmux-switch-client) that reads
+[python script](https://github.com/mauriciopoppe/dotfiles/blob/main/zsh/bin/tmux-switch-client.py) that reads
 the `~/.bookmarks.data` file and feeds it to `fzf` to provide fuzzy finding over all the existing and
 saved (but not started) sessions, after a bookmark (or tmux session) is selected then it comes time
 to call tmuxinator within that directory and start a new tmux session or just switch to an existing
@@ -156,14 +156,15 @@ This ruby script is keymapped be called whenever I type `<ctrl+space><ctrl+j>` w
 
 With the concepts learned above it comes time to talk about my workflow:
 
-- Log into my computer, start the tmux server, I'll usually see the session 0.
+- Log into my workstation, start the tmux server (or attach to one already running), I'll usually see the session 0.
 - Think to the project that I want to work on first e.g. the kubernetes/kubernetes repo, I only need to remember kubernetes.
-- Type `<ctrl+space><ctrl+j>`, that'll open fzf with my bookmarks.
-- I filter the kubernetes repo by typing `kubernetes` and select it in the list. That will create a new tmux session in the kubernetes codebase with the tmux layout that I have.
+- Type `<ctrl+space><ctrl+j>`, that'll trigger the `tmux-switch-client` script and run fzf with my bookmarks and the tmux sessions that are running currently.
+- I type `kubernetes` and see the repos related with kubernetes, I move over the list and select the one that I want.
+  Once selected it will create a new tmux session in the kubernetes codebase with a predefined tmux layout.
 - I may run a long running command like building kubernetes or creating a dev cluster. In the meantime
-  I can work on a different project, I switch to it with the same keymap used before `<ctrl+space><ctrl+j>`.
-- After working on the other codebase remember that I created a kubernetes dev cluster! I might run another long
-  running command before jumping to a different codebase.
+  I can work on a different project, I switch to it with `<ctrl+space><ctrl+j>`.
+- After working for some time in the other codebase I remember that I created a kubernetes dev cluster!
+  I can switch to the kubernetes codebase to see the status of the build.
 - Rinse and repeat
 
 Things that I've tried in the past:
