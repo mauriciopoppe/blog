@@ -58,7 +58,7 @@ Conditional directives are used for example to include headers only once
 
 File inclusion
 
-- `#include <library>` - the contents of the `librfry` file are sent along the source code, in essence the contents of the `library` **replace** the `#include` line, note that the compiler tries to find `library` in the host system's file system that holds the standard header files
+- `#include <library>` - the contents of the `library` file are sent along the source code, in essence the contents of the `library` **replace** the `#include` line, note that the compiler tries to find `library` in the host system's file system that holds the standard header files
 - `#include "library"` - same as above but `library` is looked in the current working directory
 - [`#pragma`](https://gcc.gnu.org/onlinedocs/cpp/Pragmas.html) - specify diverse options to the compiler specific of the platform/compiler
 
