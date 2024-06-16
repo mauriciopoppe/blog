@@ -12,7 +12,7 @@ tags: ["computer graphics", "transformation matrix", "view transform", "3d", "2d
 libraries: ["math"]
 date: 2016-02-13 11:59:56
 references:
-  - "Schaback, J. (2016). Camera Transformation and View Matrix. [online] Schabby.de. Available at: http://schabby.de/view-matrix/ [Accessed 7 Mar. 2016]."
+  - "Schaback, J. (2016). Camera Transformation and View Matrix. [online] Schabby.de. [Accessed 7 Mar. 2016]."
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
 ---
 

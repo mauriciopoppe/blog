@@ -353,7 +353,7 @@ your approach! As I said, practice for speed.
 {{< interview who="google" >}}
 - Hardest one to practice because of how unpredictable it is. You may get a warmup question that has a follow up that turns it into medium or hard.
 You may also get a problem with a nice story hiding a well-known algorithm like sliding-window.
-- Interviews used to be in google docs, but now they have their proprietary coding platform https://interview.google.com
+- Interviews used to be in google docs, but now they have their proprietary coding platform at interview.google.com
 (the recruiting coordinator will give you unique links for each one).
 - You can't run your code, so make sure you check it once after you're done coding and before testing it and debug it
 with some test cases.
