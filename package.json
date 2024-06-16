@@ -108,7 +108,7 @@
     "styled-components": "^5.0.1",
     "svg-sprite-loader": "^6.0.11",
     "terser-webpack-plugin": "^5.3.7",
-    "three": "^0.144.0",
+    "three": "^0.156.0",
     "title-case": "^3.0.2",
     "tocbot": "^4.21.0",
     "webpack": "^5.80.0",

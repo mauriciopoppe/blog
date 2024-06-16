@@ -4,7 +4,7 @@ import { GUI } from 'three/addons/libs/lil-gui.module.min.js'
 
 function perspectiveProjection(el, cameraType = 'perspective') {
   el.style.width = '100%'
-  el.style.height = '500px'
+  el.style.height = '50vh'
   el.style.position = 'relative'
   const { width, height } = el.getBoundingClientRect()
   const aspect = width / height
@@ -23,21 +23,22 @@ function perspectiveProjection(el, cameraType = 'perspective') {
 
   // cameras
   const guiParams = {
-    near: 150,
+    fov: 50,
+    near: 300,
     far: 1000
   }
   let camera
   if (cameraType === 'perspective') {
-    camera = new THREE.PerspectiveCamera(50, 1, guiParams.near, guiParams.far)
+    camera = new THREE.PerspectiveCamera(guiParams.fov, 1, guiParams.near, guiParams.far)
     camera.rotation.y = Math.PI
   } else {
-    const frustumSize = 600
+    const frustumSize = height
     camera = new THREE.OrthographicCamera(
-      (0.5 * frustumSize * aspect) / -2,
-      (0.5 * frustumSize * aspect) / 2,
       frustumSize / 2,
       frustumSize / -2,
-      150,
+      frustumSize / 2,
+      frustumSize / -2,
+      300,
       1000
     )
     camera.rotation.y = Math.PI
@@ -53,12 +54,18 @@ function perspectiveProjection(el, cameraType = 'perspective') {
   // object helpers
 
   const gui = new GUI({ container: el })
-  gui.add(guiParams, 'near', 50, 2000).onChange((near) => {
-    camera.near = near
+  if (cameraType === 'perspective') {
+    gui.add(guiParams, 'fov', 40, 90).onChange((v) => {
+      camera.fov = v
+      camera.updateProjectionMatrix()
+    })
+  }
+  gui.add(guiParams, 'near', 50, 2000).onChange((v) => {
+    camera.near = v
     camera.updateProjectionMatrix()
   })
-  gui.add(guiParams, 'far', 0, 2000).onChange((far) => {
-    camera.far = far
+  gui.add(guiParams, 'far', 0, 2000).onChange((v) => {
+    camera.far = v
     camera.updateProjectionMatrix()
   })
 
@@ -120,7 +127,9 @@ function perspectiveProjection(el, cameraType = 'perspective') {
 
     // render minimap side
     cameraHelper.visible = false
-    const square = height * 0.5
+
+    // minimap occupies 1/4 of the screen
+    const square = Math.max(height, width) * 0.25
     renderer.setClearColor(0x000000, 1)
     renderer.setScissor(0, 0, square, square)
     renderer.setViewport(0, 0, square, square)

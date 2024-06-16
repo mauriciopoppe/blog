@@ -69,7 +69,6 @@ module.exports = {
   //     Components: path.resolve(process.cwd(), 'src/components/')
   //   }
   // },
-  devtool: 'eval-source-map',
   optimization: {
     runtimeChunk: 'single'
   },
