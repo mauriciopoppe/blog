@@ -13,13 +13,13 @@ description: |
   transformation matrices for both transformations.
 image: /images/projection-matrix!perspective-all.png
 tags: ["computer graphics", "transformation matrix", "orthographic projection", "perspective projection", "3d", "2d"]
-libraries: ["math"]
+libraries: ["math", "threejs"]
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
   - "Ahn, S. (2016). OpenGL Projection Matrix. [online] Songho.ca. Available at: http://www.songho.ca/opengl/gl_projectionmatrix.html [Accessed 7 Mar. 2016]."
 ---
 
-The *canonical view volume* is a cube with its extreme points at $[-1, -1, -1]$ and $[1, 1, 1]$, coordinates in this view volume are called *normalized device coordinates* (NDC), the objective of this step is to build a transformation matrix so that a region of space we want to render called the *view volume* is mapped to the *canonical view volume*
+The *canonical view volume* is a cube with its extreme points at $[-1, -1, -1]$ and $[1, 1, 1]$. Coordinates in this view volume are called *normalized device coordinates* (NDC), the objective of this step is to build a transformation matrix so that a region of space we want to render called the *view volume* is mapped to the *canonical view volume*
 
 <div>$$
 \mathbf{v}_{ndc} = \mathbf{M}_{proj} \mathbf{v}_{view}
@@ -48,16 +48,15 @@ These parameters bound the view volume which is an axis-aligned bounding box
 
 {{< figure src="/images/projection-matrix!orthographic.png" title="Ortographic Projection" >}}
 
+<div id="orthographic-projection-animation"></div>
+
 Since the mapping of the range $[l, r]$ to the range $[-1, 1]$ is linear we can use the equation of the line $y = mx + b$ and find the values of $m$ and $b$ however we can intuitively get a similar equation by creating a function $f(x)$ so that $f(0) = -1$ and $f(1) = 1$, we can create a nested function $g(x)$ so that $g(l) = 0$ and $g(r) = 1$ (note that $[l, r]$ is the input range) then $f(x)$ has the form
 
 <div>$$
-f(x) = -1 + 2 \; g(x)
-$$</div>
-
-If $x \in [a, b], g(x) \in [0, 1]$ then its value is
-
-<div>$$
-g(x) = \frac{x - l}{r - l}
+\begin{align}
+f(x) &= -1 + 2 \; g(x) \\
+g(x) &= \frac{x - l}{r - l}
+\end{align}
 $$</div>
 
 Finally $f(x)$ has the form
@@ -71,7 +70,7 @@ f(x) &= -1 + 2 \frac{x - l}{r - l} \nonumber \\
 \end{align}
 $$</div>
 
-Using \eqref{linear-mapping} to transform the $x$- and $y$-coordinates of a vector expressed in *view space* to *clip space*
+We can adapt \eqref{linear-mapping} to have a similar form for the y-coordinate using $t$ and $b$. These equations are transformations from *view space* to *clip space*:
 
 <div>$$
 x_{clip} = \frac{2}{r - l}x_{view} - \frac{r + l}{r - l}
@@ -81,7 +80,7 @@ $$</div>
 y_{clip} = \frac{2}{t - b}y_{view} - \frac{t + b}{t - b}
 $$</div>
 
-The $z_c$ value will be different from the ones above since we're mapping $[-n, -f] \Rightarrow [-1, 1]$
+The $z_{clip}$ value will be different from the ones above since we're mapping $[-n, -f] \Rightarrow [-1, 1]$
 
 <div>$$
 \begin{align*}
@@ -198,6 +197,8 @@ A perspective projection matrix is built with 6 parameters, *left, right, bottom
 These parameters define a truncated pyramid also called a [ frustum ](https://www.wikiwand.com/en/Frustum)
 
 {{< figure src="/images/projection-matrix!perspective-all.png" title="Perspective projection" >}}
+
+<div id="perspective-projection-animation"></div>
 
 ### General perspective projection matrix
 
@@ -445,3 +446,4 @@ Substituting \eqref{fov-t} and \eqref{fov-r} in \eqref{pm5}
 \end{equation}
 $$</div>
 
+<script type="module" src="/js/computer-graphics/projection.js"></script>
