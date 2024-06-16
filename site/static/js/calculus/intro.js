@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('load', function () {
   var d3 = window.d3
   var functionPlot = window.functionPlot
 

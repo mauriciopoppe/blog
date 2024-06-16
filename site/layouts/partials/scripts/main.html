@@ -1,3 +1,3 @@
 {{- /* Check "Bundled scripts" in the README.md to see how it works. */ -}}
 <!-- NOTE: use defer and not async, this must run after all other scripts that were marked with defer -->
-{{ partial "webpack-script" (dict "ctx" . "id" "main" "defer" "true") }}
+{{ partial "webpack-script" (dict "ctx" . "id" "main" "async" "true") }}

@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('load', function () {
   function unitCircle() {
     return {
       x: 'cos(t)',
@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  function vector (ends, offset) {
+  function vector(ends, offset) {
     return {
       vector: ends,
       offset: offset,
@@ -34,17 +34,10 @@ document.addEventListener('DOMContentLoaded', function () {
       yLabel: 'imaginary',
       grid: true,
       xDomain: [-6, 6],
-      data: [
-        vector([1, 0]),
-        vector([0, 1]),
-        vector([-1, 0]),
-        vector([0, -1]),
-        unitCircle()
-      ]
+      data: [vector([1, 0]), vector([0, 1]), vector([-1, 0]), vector([0, -1]), unitCircle()]
     })
     updateFormat(instance)
   })()
-
   ;(function () {
     var instance = functionPlot({
       target: '#complex-2-i',
@@ -52,17 +45,10 @@ document.addEventListener('DOMContentLoaded', function () {
       yLabel: 'imaginary',
       grid: true,
       xDomain: [-6, 6],
-      data: [
-        vector([2, 1]),
-        vector([-1, 2]),
-        vector([-1, 2]),
-        vector([1, -2]),
-        unitCircle()
-      ]
+      data: [vector([2, 1]), vector([-1, 2]), vector([-1, 2]), vector([1, -2]), unitCircle()]
     })
     updateFormat(instance)
   })()
-
   ;(function () {
     var n = 1 / Math.sqrt(2)
     var instance = functionPlot({
@@ -71,15 +57,10 @@ document.addEventListener('DOMContentLoaded', function () {
       yLabel: 'imaginary',
       grid: true,
       xDomain: [-6, 6],
-      data: [
-        vector([n, n]),
-        vector([-n, n]),
-        unitCircle()
-      ]
+      data: [vector([n, n]), vector([-n, n]), unitCircle()]
     })
     updateFormat(instance)
   })()
-
   ;(function () {
     var n = 1 / Math.sqrt(2)
     var instance = functionPlot({
@@ -88,11 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
       yLabel: 'imaginary',
       grid: true,
       xDomain: [-6, 6],
-      data: [
-        vector([2, 1]),
-        vector([n, 3 * n]),
-        unitCircle()
-      ]
+      data: [vector([2, 1]), vector([n, 3 * n]), unitCircle()]
     })
     updateFormat(instance)
   })()

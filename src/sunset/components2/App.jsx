@@ -19,7 +19,7 @@ export default function App(props) {
   const moon = [10, 10, -50]
 
   return (
-    <Canvas frameloop="demand" camera={{ position: [0, 5, 10] }}>
+    <Canvas frameloop="demand" camera={{ fov: 75, position: [0, 1, 10] }}>
       <RenderController target={props.target} />
       <Lights moon={moon} />
 
@@ -36,7 +36,7 @@ export default function App(props) {
       <Suspense fallback={null}>
         <Stars />
         <Moon position={moon} />
-        <Plane position={[-5, 5, 0]} />
+        <Plane position={[-15, 5, 0]} />
         <Ground />
       </Suspense>
 
@@ -44,7 +44,7 @@ export default function App(props) {
         <Bloom kernelSize={3} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={0.3} />
       </EffectComposer>
 
-      <OrbitControls enableZoom={false} autoRotate={true} autoRotateSpeed={0.2} maxPolarAngle={Math.PI / 2 - 0.1} />
+      <OrbitControls enableZoom={false} autoRotate={true} autoRotateSpeed={0.1} maxPolarAngle={Math.PI / 2 - 0.1} />
     </Canvas>
   )
 }

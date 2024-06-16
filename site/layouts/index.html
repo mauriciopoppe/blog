@@ -1,3 +1,7 @@
+{{ define "head" }}
+  {{ partial "head.html" . }}
+{{ end }}
+
 {{ define "main" }}
   {{ partial "svg/defs.html" . }}
   <div class="is-index">
@@ -17,6 +21,12 @@
 {{ end }}
 
 {{ define "footer" }}
+  <!--
+    Webpack HMR runtime (https://github.com/webpack/webpack-dev-server/issues/2792)
+
+    Fix so that common code among all the js libraries is shared in a single file
+    before all of them start.
+  -->
   {{ partial "scripts/webpack-runtime.html" . }}
   {{ partial "scripts/main.html" . }}
   {{ partial "scripts/voronoi.html" . }}

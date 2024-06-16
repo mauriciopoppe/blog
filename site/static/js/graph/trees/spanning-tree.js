@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('load', function () {
   function getJson(file, callback) {
     fetch(file)
       .then((response) => response.json())

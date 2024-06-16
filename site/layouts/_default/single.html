@@ -1,23 +1,16 @@
+{{ define "head" }}
+  {{ partial "single-head.html" . }}
+{{ end }}
+
 {{ define "header" }}
-  {{ partial "article-header.html" . }}
+  {{ partial "single-header.html" . }}
 {{ end }}
 
 {{ define "main" }}
-  {{ partial "article-content.html" . }}
-  <!--
-    Webpack HMR runtime (https://github.com/webpack/webpack-dev-server/issues/2792)
-
-    Fix so that common code among all the js libraries is shared in a single file
-    before all of them start.
-  -->
-  {{ partial "scripts/webpack-runtime.html" . }}
+  {{ partial "single-content.html" . }}
 {{ end }}
 
 {{ define "footer" }}
-  {{ partial "article-footer.html" . }}
-{{ end }}
-
-{{ define "scripts" }}
-  {{ partial "article-scripts.html" . }}
+  {{ partial "single-footer.html" . }}
 {{ end }}
 

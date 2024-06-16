@@ -198,9 +198,44 @@ The following is an optimization from lighthouse to inline the css in production
   function gtag(){dataLayer.push(arguments);}
 </script>
 
-{{/* libraries that can be loaded with import maps */}}
-{{ if isset .Params "libraries" }}
+<!-- Load libraries dynamically based with a <script type="importmap"> -->
+{{ $libraryImports := dict }}
+{{ if (isset .Params "libraries") }}
   {{ range .Params.libraries }}
-    {{ if eq . "threejs" }} {{ partial "lib/threejs.html" . }} {{ end }}
+    {{ if eq . "threejs" }}
+      {{ $libraryImports = merge $libraryImports (dict "three" "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js")}}
+      {{ $libraryImports = merge $libraryImports (dict "three/addons/" "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/")}}
+    {{ end }}
   {{ end }}
 {{ end }}
+{{ if isset .Params "libraries" }}
+<script type="importmap">
+{
+  "imports": {{ $libraryImports | jsonify }}
+}
+</script>
+{{ end }}
+
+<!-- code highlight -->
+{{ partial "lib/prism.html" . }}
+
+<!--
+  Webpack HMR runtime (https://github.com/webpack/webpack-dev-server/issues/2792)
+
+  Fix so that common code among all the js libraries is shared in a single file
+  before all of them start.
+-->
+{{ partial "scripts/webpack-runtime.html" . }}
+
+<!-- libraries that are selectively included depending on whether the post wants it -->
+{{ if isset .Params "libraries" }}
+  {{ range .Params.libraries }}
+    {{ if eq . "function-plot" }} {{ partial "lib/function-plot.html" . }} {{ end }}
+    {{ if eq . "greuler" }} {{ partial "lib/greuler.html" . }} {{ end }}
+    {{ if eq . "math" }} {{ partial "lib/mathjax3.html" . }} {{ end }}
+  {{ end }}
+{{ end }}
+
+<!-- my scripts -->
+{{ partial "scripts/main.html" . }}
+

@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('load', function () {
   const greuler = window.greuler
 
   function getJson(file, callback) {
@@ -42,18 +42,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (err) {
       throw err
     }
-    var instance = greuler({
+    greuler({
       target: '#figure-bipartite-graph',
       data: data
     }).update()
-
-    instance.events.on('firstLayoutEnd', function () {
-      var nodes = instance.graph.getNodesByFn(function (n) {
-        return [6, 8].indexOf(n.id) !== -1
-      })
-      // console.log(nodes)
-      instance.selector.innerNodeSelector(instance.selector.select(nodes)).transition('custom').attr('fill', 'red')
-    })
   })
 
   getJson('/js/graph/data/biconnected-graph.json', function (err, data) {

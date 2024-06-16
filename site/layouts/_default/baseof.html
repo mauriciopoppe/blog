@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html data-theme="dark" lang="{{ .Lang }}">
   <head>
-    {{ partial "head.html" . }}
+    {{ block "head" . }}{{ end }}
   </head>
   <body>
     {{ block "header" . }}{{ end }}
     {{ block "main" . }}{{ end }}
     {{ block "footer" . }}{{ end }}
-    {{ block "scripts" . }}{{ end }}
   </body>
 </html>

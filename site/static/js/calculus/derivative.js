@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('load', function () {
   var functionPlot = window.functionPlot
 
   var contentsBounds = document.querySelector('article[role=main]').getBoundingClientRect()
