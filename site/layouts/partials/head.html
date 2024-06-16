@@ -198,6 +198,18 @@ The following is an optimization from lighthouse to inline the css in production
   function gtag(){dataLayer.push(arguments);}
 </script>
 
+{{ if hugo.IsProduction }}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GDV87S5P27"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GDV87S5P27');
+</script>
+{{ end }}
+
 <!-- Load libraries dynamically based with a <script type="importmap"> -->
 {{ $libraryImports := dict }}
 {{ if (isset .Params "libraries") }}
