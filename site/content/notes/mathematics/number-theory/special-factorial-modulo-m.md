@@ -16,11 +16,11 @@ Let $n!_{\\%p}$ be a special factorial where $n!$ is divided by the maximum expo
 n!_{\%p} = \frac{n!}{d_p(n!)}
 $$</div>
 
-Where $d_p(n!)$ is called [Legendre's Formula](http://www.wikiwand.com/en/Legendre%27s_formula) which is explained in detail in [this article](./prime-factors-factorial.html)
+Where $d_p(n!)$ is called [Legendre's Formula](http://www.wikiwand.com/en/Legendre%27s_formula) which is explained in detail in [this article](../prime-factors-factorial)
 
 > Compute $n!_{\\%p} \pmod{p}$ given that $p$ is a prime number
 
-First let's write this special factorial explicitely
+First let's write this special factorial explicitly
 
 <div>$$
 \begin{equation} \label{explicit}

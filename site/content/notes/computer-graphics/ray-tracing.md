@@ -54,7 +54,7 @@ The image dimensions is defined with four numbers
 
 Note that the coordinates are expressed in the camera coordinate frame defined in a plane parallel to the $w=0$ plane (the $w=0$ plane is defined by the point $\mathbf{e}$ and the vectors $\mathbf{u}$ and $\mathbf{v}$)
 
-The image has to be fitted within a rectangle of $n_x \times n_y$ pixels, for example the pixel $(0,0)$ has the position $(l + 0.5 \tfrac{r - l}{n_x}, b + 0.5 \tfrac{t - b}{n_y})$ note that the half-pixel measurement times pixel-dimension is because of the way a pixel is defined (see [rendering](/static/computer-graphics/fundamentals/rendering.html)), a pixel with coordinates $(x, y)$ will have the position
+The image has to be fitted within a rectangle of $n_x \times n_y$ pixels, for example the pixel $(0,0)$ has the position $(l + 0.5 \tfrac{r - l}{n_x}, b + 0.5 \tfrac{t - b}{n_y})$ note that the half-pixel measurement times pixel-dimension is because of the way a pixel is defined (see [rendering](../rendering)), a pixel with coordinates $(x, y)$ will have the position
 
 <div>$$
 \begin{align*}

@@ -11,7 +11,7 @@ references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
 ---
 
-In an [affine space](/static/math/geometry/affine-geometry/affine-space.html) there's the concept of affine combination which states that any point in space can be represented as a affine combination in the form
+In an [affine space](../affine-spaces) there's the concept of affine combination which states that any point in space can be represented as a affine combination in the form
 
 <div>$$
 a + \sum_{i \in I} \lambda_i \mathbf{aa_i} \quad \quad \text{if $\sum_{i \in I} \lambda_i = 1$}

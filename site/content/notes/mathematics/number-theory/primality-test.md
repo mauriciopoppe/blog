@@ -45,7 +45,7 @@ bool is_prime(int n) {
 
 ## Erathostenes Sieve
 
-If we have to make constants queries to check for numbers that are prime less than some number $n$ we can preprocess them using the [Erathostenes Sieve](../eathostenes-sieve/) and answer each query in $O(1)$
+If we have to make constants queries to check for numbers that are prime less than some number $n$ we can preprocess them using the [Erathostenes Sieve](../erathostenes-sieve/) and answer each query in $O(1)$
 
 ## Fermat primality test
 

@@ -9,7 +9,7 @@ libraries: ["math"]
 date: 2016-03-07 12:50:15
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
-  - "Proof of formula for determining eigenvalues. (2016). [online] Khan Academy. Available at: https://www.khanacademy.org/math/linear-algebra/alternate_bases/eigen_everything/v/linear-algebra-proof-of-formula-for-determining-eigenvalues [Accessed 7 Mar. 2016]."
+  - "Proof of formula for determining eigenvalues. (2016). [online] Khan Academy. Available at: https://www.khanacademy.org/math/linear-algebra/alternate-bases/eigen-everything/v/linear-algebra-proof-of-formula-for-determining-eigenvalues [Accessed 7 Mar. 2016]."
 ---
 
 Given an square matrix $\mathbf{M}$

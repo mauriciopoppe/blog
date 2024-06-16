@@ -27,7 +27,7 @@ A translation is an affine transformation which is a linear transformation follo
 \mathbf{v'} = \mathbf{Mv} + \mathbf{b}
 $$</div>
 
-Even though we can't express 2D translation using a 2x2 matrix, we can express such a transformation as a shearing transformation in 3D [projective geometry](/math/geometry/projective-geometry), to do so we have to imagine that the 2D Euclidean world exists as the plane $w = 1$ in a 3D space, under this geometry any point has the form $\begin{bmatrix} x & y & 1 \end{bmatrix}$
+Even though we can't express 2D translation using a 2x2 matrix, we can express such a transformation as a shearing transformation in 3D [projective geometry](/notes/mathematics/geometry/projective-space), to do so we have to imagine that the 2D Euclidean world exists as the plane $w = 1$ in a 3D space, under this geometry any point has the form $\begin{bmatrix} x & y & 1 \end{bmatrix}$
 
 In Euclidean geometry a vector expressed as a linear combination of the standard basis has the form
 

@@ -127,7 +127,7 @@ while we haven't two numbers such that `gcd(x_i, x_j, n) > 1`
       return x[i], x[j]
 ```
 
-[This page](http://www.cs.colorado.edu/~srirams/classes/doku.php/pollard_rho_tutorial) has a good explanation on how this algorithm will find $a$ and $b$ with a probability $~50\%$ after $\sqrt{n}$ iterations, the algorithm above is not very helpful though since at the $k$ iteration we have to do $k - 1$ pairwise checks
+A simulation can find $a$ and $b$ with a probability $~50\%$ after $\sqrt{n}$ iterations, the algorithm above is not very helpful though since at the $k$ iteration we have to do $k - 1$ pairwise checks
 
 Here's another algorithm to pick random numbers, let $x$ be an integer in the range $[1, n - 1]$, a function that will generate a number in the range $[1, n - 1]$ based on a previous number is
 
@@ -147,7 +147,7 @@ x_4 &= (16^2 + 2) \pmod{55} = 38 \text{ which is equal to $x_2$ }
 \end{align*}
 $$</div>
 
-Pollard detected the cycle using [Floyd's cycle-finding algorithm](https://www.wikiwand.com/en/Cycle_detection#/Tortoise_and_hare) which is based on two pointers which move through a sequence at different speeds, one moves a unit and the other moves two units each time, if there's a cycle eventually the two pointers will encounter at some element belonging to the cycle, if we've analyzed all the elements of the sequence and saw not a single contiguous pair fullfills $gcd(x_i - x_{i + 1}, n) > 1$ we need to choose other values for $x_0, a$ and rerun the algorithm
+Pollard detected the cycle using [Floyd's cycle-finding algorithm](https://www.wikiwand.com/en/Cycle_detection#/Tortoise_and_hare) which is based on two pointers which move through a sequence at different speeds, one moves a unit and the other moves two units each time, if there's a cycle eventually the two pointers will encounter at some element belonging to the cycle, if we've analyzed all the elements of the sequence and saw not a single contiguous pair fulfills $gcd(x_i - x_{i + 1}, n) > 1$ we need to choose other values for $x_0, a$ and rerun the algorithm
 
 {{< snippet file="static/code/math/factorization/pollardRhoFactorization.cpp" lang="cpp" />}}
 

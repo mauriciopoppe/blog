@@ -388,7 +388,6 @@ Interesting Problems + Hints:
 Sites to practice:
 
 - [Leetcode](http://leetcode.com/), I have a university discount, so I got the premium for a year for 99$. The LC contests start on Saturdays at 7PM PDT
-- [Binary Search](https://binarysearch.com/), high-quality problems too, the contests start on Saturdays at 11AM PDT
 - [Codeforces](https://codeforces.com/), if you like harder problems, then try Codeforces. I think the Div2 A, B, and C problems
 are similar to what you'd get in an interview
 
@@ -530,7 +529,7 @@ These are my notes about interesting tech
 - [Cassandra](/notes/computer-science/system-design/cassandra/)
 - [Kafka](/notes/computer-science/system-design/kafka/)
 - [Back of the Envelope calculations](/notes/computer-science/system-design/back-of-the-envelope-calculations/)
-- [Data Structures for Massive Datasets](/notes/computer-science/data-structures/data-structures-massive-datasets/)
+- [Data Structures for Massive Datasets](/notes/computer-science/data-structures/data-structures-for-massive-datasets/)
 - [Knowledge repository with links to interesting tech](https://docs.google.com/document/d/1sqI-Pf52GvzC08ZXHROt48bQYiabOUa2RXIO46vkxsc/edit?usp=sharing)
 
 List of books
@@ -581,7 +580,7 @@ answers were not specific enough or were not structured pretty well. To improve,
 {{< interview who="airbnb" >}}
 A special note about Airbnb, they do care about the culture fit more than anyone, spend some time understanding what `belong anywhere` means,
 I watched a lot of interviews with Brian Chesky, which helped me solidify my willingness to work at Airbnb [(6 golden rules)](https://www.youtube.com/watch?v=jgPYSogOOTY),
-On the onsite, you have 2 behavioral rounds with questions that can be found here: https://candor.co/interviews/airbnb; the most important ones are
+On the onsite, you have 2 behavioral rounds with questions that can be found here: https://candor.co/interviews/airbnb . The most important ones are
 
 - **What does belonging mean to you? What is your understanding of Airbnb culture?**
 - **Why Airbnb?**

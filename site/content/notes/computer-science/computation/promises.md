@@ -12,7 +12,7 @@ tags: ["Promises", "JavaScript", "Futures", "Software Engineering"]
 date: 2017-09-16T21:05:42Z
 ---
 
-My objective is to write a Promises/A+ conformant implementation similar to [`then/promise`](https://github.com/then/promise/blob/master/src/core.js), also, I'll do it the TDD way where I'll write the some tests first and then implement what's needed to make the tests pass (tests will be written on the platform [Jest](https://facebook.github.io/jest/))
+My objective is to write a Promises/A+ conformant implementation similar to [`then/promise`](https://github.com/then/promise/blob/master/src/core.js), also, I'll do it the TDD way where I'll write the some tests first and then implement what's needed to make the tests pass (tests will be written on the platform [Jest](https://jestjs.io/)
 
 [This article](https://www.promisejs.org/implementing/) was one of the best references I found online, this implementation is heavily inspired by it. I'll also refer to the [A+ promise spec](https://promisesaplus.com/) when necessary.
 

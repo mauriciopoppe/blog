@@ -68,7 +68,7 @@ v_x \sin{\theta} + v_y \cos{\theta}
 \end{align*}
 $$</div>
 
-See also [complex numbers](../../math/numeral-systems/complex-numbers.html)
+See also [complex numbers](/notes/mathematics/numeral-systems/complex-numbers)
 
 ## 3d rotation
 
@@ -102,7 +102,7 @@ $$</div>
 See also
 
 - [3d rotation on wikipedia.org](http://www.wikiwand.com/en/Rotation_matrix#/In_three_dimensions)
-- [3d rotation - siggraph.org](https://www.siggraph.org/education/materials/HyperGraph/modeling/mod_tran/3drota.htm)
+- [3d rotation - siggraph.org](https://web.archive.org/web/20170725010216/https://www.siggraph.org/education/materials/HyperGraph/modeling/mod_tran/3drota.htm)
 
 ### About an arbitrary axis
 
@@ -140,7 +140,7 @@ The length of $\mbold{w}$ is
 \end{align*}
 $$</div>
 
-Which means that $\mbold{w}$ has the same length as $\mbold{v_{\perp}}$, note that even though they have the same length they don't neccesarily have unit length
+Which means that $\mbold{w}$ has the same length as $\mbold{v_{\perp}}$, note that even though they have the same length they don't necessarily have unit length
 
 $\mbold{w}$ and $\mbold{v_{\perp}}$ form now a 2d coordinate space where the $x$-axis is $\mbold{v_{\perp}}$ and the $y$-axis is $\mbold{v_{\perp}}$
 
@@ -219,8 +219,6 @@ Constructing the matrix from these vectors
 $$</div>
 
 ### 3d rotations using quaternions
-
-See [complex numbers](/static/math/numeral-systems/complex-numbers.html) and [quaternions](/static/math/numeral-systems/quaternions.html)
 
 A complex rotor is a unit norm complex number which rotates another complex number by the angle $\theta$ and has the form
 

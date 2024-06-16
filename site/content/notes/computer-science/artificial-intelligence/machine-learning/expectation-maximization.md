@@ -86,6 +86,3 @@ $$</div>
 
 https://www.youtube.com/watch?v=qMTuMa86NzU
 
-## Notebook
-
-https://github.com/mauriciopoppe/CS6601-AI/tree/master/assignment_5 (private link)

@@ -171,5 +171,5 @@ Also note that in this notation the arrow that connects the frames involved in t
 \mathbf{M}_{upright \leftarrow object}
 $$</div>
 
-In computer graphics [*column vectors* should be used](http://chrishecker.com/Column_vs_row_vectors) to represent points, differences between points and the likes
+In computer graphics [*column vectors* should be used](https://web.archive.org/web/20150321091101/http://chrishecker.com/Column_vs_row_vectors) to represent points, differences between points and the likes
 
