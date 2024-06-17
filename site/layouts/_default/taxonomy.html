@@ -1,0 +1,51 @@
+{{ define "head" }}
+  {{ partial "head.html" . }}
+{{ end }}
+
+{{ define "header" }}
+  <header class="hero is-bold is-small">
+    <div class="hero-body">
+      <div class="container">
+
+        <!-- tags and theme toggle -->
+        <nav class="columns">
+          <div class="column is-full" style="position: relative">
+            <span style="text-align: right; position: absolute; right: 0; bottom: 0;">
+              <!-- class .theme-toggle is referenced from head.html -->
+              <button class="button is-dark is-small material-symbols-outlined theme-toggle dark-mode" data-nexttheme="dark"> dark_mode </button>
+              <button class="button is-dark is-small material-symbols-outlined theme-toggle light-mode" data-nexttheme="light"> light_mode </button>
+            </span>
+          </div>
+        </nav>
+
+        <h1 class="title is-2">{{ .Title }}</h1>
+      </div>
+    </div>
+  </header>
+{{ end }}
+
+{{ define "main" }}
+  <main class="container">
+    {{ $pages := sort .Pages "LinkTitle" }}
+    {{ $pagesChunk := div (len $pages) 4 }}
+    <div class="columns">
+      {{ range seq 4 }}
+        <div class="column">
+          {{ $start := mul (sub . 1) $pagesChunk }}
+          {{ $end := mul . $pagesChunk }}
+          {{ range seq (sub $end $start) }}
+            {{ $page := index $pages (add . $start) }}
+            <li>
+              <a href="{{ $page.RelPermalink }}">{{ $page.LinkTitle }}</a>
+            </li>
+          {{ end }}
+        </div>
+      {{ end }}
+    </div>
+  </main>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "single-footer.html" . }}
+{{ end }}
+
