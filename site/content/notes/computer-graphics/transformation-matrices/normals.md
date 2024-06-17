@@ -1,7 +1,7 @@
 ---
 title: "Normals"
 date: 2016-03-08 14:18:11
-description: |
+summary: |
   A **normal vector** to a curve at a particular point is a vector perpendicular to the *tangent* vector of the curve at that point (also called a *gradient*).
 image: /images/diffuse-shading!lambertian.jpg
 tags: ["computer graphics", "geometry", "normal"]

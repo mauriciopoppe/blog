@@ -1,7 +1,7 @@
 ---
 title: Learn French
 layout: layout-learn-french
-description: "My page to learn french"
+summary: "My page to learn french"
 tags: ['learn', 'language', 'french']
 image: /images/productivity-skills.jpeg
 image_alt: |

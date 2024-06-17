@@ -1,6 +1,6 @@
 ---
 title: "Special factorial modulo p"
-description: |
+summary: |
   Let $n!_{\\%p}$ be a special factorial where $n!$ is divided by the maximum exponent of $p$
   that divides $n!$. This article describes this problem and its solution with
   an implementation in C++.

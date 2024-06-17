@@ -1,7 +1,7 @@
 ---
 title: "Building a first person shooter camera in C++"
 date: 2016-04-29 22:10:40
-description: |
+summary: |
   A first person camera captures objects from the viewpoint of a player's character.
   Some aspects have to be considered like the characteristics of the camera (orbiting
   with the mouse and translation with keyboard keys) as well as how we could capture

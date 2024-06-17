@@ -1,6 +1,6 @@
 ---
 title: "Hyperparameter tuning"
-description: |
+summary: |
   Hyperparameter tuning is a process of finding out by trial and error the
   hyperparemeteres (the parameters fed into the model for it to change its inner parameters)
   to converge efficiently.

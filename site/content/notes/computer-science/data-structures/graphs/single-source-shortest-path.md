@@ -1,6 +1,6 @@
 ---
 title: "Single Source Shortest Path (SSSP) in a graph"
-description: |
+summary: |
   Given a weighted graph $G$ with $V$ vertices and $E$ edges where all the weights are non-negative and given a source vertex $s$, the single source shortest path problem consists in finding the distance from $s$ to all the other vertices.
 
   <br />

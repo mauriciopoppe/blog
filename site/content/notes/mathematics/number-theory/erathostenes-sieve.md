@@ -1,6 +1,6 @@
 ---
 title:  "Erathostenes Sieve"
-description: |
+summary: |
   The erathostenes sieve is an algorithm to find prime numbers up to a positive number $n$
   using $O(n)$ space.
 image: /images/math-generic.jpeg

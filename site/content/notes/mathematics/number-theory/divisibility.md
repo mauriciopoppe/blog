@@ -1,6 +1,6 @@
 ---
 title: Divisibility
-description: |
+summary: |
   Let $a,b \in \mathbb{Z}$, we say that $a$ _**divides**_ $b$, written $a \given b$, if there's an integer $n$ so that:
   $b = na$. If $a$ divides $b$ then $b$ is _**divisible**_ by $a$ and $a$ is a
   _**divisor or factor**_ of $b$, also $b$ is called a _**multiple**_ of $a$.

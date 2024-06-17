@@ -1,6 +1,6 @@
 ---
 title: "Data structures for massive datasets"
-description: |
+summary: |
   The algorithms that we use every day to manipulate data assume that we have access to all
   the data we need. What if there's more data that can fit in a single computer or if accessing
   the data itself to do searches is expensive? If so, we can use specialized data structures

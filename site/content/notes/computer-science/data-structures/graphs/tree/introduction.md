@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Trees in Graph Theory"
 date: 2015-06-30 15:00:00
-description: "Introduction to trees in Graph Theory"
+summary: "Introduction to trees in Graph Theory"
 tags: ["graph theory", "tree"]
 libraries: ["greuler", "math"]
 ---

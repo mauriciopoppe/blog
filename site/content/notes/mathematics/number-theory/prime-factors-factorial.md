@@ -1,6 +1,6 @@
 ---
 title: "Prime factors of a factorial"
-description: |
+summary: |
   This article describes and implements a solution for the following problem,
   given two numbers $n$ and $k$ find the greatest power of $k$
 image: /images/math-generic.jpeg

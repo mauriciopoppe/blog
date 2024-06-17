@@ -1,6 +1,6 @@
 ---
 title: "Transformation matrix to transform objects from NDC coordinates to screen coordinates (viewport transform)"
-description: |
+summary: |
   One matrix transformation in the 3D to a 2D transformation pipeline is the viewport transform
   where objects are transformed from normalized device coordinates (NDC) to screen coordinates (SC).
 

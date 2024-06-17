@@ -1,6 +1,6 @@
 ---
 title: "Derivative"
-description: |
+summary: |
   The derivative is a concept that represents the rate of change or the slope of a function
   at a particular point. It is a fundamental concept in calculus and is used to analyze how
   a function changes with respect to its input as the input changes very slightly.

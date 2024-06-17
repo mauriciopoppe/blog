@@ -1,6 +1,6 @@
 ---
 title: "Traversal of graphs"
-description: |
+summary: |
   There are many ways to traverse a graph. For example through breadth-first search and depth-first search. Exploring it with a breadth-first search has interesting
   properties like implicitly computing the distance from a source $s$ to all the reachable vertices. Exploring it with a depth-first search has properties about edges like
   finding back edges, forward edges and cross edges.

@@ -1,6 +1,6 @@
 ---
 title: "Cassandra"
-description: |
+summary: |
   Cassandra is a highly scalable, distributed NoSQL (non-relational) database management system designed for handling large 
   amounts of data across multiple commodity servers.
 

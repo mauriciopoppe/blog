@@ -1,6 +1,6 @@
 ---
 title: "Partitioning"
-description: |
+summary: |
   Data partitioning refers to the process of dividing a system's data into smaller, more manageable subsets,
   which are distributed across multiple storage locations or nodes.
 

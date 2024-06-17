@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Graph Theory"
 date: 2015-06-22 17:03:41
-description: |
+summary: |
   Graph Theory has numerous applications in real life, it can be used in problems found in
   social networks, transportation networks, the internet, chemistry, computer sciense, electrical networks
   among others.

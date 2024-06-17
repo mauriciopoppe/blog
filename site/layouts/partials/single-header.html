@@ -8,7 +8,9 @@
         <div class="column is-full">
           <div class="tags" style="position: relative">
             {{ range .Params.tags }}
-              <span class="tag">{{ . }}</span>
+              <a class="tag" href="/tags/{{ . | urlize }}">
+                <span>{{ . }}</span>
+              </a>
             {{ end }}
             <span style="text-align: right; position: absolute; right: 0; bottom: 0;">
               <!-- class .theme-toggle is referenced from head.html -->
@@ -32,8 +34,8 @@
         </div>
         <div class="column is-flex is-flex-direction-column is-justify-content-space-between">
           <div class="subtitle is-size-4 is-size-5-mobile">
-            {{ $description := .Params.description | default .Summary }}
-            {{ $description | markdownify }}
+            {{ $summary := .Params.summary | default .Summary }}
+            {{ $summary | markdownify }}
           </div>
 
           {{ $image := .Site.Params.logo | absURL }}

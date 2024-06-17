@@ -1,6 +1,6 @@
 ---
 title: "Primality Test"
-description: |
+summary: |
   A prime number is a natural number greater than $1$ which has no positive divisors other
   than $1$ and itself.
 

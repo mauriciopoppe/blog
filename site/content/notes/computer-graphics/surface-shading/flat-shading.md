@@ -1,7 +1,7 @@
 ---
 title: "Flat shading"
 date: 2016-06-09 12:39:53
-description: |
+summary: |
   Flat shading is the simplest shading model, we cover the advantages/disadvantages and a simple implementation in GLSL.
 image: /images/flat-shading.svg
 references:

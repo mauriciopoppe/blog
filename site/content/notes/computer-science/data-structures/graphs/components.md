@@ -1,6 +1,6 @@
 ---
 title: "Strongly Connected Components in Graph Theory"
-description: |
+summary: |
   Strongly connected component of a directed graph is a subgraph in which there exists a path from every vertex to every other vertex in the subgraph.
 
   <br />

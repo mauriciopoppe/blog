@@ -1,6 +1,6 @@
 ---
 title: "Kafka"
-description: |
+summary: |
   Kafka is a distributed event streaming platform designed for building high-throughput, fault-tolerant, and scalable data streaming applications.
 
   <br />

@@ -1,6 +1,6 @@
 ---
 title: "Machine Learning Glossary"
-description: |
+summary: |
   A glossary of terms used in machine learning.
   <br />
   For an up to date glossary also check https://developers.google.com/machine-learning/glossary

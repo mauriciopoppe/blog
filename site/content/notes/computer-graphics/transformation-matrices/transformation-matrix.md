@@ -1,7 +1,7 @@
 ---
 title: "Transformation matrix"
 date: 2015-10-15 13:00:00
-description: |
+summary: |
   A linear transformation can be represented with a matrix which transforms vectors from
   one space to another. Transformation matrices allow arbitrary transformations
   to be displayed in the same format. Also matrices can be multiplied to enable

@@ -1,7 +1,7 @@
 ---
 title: "Culling & Clipping"
 date: 2016-03-16 11:03:05
-description: |
+summary: |
   The math behind culling and clipping and how it's related with the camera and with what it sees.
 
   <br>

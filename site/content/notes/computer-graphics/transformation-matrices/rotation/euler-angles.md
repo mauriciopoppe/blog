@@ -1,7 +1,7 @@
 ---
 title: "Euler angles"
 date: 2016-02-05 13:00:00
-description: |
+summary: |
   Euler angles are a way to describe the orientation of a rigid body with 3 values, these
   values represent 3 angles:
   - *yaw* - Rotation around the vertical axis

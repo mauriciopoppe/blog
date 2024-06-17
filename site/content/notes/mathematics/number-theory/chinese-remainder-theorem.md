@@ -1,6 +1,6 @@
 ---
 title: "Chinese Remainder Theorem"
-description: |
+summary: |
   The chinese remainder theorem (CRT) is a theorem that deals with finding a
   solution to a system of congruences.
 

@@ -1,6 +1,6 @@
 ---
 title: "Eigenvalues and eigenvectors"
-description: |
+summary: |
   An eigenvalue represents how the object scales (or stretches/compresses) a particular direction (or eigenvector) when acted upon by the object. This article covers how to find these values in
   a square matrix as well as how it's applicable in compute graphics.
 image: https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Eigenvalue_equation.svg/250px-Eigenvalue_equation.svg.png

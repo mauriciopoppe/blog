@@ -1,7 +1,7 @@
 ---
 title: "Orthographic projection"
 date: 2016-02-05 23:15:00
-description: |
+summary: |
   Orthographic projection is a fundamental projection technique that transforms objects
   in a higher dimension to a lower dimension. This transformation is usually used for
   objects in a 3d world to be rendered into a screen (a 2d surface) and in the process

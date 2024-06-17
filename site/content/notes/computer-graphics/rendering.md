@@ -1,6 +1,6 @@
 ---
 title: "Rendering"
-description: |
+summary: |
   Rendering is a process that takes an input a set of objects and produces as its output an array of pixels (image) each of which stores information about the color of the image at a particular point in a grid (determined by the target width and height).
 image: /images/rendering.jpeg
 date: 2016-02-26 16:59:48

@@ -1,6 +1,6 @@
 ---
 title: "Vector spaces"
-description: |
+summary: |
   A vector space is a set whose elements are called "vectors" (denoted as $\v{v}$ or $\mathbf{v}$) which have two operations defined on them: addition of vectors and multiplication of an scalar by a vector.
 
   <br />

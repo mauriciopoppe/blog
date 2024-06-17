@@ -1,6 +1,6 @@
 ---
 title: "Transformation matrix to transform 3D objects from World Space to View Space (View transform)"
-description: |
+summary: |
   One matrix transformation in the 3D to a 2D transformation pipeline is the view transform
   where objects are transformed from world space to view space.
   a transformation matrix.

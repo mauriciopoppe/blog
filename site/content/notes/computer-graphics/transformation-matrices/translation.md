@@ -1,7 +1,7 @@
 ---
 title: Translating objects with a Transformation Matrix
 date: 2016-02-05 18:00:00
-description: |
+summary: |
   We build different types of transformation matrices to translate objects along cardinal axes,
   arbitrary axes in 2d and 3d with matrix multiplication!
 image: /images/affine-space!translation.jpg

@@ -1,7 +1,7 @@
 ---
 title: "Cut-edges (bridges) in Graph Theory"
 date: 2015-06-24 14:51:12
-description: |
+summary: |
   An edge $e = uv$ of a connected graph $G$ is called a bridge if $G - e$ is disconnected (it increases the number of components).
 
   <br />

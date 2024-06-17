@@ -1,7 +1,7 @@
 ---
 title: "Eulerian Graph and Eulerian Trails"
 date: 2015-07-05 15:22:15
-description: |
+summary: |
   This article discusses Eulerian circuits and trails in graphs. An Eulerian circuit is a closed trail that contains every edge of a graph, and an Eulerian trail is an open trail that contains all the edges of a graph but doesn't end in the same start vertex.
 
   <br />

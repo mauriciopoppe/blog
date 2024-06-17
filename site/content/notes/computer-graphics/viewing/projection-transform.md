@@ -1,7 +1,7 @@
 ---
 title: "Transformation matrix for projection of 3D objects into a 2D plane (projection transform)"
 date: 2016-02-14 12:18:26
-description: |
+summary: |
   In Computer Graphics 3D objects created in an abstract 3d world will eventually
   need to be displayed, to view these objects in a 2d plane like a screen
   objects will need to be projected from the 3D space to the 2D plane with

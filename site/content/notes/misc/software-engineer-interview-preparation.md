@@ -1,6 +1,6 @@
 ---
 title: "Preparation for a Software Engineering interview"
-description: |
+summary: |
   This is my interview preparation plan for a software engineering role,
   I share a summary of my preparation, a plan of problems to tackle for
   coding interviews, the topics to study for a system design interviews and

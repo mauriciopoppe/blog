@@ -1,6 +1,6 @@
 ---
 title: "Implementing an A+ conformat Promise library in JavaScript the TDD way"
-description: |
+summary: |
   Future/promises refer to constructs used to synchronize program execution.
   Learning how it works under the hood by implementing it is a great fundamental skill to know.
   <br />

@@ -1,7 +1,7 @@
 ---
 title: "Diffuse shading"
 date: 2016-06-03 14:49:37
-description: |
+summary: |
   Diffuse shading is a technique to render the surface of objects that are not shinny.
   <br />
   <br />

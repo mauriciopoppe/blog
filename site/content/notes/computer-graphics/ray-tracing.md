@@ -1,6 +1,6 @@
 ---
 title: "Ray Tracing"
-description: |
+summary: |
   Ray tracing is the process to identify the color of all the pixels in a 2d screen by emitting
   rays from all the pixels simulating how light travels in real life. This article covers the math for
   the ray generation from each pixel for both orthographic and perspective cameras.

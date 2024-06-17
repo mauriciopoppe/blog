@@ -1,6 +1,6 @@
 ---
 title: "Divisor Function"
-description: |
+summary: |
   The divisor function returns the number of divisors of an integer. This article
   covers important relations of the divisor function and 
   prime numbers.

@@ -1,6 +1,6 @@
 ---
 title: "Modular Arithmetic"
-description: |
+summary: |
   Modular arithmetic is a type of arithmetic that deals with integers and remains within a fixed range
   of values. It involves performing arithmetic operations such as addition, subtraction, multiplication,
   and division, but with the added concept of a "modulus" or a "mod" value.

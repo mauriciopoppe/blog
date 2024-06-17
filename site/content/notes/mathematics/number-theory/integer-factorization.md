@@ -1,6 +1,6 @@
 ---
 title: "Integer Factorization"
-description: |
+summary: |
   Integer factorization is the process of decomposing a *composite* number into a product of
   smaller integers, if these integers are restricted to be prime numbers then the process is
   called **prime factorization**.

@@ -1,7 +1,7 @@
 ---
 title: "Introduction to rotation for computer graphics"
 date: 2015-12-15 13:00:00
-description: |
+summary: |
   The basics of rotation in 2d and 3d for computer graphics with a focus on 3d rotation about
   cardinal axes and 3d rotation with quaternions.
 

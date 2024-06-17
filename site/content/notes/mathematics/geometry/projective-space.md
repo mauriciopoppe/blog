@@ -1,7 +1,7 @@
 ---
 title: "Projective space"
 date: 2016-03-04 10:00:00
-description: |
+summary: |
   In projective geometry unlike euclidean geometry, two parallel lines meet at a point. Desargues
   introduced the concept of a line at finity where a point at infinity can be defined. This article
   covers the need of a point at infinity in projective space, the line at infinity and the projective plane.

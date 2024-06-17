@@ -1,7 +1,7 @@
 ---
 title: "Coordinate systems and transformations between them"
 date: 2015-10-15 12:00:00
-description: |
+summary: |
   The position and orientation of an object in real life can be described with
   direction and magnitude e.g. the TV is 3 meters in front of me. While that description is good
   for me it might be that for someone else in a room the TV is 5 meters to the right of that

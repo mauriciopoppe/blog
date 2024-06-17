@@ -1,7 +1,7 @@
 ---
 title: "Introduction to surface shading"
 date: 2016-06-03 13:46:07
-description: |
+summary: |
   Surface shading is a process to color a surface, in computer graphic applications this is done to mimic how
   objects look in real life. This article covers the variables available in the rendering pipeline.
 image: /images/ray-tracing!blinn-phong.jpg

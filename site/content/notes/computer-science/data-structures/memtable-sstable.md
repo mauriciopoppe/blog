@@ -1,6 +1,6 @@
 ---
 title: "Memtable & SSTable (Sorted String Table)"
-description: |
+summary: |
   The pattern of batching data up in memory, tracked in a write ahead log, and periodically flushed to disk is ubiquitous today. OSS examples are LevelDB, Cassandra, InfluxDB, or HBase.
 
   <br />

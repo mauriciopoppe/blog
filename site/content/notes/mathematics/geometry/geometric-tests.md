@@ -1,6 +1,6 @@
 ---
 title: "Geometric tests"
-description: |
+summary: |
   Different algorithms to test geometric properties like finding the intersection of two lines.
 image: /images/geometric-tests!line-line.jpg
 tags: ["math", "geometry", "euclidean geometry", "line line intersection"]

@@ -1,6 +1,6 @@
 ---
 title: "Integral"
-description: |
+summary: |
   An integral is a mathematical concept that represents the accumulation or summing up of quantities over a certain interval or region. In this article we'll discuss the properties
   of the integral by looking an example of antidifferentiation and some examples
   of evaluating definite integrals.

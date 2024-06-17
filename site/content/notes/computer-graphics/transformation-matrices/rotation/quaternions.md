@@ -1,7 +1,7 @@
 ---
 title: "Quaternions"
 date: 2016-04-26 16:39:27
-description: |
+summary: |
   Quaternions are an alternate way to describe orientation or rotations in 3d space
   using an ordered set of four numbers. They have the ability to uniquely describe
   any 3d rotation about an arbitrary axis and do not suffer from a problem using

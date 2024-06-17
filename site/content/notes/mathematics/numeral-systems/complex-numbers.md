@@ -1,6 +1,6 @@
 ---
 title: "Complex numbers"
-description: |
+summary: |
   Imaginary numbers were invented to solve problems for equestions with no real roots,
   complex numbers extend imaginary numbers by adding a real number.
 

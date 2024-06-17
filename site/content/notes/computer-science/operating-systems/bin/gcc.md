@@ -1,6 +1,6 @@
 ---
 title: "gcc"
-description: |
+summary: |
   GCC is a suite of compilers for various programming languages, including C, C++. In this article,
   I cover the compilation stages and the flags used to compile source code into a binary
 image: https://upload.wikimedia.org/wikipedia/commons/a/af/GNU_Compiler_Collection_logo.svg

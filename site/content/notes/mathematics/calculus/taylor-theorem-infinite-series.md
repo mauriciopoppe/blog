@@ -1,6 +1,6 @@
 ---
 title: "Taylor's Theorem and Infinite Series"
-description: |
+summary: |
   Taylor Series helps approximate the value of a definite integral for a function
   whose antiderivative is hard to find. This article explains the key ideas
   behind Taylor's Theorem and an example of approximating its value with

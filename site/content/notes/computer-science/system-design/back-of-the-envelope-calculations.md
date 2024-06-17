@@ -1,6 +1,6 @@
 ---
 title: "Back of the envelope calculations"
-description: |
+summary: |
   When designing a system it's important to consider the limitations of the technologies
   chosen, making some approximate calculations when the system is designed help
   us decide on the tradeoffs of the different approaches, these approximations include

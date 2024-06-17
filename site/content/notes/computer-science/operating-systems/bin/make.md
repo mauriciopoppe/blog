@@ -1,6 +1,6 @@
 ---
 title: make
-description: |
+summary: |
   "Make" is a build automation tool commonly used in software development to compile source code and
   create executable programs or other output files. It automates the process of building complex
   software projects, including compiling source code, linking object files, and creating executable files or other types of output.

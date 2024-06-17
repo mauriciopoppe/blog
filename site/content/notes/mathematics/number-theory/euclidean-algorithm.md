@@ -1,6 +1,6 @@
 ---
 title:  "Euclidean Algorithm"
-description: |
+summary: |
   The euclidean algorithm finds the greatest common divisor of two numbers. In this article
   I implement the algorithm from scratch in C++.
 image: /images/math-generic.jpeg

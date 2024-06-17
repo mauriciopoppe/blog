@@ -1,6 +1,6 @@
 ---
 title: "CMake"
-description: |
+summary: |
   CMake is a cross-platform build system generator of `Makefile`s, projects specify their build process with platform-independent CMake listfiles included in each directory of a source tree with the name `CMakeLists.txt`. This article explains how to use CMake to build projects.
 image: https://www.kitware.com/main/wp-content/uploads/2016/11/CMake-Logo-and-Text-e1540917038464.png
 tags: ["cmake", "tooling", "build automation tools", "c++", "c"]

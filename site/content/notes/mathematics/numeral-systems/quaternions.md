@@ -1,6 +1,6 @@
 ---
 title: "Quaternions"
-description: |
+summary: |
   Quaternions are a set of 4-dimensional vectors that are used to represent rotations in computer
   graphics, they were discovered by William Hamilton as an extension of 2d complex numbers
   to a 3d equivalent.

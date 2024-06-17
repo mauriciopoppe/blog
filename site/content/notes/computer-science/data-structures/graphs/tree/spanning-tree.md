@@ -1,7 +1,7 @@
 ---
 title: "Minimum Spanning Tree"
 date: 2015-06-24 18:31:59
-description: |
+summary: |
   This article covers minimum spanning tree (MST), MSTs have important applications, MST can be used to minimize the cost of
   building a communication network, or it can be used to identify important features or patterns in
   a dataset.

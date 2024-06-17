@@ -1,6 +1,6 @@
 ---
 title: "Expectation maximization"
-description: |
+summary: |
   Expectation maximization is a method of finding maximum likelihood estimates of parameters of a model.
   The method alternates between making an expectation (E) step based on the current estimate of
   the parameters and a maximization (M) step which computes new parameters.

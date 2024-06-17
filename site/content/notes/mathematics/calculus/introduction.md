@@ -1,6 +1,6 @@
 ---
 title: "Introduction to Calculus"
-description: |
+summary: |
   This article gives an introduction to calculus starting with the concept of a function
   and how calculus helps us solve problems related to determining tangents to curves (expressed
   as functions), finding the minim/maxima like determinining the maximum range of a projectile,

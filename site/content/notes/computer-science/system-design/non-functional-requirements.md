@@ -1,6 +1,6 @@
 ---
 title: "Non Functional Requirements"
-description: |
+summary: |
   Non functional requirements refer to quality attributes or system characteristics that describe how well a software system or solution performs or behaves.
 
   <br />

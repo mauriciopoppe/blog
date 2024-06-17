@@ -1,6 +1,6 @@
 ---
 title: Productivity skills
-description: |
+summary: |
   I try to improve my productivity every day to get better use of my time.
   This article summarizes the things I'm used to doing everyday at work.
   These are divided into: getting used to multitasking, having time for deep focus and for breaks,

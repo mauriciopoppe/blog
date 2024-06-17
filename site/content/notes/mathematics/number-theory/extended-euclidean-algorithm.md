@@ -1,6 +1,6 @@
 ---
 title:  "Extended Euclidean Algorithm"
-description: |
+summary: |
   The extended euclidean algorithm finds solutions to the equation $ax + by = gcd(a, b)$
   where $a, b$ are unknowns. This article covers a few applications of the extended euclidean algorithm
   like finding the modular multiplicative inverse of a number, and finding solutions for

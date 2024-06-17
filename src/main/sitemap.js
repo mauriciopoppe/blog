@@ -55,7 +55,7 @@ const activeItems = {
       .map((t) => t[0])
   },
   setState(k, v) {
-    this._state[k] = v
+    this.getState()[k] = v
     window.localStorage.setItem(this.KEY, JSON.stringify(this._state))
   }
 }

@@ -1,6 +1,6 @@
 ---
 title: "Bayesian Networks"
-description: |
+summary: |
   A Bayesian network is a directed graph in which each node is annotated with quantitative probability
   information. This article covers the definition of a bayesian network with a graphical representation,
   the determination of independence between variables and the problem of finding the probability

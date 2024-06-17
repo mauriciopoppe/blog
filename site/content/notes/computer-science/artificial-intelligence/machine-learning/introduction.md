@@ -1,6 +1,6 @@
 ---
 title: "Introduction to Machine Learning"
-description: |
+summary: |
   A super brief introduction to what ML is for, the problems where it
   can be applied along with some example applications.
 order: 1

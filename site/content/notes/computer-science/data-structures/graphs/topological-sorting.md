@@ -1,6 +1,6 @@
 ---
 title: "Topological sorting of a graph"
-description: |
+summary: |
   Topological sorting is a linear ordering of the vertices of a directed acyclic graph (DAG)
   such that for every directed edge (u, v), vertex u comes before vertex v in the ordering.
   In other words, it is a way to order the vertices of a DAG such that there are no directed cycles.

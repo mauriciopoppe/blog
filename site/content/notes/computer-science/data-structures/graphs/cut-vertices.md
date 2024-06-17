@@ -1,6 +1,6 @@
 ---
 title: "Cut-vertices (articulation points) in Graph Theory"
-description: |
+summary: |
 
   A vertex $v$ in a connected graph $G$ is called a **cut-vertex** if $G - v$ results in a disconnected graph, note that $G - v$ is an induced subgraph of $G$ (meaning that $G - v$ contains all the vertices of $G$ but $v$ and a set of edges $G - V$ where $V$ consists of all the edges incident to $v$).
 
