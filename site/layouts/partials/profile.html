@@ -1,13 +1,6 @@
-{{/*https://discourse.gohugo.io/t/random-quote-from-csv/3241/2*/}}
-{{ $quotes := index .Site.Data.quotes "content" }}
-{{ $random := mod now.Second (len $quotes) }}
-{{ $quote := index $quotes $random }}
-{{ $image := .Site.Params.logo | absURL }}
-
 <div class="is-flex is-flex-direction-column is-justify-content-center" style="height: 100%">
   <a href="/">
     <h1 class="is-size-2 has-text-primary">Mauricio Poppe's blog</h1>
-    <!-- <img class="profile-pic" src="{{ $image }}" data-src="{{ $image }}" alt="Me" /> -->
   </a>
 
   {{ if .IsHome }}
@@ -28,12 +21,6 @@
        href="https://github.com/{{ .Site.Author.github }}" target="noopener">
       <svg class="icon icon-github"><use xlink:href="#icon-github"></use></svg>
       <span>Github</span>
-    </a>
-
-    <a class="social-button"
-       href="https://twitter.com/{{ .Site.Author.twitter }}" target="noopener">
-      <svg class="icon icon-twitter"><use xlink:href="#icon-twitter"></use></svg>
-      <span>Twitter</span>
     </a>
 
     <a class="social-button"
