@@ -2,15 +2,14 @@
 title: "Transformation matrix for projection of 3D objects into a 2D plane (projection transform)"
 date: 2016-02-14 12:18:26
 summary: |
-  In Computer Graphics 3D objects created in an abstract 3d world will eventually
-  need to be displayed, to view these objects in a 2d plane like a screen
+  In Computer Graphics 3D objects created in an abstract 3D world will eventually
+  need to be displayed in a screen, to view these objects in a 2D plane like a screen
   objects will need to be projected from the 3D space to the 2D plane with
   a transformation matrix.
 
   <br />
   In this article I cover two types of transformations: Orthographic projection
-  and Perspective projection and analyze the matrix behind the
-  transformation matrices for both transformations.
+  and Perspective projection and analyze the math behind the transformation matrices.
 image: /images/projection-matrix!perspective-all.png
 tags: ["computer graphics", "transformation matrix", "orthographic projection", "perspective projection", "3d", "2d"]
 libraries: ["math", "threejs"]

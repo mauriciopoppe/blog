@@ -27,36 +27,40 @@ function perspectiveProjection(el, cameraType = 'perspective') {
     near: 300,
     far: 1000
   }
+  const gui = new GUI({ container: el })
+
   let camera
   if (cameraType === 'perspective') {
     camera = new THREE.PerspectiveCamera(guiParams.fov, 1, guiParams.near, guiParams.far)
     camera.rotation.y = Math.PI
-  } else {
-    const frustumSize = height
-    camera = new THREE.OrthographicCamera(
-      frustumSize / 2,
-      frustumSize / -2,
-      frustumSize / 2,
-      frustumSize / -2,
-      300,
-      1000
-    )
-    camera.rotation.y = Math.PI
-  }
 
-  const cameraHelper = new THREE.CameraHelper(camera)
-  scene.add(cameraHelper)
-
-  // camera control
-
-  const controls = new OrbitControls(globalCamera, renderer.domElement)
-
-  // object helpers
-
-  const gui = new GUI({ container: el })
-  if (cameraType === 'perspective') {
     gui.add(guiParams, 'fov', 40, 90).onChange((v) => {
       camera.fov = v
+      camera.updateProjectionMatrix()
+    })
+  } else {
+    const frustumSize = height
+    guiParams.lr = frustumSize / 2
+    guiParams.tb = frustumSize / 2
+
+    camera = new THREE.OrthographicCamera(
+      guiParams.lr,
+      -guiParams.lr,
+      guiParams.tb,
+      -guiParams.tb,
+      guiParams.near,
+      guiParams.far
+    )
+    camera.rotation.y = Math.PI
+
+    gui.add(guiParams, 'lr', frustumSize / 4, frustumSize).onChange((v) => {
+      camera.left = v
+      camera.right = -v
+      camera.updateProjectionMatrix()
+    })
+    gui.add(guiParams, 'tb', frustumSize / 4, frustumSize).onChange((v) => {
+      camera.top = v
+      camera.bottom = -v
       camera.updateProjectionMatrix()
     })
   }
@@ -68,6 +72,13 @@ function perspectiveProjection(el, cameraType = 'perspective') {
     camera.far = v
     camera.updateProjectionMatrix()
   })
+
+  const cameraHelper = new THREE.CameraHelper(camera)
+  scene.add(cameraHelper)
+
+  // camera control
+
+  const controls = new OrbitControls(globalCamera, renderer.domElement)
 
   // objects
 
