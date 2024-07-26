@@ -1,3 +1,6 @@
+@use "../../../../node_modules/bulma/sass/utilities/derived-variables" as dv;
+@use "../../../../node_modules/bulma/sass/utilities/mixins" as mx;
+
 @import "../../../../node_modules/tocbot/src/scss/tocbot.scss";
 
 .toc-wrapper {
@@ -15,7 +18,7 @@
     opacity: 1;
   }
 
-  @include until($desktop) {
+  @include mx.breakpoint("desktop") {
     opacity: 1;
     font-size: 1em;
     position: static !important;
@@ -40,7 +43,7 @@
 
   &.is-active-link {
     font-weight: bold;
-    color: $primary;
+    color: dv.$primary;
   }
   &.is-active-link::before {
     background-color: unset;

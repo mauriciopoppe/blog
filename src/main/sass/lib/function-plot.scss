@@ -1,24 +1,26 @@
+@use "../../../../node_modules/bulma/sass/utilities/derived-variables" as dv;
+
 .function-plot {
   margin: 0px auto 20px;
   display: block;
 
   text {
     font-size: 15px;
-    fill: $text;
-    font-family: $family-primary;
+    fill: dv.$text;
+    font-family: dv.$family-primary;
   }
 
   path.origin {
-    stroke: $text;
+    stroke: dv.$text;
   }
 
   path.line {
-    stroke: $primary;
+    stroke: dv.$primary;
   }
 
   .tip {
     circle {
-      fill: $primary;
+      fill: dv.$primary;
     }
   }
 }

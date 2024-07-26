@@ -1,12 +1,27 @@
 // bulma css variables polyfill
-@import './bulma-generated/generated-bulma-vars-dark.sass';
-@import './bulma-generated/generated-bulma-vars-light.sass';
-@import '../../../node_modules/bulma-css-vars/functions.sass'; // override and patch bulma functions
-@import "_variables.scss";
-@import '../../../node_modules/bulma-css-vars/bulma-cv-lib';
+// @import './bulma-generated/generated-bulma-vars-dark.sass';
+// @import './bulma-generated/generated-bulma-vars-light.sass';
+// @import '../../../node_modules/bulma-css-vars/functions.sass'; // override and patch bulma functions
+// @import "_variables.scss";
+// @import '../../../node_modules/bulma-css-vars/bulma-cv-lib';
 
-// these library was handpicked from the update to v0.9
-@import "../../../node_modules/bulma/sass/helpers/_all.sass";
+$family-monospace: Consolas, monospace;
+// TODO: sass refactor, decide if should be moved after the use statements below, original was $grey-darker
+$body-background-color: hsl(221, 14%, 21%);
+// TODO: sass refactor, move to the root
+$time: 350ms;
+
+@use "../../../node_modules/bulma/sass";
+// @use "../../../node_modules/bulma/sass/themes";
+
+@forward "bulma/sass/utilities";
+
+// @use "../../../node_modules/bulma/sass/base";
+// @use "../../../node_modules/bulma/sass/themes";
+//
+// @use "../../../node_modules/bulma/sass/elements/button";
+// @use "../../../node_modules/bulma/sass/elements/title";
+// @use "../../../node_modules/bulma/sass/components/message";
 
 @import './bulma';
 
@@ -23,15 +38,15 @@
 @import 'lib/gist-embed';
 
 // skeleton
-@import './landing';
-@import './article';
-@import './breadcrumb';
-@import './sitemap';
-@import './sidebar';
-@import './header';
-@import './footer';
-@import './profile';
-@import './figure';
-@import './interview';
-@import './footnotes';
-@import './tooltip';
+// @import './landing';
+// @import './article';
+// @import './breadcrumb';
+// @import './sitemap';
+// @import './sidebar';
+// @import './header';
+// @import './footer';
+// @import './profile';
+// @import './figure';
+// @import './interview';
+// @import './footnotes';
+// @import './tooltip';

@@ -1,3 +1,6 @@
+@use "../../../../node_modules/bulma/sass/utilities/derived-variables" as dv;
+@use "../../../../node_modules/bulma/sass/utilities/mixins" as mx;
+
 /**
  * Darcula theme
  *
@@ -43,7 +46,7 @@ code[class*="language-"]::selection, code[class*="language-"] ::selection {
 /* Code blocks */
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
-  background: $background;
+  background: dv.$background;
 }
 
 /* Inline code */
@@ -314,7 +317,7 @@ pre[data-line] {
   min-width: 1em;
   padding: 0 .5em;
   //background-color: hsla(24, 20%, 50%,.4);
-  color: $text;
+  color: dv.$text;
   font: bold 65%/1.5 sans-serif;
   text-align: center;
   vertical-align: .3em;

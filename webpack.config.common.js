@@ -42,7 +42,7 @@ module.exports = {
         test: /\.(sa|sc|c)ss$/,
         exclude: /node_modules/,
         use: [
-          MiniCssExtractPlugin.loader,
+          // MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
@@ -52,23 +52,14 @@ module.exports = {
               url: false
             }
           },
-          'postcss-loader',
+          // 'postcss-loader',
           {
-            loader: 'sass-loader',
-            options: {
-              implementation: require('sass')
-            }
+            loader: 'sass-loader'
           }
         ]
       }
     ]
   },
-  // resolve: {
-  //   alias: {
-  //     Containers: path.resolve(process.cwd(), 'src/containers/'),
-  //     Components: path.resolve(process.cwd(), 'src/components/')
-  //   }
-  // },
   devtool: 'eval-source-map',
   optimization: {
     runtimeChunk: 'single'

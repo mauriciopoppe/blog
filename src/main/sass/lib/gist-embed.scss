@@ -1,6 +1,8 @@
+@use "../../../../node_modules/bulma/sass/utilities/derived-variables" as dv;
+
 .gist-it-gist {
   .gist-data {
-    color: $text;
+    color: dv.$text;
     background: transparent !important;
     font-family: $family-monospace;
     font-size: 0.7em !important;
@@ -19,7 +21,7 @@
     -ms-hyphens: none;
     hyphens: none;
 
-    .pln { color: $text; }
+    .pln { color: dv.$text; }
     .com { color: slategray; }
     .op { color: #9a6e3a; }
     .str { color: #690; }

@@ -1,5 +1,3 @@
-//check https://github.com/jgthms/bulma/blob/master/bulma.sass
-
 //@import "../../../node_modules/bulma/sass/utilities/_all";
 //@import "../../../node_modules/bulma/sass/base/_all";
 //@import "../../../node_modules/bulma/sass/elements/box";
@@ -11,6 +9,13 @@
 //@import "../../../node_modules/bulma/sass/components/card";
 //@import "../../../node_modules/bulma/sass/grid/columns";
 //@import "../../../node_modules/bulma/sass/layout/_all";
+
+@use "../../../node_modules/bulma/sass/utilities/initial-variables" as iv;
+@use "../../../node_modules/bulma/sass/utilities/css-variables" as cv;
+@use "../../../node_modules/bulma/sass/utilities/derived-variables" as dv;
+@use "../../../node_modules/bulma/sass/utilities/mixins" as mx;
+
+$radius: 10px;
 
 @mixin word-wrap() {
   overflow-wrap: break-word;
@@ -46,18 +51,19 @@ a {
 }
 
 .box {
-  box-shadow: $box-shadow;
-  border: 2px solid $primary;
+  box-shadow: none;
+  border: 2px solid dv.$primary;
+  color: red;
 }
 
 hr {
-  background-color: $primary;
+  background-color: dv.$primary;
 }
 
 body {
-  font-size: $body-font-size + 0.25em;
-  @include until($desktop) {
-    font-size: $body-font-size;
+  font-size: calc(dv.$size-normal + 0.25em);
+  @include mx.breakpoint("desktop") {
+    font-size: dv.$size-normal;
     line-height: 1.25;
   }
 }
@@ -67,51 +73,51 @@ pre code {
 }
 
 pre, .content pre {
-  padding: $pre-padding; /* redefined because padding is set for pre but overriden by bulma for .content pre */
+  padding: 0.75em 1em; /* redefined because padding is set for pre but overriden by bulma for .content pre */
   overflow: auto;
-  border-radius: $radius;
-  background-color: $grey-dark;
+  border-radius: iv.$radius;
+  background-color: iv.$grey;
   font-size: 0.7em;
 }
 
 code, .content code {
-  border-radius: $radius;
+  border-radius: iv.$radius;
 }
 
 .content ul {
-  @include until($desktop) {
+  @include mx.breakpoint("desktop") {
     margin-left: 1em;
     margin-top: 1em;
   }
 }
 
 .tag {
-  border: 1px solid $primary;
-  font-weight: $weight-bold;
+  border: 1px solid dv.$primary;
+  font-weight: iv.$weight-bold;
 }
 
 ::selection {
-  background: $info;
+  background: dv.$info;
 }
 html[data-theme=light] {
   ::selection {
-    background: $primary;
+    background: dv.$primary;
   }
 }
 
 :focus-visible {
-  outline: 3px solid $info;
+  outline: 3px solid dv.$info;
 }
 
 img {
-  border-radius: $radius;
+  border-radius: iv.$radius;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: $family-sans-serif;
+  font-family: dv.$family-primary;
 }
 
-@media screen and (max-width: $tablet) {
+@include mx.breakpoint("tablet") {
   .container.is-fluid, .hero.is-small .hero-body {
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -120,9 +126,12 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+// @media screen and (max-width: iv.$breakpoints.tablet.from) {
+// }
+//
 // New utility function that reverses the flex direction on mobile only.
 .reverse-column-order {
-  @include until($desktop) {
+  @include mx.breakpoint("desktop") {
     display: flex;
     flex-direction: column-reverse;
   }

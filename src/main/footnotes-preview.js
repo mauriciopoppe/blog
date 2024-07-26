@@ -24,7 +24,6 @@ function run() {
     const href = getTarget(ev)
     if (!href) return
     /** @type HTMLLinkElement */
-
     let target = decodeURIComponent(href.hash)
     target = target.replace(/:/g, '\\:')
     const footnote = document.querySelector(target)

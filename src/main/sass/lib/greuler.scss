@@ -1,3 +1,6 @@
+@use "../../../../node_modules/bulma/sass/utilities/initial-variables" as iv;
+@use "../../../../node_modules/bulma/sass/utilities/derived-variables" as dv;
+
 .greuler {
   text {
     font-family: $family-monospace;
@@ -5,10 +8,10 @@
   }
 
   .label {
-    font-weight: $weight-light;
+    font-weight: iv.$weight-light;
   }
 
   circle {
-    fill: $primary;
+    fill: dv.$primary;
   }
 }

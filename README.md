@@ -4,9 +4,9 @@
 
 ## Tech
 
-- Hugo (static pages)
-- Webpack (tooling)
-- d3, React (browser)
+- Hugo (static page generator)
+- Webpack (script bundling)
+- d3, React (frontend libraries)
 
 ## Development
 
@@ -104,6 +104,21 @@ npm start
 Sandbox pages:
 - http://localhost:3000/sandbox/sunset
 - http://localhost:3000/sandbox/jukebox
+
+### Code highlighting
+
+- Through PrismJS, see prism.html and the prism-darcula.scss files
+
+### Math rendering
+
+- katex
+  - pros: faster than mathjax v2
+  - cons: not complete like mathjax, e.g. missing macros and refs. Can't use it because of this
+- mathjax 3 (svg vs chtml)
+  - chtml: works fine in desktop, in mobile some characters are cut off
+    - Used this but the mobile issue cannot be ignored
+  - svg: issue following eqref, on click the equation referenced is cut but only in desktop
+    - The above is an unsolved issue, but it's better than the chtml issue in mobile
 
 ### Prod like server
 

@@ -1,3 +1,6 @@
+@use "../../../../node_modules/bulma/sass/utilities/derived-variables" as dv;
+@use "../../../../node_modules/bulma/sass/utilities/mixins" as mx;
+
 .sharing__buttons {
   display: flex;
   justify-content: center;
@@ -24,7 +27,7 @@
   border-radius: 5px;
   transition: 25ms ease-out;
   padding: 0.5em 0.75em;
-  font-family: $family-primary;
+  font-family: dv.$family-primary;
 }
 
 .resp-sharing-button__icon svg {
