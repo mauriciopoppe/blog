@@ -4,9 +4,9 @@
 
 ## Tech
 
-- Hugo (static pages)
-- Webpack (tooling)
-- d3, React (browser)
+- Hugo (static site generator)
+- Webpack (build tool for JS scripts)
+- d3, React (client side script libraries)
 
 ## Development
 
@@ -38,6 +38,12 @@ Generated with `tree --gitignore -L 3 -I dist/ -d .`
     ├── util             # Shared utilities
     └── voronoi          # Main page and header animation
 ```
+
+The graph showing how partials are used:
+
+<img src="https://docs.google.com/drawings/d/e/2PACX-1vTti70eH65cmY6otoiXu8f96McpHtIVEvQnLW3hiLFkBjv1NpNyg27yCVL3A0-GgNwa_qk9QIiqszNT/pub?w=1411&amp;h=703">
+
+[Edit the diagram above](https://docs.google.com/drawings/d/1tg2ZI5fDStfcnnmrBU2YYk24eVCSSb9jhGhyRSLeHjg/edit)
 
 ### Themes
 
