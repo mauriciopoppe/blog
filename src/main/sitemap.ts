@@ -20,7 +20,7 @@ function animate({ timing, draw, duration }) {
   })
 }
 
-function getHeight(el) {
+function getHeight(el: HTMLElement) {
   // save properties for later
   const elDisplay = el.style.display
   const elPosition = el.style.position
@@ -54,7 +54,7 @@ const activeItems = {
       .filter((t) => t[1] === true)
       .map((t) => t[0])
   },
-  setState(k, v) {
+  setState(k: string, v: any) {
     this.getState()[k] = v
     window.localStorage.setItem(this.KEY, JSON.stringify(this._state))
   }
@@ -100,13 +100,13 @@ function addClickListener() {
 
     if (!ul) return
     const isCollapsed = ul.classList.contains('list-is-collapsed')
-    let p
+    let p: Promise<void>
     if (isCollapsed) {
       const newHeight = getHeight(ul)
       activeItems.setState(liPath, true)
       p = animate({
         ...opts,
-        draw(t) {
+        draw(t: number) {
           ul.style.height = `${t * newHeight}px`
         }
       }).then(() => {
@@ -117,7 +117,7 @@ function addClickListener() {
       activeItems.setState(liPath, false)
       p = animate({
         ...opts,
-        draw(t) {
+        draw(t: number) {
           ul.style.height = `${(1 - t) * oldHeight}px`
         }
       }).then(() => {

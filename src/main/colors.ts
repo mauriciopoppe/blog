@@ -19,7 +19,7 @@ import { color } from 'd3-color'
 // const colors = ['#A45571', '#631836', '#451035']
 // const colors = ['#B42761', '#712753', '#642157', '#121032']
 
-function colorsInterpolator(colors, n) {
+function colorsInterpolator(colors: string[], n: number) {
   // [0,1] -> [0,n]
   const norm = n * (colors.length - 1)
   // index in colors
@@ -89,25 +89,21 @@ class Theme {
     }
   }
 
-  getTheme(theme) {
+  getTheme(theme: 'light' | 'dark') {
     return this.style[theme]
   }
 
   /**
    * Interpolate over `colors`, the returning function should be called with a number in the range [0, 1[
-   *
-   * @param colors
-   * @returns {function(*): *}
    */
-  t(n) {
+  t(n: number) {
     return colorsInterpolator(this.colors, n)
   }
 
   /**
    * Interpolates over the banner colors
-   * @type {function(*): *}
    */
-  bannerInterpolation(n) {
+  bannerInterpolation(n: number) {
     return colorsInterpolator(this.bannerColors, n)
   }
 }

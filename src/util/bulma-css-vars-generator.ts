@@ -1,15 +1,15 @@
-const path = require('path')
-const { execSync } = require('child_process')
-const { runCli } = require('bulma-css-vars/dist/cli.js')
+import path from 'path'
+import { execSync } from 'child_process'
+import { runCli } from 'bulma-css-vars/dist/cli.js'
 
 // touchDummySassFiles creates dummy files in /src/main/sass/bulma-generated
 // so that bulma-css-vars is unblocked
-async function touchDummySassFiles(theme) {
+async function touchDummySassFiles(theme: string) {
   const dummyFile = path.join(__dirname, `../main/sass/bulma-generated/generated-bulma-vars-${theme}.sass`)
   execSync(`mkdir -p $(dirname ${dummyFile}) && touch ${dummyFile}`)
 }
 
-async function generateTheme(theme) {
+async function generateTheme(theme: string) {
   const outPath = path.join(__dirname, '../main/sass/bulma-generated')
   const themePath = path.join(__dirname, `../main/theme-${theme}/`)
 

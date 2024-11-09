@@ -51,9 +51,6 @@ class Sidebar {
    * Returns the top location of the footer with respect to the document root element,
    * the value can't be cached because there are images and other layout things going on
    * while scrolling
-   *
-   * @returns {number}
-   * @private
    */
   get footerLocationFromDocument() {
     const footer = document.querySelector('footer')

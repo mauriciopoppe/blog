@@ -11,7 +11,7 @@ class MoHeart extends CustomShape {
 }
 mojs.addShape('heart', MoHeart)
 
-function setupHearts(rootEl) {
+function setupHearts(rootEl: HTMLElement) {
   const heartShapes = []
   for (let i = 0; i < 10; i++) {
     const heart = new ShapeSwirl({
@@ -54,7 +54,7 @@ function setupHearts(rootEl) {
 }
 
 function main() {
-  const hearts = Array.from(document.querySelectorAll('.heart'))
+  const hearts: HTMLElement[] = Array.from(document.querySelectorAll('.heart'))
   // exit early if no hearts were found
   if (!hearts.length) return
   hearts.forEach((h) => setupHearts(h))

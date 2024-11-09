@@ -21,7 +21,6 @@ export function generate({ target, n, rainbow }) {
   // canvas setup
   const { width, height } = target.getBoundingClientRect()
   const scale = window.devicePixelRatio
-  /** @type HTMLCanvasElement */
   const canvas = document.createElement('canvas')
   canvas.width = width * scale
   canvas.height = height * scale
@@ -32,19 +31,20 @@ export function generate({ target, n, rainbow }) {
   canvas.style.left = '0px'
   target.insertBefore(canvas, target.firstChild)
 
-  /** @type CanvasRenderingContext2D */
   const context = canvas.getContext('2d')
   context.scale(scale, scale)
 
   // voronoi setup
   const particles = Array.from({ length: n }, () => [Math.random() * width, Math.random() * height])
-  let delaunay, voronoi, animationLast
+  let delaunay: Delaunay, voronoi: any, animationLast: number
   let ref = { x: 0, y: 0 }
   // lastBannerInterpolation is the last time the banner interpolation was run.
-  let lastBannerInterpolation
+  let lastBannerInterpolation: number
 
   /** @type {Object.<number, number>} */
-  const lastTouched = {}
+  const lastTouched: {
+    [key: number]: number
+  } = {}
   const fadeOutTime = 2000
 
   function initialize() {
@@ -67,10 +67,10 @@ export function generate({ target, n, rainbow }) {
     return [invertX, invertY]
   }
 
-  function perimeterAnimation(time, perimeterAnimationTime = 50000) {
+  function perimeterAnimation(time: number, perimeterAnimationTime = 50000): { x: number; y: number } {
     // move refs according to time
     const timeLeft = time % perimeterAnimationTime
-    let ref
+    let ref: { x: number; y: number }
     /*
       map time to perimeter
      animTime   =   2a + 2b
@@ -89,7 +89,7 @@ export function generate({ target, n, rainbow }) {
     return ref
   }
 
-  function paint(time) {
+  function paint(time: number) {
     // the color changer only runs in the index page
     if (rainbow && !isMobile()) {
       // Run the banner interpolation animation every some milliseconds and not on every frame.
@@ -142,9 +142,9 @@ export function generate({ target, n, rainbow }) {
     animationLast = time
   }
 
-  function onCanvasMouseMove(event) {
+  function onCanvasMouseMove(event: MouseEvent | TouchEvent) {
     event.preventDefault()
-    const closestPoint = delaunay.find(event.pageX, event.pageY)
+    const closestPoint = delaunay.find((event as MouseEvent).pageX, (event as MouseEvent).pageY)
     lastTouched[closestPoint] = performance.now()
   }
 
@@ -161,8 +161,8 @@ export function generate({ target, n, rainbow }) {
 
   // initialization and event loop
   initialize()
-  let tickRaf
-  function tick(time) {
+  let tickRaf: number
+  function tick(time: number) {
     paint(time)
     tickRaf = requestAnimationFrame(tick)
   }

@@ -10,18 +10,14 @@ function run() {
   tooltip.classList.add('mathjax-tooltip', 'ref-tooltip-preview')
   container.appendChild(tooltip)
 
-  /**
-   * @returns {HTMLElement}
-   */
-  function getTarget(ev) {
-    return ev.currentTarget.closest('a')
+  function getTarget(ev: Event) {
+    return (ev.currentTarget as HTMLElement).closest('a')
   }
 
-  function onMouseOver(ev) {
-    const href = getTarget(ev)
+  function onMouseOver(ev: Event) {
+    const href: HTMLAnchorElement = getTarget(ev)
     if (!href) return
-    /** @type HTMLLinkElement */
-
+    // @ts-ignore
     let target = decodeURIComponent(href.hash || href?.href?.baseVal)
     target = target.replace(/:/g, '\\:')
     const number = document.querySelector(target)
@@ -29,14 +25,14 @@ function run() {
 
     const equationBounds = equation.getBoundingClientRect()
     Object.assign(tooltip.style, {
-      top: href.closest('.MathJax').offsetTop - equationBounds.height - 50 + 'px',
+      top: (href.closest('.MathJax') as HTMLElement).offsetTop - equationBounds.height - 50 + 'px',
       display: 'block'
     })
 
     tooltip.appendChild(equation.cloneNode(true))
   }
 
-  function onMouseOut(ev) {
+  function onMouseOut(ev: Event) {
     const href = getTarget(ev)
     if (!href) return
     tooltip.innerHTML = ''

@@ -20,14 +20,14 @@ const options = {
   rootMargin: '400px'
 }
 let rendered = false
-function callback(entries) {
+function callback(entries: IntersectionObserverEntry[]) {
   if (rendered) return
 
   entries.forEach(async function (entry) {
     if (!entry.isIntersecting) return
     rendered = true
 
-    let app
+    let app: any
     if (isMobile()) {
       // load stars with hills
       app = await import('./components/App.jsx')

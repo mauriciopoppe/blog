@@ -13,14 +13,25 @@ if (isProduction) {
   console.log('sitemap generator running in production mode')
 }
 
-interface FrontMatter {
+interface ArticleFrontMatter {
+  title?: string
+  date?: Date
+  createdDate?: Date
   draft?: boolean
+  order?: number
 }
 
-const addFileToMap = (cwd, map) => (file) => {
+interface SitemapItem extends ArticleFrontMatter {
+  fullPath: string
+  path: string
+  isLeaf?: boolean
+  children: SitemapItem[]
+}
+
+const addFileToMap = (cwd: string, map: SitemapItem) => (file: string) => {
   const data = fs.readFileSync(path.join(cwd, file), { encoding: 'utf-8' })
   const { birthtime } = fs.statSync(path.join(cwd, file))
-  const { attributes } = fm<FrontMatter>(data)
+  const { attributes } = fm<ArticleFrontMatter>(data)
 
   // skip draft articles in production
   if (isProduction && attributes.draft) {
@@ -52,10 +63,10 @@ const addFileToMap = (cwd, map) => (file) => {
   })
 }
 
-function byDate(a, b) {
+function byDate(a: SitemapItem, b: SitemapItem) {
   // if the front matter defines the order use it for sorting
   if ('order' in a || 'order' in b) {
-    if ('order' in a && 'order' in b) return a - b
+    if ('order' in a && 'order' in b) return a.order - b.order
     if ('order' in a) return -1
     return 1
   }
@@ -82,8 +93,8 @@ function byDate(a, b) {
   return 1
 }
 
-function sortBy(fn) {
-  return function sorter(node, depth = 0) {
+function sortBy(fn: (a: SitemapItem, b: SitemapItem) => number) {
+  return function sorter(node: SitemapItem, depth = 0) {
     // sort children first
     node.children.forEach((child) => sorter(child, depth + 1))
 
@@ -95,17 +106,17 @@ function sortBy(fn) {
   }
 }
 
-function dfs(cwd, obj = {}) {
+function dfs(cwd: string) {
   return fg('**/*.{mmark,md}', { cwd })
     .then((files) => {
-      const map = { children: [] }
+      const map: SitemapItem = { children: [], path: '', fullPath: '' }
       files.forEach(addFileToMap(cwd, map))
       return map
     })
     .then(sortBy(byDate))
 }
 
-function createNavBarRecursive(node, depth) {
+function createNavBarRecursive(node: SitemapItem, depth: number) {
   let target = ''
   let content = titleCase(defined(node.title, node.path))
   content = content.replace(/-/g, ' ')
@@ -146,7 +157,7 @@ function createNavBarRecursive(node, depth) {
   `
 }
 
-function createNavBar(node, depth = 0) {
+function createNavBar(node: SitemapItem, depth = 0) {
   return `
     <ul class="list-is-collapsible ${depth > 0 ? '{{ .Scratch.Get "collapsed" }}' : ''}">
       ${node.children.map((node) => createNavBarRecursive(node, depth)).join('\n')}
