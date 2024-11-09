@@ -67,6 +67,7 @@
     "defined": "^1.0.0",
     "drei": "^1.0.0",
     "eases": "^1.0.8",
+    "esbuild-loader": "^4.2.2",
     "eslint": "^6.8.0",
     "eslint-config-react-app": "^5.2.0",
     "eslint-config-standard": "^14.1.0",
@@ -114,16 +115,12 @@
     "tiny-glob": "^0.2.9",
     "title-case": "^3.0.2",
     "tocbot": "^4.21.0",
-    "ts-loader": "^9.5.1",
     "typescript": "^5.6.3",
-    "webpack": "^5.80.0",
-    "webpack-cli": "^5.0.1",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.13.3",
     "webpack-merge": "^4.2.2",
     "yt-player": "^3.5.0",
     "zustand": "^3.2.0"
-  },
-  "trustedDependencies": [
-    "core-js"
-  ]
+  }
 }

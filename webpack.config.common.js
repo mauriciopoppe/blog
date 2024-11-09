@@ -21,8 +21,11 @@ module.exports = {
     rules: [
       {
         test: /\.[jt]sx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/
+        loader: 'esbuild-loader',
+        options: {
+          // JavaScript version to transpile to
+          target: 'es2015'
+        }
       },
       {
         test: /\.svg$/,
