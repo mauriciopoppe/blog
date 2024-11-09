@@ -122,5 +122,8 @@
     "webpack-merge": "^4.2.2",
     "yt-player": "^3.5.0",
     "zustand": "^3.2.0"
-  }
+  },
+  "trustedDependencies": [
+    "core-js"
+  ]
 }
