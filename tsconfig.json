@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "declaration": true,
+    "skipLibCheck": true,
+    "paths": {
+      "*": ["node_modules/*"]
+    },
+    "types": ["node", "jest"],
+    "lib": ["es2022", "dom"]
+  },
+  "include": ["src"]
+}
+

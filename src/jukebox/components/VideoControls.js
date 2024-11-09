@@ -1,5 +1,5 @@
-import { between } from '../utils'
-import { assets } from '../assets'
+import { between } from '../utils.js'
+import { assets } from '../assets.js'
 
 const loader = new THREE.TextureLoader()
 

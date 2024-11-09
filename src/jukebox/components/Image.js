@@ -1,4 +1,4 @@
-import { between } from '../utils'
+import { between } from '../utils.js'
 const loader = new THREE.TextureLoader()
 
 const format = (v) => (v < 10 ? `00${v}` : v < 100 ? `0${v}` : v)

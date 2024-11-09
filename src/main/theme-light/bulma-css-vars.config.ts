@@ -1,4 +1,4 @@
-const { theme } = require('../colors')
+const { theme } = require('../colors.ts')
 
 const colorDefs = theme.getTheme('light')
 const config = {

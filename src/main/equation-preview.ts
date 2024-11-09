@@ -4,10 +4,7 @@
  * Copyright (c) 2020 Mauricio Poppe
  * Licensed under the MIT license.
  */
-/** @type HTMLDivElement */
-
 function run() {
-  /** @type HTMLDivElement */
   const tooltip = document.createElement('div')
   const container = document.querySelector('article[role=main]')
   tooltip.classList.add('mathjax-tooltip', 'ref-tooltip-preview')

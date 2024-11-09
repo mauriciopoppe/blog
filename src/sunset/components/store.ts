@@ -33,7 +33,7 @@ function generateHeight(width, height) {
   return data
 }
 
-const useStore = create((set, get) => {
+const useStore = create((set: (any) => void, get: () => { mutation: any }) => {
   const worldWidth = 128
   const worldHeight = 128
   const geometry = new THREE.PlaneBufferGeometry(128, 128, worldWidth - 1, worldHeight - 1)

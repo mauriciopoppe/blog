@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { randomBetween } from './utils'
+import { randomBetween } from './utils.ts'
 
 export function Stars({ n, width, height, x, y, scrollT }) {
   const [cnt, setCnt] = useState(0)

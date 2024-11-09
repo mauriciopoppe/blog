@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useSpring, animated } from 'react-spring'
 import { area, curveLinear } from 'd3-shape'
-import { randomBetween, isMobile } from './utils'
+import { randomBetween, isMobile } from './utils.js'
 
-import { theme } from '../../main/colors'
+import { theme } from '../../main/colors.js'
 
 function generateData(props) {
   const { x, y, z, total } = props

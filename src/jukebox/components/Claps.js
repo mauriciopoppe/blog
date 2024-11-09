@@ -1,5 +1,4 @@
-// import { assets } from '../assets'
-import { between } from '../utils'
+import { between } from '../utils.js'
 
 export class Claps {
   constructor(parent, { claps, video }) {

@@ -3,12 +3,12 @@ import { Delaunay } from 'd3-delaunay'
 import { easeLinear } from 'd3-ease'
 import { interpolateLab } from 'd3-interpolate'
 
-import { theme } from '../main/colors'
+import { theme } from '../main/colors.js'
 const d3 = { select, Delaunay }
 
 function isMobile() {
-  if (navigator.userAgentData) {
-    return navigator.userAgentData.mobile
+  if ((navigator as any).userAgentData) {
+    return (navigator as any).userAgentData.mobile
   }
   const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i]
 
