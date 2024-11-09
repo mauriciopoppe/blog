@@ -18,19 +18,19 @@
   <br />
   <p>
     <a class="social-button"
-       href="https://github.com/{{ .Site.Author.github }}" target="noopener">
+       href="https://github.com/{{ .Site.Params.Author.github }}" target="noopener">
       <svg class="icon icon-github"><use xlink:href="#icon-github"></use></svg>
       <span>Github</span>
     </a>
 
     <a class="social-button"
-       href="https://youtube.com/@{{ .Site.Author.youtube }}" target="noopener">
+       href="https://youtube.com/@{{ .Site.Params.Author.youtube }}" target="noopener">
       <svg class="icon icon-youtube"><use xlink:href="#icon-youtube"></use></svg>
       <span>Youtube</span>
     </a>
 
     <a class="social-button"
-       href="https://www.linkedin.com/in/{{ .Site.Author.linkedin }}/" target="noopener">
+       href="https://www.linkedin.com/in/{{ .Site.Params.Author.linkedin }}/" target="noopener">
       <svg class="icon icon-linkedin2"><use xlink:href="#icon-linkedin2"></use></svg>
       <span>LinkedIn</span>
     </a>
@@ -51,7 +51,7 @@
     <a href="https://bulma.io" target="noopener">Bulma</a>,
     <a href="https://netlify.com/" target="noopener">Netlify</a>. <br />
 
-    See the source code in <a href="http://github.com/{{ .Site.Author.github }}/blog" target="noopener">Github</a>
+    See the source code in <a href="http://github.com/{{ .Site.Params.Author.github }}/blog" target="noopener">Github</a>
   </p>
   <p class="is-size-6">© 2015 - {{ now.Year }}</p>
 </div>
