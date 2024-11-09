@@ -5,7 +5,7 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
 
-import { theme } from '../../main/colors.js'
+import { theme } from '../../main/colors.ts'
 import { Stars, Plane, Moon, Ground } from './Models.jsx'
 // import Plane from './Plane.jsx'
 

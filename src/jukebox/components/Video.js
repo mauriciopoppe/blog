@@ -1,4 +1,4 @@
-import { between } from '../utils'
+import { between } from '../utils.js'
 
 class Video {
   constructor(app) {

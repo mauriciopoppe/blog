@@ -3,7 +3,7 @@ import { useWindowScroll } from 'beautiful-react-hooks'
 
 import { Hills } from './Hills.jsx'
 import { Stars } from './Stars.jsx'
-import { gtagEvents } from './utils'
+import { gtagEvents } from './utils.js'
 
 export function Canvas({ width, height, x, y }) {
   // const { clientX, clientY } = useMouseState()

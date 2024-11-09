@@ -6,11 +6,11 @@ const isDevMode = process.env.NODE_ENV !== 'production'
 
 module.exports = {
   entry: {
-    main: path.join(__dirname, './src/main/index.js'),
-    sunset: path.join(__dirname, './src/sunset/index.js'),
-    voronoi: path.join(__dirname, './src/voronoi/index.js'),
-    jukebox: path.join(__dirname, './src/jukebox/index.js'),
-    learnFrench: path.join(__dirname, './src/learn-french/index.js')
+    main: path.join(__dirname, './src/main/index.ts'),
+    sunset: path.join(__dirname, './src/sunset/index.ts'),
+    voronoi: path.join(__dirname, './src/voronoi/index.ts'),
+    jukebox: path.join(__dirname, './src/jukebox/index.ts'),
+    learnFrench: path.join(__dirname, './src/learn-french/App.jsx')
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -20,9 +20,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader'
+        test: /\.[jt]sx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
       },
       {
         test: /\.svg$/,
@@ -63,14 +63,18 @@ module.exports = {
       }
     ]
   },
-  // resolve: {
-  //   alias: {
-  //     Containers: path.resolve(process.cwd(), 'src/containers/'),
-  //     Components: path.resolve(process.cwd(), 'src/components/')
-  //   }
-  // },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js', '.jsx'],
+    extensionAlias: {
+      '.js': ['.ts', '.js'],
+      '.mjs': ['.mts', '.mjs']
+    }
+  },
   optimization: {
     runtimeChunk: 'single'
+  },
+  stats: {
+    errorDetails: true
   },
   plugins: [
     // new webpack.ProvidePlugin({

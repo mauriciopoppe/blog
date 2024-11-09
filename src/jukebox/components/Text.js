@@ -1,5 +1,5 @@
-import { shake } from '../utils'
-import { assets } from '../assets'
+import { shake } from '../utils.js'
+import { assets } from '../assets.js'
 
 export class Text {
   constructor(parent, { message, size, color }) {

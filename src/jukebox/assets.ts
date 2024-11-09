@@ -1,6 +1,7 @@
-export const assets = {}
+export const assets: any = {}
 
 export async function loadAssets() {
+  // @ts-ignore
   const loader = new window.THREE.FontLoader()
   const [font, subtitles, subtitlesEnglish, claps, audioBuffer] = await Promise.all([
     new Promise((resolve, reject) => loader.load('/sandbox/jukebox/fonts/font.typeface.json', resolve, null, reject)),

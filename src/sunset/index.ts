@@ -1,11 +1,12 @@
 // https://github.com/webpack/webpack/issues/7077#issuecomment-383029585
+// @ts-ignore
 const url = new URL(document.currentScript.src)
-// eslint-disable-next-line
+// @ts-ignore
 __webpack_public_path__ = url.origin + __webpack_public_path__ + '/'
 
 function isMobile() {
-  if (navigator.userAgentData) {
-    return navigator.userAgentData.mobile
+  if ((navigator as any).userAgentData) {
+    return (navigator as any).userAgentData.mobile
   }
   const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i]
 

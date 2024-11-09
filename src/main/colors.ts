@@ -1,6 +1,6 @@
 // const { ColorUpdater } = require('bulma-css-vars')
-const { interpolateLab } = require('d3-interpolate')
-const { color } = require('d3-color')
+import { interpolateLab } from 'd3-interpolate'
+import { color } from 'd3-color'
 
 // // This file is generated through ./node_modules/.bin/bulma-css-vars
 // // and exports the variable window.bulmaCssVarsDef
@@ -30,6 +30,13 @@ function colorsInterpolator(colors, n) {
 }
 
 class Theme {
+  colors: string[]
+  bannerColors: string[]
+  style: {
+    dark: {}
+    light: {}
+  }
+
   constructor() {
     this.colors = ['#C27083', '#212220']
     this.bannerColors = ['#C27083', '#00b1e6', '#48F913', '#F9C80E', '#B94B69']
@@ -106,6 +113,4 @@ class Theme {
 }
 
 const theme = new Theme()
-module.exports = {
-  theme
-}
+export { theme }

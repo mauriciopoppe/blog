@@ -1,24 +1,25 @@
 import EventEmitter from 'events'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { Video } from './Video'
-import { VideoControls } from './VideoControls'
-import { Text } from './Text'
-import { Subtitles } from './Subtitles'
-import { Claps } from './Claps'
-import { between } from '../utils'
-import { assets } from '../assets'
 
-import '../shaders/CopyShader'
-import '../shaders/LuminosityShader'
-import '../shaders/LuminosityHighPassShader'
-import '../shaders/SobelOperatorShader'
-import '../shaders/AfterimageShader'
+import { Video } from './Video.js'
+import { VideoControls } from './VideoControls.js'
+import { Text } from './Text.js'
+import { Subtitles } from './Subtitles.js'
+import { Claps } from './Claps.js'
+import { between } from '../utils.js'
+import { assets } from '../assets.js'
 
-import '../postprocessing/EffectComposer'
-import '../postprocessing/RenderPass'
-import '../postprocessing/ShaderPass'
-import '../postprocessing/UnrealBloomPass'
-import '../postprocessing/AfterimagePass'
+import '../shaders/CopyShader.js'
+import '../shaders/LuminosityShader.js'
+import '../shaders/LuminosityHighPassShader.js'
+import '../shaders/SobelOperatorShader.js'
+import '../shaders/AfterimageShader.js'
+
+import '../postprocessing/EffectComposer.js'
+import '../postprocessing/RenderPass.js'
+import '../postprocessing/ShaderPass.js'
+import '../postprocessing/UnrealBloomPass.js'
+import '../postprocessing/AfterimagePass.js'
 
 // const stats = new Stats()
 // stats.domElement.style.position = 'absolute'
@@ -27,6 +28,7 @@ const clock = new THREE.Clock()
 const raycaster = new THREE.Raycaster()
 
 const mouse = new THREE.Vector2()
+// @ts-ignore
 class App extends EventEmitter {
   constructor() {
     super()
@@ -53,11 +55,17 @@ class App extends EventEmitter {
     this.controls.maxDistance = 20
     this.controls.update()
 
+    /**
+     * @type any
+     */
     this.composer = new THREE.EffectComposer(this.renderer)
     var renderPass = new THREE.RenderPass(this.scene, this.camera)
     this.composer.addPass(renderPass)
 
     var afterImage = new THREE.AfterimagePass()
+    /**
+     * @type any
+     */
     this.afterimagePass = afterImage
     this.afterimagePass.uniforms.damp.value = 0.7
     this.composer.addPass(afterImage)
@@ -67,6 +75,9 @@ class App extends EventEmitter {
     bloomPass.strength = 0.5
     bloomPass.radius = 0
     this.composer.addPass(bloomPass)
+    /**
+     * @type any
+     */
     this.bloomPass = bloomPass
 
     // index of the current frame

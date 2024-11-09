@@ -13,11 +13,14 @@ const SidebarState = {
 }
 
 class Sidebar {
-  /**
-   * @param {HTMLElement} el
-   * @param {HTMLElement} wrapper
-   */
-  constructor(el, wrapper) {
+  el: HTMLElement
+  wrapper: HTMLElement
+  hidden: boolean
+  articleTopMargin: number
+  navbarHeight: number
+  state: string
+
+  constructor(el: HTMLElement, wrapper: HTMLElement) {
     this.el = el
     this.wrapper = wrapper
     // initially the Sidebar is hidden
@@ -94,11 +97,11 @@ class Sidebar {
 }
 
 function main() {
-  const sitemap = document.querySelector('.sitemap')
-  const sitemapWrapper = document.querySelector('.sitemap-wrapper')
+  const sitemap: HTMLElement = document.querySelector('.sitemap')
+  const sitemapWrapper: HTMLElement = document.querySelector('.sitemap-wrapper')
 
-  const toc = document.querySelector('.toc')
-  const tocWrapper = document.querySelector('.toc-wrapper')
+  const toc: HTMLElement = document.querySelector('.toc')
+  const tocWrapper: HTMLElement = document.querySelector('.toc-wrapper')
 
   if (!toc || !sitemap) {
     return

@@ -2,7 +2,7 @@ import { DoubleSide } from 'three'
 import React, { useRef, useEffect, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF, useAnimations, MeshWobbleMaterial, Text, Points, PointMaterial } from '@react-three/drei'
-import { theme } from '../../main/colors'
+import { theme } from '../../main/colors.ts'
 import * as random from 'maath/random/dist/maath-random.esm'
 
 export function Plane(props) {

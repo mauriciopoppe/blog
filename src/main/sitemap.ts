@@ -8,7 +8,7 @@
 import expoInOut from 'eases/expo-in-out'
 
 function animate({ timing, draw, duration }) {
-  return new Promise((resolve) => {
+  return new Promise<void>((resolve) => {
     const start = window.performance.now()
     window.requestAnimationFrame(function animate(time) {
       const t = Math.min(1, (time - start) / duration)
@@ -69,18 +69,19 @@ function addTabsListener() {
   tabs.forEach((tab) => {
     tab.addEventListener('click', (event) => {
       // hide everything
-      tabs.forEach((tab) => tab.parentNode.classList.remove('is-active'))
+      tabs.forEach((tab) => (tab.parentNode as HTMLElement).classList.remove('is-active'))
       targets.forEach((target) => target.classList.add('is-hidden'))
 
       // display selectively
-      const toOpen = event.target.dataset.target
-      document.querySelector(toOpen).classList.remove('is-hidden')
-      tab.parentNode.classList.add('is-active')
+      const toOpen = (event.target as HTMLElement).dataset.target
+      const $toOpen: HTMLElement = document.querySelector(toOpen)
+      $toOpen.classList.remove('is-hidden')
+      ;(tab.parentNode as HTMLElement).classList.add('is-active')
     })
   })
 
   // simulate tab click on root
-  const rootTrigger = document.querySelector('a.tab-trigger')
+  const rootTrigger: HTMLElement = document.querySelector('a.tab-trigger')
   if (rootTrigger) rootTrigger.click()
 }
 
@@ -88,10 +89,10 @@ function addClickListener() {
   const sitemapTree = document.querySelector('#sitemap-tree')
   sitemapTree.addEventListener('click', function (e) {
     // find closest ancestor that is li
-    const li = e.target.closest('li')
+    const li = (e.target as HTMLElement).closest('li')
     const liPath = li.getAttribute('data-full-path')
     // find closest child that is ul
-    const ul = Array.from(li.children).filter((node) => node.tagName === 'UL')[0]
+    const ul: HTMLElement = Array.from(li.children).filter((node) => node.tagName === 'UL')[0] as HTMLElement
     const opts = {
       timing: expoInOut,
       duration: 250
@@ -123,7 +124,7 @@ function addClickListener() {
         ul.style.height = '0'
       })
     }
-    ul.parentNode.classList.toggle('item-expanded')
+    ;(ul.parentNode as HTMLElement).classList.toggle('item-expanded')
     p.then(() => {
       ul.classList.toggle('list-is-collapsed')
     })
@@ -136,9 +137,9 @@ function setActiveItemInSidebar() {
   let pn = window.location.pathname
   // strips the / and adds .md
   pn = pn.substring(1, pn.length - 1) + '.md'
-  const target = document.querySelector(`[data-url-target="${pn}"]`)
+  const target: HTMLElement = document.querySelector(`[data-url-target="${pn}"]`)
   if (target) {
-    let it = target
+    let it: HTMLElement = target
     // expand parent recursively
     while (!it.classList.contains('sitemap')) {
       if (it.classList.contains('list-is-collapsed')) {
@@ -149,7 +150,7 @@ function setActiveItemInSidebar() {
         it.classList.add('is-active')
         it.classList.add('item-expanded')
       }
-      it = it.parentNode
+      it = it.parentNode as HTMLElement
     }
     // traverse down all the links of active items and expand them
     activeItems.getActiveItems().forEach((item) => {

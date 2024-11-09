@@ -1,11 +1,11 @@
-const path = require('path')
+import path from 'path'
 
-const globby = require('globby')
-const fm = require('front-matter')
-const fs = require('fs-extra')
-const { titleCase } = require('title-case')
-const defined = require('defined')
-const toDate = require('date-fns/toDate')
+import fg from 'tiny-glob'
+import fm from 'front-matter'
+import fs from 'fs-extra'
+import { titleCase } from 'title-case'
+import defined from 'defined'
+import toDate from 'date-fns/toDate'
 
 const isProduction = process.env.NODE_ENV === 'production'
 
@@ -13,10 +13,14 @@ if (isProduction) {
   console.log('sitemap generator running in production mode')
 }
 
+interface FrontMatter {
+  draft?: boolean
+}
+
 const addFileToMap = (cwd, map) => (file) => {
   const data = fs.readFileSync(path.join(cwd, file), { encoding: 'utf-8' })
   const { birthtime } = fs.statSync(path.join(cwd, file))
-  const { attributes } = fm(data)
+  const { attributes } = fm<FrontMatter>(data)
 
   // skip draft articles in production
   if (isProduction && attributes.draft) {
@@ -92,7 +96,7 @@ function sortBy(fn) {
 }
 
 function dfs(cwd, obj = {}) {
-  return globby('**/*.{mmark,md}', { cwd, mark: true, nodir: true })
+  return fg('**/*.{mmark,md}', { cwd })
     .then((files) => {
       const map = { children: [] }
       files.forEach(addFileToMap(cwd, map))

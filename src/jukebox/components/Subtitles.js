@@ -1,5 +1,5 @@
-import { assets } from '../assets'
-import { shake } from '../utils'
+import { assets } from '../assets.js'
+import { shake } from '../utils.js'
 
 /**
  * Transforms the string 00:00:00,000 to ms
