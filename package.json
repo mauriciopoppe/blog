@@ -8,13 +8,13 @@
   "license": "MIT",
   "scripts": {
     "start": "bun run generate:sitemap && bun run generate:colors && run-p start:*",
-    "start:hugo": "hugo server -e development -D -F --bind 0.0.0.0 -d ../dist -s site --verbose --watch --disableFastRender --disableLiveReload",
+    "start:hugo": "hugo server -e development -D -F --bind 0.0.0.0 -d ../dist -s site --watch --disableFastRender --disableLiveReload",
     "start:webpack": "webpack-dev-server --config webpack.config.dev.js --hot --host 0.0.0.0",
     "prebuild": "eslint src/",
     "build": "NODE_ENV=production bun run generate:sitemap && bun run generate:colors && bun run build:webpack && bun run build:copyAssets && bun run build:hugo",
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
     "build:copyAssets": "mkdir -p site/assets/ dist/ && cp dist/*.css dist/runtime.* site/assets/",
-    "build:hugo": "hugo --source site --destination ../dist --verbose",
+    "build:hugo": "hugo --source site --destination ../dist",
     "serve:prod": "http-server -S -C site/cert/localhost.pem -K site/cert/localhost-key.pem dist",
     "generate:colors": "bun run src/util/bulma-css-vars-generator.ts",
     "generate:sitemap": "bun run src/util/sitemap-tree-generator.ts"

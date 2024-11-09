@@ -12,6 +12,7 @@ $google-green: #35A852;
   padding: 10px 10px 10px 10px;
   margin-bottom: 1em;
   min-height: 80px;
+  border-radius: $radius;
 
   .interview__logo {
     float: right;
@@ -51,5 +52,6 @@ $google-green: #35A852;
 
 .interview-example {
   border: 1px solid $grey;
+  border-radius: $radius;
   padding: 1em;
 }

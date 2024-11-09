@@ -7,6 +7,7 @@
 - Hugo (static site generator)
 - Webpack (build tool for JS scripts)
 - d3, React (client side script libraries)
+- Bun (js runtime)
 
 ## Development
 
@@ -64,7 +65,7 @@ I use bulma and bulma-css-vars with two themes, the flow is as follows:
 
 Drawbacks:
 
-- Changes to `src/main/colors.js` in the theme colors require running `npm start` again,
+- Changes to `src/main/colors.js` in the theme colors require restarting the dev server again,
   the reason is that the CSS variables are generated with these JS values.
 
 ### Bundled scripts
@@ -98,13 +99,13 @@ Install dependencies
 
 ```sh
 brew install hugo
-npm i
+bun i
 ```
 
 Start web server
 
 ```sh
-npm start
+bun start
 ```
 
 Sandbox pages:
@@ -124,14 +125,14 @@ mkcert -install
 Server:
 
 ```bash
-npm run build
-npm run serve:prod
+bun run build
+bun run serve:prod
 ```
 
 ### Building for prod
 
 ```sh
-npm run build
+bun run build
 ```
 
 Steps (from `package.json`):

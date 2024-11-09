@@ -4,7 +4,7 @@
 
 <!-- Site Title, Description, Author, and Favicon -->
 {{- with .Title | default .Site.Title }}
-<title>{{ . }} | {{ $.Site.Author.name }}</title>
+<title>{{ . }} | {{ $.Site.Params.Author.name }}</title>
 <meta property="og:title" content="{{ . }}" />
 <meta name="twitter:title" content="{{ . | truncate 70 }}" />
 {{- end }}
@@ -13,7 +13,7 @@
 <meta property="og:description" content="{{ . }}">
 <meta name="twitter:description" content="{{ . | truncate 200 }}">
 {{- end }}
-<meta name="author" content="{{ .Site.Author.name }}"/>
+<meta name="author" content="{{ .Site.Params.Author.name }}"/>
 {{- with .Site.Params.favicon }}
 <link href='{{ . | absURL }}' rel='icon' type='image/x-icon'/>
 {{- end -}}
@@ -24,7 +24,7 @@
 <meta name="twitter:image" content="{{ . | absURL }}" />
 {{- end }}
 <meta name="twitter:card" content="summary" />
-{{- with .Site.Author.twitter }}
+{{- with .Site.Params.Author.twitter }}
 <meta name="twitter:site" content="@{{ . }}" />
 <meta name="twitter:creator" content="@{{ . }}" />
 {{- end }}
@@ -40,7 +40,7 @@
 <meta http-equiv="date" content='{{ .Date.Format "Monday, January 2, 2006" }}' />
 
 {{ .Scratch.Set "permalink" (.Permalink | absURL)  }}
-{{ $author :=  or (.Params.author) (.Site.Author.name) }}
+{{ $author :=  or (.Params.author) (.Site.Params.Author.name) }}
 {{ $org_name :=  .Site.Title }}
 <script type="application/ld+json">
     {

@@ -407,7 +407,7 @@ $$</div>
 [ `gluPerspective` ](https://www.opengl.org/sdk/docs/man2/xhtml/gluPerspective.xml) receives instead of the $x$ and $y$ bounds two arguments
 
 - *field of view* ($fov$) which specifies the field of view angle in the $y$ direction
-- *aspect* ($aspect$) which is the aspect ratio that determines the field of view in the $x$ direction calculated as $\tfrac{x}{y}$, the value is commonly $\tfrac{screen \; width}{screen \; height}$
+- *aspect* ($aspect$) which is the aspect ratio that determines the field of view in the $x$ direction calculated as $\tfrac{x}{y}$, the value is commonly $\tfrac{screen\ width}{screen\ height}$
 
 {{< figure src="/images/projection-matrix!fov.png" title="fov" >}}
 
