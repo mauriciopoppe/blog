@@ -15,7 +15,7 @@
 <!-- sitemap wrapper, used only for positioning -->
 <div style="position: relative; {{ .Scratch.Get "sidebar-style" }}" class="sidebar sitemap-wrapper {{ .Scratch.Get "sidebar-hide" }}">
 
-  <!-- scripts use the id, don't change it Mauricio! -->
+  <!-- scripts use the id and the class, don't change it Mauricio! -->
   <div id="sitemap" class="sitemap">
     <nav id="sitemap-tree" aria-label="Sitemap" class="sitemap-content">
       {{ partial "sitemap-tree.auto.html" . }}
