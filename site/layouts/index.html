@@ -7,20 +7,22 @@
 {{ define "main" }}
 
 <!-- animated background -->
-
 {{ partial "svg/defs.html" . }}
 <div id="voronoi" style="width: 100vw; height: 100vh; position: fixed; top: 0"></div>
 
 <div class="homepage" style="width: 100vw; height: 100vh">
   <div class="container box card my-card columns">
-    <div class="column is-half my-card__content my-card__profile">
+    <div class="column is-one-third my-card__content my-card__profile">
       {{ partial "profile" . }}
     </div>
 
-    <div class="column is-half homegrid my-card__content my-card__links">
+    <div class="column is-two-thirds homegrid my-card__content my-card__links">
       <h4 class="homegrid-header is-size-4">Favorites</h4>
-      <a href="notes/misc/productivity-skills">Productivity skills</a>
+      <a href="notes/productivity-skills">Productivity skills</a>
       <span>Techniques to get better use of my computer time at work and at home.</span>
+      <a href="notes/documenting-my-life">Documenting my life</a>
+      <span>Ordinary moments don't have a value right now but they will value over time.
+      I decided to document my life doing journaling, taking photos and making vlogs.</span>
       <a href="notes/computer-science/data-structures/graphs/introduction/">Intro to Graph Theory</a>
       <span>Showing animated graphs, it led me to write <a href="https://mauriciopoppe.github.io/greuler/"
         target="_blank">greuler</a>, a library to do animations with graphs.</span>

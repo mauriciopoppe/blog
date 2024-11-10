@@ -1,5 +1,5 @@
 ---
-title: "Preparation for a Software Engineering interview"
+title: "Preparation for a Software Engineer interview"
 summary: |
   This is my interview preparation plan for a software engineering role,
   I share a summary of my preparation, a plan of problems to tackle for
@@ -8,6 +8,7 @@ summary: |
 image: /images/epi-ctci.webp
 tags: ["interview preparation", "software engineering", "system design", "coding interview", "behavioral interview"]
 date: 2020-10-12 21:23:30
+order: 10
 ---
 
 This interview preparation plan contains notes that apply to any company and specifics for my target companies.

@@ -37,6 +37,18 @@ status = 301
 force = false
 
 [[redirects]]
+from = "/notes/misc/software-engineer-interview-preparation/"
+to = "/notes/software-engineer-interview-preparation/"
+status = 301
+force = false
+
+[[redirects]]
+from = "/notes/misc/productivity-skills/"
+to = "/notes/productivity-skills/"
+status = 301
+force = false
+
+[[redirects]]
 from = "/notes/programming/programming-languages/cpp-refresher/"
 to = "/notes/computer-science/programming-languages/cpp-refresher/"
 status = 301

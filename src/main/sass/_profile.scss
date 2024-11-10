@@ -1,7 +1,5 @@
 .profile {
   .about-me p {
-    max-width: 65%;
-    margin-left: auto;
 
     @include until($desktop) {
       max-width: 100%;

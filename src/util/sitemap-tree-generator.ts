@@ -18,6 +18,7 @@ interface ArticleFrontMatter {
   date?: Date
   createdDate?: Date
   draft?: boolean
+  // ordering within the parent's children.
   order?: number
 }
 
@@ -28,18 +29,26 @@ interface SitemapItem extends ArticleFrontMatter {
   children: SitemapItem[]
 }
 
-const addFileToMap = (cwd: string, map: SitemapItem) => (file: string) => {
+// addFileToMap adds an entry of the form "a/b/c" to a structured map
+const addFileToMap = (cwd: string, item: SitemapItem) => (file: string) => {
   const data = fs.readFileSync(path.join(cwd, file), { encoding: 'utf-8' })
   const { birthtime } = fs.statSync(path.join(cwd, file))
   const { attributes } = fm<ArticleFrontMatter>(data)
 
-  // skip draft articles in production
-  if (isProduction && attributes.draft) {
+  // if the file is _index.md skip it
+  if (file.indexOf('_index.md') >= 0) {
     return
   }
 
+  // skip draft articles in production
+  if (isProduction) {
+    if (attributes.draft) {
+      return
+    }
+  }
+
   const tokens = file.substring(0, file.length - path.extname(file).length).split('/')
-  let it = map
+  let it = item
   for (let i = 0; i < tokens.length; i += 1) {
     const token = tokens[i]
     let node = it.children.find((d) => d.path === token)
@@ -63,12 +72,12 @@ const addFileToMap = (cwd: string, map: SitemapItem) => (file: string) => {
   })
 }
 
-function byDate(a: SitemapItem, b: SitemapItem) {
+function byOrderAndDate(a: SitemapItem, b: SitemapItem) {
   // if the front matter defines the order use it for sorting
   if ('order' in a || 'order' in b) {
-    if ('order' in a && 'order' in b) return a.order - b.order
-    if ('order' in a) return -1
-    return 1
+    const aOrder = a.order || 0
+    const bOrder = b.order || 0
+    return aOrder - bOrder
   }
 
   const dateSortAttribute = 'date'
@@ -93,13 +102,13 @@ function byDate(a: SitemapItem, b: SitemapItem) {
   return 1
 }
 
-function sortBy(fn: (a: SitemapItem, b: SitemapItem) => number) {
+function sortBy(sorterFn: (a: SitemapItem, b: SitemapItem) => number) {
   return function sorter(node: SitemapItem, depth = 0) {
     // sort children first
     node.children.forEach((child) => sorter(child, depth + 1))
 
     // sort current node children
-    node.children.sort(fn)
+    node.children.sort(sorterFn)
 
     // return itself for the next consumer
     return node
@@ -109,11 +118,11 @@ function sortBy(fn: (a: SitemapItem, b: SitemapItem) => number) {
 function dfs(cwd: string) {
   return fg('**/*.{mmark,md}', { cwd })
     .then((files) => {
-      const map: SitemapItem = { children: [], path: '', fullPath: '' }
-      files.forEach(addFileToMap(cwd, map))
-      return map
+      const sitemapItem: SitemapItem = { children: [], path: '', fullPath: '' }
+      files.forEach(addFileToMap(cwd, sitemapItem))
+      return sitemapItem
     })
-    .then(sortBy(byDate))
+    .then(sortBy(byOrderAndDate))
 }
 
 function createNavBarRecursive(node: SitemapItem, depth: number) {
@@ -169,7 +178,7 @@ async function main() {
   const hugo = path.join(__dirname, '../../site')
   const sitemapJson = await dfs(path.join(hugo, '/content/'))
   await fs.ensureDir(path.join(hugo, '/data/metadata/'))
-  await fs.writeJson(path.join(hugo, '/data/metadata/render-tree.json'), sitemapJson)
+  await fs.writeJson(path.join(hugo, '/data/metadata/render-tree.json'), sitemapJson, { spaces: 2 })
   const navbar = createNavBar(sitemapJson.children.filter((node) => node.path === 'notes')[0])
   await fs.ensureDir(path.join(hugo, '/layouts/partials/'))
   await fs.writeFile(path.join(hugo, '/layouts/partials/sitemap-tree.auto.html'), navbar)
