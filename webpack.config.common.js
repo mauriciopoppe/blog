@@ -23,10 +23,7 @@ module.exports = {
       {
         test: /\.[jt]sx?$/,
         loader: 'esbuild-loader',
-        options: {
-          // JavaScript version to transpile to
-          target: 'es2015'
-        }
+        options: {}
       },
       {
         test: /\.svg$/,

@@ -1,4 +1,4 @@
-import mojs, { CustomShape, ShapeSwirl } from '@mojs/core'
+import { Html, CustomShape, ShapeSwirl, addShape } from '@mojs/core'
 
 class MoHeart extends CustomShape {
   getShape() {
@@ -9,7 +9,7 @@ class MoHeart extends CustomShape {
     return 292.110107421875
   }
 }
-mojs.addShape('heart', MoHeart)
+addShape('heart', MoHeart)
 
 function setupHearts(rootEl: HTMLElement) {
   const heartShapes = []
@@ -39,7 +39,7 @@ function setupHearts(rootEl: HTMLElement) {
 
   rootEl.addEventListener('mouseenter', animateHearts)
   rootEl.addEventListener('click', () => {
-    new mojs.Html({
+    new Html({
       el: document.body,
       duration: 2000,
       opacity: { 1: 0 },
