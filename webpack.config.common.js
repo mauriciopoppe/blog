@@ -10,6 +10,7 @@ module.exports = {
     sunset: path.join(__dirname, './src/sunset/index.ts'),
     voronoi: path.join(__dirname, './src/voronoi/index.ts'),
     jukebox: path.join(__dirname, './src/jukebox/index.ts'),
+    heart: path.join(__dirname, './src/main/heart.ts'),
     learnFrench: path.join(__dirname, './src/learn-french/App.jsx')
   },
   output: {
