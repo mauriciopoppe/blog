@@ -3,8 +3,7 @@
 
 <script>
 (function () {
-  var target = {{ if .IsHome }} '#voronoi' {{ else }} null {{ end}}
-  if (target == null) return;
+  var target = '#voronoi'
   var targetEl = document.querySelector(target)
   targetEl && window.voronoi.generate({
     target: targetEl,

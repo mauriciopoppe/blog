@@ -1,40 +1,20 @@
-<div class="is-flex is-flex-direction-column is-justify-content-center">
+<div class="profile is-flex is-flex-direction-column is-justify-content-center">
   <a href="/">
     <h1 class="is-size-2 has-text-primary">Mauricio Poppe's blog</h1>
   </a>
 
   {{ if .IsHome }}
   <div class="about-me">
-    <p>
-    Hi 👋, my name is Mauricio and this is my blog with notes about
-    Math, Computer Science and Computer Graphics. Thanks for reading!
+    <p class="block">
+    Hi 👋, my name is Mauricio and this is my blog where I write notes about
+    Life, Math and Computer Science.
     </p>
 
-    <p>
+    <p class="block">
     There's a hidden <span class="has-text-primary">easter egg</span> in this
     page, <br/> let me know if you found it 😄.
     </p>
   </div>
-  <br />
-  <p>
-    <a class="social-button"
-       href="https://github.com/{{ .Site.Params.Author.github }}" target="noopener">
-      <svg class="icon icon-github"><use xlink:href="#icon-github"></use></svg>
-      <span>Github</span>
-    </a>
-
-    <a class="social-button"
-       href="https://youtube.com/@{{ .Site.Params.Author.youtube }}" target="noopener">
-      <svg class="icon icon-youtube"><use xlink:href="#icon-youtube"></use></svg>
-      <span>Youtube</span>
-    </a>
-
-    <a class="social-button"
-       href="https://www.linkedin.com/in/{{ .Site.Params.Author.linkedin }}/" target="noopener">
-      <svg class="icon icon-linkedin2"><use xlink:href="#icon-linkedin2"></use></svg>
-      <span>LinkedIn</span>
-    </a>
-  </p>
   {{ end }}
 
   <br />
@@ -43,6 +23,7 @@
     <span class="has-text-primary">Luck</span> is what happens when <span
             class="has-text-primary">preparation</span> meets <span
             class="has-text-primary">opportunity</span>.
+    <br />
     <i class="has-text-right">Seneca</i>
   </p>
 

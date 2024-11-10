@@ -5,22 +5,63 @@
 {{ end }}
 
 {{ define "main" }}
-  {{ partial "svg/defs.html" . }}
-  <div id="voronoi" style="width: 100vw; height: 100vh; position: fixed; top: 0"></div>
-  <div class="is-index">
-    <div class="container">
-      <div class="box card index__banner">
-        <div class="center has-text-centered">
-          {{ partial "profile" . }}
-        </div>
-        <hr />
-        <div class="center">
-          {{ partial "sitemap-chronological.html" . }}
-        </div>
-      </div>
+
+<!-- animated background -->
+
+{{ partial "svg/defs.html" . }}
+<div id="voronoi" style="width: 100vw; height: 100vh; position: fixed; top: 0"></div>
+
+<div class="homepage" style="width: 100vw; height: 100vh">
+  <div class="container box card my-card columns">
+    <div class="column is-half my-card__content my-card__profile">
+      {{ partial "profile" . }}
+    </div>
+
+    <div class="column is-half homegrid my-card__content my-card__links">
+      <h4 class="homegrid-header is-size-4">Favorites</h4>
+      <a href="notes/misc/productivity-skills">Productivity skills</a>
+      <span>Techniques to get better use of my computer time at work and at home.</span>
+      <a href="notes/computer-science/data-structures/graphs/introduction/">Intro to Graph Theory</a>
+      <span>Showing animated graphs, it led me to write <a href="https://mauriciopoppe.github.io/greuler/"
+        target="_blank">greuler</a>, a library to do animations with graphs.</span>
+      <a href="notes/mathematics/calculus/introduction/">Intro to Calculus</a>
+      <span>My very first note!, it sparked the idea to write <a
+        href="https://mauriciopoppe.github.io/function-plot/" target="_blank">function plot</a>, a library to
+        plot functions.</span>
+      <a href="notes/computer-graphics/viewing/projection-transform/">Transformation Matrix for 3d to 2d projection</a>
+      <span>The math behind the transformation matrices for Orthographic projection and Perspective projection.
+      It has nice demos with ThreeJS.</span>
+      <a href="notes/computer-science/computation/promises/">Implementing Promises from Scratch</a>
+      <span>I wrote a test driven A+ Promise implementation from scratch.</span>
+
+      <h4 class="homegrid-header is-size-4">Chronological</h4>
+      <a href="/notes">Notes</a>
+      <span>The notes I wrote since 2015.</span>
+
+      <h4 class="homegrid-header is-size-4">Software</h4>
+      <a href="https://mauriciopoppe.github.io/function-plot/" target="_blank">function plot</a>
+      <span>A JS library to plot functions in 2d.</span>
+      <a href="https://mauriciopoppe.github.io/greuler/" target="_blank">greuler</a>
+      <span>A JS library to draw graph animations.</span>
+      <a href="https://github.com/mauriciopoppe/quickhull3d" target="_blank">quickhull3d</a>
+      <span>A JS library to find the convex hull of a set of 3d points.</span>
+      <a href="https://mauriciopoppe.github.io/Three.js-City/T3/" target="_blank">City Car Drive</a>
+      <span>A ThreeJS demo where you can drive a car around a city.</span>
+      <a href="https://mauriciopoppe.github.io/interval-arithmetic/" target="_blank">interval arithmetic</a>
+      <span>A JS library to do arithmetic on intervals.</span>
+      <a href="https://github.com/mauriciopoppe/blog" target="_blank">My blog</a>
+      <span>This blog and its source code.</span>
+      <a href="https://github.com/mauriciopoppe/dotfiles" target="_blank">My dotfiles</a>
+      <span>My dotfiles which I use at work and home, always a work in progress.</span>
+
+      <h4 class="homegrid-header is-size-4">Documenting my life</h4>
+      <a href="https://www.youtube.com/@mauricio-poppe">Vlogs</a>
+      <span>Life goes by fast, I want to do my best to remember it.</span>
+      <a href="https://www.youtube.com/@mauricio-poppe">Music Covers</a>
+      <span>I like to perform in open mics where I play my guitar and I sing.</span>
     </div>
   </div>
-
+</div>
 {{ end }}
 
 {{ define "footer" }}
@@ -31,6 +72,5 @@
     before all of them start.
   -->
   {{ partial "scripts/webpack-runtime.html" . }}
-  {{ partial "scripts/main.html" . }}
   {{ partial "scripts/voronoi.html" . }}
 {{ end }}

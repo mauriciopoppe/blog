@@ -1,0 +1,16 @@
+.homepage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.homegrid {
+  display: grid;
+  grid-template-columns: 8em auto;
+  row-gap: 0.3em;
+}
+
+.homegrid-header {
+  grid-column: span 2;
+  margin: 1em 0 0 0;
+}

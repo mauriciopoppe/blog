@@ -1,30 +1,10 @@
 // styles when the root page is active
-.is-index {
-  @include desktop {
-    .center {
-      max-width: 800px;
-      margin: auto;
-    }
-  }
+.my-card {
+  color: #c5c5c5 !important;
+  background-color: rgba($black, 0.5);
 
   hr {
     height: 1px;
-  }
-
-  #sitemap {
-    opacity: 1;
-    max-height: calc(100vh - 200px);
-    pointer-events: all;
-
-    // suppress the border
-    li div {
-      border-right: none;
-    }
-  }
-
-  .card {
-    color: #c5c5c5 !important;
-    background-color: rgba($black, 0.5);
   }
 
   .social-button {
@@ -52,13 +32,27 @@
 
   @include until($desktop) {
     & {
-      height: auto;
       pointer-events: initial;
-
-      #sitemap {
-        max-height: none;
-      }
+      margin: auto;
     }
   }
 }
 
+.my-card__profile {
+  @include desktop {
+    text-align: right;
+  }
+}
+
+.my-card__content {
+  @include desktop {
+    max-width: 800px;
+    margin: auto;
+  }
+}
+
+.my-card__links {
+  @include desktop {
+    font-size: 0.8em;
+  }
+}

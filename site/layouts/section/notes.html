@@ -1,4 +1,7 @@
-{{/* overrides the blocks set on baseof.html */}}
+{{/*
+  layout for content/notes/_index.md
+  overrides the blocks set on _default/baseof.html
+*/}}
 
 {{ define "head" }}
   {{ partial "head.html" . }}
@@ -26,13 +29,10 @@
   </header>
 {{ end }}
 
-
 {{ define "main" }}
   <main class="container">
-    <p class="block">There's a total of {{ len .Data.Pages }} articles.</p>
-    {{ range .Pages }}
-      {{ partial "article-summary.html" . }}
-    {{ end }}
+    <p class="block">I wrote {{ len .Data.Pages }} articles since 2015.</p>
+    {{ partial "sitemap-chronological.html" . }}
   </main>
 {{ end }}
 

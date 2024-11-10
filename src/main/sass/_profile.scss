@@ -1,9 +1,10 @@
-.about-me {
-  max-width: 65%;
-  margin: auto;
+.profile {
+  .about-me p {
+    max-width: 65%;
+    margin-left: auto;
 
-  @include until($desktop) {
-    max-width: 100%;
-    margin: initial;
+    @include until($desktop) {
+      max-width: 100%;
+    }
   }
 }
