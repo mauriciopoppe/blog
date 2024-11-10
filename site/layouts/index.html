@@ -6,20 +6,21 @@
 
 {{ define "main" }}
   {{ partial "svg/defs.html" . }}
+  <div id="voronoi" style="width: 100vw; height: 100vh; position: fixed; top: 0"></div>
   <div class="is-index">
     <div class="container">
       <div class="box card index__banner">
-        <div class="columns"> <!-- A .card-content should be a child of .card, but it brings undesired padding so no -->
-          <div class="column content is-half has-text-right">
-            {{ partial "profile" . }}
-          </div>
-          <div class="column is-half" style="overflow: scroll; opacity: 1">
-            {{ partial "sitemap.html" . }}
-          </div>
+        <div class="center has-text-centered">
+          {{ partial "profile" . }}
+        </div>
+        <hr />
+        <div class="center">
+          {{ partial "sitemap-chronological.html" . }}
         </div>
       </div>
     </div>
   </div>
+
 {{ end }}
 
 {{ define "footer" }}

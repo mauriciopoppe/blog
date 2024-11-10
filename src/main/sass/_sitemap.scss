@@ -59,13 +59,6 @@
     }
   }
 
-  a {
-    // override primary color set on links
-    color: currentColor;
-    display: inline-block;
-    line-height: 1em;
-  }
-
   @include until($desktop) {
     font-size: 1em;
     position: initial !important;

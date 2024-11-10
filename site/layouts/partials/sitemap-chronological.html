@@ -1,6 +1,43 @@
-<section>
-    <!-- Renders the li.html content view for each content/posts/*.md -->
-    {{ range .Site.RegularPages }}
-        {{ .Render "summary" }}
+<div class="all-articles-container">
+  <!-- Renders the li.html content view for each content/posts/*.md -->
+  {{ range .Site.RegularPages }}
+    {{ if .Params.draft }}
+    {{ else }}
+      <div class="block all-articles-item">
+        <a href="{{ .RelPermalink }}">
+          <h4 class="is-size-4"> {{ .Title }} </h4>
+        </a>
+
+        <p class="is-size-6 article-signature__metadata">
+          {{ .Page.PublishDate.Format "Mon, Jan 2, 2006" }} -
+          {{ .WordCount }} words -
+          <a style="pointer-events: all; text-decoration: underline" target="_blank" href="https://github.com/mauriciopoppe/blog/tree/main/site/content/{{ .File.Path }}">Page Source</a>
+        </p>
+
+        <div class="tags" style="position: relative; margin: 5px 0">
+          {{ range .Params.tags }}
+            <a class="tag" href="/tags/{{ . | urlize }}">
+              <span>{{ . }}</span>
+            </a>
+          {{ end }}
+        </div>
+
+        <div class="columns">
+          {{ if .Params.image }}
+          <figure class="column is-one-third article-header__summary-image">
+            {{ $image := .Params.image | absURL }}
+            <img src="{{ $image }}" alt="{{ .Title }}" style="max-width: 100%; max-height: 100%"/>
+            {{ if .Params.image_alt }}
+            <figcaption><i class="is-size-6">{{ .Params.image_alt | markdownify }}</i></figcaption>
+            {{ end }}
+          </figure>
+          {{ end }}
+
+          <div class="column is-two-thirds">
+            {{ .Summary | markdownify }}
+          </div>
+        </div>
+      </div>
     {{ end }}
-</section>
+  {{ end }}
+</div>

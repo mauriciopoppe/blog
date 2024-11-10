@@ -17,6 +17,7 @@ function isMobile() {
   })
 }
 
+// called from partials/scripts/voronoi.html
 export function generate({ target, n, rainbow }) {
   // canvas setup
   const { width, height } = target.getBoundingClientRect()
@@ -144,7 +145,11 @@ export function generate({ target, n, rainbow }) {
 
   function onCanvasMouseMove(event: MouseEvent | TouchEvent) {
     event.preventDefault()
-    const closestPoint = delaunay.find((event as MouseEvent).pageX, (event as MouseEvent).pageY)
+    // prettier-ignore
+    const closestPoint = delaunay.find(
+      (event as MouseEvent).clientX,
+      (event as MouseEvent).clientY
+    )
     lastTouched[closestPoint] = performance.now()
   }
 

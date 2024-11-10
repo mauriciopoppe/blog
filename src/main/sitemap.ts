@@ -85,8 +85,11 @@ function addTabsListener() {
   if (rootTrigger) rootTrigger.click()
 }
 
-function addClickListener() {
+function sitemapTreeListeners() {
   const sitemapTree = document.querySelector('#sitemap-tree')
+  if (!sitemapTree) {
+    return
+  }
   sitemapTree.addEventListener('click', function (e) {
     // find closest ancestor that is li
     const li = (e.target as HTMLElement).closest('li')
@@ -132,8 +135,11 @@ function addClickListener() {
 }
 
 // open active items as needed
-function setActiveItemInSidebar() {
+function sitemapTreeSetActiveItemInSidebar() {
   const sitemapTree = document.querySelector('#sitemap-tree')
+  if (!sitemapTree) {
+    return
+  }
   let pn = window.location.pathname
   // strips the / and adds .md
   pn = pn.substring(1, pn.length - 1) + '.md'
@@ -172,13 +178,9 @@ function main() {
   const sitemapWrapper = document.querySelector('.sitemap')
   if (sitemapWrapper) {
     addTabsListener()
-    addClickListener()
-    setActiveItemInSidebar()
+    sitemapTreeListeners()
+    sitemapTreeSetActiveItemInSidebar()
   }
-}
-
-export function sitemapHotReload() {
-  main()
 }
 
 // initial load.

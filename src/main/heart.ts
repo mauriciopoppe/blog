@@ -43,8 +43,8 @@ function setupHearts(rootEl: HTMLElement) {
       el: document.body,
       duration: 2000,
       opacity: { 1: 0 },
-      scaleX: { 1: 2 },
-      scaleY: { 1: 2 },
+      scaleX: { 1: 1.5 },
+      scaleY: { 1: 1.5 },
       onComplete() {
         window.gtag('event', 'profile_easter_egg')
         document.location = '/sandbox/jukebox/'

@@ -1,18 +1,18 @@
 // styles when the root page is active
 .is-index {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include desktop {
+    .center {
+      max-width: 800px;
+      margin: auto;
+    }
+  }
 
   hr {
     height: 1px;
-    //background-color: transparent;
   }
 
   #sitemap {
     opacity: 1;
-    overflow: scroll;
     max-height: calc(100vh - 200px);
     pointer-events: all;
 

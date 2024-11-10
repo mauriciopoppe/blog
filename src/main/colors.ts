@@ -19,7 +19,7 @@ import { color } from 'd3-color'
 // const colors = ['#A45571', '#631836', '#451035']
 // const colors = ['#B42761', '#712753', '#642157', '#121032']
 
-function colorsInterpolator(colors: string[], n: number) {
+function colorsInterpolator(colors: string[], n: number): string {
   // [0,1] -> [0,n]
   const norm = n * (colors.length - 1)
   // index in colors

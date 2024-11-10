@@ -21,7 +21,7 @@
         </div>
       </nav>
 
-      <h1 class="title is-2">{{ .Title }}</h1>
+      <h2 class="title is-2">{{ .Title }}</h2>
       <div class="columns reverse-column-order article-header__summary">
         <div class="column">
           <figure class="article-header__summary-image">
@@ -42,12 +42,14 @@
           <div class="article-signature">
             <div class="article-signature__image">
               <a href="/" style="pointer-events: all;">
-                <img class="profile-pic" src="{{ $image }}" data-src="{{ $image }}" width="50" height="50" alt="Me" />
+                <img class="profile-pic" src="{{ $image }}" data-src="{{ $image }}" width="100" height="100" alt="Me"
+                  style="border-radius: 50%; width: 75px; height: 75px; object-fit: cover;" />
               </a>
             </div>
             <p class="is-size-6 article-signature__metadata">
               <a href="/" style="pointer-events: all; text-decoration: underline" target="_blank">Mauricio Poppe</a> <br />
-              {{ .Page.Lastmod.Format "Mon, Jan 2, 2006" }} -
+              Published on {{ .Page.PublishDate.Format "Mon, Jan 2, 2006" }} <br />
+              Last modified on {{ .Page.Lastmod.Format "Mon, Jan 2, 2006" }} <br />
                   {{ .WordCount }} words -
                   <a style="pointer-events: all; text-decoration: underline" target="_blank" href="https://github.com/mauriciopoppe/blog/tree/main/site/content/{{ .File.Path }}">Page Source</a>
             </p>

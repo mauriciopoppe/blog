@@ -1,14 +1,9 @@
-.profile-pic {
-  border-radius: 50px;
-  width: 50px;
-  height: 50px;
-}
-
 .about-me {
-  margin-left: 35%;
+  max-width: 65%;
+  margin: auto;
 
   @include until($desktop) {
-    margin-left: initial;
     max-width: 100%;
+    margin: initial;
   }
 }

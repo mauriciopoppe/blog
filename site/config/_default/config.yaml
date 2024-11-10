@@ -4,13 +4,12 @@ params:
   description: "Mauricio Poppe notes"
   favicon: "favicon/favicon.ico"
   logo: "https://www.mauriciopoppe.com/images/2022-nyc-small.jpeg"
-
-author:
-  name: "Mauricio Poppe"
-  github: mauriciopoppe
-  linkedin: mauriciopoppe
-  twitter: mauricio_poppe
-  youtube: mauricio-poppe
+  author:
+    name: "Mauricio Poppe"
+    github: mauriciopoppe
+    linkedin: mauriciopoppe
+    twitter: mauricio_poppe
+    youtube: mauricio-poppe
 
 baseURL: "https://www.mauriciopoppe.com/"
 languageCode: "en-us"

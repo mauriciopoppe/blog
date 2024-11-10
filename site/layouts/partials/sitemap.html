@@ -1,4 +1,3 @@
-
 <!-- if this is the index page then start uncollapsed -->
 {{ if .IsHome }}
   {{ .Scratch.Set "collapsed" "" }}
@@ -17,9 +16,15 @@
 
   <!-- scripts use the id and the class, don't change it Mauricio! -->
   <div id="sitemap" class="sitemap">
-    <nav id="sitemap-tree" aria-label="Sitemap" class="sitemap-content">
-      {{ partial "sitemap-tree.auto.html" . }}
-    </nav>
+    <!-- {{ if .IsHome }} -->
+    <!--   <nav id="sitemap-chronological" aria-label="Sitemap" class="sitemap-content"> -->
+    <!--     {{ partial "sitemap-chronological.html" . }} -->
+    <!--   </nav> -->
+    <!-- {{ else }} -->
+      <nav id="sitemap-tree" aria-label="Sitemap" class="sitemap-content">
+        {{ partial "sitemap-tree.auto.html" . }}
+      </nav>
+    <!-- {{ end }} -->
   </div>
 
 </div>

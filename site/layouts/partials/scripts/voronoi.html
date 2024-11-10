@@ -3,12 +3,12 @@
 
 <script>
 (function () {
-  var target = {{ if .IsHome }} 'body' {{ else }} null {{ end}}
+  var target = {{ if .IsHome }} '#voronoi' {{ else }} null {{ end}}
   if (target == null) return;
   var targetEl = document.querySelector(target)
   targetEl && window.voronoi.generate({
     target: targetEl,
-    rainbow: target === 'body',
+    rainbow: true,
     n: 300
   })
 })()
