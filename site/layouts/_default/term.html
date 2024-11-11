@@ -11,7 +11,10 @@
 
         <!-- tags and theme toggle -->
         <nav class="columns">
-          <div class="column is-full" style="position: relative">
+          <div class="column is-half">
+            <a href="/">🔙 Go back to index page </a>
+          </div>
+          <div class="column is-half" style="position: relative">
             <span style="text-align: right; position: absolute; right: 0; bottom: 0;">
               <!-- class .theme-toggle is referenced from head.html -->
               <button class="button is-dark is-small material-symbols-outlined theme-toggle dark-mode" data-nexttheme="dark"> dark_mode </button>
@@ -30,6 +33,7 @@
 {{ define "main" }}
   <main class="container">
     <p class="block">There's a total of {{ len .Data.Pages }} articles.</p>
+    <hr />
     {{ range .Pages }}
       {{ partial "article-summary.html" . }}
     {{ end }}

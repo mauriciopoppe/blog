@@ -1,42 +1,6 @@
 {{/*
   layout for content/notes/_index.md
-  overrides the blocks set on _default/baseof.html
+  renders layouts/_default/term.html
 */}}
 
-{{ define "head" }}
-  {{ partial "head.html" . }}
-{{ end }}
-
-{{ define "header" }}
-  <header class="hero is-bold is-small">
-    <div class="hero-body">
-      <div class="container">
-
-        <!-- tags and theme toggle -->
-        <nav class="columns">
-          <div class="column is-full" style="position: relative">
-            <span style="text-align: right; position: absolute; right: 0; bottom: 0;">
-              <!-- class .theme-toggle is referenced from head.html -->
-              <button class="button is-dark is-small material-symbols-outlined theme-toggle dark-mode" data-nexttheme="dark"> dark_mode </button>
-              <button class="button is-dark is-small material-symbols-outlined theme-toggle light-mode" data-nexttheme="light"> light_mode </button>
-            </span>
-          </div>
-        </nav>
-
-        <h1 class="title is-2">{{ .Title }}</h1>
-      </div>
-    </div>
-  </header>
-{{ end }}
-
-{{ define "main" }}
-  <main class="container">
-    <p class="block">I wrote {{ len .Data.Pages }} articles since 2015.</p>
-    {{ partial "sitemap-chronological.html" . }}
-  </main>
-{{ end }}
-
-{{ define "footer" }}
-  {{ partial "single-footer.html" . }}
-{{ end }}
-
+{{ .Render "term" }}

@@ -1,14 +1,15 @@
 declare global {
-  interface Window { 
-    MathJax: any;
-    gtag: any;
+  interface Window {
+    MathJax: any
+    gtag: any
   }
 }
+
+import './sass/main.scss'
 
 import './equation-preview.js'
 import './footnotes-preview.js'
 import './lazy-load.js'
-import './sass/main.scss'
 import './sass/mobile.scss'
 import './heart.js'
 import './sidebar.js'
