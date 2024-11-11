@@ -10,20 +10,16 @@
       <div class="container">
 
         <!-- tags and theme toggle -->
-        <nav class="columns">
-          <div class="column is-half">
-            <a href="/">🔙 Go back to index page </a>
-          </div>
-          <div class="column is-half" style="position: relative">
-            <span style="text-align: right; position: absolute; right: 0; bottom: 0;">
-              <!-- class .theme-toggle is referenced from head.html -->
-              <button class="button is-dark is-small material-symbols-outlined theme-toggle dark-mode" data-nexttheme="dark"> dark_mode </button>
-              <button class="button is-dark is-small material-symbols-outlined theme-toggle light-mode" data-nexttheme="light"> light_mode </button>
-            </span>
-          </div>
-        </nav>
-
-        <h1 class="title is-2">{{ .Title }}</h1>
+        <div class="column is-half" style="float: left">
+          <a href="/">🔙 Go back to index page </a>
+        </div>
+        <div class="column is-half" style="position: relative; flat: right">
+          <span style="text-align: right; position: absolute; right: 0; bottom: 0;">
+            <!-- class .theme-toggle is referenced from head.html -->
+            <button class="button is-dark is-small material-symbols-outlined theme-toggle dark-mode" data-nexttheme="dark"> dark_mode </button>
+            <button class="button is-dark is-small material-symbols-outlined theme-toggle light-mode" data-nexttheme="light"> light_mode </button>
+          </span>
+        </div>
       </div>
     </div>
   </header>
@@ -31,7 +27,9 @@
 
 
 {{ define "main" }}
+<div class="section">
   <main class="container">
+    <h1 class="title is-2">{{ .Title }}</h1>
     <p class="block">There's a total of {{ len .Data.Pages }} articles.</p>
     <hr />
     {{ range .Pages }}
@@ -40,6 +38,7 @@
     </div>
     {{ end }}
   </main>
+</div>
 {{ end }}
 
 {{ define "footer" }}
