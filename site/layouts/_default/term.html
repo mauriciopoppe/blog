@@ -8,18 +8,20 @@
   <header class="hero is-bold is-small">
     <div class="hero-body">
       <div class="container">
-
-        <!-- tags and theme toggle -->
-        <div class="column is-half" style="float: left">
-          <a href="/">🔙 Go back to index page </a>
-        </div>
-        <div class="column is-half" style="position: relative; flat: right">
-          <span style="text-align: right; position: absolute; right: 0; bottom: 0;">
-            <!-- class .theme-toggle is referenced from head.html -->
-            <button class="button is-dark is-small material-symbols-outlined theme-toggle dark-mode" data-nexttheme="dark"> dark_mode </button>
-            <button class="button is-dark is-small material-symbols-outlined theme-toggle light-mode" data-nexttheme="light"> light_mode </button>
-          </span>
-        </div>
+        <nav style="display: flex">
+          <!-- tags and theme toggle -->
+          <div>
+            <a href="/">🔙 Go back to index page </a>
+          </div>
+          <div style="flex-grow: 1"></div>
+          <div style="position: relative">
+            <span style="float:right; text-align: right; position: absolute; right: 0; bottom: -7px;">
+              <!-- class .theme-toggle is referenced from head.html -->
+              <button class="button is-dark is-small material-symbols-outlined theme-toggle dark-mode" data-nexttheme="dark"> dark_mode </button>
+              <button class="button is-dark is-small material-symbols-outlined theme-toggle light-mode" data-nexttheme="light"> light_mode </button>
+            </span>
+          </div>
+        </nav>
       </div>
     </div>
   </header>
