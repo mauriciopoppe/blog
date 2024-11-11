@@ -9,7 +9,7 @@ summary: |
   and a hybrid approach for skewed workloads. We also see strategies to rebalance partitions if there's
   a static or dynamic number of partitions.
 image: https://cdn-images-1.medium.com/max/640/1*zDfepdN0iQeqwhBTYeKS2w.png
-image_alt: |
+imageAlt: |
   Image source: https://www.enjoyalgorithms.com/blog/data-partitioning-system-design-concept
 tags: ["distributed-systems", "data modeling", "system design", "partitioning"]
 date: 2018-01-08T22:43:20Z

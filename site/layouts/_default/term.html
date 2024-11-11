@@ -35,7 +35,9 @@
     <p class="block">There's a total of {{ len .Data.Pages }} articles.</p>
     <hr />
     {{ range .Pages }}
+    <div class="block">
       {{ partial "article-summary.html" . }}
+    </div>
     {{ end }}
   </main>
 {{ end }}

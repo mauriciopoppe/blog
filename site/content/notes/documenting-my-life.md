@@ -2,39 +2,47 @@
 title: Documenting my life
 summary: |
   Ordinary moments don't have a value right now but they will value over time.
-  I decided to document my life doing journaling, taking photos and making vlogs.
+  I decided to document my life by journaling, printing pictures and making vlogs.
 tags: ['life']
-image: /images/productivity-skills.jpeg
+image: /images/documenting-my-life.jpg
+imageAlt: |
+  Photo by Annushka Ahuja: https://www.pexels.com/photo/a-person-holding-a-camera-8114300/
 date: 2024-11-10 16:28:00
 ---
 
-## Why should I document my life?
+## Why am I documenting my life?
 
 Ordinary moments don't have a value right now but they will value over time.
 We might think that mundane things will stay the same forever but they don't.
 
 [I took the following notes from a vlogger that I admire called Riza](https://www.youtube.com/watch?v=fO43lbqSOkU):
 
-*Because we don't know when we will die, we get to think of life as an inexhaustible well.
+> *Because we don't know when we will die, we get to think of life as an inexhaustible well.
 Yet everything happens only a certain number of times, and a very small number really.*
-
-*How many more times will you remember a certain afternoon of your childhood,
+>
+> *How many more times will you remember a certain afternoon of your childhood,
 an afternoon that is so deeply a part of your being that you can't even conceive of your life without it?
 Perhaps four, five times more, perhaps not even that.*
+>
+> *How many more times will you watch the full moon rise? Perhaps 20. And yet it all seems limitless.*
+>
+> <div class="has-text-right">
+>   <i>Riza</i>
+> </div>
 
-*How many more times will you watch the full moon rise? Perhaps 20. And yet it all seems limitless.*
-
-<div class="columns is-size-3">
-  <div class="column is-half is-offset-one-quarter">
+<div class="columns is-size-3 has-text-primary">
+  <div class="column is-half is-offset-one-quarter has-text-centered">
     <p>Life goes by fast, I want to do my best to remember it.</p>
   </div>
 </div>
 
-*How should I do it?* Journaling, photos and videos. Journalism is the easiest. It's great to read old entries and see how much you grew as a person. I'm a fan of Rizza's videos so I'll also do video blogs.
+*How should I do it?* Journaling, photos and videos. Journalism is the easiest. It's great to read old
+entries and see how much you grew as a person. I'm a fan of Riza's videos and it seems fun to
+create them so I'll also do video blogs.
 
 *So if you record your life, what are you going to use?*
 I'll get a camera and I'll start with one that's the most convenient to use.
-I'll also learn to edit videos because I want to romanticize my life and record my life
+I'll also learn to edit videos because I want to romanticize my life by recording my adventures
 as something that my future self would like.
 
 I'm the subject and reporter of my own life, when I talk to myself in a video
@@ -59,8 +67,10 @@ There's a template at the top with the following questions:
 * What will I do better tomorrow?
 ```
 
-I also have a doc with my dreams, I try to write to it whenever I have a dream that
-I can still remember, I try to be as detailed as I can.
+I also have a special doc for dreams, I'm trying to get better at being
+able to have vivid dreams where I remember more details of my dreams,
+regardless of having a happy or sad vivid dream I record it so my
+future self can remember it.
 
 ## Photos
 
@@ -83,5 +93,5 @@ I capture highlights about the things that I did and progress on the objectives 
 in a previous essay. Writing these thoughts is a great way to reflect on my life.
 
 To help me on this reflection I use NotebookLM which helps me remember details of my life,
-I chat with it to see big picture topics in the goals I've set on it. This is an interesting
+I chat with it to see big picture topics in the goals I've set. This is an interesting
 way to do therapy :).

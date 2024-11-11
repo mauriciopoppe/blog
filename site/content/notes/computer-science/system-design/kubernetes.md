@@ -8,7 +8,7 @@ summary: |
 
 tags: ["distributed systems", "container orchestration", "scaling", "user namespace"]
 image: https://kubernetes.io/images/kubernetes-horizontal-color.png
-image_alt: |
+imageAlt: |
   Kubernetes, source: [kubernetes.io](https://kubernetes.io)
 date: 2023-04-30T18:27:00Z
 ---

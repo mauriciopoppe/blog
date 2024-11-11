@@ -23,7 +23,7 @@ Calculate with exponents. A lot of back-of-the-envelope calculations are done wi
 Your goal is to get within an order of magnitude right that's just $e$. $c$ matters a lot less.
 Only worrying about single-digit coefficients and exponents makes it much easier on a napkin (not to speak of all the zeros you avoid writing).
 
-```markdown
+```
 Latency Comparison Numbers
 --------------------------
 (From 2017 in https://colin-scott.github.io/personal_website/research/interactive_latency.html)
@@ -80,6 +80,8 @@ Network   1 GB    $0.01
   in cloud datacenters bandwidth is capped depending on the instance type, from the
   [Google Cloud](https://cloud.google.com/compute/docs/network-bandwidth) docs there are different
   limits for ingress and egress, for simplicity let's assume 10Gbps for both.
+  - C4 and C4A lowest egress is 10Gbps
+  - C4 and C4A highest egress is 100Gbps
 - Writes are 40 times more expensive than reads, therefore architect for scaling writes!
 
 ## Exercises
@@ -87,36 +89,36 @@ Network   1 GB    $0.01
 We get better at using this table by practicing, https://sirupsen.com/napkin/ has lots of exercises with
 different difficulty levels. The following exercises are a warmup to the ones in other places.
 
-Cache types:
+Let's assume a data store with the following types:
 
-- In-memory cache: cached values in RAM memory (volatile).
-- Persistent cache: caching in disk (non volatile).
+- In-memory data store: state stored in RAM memory (volatile).
+- Persistent data store: state stored in disk (non volatile).
 
-Locality:
+The data store can be located:
 
 - in-process: in the same computer.
-- out-of-process: in a different computer.
+- out-of-process: in a different computer (so there's the need of packet transimission over the network).
 
-Exponent warmup (read 1MB in ms)
+> Warmup: read 1MB from HDD, SSD and memory.
+
 - HDD = 10^0 ms, SSD = 10^-1 ms, memory = 10^-2 ms
 
-> Read 1MB from an out-of-process cache, consider both in-memory and persistent caches, assume a 1Gbps network.
+> Read 1MB from an out-of-process data store, consider both in-memory and persistent caches, assume a 1Gbps, a 10Gbps and a 100Gbps network.
 
-- (in memory)  1MB * 10^-2 ms/MB (read from memory) + 10^1 ms (transmission) = 10.01 ms
-- (persistent) 1MB * 10^-1 ms/MB (read from SSD) + 10^1 ms (transmission) = 10.1 ms
-
-> Read 1MB from an out-of-process cache, consider both in-memory and persistent caches, assume a 10Gbps network
-
-- (in memory)  1MB * 10^-2 ms/MB (read from memory) + 10^0 ms (transmission) = 1.01 ms
-- (persistent) 1MB * 10^-1 ms/MB (read from SSD) + 10^0 ms (transmission) = 1.1 ms
+- 1Gbps
+  - (in memory)  1MB * 10^-2 ms/MB (read from memory) + 10^1 ms (transmission) = 10.01 ms
+  - (persistent) 1MB * 10^-1 ms/MB (read from SSD) + 10^1 ms (transmission) = 10.1 ms
+- 10Gbps
+  - (in memory)  1MB * 10^-2 ms/MB (read from memory) + 10^0 ms (transmission) = 1.01 ms
+  - (persistent) 1MB * 10^-1 ms/MB (read from SSD) + 10^0 ms (transmission) = 1.1 ms
 
 > Write 5GB to an attached HDD, SSD and RAM. Assume no network IO needed
 
 Write 5GB
   - Write is 40 times slower than reads
   - (HDD) 40 (write penalty) * 5*10^3 MB * 10^0 (HDD read) = 20 * 10^3 ms = 20s
-  - (SSD) 20 * 10^2 ms (previous result / 10) = 2s
-  - (memory) 20 * 10 ms (previous result / 10) = 200ms
+  - (SSD) 20s * 10^-1 ms (HDD result / 10^1) = 2s
+  - (memory) 20s * 10-2 ms (HDD result / 10^2) = 200ms
 
 > Store information about 2B users including basic info and a profile picture
 
@@ -134,10 +136,12 @@ for each query we read 50 pages, 50 * 0.8 = 40 are read from memory and 10 from 
 - 40 pages read from memory: 40 * 16KB * 10^-2 ms/MB = 640KB * 10^-3 MB/KB * 10^-2 ms/MB = 0.0064 ms
 - 10 pages read from SSD: 10 * 16KB * 10^-1 ms/MB = 160KB * 10^-3 MB/KB * 10^-1 ms/MB = 0.016ms
 
-In real life we just round the numbers, 1ms tops for the sum. **It’s typically the case that we can ignore any memory latency as soon as I/O is involved.**,
+In real life we just round the numbers, 1ms tops for the sum. It’s typically the case that we can ignore any memory latency as soon as I/O is involved for low Gbps (1GB).
 
-- (1Gbps) 50 pages (50 * 16KB = 800KB) transmitted in about 10ms, 1ms (read pages) + 10ms (transmission) = 11ms
-- (10Gbps) 1ms (read pages) + 1ms (transmission) = 1ms
+- 1Gbps
+  - 50 pages (50 * 16KB = 800KB) transmitted in about 10ms, 1ms (read pages) + 10ms (transmission) = 11ms
+- 10Gbps
+  - 1ms (read pages) + 1ms (transmission) = 2ms
 
 > How many commands-per-second can a simple, in-memory, single-threaded data store do?
 > Assume that the commands don't do any server side processing. e.g. Reading data is just

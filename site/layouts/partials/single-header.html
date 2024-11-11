@@ -27,8 +27,8 @@
           <figure class="article-header__summary-image">
             {{ $image := .Params.image | absURL }}
             <img src="{{ $image }}" alt="{{ .Title }}" style="max-width: 100%; max-height: 100%"/>
-            {{ if .Params.image_alt }}
-            <figcaption><i class="is-size-6">{{ .Params.image_alt | markdownify }}</i></figcaption>
+            {{ if .Params.imageAlt }}
+            <figcaption><i class="is-size-6">{{ .Params.imageAlt | markdownify }}</i></figcaption>
             {{ end }}
           </figure>
         </div>
