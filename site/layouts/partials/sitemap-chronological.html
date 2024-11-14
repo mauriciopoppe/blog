@@ -3,13 +3,11 @@
   {{ $pages := .Site.RegularPages }}
 {{ end }}
 
-<div class="sitemap-chronological">
+<div>
   {{ range $pages }}
     {{ if .Params.draft }}
     {{ else }}
-      <div class="block">
-        {{ partial "article-summary.html" . }}
-      </div>
+        {{ partial "note-preview.html" . }}
     {{ end }}
   {{ end }}
 </div>

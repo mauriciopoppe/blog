@@ -5,6 +5,7 @@ declare global {
   }
 }
 
+import './css/main.css'
 import './sass/main.scss'
 
 import './equation-preview.js'

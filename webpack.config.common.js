@@ -57,6 +57,7 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
+              // Prefer `dart-sass`, even if `sass-embedded` is available
               implementation: require('sass')
             }
           }
