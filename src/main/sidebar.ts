@@ -19,6 +19,7 @@ class Sidebar {
   articleTopMargin: number
   navbarHeight: number
   state: string
+  isMobile: boolean
 
   constructor(el: HTMLElement, wrapper: HTMLElement) {
     this.el = el
@@ -28,6 +29,8 @@ class Sidebar {
     this.articleTopMargin = 30
     this.navbarHeight = 0
     this.state = SidebarState.AUTO
+    const mediaQuery = window.matchMedia('(min-width: 768px)')
+    this.isMobile = !mediaQuery.matches
     this.refresh()
   }
 
@@ -64,11 +67,11 @@ class Sidebar {
 
   onScroll = () => {
     this.state = SidebarState.AUTO
-    if (window.scrollY > this.contentLocationInPage) {
+    if (!this.isMobile && window.scrollY > this.contentLocationInPage) {
       this.state = SidebarState.FIXED
       this.showIfHidden()
     }
-    if (window.scrollY > this.footerLocationFromDocument) {
+    if (!this.isMobile && window.scrollY > this.footerLocationFromDocument) {
       this.state = SidebarState.RELATIVE
     }
 
@@ -87,31 +90,22 @@ class Sidebar {
   // showIfHidden shows the sidebar if it's hidden
   showIfHidden() {
     if (this.hidden) {
-      this.wrapper.classList.remove('hide')
+      this.wrapper.style.opacity = '1'
       this.hidden = false
     }
   }
 }
 
-function main() {
-  const sitemap: HTMLElement = document.querySelector('.sitemap')
-  const sitemapWrapper: HTMLElement = document.querySelector('.sitemap-wrapper')
-
-  const toc: HTMLElement = document.querySelector('.toc')
-  const tocWrapper: HTMLElement = document.querySelector('.toc-wrapper')
-
-  if (!toc || !sitemap) {
+function initializeSidebar(sidebarWrapper: HTMLElement, sidebarContent: HTMLElement) {
+  if (!sidebarWrapper || !sidebarContent) {
+    console.warn('Attempted to initialize a sidebar where the elements were not found!')
     return
   }
 
-  const tocSidebar = new Sidebar(toc, tocWrapper)
-  const sitemapSidebar = new Sidebar(sitemap, sitemapWrapper)
-  const sidebars = [tocSidebar, sitemapSidebar]
+  const sidebar = new Sidebar(sidebarContent, sidebarWrapper)
 
   const onResize = debounce(function onResize() {
-    for (const sidebar of sidebars) {
-      sidebar.refresh()
-    }
+    sidebar.refresh()
   }, 250)
 
   window.addEventListener('resize', onResize)
@@ -122,16 +116,25 @@ function main() {
     window.addEventListener('scroll', function () {
       // function is not debounced since the scroll waypoints
       // need to be tested every time
-      for (const sidebar of sidebars) {
-        sidebar.onScroll()
-      }
+      sidebar.onScroll()
     })
   } else {
     // Show the sidebars immediately in mobile devices.
-    for (const sidebar of sidebars) {
-      sidebar.showIfHidden()
-    }
+    sidebar.showIfHidden()
   }
+
+  // initial refresh
+  sidebar.onScroll()
+}
+
+function initialize() {
+  const sitemap: HTMLElement = document.querySelector('.sitemap')
+  const sitemapWrapper: HTMLElement = document.querySelector('.sitemap-wrapper')
+  initializeSidebar(sitemapWrapper, sitemap)
+
+  const toc: HTMLElement = document.querySelector('.toc')
+  const tocWrapper: HTMLElement = document.querySelector('.toc-wrapper')
+  initializeSidebar(tocWrapper, toc)
 
   // tocbot offset for the links
   const header = document.querySelector('header')
@@ -143,16 +146,12 @@ function main() {
     throttleTimeout: 200,
     headingsOffset: -header.getBoundingClientRect().height
   })
+}
 
-  // initial refresh
-  for (const sidebar of sidebars) {
-    sidebar.onScroll()
+export function sidebarsMain() {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialize)
+  } else {
+    initialize()
   }
 }
-
-export function sidebarHotReload() {
-  main()
-}
-
-// initial trigger
-main()

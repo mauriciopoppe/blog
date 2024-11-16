@@ -1,0 +1,44 @@
+.sitemap {
+  position: relative;
+  transition: opacity 350ms;
+  overflow: auto;
+  line-height: 1.25em;
+}
+.sitemap:hover {
+  opacity: 1;
+}
+.sitemap li {
+  margin: 5px 0;
+  padding-left: 20px;
+}
+.sitemap li div {
+  position: relative;
+  cursor: pointer;
+  height: 100%;
+}
+.sitemap li[data-url-target]:hover {
+  padding-left: 25px;
+}
+.sitemap li.is-active > div {
+  font-weight: bold;
+  color: var(--primary);
+}
+.sitemap .list-is-collapsed {
+  height: 0;
+}
+.sitemap .list-is-collapsible {
+  overflow: hidden;
+}
+.sitemap .children-toggle {
+  border: solid var(--primary);
+  border-width: 0 1px 1px 0;
+  padding: 2px;
+  position: absolute;
+  top: 8px;
+  left: -15px;
+  transform: rotate(-45deg);
+  transition: all 350ms ease-in-out;
+}
+.sitemap li.item-expanded > div .children-toggle {
+  transform: rotate(45deg);
+}

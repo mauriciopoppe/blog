@@ -47,6 +47,8 @@
 
 {{/* TODO(tailwind): make the title be more noticeable. */}}
 {{/* TODO(tailwind): restore the theme toggler. */}}
-<div class="tw-container tw-mx-auto tw-p-4">
+
+<!-- tag header is targeted by the sidebar script, before changing it read sidebar.ts -->
+<header class="tw-container tw-mx-auto tw-p-4">
   {{ partial "note-preview.html" . }}
-</div>
+</header>

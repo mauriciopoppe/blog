@@ -11,11 +11,13 @@
 
 {{ if (ne .Params.toc "false") }}
 
+{{/* TODO(tailwind): restore the sidebar link colors */}}
+
 <!-- sitemap wrapper, used only for positioning -->
-<div style="position: relative; {{ .Scratch.Get "sidebar-style" }}" class="sidebar sitemap-wrapper {{ .Scratch.Get "sidebar-hide" }}">
+<div class="sitemap-wrapper tw-relative tw-transition-all tw-opacity-1 tw-border tw-rounded md:tw-border-0" style="opacity: 0">
 
   <!-- scripts use the id and the class, don't change it Mauricio! -->
-  <div id="sitemap" class="sitemap">
+  <div id="sitemap" class="sitemap tw-opacity-1 md:tw-relative md:tw-opacity-30">
     <!-- {{ if .IsHome }} -->
     <!--   <nav id="sitemap-chronological" aria-label="Sitemap" class="sitemap-content"> -->
     <!--     {{ partial "sitemap-chronological.html" . }} -->
