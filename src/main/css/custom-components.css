@@ -5,3 +5,5 @@
 @import "./lib/lilgui.css";
 @import "./lib/mathjax.css";
 @import "./lib/prism-darcula.css";
+@import "./lib/tocbot.css";
+@import "./components/sitemap.css"

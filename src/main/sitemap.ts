@@ -174,14 +174,19 @@ function sitemapTreeSetActiveItemInSidebar() {
   }
 }
 
-function main() {
-  const sitemapWrapper = document.querySelector('.sitemap')
-  if (sitemapWrapper) {
+function initialize() {
+  const sitemap = document.querySelector('#sitemap')
+  if (sitemap) {
     addTabsListener()
     sitemapTreeListeners()
     sitemapTreeSetActiveItemInSidebar()
   }
 }
 
-// initial load.
-main()
+export function sitemapMain() {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialize)
+  } else {
+    initialize()
+  }
+}
