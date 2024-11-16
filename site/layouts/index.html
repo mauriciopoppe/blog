@@ -10,14 +10,15 @@
 {{ partial "svg/defs.html" . }}
 <div id="voronoi" style="width: 100vw; height: 100vh; position: fixed; top: 0"></div>
 
-<div class="homepage" style="width: 100vw; height: 100vh">
-  <div class="container box card my-card columns">
-    <div class="column is-one-third my-card__content my-card__profile">
+<div class="tw-container tw-mx-auto tw-flex md:tw-justify-center md:tw-content-center md:tw-flex-wrap tw-h-screen
+    tw-w-screen tw-relative tw-p-4">
+  <div class="tw-flex tw-gap-5 tw-flex-col md:tw-flex-row">
+    <div class="tw-basis-1/3 tw-flex tw-flex-col tw-justify-center md:tw-text-right">
       {{ partial "profile" . }}
     </div>
 
-    <div class="column is-two-thirds homegrid my-card__content my-card__links">
-      <h4 class="homegrid-header is-size-4">Favorites</h4>
+    <div class="tw-basis-2/3 tw-grid tw-gap-1 tw-text-base md:tw-grid-cols-[10em_auto]">
+      <h4 class="md:tw-col-span-2 tw-text-2xl tw-mt-2">Favorites</h4>
       <a href="notes/productivity-skills">Productivity skills</a>
       <span>Techniques to get better use of my computer time at work and at home.</span>
       <a href="notes/documenting-my-life">Documenting my life</a>
@@ -36,11 +37,11 @@
       <a href="notes/computer-science/computation/promises/">Implementing Promises from Scratch</a>
       <span>I wrote a test driven A+ Promise implementation from scratch.</span>
 
-      <h4 class="homegrid-header is-size-4">Chronological</h4>
+      <h4 class="md:tw-col-span-2 tw-text-2xl tw-mt-2">Chronological</h4>
       <a href="/notes">Notes</a>
       <span>The notes I wrote since 2015.</span>
 
-      <h4 class="homegrid-header is-size-4">Software</h4>
+      <h4 class="md:tw-col-span-2 tw-text-2xl tw-mt-2">Software</h4>
       <a href="https://mauriciopoppe.github.io/function-plot/" target="_blank">function plot</a>
       <span>A JS library to plot functions in 2d.</span>
       <a href="https://mauriciopoppe.github.io/greuler/" target="_blank">greuler</a>
@@ -56,7 +57,7 @@
       <a href="https://github.com/mauriciopoppe/dotfiles" target="_blank">My dotfiles</a>
       <span>My dotfiles which I use at work and home, always a work in progress.</span>
 
-      <h4 class="homegrid-header is-size-4">Documenting my life</h4>
+      <h4 class="md:tw-col-span-2 tw-text-2xl tw-mt-2">Documenting my life</h4>
       <a href="https://www.youtube.com/@mauricio-poppe">Vlogs</a>
       <span>Life goes by fast, I want to do my best to remember it.</span>
       <a href="https://www.youtube.com/@mauricio-poppe">Music Covers</a>

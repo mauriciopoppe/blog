@@ -1,0 +1,11 @@
+mjx-container.MathJax {
+  overflow-y: hidden;
+  overflow-x: auto;
+  min-width: auto !important;
+}
+mjx-container.MathJax[jax=SVG] > svg a {
+  fill: inherit;
+  stroke: inherit;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}

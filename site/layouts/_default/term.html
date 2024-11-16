@@ -5,42 +5,37 @@
 {{ end }}
 
 {{ define "header" }}
-  <header class="hero is-bold is-small">
-    <div class="hero-body">
-      <div class="container">
-        <nav style="display: flex">
-          <!-- tags and theme toggle -->
-          <div>
-            <a href="/">🔙 Go back to index page </a>
-          </div>
-          <div style="flex-grow: 1"></div>
-          <div style="position: relative">
-            <span style="float:right; text-align: right; position: absolute; right: 0; bottom: -7px;">
-              <!-- class .theme-toggle is referenced from head.html -->
-              <button class="button is-dark is-small material-symbols-outlined theme-toggle dark-mode" data-nexttheme="dark"> dark_mode </button>
-              <button class="button is-dark is-small material-symbols-outlined theme-toggle light-mode" data-nexttheme="light"> light_mode </button>
-            </span>
-          </div>
-        </nav>
-      </div>
+<div class="tw-container tw-mx-auto tw-p-4 tw-mb-4">
+  <nav class="tw-flex">
+    <!-- tags and theme toggle -->
+    <div>
+      <a href="/">🔙 Go back to index page </a>
     </div>
-  </header>
+    <div class="tw-flex-1"></div>
+    <div class="tw-relative">
+      <span class="tw-text-right tw-absolute tw-right-0 tw-top-0">
+        <!-- class .theme-toggle is referenced from head.html -->
+        <!-- TODO(tailwind): update these buttons -->
+        <button class="material-symbols-outlined theme-toggle dark-mode" data-nexttheme="dark"> dark_mode </button>
+        <button class="material-symbols-outlined theme-toggle light-mode" data-nexttheme="light"> light_mode </button>
+      </span>
+    </div>
+  </nav>
+</div>
 {{ end }}
 
 
 {{ define "main" }}
-<div class="section">
-  <main class="container">
-    <h1 class="title is-2">{{ .Title }}</h1>
-    <p class="block">There's a total of {{ len .Data.Pages }} articles.</p>
-    <hr />
-    {{ range .Pages }}
-    <div class="block">
-      {{ partial "note-preview.html" . }}
+<main class="tw-container tw-mx-auto tw-px-4">
+  <h1 class="tw-text-5xl">{{ .Title }}</h1>
+  <p class="block">There's a total of {{ len .Data.Pages }} articles.</p>
+  <hr />
+  {{ range .Pages }}
+    <div class="tw-mb-6">
+        {{ partial "note-preview.html" . }}
     </div>
-    {{ end }}
-  </main>
-</div>
+  {{ end }}
+</main>
 {{ end }}
 
 {{ define "footer" }}

@@ -1,0 +1,18 @@
+.function-plot {
+  margin: 0px auto 20px;
+  display: block;
+}
+.function-plot text {
+  font-size: 15px;
+  fill: var(--grey-light);
+  font-family: "EB Garamond", serif;
+}
+.function-plot path.origin {
+  stroke: var(--grey-light);
+}
+.function-plot path.line {
+  stroke: var(--primary);
+}
+.function-plot .tip circle {
+  fill: var(--primary);
+}

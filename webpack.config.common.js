@@ -40,7 +40,7 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(sa|sc|c)ss$/,
+        test: /\.css$/,
         exclude: /node_modules/,
         use: [
           MiniCssExtractPlugin.loader,
@@ -53,14 +53,7 @@ module.exports = {
               url: false
             }
           },
-          'postcss-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              // Prefer `dart-sass`, even if `sass-embedded` is available
-              implementation: require('sass')
-            }
-          }
+          'postcss-loader'
         ]
       }
     ]
