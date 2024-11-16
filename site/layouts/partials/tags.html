@@ -1,0 +1,5 @@
+<div class="tw-text-base tw-my-2">
+  {{ range .tags }}
+    <a class="tw-inline-block tw-rounded-md tw-bg-primary tw-px-2 tw-m-0.5 tw-text-white" href="/tags/{{ . | urlize }}">{{ . }}</a>
+  {{ end }}
+</div>

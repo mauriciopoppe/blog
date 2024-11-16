@@ -3,45 +3,42 @@
   {{ $libraries = jsonify .Params.libraries }}
 {{ end }}
 
-<section class="main" data-libraries='{{ $libraries }}'>
-  <div class="container is-fluid">
-    <div class="columns">
+<section class="tw-container tw-mx-auto tw-p-4" data-libraries='{{ $libraries }}'>
+  <div class="tw-flex tw-flex-col tw-gap-4 md:tw-flex-row">
 
-      <!-- table of contents -->
-      <aside class="column is-one-fifth">
-        {{ partial "toc.html" . }}
-      </aside>
+    <!-- table of contents -->
+    <aside class="md:tw-w-1/5">
+      {{ partial "toc.html" . }}
+    </aside>
 
-      <!-- content -->
-      <div class="column is-three-fifths">
+    <!-- content -->
+    <div class="md:tw-w-3/5">
 
-        <!-- article[role=main] is used in many places, remember not to change it-->
-        <article role="main" class="content">
+      <!-- article[role=main] is used in many places, remember not to change it-->
+      <!-- position:relative is needed for the font size, I don't know why -->
+      <!-- class content is how we set defaults, this was inherited from bulma -->
+      <article role="main" class="content tw-relative">
 
-          <!-- the content -->
-          {{ .Content }}
+        <!-- the content -->
+        {{ .Content }}
 
-          <!-- the references if set in the front matter -->
-          {{ if isset .Params "references" }}
-            <h2 id="references">References</h2>
-            <div class="references">
-              <ul>
-              {{ range .Params.references }}
-                <li>{{ . | markdownify }}</li>
-              {{ end }}
-              </ul>
-            </div>
-          {{ end }}
+        <!-- the references if set in the front matter -->
+        {{ if isset .Params "references" }}
+          <h2 id="references">References</h2>
+          <div class="references">
+            <ul>
+            {{ range .Params.references }}
+              <li>{{ . | markdownify }}</li>
+            {{ end }}
+            </ul>
+          </div>
+        {{ end }}
 
-        </article>
-      </div>
-
-      <!-- sitemap -->
-      <aside class="column is-one-fifth">
-        {{ partial "sitemap.html" . }}
-      </aside>
-
+      </article>
     </div>
-  </div>
 
+    <aside class="md:tw-w-1/5">
+      {{ partial "sitemap.html" . }}
+    </aside>
+  </div>
 </section>

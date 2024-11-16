@@ -1,0 +1,185 @@
+/**
+ * Darcula theme
+ *
+ * Adapted from a theme based on:
+ * IntelliJ Darcula Theme (https://github.com/bulenkov/Darcula)
+ *
+ * @author Alexandre Paradis <service.paradis@gmail.com>
+ * @version 1.0
+ */
+code[class*=language-],
+pre[class*=language-] {
+  font-family: var(--family-monospace);
+  direction: ltr;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+          hyphens: none;
+}
+pre[class*=language-]::-moz-selection, pre[class*=language-] ::-moz-selection,
+code[class*=language-]::-moz-selection, code[class*=language-] ::-moz-selection {
+  color: inherit;
+}
+pre[class*=language-]::-moz-selection, pre[class*=language-] ::-moz-selection, code[class*=language-]::-moz-selection, code[class*=language-] ::-moz-selection {
+  color: inherit;
+}
+pre[class*=language-]::selection, pre[class*=language-] ::selection,
+code[class*=language-]::selection, code[class*=language-] ::selection {
+  color: inherit;
+}
+/* Code blocks */
+:not(pre) > code[class*=language-],
+pre[class*=language-] {
+  background: var(--grey-dark);
+}
+/* Inline code */
+:not(pre) > code[class*=language-] {
+  padding: 0.1em;
+  border-radius: 0.3em;
+  white-space: normal;
+}
+/* darcula theme start */
+.token.comment,
+.token.prolog,
+.token.cdata {
+  color: #808080;
+}
+.token.delimiter,
+.token.boolean,
+.token.keyword,
+.token.selector,
+.token.important,
+.token.atrule {
+  color: #cc7832;
+}
+.token.operator,
+.token.punctuation,
+.token.attr-name {
+  color: #a9b7c6;
+}
+.token.tag,
+.token.tag .punctuation,
+.token.doctype,
+.token.builtin {
+  color: #e49c05;
+}
+.token.entity,
+.token.number,
+.token.symbol {
+  color: #6897bb;
+}
+.token.property,
+.token.constant,
+.token.variable {
+  color: #9876aa;
+}
+.token.string,
+.token.char {
+  color: #6a8759;
+}
+.token.attr-value,
+.token.attr-value .punctuation {
+  color: #a5c261;
+}
+.token.attr-value .punctuation:first-child {
+  color: #a9b7c6;
+}
+.token.url {
+  color: #287bde;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+.token.function {
+  color: #e7be7e;
+}
+
+/*
+  line numbers plugin
+  I copied the source code of the plugin CSS's from the cdnjs link ande made modifications.
+ */
+pre[class*="language-"].line-numbers {
+  position: relative;
+  padding-left: 3em; /* override */
+  counter-reset: linenumber;
+}
+pre[class*="language-"].line-numbers > code {
+  position: relative;
+  white-space: inherit;
+}
+.line-numbers .line-numbers-rows {
+  position: absolute;
+  pointer-events: none;
+  top: 0;
+  font-size: 100%;
+  left: -3.8em;
+  width: 3em;
+  letter-spacing: -1px;
+  border-right: 1px solid #999;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.line-numbers-rows > span {
+  display: block;
+  counter-increment: linenumber;
+}
+.line-numbers-rows > span:before {
+  content: counter(linenumber);
+  color: #999;
+  display: block;
+  padding-right: 0.8em;
+  text-align: right;
+}
+
+/* line highlight plugin start */
+
+pre[data-line] {
+  position: relative;
+}
+
+.line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 0.75em;
+
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+
+  pointer-events: none;
+  white-space: pre;
+}
+
+.line-highlight:before,
+.line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  color: $text;
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  text-shadow: none;
+}
+
+.line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}
+
+.line-numbers .line-highlight:before,
+.line-numbers .line-highlight:after {
+  content: none;
+}

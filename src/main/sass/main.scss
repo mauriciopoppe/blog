@@ -1,39 +1,41 @@
 // bulma css variables polyfill
-@import './bulma-generated/generated-bulma-vars-dark.sass';
-@import './bulma-generated/generated-bulma-vars-light.sass';
-@import '../../../node_modules/bulma-css-vars/functions.sass'; // override and patch bulma functions
-@import "_variables.scss";
-@import '../../../node_modules/bulma-css-vars/bulma-cv-lib';
+// @import './bulma-generated/generated-bulma-vars-dark.sass';
+// @import './bulma-generated/generated-bulma-vars-light.sass';
+// @import '../../../node_modules/bulma-css-vars/functions.sass'; // override and patch bulma functions
+// @import "_variables.scss";
+// @import '../../../node_modules/bulma-css-vars/bulma-cv-lib';
+//
+// // these library was handpicked from the update to v0.9
+// @import "../../../node_modules/bulma/sass/helpers/_all.sass";
+//
+// // @import './bulma';
+//
+// // libs
+// @import 'lib/toc';
+// @import 'lib/mathjax';
+// @import 'lib/repl';
+// @import 'lib/icomoon';
+// @import 'lib/share';
+// @import 'lib/prism-darcula';
+// @import 'lib/hypothesis';
+// @import 'lib/function-plot';
+// @import 'lib/greuler';
+// @import 'lib/gist-embed';
+// @import 'lib/lilgui';
+//
+// // skeleton
+// // @import './homepage';
+// // @import './my-card';
+// @import './article';
+// @import './breadcrumb';
+// @import './sitemap';
+// @import './sidebar';
+// @import './header';
+// @import './footer';
+// @import './profile';
+// @import './figure';
+// @import './interview';
+// @import './footnotes';
+// @import './tooltip';
 
-// these library was handpicked from the update to v0.9
-@import "../../../node_modules/bulma/sass/helpers/_all.sass";
-
-@import './bulma';
-
-// libs
-@import 'lib/toc';
-@import 'lib/mathjax';
-@import 'lib/repl';
-@import 'lib/icomoon';
-@import 'lib/share';
-@import 'lib/prism-darcula';
-@import 'lib/hypothesis';
-@import 'lib/function-plot';
-@import 'lib/greuler';
-@import 'lib/gist-embed';
-@import 'lib/lilgui';
-
-// skeleton
-@import './homepage';
-@import './my-card';
-@import './article';
-@import './breadcrumb';
-@import './sitemap';
-@import './sidebar';
-@import './header';
-@import './footer';
-@import './profile';
-@import './figure';
-@import './interview';
-@import './footnotes';
-@import './tooltip';
+// TODO(tailwind): reenable the styles for my custom components

@@ -23,18 +23,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: color(colorsInterpolator(colors, 0)).formatHex(),
-        info: color(colorsInterpolator(colors, 0.5)).formatHex(),
-        warning: color(colorsInterpolator(colors, 1)).formatHex()
+        // TODO(tailwind): define these variables as CSS variables following https://tailwindcss.com/docs/customizing-colors#using-css-variables
+        primary: {
+          light: color(colorsInterpolator(colors, 0)).brighter(1).formatHex(),
+          DEFAULT: color(colorsInterpolator(colors, 0)).formatHex(),
+          dark: color(colorsInterpolator(colors, 0)).darker(1).formatHex()
+        }
       }
     }
   },
   plugins: [
     createThemes({
       light: {
-        primary: color(colorsInterpolator(colors, 0.1)).formatHex(),
-        info: color(colorsInterpolator(colors, 0.5)).formatHex(),
-        warning: color(colorsInterpolator(colors, 1)).formatHex()
+        // primary: color(colorsInterpolator(colors, 0.1)).formatHex(),
       }
     })
   ]

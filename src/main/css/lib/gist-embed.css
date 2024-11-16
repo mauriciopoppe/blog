@@ -1,0 +1,37 @@
+.gist-it-gist .gist-data {
+  color: var(--grey-light);
+  background: transparent !important;
+  font-family: Consolas, monospace;
+  font-size: 0.7em !important;
+  text-align: left;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+          hyphens: none;
+}
+.gist-it-gist .gist-data .pln {
+  color: var(--grey-light);
+}
+.gist-it-gist .gist-data .com {
+  color: slategray;
+}
+.gist-it-gist .gist-data .op {
+  color: #9a6e3a;
+}
+.gist-it-gist .gist-data .str {
+  color: #690;
+}
+.gist-it-gist .gist-data .kwd {
+  color: #07a;
+}
+.gist-it-gist .gist-data .pun {
+  color: #999;
+}
+.gist-it-gist .gist-data .typ {
+  color: #DD4A68;
+}

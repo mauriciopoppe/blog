@@ -1,0 +1,10 @@
+.greuler text {
+  font-family: Consolas, monospace;
+  fill: var(--grey-darker);
+}
+.greuler .label {
+  font-weight: 300;
+}
+.greuler circle {
+  fill: var(--primary);
+}

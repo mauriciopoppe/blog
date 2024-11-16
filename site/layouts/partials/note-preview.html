@@ -10,18 +10,7 @@ Used in:
     <h2 class="tw-text-3xl"> {{ .Title }} </h2>
   </a>
 
-  <p class="tw-text-base tw-text-left">
-    Published on {{ .Page.PublishDate.Format "Mon, Jan 2, 2006" }} -
-    Last modified on {{ .Page.Lastmod.Format "Mon, Jan 2, 2006" }} -
-    {{ .WordCount }} words -
-    <a class="tw-underline" target="_blank" href="https://github.com/mauriciopoppe/blog/tree/main/site/content/{{ .File.Path }}">Page Source</a>
-  </p>
-
-  <div class="tw-text-base tw-my-2">
-    {{ range .Params.tags }}
-      <a class="tw-inline-block tw-rounded-md tw-bg-primary tw-px-3 tw-text-white" href="/tags/{{ . | urlize }}">{{ . }}</a>
-    {{ end }}
-  </div>
+  {{ partial "tags.html" (dict "tags" .Params.tags) }}
 
   <div class="tw-flex tw-flex-col md:tw-flex-row md:tw-space-x-4">
     {{ if .Params.image }}
@@ -34,8 +23,25 @@ Used in:
     </figure>
     {{ end }}
 
-    <div class="tw-w-full md:tw-basis-2/3 tw-aspect-auto">
-      {{ .Summary | markdownify }}
+    <div class="tw-w-full tw-flex tw-flex-col md:tw-basis-2/3">
+      <div>
+        {{ $summary := .Params.summary | default .Summary }}
+        {{ $summary | markdownify }}
+      </div>
+      <div class="md:tw-grow"></div>
+      <div class="tw-text-base tw-flex tw-flex-row tw-gap-2 tw-leading-snug">
+        <div>
+          {{ $image := .Site.Params.logo | absURL }}
+          <img class="tw-rounded-full tw-width" src="{{ $image }}" data-src="{{ $image }}" width="75"
+              height="75" alt="Me" />
+        </div>
+        <div>
+          Published on {{ .Page.PublishDate.Format "Mon, Jan 2, 2006" }} <br />
+          Last modified on {{ .Page.Lastmod.Format "Mon, Jan 2, 2006" }} <br />
+          {{ .WordCount }} words -
+          <a class="tw-underline" target="_blank" href="https://github.com/mauriciopoppe/blog/tree/main/site/content/{{ .File.Path }}">Page Source</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>

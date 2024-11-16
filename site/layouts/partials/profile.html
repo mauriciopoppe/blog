@@ -1,17 +1,17 @@
-<div class="profile is-flex is-flex-direction-column is-justify-content-center">
-  <a href="/" class="block">
-    <h1 class="is-size-2 has-text-primary">Mauricio Poppe's blog</h1>
+<div class="tw-flex tw-flex-col tw-justify-center tw-text-xl">
+  <a href="/" class="tw-mb-4">
+    <h1 class="tw-text-5xl tw-text-primary">Mauricio Poppe's blog</h1>
   </a>
 
   {{ if .IsHome }}
-  <div class="about-me">
-    <p class="block">
+  <div>
+    <p class="tw-mb-4">
     Hi 👋, my name is Mauricio and this is my blog where I write notes about
     Life, Math and Computer Science.
     </p>
 
-    <p class="block">
-    There's a hidden <span class="has-text-primary">easter egg</span> in this
+    <p class="tw-mb-4">
+    There's a hidden <span class="tw-text-primary">easter egg</span> in this
     page, <br/>
     <a href="https://forms.gle/AnZoqQzacNSuWCau7" target="_blank">let me know</a> if you found it 😄.
     </p>
@@ -20,10 +20,10 @@
 
   <br />
 
-  <p class="quote is-size-6">
-    <span class="has-text-primary">Luck</span> is what happens when <span
-            class="has-text-primary">preparation</span> meets <span
-            class="has-text-primary">opportunity</span>.
+  <p class="tw-text-base tw-italic">
+    <span class="tw-text-primary">Luck</span> is what happens when <span
+            class="tw-text-primary">preparation</span> meets <span
+            class="tw-text-primary">opportunity</span>.
     <br />
     <i class="has-text-right">Seneca</i>
   </p>
@@ -31,12 +31,12 @@
   <br />
 
   <!-- <hr /> -->
-  <p class="is-size-6">
+  <p class="tw-text-base">
     Made with <span class="heart" style="font-size: 0.7em; cursor: pointer; position: relative">♥</span> and
     <a href="https://gohugo.io/" target="noopener">Hugo</a>,
     <a href="https://bulma.io" target="noopener">Bulma</a>,
     <a href="https://netlify.com/" target="noopener">Netlify</a>. <br />
   </p>
-  <p class="is-size-6">© 2015 - {{ now.Year }}</p>
+  <p class="tw-text-base">© 2015 - {{ now.Year }}</p>
 </div>
 

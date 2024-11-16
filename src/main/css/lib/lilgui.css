@@ -1,0 +1,9 @@
+.lil-gui {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.lil-gui .title {
+  font-size: inherit;
+  margin: 0;
+}
