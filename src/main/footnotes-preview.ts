@@ -37,12 +37,18 @@ function run() {
     Object.assign(tooltip.style, { display: 'none' })
   }
 
-  document.addEventListener('DOMContentLoaded', async function () {
+  async function start() {
     Array.from(document.querySelectorAll('.footnote-ref')).forEach((el) => {
       el.addEventListener('mouseover', onMouseOver)
       el.addEventListener('mouseout', onMouseOut)
     })
-  })
+  }
+
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    start()
+  } else {
+    document.addEventListener('DOMContentLoaded', start)
+  }
 }
 
 function main() {
@@ -50,8 +56,6 @@ function main() {
   if (container) run()
 }
 
-export function footnotesPreviewHotReload() {
+export function footnotesPreviewMain() {
   main()
 }
-
-main()

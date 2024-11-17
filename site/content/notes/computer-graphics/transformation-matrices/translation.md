@@ -61,8 +61,6 @@ The translation transform then can be seen in Projective geometry as a simple *s
 \end{bmatrix} \begin{bmatrix} v_x \\ v_y \\ 1 \end{bmatrix} = \begin{bmatrix} v_x + \Delta{x} \\ v_y + \Delta{y} \\ 1 \end{bmatrix}
 $$</div>
 
-{{< video "https://upload.wikimedia.org/wikipedia/commons/transcoded/3/34/Affine_transformations.ogv/Affine_transformations.ogv.480p.ogv" >}}
-
 Now that we're using perspective geometry to represent entities, let's imagine a point $p = \begin{bmatrix} x & y & 0 \end{bmatrix}$ (a point that lies in the plane $w = 0$), whenever this point is transformed by a transformation matrix we can notice that the translation components of the matrix are cancelled because of $w = 0$, we can take advantage of this fact and represent vectors with this notation.
 
 Let $v_{\infty}$ be a point located in the plane $w = 0$, applying the shearing operation $\mathbf{H_{xy}}(s, t)$ results in

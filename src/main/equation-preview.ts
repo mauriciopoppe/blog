@@ -39,7 +39,7 @@ function run() {
     Object.assign(tooltip.style, { display: 'none' })
   }
 
-  document.addEventListener('DOMContentLoaded', async function () {
+  async function start() {
     // some pages don't have mathjax enabled by default
     if (!window.MathJax) return
 
@@ -48,16 +48,16 @@ function run() {
       el.addEventListener('mouseover', onMouseOver)
       el.addEventListener('mouseout', onMouseOut)
     })
-  })
+  }
+
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    start()
+  } else {
+    document.addEventListener('DOMContentLoaded', start)
+  }
 }
 
-function main() {
+export function equationPreviewMain() {
   const container = document.querySelector('article[role=main]')
   if (container) run()
 }
-
-export function equationPreviewHotReload() {
-  main()
-}
-
-main()
