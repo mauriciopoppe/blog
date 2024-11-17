@@ -126,8 +126,6 @@
 }
 
 .content figure {
-  margin-left: 2em;
-  margin-right: 2em;
   text-align: center;
 }
 
@@ -173,7 +171,7 @@
 }
 
 .content table th {
-  color: #363636;
+  color: var(--grey-light);
 }
 
 .content table th:not([align]) {
@@ -183,13 +181,13 @@
 .content table thead td,
 .content table thead th {
   border-width: 0 0 2px;
-  color: #363636;
+  color: var(--grey-light);
 }
 
 .content table tfoot td,
 .content table tfoot th {
   border-width: 2px 0 0;
-  color: #363636;
+  color: var(--grey-light);
 }
 
 .content table tbody tr:last-child td,
