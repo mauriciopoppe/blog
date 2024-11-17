@@ -6,13 +6,12 @@ declare global {
 }
 
 import './css/main.css'
-import './sass/main.scss'
 
 import { sidebarsMain } from './sidebar.js'
 import { sitemapMain } from './sitemap.js'
 import { lazyLoadMain } from './lazy-load.js'
-import { equationPreviewMain } from  './equation-preview.js'
-import { footnotesPreviewMain } from  './footnotes-preview.js'
+import { equationPreviewMain } from './equation-preview.js'
+import { footnotesPreviewMain } from './footnotes-preview.js'
 
 sidebarsMain()
 sitemapMain()
