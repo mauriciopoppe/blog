@@ -1,6 +1,6 @@
 <!-- figure -->
 <!-- see figure.scss for the additional classes -->
-<figure class="image is-responsive {{ with .Get "class" }}{{.}}{{ end }}"
+<figure class="{{ with .Get "class" }}{{.}}{{ end }}"
         {{ with .Get "style" }}style="{{.}}"{{ end }}
         {{ with .Get "id" }}id="{{.}}"{{end}}
 >
@@ -9,7 +9,7 @@
     {{ if .Get "link"}}</a>{{ end }}
     {{ if or (or (.Get "title") (.Get "caption")) (.Get "attr")}}
     <figcaption>{{ if isset .Params "title" }}
-        <p class="is-subtitle">{{ .Get "title" }}</p>{{ end }}
+        <p class="tw-text-base">{{ .Get "title" }}</p>{{ end }}
         {{ if or (.Get "caption") (.Get "attr")}}<p>
         {{ .Get "caption" }}
         {{ with .Get "attrlink"}}<a href="{{.}}"> {{ end }}

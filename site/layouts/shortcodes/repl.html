@@ -4,21 +4,18 @@
 {{- end }}
 
 {{ if .Get "external" }}
-<div class="columns is-centered repl__wrapper external">
-    <div class="column is-narrow">
-        <a class="button is-medium is-outlined is-primary has-text-weight-bold" href="https://repl.it/{{ .Get "id" }}" target="_blank">
-            Open
-            <span class="repl__id"> {{ .Get "id" }} </span>
-            in
-            <img src="https://repl.it/public/images/logo-small.png" style="width: 83px; vertical-align: middle; margin-left: 11px;">
-        </a>
-    </div>
+<div class="tw-mt-4 tw-mb-4">
+    <a class="tw-border-2 tw-rounded tw-border-primary tw-p-2 tw-inline-block" href="https://repl.it/{{ .Get "id" }}" target="_blank">
+        Open <span class="repl__id"> {{ .Get "id" }} </span> in
+        <img src="https://repl.it/public/images/logo-small.png" style="width: 83px; vertical-align: middle;
+        margin-left: 11px; display: inline-block">
+    </a>
 </div>
 {{ else }}
-<div class="repl__wrapper">
-    <div class="repl__overlay"></div>
+<div class="">
+    <div class=""></div>
     <iframe
-        class="repl__iframe lazy-load"
+        class="lazy-load"
         title="repl demo"
         frameborder="0"
         width="100%"

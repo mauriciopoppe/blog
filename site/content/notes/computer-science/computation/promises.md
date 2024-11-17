@@ -816,16 +816,10 @@ This implementation passed all the 872 tests, cool!
 >  872 passing (14s)
 
 
-<div class="github-card__wrapper">
+<div class="tw-my-5 tw-mx-auto">
   <div class="github-widget" data-repo="mauriciopoppe/implementing-promises-from-scratch"></div>
   <script src="https://cdn.rawgit.com/hustcc/GitHub-Repo-Widget.js/cf58d16b/GithubRepoWidget.min.js"></script>
 </div>
-
-<style>
-.github-card__wrapper {
-  margin: 20px auto;
-}
-</style>
 
 #### Improvements
 
