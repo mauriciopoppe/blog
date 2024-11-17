@@ -1,8 +1,0 @@
-.profile {
-  .about-me p {
-
-    @include until($desktop) {
-      max-width: 100%;
-    }
-  }
-}
