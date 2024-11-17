@@ -29,9 +29,12 @@
 <main class="tw-container tw-mx-auto tw-px-4">
   <h1 class="tw-text-5xl">{{ .Title }}</h1>
   <p class="block">There's a total of {{ len .Data.Pages }} articles.</p>
+  <br />
   <hr />
+  <br />
+  <style>.group\/note-preview h2 { font-size: 2rem; }</style>
   {{ range .Pages }}
-    <div class="tw-mb-6">
+    <div class="tw-mb-6 group/note-preview">
         {{ partial "note-preview.html" . }}
     </div>
   {{ end }}

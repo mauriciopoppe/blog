@@ -143,6 +143,23 @@ The following is an optimization from lighthouse to inline the css in production
 <script>
 (function () {
   const myBlog = {
+    // isMobile smoke tests if we're running in a browser.
+    isMobile() {
+      const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i]
+      return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem)
+      })
+    },
+
+    onDocumentReady(fn) {
+      if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        fn()
+      } else {
+        document.addEventListener('DOMContentLoaded', fn)
+      }
+    }
+  }
+  myBlog.theme = {
     // setTheme sets the theme on the webpage
     setTheme(theme) {
       if (theme == "dark" || theme == "light") {
@@ -160,14 +177,6 @@ The following is an optimization from lighthouse to inline the css in production
       this.setTheme(theme)
     },
 
-    // isMobile smoke tests if we're running in a browser.
-    isMobile() {
-      const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i]
-      return toMatch.some((toMatchItem) => {
-        return navigator.userAgent.match(toMatchItem)
-      })
-    },
-
     onLoad() {
       const toggles = document.querySelectorAll('.theme-toggle')
       toggles.forEach((toggle) => {
@@ -183,11 +192,11 @@ The following is an optimization from lighthouse to inline the css in production
 
   {{/* Only set the theme on the content page and not in the home page. */}}
   {{ if not .IsHome }}
-  myBlog.setThemeFromLocalStorage()
+    myBlog.theme.setThemeFromLocalStorage()
   {{ end }}
 
   // Toggle theme
-  document.addEventListener('DOMContentLoaded', () => myBlog.onLoad() )
+  myBlog.onDocumentReady(() => myBlog.theme.onLoad())
 })()
 </script>
 

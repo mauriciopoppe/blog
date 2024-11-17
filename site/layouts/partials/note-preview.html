@@ -7,7 +7,7 @@ Used in:
 */}}
 <div>
   <a href="{{ .RelPermalink }}">
-    <h2 class="tw-text-3xl"> {{ .Title }} </h2>
+    <h2 class="tw-text-5xl"> {{ .Title }} </h2>
   </a>
 
   {{ partial "tags.html" (dict "tags" .Params.tags) }}
@@ -28,7 +28,7 @@ Used in:
         {{ $summary := .Params.summary | default .Summary }}
         {{ $summary | markdownify }}
       </div>
-      <div class="md:tw-grow"></div>
+      <div class="tw-h-5 md:tw-grow"></div>
       <div class="tw-text-base tw-flex tw-flex-row tw-gap-2 tw-leading-snug">
         <div>
           {{ $image := .Site.Params.logo | absURL }}
