@@ -55,7 +55,13 @@ const activeItems = {
       .map((t) => t[0])
   },
   setState(k: string, v: any) {
-    this.getState()[k] = v
+    const state = this.getState()
+    state[k] = v
+    window.localStorage.setItem(this.KEY, JSON.stringify(this._state))
+  },
+  unsetState(k: string) {
+    const state = this.getState()
+    delete state[k]
     window.localStorage.setItem(this.KEY, JSON.stringify(this._state))
   }
 }
@@ -161,9 +167,15 @@ function sitemapTreeSetActiveItemInSidebar() {
     // traverse down all the links of active items and expand them
     activeItems.getActiveItems().forEach((item) => {
       const li = document.querySelector(`[data-full-path="${item}"]`)
-      li.classList.add('item-expanded')
-      const ul = li.querySelector('ul')
-      ul.classList.remove('list-is-collapsed')
+      if (li) {
+        li.classList.add('item-expanded')
+        const ul = li.querySelector('ul')
+        ul.classList.remove('list-is-collapsed')
+      } else {
+        // If a blogpost location or name changed then it's no longer valid
+        // remove it from local storage state.
+        activeItems.unsetState(item)
+      }
     })
   } else {
     // expand all the items
