@@ -36,27 +36,29 @@ Note that the equations above assume that $n,f \geq 0, n \leq f$ because $A$ and
 
 <div id="z"></div>
 {{< script >}}
-window.addEventListener('DOMContentLoaded', function () {
-var n = 1
-var f = 10
-var A = - (f + n)/(f - n)
-var B = (-2 * f * n)/(f - n)
-var xDiff = 2
-functionPlot({
-  target: '#z',
-  xAxis: { domain: [-f - xDiff, -n + xDiff] },
-  annotations: [
-    {x: -n, text: '-n'},
-    {x: -f, text: '-f'},
-    {y: 1, text: '1'},
-    {y: -1, text: '-1'}
-  ],
-  data: [{
-    fn: '(A * x + B)/(-x)',
-    scope: {A: A, B: B}
-  }]
-})
-})
+function main() {
+  var n = 1
+  var f = 10
+  var A = - (f + n)/(f - n)
+  var B = (-2 * f * n)/(f - n)
+  var xDiff = 2
+  functionPlot({
+    target: '#z',
+    xAxis: { domain: [-f - xDiff, -n + xDiff] },
+    annotations: [
+      {x: -n, text: '-n'},
+      {x: -f, text: '-f'},
+      {y: 1, text: '1'},
+      {y: -1, text: '-1'}
+    ],
+    data: [{
+      fn: '(A * x + B)/(-x)',
+      scope: {A: A, B: B}
+    }]
+  })
+}
+
+window.myBlog.onDocumentReady(main)
 {{< /script >}}
 
 We see that objects behind the camera (points with $z_{cam} > 0$) are mapped to NDC as $z_{ndc} > 1$ i.e. in NDC points behind the camera are visible
