@@ -140,7 +140,7 @@ function initialize() {
   const header = document.querySelector('header')
   tocbot.init({
     tocSelector: '.toc',
-    contentSelector: 'body',
+    contentSelector: 'article[role=main]',
     headingSelector: 'h1,h2,h3,h4,h5,h6',
     collapseDepth: 6,
     throttleTimeout: 200,

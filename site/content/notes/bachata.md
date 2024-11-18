@@ -55,19 +55,18 @@ who are distracted and when you can't make a connection.
 
 It's a life long hobby, so let's just enjoy the process.
 
-### 2021 - Starting to dance
+### 2021 - Starting my dancing journey
 
 During this year:
 
 - I started dancing bachata in late 2021 at a dance academy in South San Jose called
 [Dance Boulevard](https://maps.app.goo.gl/DQBuveR36jZMmULG8).
-- On Wednesday nights I went a couple of times to [Alberto's Night Club](https://maps.app.goo.gl/USpxuamQjr8MG86B6), a dance night club in Mountain View. I didn't enjoy it much because
+- I went a couple of times to [Alberto's Night Club](https://maps.app.goo.gl/USpxuamQjr8MG86B6), a dance night club in Mountain View. I didn't enjoy it much because
   I was still a beginner and because the dancing space was very small.
-- I went to [Space 550](https://maps.app.goo.gl/uuDZS1xETcHuSY4u9) in San Francisco a few times as well.
+- On Saturday nights I went to [Space 550](https://maps.app.goo.gl/uuDZS1xETcHuSY4u9) in San Francisco a few times as well, this is where I met Kathy Reyes.
 
 ### 2022 - The year of the bachata festivals
 
-- I created a <a href="/sandbox/jukebox/" target="_blank">tiny bachata player website</a> to mark my love for bachata.
 - On weekdays I'd go to Berkeley to dance with [Katy Reyes](https://www.instagram.com/kathyreyesdance.fitness/?hl=en). She's an amazing teacher.
 - On weekdays I'd go to [Studio M in San Jose](https://www.instagram.com/studiomballroom/) to dance with [Ngoc Huynh](https://www.instagram.com/knockout_ngoc/). She's an amazing teacher as well.
 - On saturdays I'd go to the socials in [Space 550](https://maps.app.goo.gl/uuDZS1xETcHuSY4u9) in San Francisco.
@@ -88,6 +87,7 @@ During this year:
 {{< figure src="/images/me_ataca_alemana.jpg" caption="Yo y Ataca y la Alemana" class="tw-w-60 tw-mx-auto" >}}
 
 - I went to a bachata concert by Prince Royce in San Jose in Oct.
+- I created a <a href="/sandbox/jukebox/" target="_blank">tiny bachata player website</a> to mark my love for bachata.
 
 ### 2023 - Slow year in bachata dance
 

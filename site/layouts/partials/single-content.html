@@ -18,23 +18,21 @@
       <!-- position:relative is needed for the font size, I don't know why -->
       <!-- class content is how we set defaults, this was inherited from bulma -->
       <article role="main" class="content tw-relative">
-
         <!-- the content -->
         {{ .Content }}
-
-        <!-- the references if set in the front matter -->
-        {{ if isset .Params "references" }}
-          <h2 id="references">References</h2>
-          <div class="references">
-            <ul>
-            {{ range .Params.references }}
-              <li>{{ . | markdownify }}</li>
-            {{ end }}
-            </ul>
-          </div>
-        {{ end }}
-
       </article>
+
+      <!-- the references if set in the front matter -->
+      {{ if isset .Params "references" }}
+        <h2 id="references" class="tw-text-3xl tw-mb-4">References</h2>
+        <ul class="tw-list-disc tw-pl-10">
+        {{ range .Params.references }}
+          <li>{{ . | markdownify }}</li>
+        {{ end }}
+        </ul>
+      {{ end }}
+
+      {{ partial "related.html" . }}
     </div>
 
     <aside class="md:tw-w-1/5">
