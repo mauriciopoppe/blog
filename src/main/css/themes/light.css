@@ -1,0 +1,10 @@
+/* I copied this from a style sheet from bulma */
+html[data-theme=light] {
+  --grey: rgb(248, 248, 248);
+  --grey-dark: rgb(248, 245, 235);
+  --grey-darker: rgb(255, 252, 243);
+  --grey-light: rgb(51, 51, 51);
+  --grey-lighter: rgb(21, 21, 21);
+  --primary: 176, 104, 120;
+}
+

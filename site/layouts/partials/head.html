@@ -162,8 +162,10 @@ The following is an optimization from lighthouse to inline the css in production
   myBlog.theme = {
     // setTheme sets the theme on the webpage
     setTheme(theme) {
+      document.documentElement.classList.remove('tw-light', 'tw-dark')
       if (theme == "dark" || theme == "light") {
         document.documentElement.dataset.theme = theme
+        document.documentElement.classList.add(`tw-${theme}`)
         return
       }
       console.error(`Attempted to set an invalid theme=${theme}`)

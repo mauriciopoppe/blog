@@ -54,7 +54,7 @@ export function Plane(props) {
       <animated.g filter="url(#water)" style={{ transform, opacity }}>
         <animated.path
           transform={'translate(100 100)'}
-          stroke={'var(--primary)'}
+          stroke={'rgb(var(--primary))'}
           d={genTree()}
           onClick={() => {
             console.log('clicked!')

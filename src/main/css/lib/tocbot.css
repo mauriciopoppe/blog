@@ -77,7 +77,7 @@ a.toc-link {
 }
 .toc-link.is-active-link {
   font-weight: bold;
-  color: var(--primary);
+  color: rgb(var(--primary));
 }
 .toc-link.is-active-link::before {
   background-color: transparent;

@@ -21,7 +21,7 @@
 }
 .sitemap li.is-active > div {
   font-weight: bold;
-  color: var(--primary);
+  color: rgb(var(--primary));
 }
 .sitemap .list-is-collapsed {
   height: 0;
@@ -30,7 +30,7 @@
   overflow: hidden;
 }
 .sitemap .children-toggle {
-  border: solid var(--primary);
+  border: solid rgb(var(--primary));
   border-width: 0 1px 1px 0;
   padding: 2px;
   position: absolute;

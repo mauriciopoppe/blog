@@ -6,5 +6,5 @@
   font-weight: 300;
 }
 .greuler circle {
-  fill: var(--primary);
+  fill: rgb(var(--primary));
 }

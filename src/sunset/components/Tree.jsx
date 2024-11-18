@@ -34,8 +34,8 @@ export const Tree = React.memo((props) => {
 
   return (
     <g transform={`translate(${px} ${py})`}>
-      <animated.path {...props.pathStyle} stroke={'var(--primary)'} d={genBody()} />
-      <animated.path {...props.pathStyle} transform={'translate(0 -30)'} stroke={'var(--primary)'} d={genTree()} />
+      <animated.path {...props.pathStyle} stroke={'rgb(var(--primary))'} d={genBody()} />
+      <animated.path {...props.pathStyle} transform={'translate(0 -30)'} stroke={'rgb(var(--primary))'} d={genTree()} />
     </g>
   )
 })

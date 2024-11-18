@@ -17,7 +17,7 @@ export function ShootingStars({ width, height, x, y }) {
 
   return (
     <g>
-      <animated.circle {...shootingStarProps} style={{ fill: 'var(--primary)' }} />
+      <animated.circle {...shootingStarProps} style={{ fill: 'rgb(var(--primary))' }} />
     </g>
   )
 }

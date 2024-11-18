@@ -11,8 +11,8 @@
   stroke: var(--grey-light);
 }
 .function-plot path.line {
-  stroke: var(--primary);
+  stroke: rgb(var(--primary));
 }
 .function-plot .tip circle {
-  fill: var(--primary);
+  fill: rgb(var(--primary));
 }

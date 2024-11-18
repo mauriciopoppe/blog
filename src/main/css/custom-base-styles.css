@@ -1,48 +1,10 @@
-/* TODO(tailwind): use theme() or CSS variables */
+@import './themes/dark.css';
+@import './themes/light.css';
 
-/* I copied the generated content here. */
 :root {
   --family-sans: Lato, system-ui, sans-serif;
   --family-serif: "EB Garamond", system-ui, serif;
   --family-monospace: Consolas, monospace;
-}
-
-html[data-theme=dark] {
-  --green: rgb(98, 196, 98);
-  --grey: rgb(171, 171, 171);
-  --grey-dark: rgb(43, 43, 43);
-  --grey-darker: rgb(33, 34, 32);
-  --grey-light: rgb(197, 197, 197);
-  --grey-lighter: rgb(222, 222, 222);
-  --info: rgb(109, 72, 79);
-  --link: rgb(197, 197, 197);
-  --link-active-border: rgb(237, 237, 237);
-  --link-focus: rgb(212, 212, 212);
-  --link-focus-border: rgb(237, 237, 237);
-  --link-hover: rgb(255, 255, 255);
-  --link-invert: rgb(250, 250, 250);
-  --primary: rgb(194, 112, 131);
-  --red: rgb(238, 95, 91);
-  --warning: rgb(33, 34, 32);
-}
-
-html[data-theme=light] {
-  --green: rgb(98, 196, 98);
-  --grey: rgb(248, 248, 248);
-  --grey-dark: rgb(248, 245, 235);
-  --grey-darker: rgb(255, 252, 243);
-  --grey-light: rgb(51, 51, 51);
-  --grey-lighter: rgb(21, 21, 21);
-  --info: rgb(109, 72, 79);
-  --link: rgb(85, 85, 85);
-  --link-active-border: rgb(51, 51, 51);
-  --link-focus: rgb(51, 51, 51);
-  --link-focus-border: rgb(51, 51, 51);
-  --link-hover: rgb(51, 51, 51);
-  --link-invert: rgb(250, 250, 250);
-  --primary: rgb(176, 104, 120);
-  --red: rgb(238, 95, 91);
-  --warning: rgb(33, 34, 32);
 }
 
 html {
@@ -52,7 +14,8 @@ html {
 }
 
 body {
-  @apply tw-text-gray-300 tw-text-base tw-antialiased tw-font-normal md:tw-text-xl md:tw-leading-6;
+  @apply tw-text-base tw-antialiased tw-font-normal md:tw-text-xl md:tw-leading-6;
+  color: var(--grey-light);
 }
 
 a {
@@ -71,7 +34,7 @@ a {
 }
 
 a:hover {
-  @apply tw-text-primary-light;
+  filter: brightness(1.2);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -95,7 +58,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 hr {
-  background-color: var(--primary);
+  background-color: rgb(var(--primary));
 }
 
 pre {
@@ -111,7 +74,7 @@ pre code {
 
 code {
   background-color: var(--grey-dark);
-  color: var(--primary);
+  color: rgb(var(--primary));
   font-size: 0.75em;
   padding: 0.25em;
 }

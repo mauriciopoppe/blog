@@ -5,23 +5,9 @@
 {{ end }}
 
 {{ define "header" }}
-<div class="tw-container tw-mx-auto tw-p-4 tw-mb-4">
-  <nav class="tw-flex">
-    <!-- tags and theme toggle -->
-    <div>
-      <a href="/">🔙 Go back to index page </a>
-    </div>
-    <div class="tw-flex-1"></div>
-    <div class="tw-relative">
-      <!-- TODO(tailwind): update these buttons -->
-      <span class="tw-hidden tw-text-right tw-absolute tw-right-0 tw-top-0">
-        <!-- class .theme-toggle is referenced from head.html -->
-        <button class="material-symbols-outlined theme-toggle dark-mode" data-nexttheme="dark"> dark_mode </button>
-        <button class="material-symbols-outlined theme-toggle light-mode" data-nexttheme="light"> light_mode </button>
-      </span>
-    </div>
-  </nav>
-</div>
+<header class="tw-container tw-mx-auto tw-p-4">
+  {{ partial "header-navigation.html" . }}
+</header>
 {{ end }}
 
 
