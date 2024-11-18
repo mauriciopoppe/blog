@@ -96,8 +96,9 @@ export function generate({ target, n, rainbow }) {
       // Run the banner interpolation animation every some milliseconds and not on every frame.
       if (!lastBannerInterpolation || time - lastBannerInterpolation > 50) {
         const k = (Math.cos(time / 5000) + 1) / 2
-        theme.colors[0] = theme.bannerInterpolation(k)
-        window.document.documentElement.style.setProperty('--primary', theme.colors[0])
+        let newColor = theme.bannerInterpolation(k)
+        theme.colors[0] = newColor
+        window.document.documentElement.style.setProperty('--primary', newColor.replace('rgb(', '').replace(')', ''))
         lastBannerInterpolation = time
       }
     }
