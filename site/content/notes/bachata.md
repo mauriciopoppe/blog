@@ -92,7 +92,7 @@ During this year:
 ### 2023 - Slow year in bachata dance
 
 - I stopped dancing in ~Mar 2023 because of an upcoming move.
-- I moved to NYC in mid 2024.
+- I moved to NYC in mid 2023.
 - I started dancing again in ~Sep 2024 at [KS Bachata Sensual NYC](https://www.instagram.com/bachatasensual_official/) with [Steven Halim](https://www.instagram.com/dancing_steven/) and [Kasia Brozynska](https://www.instagram.com/kasia.brozynska/).
   - I started going whenever I could to the social night dances on Saturday.
 - Went to a bachata concert by Romeo Santos on Nov in New Jersey.
