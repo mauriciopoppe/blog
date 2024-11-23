@@ -30,11 +30,11 @@ because the counter hash maps size is finite we will have collisions and a hash 
 the true value.
 
 <i>Images taken from: Algorithms and Data Structures for Massive Datasets</i>
-<div class="columns">
-    <div class="column">
+<div class="tw-flex tw-flex-col tw-gap-4 md:tw-flex-row">
+    <div class="">
       {{< figure src="/images/count_min_sketch_update.png" title="Update" class="is-90p" >}}
     </div>
-    <div class="column">
+    <div class="">
       {{< figure src="/images/count_min_sketch_estimate.png" title="Estimate" class="is-90p" >}}
     </div>
 </div>
@@ -68,11 +68,12 @@ the occurrences of words and contexts are kept in other hash maps.
 **Range queries** Use a segment tree where each node is a CMS
 
 <i>Images taken from: Algorithms and Data Structures for Massive Datasets</i>
-<div class="columns">
-    <div class="column">
+
+<div class="tw-flex tw-flex-col tw-gap-4 md:tw-flex-row">
+    <div class="md:tw-w-1/2">
       {{< figure src="/images/count_min_sketch_st.png" title="Update" class="is-90p" >}}
     </div>
-    <div class="column">
+    <div class="md:tw-w-1/2">
       {{< figure src="/images/count_min_sketch_st_read.png" title="Read" class="is-90p" >}}
     </div>
 </div>

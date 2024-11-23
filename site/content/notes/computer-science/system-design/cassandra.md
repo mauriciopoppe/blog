@@ -1,7 +1,7 @@
 ---
 title: "Cassandra"
 summary: |
-  Cassandra is a highly scalable, distributed NoSQL (non-relational) database management system designed for handling large 
+  Cassandra is a highly scalable, distributed NoSQL (non-relational) database management system designed for handling large
   amounts of data across multiple commodity servers.
 
   <br />
@@ -20,30 +20,18 @@ references:
 - https://www.datastax.com/sites/default/files/content/whitepaper/files/2019-10/CM2019236%20-%20Data%20Modeling%20in%20Apache%20Cassandra%20%E2%84%A2%20White%20Paper-4.pdf
 ---
 
-<style>
-img {
-  max-width: 50%;
-}
-
-@media screen and (max-width: 960px) {
-  img {
-    max-width: 100%;
-  }
-}
-</style>
-
 ## Engine
 
 ### Features
 
-- Consitent hashing
+- Consistent hashing
 - Replication factor, replicas of the data across the cluster
 - [Consistency level controlled for each query](https://docs.datastax.com/en/archived/cassandra/3.0/cassandra/dml/dmlConfigConsistency.html)
 - Up to 2 billion key-value pairs in a row
 
 <hr />
 
-{{< figure src="/images/cassandra-replication.jpeg" title="Cassandra replication" >}}
+{{< figure src="/images/cassandra-replication.jpeg" title="Cassandra replication" class="tw-mx-auto md:tw-w-1/2" >}}
 
 - Replication factor = 3
 - Consistency level = QUORUM
@@ -52,7 +40,7 @@ img {
 
 <hr />
 
-{{< figure src="/images/cassandra-write.jpeg" title="Cassandra write" >}}
+{{< figure src="/images/cassandra-write.jpeg" title="Cassandra write" class="tw-mx-auto md:tw-w-1/2">}}
 
 - Acknowledged when we write to both the commit log (append only) and the memtable
 - When the memtable becomes full it's flushed into an SSTable
@@ -60,7 +48,7 @@ img {
 
 <hr />
 
-{{< figure src="/images/cassandra-read.jpeg" title="Cassandra read" >}}
+{{< figure src="/images/cassandra-read.jpeg" title="Cassandra read" class="tw-mx-auto md:tw-w-1/2">}}
 
 - Check if the key is in the in-memory row cache
 - Query the bloomfilters of the existing SSTables to find the record, if it doesn't exist then skip the SSTable
@@ -73,13 +61,13 @@ img {
 
 - spread data evenly around the cluster
 - minimize the number of partitions read
-- keep paritions manageable
+- keep partitions manageable
 
 ### Process
 
 - Identify initial entities and relationships
-- Key attributes (map to PK colums)
-- Equality search attributes (map to the beggining of the PK)
+- Key attributes (map to PK columns)
+- Equality search attributes (map to the beginning of the PK)
 - Inequality search attributes (map to clustering columns)
 - Other attributes
   - Static attributes are shared within a given partition
@@ -96,7 +84,7 @@ C Clustering key and their ordering (ascending or descending)
 S Static columns, fixed and shared per partition
 ```
 
-{{< figure src="/images/cassandra-table-structure.png" title="Cassandra table structure" >}}
+{{< figure src="/images/cassandra-table-structure.png" title="Cassandra table structure" class="tw-mx-auto md:tw-w-1/2">}}
 
 ### Validation
 
@@ -111,9 +99,9 @@ S Static columns, fixed and shared per partition
 
 **Store books by ISBN**
 
-<div class="columns">
-  <div class="column is-size-6 is-bordered">
-  {{% markdown %}}
+<div class="tw-flex tw-flex-col md:tw-flex-row tw-mb-4">
+  <div class="md:tw-w-1/3">
+{{% markdown %}}
   | Attribute | Special |
   | ---       | ---     |
   | isbn      | K       |
@@ -121,9 +109,9 @@ S Static columns, fixed and shared per partition
   | author    | |
   | genre     | |
   | publisher | |
-  {{% /markdown %}}
+{{% /markdown %}}
   </div>
-  <div class="column is-three-quarters">
+  <div class="md:tw-w-2/3">
 {{% markdown %}}
 - Is data evenly spread? Yes
 - 1 partition per read? Yes
@@ -134,22 +122,20 @@ S Static columns, fixed and shared per partition
   </div>
 </div>
 
-<hr />
-
 **Register a user uniquely identified by an email/password, we also want their fullname. They will be accessed by email and password or by UUID**
 
-<div class="columns">
-  <div class="column is-size-6 is-bordered">
-  {{% markdown %}}
+<div class="tw-flex tw-flex-col md:tw-flex-row tw-mb-4">
+  <div class="md:tw-w-1/3">
+{{% markdown %}}
   | Attribute | Special |
   | --- | --- |
   | email | K |
   | password | C |
   | fullname | |
   | uuid | |
-  {{% /markdown %}}
+{{% /markdown %}}
   </div>
-  <div class="column is-three-quarters">
+  <div class="md:tw-w-2/3">
 {{% markdown %}}
 
 Q1: find users by login info
@@ -165,16 +151,16 @@ Q3: find users by email (to guarantee uniqueness)
   </div>
 </div>
 
-<div class="columns">
-  <div class="column is-size-6 is-bordered">
-  {{% markdown %}}
+<div class="tw-flex tw-flex-col md:tw-flex-row tw-mb-4">
+  <div class="md:tw-w-1/3">
+{{% markdown %}}
   | Attribute | Special |
   | --- | --- |
   | uuid | K |
   | fullname | |
-  {{% /markdown %}}
+{{% /markdown %}}
   </div>
-  <div class="column is-three-quarters">
+  <div class="md:tw-w-2/3">
 {{% markdown %}}
 Q2: get users by UUID
 
@@ -187,13 +173,11 @@ Q2: get users by UUID
   </div>
 </div>
 
-<hr />
-
 **Find books a logged in user has read sorted by title and author**
 
-<div class="columns">
-  <div class="column is-size-6 is-bordered">
-  {{% markdown %}}
+<div class="tw-flex tw-flex-col md:tw-flex-row tw-mb-4">
+  <div class="md:tw-w-1/3">
+{{% markdown %}}
   | Attribute | Special |
   | ---       | ---     |
   | uuid      | K       |
@@ -203,9 +187,9 @@ Q2: get users by UUID
   | ISBN | |
   | genre | |
   | publisher | |
-  {{% /markdown %}}
+{{% /markdown %}}
   </div>
-  <div class="column is-three-quarters">
+  <div class="md:tw-w-2/3">
 {{% markdown %}}
 - Is data evenly spread? Yes
 - 1 partition per read? Yes
@@ -225,12 +209,10 @@ $$</div>
   </div>
 </div>
 
-<hr />
-
 **Interaction of every user in the website**
 
-<div class="columns">
-  <div class="column is-size-6 is-bordered">
+<div class="tw-flex tw-flex-col md:tw-flex-row tw-mb-4">
+  <div class="md:tw-w-1/3">
 {{% markdown %}}
 | Attribute | Special |
 | ---       | ---     |
@@ -240,7 +222,7 @@ $$</div>
 | type | |
 {{% /markdown %}}
   </div>
-  <div class="column is-three-quarters">
+  <div class="md:tw-w-2/3">
 {{% markdown %}}
 - Is data evenly spread? Yes
 - 1 partition per read? Yes
@@ -260,8 +242,8 @@ $$</div>
   </div> <!-- I don't know why this is needed because the markup looked fine without this -->
 <div>
 
-<div class="columns">
-  <div class="column is-size-6 is-bordered">
+<div class="tw-flex tw-flex-col md:tw-flex-row tw-mb-4">
+  <div class="md:tw-w-1/3">
   {{% markdown %}}
   | Attribute | Special |
   | ---       | ---     |
@@ -272,7 +254,7 @@ $$</div>
   | type | |
   {{% /markdown %}}
   </div>
-  <div class="column is-three-quarters">
+  <div class="md:tw-w-2/3">
 {{% markdown %}}
 - Is data evenly spread? Yes
 - 1 partition per read? Yes

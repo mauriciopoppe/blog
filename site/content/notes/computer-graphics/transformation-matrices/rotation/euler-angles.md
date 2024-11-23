@@ -15,12 +15,12 @@ references:
  - "Images taken from https://www.wikiwand.com/en/Euler_angles#/Rotation_matrix, Author: Lionel Brits"
 ---
 
-<style>
-#conversions table img {
-  max-width: 100px;
-}
-</style>
-
+<!-- <style> -->
+<!-- #conversions table img { -->
+<!--   max-width: 100px; -->
+<!-- } -->
+<!-- </style> -->
+<!---->
 Euler angles are three angles used to describe the orientation of a rigid body, they are typically denoted $\alpha, \beta, \gamma$, these angles represent a **sequence of three elemental rotations** about the axes of some coordinate system
 
 ## Intrinsic and extrinsic rotations

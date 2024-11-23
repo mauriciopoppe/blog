@@ -206,11 +206,11 @@ The mapping of the range $[l,r]$ to the range $[-1,1]$ can be split into two ste
 - Project all the points to the *near* plane, this way all the $x$- and $y$-coordinates will be inside the range $[l,r] \times [b,t]$
 - Map all the values in the range $[l,r]$ and $[b,t]$ to the range $[-1, 1]$
 
-<div class="columns">
-    <div class="column">
+<div class="tw-flex tw-flex-col tw-gap-4 md:tw-flex-row">
+    <div class="md:tw-w-1/2">
         {{< figure src="/images/projection-matrix!top-view-frustum.png" title="Top view of the frustum">}}
     </div>
-    <div class="column">
+    <div class="md:tw-w-1/2">
         {{< figure src="/images/projection-matrix!side-view-frustum.png" title="Side view of the frustum">}}
     </div>
 </div>
@@ -409,7 +409,7 @@ $$</div>
 - *field of view* ($fov$) which specifies the field of view angle in the $y$ direction
 - *aspect* ($aspect$) which is the aspect ratio that determines the field of view in the $x$ direction calculated as $\tfrac{x}{y}$, the value is commonly $\tfrac{screen\ width}{screen\ height}$
 
-{{< figure src="/images/projection-matrix!fov.png" title="fov" >}}
+{{< figure src="/images/projection-matrix!fov.png" title="fov" class="md:tw-w-1/2 tw-mx-auto" >}}
 
 We see that the value of $t$ (top) is
 

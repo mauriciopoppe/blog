@@ -19,7 +19,7 @@ A Bayesian network is a directed graph in which each node is annotated with quan
 2. A set of directed links or arrows connects pairs of nodes. If there is an arrow from node $X$ to node $Y$, $X$ is said to be a parent of $Y$. The graph has no directed cycles (and hence is a directed acyclic graph, or DAG.
 3. Each node $X_i$ has a conditional probability distribution $P(X_i|Parents(X_i))$ that quantifies the effect of the parents on the node.
 
-{{< figure src="/images/bayesian_network_full.jpg" title="Example Bayesian Network" >}}
+{{< figure src="/images/bayesian_network_full.jpg" title="Example Bayesian Network" class="tw-mx-auto md:tw-w-1/2" >}}
 
 Semantics of a bayesian network:
 
@@ -69,11 +69,11 @@ Steps to determine if two variables are conditionally independent
 
 In the following example we skip step 1 and moralize the entire bayesian network
 
-<div class="columns">
-  <div class="column is-size-6">
+<div class="tw-flex tw-gap-4 tw-flex-col md:tw-flex-row">
+  <div class="">
     {{< figure src="/images/bayesian_network_directed.jpg" title="Example Bayesian Network" >}}
   </div>
-  <div class="column is-size-6">
+  <div class="">
     {{< figure src="/images/bayesian_network_moralized.jpg" title="Example Bayesian Network Moralized" >}}
   </div>
 </div>
@@ -90,7 +90,7 @@ Some conditional independence queries ($\ci$ meaning conditionally independent o
 
 ## Exact inference
 
-Compute the **posterior probablity distribution** for a set of **query values** given some observed **event (set of evidence variables)**
+Compute the **posterior probability distribution** for a set of **query values** given some observed **event (set of evidence variables)**
 
 ### By enumeration
 
@@ -102,7 +102,7 @@ $$</div>
 
 Working with the example below we can answer some queries:
 
-{{< figure src="/images/bayesian_network_full.jpg" id="bayesian-full" title="Example Bayesian Network" >}}
+{{< figure src="/images/bayesian_network_full.jpg" id="bayesian-full" title="Example Bayesian Network" class="tw-m-1/2 tw-mx-auto" >}}
 
 {{< script >}}
 (function() {

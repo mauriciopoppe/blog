@@ -32,9 +32,7 @@ Generated with `tree --gitignore -L 3 -I dist/ -d .`
 └── src
     ├── jukebox          # The easter egg page
     ├── main             # Animations, controls sidebars, header, footer
-    │   ├── sass         # The styles of the app
-    │   ├── theme-dark   # The definition of the dark theme
-    │   └── theme-light  # The definition of the light theme
+    │   └── css          # The styles of the app
     ├── sunset           # Footer animation
     ├── util             # Shared utilities
     └── voronoi          # Main page and header animation
@@ -48,25 +46,23 @@ The graph showing how partials are used:
 
 ### Themes
 
-I use bulma and bulma-css-vars with two themes, the flow is as follows:
+I use tailwind with two themes, the flow is as follows:
 
-- layout:
-  - `src/main/colors.js` defines anything related with colors
-  - `src/main/theme-dark` has bulma-css-vars config to generated the dark theme
-  - `src/main/theme-light` has bulma-css-vars config to generated the light theme
-- `node src/util/bulma-css-vars-generator.js` runs bulma-css-vars with
-  the two configurations, then some replacements are done in the generated
-  code
-  - in `src/main/sass/bulma-generated/generated-bulma-vars-${theme}.sass`
-    I make the css variables scoped to `html[data-theme=${theme}]`
-- Finally `site/layout/_default/baseof.html` has a global function that
+- `src/main/css/themes/` defines CSS variables on each theme.
+- `src/main/css/main.css` imports the theme files, this file
+  is referenced from `src/main/index.ts`.
+- `tailwind.config.js` uses the module tw-colors as a tailwind
+  plugin to create light/dark CSS rules based on special
+  prefixed classes.
+- `site/layout/_default/baseof.html` has a global function that
   checks if a theme is defined in local storage, if so then it sets
   that value in the `html` dataset activating the css variables.
 
-Drawbacks:
+*How to write classnames using a theme?*
 
-- Changes to `src/main/colors.js` in the theme colors require restarting the dev server again,
-  the reason is that the CSS variables are generated with these JS values.
+Example: `hover:light:tw-bg-primary`, for more info
+read the https://github.com/L-Blondy/tw-colors and the
+generated css file.
 
 ### Bundled scripts
 
@@ -138,7 +134,6 @@ bun run build
 Steps (from `package.json`):
 
 - build the sidebar html fragment with the `sitemap-tree-generator.js` script
-- interpolate the application colors with the `palette-generator` script, also transform the JS colors to css vars using `bulma-css-vars`
 - create the site scripts with webpack, read `webpack.common.js`, write the output to `dist/`
 - build the static files, write the output to `dist/`
 

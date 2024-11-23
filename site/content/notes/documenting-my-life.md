@@ -26,13 +26,13 @@ Perhaps four, five times more, perhaps not even that.*
 >
 > *How many more times will you watch the full moon rise? Perhaps 20. And yet it all seems limitless.*
 >
-> <div class="has-text-right">
+> <div class="tw-text-right">
 >   <i>Riza</i>
 > </div>
 
-<div class="columns is-size-3 has-text-primary">
-  <div class="column is-half is-offset-one-quarter has-text-centered">
-    <p>Life goes by fast, I want to do my best to remember it.</p>
+<div class="tw-text-primary tw-my-4 tw-text-3xl md:tw-mx-auto md:tw-w-1/2">
+  <div class="tw-text-center">
+    <p>Life moves pretty fast, I want to do my best to remember it.</p>
   </div>
 </div>
 

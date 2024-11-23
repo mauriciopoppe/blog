@@ -61,11 +61,11 @@ now I realize that the interview process gave me invaluable information that hel
 if you fail, it just means that you've failed that attempt. After all of your rounds, reflect on what you did right and wrong and focus on improving
 that part for the next shot.
 
-<div class="columns is-size-3">
-<div class="column is-half is-offset-one-quarter">
-<p><span class="has-text-primary">Luck</span> is what happens when <span class="has-text-primary">preparation</span> meets <span class="has-text-primary">opportunity</span></p>
-<p class="has-text-right"><i>Seneca</i></p>
-</div>
+<div class="tw-text-primary tw-my-4 tw-text-3xl md:tw-mx-auto md:tw-w-1/2">
+  <div class="tw-text-center">
+    <p><span class="tw-text-primary">Luck</span> is what happens when <span class="tw-text-primary">preparation</span> meets <span class="tw-text-primary">opportunity</span></p>
+    <p class="tw-text-right tw-text-xl"><i>Seneca</i></p>
+  </div>
 </div>
 
 Getting an offer is not the end of the journey. It might be possible that even after you reach your target company and you
@@ -600,11 +600,13 @@ Pure behavioral round, if you're targeting L5+ show that you're a leader!
 
 ## The end?
 
-<div class="columns is-size-3">
-<div class="column is-half is-offset-one-quarter">
-<p>Success is not final, failure is not fatal, it is the courage to continue that counts.</p>
-<p class="has-text-right"><i>Winston Churchill</i></p>
-</div>
+<div class="tw-text-primary tw-my-4 tw-text-3xl md:tw-mx-auto md:tw-w-1/2">
+  <div class="tw-text-center">
+    <p>Success is not final, failure is not fatal, it is the courage to continue that counts.</p>
+    <p class="tw-text-right tw-text-xl"><i>Winston Churchill</i></p>
+  </div>
 </div>
 
-Regardless of the outcome, enjoy the experience!
+Passing/failing the interview is not the end and if you fail it doesn't
+mean that you're not good enough, there are too many variables outside
+your control. So if it didn't go well, try again!

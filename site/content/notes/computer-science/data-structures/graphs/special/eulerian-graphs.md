@@ -39,7 +39,7 @@ The city of Königsberg, located in Prussia was separated by a river in 4 land a
 
 <div id="figure-konigsberg-bridges"></div>
 
-<div style="width: 500px" class="center">
+<div class="tw-text-center">
 The land areas and the bridges built in the city of Königsberg modeled as a graph <span class="math">\(M\)</span>
 </div>
 

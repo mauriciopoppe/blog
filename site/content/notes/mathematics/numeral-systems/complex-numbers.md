@@ -241,7 +241,7 @@ The powers of $i$ give rise to the sequence $(1, i, -1, -i, 1, \ldots)$ which is
 $(x, y, -x, -y, x, \ldots)$, the resemblance is no coincidence as complex number belong to a 2-dimensional plane, this complex plane allows us to visualize complex numbers using the horizontal axis for the real part and the vertical axis for the imaginary part
 
 <div id="complex-plane"></div>
-<div class="center">$1, i, -1, -i$</div>
+<div class="tw-text-center">$1, i, -1, -i$</div>
 
 We can see that the positions of $i^0 = 1, i^1 = i, i^2 = -1, i^3 = -i, \ldots$ suggest that the multiplication of a complex number by $i$ is equivalent to rotating through 90 degrees
 

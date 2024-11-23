@@ -462,14 +462,14 @@ right of $x = 1$ the slope is negative, since we know that the derivative repres
 the derivative of this function near $x = 1$ will go from a positive value to a negative value intersecting the x-axis,
 if we analyze the slope near $x = 3$ will will see the same behavior with the slope but it's going from a negative value to a positive one
 
-<div class="columns">
-    <div class="column">
+<div class="tw-flex tw-flex-col md:tw-flex-row">
+    <div class="md:tw-w-1/2 tw-relative">
         $$
             y = x^3/3 - 2x^2 + 3x + 2
         $$
         <div id="maxima-minima-f"></div>
     </div>
-    <div class="column">
+    <div class="md:tw-w-1/2 tw-relative">
         $$
             y' = x^2 - 4x + 3
         $$
@@ -527,7 +527,9 @@ $$</div>
 $x$ in the last equation is the abscissa of the next approximation of one of the roots of $x$, if we run the algorithm above a few times with an acceptable initial guess then we'll obtain a better approximation of one of the roots of $f(x)$
 
 <div id="newton-raphson"></div>
-<button id="run-newton-raphson" class="button is-primary">Newton-Raphson</button>
+<div class="tw-text-center tw-mb-4">
+  <button id="run-newton-raphson" class="tw-inline-block tw-p-2 tw-rounded-md tw-border-2 tw-border-primary">Approximate with Newton-Raphson</button>
+</div>
 
 #### Finding the square root of a number
 
