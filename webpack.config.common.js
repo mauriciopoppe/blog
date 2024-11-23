@@ -66,7 +66,7 @@ module.exports = {
     }
   },
   optimization: {
-    runtimeChunk: 'single'
+    runtimeChunk: 'single',
   },
   stats: {
     errorDetails: true
