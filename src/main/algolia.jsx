@@ -79,7 +79,7 @@ function Hit({ hit }) {
 
   return (
     <a href={getAbsURL(hit)}>
-      <div className="tw-group/related tw-container tw-mx-auto tw-py-4 md:tw-p-4 tw-rounded-md hover:tw-bg-neutral-800/70 hover:light:tw-bg-primary/70">
+      <div className="tw-group/related tw-container tw-mx-auto tw-p-4 tw-rounded-md hover:tw-bg-neutral-800/70 hover:light:tw-bg-primary/70">
         <h2 className="tw-group/title tw-text-3xl tw-mb-4 md:tw-text-5xl">
           <Highlight attribute="title" hit={hit} />
         </h2>
