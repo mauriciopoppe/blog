@@ -1,3 +1,4 @@
+---
 title: "Mauricio Poppe notes"
 
 params:
@@ -13,6 +14,11 @@ params:
 
 baseURL: "https://www.mauriciopoppe.com/"
 languageCode: "en-us"
+
+algolia:
+  # https://dashboard.algolia.com/connectors
+  index: "MY_INDEX"
+  appID: "82T3453LSW"
 
 metadataFormat: 'yaml'
 enableGitInfo: true
@@ -67,3 +73,4 @@ related:
     weight: 80
   threshold: 80
   toLower: false
+---

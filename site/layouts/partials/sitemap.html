@@ -18,15 +18,15 @@
 
   <!-- scripts use the id and the class, don't change it Mauricio! -->
   <div id="sitemap" class="sitemap tw-opacity-1 md:tw-relative md:tw-opacity-30">
-    <!-- {{ if .IsHome }} -->
-    <!--   <nav id="sitemap-chronological" aria-label="Sitemap" class="sitemap-content"> -->
-    <!--     {{ partial "sitemap-chronological.html" . }} -->
-    <!--   </nav> -->
-    <!-- {{ else }} -->
+
+      {{/* sitemap-search-trigger is referenced from algolia.jsx */}}
+      <div id="sitemap-search-trigger" class="tw-cursor-pointer tw-border-2 tw-border-primary tw-p-2 tw-rounded">
+        <span class="material-symbols-outlined"> search </span> Press ⌘K to search
+      </div>
+
       <nav id="sitemap-tree" aria-label="Sitemap" class="sitemap-content">
         {{ partial "sitemap-tree.auto.html" . }}
       </nav>
-    <!-- {{ end }} -->
   </div>
 
 </div>
