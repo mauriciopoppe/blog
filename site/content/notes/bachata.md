@@ -84,7 +84,7 @@ During this year:
 - I danced with la alemana in San Francisco.
 
 - Fun souvenir: a photo with ataca y la alemana
-{{< figure src="/images/me_ataca_alemana.jpg" caption="Yo y Ataca y la Alemana" class="tw-w-60 tw-mx-auto" >}}
+{{< figure src="/images/me_ataca_alemana.jpg" caption="Yo y Ataca y la Alemana" class="md:tw-w-80 tw-mx-auto" >}}
 
 - I went to a bachata concert by Prince Royce in San Jose in Oct.
 - I created a <a href="/sandbox/jukebox/" target="_blank">tiny bachata player website</a> to mark my love for bachata.

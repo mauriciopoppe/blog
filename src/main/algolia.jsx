@@ -32,10 +32,10 @@ function SearchBox(props) {
   }
 
   return (
-    <div className="tw-flex tw-justify-center tw-p-4 tw-w-full tw-fixed tw-top-0 tw-bg-black/90">
+    <div className="tw-flex tw-flex-row md:tw-justify-center tw-p-4 tw-w-full tw-fixed tw-top-0 tw-bg-black/90">
       <form onSubmit={onSubmit}>
         <input
-          className="tw-text-3xl tw-w-full tw-max-w-2xl tw-rounded-md tw-bg-neutral-800 tw-text-neutral-100 tw-p-2"
+          className="tw-text-3xl md:tw-w-full tw-rounded-md tw-bg-neutral-800 tw-text-neutral-100 tw-p-2"
           ref={inputRef}
           autoComplete="off"
           autoCorrect="off"
@@ -51,7 +51,9 @@ function SearchBox(props) {
           autoFocus
         />
       </form>
-      <span hidden={!isSearchStalled}>Searching…</span>
+      <span className="tw-mt-2 tw-text-3xl material-symbols-outlined" onClick={props.onClose}>
+        close
+      </span>
     </div>
   )
 }
@@ -94,13 +96,13 @@ function Hit({ hit }) {
   )
 }
 
-function App() {
+function App(props) {
   return (
     <InstantSearch searchClient={searchClient} indexName="MY_INDEX">
       <div className="tw-mt-20">
         <Hits hitComponent={Hit} />
       </div>
-      <SearchBox />
+      <SearchBox onClose={props.toggleSearch} />
     </InstantSearch>
   )
 }
@@ -113,7 +115,7 @@ export function algoliaMain() {
   const root = document.querySelector('#algolia-search')
 
   const toggleSearch = () => {
-    if (root) {
+    if (root && !appInitialized) {
       root.addEventListener('keydown', (event) => {
         if (event.key == 'Escape') {
           toggleSearch()
@@ -122,7 +124,7 @@ export function algoliaMain() {
       searchOverlay.addEventListener('click', () => {
         searchWrapper.classList.add('tw-hidden')
       })
-      createRoot(root).render(<App />)
+      createRoot(root).render(<App toggleSearch={toggleSitemapSearch} />)
     }
     // Display the overlay.
     searchWrapper.classList.toggle('tw-hidden')
@@ -134,10 +136,10 @@ export function algoliaMain() {
   }
 
   const toggleSitemapSearch = () => {
+    toggleSearch()
     if (!appInitialized) {
       appInitialized = true
     }
-    toggleSearch()
   }
 
   window.addEventListener('keydown', function (event) {
