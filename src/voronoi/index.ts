@@ -38,21 +38,15 @@ export function generate({ target, n, rainbow }) {
   // voronoi setup
   const particles = Array.from({ length: n }, () => [Math.random() * width, Math.random() * height])
   let delaunay: Delaunay, voronoi: any, animationLast: number
-  let ref = { x: 0, y: 0 }
-  // lastBannerInterpolation is the last time the banner interpolation was run.
-  let lastBannerInterpolation: number
-
-  /** @type {Object.<number, number>} */
-  const lastTouched: {
-    [key: number]: number
-  } = {}
-  const fadeOutTime = 2000
-
   function initialize() {
     delaunay = d3.Delaunay.from(particles)
     voronoi = delaunay.voronoi([0.5, 0.5, width - 0.5, height - 0.5])
   }
 
+  const fadeOutTime = 2000
+  const lastTouched: {
+    [key: number]: number
+  } = {}
   function waveAnimation() {
     const invertX = Math.random() < 0.5
     const invertY = Math.random() < 0.5
@@ -90,11 +84,17 @@ export function generate({ target, n, rainbow }) {
     return ref
   }
 
+  // lastBannerInterpolation is the last time the banner interpolation was run.
+  let lastBannerInterpolation: number
+  let perimterAnimationLocation = { x: 0, y: 0 }
+  // initialColorSeed is the seed to generate a random color when the banner is first shown.
+  const initialColorSeed = Math.random() * 5000
+
   function paint(time: number) {
     if (rainbow) {
       // Run the banner interpolation animation every some milliseconds and not on every frame.
       if (!lastBannerInterpolation || time - lastBannerInterpolation > 50) {
-        const k = (Math.cos(time / 5000) + 1) / 2
+        const k = (Math.cos(initialColorSeed + time / 5000) + 1) / 2
         const newColor = theme.bannerInterpolation(k)
         theme.colors[0] = newColor
         window.document.documentElement.style.setProperty('--primary', newColor.replace('rgb(', '').replace(')', ''))
@@ -110,7 +110,7 @@ export function generate({ target, n, rainbow }) {
     }
 
     // animate the start location of the gradient
-    ref = perimeterAnimation(time)
+    perimterAnimationLocation = perimeterAnimation(time)
 
     for (let i = 0; i < n; i += 1) {
       context.beginPath()
@@ -118,8 +118,8 @@ export function generate({ target, n, rainbow }) {
       const [x, y] = particles[i]
       // const dx = invertX ? (width - x) / width : x / width
       // const dy = invertY ? (height - y) / height : y / height
-      const dx = (x - ref.x) / width
-      const dy = (y - ref.y) / height
+      const dx = (x - perimterAnimationLocation.x) / width
+      const dy = (y - perimterAnimationLocation.y) / height
       const dist = Math.sqrt(dx * dx + dy * dy) / Math.sqrt(2)
 
       // magic numbers to select what colors should be displayed
