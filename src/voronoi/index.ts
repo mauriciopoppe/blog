@@ -91,8 +91,7 @@ export function generate({ target, n, rainbow }) {
   }
 
   function paint(time: number) {
-    // the color changer only runs in the index page
-    if (rainbow && !isMobile()) {
+    if (rainbow) {
       // Run the banner interpolation animation every some milliseconds and not on every frame.
       if (!lastBannerInterpolation || time - lastBannerInterpolation > 50) {
         const k = (Math.cos(time / 5000) + 1) / 2
@@ -176,12 +175,6 @@ export function generate({ target, n, rainbow }) {
   // only run the animation when the element is visible in the screen!
   const observer = new IntersectionObserver(
     (entries) => {
-      // no need to run the animation on mobile devices, only paint once and that's it!
-      if (isMobile()) {
-        paint(0)
-        return
-      }
-
       entries.forEach(async function (entry) {
         if (entry.isIntersecting) {
           tick(0)

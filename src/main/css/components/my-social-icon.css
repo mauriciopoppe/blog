@@ -1,0 +1,7 @@
+.my-social-icon {
+  @apply tw-h-6 tw-w-6;
+}
+
+.my-social-icon path {
+  fill: rgba(var(--primary), 1);
+}
