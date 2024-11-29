@@ -1,23 +1,5 @@
-// const { ColorUpdater } = require('bulma-css-vars')
 import { interpolateLab } from 'd3-interpolate'
 import { color } from 'd3-color'
-
-// // This file is generated through ./node_modules/.bin/bulma-css-vars
-// // and exports the variable window.bulmaCssVarsDef
-// if (!('bulmaCssVarsDef' in global) && 'window' in global) {
-//   require('./theme-dark/bulma-colors.js')
-// }
-
-// https://i.redd.it/aepphltiqy911.png
-// const colors = ['#D40078', '#F6019D', '#920075', '#650D89', '#023788']
-
-// const colors = ['#D40078', '#F6019D', '#920075', '#650D89']
-// const colors = ['#F9C80E', '#FF4365', '#791E94', '#541388']
-// const colors = ['#241734', '#2E2157', '#FD3777', '#F706CF', '#FD1D53'].reverse()
-// const colors = ['#7C1B2F', '#A0344E', '#A45571', '#631836', '#451035', '#2E0B1A']
-// const colors = ['#A45571', '#631836', '#451035', '#2E0B1A']
-// const colors = ['#A45571', '#631836', '#451035']
-// const colors = ['#B42761', '#712753', '#642157', '#121032']
 
 function colorsInterpolator(colors: string[], n: number): string {
   // [0,1] -> [0,n]

@@ -26,7 +26,7 @@ class Sidebar {
     this.wrapper = wrapper
     // initially the Sidebar is hidden
     this.hidden = true
-    this.articleTopMargin = 30
+    this.articleTopMargin = 20
     this.navbarHeight = 0
     this.state = SidebarState.AUTO
     const mediaQuery = window.matchMedia('(min-width: 768px)')
