@@ -11,7 +11,7 @@
     "start": "bun run generate:sitemap && bun run generate:algolia && run-p start:*",
     "start:hugo": "hugo server -e development -D -F --bind 0.0.0.0 -d ../dist -s site --watch --disableFastRender --disableLiveReload",
     "start:webpack": "webpack-dev-server --config webpack.config.dev.js --hot --host 0.0.0.0",
-    "prebuild": "eslint src/ && bun run src/util/pre-requirements.ts",
+    "prebuild": "eslint 'src/**/*.{tsx,jsx,js,ts}' && bun run src/util/pre-requirements.ts",
     "build": "NODE_ENV=production bun run generate:sitemap && bun run build:webpack && bun run build:copyAssets && bun run build:hugo",
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
     "build:copyAssets": "mkdir -p site/assets/ dist/ && cp dist/*.css dist/runtime.* site/assets/",

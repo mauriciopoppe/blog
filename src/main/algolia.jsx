@@ -11,11 +11,9 @@ function getAbsURL(hit) {
 
 function SearchBox(props) {
   const { query, refine } = useSearchBox(props)
-  const { status, results } = useInstantSearch()
+  const { results } = useInstantSearch()
   const [inputValue, setInputValue] = useState(query)
   const inputRef = useRef(null)
-
-  const isSearchStalled = status === 'stalled'
 
   function setQuery(newQuery) {
     setInputValue(newQuery)
@@ -117,7 +115,7 @@ export function algoliaMain() {
   const toggleSearch = () => {
     if (root && !appInitialized) {
       root.addEventListener('keydown', (event) => {
-        if (event.key == 'Escape') {
+        if (event.key === 'Escape') {
           toggleSearch()
         }
       })

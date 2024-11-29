@@ -18,6 +18,6 @@
     "types": ["node", "jest"],
     "lib": ["es2022", "dom"]
   },
-  "include": ["src/**/*"]
+  "include": ["src"]
 }
 

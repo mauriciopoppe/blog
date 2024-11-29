@@ -2,6 +2,7 @@
 // @ts-ignore
 const url = new URL(document.currentScript.src)
 // @ts-ignore
+// eslint-disable-next-line
 __webpack_public_path__ = url.origin + __webpack_public_path__ + '/'
 
 function isMobile() {
