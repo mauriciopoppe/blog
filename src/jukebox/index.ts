@@ -1,6 +1,12 @@
 import { App } from './components/App.js'
 import { loadAssets } from './assets.js'
 
+declare global {
+  interface Window {
+    TWEEN: any
+  }
+}
+
 function skipIntro() {
   return !!window.location.search.match('skip')
 }

@@ -1,13 +1,18 @@
+import { EventEmitter } from 'events'
+import * as THREE from 'three'
 import { shake } from '../utils.js'
 import { assets } from '../assets.js'
 
 export class Text {
-  constructor(parent, { message, size, color }) {
+  parent: EventEmitter
+  root: THREE.Object3D
+
+  constructor(parent: EventEmitter, { message, size, color }) {
     this.parent = parent
     this.root = new THREE.Object3D()
 
     const shapes = assets.font.generateShapes(message, size)
-    const geometry = new THREE.ShapeBufferGeometry(shapes)
+    const geometry = new THREE.ShapeGeometry(shapes)
     const material = new THREE.MeshBasicMaterial({
       color: color || '#ffffff',
       transparent: true,

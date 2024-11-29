@@ -1,15 +1,32 @@
+import { EventEmitter } from 'events'
+
+import * as THREE from 'three'
 import { between } from '../utils.js'
 
 class Video {
-  constructor(app) {
+  parent: EventEmitter
+  video: HTMLVideoElement
+  audio: HTMLAudioElement
+  audioSetupDone: boolean
+  geometry: THREE.PlaneGeometry
+  material: THREE.MeshLambertMaterial
+  root: THREE.Mesh
+  currentTime: number
+  duration: number
+  track: MediaElementAudioSourceNode
+
+  audioAnalyser: AnalyserNode
+  audioAnalyserData: Uint8Array
+
+  constructor(app: EventEmitter) {
     const self = this
     this.parent = app
 
-    const video = document.querySelector('#video-source')
+    const video: HTMLVideoElement = document.querySelector('#video-source')
     video.volume = 0
     this.video = video
 
-    const audio = document.querySelector('#audio-source')
+    const audio: HTMLAudioElement = document.querySelector('#audio-source')
     this.audio = audio
 
     // set to true on user interaction
@@ -125,7 +142,7 @@ class Video {
     const avg = this.getAudioAverageFrequency()
     const soundNormalized = avg / 300
     // console.log(soundNormalized)
-    this.parent.setBloomPassStrength(0.2 + Math.pow(soundNormalized, 1.5))
+    ;(this.parent as any).setBloomPassStrength(0.2 + Math.pow(soundNormalized, 1.5))
 
     const videoScale = Math.pow(soundNormalized, 2)
     this.root.scale.x = 1 + videoScale

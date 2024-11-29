@@ -1,7 +1,13 @@
-import EventEmitter from 'events'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { EventEmitter } from 'events'
+import * as THREE from 'three'
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
+import { AfterimagePass } from 'three/addons/postprocessing/AfterimagePass.js'
 
 import { Video } from './Video.js'
+import { Image } from './Image.js'
 import { VideoControls } from './VideoControls.js'
 import { Text } from './Text.js'
 import { Subtitles } from './Subtitles.js'
@@ -9,17 +15,11 @@ import { Claps } from './Claps.js'
 import { between } from '../utils.js'
 import { assets } from '../assets.js'
 
-import '../shaders/CopyShader.js'
-import '../shaders/LuminosityShader.js'
-import '../shaders/LuminosityHighPassShader.js'
-import '../shaders/SobelOperatorShader.js'
-import '../shaders/AfterimageShader.js'
-
-import '../postprocessing/EffectComposer.js'
-import '../postprocessing/RenderPass.js'
-import '../postprocessing/ShaderPass.js'
-import '../postprocessing/UnrealBloomPass.js'
-import '../postprocessing/AfterimagePass.js'
+// import '../shaders/CopyShader.js'
+// import '../shaders/LuminosityShader.js'
+// import '../shaders/LuminosityHighPassShader.js'
+// import '../shaders/SobelOperatorShader.js'
+// import '../shaders/AfterimageShader.js'
 
 // const stats = new Stats()
 // stats.domElement.style.position = 'absolute'
@@ -28,15 +28,43 @@ const clock = new THREE.Clock()
 const raycaster = new THREE.Raycaster()
 
 const mouse = new THREE.Vector2()
-// @ts-ignore
+
 class App extends EventEmitter {
+  scene: THREE.Scene
+  camera: THREE.Camera
+  renderer: THREE.Renderer
+  controls: OrbitControls
+  composer: EffectComposer
+  afterimagePass: AfterimagePass
+  bloomPass: UnrealBloomPass
+  current: number
+
+  light: THREE.Light
+  ambientLight: THREE.Light
+
+  video: Video
+  videoControls: VideoControls
+  title: Text
+  subtitles: Subtitles
+  subtitlesEnglish: Subtitles
+  poem: Text
+  claps: Claps
+  image: Image
+
+  raycastTargets: THREE.Object3D[]
+  intersected?: THREE.Object3D
+
+  bloomPassDelta: number
+  bloomPassDeltaTotal: number
+  bloomPassDeltaNext: number
+
   constructor() {
     super()
     this.setup()
     this.addLights()
     this.addObjects()
     this.timers()
-    this.listeners()
+    this.setupListeners()
   }
 
   setup() {
@@ -58,11 +86,11 @@ class App extends EventEmitter {
     /**
      * @type any
      */
-    this.composer = new THREE.EffectComposer(this.renderer)
-    var renderPass = new THREE.RenderPass(this.scene, this.camera)
+    this.composer = new EffectComposer(this.renderer)
+    var renderPass = new RenderPass(this.scene, this.camera)
     this.composer.addPass(renderPass)
 
-    var afterImage = new THREE.AfterimagePass()
+    var afterImage = new AfterimagePass()
     /**
      * @type any
      */
@@ -70,7 +98,7 @@ class App extends EventEmitter {
     this.afterimagePass.uniforms.damp.value = 0.7
     this.composer.addPass(afterImage)
 
-    var bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85)
+    var bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85)
     bloomPass.threshold = 0
     bloomPass.strength = 0.5
     bloomPass.radius = 0
@@ -120,7 +148,8 @@ class App extends EventEmitter {
                                   Jan 23, 2022
                                       Mauricio
       `,
-      size: 0.3
+      size: 0.3,
+      color: '#ffffff'
     })
     this.poem.root.position.y += 2
     this.poem.root.position.z -= 0.5
@@ -137,7 +166,8 @@ class App extends EventEmitter {
 
     this.subtitlesEnglish = new Subtitles(this, {
       subtitles: assets.subtitlesEnglish,
-      video: this.video
+      video: this.video,
+      color: '#ffffff'
     })
     this.subtitlesEnglish.root.scale.x *= 0.7
     this.subtitlesEnglish.root.scale.y *= 0.7
@@ -154,9 +184,10 @@ class App extends EventEmitter {
     this.raycastTargets = [this.videoControls.root]
   }
 
-  listeners() {
+  setupListeners() {
+    // @ts-ignore
     this.on('move', this.onMove.bind(this))
-    const rootDom = document.body.querySelector('#root')
+    const rootDom: HTMLElement = document.body.querySelector('#root')
 
     window.addEventListener(
       'mousemove',
@@ -186,7 +217,7 @@ class App extends EventEmitter {
     )
   }
 
-  onMove(step) {
+  onMove(step: number) {
     this.current = this.current + step
     if (this.current <= 0) this.current = 100
     if (this.current > 100) this.current = 1
@@ -206,7 +237,7 @@ class App extends EventEmitter {
     this.bloomPassDeltaNext = 1
   }
 
-  update(delta) {
+  update(delta: number) {
     // update the filters to do the flickering
     this.bloomPassDelta += delta
     if (this.bloomPassDelta > this.bloomPassDeltaNext) {
@@ -248,7 +279,7 @@ class App extends EventEmitter {
     this.emit('update', { delta })
   }
 
-  setBloomPassStrength(strength) {
+  setBloomPassStrength(strength: number) {
     this.bloomPass.strength = strength
   }
 
@@ -258,7 +289,8 @@ class App extends EventEmitter {
     this.controls.update()
     this.update(clock.getDelta())
     this.composer.render()
-    TWEEN.update()
+    // @ts-ignore
+    window.TWEEN.update()
     // stats.end()
   }
 }

@@ -1,7 +1,16 @@
+import { EventEmitter } from 'events'
+import * as THREE from 'three'
+import { Video } from './Video.js'
 import { between } from '../utils.js'
 
 export class Claps {
-  constructor(parent, { claps, video }) {
+  parent: EventEmitter
+  root: THREE.Object3D
+  claps: Claps
+  video: Video
+  clapsIdx: number
+
+  constructor(parent: EventEmitter, { claps, video }) {
     this.parent = parent
     this.root = new THREE.Object3D()
     // the claps file has this form:
@@ -40,14 +49,13 @@ export class Claps {
       const { width: imageWidth, height: imageHeight } = clap.getBoundingClientRect()
       clap.style.top = `${between(clapBoundsDelta, window.innerHeight - imageHeight - clapBoundsDelta)}px`
       clap.style.left = `${between(clapBoundsDelta, window.innerWidth - imageWidth - clapBoundsDelta)}px`
-
-      anime({
+      ;(window as any).anime({
         targets: clap,
         easing: 'easeInOutQuad',
         translateY: -50,
         opacity: 0,
         duration: 1000,
-        complete: (anim) => {
+        complete: () => {
           rootDom.removeChild(clap)
         }
       })

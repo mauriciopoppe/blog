@@ -1,13 +1,21 @@
+import { EventEmitter } from 'events'
+
+import * as THREE from 'three'
 import { between } from '../utils.js'
 const loader = new THREE.TextureLoader()
 
 const format = (v) => (v < 10 ? `00${v}` : v < 100 ? `0${v}` : v)
 
 class Image {
+  parent: EventEmitter
+  root: THREE.Object3D
+  geometry: THREE.PlaneGeometry
+  material: THREE.MeshLambertMaterial
+
   constructor(app, index = 1) {
     const path = `/sandbox/jukebox/pictures/${format(index)}.jpg`
     console.log(`loading path ${path}`)
-    const texture = loader.load(path, (texture) => {
+    const texture = loader.load(path, () => {
       // document.body.append(texture.image)
       // console.log(texture.image.height, texture.image.width)
       // this.geometry.scale.y = texture.image.height
@@ -26,7 +34,7 @@ class Image {
     this.root.position.set(0, 0, 0)
     this.root.skipRaycast = true
 
-    app.on('factor', (factor) => {
+    app.on('factor', () => {
       const scaleFactor = 0.99 + Math.random() * 0.01
       const rotationFactor = (between(-0.5, 0.5) * Math.PI) / 180
       this.root.rotation.z = rotationFactor
@@ -39,20 +47,20 @@ class Image {
     })
   }
 
-  move(delta, onComplete) {
-    const forward = (step) => {
+  move(delta: number, onComplete: () => void) {
+    const forward = (step: number) => {
       const forwardParams = { z: 0 }
-      return new TWEEN.Tween(forwardParams)
+      return new window.TWEEN.Tween(forwardParams)
         .to({ z: step }, 300)
-        .easing(TWEEN.Easing.Quadratic.Out)
+        .easing(window.TWEEN.Easing.Quadratic.Out)
         .onUpdate(() => {
           this.root.position.z = forwardParams.z
         })
     }
     var sideCoords = { x: 0, opacity: 1 }
-    const side = new TWEEN.Tween(sideCoords)
+    const side = new window.TWEEN.Tween(sideCoords)
       .to({ x: 10 * delta, opacity: 0 }, 1000)
-      .easing(TWEEN.Easing.Quadratic.Out)
+      .easing(window.TWEEN.Easing.Quadratic.Out)
       .onUpdate(() => {
         this.root.position.x = sideCoords.x
         this.root.material.opacity = sideCoords.opacity

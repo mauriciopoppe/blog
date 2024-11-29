@@ -1,10 +1,18 @@
+import { EventEmitter } from 'events'
+
 import { between } from '../utils.js'
 import { assets } from '../assets.js'
 
+import * as THREE from 'three'
 const loader = new THREE.TextureLoader()
 
 class Calendar {
-  constructor(parent) {
+  parent: EventEmitter
+  root: THREE.Object3D
+  left: THREE.Mesh
+  right: THREE.Mesh
+
+  constructor(parent: EventEmitter) {
     this.parent = parent
     this.root = new THREE.Object3D()
 
@@ -12,7 +20,7 @@ class Calendar {
     const rightTexture = loader.load('/sandbox/jukebox/arrow_right.jpg')
 
     const geometry = new THREE.PlaneGeometry(0.2, 0.2, 0.05)
-    const material = (params) =>
+    const material = (params: any) =>
       new THREE.MeshLambertMaterial(
         Object.assign(
           {
@@ -40,15 +48,15 @@ class Calendar {
     this.left.add(leftMessage)
     this.right.add(rightMessage)
 
-    const move = (step) => () => this.parent.emit('move', step)
+    const move = (step: number) => () => this.parent.emit('move', step)
 
     this.left.onClick = move(-1)
     this.right.onClick = move(1)
 
-    this.parent.on('factor', (factor) => {
+    this.parent.on('factor', () => {
       const k = 5
       const rotationFactor = (between(-k, k) * Math.PI) / 180
-      this.root.children.forEach((child) => {
+      this.root.children.forEach((child: THREE.Object3D) => {
         if (child.isPicked) {
           child.scale.setScalar(1.5)
         } else {
@@ -61,7 +69,7 @@ class Calendar {
     })
   }
 
-  createText(message) {
+  createText(message: string) {
     const shapes = assets.font.generateShapes(message, 0.05)
     const geometry = new THREE.ShapeBufferGeometry(shapes)
     const material = new THREE.MeshBasicMaterial({

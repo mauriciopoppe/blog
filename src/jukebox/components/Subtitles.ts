@@ -1,17 +1,37 @@
+import { EventEmitter } from 'events'
+import * as THREE from 'three'
+import { Video } from './Video.js'
 import { assets } from '../assets.js'
 import { shake } from '../utils.js'
 
 /**
  * Transforms the string 00:00:00,000 to ms
  */
-function durationToMs(duration) {
+function durationToMs(duration: string) {
   const durationRegexp = /(?<hh>\d+):(?<mm>\d+):(?<ss>\d+),(?<ms>\d+)/
   const { mm, ss, ms } = duration.match(durationRegexp).groups
   return parseInt(ms, 10) + parseInt(ss, 10) * 1000 + parseInt(mm, 10) * 1000 * 60
 }
 
+interface SubtitleDetails {
+  id: string
+  start: string
+  end: string
+  startMs: number
+  endMs: number
+  text: string
+}
+
 export class Subtitles {
-  constructor(parent, { subtitles, video, color }) {
+  parent: EventEmitter
+  root: THREE.Object3D
+  subtitles: SubtitleDetails[]
+  subtitleIdx: number
+  video: Video
+  color: string
+  lastTextAdded: string
+
+  constructor(parent: EventEmitter, { subtitles, video, color }) {
     this.parent = parent
     this.root = new THREE.Object3D()
     this.subtitles = this.processSubtitles(subtitles)
@@ -24,7 +44,7 @@ export class Subtitles {
     this.parent.on('factor', shake(this.root, 3))
   }
 
-  processSubtitles(subtitles) {
+  processSubtitles(subtitles: string) {
     // the subtitle file has this form:
     //
     // 1
@@ -40,7 +60,8 @@ export class Subtitles {
       const startMs = durationToMs(start)
       const endMs = durationToMs(end)
       const text = lines[i + 2].trim()
-      out.push({ id, start, end, startMs, endMs, text })
+      const subtitle: SubtitleDetails = { id, start, end, startMs, endMs, text }
+      out.push(subtitle)
     }
     return out
   }
@@ -56,7 +77,7 @@ export class Subtitles {
     if (elapsedTime > this.subtitles[this.subtitleIdx].startMs) {
       // console.log('text added', this.subtitles[this.subtitleIdx])
       const shapes = assets.font.generateShapes(this.subtitles[this.subtitleIdx].text, 1)
-      const geometry = new THREE.ShapeBufferGeometry(shapes)
+      const geometry = new THREE.ShapeGeometry(shapes)
       const material = new THREE.MeshBasicMaterial({
         color: this.color || '#ffffff',
         transparent: true,

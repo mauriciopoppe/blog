@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "module": "es2022",
+    "moduleResolution": "bundler",
     "jsx": "react-jsx",
     "allowJs": true,
     "esModuleInterop": true,
@@ -18,6 +18,6 @@
     "types": ["node", "jest"],
     "lib": ["es2022", "dom"]
   },
-  "include": ["src"]
+  "include": ["src/**/*"]
 }
 

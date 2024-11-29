@@ -13,29 +13,24 @@
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=The+Girl+Next+Door" rel="stylesheet">
-
-    <script charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
 </head>
 <body>
 
+    <!-- referenced from the jukebox script -->
     <video id="video-source" src="/sandbox/jukebox/bachata.mp4" style="width: 0; height: 0; position: absolute;" controls></video>
+    <!-- referenced from the jukebox script, an additional audio source is used to analyze the sound -->
     <audio id="audio-source" src="/sandbox/jukebox/bachata.mp3"></audio>
 
     <div id="root"></div>
 
     <div id="overlay" style="position: absolute; top: 0; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; background-color: rgb(33, 34, 32);">
-        <span id="start" style="border: 1px solid white; padding: 10px 20px; cursor: pointer; font-family: 'The Girl Next Door'; font-size: 2em">
+        <span id="start" style="border: 1px solid white; padding: 20px; cursor: pointer; font-family: 'The Girl Next Door'; font-size: 2em">
             You found it, let's dance!
         </span>
     </div>
-
-
-    <!-- <input style="position: absolute; right: 0; top: 0" type="range" id="volume" min="0" max="2" value="1" step="0.01"> -->
-
     {{ partial "scripts/jukebox.html" . }}
-
 </body>
 </html>

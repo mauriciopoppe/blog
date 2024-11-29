@@ -10,7 +10,7 @@ date: 2024-11-17 14:00:00
 ## Learning to dance
 
 I had my first dancing experience in San Franciso in 2018, I went with a friend to [Space 550](https://maps.app.goo.gl/uuDZS1xETcHuSY4u9),
-a latin night club where I had an salsa intro class. I didn't enjoy it that much because
+a latin night club where I had an intro class to salsa. I didn't enjoy it that much because
 I was new to it and because you have to be a good leader (or at least
 a leader with enough decent moves) to start enjoying it.
 
