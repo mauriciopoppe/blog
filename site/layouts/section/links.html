@@ -11,6 +11,9 @@
 
 <style>
 h1, a, h1.tw-text-primary, span.tw-text-primary { color: rgb(var(--primary)); }
+a:hover svg {
+  transform: scale(1.1);
+}
 img {
   filter: drop-shadow(0px 0px 5px rgba(var(--primary), 1));
 }
@@ -95,23 +98,17 @@ img {
     <!-- links to socials -->
     <div class="tw-flex tw-flex-row tw-justify-center tw-content-center tw-gap-5">
 
-      <span class="my-social-icon">
-        <a href="https://instagram.com/mauricio.poppe" target="_blank">
-          {{ partial "icons/instagram.html" . }}
-        </a>
-      </span>
+      <a href="https://instagram.com/mauricio.poppe" target="_blank" class="my-social-icon">
+        {{ partial "icons/instagram.html" . }}
+      </a>
 
-      <span class="my-social-icon tw-w-8">
-        <a href="https://youtube.com/@mauricio-poppe" target="_blank">
-          {{ partial "icons/youtube.html" . }}
-        </a>
-      </span>
+      <a href="https://youtube.com/@mauricio-poppe" target="_blank" class="my-social-icon tw-w-8">
+        {{ partial "icons/youtube.html" . }}
+      </a>
 
-      <span class="my-social-icon">
-        <a href="https://github.com/mauriciopoppe" target="_blank">
-          {{ partial "icons/github.html" . }}
-        </a>
-      </span>
+      <a href="https://github.com/mauriciopoppe" target="_blank" class="my-social-icon">
+        {{ partial "icons/github.html" . }}
+      </a>
 
     </div>
 
