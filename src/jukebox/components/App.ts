@@ -15,15 +15,6 @@ import { Claps } from './Claps.js'
 import { between } from '../utils.js'
 import { assets } from '../assets.js'
 
-// import '../shaders/CopyShader.js'
-// import '../shaders/LuminosityShader.js'
-// import '../shaders/LuminosityHighPassShader.js'
-// import '../shaders/SobelOperatorShader.js'
-// import '../shaders/AfterimageShader.js'
-
-// const stats = new Stats()
-// stats.domElement.style.position = 'absolute'
-// document.querySelector('#root').appendChild(stats.domElement)
 const clock = new THREE.Clock()
 const raycaster = new THREE.Raycaster()
 
@@ -185,7 +176,6 @@ class App extends EventEmitter {
   }
 
   setupListeners() {
-    // @ts-ignore
     this.on('move', this.onMove.bind(this))
     const rootDom: HTMLElement = document.body.querySelector('#root')
 
@@ -289,7 +279,6 @@ class App extends EventEmitter {
     this.controls.update()
     this.update(clock.getDelta())
     this.composer.render()
-    // @ts-ignore
     window.TWEEN.update()
     // stats.end()
   }

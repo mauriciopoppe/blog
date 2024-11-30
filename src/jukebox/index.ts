@@ -4,6 +4,8 @@ import { loadAssets } from './assets.js'
 declare global {
   interface Window {
     TWEEN: any
+    anime: any
+    app: App
   }
 }
 
@@ -13,9 +15,8 @@ function skipIntro() {
 
 function intro() {
   if (skipIntro()) return true
-  return new Promise((resolve) => {
+  return new Promise<void>((resolve) => {
     document.querySelector('#overlay').addEventListener('click', () => {
-      // @ts-ignore
       window.anime({
         targets: '#overlay',
         easing: 'easeInQuart',
@@ -23,7 +24,6 @@ function intro() {
         duration: 5000,
         complete: () => {
           ;(document.querySelector('#overlay') as HTMLElement).style.display = 'none'
-          // @ts-ignore
           resolve()
         }
       })
@@ -32,11 +32,8 @@ function intro() {
 }
 
 function runApp() {
-  // @ts-ignore
   window.app = new App()
-  // @ts-ignore
   window.app.loop()
-  // @ts-ignore
   window.anime.timeline().add({
     targets: '#root',
     easing: 'linear',

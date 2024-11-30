@@ -42,6 +42,17 @@ Then at home you practice on your own, I focus a lot on perfecting isolations
 (targeted movement of a part of my body) so that the follower can feel the next move I'd like to do.
 Finally, you go to the social dance nights every week to apply what you learned in classes and on your own.
 
+I liked going to bachata festivals to learn new moves, on my first festivals I went to most of the classes
+over the 3 days I was there. Looking back, there are too many moves to learn and I felt drained to go to the
+social dance nights by the end of the day. For future festivals, I decided to pick a few classes
+that matched my style (I like sensual bachata) and the rest of the time I'd spend it exploring the town.
+Then later, I'd go back to the hotel, rest and go to the social dance night which usually start very late
+after midnight.
+
+Nowadays, I spend my free time at home practicing a small set of moves and some variations, as I mentioned
+before I also practice isolations a lot. My teacher says that we should dominate the fundamentals and that's
+exactly what I focus at home over and over again.
+
 In the dance floor there are good days and bad days. Days where you feel the flow of the music and all the moves
 click in your head and days where you don't feel the flow of the music at all. Days where you dance with a follower
 and all of the moves and their transitions seem so effortless and days where you can't make a connection
@@ -115,11 +126,11 @@ the open mic events. I also started a Youtube channel where I upload my covers.
   classes on weekdays. I didn't go to socials on Saturdays as often which is not good!
 - I did my first bachata cover and uploaded to Youtube, I made a cover of [Solo Conmigo by Romeo Santos](https://www.youtube.com/watch?v=XEUCbvCEjc8).
 
-<iframe class="tw-mx-auto tw-aspect-auto md:tw-w-3/5 md:tw-h-80" src="https://www.youtube.com/embed/Aify7OfmyRw?si=9NDronOOruKW3Qr_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe class="tw-mx-auto tw-aspect-video md:tw-w-full" src="https://www.youtube.com/embed/Aify7OfmyRw?si=9NDronOOruKW3Qr_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 - I performed at NY Guitar School with a cover of [Todavia me Amas by Aventura](https://www.youtube.com/watch?v=kADoBrj4934)
 
-<iframe class="tw-mx-auto tw-aspect-auto md:tw-w-3/5 md:tw-h-80" src="https://www.youtube.com/embed/a61hvCOAnCc?si=1b2xZohL_vGAmc2f" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe class="tw-mx-auto tw-aspect-video md:tw-w-full" src="https://www.youtube.com/embed/a61hvCOAnCc?si=1b2xZohL_vGAmc2f" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## My Favorites
 

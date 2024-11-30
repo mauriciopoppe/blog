@@ -19,7 +19,6 @@ export const assets: Assets = {
 }
 
 export async function loadAssets() {
-  // @ts-ignore
   const loader = new FontLoader()
   const [font, subtitles, subtitlesEnglish, claps, audioBuffer] = await Promise.all([
     new Promise<Font>((resolve, reject) =>
