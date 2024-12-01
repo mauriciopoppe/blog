@@ -1,21 +1,18 @@
 ---
-title: Creating a backing track for open mics
+title: Creating a backing track for an open mic
 summary: |
-  To sing and play my favorite songs I use demucs to split
-  a song into different tracks, I select the tracks that I'd like to be part of the
-  backing track and join them together with ffmpeg. As a result, I have a single
-  mp3 file that I play in the background while I sing and play the guitar.
+  I perform in open mics in my spare time, when I decide to perform a cover of
+  a song I usually play the guitar as well as singing it. Therefore, I prepare
+  a backing track without those tracks that I use as background music during
+  the performance.
+
+  In this article I show how to create a backing track using yt-dlp, demucs and ffmpeg.
 tags: ['life', 'karaoke', 'open mic', 'demucs', 'ffmpeg', 'guitar', 'singing', 'music']
 image: /images/open-mic-guitar.jpg
 imageAlt: |
   Photo by Brands&People on <a href="https://unsplash.com/photos/man-in-black-and-white-checkered-button-up-shirt-playing-white-electric-guitar-FuezoxTPpDk?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
 date: 2024-12-01 14:49:00
 ---
-
-I perform in open mics in my spare time, when I decide to perform a cover of
-a song I usually play the guitar as well as singing it. Therefore, I create
-a backing track for the song that doesn't have either the voice or the guitar,
-that way, I can play it on the background while I sing and play the guitar.
 
 I have a couple of ways to split a song:
 
