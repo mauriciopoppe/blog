@@ -17,13 +17,69 @@ a:hover svg {
 img {
   filter: drop-shadow(0px 0px 5px rgba(var(--primary), 1));
 }
+
+@keyframes in-n-out {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(0.7);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+@keyframes beat {
+  0% {
+    transform: scale(1);
+  }
+
+  20% {
+    transform: scale(1.4);
+  }
+
+  40% {
+    transform: scale(1);
+  }
+
+  60% {
+    transform: scale(1.4);
+  }
+
+  80% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+#heart-container.start-animation #heart-message {
+  display: inline-block;
+  animation-duration: 3s;
+  animation-name: in-n-out;
+}
+
+#heart-container.start-animation .heart {
+  display: inline-block;
+  animation-duration: 3s;
+  animation-name: beat;
+}
+
 </style>
 <div id="voronoi" style="width: 100vw; height: 100vh; position: fixed; top: 0"></div>
 
 <div class="tw-flex tw-flex-col md:tw-h-screen tw-place-content-center tw-text-center">
 
   <!-- provides top padding to the entire content -->
-  <div class="tw-max-w-96 tw-mx-auto tw-px-4 tw-py-16 tw-bg-zinc-900/30 tw-backdrop-blur-sm">
+  <div id="my-links-card" class="tw-max-w-96 tw-mx-auto tw-px-4 tw-py-16 tw-bg-zinc-900/30 tw-backdrop-blur-sm">
     <img src="/images/me-playing-guitar.png" class="tw-rounded-full tw-aspect-square tw-w-28 tw-border tw-border-primary tw-mx-auto
       tw-inline-block tw-bg-zinc-900/30" alt="profile">
 
@@ -110,6 +166,11 @@ img {
         {{ partial "icons/github.html" . }}
       </a>
 
+      <a href="#" id="heart-container" class="my-social-icon">
+        <span class="heart">♥</span>
+        <span id="heart-message" class="tw-hidden tw-absolute tw-w-[120px] tw-bottom-[30px] -tw-left-[45px]">Thank you!</span>
+      </a>
+
     </div>
 
   </div>
@@ -119,5 +180,36 @@ img {
 {{ define "footer" }}
   {{ partial "scripts/voronoi.html" . }}
   {{ partial "scripts/heart.html" . }}
+  <script>
+    window.myBlog.onDocumentReady(() => {
+      window.mainHeart({
+        animateOnMouseOver: true,
+        animateOnClick: false,
+        onClick() { }
+      })
+
+      const heartContainer = document.querySelector('#heart-container')
+      const firstHeart = document.querySelector('.heart')
+      let isAnimating = false
+      let heartClickedOnce = false
+      firstHeart.addEventListener('click', (e) => {
+        if (!isAnimating) {
+          isAnimating = true
+          heartContainer.classList.add('start-animation')
+          setTimeout(() => {
+            heartContainer.classList.remove('start-animation')
+            isAnimating = false
+          }, 3000)
+
+          if (!heartClickedOnce) {
+            window.gtag('event', 'links_easter_egg')
+            heartClickedOnce = true
+            console.log('heart clicked once')
+          }
+        }
+        e.preventDefault()
+      })
+    })
+  </script>
 {{ end }}
 

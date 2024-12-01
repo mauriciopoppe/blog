@@ -11,7 +11,7 @@ class MoHeart extends CustomShape {
 }
 addShape('heart', MoHeart)
 
-function setupHearts(rootEl: HTMLElement) {
+export function setupHearts(rootEl: HTMLElement) {
   const heartShapes = []
   for (let i = 0; i < 10; i++) {
     const heart = new ShapeSwirl({
@@ -28,40 +28,55 @@ function setupHearts(rootEl: HTMLElement) {
     heartShapes.push(heart)
   }
 
-  const animateHearts = () => {
-    heartShapes.forEach((heart) => {
-      heart
-        .tune({ x: 0, y: { 0: 'rand(-75, -50)' } })
-        .generate()
-        .replay()
-    })
-  }
+  return heartShapes
+}
 
-  rootEl.addEventListener('mouseenter', animateHearts)
-  rootEl.addEventListener('click', () => {
-    new Html({
-      el: document.body,
-      duration: 2000,
-      opacity: { 1: 0 },
-      scaleX: { 1: 1.5 },
-      scaleY: { 1: 1.5 },
-      onComplete() {
-        window.gtag('event', 'profile_easter_egg')
-        document.location = '/sandbox/jukebox/'
-      }
-    }).play()
+export function animateHearts(heartShapes: ShapeSwirl[]) {
+  heartShapes.forEach((heart) => {
+    heart
+      .tune({ x: 0, y: { 0: 'rand(-75, -50)' } })
+      .generate()
+      .replay()
   })
 }
 
-function main() {
+function initializeHeart(rootEl: HTMLElement, props: MainHeartProps) {
+  const heartShapes = setupHearts(rootEl)
+  rootEl.addEventListener('mouseenter', () => {
+    if (props.animateOnMouseOver) {
+      animateHearts(heartShapes)
+    }
+  })
+  rootEl.addEventListener('click', () => {
+    if (props.animateOnClick) {
+      new Html({
+        el: document.body,
+        duration: 2000,
+        opacity: { 1: 0 },
+        scaleX: { 1: 1.5 },
+        scaleY: { 1: 1.5 },
+        onComplete() {
+          props.onClick()
+        }
+      }).play()
+    } else {
+      props.onClick()
+    }
+  })
+}
+
+export interface MainHeartProps {
+  animateOnMouseOver: boolean
+  animateOnClick: boolean
+  onClick: () => void
+}
+
+export function mainHeart(props: MainHeartProps) {
   const hearts: HTMLElement[] = Array.from(document.querySelectorAll('.heart'))
   // exit early if no hearts were found
   if (!hearts.length) return
-  hearts.forEach((h) => setupHearts(h))
+  hearts.forEach((h) => initializeHeart(h, props))
 }
 
-export function heartHotReload() {
-  main()
-}
-
-main()
+// @ts-ignore
+window.mainHeart = mainHeart

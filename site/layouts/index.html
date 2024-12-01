@@ -80,5 +80,15 @@ h1, a, h1.tw-text-primary, span.tw-text-primary { color: rgb(var(--primary)); }
 {{ define "footer" }}
   {{ partial "scripts/voronoi.html" . }}
   {{ partial "scripts/heart.html" . }}
+  <script>
+    window.mainHeart({
+      animateOnMouseOver: true,
+      animateOnClick: true,
+      onClick() {
+        window.gtag('event', 'profile_easter_egg')
+        document.location = '/sandbox/jukebox/'
+      }
+    })
+  </script>
 {{ end }}
 

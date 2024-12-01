@@ -1,5 +1,5 @@
 .my-social-icon {
-  @apply tw-h-6 tw-w-6 tw-inline-block;
+  @apply tw-h-6 tw-w-6 tw-inline-block tw-relative;
 }
 
 .my-social-icon path {
