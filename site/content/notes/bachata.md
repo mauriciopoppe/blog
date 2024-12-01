@@ -2,7 +2,7 @@
 title: Bachata
 summary: |
   This is my bachata dancing journey. I talk about how I first got started with bachata, and what motivated me to keep going. I talk about my experiences at bachata festivals, and how they've helped me to grow as a dancer. Finally, I also share some of my favorite bachata dancers and bachata combos that I've learned over the years
-tags: ['life', 'dancing', 'bachata']
+tags: ['life', 'dancing', 'bachata', 'singing', 'open mic', 'guitar', 'music']
 image: /images/bachata.jpg
 date: 2024-11-17 14:00:00
 ---

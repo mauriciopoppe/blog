@@ -7,7 +7,7 @@ summary: |
   the performance.
 
   In this article I show how to create a backing track using yt-dlp, demucs and ffmpeg.
-tags: ['life', 'karaoke', 'open mic', 'demucs', 'ffmpeg', 'guitar', 'singing', 'music']
+tags: ['life', 'karaoke', 'open mic', 'demucs', 'ffmpeg', 'guitar', 'singing', 'music', 'bachata']
 image: /images/open-mic-guitar.jpg
 imageAlt: |
   Photo by Brands&People on <a href="https://unsplash.com/photos/man-in-black-and-white-checkered-button-up-shirt-playing-white-electric-guitar-FuezoxTPpDk?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
@@ -16,13 +16,13 @@ date: 2024-12-01 14:49:00
 
 I have a couple of ways to split a song:
 
-- With Logic Pro X for the iPad - In the update for 2024, there's a way to split
+- With Logic Pro for iPad - In the update for 2024, there's a way to split
   a song into tracks (bass, drums, other, vocals), this feature is called
-  [stem splitter](https://support.apple.com/guide/logicpro-ipad/extract-vocal-instrumental-stems-stem-lpip1b60ada3/ipados)
+  [stem splitter](https://support.apple.com/guide/logicpro-ipad/extract-vocal-instrumental-stems-stem-lpip1b60ada3/ipados).
 - With [demucs](https://github.com/facebookresearch/demucs) which is an open source tool capable of separating
   drums, bass, and vocals from the rest of the accompaniment
   - It has a feature where it can split a song using more instruments (bass, drums, guitar, other, piano, vocals),
-    in this mode I can still keep interesting music effects stored in the "other" and "piano" tracks
+    in this mode I can keep important tracks in the backing track such as the "other" and "piano" tracks
     which make the backing track feel complete.
 
 In this article I show how to use demucs to split a song into tracks.
@@ -34,9 +34,10 @@ In this article I show how to use demucs to split a song into tracks.
 - Install essential tools
   - [git](https://git-scm.com/downloads)
   - [python](https://www.python.org/downloads/)
-- Download demucs dependencies (there's an automated step to download these below)
-  - Install [yt-dlp](https://github.com/yt-dlp/yt-dlp) to download your song (if you have your song skip this step)
-  - Install [demucs](https://github.com/facebookresearch/demucs/) and [ffmpeg](https://ffmpeg.org/)
+- Download dependencies (there's an automated step to download these below)
+  - Install [yt-dlp](https://github.com/yt-dlp/yt-dlp) to download your song (if you have your song skip this step).
+  - Install [demucs](https://github.com/facebookresearch/demucs/) to split the track.
+  - Install [ffmpeg](https://ffmpeg.org/) to combine selected tracks into a combined track.
 - Download your song with `yt-dlp`
 - Separate the track with `demucs`
 - Join the drums/bass/other tracks with `ffmpeg` into a track that you can use as your backing track!
