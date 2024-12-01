@@ -31,10 +31,10 @@ export function setupHearts(rootEl: HTMLElement) {
   return heartShapes
 }
 
-export function animateHearts(heartShapes: ShapeSwirl[]) {
+export function animateHearts(heartShapes: ShapeSwirl[], tuneProps: { [key: string]: any } = {}) {
   heartShapes.forEach((heart) => {
     heart
-      .tune({ x: 0, y: { 0: 'rand(-75, -50)' } })
+      .tune({ ...tuneProps, x: 0, y: { 0: 'rand(-75, -50)' } })
       .generate()
       .replay()
   })
@@ -44,10 +44,13 @@ function initializeHeart(rootEl: HTMLElement, props: MainHeartProps) {
   const heartShapes = setupHearts(rootEl)
   rootEl.addEventListener('mouseenter', () => {
     if (props.animateOnMouseOver) {
-      animateHearts(heartShapes)
+      animateHearts(heartShapes, {
+        duration: 'rand(600, 1500)'
+      })
     }
   })
   rootEl.addEventListener('click', () => {
+    animateHearts(heartShapes, { duration: 'rand(1500, 3000)' })
     if (props.animateOnClick) {
       new Html({
         el: document.body,

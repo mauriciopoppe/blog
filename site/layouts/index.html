@@ -11,6 +11,7 @@
 
 <style>
 h1, a, h1.tw-text-primary, span.tw-text-primary { color: rgb(var(--primary)); }
+.material-symbols-outlined { font-size: 1em; vertical-align: middle; }
 </style>
 
 <div id="voronoi" style="width: 100vw; height: 100vh; position: fixed; top: 0"></div>
@@ -24,53 +25,145 @@ h1, a, h1.tw-text-primary, span.tw-text-primary { color: rgb(var(--primary)); }
 
     <div class="tw-basis-2/3 tw-grid tw-gap-2 tw-text-base md:tw-grid-cols-[10em_auto] tw-leading-tight">
       <h4 class="md:tw-col-span-2 tw-text-2xl tw-mt-2">Favorites</h4>
-      <a href="notes/documenting-my-life">Documenting my life</a>
-      <span>Ordinary moments don't have a value right now but they will value over time.
-      I decided to document my life doing journaling, taking photos and making vlogs.</span>
-      <a href="notes/bachata">Bachata</a>
-      <span>I love listening to bachata, dancing bachata, playing bachata. I'm recording my journey here.</span>
-      <a href="notes/productivity-skills">Productivity skills</a>
-      <span>Techniques to get better use of my computer time at work and at home.</span>
-      <a href="notes/computer-science/data-structures/graphs/introduction/">Intro to Graph Theory</a>
-      <span>Showing animated graphs, it led me to write <a href="https://mauriciopoppe.github.io/greuler/"
-        target="_blank">greuler</a>, a library to do animations with graphs.</span>
-      <a href="notes/mathematics/calculus/introduction/">Intro to Calculus</a>
-      <span>My very first note!, it sparked the idea to write <a
+      <a href="notes/documenting-my-life">
+        <span class="material-symbols-outlined"> edit_note </span>
+        Documenting my life
+      </a>
+      <div>
+        Ordinary moments don't have a value right now but they will value over time.
+        I decided to document my life doing journaling, taking photos and making vlogs.
+      </div>
+      <a href="notes/bachata">
+        <span class="material-symbols-outlined"> falling </span>
+        Bachata
+      </a>
+      <div>
+        I love listening to bachata, dancing bachata, playing bachata. I'm recording my journey here.
+      </div>
+      <a href="notes/productivity-skills">
+        <span class="material-symbols-outlined"> inventory </span>
+        Productivity skills
+      </a>
+      <div>
+        Techniques to get better use of my computer time at work and at home.
+      </div>
+      <a href="notes/computer-science/data-structures/graphs/introduction/">
+        <span class="material-symbols-outlined"> graph_5 </span>
+        Intro to Graph Theory
+      </a>
+      <div>
+        Showing animated graphs, it led me to write <a href="https://mauriciopoppe.github.io/greuler/"
+        target="_blank">greuler</a>, a library to do animations with graphs.
+      </div>
+      <a href="notes/mathematics/calculus/introduction/">
+        <span class="material-symbols-outlined"> function </span>
+        Intro to Calculus
+      </a>
+      <div>
+        My very first note!, it sparked the idea to write <a
         href="https://mauriciopoppe.github.io/function-plot/" target="_blank">function plot</a>, a library to
-        plot functions.</span>
-      <a href="notes/computer-graphics/viewing/projection-transform/">Transformation Matrix for 3d to 2d projection</a>
-      <span>The math behind the transformation matrices for Orthographic projection and Perspective projection.
-      It has nice demos with ThreeJS.</span>
-      <a href="notes/computer-science/computation/promises/">Implementing Promises from Scratch</a>
-      <span>I wrote a test driven A+ Promise implementation from scratch.</span>
+        plot functions.
+      </div>
+      <a href="notes/computer-graphics/viewing/projection-transform/">
+        <span class="material-symbols-outlined"> grid_on </span>
+        Transformation Matrix for 3d to 2d projection
+      </a>
+      <div>
+        The math behind the transformation matrices for Orthographic projection and Perspective projection.
+        It has nice demos with ThreeJS.
+      </div>
+      <a href="notes/computer-science/computation/promises/">
+        <span class="material-symbols-outlined"> deployed_code_history </span>
+        Implementing Promises from Scratch
+      </a>
+      <div>
+        I wrote a test driven A+ Promise implementation from scratch.
+      </div>
 
       <h4 class="md:tw-col-span-2 tw-text-2xl tw-mt-2">Writing</h4>
-      <a href="/notes">Notes</a>
-      <span>The notes I wrote since 2015.</span>
+      <a href="/notes">
+        <span class="material-symbols-outlined"> edit_square </span>
+        Notes
+      </a>
+      <div>
+        The notes I wrote since 2015.
+      </div>
 
       <h4 class="md:tw-col-span-2 tw-text-2xl tw-mt-2">Documenting my life</h4>
-      <a href="https://www.youtube.com/@mauricio-poppe">Vlogs</a>
-      <span>Life goes by fast, I want to do my best to remember it.</span>
-      <a href="https://www.youtube.com/@mauricio-poppe">Music Covers</a>
-      <span>I like to perform in open mics where I sing and play my guitar.</span>
+      <a href="https://www.youtube.com/@mauricio-poppe" class="tw-relative">
+        <span class="tw-w-5 tw-mr-1 tw-float-left">
+          {{ partial "icons/youtube.html" . }}
+        </span>
+        Vlogs
+      </a>
+      <div>
+        Life goes by fast, I want to do my best to remember it.
+      </div>
+      <a href="https://www.youtube.com/@mauricio-poppe">
+        <span class="material-symbols-outlined"> music_note </span>
+        Music Covers
+      </a>
+      <div>
+        I like to perform in open mics where I sing and play my guitar.
+      </div>
 
       <h4 class="md:tw-col-span-2 tw-text-2xl tw-mt-2">Software</h4>
-      <a href="https://mauriciopoppe.github.io/function-plot/" target="_blank">function plot</a>
-      <span>A JS library to plot functions in 2d.</span>
-      <a href="https://mauriciopoppe.github.io/greuler/" target="_blank">greuler</a>
-      <span>A JS library to draw graph animations.</span>
-      <a href="https://github.com/mauriciopoppe/quickhull3d" target="_blank">quickhull3d</a>
-      <span>A JS library to find the convex hull of a set of 3d points.</span>
-      <a href="https://mauriciopoppe.github.io/Three.js-City/T3/" target="_blank">City Car Drive</a>
-      <span>A ThreeJS demo where you can drive a car around a city.</span>
-      <a href="https://mauriciopoppe.github.io/interval-arithmetic/" target="_blank">interval arithmetic</a>
-      <span>A JS library to do arithmetic on intervals.</span>
-      <a href="https://github.com/mauriciopoppe/blog" target="_blank">My blog</a>
-      <span>This blog and its source code.</span>
-      <a href="https://github.com/mauriciopoppe/dotfiles" target="_blank">My dotfiles</a>
-      <span>My dotfiles which I use at work and home, always a work in progress.</span>
-      <a href="/links">Links</a>
-      <span>All my links</span>
+      <a href="https://mauriciopoppe.github.io/function-plot/" target="_blank">
+        <span class="material-symbols-outlined"> function </span>
+        function plot
+      </a>
+      <div>
+        A JS library to plot functions in 2d.
+      </div>
+      <a href="https://mauriciopoppe.github.io/greuler/" target="_blank">
+        <span class="material-symbols-outlined"> graph_5 </span>
+        greuler
+      </a>
+      <div>
+        A JS library to draw graph animations.
+      </div>
+      <a href="https://github.com/mauriciopoppe/quickhull3d" target="_blank">
+        <span class="material-symbols-outlined"> 3d_rotation </span>
+        quickhull3d
+      </a>
+      <div>
+        A JS library to find the convex hull of a set of 3d points.
+      </div>
+      <a href="https://mauriciopoppe.github.io/Three.js-City/T3/" target="_blank">
+        <span class="material-symbols-outlined"> laptop_car </span>
+        City Car Drive
+      </a>
+      <div>
+        A ThreeJS demo where you can drive a car around a city.
+      </div>
+      <a href="https://mauriciopoppe.github.io/interval-arithmetic/" target="_blank">
+        <span class="material-symbols-outlined"> data_array </span>
+        interval arithmetic
+      </a>
+      <div>
+        A JS library to do arithmetic on intervals.
+      </div>
+      <a href="https://github.com/mauriciopoppe/blog" target="_blank">
+        <span class="material-symbols-outlined"> note_alt </span>
+        My blog
+      </a>
+      <div>
+        This blog and its source code.
+      </div>
+      <a href="https://github.com/mauriciopoppe/dotfiles" target="_blank">
+        <span class="material-symbols-outlined"> docs </span>
+        My dotfiles
+      </a>
+      <div>
+        My dotfiles which I use at work and home, always a work in progress.
+      </div>
+      <a href="/links">
+        <span class="material-symbols-outlined"> share </span>
+        Links
+      </a>
+      <div>
+        I made a linktree clone with all my links.
+      </div>
 
     </div>
   </div>
