@@ -1,5 +1,5 @@
 ---
-title: Creating a backing track for an open mic
+title: Creating a backing track from your favorite song for an open mic
 summary: |
   I perform in open mics in my spare time, when I decide to perform a cover of
   a song I usually play the guitar as well as singing it. Therefore, I prepare
@@ -133,7 +133,7 @@ cd separated/htdemucs_6s/Prince\ Royce\ -\ Dec.\ 21\ \(Official\ Video\)\ \[A9B1
 ffmpeg -i bass.mp3 -i drums.mp3 -i other.mp3 -i piano.mp3 -filter_complex amix=inputs=4:normalize=0 combined.mp3
 ```
 
-Let's compare the original song with the backing track:
+Let's compare the original song with two versions of the backing track, one with bass and drums (no voice or guitar) and the other with bass, drums, other and piano (no voice or guitar).
 
 <table class="tw-table-auto">
   <thead>
@@ -144,11 +144,15 @@ Let's compare the original song with the backing track:
   </thead>
   <tbody>
     <tr>
-      <td>Original song (all instruments)</td>
+      <td>Original song (voice and all instruments)</td>
       <td><audio controls src="/audio/original-open-mic.mp3"></audio></td>
     </tr>
     <tr>
-      <td>Backing track (bass, drums, other, piano), no audio or guitar</td>
+      <td>Backing track (bass, drums), no voice or guitar. This is what you'd get using Logic Pro's stem split feature.</td>
+      <td><audio controls src="/audio/bass-drums-open-mic.mp3"></audio></td>
+    </tr>
+    <tr>
+      <td>Backing track (bass, drums, other, piano), no voice or guitar</td>
       <td><audio controls src="/audio/combined-open-mic.mp3"></audio></td>
     </tr>
   </tbody>
