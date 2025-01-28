@@ -36,19 +36,16 @@ Perhaps four, five times more, perhaps not even that.*
   </div>
 </div>
 
-*How should I do it?* Journaling, photos and videos. Journalism is the easiest. It's great to read old
-entries and see how much you grew as a person. I'm a fan of Riza's videos and it seems fun to
-create them so I'll also do video blogs.
+## How do I document my life?
 
-*So if you record your life, what are you going to use?*
-I'll get a camera and I'll start with one that's the most convenient to use.
+I like writing so I'll start with a journal. I'll also get a video camera and I'll start with one that's the most convenient to use.
 I'll also learn to edit videos because I want to romanticize my life by recording my adventures
 as something that my future self would like.
 
 I'm the subject and reporter of my own life, when I talk to myself in a video
 it's like I'm asking questions and answering them out loud.
 
-## Journaling
+### Journaling
 
 I have a google doc where every night I write an entry about my day, sometimes I forget
 to do it but that's ok, it doesn't need to be perfect and it can have as much detail
@@ -67,18 +64,21 @@ There's a template at the top with the following questions:
 * What will I do better tomorrow?
 ```
 
+Somedays I feel like reading a few entries from the past, it feels great to go back in time
+to see what I did in my life and how I grew as a person from that moment in time.
+
 I also have a special doc for dreams, I'm trying to get better at being
 able to have vivid dreams where I remember more details of my dreams,
 regardless of having a happy or sad vivid dream I record it so my
 future self can remember it.
 
-## Photos
+### Photos
 
 I got myself an instax camera and I used in a trip abroad, while I'm able to capture things
 in the moment with my phone and I can share them online it doesn't have the same
 value as taking a physical picture in the moment and sharing it with someone.
 
-## Video
+### Video
 
 I decided to get a nice vlogging camera called DJI Osmo Pocket 3, it's great
 because it very compact and has a stabilizer. I learned the basics about photography
