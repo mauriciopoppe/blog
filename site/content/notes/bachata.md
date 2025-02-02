@@ -132,6 +132,22 @@ the open mic events. I also started a Youtube channel where I upload my covers.
 
 <iframe class="tw-mx-auto tw-aspect-video md:tw-w-full" src="https://www.youtube.com/embed/a61hvCOAnCc?si=1b2xZohL_vGAmc2f" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
+### 2025 - Dancing around the world
+
+I did a 2 month vacation across Latin America, in addition to exploring new places I had the
+opportunity to go dancing!
+
+- San Salvador, El Salvador - I danced at PÁNUK Centro de Danza, the DJ would mostly play Salsa
+  (like 5 salsa songs and then 2 bachata songs).
+- La Paz, Bolivia and Medellin, Colombia - Unfortunately I didn't have time to dance! 
+  I was too busy exploring many cities that I was too tired to go dancing.
+- Santo Domingo, Dominican Republic - I went to Punta Cana to relax and possible dance at night,
+  when I rented a car the owner told me that the real bachata scene was in Santo Domingo so 
+  I drove a few hours to get there. The owner recommended el ["Corito Bachatero"](https://www.instagram.com/coritobachatero)
+  and it was amazing! I danced with many Dominican girls and one Colombian girl, this place
+  plays a lot of traditional bachata which I don't usually dance to, I learned that in
+  traditional bachata you don't make a lot of turns. It was a fun experience.
+
 ## My Favorites
 
 This is a collection of my favorite steps in Bachata or the steps that I do in the dance floor.
