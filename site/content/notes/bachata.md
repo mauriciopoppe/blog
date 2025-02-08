@@ -137,12 +137,12 @@ the open mic events. I also started a Youtube channel where I upload my covers.
 I did a 2 month vacation across Latin America, in addition to exploring new places I had the
 opportunity to go dancing!
 
-- San Salvador, El Salvador - I danced at PÁNUK Centro de Danza, the DJ would mostly play Salsa
-  (like 5 salsa songs and then 2 bachata songs).
-- La Paz, Bolivia and Medellin, Colombia - Unfortunately I didn't have time to dance! 
+- San Salvador, El Salvador - I danced at [PÁNUK Centro de Danza](https://maps.app.goo.gl/EhsW2mrA2Sopqh869),
+  the DJ would mostly play Salsa (like 5 salsa songs and then 2 bachata songs).
+- La Paz, Bolivia and Medellin, Colombia - Unfortunately I didn't have time to dance!
   I was too busy exploring many cities that I was too tired to go dancing.
 - Santo Domingo, Dominican Republic - I went to Punta Cana to relax and possible dance at night,
-  when I rented a car the owner told me that the real bachata scene was in Santo Domingo so 
+  when I rented a car the owner told me that the real bachata scene was in Santo Domingo so
   I drove a few hours to get there. The owner recommended el ["Corito Bachatero"](https://www.instagram.com/coritobachatero)
   and it was amazing! I danced with many Dominican girls and one Colombian girl, this place
   plays a lot of traditional bachata which I don't usually dance to, I learned that in
