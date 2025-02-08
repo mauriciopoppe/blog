@@ -151,11 +151,25 @@ The following is an optimization from lighthouse to inline the css in production
       })
     },
 
+    // onDocumentReady runs `fn` when the document is ready.
     onDocumentReady(fn) {
       if (document.readyState === 'complete' || document.readyState === 'interactive') {
         fn()
       } else {
         document.addEventListener('DOMContentLoaded', fn)
+      }
+    },
+
+    // doOnce returns a function that runs `fn` only once even if
+    // the returned function is called multiple times.
+    doOnce(fn) {
+      let didRun = false
+      return function () {
+        if (didRun) {
+          return
+        }
+        fn()
+        didRun = true
       }
     }
   }
@@ -257,5 +271,4 @@ The following is an optimization from lighthouse to inline the css in production
     {{ if eq . "math" }} {{ partial "lib/mathjax3.html" . }} {{ end }}
   {{ end }}
 {{ end }}
-
 

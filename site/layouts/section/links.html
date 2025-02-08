@@ -79,7 +79,7 @@ img {
 <div class="tw-flex tw-flex-col md:tw-h-screen tw-place-content-center tw-text-center">
 
   <!-- provides top padding to the entire content -->
-  <div id="my-links-card" class="tw-max-w-96 tw-mx-auto tw-px-4 tw-py-16 tw-bg-zinc-900/30 tw-backdrop-blur-sm">
+  <div id="my-links-card" class="tw-max-w-96 tw-mx-auto tw-px-4 tw-py-16 tw-bg-zinc-900/30 tw-backdrop-blur-sm tw-rounded-lg">
     <img src="/images/me-playing-guitar.png" class="tw-rounded-full tw-aspect-square tw-w-28 tw-border tw-border-primary tw-mx-auto
       tw-inline-block tw-bg-zinc-900/30" alt="profile">
 
@@ -168,7 +168,7 @@ img {
 
       <a href="#" id="heart-container" class="my-social-icon">
         <span class="heart">♥</span>
-        <span id="heart-message" class="tw-hidden tw-absolute tw-w-[120px] tw-bottom-[30px] -tw-left-[45px]">Thank you!</span>
+        <span id="heart-message" class="tw-hidden tw-absolute tw-w-[120px] -tw-bottom-[30px] -tw-left-[45px]">Thank you!</span>
       </a>
 
     </div>
@@ -183,15 +183,17 @@ img {
   <script>
     window.myBlog.onDocumentReady(() => {
       window.mainHeart({
-        animateOnMouseOver: true,
+        animateOnMouseOver: false,
         animateOnClick: false,
-        onClick() { }
+      })
+
+      const onHeartAnimationOnce = window.myBlog.doOnce(() => {
+        window.gtag('event', 'links_easter_egg')
       })
 
       const heartContainer = document.querySelector('#heart-container')
       const firstHeart = document.querySelector('.heart')
       let isAnimating = false
-      let heartClickedOnce = false
       firstHeart.addEventListener('click', (e) => {
         if (!isAnimating) {
           isAnimating = true
@@ -200,12 +202,7 @@ img {
             heartContainer.classList.remove('start-animation')
             isAnimating = false
           }, 3000)
-
-          if (!heartClickedOnce) {
-            window.gtag('event', 'links_easter_egg')
-            heartClickedOnce = true
-            console.log('heart clicked once')
-          }
+          onHeartAnimationOnce()
         }
         e.preventDefault()
       })

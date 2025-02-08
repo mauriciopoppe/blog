@@ -71,13 +71,14 @@ function initializeHeart(rootEl: HTMLElement, props: MainHeartProps) {
 export interface MainHeartProps {
   animateOnMouseOver: boolean
   animateOnClick: boolean
-  onClick: () => void
+  onClick: () => void | null
 }
 
 export function mainHeart(props: MainHeartProps) {
   const hearts: HTMLElement[] = Array.from(document.querySelectorAll('.heart'))
   // exit early if no hearts were found
   if (!hearts.length) return
+  if (!props.onClick) props.onClick = () => {}
   hearts.forEach((h) => initializeHeart(h, props))
 }
 

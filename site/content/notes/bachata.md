@@ -141,12 +141,12 @@ opportunity to go dancing!
   the DJ would mostly play Salsa (like 5 salsa songs and then 2 bachata songs).
 - La Paz, Bolivia and Medellin, Colombia - Unfortunately I didn't have time to dance!
   I was too busy exploring many cities that I was too tired to go dancing.
-- Santo Domingo, Dominican Republic - I went to Punta Cana to relax and possible dance at night,
+- Santo Domingo, Dominican Republic - I went to Punta Cana to relax and dance at night,
   when I rented a car the owner told me that the real bachata scene was in Santo Domingo so
   I drove a few hours to get there. The owner recommended el ["Corito Bachatero"](https://www.instagram.com/coritobachatero)
-  and it was amazing! I danced with many Dominican girls and one Colombian girl, this place
+  and it was amazing! I danced with many Dominican and Colombian girls, this place
   plays a lot of traditional bachata which I don't usually dance to, I learned that in
-  traditional bachata you don't make a lot of turns. It was a fun experience.
+  traditional bachata you don't make a lot of turns. Nevertheless, it was a fun experience.
 
 ## My Favorites
 
