@@ -11,12 +11,13 @@ summary: |
 image: /images/back-of-the-envelope.jpeg
 tags: ["system design", "architecture", "scalability", "back of the envelope"]
 libraries: ["math"]
-date: 2020-08-08 15:45:36
+date: "2020-08-08 15:45:36"
 references:
   - https://github.com/donnemartin/system-design-primer#latency-numbers-every-programmer-should-know
   - https://sirupsen.com/napkin/
   - http://venkateshcm.com/2014/06/Web-Application-Cache/
   - https://colin-scott.github.io/personal_website/research/interactive_latency.html
+  - "'Systems Performance: Enterprise and the Cloud' by Brendan Gregg"
 ---
 
 Calculate with exponents. A lot of back-of-the-envelope calculations are done with just coefficients and exponents, e.g. $c * 10^e$.
@@ -26,24 +27,22 @@ Only worrying about single-digit coefficients and exponents makes it much easier
 ```
 Latency Comparison Numbers
 --------------------------
-(From 2017 in https://colin-scott.github.io/personal_website/research/interactive_latency.html)
-The numbers of 2017 are easy to remember because of the exponents they use, look at "Read 1MB from X"
+Source: https://gist.github.com/BlackHC/2d0a3a21542b524a7cf2f8eac977481e
+Benchmarks for read: https://ssd.userbenchmark.com/, https://hdd.userbenchmark.com/
 
 L1 cache reference                           0.5 ns
 Branch mispredict                            5   ns
 L2 cache reference                           7   ns                      14x L1 cache
 Mutex lock/unlock                           25   ns
 Main memory reference                      100   ns                      20x L2 cache, 200x L1 cache
-Compress 1KB with Zippy                  2,000   ns
-Read 1 MB sequentially from memory       6,000   ns        6 us .006 ms  10^-2 ms
-SSD Random read                         16,000   ns       16 us .016 ms
-Read 1 MB sequentially from SSD*       100,000   ns      100 us   .1 ms  10^-1 ms
-HDD Random read                      3,000,000   ns    3,000 us    3 ms
-Read 1 MB sequentially from HDD      1,000,000   ns    1,000 us    1 ms  10^0  ms
-Send 1 KB bytes over 1 Gbps network     10,000   ns       10 us  .01 ms
-Read 1 MB sequentially from 1 Gbps  10,000,000   ns   10,000 us   10 ms  10^+1 ms
-Read 1 MB sequentially from 10 Gbps  1,000,000   ns    1,000 us    1 ms  10^0 ms
+Compress 1K bytes with Snappy            3,000   ns        3 µs
+Read 1 MB sequentially from memory      20,000   ns       20 us  .02 ms  ~50GB/s DDR5
+Read 1 MB sequentially from NVMe       100,000   ns      100 us   .1 ms  ~10GB/sec NVMe, 5x memory
+Read 1 MB sequentially from SSD        300,000   ns      300 µs   .3 ms  ~3GB/sec SSD, 15x memory, 3x NVMe
 Round trip within same datacenter      500,000   ns      500 us   .5 ms
+Read 1 MB sequentially from HDD      6,000,000   ns    6,000 µs    6 ms  ~150MB/sec, 300x memory, 60x NVMe, 20x SSD
+Send 1 MB over 1 Gbps network       10,000,000   ns   10,000 us   10 ms
+Disk seek                           10,000,000   ns   10,000 µs   10 ms  20x datacenter roundtrip
 Send packet CA->Netherlands->CA    150,000,000   ns  150,000 us  150 ms
 
 Notes
@@ -67,7 +66,6 @@ Network   1 GB    $0.01
 
 <iframe src="https://instacalc.com/53733/embed" width="100%" height="210" frameborder="0"></iframe>
 
-- For reads: 1 SSD read = 10 memory reads, 1 HDD read = 10 SSD reads
 - 1 request per second = 100k requests / day (exact 1 req/s = 86.4k req/day)
 - 1 request per second = 2.5M requests / month
 - 10 requests per second = 1M requests per day (exact 11.6 req/s = 1M req/day)
@@ -99,26 +97,26 @@ The data store can be located:
 - in-process: in the same computer.
 - out-of-process: in a different computer (so there's the need of packet transimission over the network).
 
-> Warmup: read 1MB from HDD, SSD and memory.
-
-- HDD = 10^0 ms, SSD = 10^-1 ms, memory = 10^-2 ms
-
-> Read 1MB from an out-of-process data store, consider both in-memory and persistent caches, assume a 1Gbps, a 10Gbps and a 100Gbps network.
+> Read 1MB from an out-of-process data store, consider both in-memory and persistent caches (SSD), assume a 1Gbps and a 10Gbps network.
 
 - 1Gbps
-  - (in memory)  1MB * 10^-2 ms/MB (read from memory) + 10^1 ms (transmission) = 10.01 ms
-  - (persistent) 1MB * 10^-1 ms/MB (read from SSD) + 10^1 ms (transmission) = 10.1 ms
+  - (in memory)  `0.02 ms/MB (read from memory) + 10^1 ms (transmission) = 10.02 ms`
+  - (persistent) `0.3 ms/MB (read from SSD) + 10^1 ms (transmission) = 10.3 ms`
 - 10Gbps
-  - (in memory)  1MB * 10^-2 ms/MB (read from memory) + 10^0 ms (transmission) = 1.01 ms
-  - (persistent) 1MB * 10^-1 ms/MB (read from SSD) + 10^0 ms (transmission) = 1.1 ms
+  - (in memory)  `0.02 ms/MB (read from memory) + 10^0 ms (transmission) = 1.02 ms`
+  - (persistent) `0.3 ms/MB (read from SSD) + 10^0 ms (transmission) = 1.3 ms`
 
-> Write 5GB to an attached HDD, SSD and RAM. Assume no network IO needed
+> Read 5GB from HDD, SSD and RAM then write 5GB to the same medium. Assume no network IO needed
 
-Write 5GB
-  - Write is 40 times slower than reads
-  - (HDD) 40 (write penalty) * 5*10^3 MB * 10^0 (HDD read) = 20 * 10^3 ms = 20s
-  - (SSD) 20s * 10^-1 ms (HDD result / 10^1) = 2s
-  - (memory) 20s * 10-2 ms (HDD result / 10^2) = 200ms
+Read 5GB:
+  - (memory) `5*10^3 MB * 0.02 ms/MB (memory read) = 100ms = 0.1s`
+  - (SSD) `5*10^3 MB * 0.3 ms/MB (SSD read) = 1500 ms = 1.5s`
+  - (HDD) `5*10^3 MB * 6 ms/MB (HDD read) = 30000 ms = 30s`
+
+Write 5GB, let's assume that a write is 40x slower than a read:
+  - (memory) `40 (write penalty) * 0.1s (read) = 4s`
+  - (SSD) `40 (write penalty) * 1.5s = 60s`
+  - (HDD) `40 (write penalty) * 30s = 1200s`
 
 > Store information about 2B users including basic info and a profile picture
 
@@ -133,15 +131,15 @@ Write 5GB
 [The default size of a page in InnoDB is 16KB](https://www.percona.com/blog/2006/06/04/innodb-page-size/),
 for each query we read 50 pages, 50 * 0.8 = 40 are read from memory and 10 from SSD
 
-- 40 pages read from memory: 40 * 16KB * 10^-2 ms/MB = 640KB * 10^-3 MB/KB * 10^-2 ms/MB = 0.0064 ms
-- 10 pages read from SSD: 10 * 16KB * 10^-1 ms/MB = 160KB * 10^-3 MB/KB * 10^-1 ms/MB = 0.016ms
+- 40 pages read from memory: `40 * 16KB * 0.02 ms/MB = 640KB * 10^-3 MB/KB * 0.02 ms/MB = 0.0128 ms`
+- 10 pages read from SSD: `10 * 16KB * 0.3 ms/MB = 160KB * 10^-3 MB/KB * 0.3 ms/MB = 0.048ms`
 
 In real life we just round the numbers, 1ms tops for the sum. It’s typically the case that we can ignore any memory latency as soon as I/O is involved for low Gbps (1GB).
 
 - 1Gbps
-  - 50 pages (50 * 16KB = 800KB) transmitted in about 10ms, 1ms (read pages) + 10ms (transmission) = 11ms
+  - 50 pages (50 * 16KB = 800KB) transmitted in about 10ms, `1ms (read pages) + 10ms (transmission) = 11ms`
 - 10Gbps
-  - 1ms (read pages) + 1ms (transmission) = 2ms
+  - `1ms (read pages) + 1ms (transmission) = 2ms`
 
 > How many commands-per-second can a simple, in-memory, single-threaded data store do?
 > Assume that the commands don't do any server side processing. e.g. Reading data is just
@@ -151,10 +149,20 @@ I/O controls the number of ops/s, assuming that we transmit 1KB $\frac{1s}{10 us
 
 > Amount of computing power to process 1PB everyday, assume that the time required for the computation of 1MB is 0.1s
 
-- 10^9 MB * 10^01 s/MB = 10^8 MB
-- The above has to be computed everyday or in 10^5 s
-  - 10^8 s * 10^-5 day/s = 10^3 days
+- `10^9 MB * 10^01 s/MB = 10^8 MB`
+- The above has to be computed everyday or in `10^5 s`
+  - `10^8 s * 10^-5 day/s = 10^3 days`
 
 We would need $10^3$ machines to get the work done, assuming that the servers should be running at
 50% capacity and with possible spikes we can provision $4 * 10^3$ processes.
+
+> We have 3 storage devices, a 128GB DRAM as a 1st level cache, a 600GB flash memory as a 2nd level cache
+> and a rotational disk for storage. With a random read workload, the rotational disk delivers 2000 reads/s
+> with an 8 KB I/O size. How much time would it take to warm both caches in the ideal scenario?
+
+- Throughput in terms of data transmitted over time: `2000 reads/s * 8 KB = 16 Mb/s`.
+- 1st level cache:
+  - Time to fill out the cache: `128 GB / 16 MB/s = 8000 s = ~2.3h`
+- 2nd level cache:
+  - Time to fill out the cache: `600 GB / 16 MB/s = 38400 s = ~10.67h`
 
