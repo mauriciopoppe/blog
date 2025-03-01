@@ -4,8 +4,8 @@ import fg from 'tiny-glob'
 import fm from 'front-matter'
 import fs from 'fs-extra'
 import { titleCase } from 'title-case'
+import { toDate } from 'date-fns'
 import defined from 'defined'
-import toDate from 'date-fns/toDate'
 
 const isProduction = process.env.NODE_ENV === 'production'
 

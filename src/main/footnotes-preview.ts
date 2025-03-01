@@ -7,6 +7,7 @@
 function run() {
   const tooltip = document.createElement('div')
   const container = document.querySelector('article[role=main]')
+  tooltip.style.display = 'none'
   tooltip.classList.add('footnotes', 'footnotes-tooltip', 'ref-tooltip-preview')
   container.appendChild(tooltip)
 

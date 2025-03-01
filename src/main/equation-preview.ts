@@ -7,6 +7,7 @@
 function run() {
   const tooltip = document.createElement('div')
   const container = document.querySelector('article[role=main]')
+  tooltip.style.display = 'none'
   tooltip.style.backgroundColor = 'var(--grey-darker)'
   tooltip.classList.add('mathjax-tooltip', 'tw-w-full', 'tw-rounded', 'tw-border', 'tw-absolute')
   container.appendChild(tooltip)

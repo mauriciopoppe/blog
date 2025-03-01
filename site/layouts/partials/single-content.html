@@ -24,15 +24,25 @@
 
       <!-- the references if set in the front matter -->
       {{ if isset .Params "references" }}
+      <div data-article-references>
         <h2 id="references" class="tw-text-3xl tw-mb-4">References</h2>
         <ul class="tw-list-disc tw-pl-10">
         {{ range .Params.references }}
           <li>{{ . | markdownify }}</li>
         {{ end }}
         </ul>
+      </div>
       {{ end }}
 
-      {{ partial "single-related.html" . }}
+      <!-- related articles -->
+      <div data-article-related>
+        {{ partial "single-related.html" . }}
+      </div>
+
+      <!-- discussion -->
+      <div data-article-discussion class="tw-my-4">
+        {{ partial "single-discuss.html" . }}
+      </div>
     </div>
 
     <aside class="md:tw-w-1/5">
