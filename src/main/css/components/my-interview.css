@@ -1,38 +1,38 @@
-.interview {
+.my-interview {
   position: relative;
   padding: 10px 10px 10px 10px;
   margin-bottom: 1em;
   min-height: 80px;
   border-radius: 5px;
 }
-.interview .interview__logo {
+.my-interview .my-interview__logo {
   float: right;
   width: 50px;
   height: 50px;
   background-size: 50px;
 }
-.interview--airbnb {
+.my-interview--airbnb {
   border: 5px solid #FF5A5E;
 }
-.interview--airbnb .interview__logo {
+.my-interview--airbnb .my-interview__logo {
   background-image: url("/images/airbnb__logo.png");
 }
-.interview--facebook {
+.my-interview--facebook {
   border: 5px solid #2B5297;
 }
-.interview--facebook .interview__logo {
+.my-interview--facebook .my-interview__logo {
   background-image: url("/images/facebook__logo.png");
 }
-.interview--google {
+.my-interview--google {
   border-top: 5px solid #EA4335;
   border-left: 5px solid #FABD0A;
   border-right: 5px solid #4285F3;
   border-bottom: 5px solid #35A852;
 }
-.interview--google .interview__logo {
+.my-interview--google .my-interview__logo {
   background-image: url("/images/google__logo.png");
 }
-.interview-example {
+.my-interview-example {
   border: 1px solid var(--grey);
   border-radius: 5px;
   padding: 1em;

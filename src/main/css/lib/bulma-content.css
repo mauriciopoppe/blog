@@ -222,3 +222,29 @@ pre, .content pre {
 code, .content code {
   @apply tw-rounded-md;
 }
+
+/* nice links to content outside the page */
+/* I took the idea from the lynxjs.org docs */
+.content a[href*="//"]:before {
+  margin-left: .1em;
+  margin-right: .2em;
+}
+.content a[href*="//"]:before {
+  content: "🌐";
+}
+.content a[href*="//"]:after {
+  margin-left: .2em;
+  margin-right: .1em;
+}
+.content a[href*="//"]:after {
+  content: "↗";
+  font-size: .8em;
+  transition: transform .2s;
+  display: inline-block;
+  transform: translate(-.1em, -.0em);
+}
+.content a[href*="//"]:hover:after {
+  transform: translate(.1em, -.2em);
+}
+
+

@@ -128,8 +128,8 @@ function initializeSidebar(sidebarWrapper: HTMLElement, sidebarContent: HTMLElem
 }
 
 function initialize() {
-  const sitemap: HTMLElement = document.querySelector('.sitemap')
-  const sitemapWrapper: HTMLElement = document.querySelector('.sitemap-wrapper')
+  const sitemap: HTMLElement = document.querySelector('.my-sitemap')
+  const sitemapWrapper: HTMLElement = document.querySelector('.my-sitemap-wrapper')
   initializeSidebar(sitemapWrapper, sitemap)
 
   const toc: HTMLElement = document.querySelector('.toc')

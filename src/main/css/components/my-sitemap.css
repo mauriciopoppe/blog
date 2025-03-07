@@ -1,35 +1,35 @@
-.sitemap {
+.my-sitemap {
   position: relative;
   transition: opacity 350ms;
   overflow: auto;
   line-height: 1.25em;
 }
-.sitemap:hover {
+.my-sitemap:hover {
   opacity: 1;
 }
-.sitemap li {
+.my-sitemap li {
   margin: 5px 0;
   padding-left: 20px;
 }
-.sitemap li div {
+.my-sitemap li div {
   position: relative;
   cursor: pointer;
   height: 100%;
 }
-.sitemap li[data-url-target]:hover {
+.my-sitemap li[data-url-target]:hover {
   padding-left: 25px;
 }
-.sitemap li.is-active > div {
+.my-sitemap li.is-active > div {
   font-weight: bold;
   color: rgb(var(--primary));
 }
-.sitemap .list-is-collapsed {
+.my-sitemap .list-is-collapsed {
   height: 0;
 }
-.sitemap .list-is-collapsible {
+.my-sitemap .list-is-collapsible {
   overflow: hidden;
 }
-.sitemap .children-toggle {
+.my-sitemap .children-toggle {
   border: solid rgb(var(--primary));
   border-width: 0 1px 1px 0;
   padding: 2px;
@@ -39,6 +39,6 @@
   transform: rotate(-45deg);
   transition: all 350ms ease-in-out;
 }
-.sitemap li.item-expanded > div .children-toggle {
+.my-sitemap li.item-expanded > div .children-toggle {
   transform: rotate(45deg);
 }

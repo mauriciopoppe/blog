@@ -6,8 +6,8 @@
 @import "./lib/mathjax.css";
 @import "./lib/prism-darcula.css";
 @import "./lib/tocbot.css";
-@import "./components/interview.css";
-@import "./components/sitemap.css";
+@import "./components/my-interview.css";
+@import "./components/my-sitemap.css";
 @import "./components/my-pill.css";
 @import "./components/my-social-icon.css";
 

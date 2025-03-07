@@ -71,7 +71,7 @@ const activeItems = {
  */
 function addTabsListener() {
   const tabs = Array.from(document.querySelectorAll('.tab-trigger'))
-  const targets = Array.from(document.querySelectorAll('.sitemap-content'))
+  const targets = Array.from(document.querySelectorAll('.my-sitemap-content'))
   tabs.forEach((tab) => {
     tab.addEventListener('click', (event) => {
       // hide everything
@@ -142,7 +142,7 @@ function sitemapTreeListeners() {
 
 // open active items as needed
 function sitemapTreeSetActiveItemInSidebar() {
-  const sitemapTree = document.querySelector('#sitemap-tree')
+  const sitemapTree = document.querySelector('#my-sitemap-tree')
   if (!sitemapTree) {
     return
   }
@@ -153,7 +153,7 @@ function sitemapTreeSetActiveItemInSidebar() {
   if (target) {
     let it: HTMLElement = target
     // expand parent recursively
-    while (!it.classList.contains('sitemap')) {
+    while (!it.classList.contains('my-sitemap')) {
       if (it.classList.contains('list-is-collapsed')) {
         it.classList.remove('list-is-collapsed')
         it.style.height = 'auto'
