@@ -41,8 +41,6 @@ multiples of $2$ less than $2^4$ are $1 * 2, 2 * 2, 3 * 2, 4 * 2, 5 * 2, 6 * 2, 
 
 - if $a$ and $b$ are relatively prime then $\phi(ab) = \phi(a)\phi(b)$
 
-*Proof:* TODO, read the chinese remainder theorem
-
 ### Computation
 
 Given a number $n$ let's decompose it into prime factors (factorization):

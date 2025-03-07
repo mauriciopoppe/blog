@@ -17,6 +17,5 @@ C = {v_0, v_1, v_3, v_8, v_{12}, v_{13}, v_9, v_4, v_5, v_6, v_{10}, v_{14}, v_{
 $$</div>
 
 - every complete graph $K_n$ is a Hamiltonian graph
-- TODO
 
 <script src="/js/graph/hamiltonian-graph.js"></script>

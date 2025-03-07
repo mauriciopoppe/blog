@@ -71,7 +71,7 @@ const activeItems = {
  */
 function addTabsListener() {
   const tabs = Array.from(document.querySelectorAll('.tab-trigger'))
-  const targets = Array.from(document.querySelectorAll('.my-sitemap-content'))
+  const targets = Array.from(document.querySelectorAll('.sitemap-content'))
   tabs.forEach((tab) => {
     tab.addEventListener('click', (event) => {
       // hide everything
@@ -142,7 +142,7 @@ function sitemapTreeListeners() {
 
 // open active items as needed
 function sitemapTreeSetActiveItemInSidebar() {
-  const sitemapTree = document.querySelector('#my-sitemap-tree')
+  const sitemapTree = document.querySelector('#sitemap-tree')
   if (!sitemapTree) {
     return
   }

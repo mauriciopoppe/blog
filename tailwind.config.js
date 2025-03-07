@@ -7,7 +7,6 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // TODO(tailwind): define these variables as CSS variables following https://tailwindcss.com/docs/customizing-colors#using-css-variables
         primary: 'rgb(var(--primary))'
       }
     }

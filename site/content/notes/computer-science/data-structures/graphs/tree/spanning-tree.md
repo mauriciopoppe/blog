@@ -139,9 +139,4 @@ Computing the number of spanning trees of a graph $G = K_n$ where $V(G) = {v_1, 
 
 > The number of spanning trees of order $n$ with a specific vertex set is $n^{n - 2}$
 
-TODO:
-
-- find the relationship between prim's mst and dijsktra's
-- second minimum spanning tree, hint: MST + LCA http://codeforces.com/blog/entry/9570
-
 <script src="/js/graph/trees/spanning-tree.js"></script>

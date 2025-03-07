@@ -290,8 +290,6 @@ s = s_0 + v_0t - \frac{gt^2}{2}
 \end{equation}
 $$</div>
 
-// TODO: introduce the integral symbol
-
 ## Definite Integral
 
 ### Area as the limit of the sum
