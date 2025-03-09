@@ -1,0 +1,10 @@
+{{ $isDestinationExternal := true }}
+{{ if eq .Destination "" }}
+  {{ $isDestinationExternal = false }}
+{{ else if strings.Contains .Destination "localhost" }}
+  {{ $isDestinationExternal = false }}
+{{ else if strings.Contains .Destination "mauriciopoppe.com" }}
+  {{ $isDestinationExternal = false }}
+{{ end }}
+<a href="{{ .Destination | safeURL }}"{{ with .Title}} title="{{ . }}"{{ end }}{{ if $isDestinationExternal }}target="_blank"{{ end }}>{{ .Text }}</a>
+
