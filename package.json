@@ -50,6 +50,7 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.6",
     "beautiful-react-hooks": "^0.23.0",
+    "caniuse-lite": "^1.0.30001703",
     "clean-webpack-plugin": "^4.0.0",
     "color": "^3.1.2",
     "copy-webpack-plugin": "^11.0.0",

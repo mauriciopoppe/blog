@@ -79,3 +79,12 @@ code {
   font-size: 0.75em;
   padding: 0.25em;
 }
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-group(root) {
+    animation-duration: 0.2s;
+}
+

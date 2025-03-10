@@ -8,8 +8,9 @@
   opacity: 1;
 }
 .my-sitemap li {
-  margin: 5px 0;
+  margin: 10px 0 0px 0;
   padding-left: 20px;
+  line-height: 1.1rem;
 }
 .my-sitemap li div {
   position: relative;
