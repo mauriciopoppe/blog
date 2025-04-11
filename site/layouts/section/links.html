@@ -83,13 +83,33 @@ img {
     <img src="{{ .Site.Params.Logo }}" class="tw-rounded-full tw-aspect-square tw-w-28 tw-border tw-border-primary tw-mx-auto
       tw-inline-block tw-bg-zinc-900/30" alt="profile">
 
-    <div class="tw-my-3 tw-text-primary">
+    <div class="tw-my-1 tw-text-primary">
       <p class="tw-text-2xl tw-font-bold">
         Mauricio Poppe
       </p>
       <p class="tw-text-sm">
         Music Performer and Bachata Dancer
       </p>
+    </div>
+
+    <!-- link to socials -->
+    <div class="tw-flex tw-flex-row tw-justify-center tw-content-center tw-my-8 tw-gap-5">
+      <a href="https://youtube.com/@mauricio-poppe" target="_blank" class="my-social-icon tw-w-8">
+        {{ partial "icons/youtube.html" . }}
+      </a>
+      <a href="https://instagram.com/mauricio.poppe" target="_blank" class="my-social-icon">
+        {{ partial "icons/instagram.html" . }}
+      </a>
+      <a href="#" id="heart-container" class="my-social-icon">
+        <span class="heart">♥</span>
+        <span id="heart-message" class="tw-hidden tw-absolute tw-w-[120px] -tw-bottom-[30px] -tw-left-[45px]">Thank you!</span>
+      </a>
+      <a href="https://linkedin.com/in/mauriciopoppe/" target="_blank" class="my-social-icon">
+        {{ partial "icons/linkedin.html" . }}
+      </a>
+      <a href="https://github.com/mauriciopoppe" target="_blank" class="my-social-icon">
+        {{ partial "icons/github.html" . }}
+      </a>
     </div>
 
     <div class="tw-my-8 tw-text-md">
@@ -149,32 +169,6 @@ img {
           Contact
         </span>
       </a>
-    </div>
-
-    <!-- links to socials -->
-    <div class="tw-flex tw-flex-row tw-justify-center tw-content-center tw-gap-5">
-
-      <a href="https://youtube.com/@mauricio-poppe" target="_blank" class="my-social-icon tw-w-8">
-        {{ partial "icons/youtube.html" . }}
-      </a>
-
-      <a href="https://instagram.com/mauricio.poppe" target="_blank" class="my-social-icon">
-        {{ partial "icons/instagram.html" . }}
-      </a>
-
-      <a href="#" id="heart-container" class="my-social-icon">
-        <span class="heart">♥</span>
-        <span id="heart-message" class="tw-hidden tw-absolute tw-w-[120px] -tw-bottom-[30px] -tw-left-[45px]">Thank you!</span>
-      </a>
-
-      <a href="https://linkedin.com/in/mauriciopoppe/" target="_blank" class="my-social-icon">
-        {{ partial "icons/linkedin.html" . }}
-      </a>
-
-      <a href="https://github.com/mauriciopoppe" target="_blank" class="my-social-icon">
-        {{ partial "icons/github.html" . }}
-      </a>
-
     </div>
 
   </div>
