@@ -1,3 +1,3 @@
 .my-pill {
-  @apply tw-inline-block tw-my-2 tw-p-2 tw-w-full tw-rounded-lg tw-border tw-border-primary tw-bg-zinc-900/20 tw-relative;
+  @apply tw-inline-block tw-mt-2 tw-p-2 tw-w-full tw-rounded-lg tw-border tw-border-primary tw-bg-zinc-900/20 tw-relative;
 }

@@ -14,9 +14,6 @@ h1, a, h1.tw-text-primary, span.tw-text-primary { color: rgb(var(--primary)); }
 a:hover svg {
   transform: scale(1.1);
 }
-img {
-  filter: drop-shadow(0px 0px 5px rgba(var(--primary), 1));
-}
 
 @keyframes in-n-out {
   0% {
@@ -76,24 +73,24 @@ img {
 </style>
 <div id="voronoi" style="width: 100vw; height: 100vh; position: fixed; top: 0"></div>
 
-<div class="tw-flex tw-flex-col md:tw-h-screen tw-place-content-center tw-text-center">
+<div class="tw-flex tw-flex-col tw-place-content-center tw-text-center">
 
   <!-- provides top padding to the entire content -->
-  <div id="my-links-card" class="tw-max-w-96 tw-mx-auto tw-px-4 tw-py-16 tw-bg-zinc-900/30 tw-backdrop-blur-sm tw-rounded-lg">
-    <img src="{{ .Site.Params.Logo }}" class="tw-rounded-full tw-aspect-square tw-w-28 tw-border tw-border-primary tw-mx-auto
-      tw-inline-block tw-bg-zinc-900/30" alt="profile">
-
-    <div class="tw-my-1 tw-text-primary">
-      <p class="tw-text-2xl tw-font-bold">
-        Mauricio Poppe
-      </p>
-      <p class="tw-text-sm">
-        Music Performer and Bachata Dancer
-      </p>
+  <div id="my-links-card" class="tw-max-w-96 tw-my-4 tw-mx-auto tw-p-4 tw-bg-zinc-900/30 tw-backdrop-blur-sm tw-rounded-lg">
+    <div class="tw-mt-4">
+      <img src="{{ .Site.Params.Logo }}" class="tw-rounded-full tw-aspect-square tw-w-28 tw-border tw-border-primary tw-mx-auto tw-inline-block tw-bg-zinc-900/30" alt="profile">
+      <div class="tw-my-2 tw-text-primary">
+        <p class="tw-text-2xl tw-font-bold">
+          Mauricio Poppe
+        </p>
+        <p class="tw-text-sm">
+          Music Performer and Bachata Dancer
+        </p>
+      </div>
     </div>
 
     <!-- link to socials -->
-    <div class="tw-flex tw-flex-row tw-justify-center tw-content-center tw-my-8 tw-gap-5">
+    <div class="tw-flex tw-flex-row tw-justify-center tw-content-center tw-my-4 tw-gap-5">
       <a href="https://youtube.com/@mauricio-poppe" target="_blank" class="my-social-icon tw-w-8">
         {{ partial "icons/youtube.html" . }}
       </a>
@@ -112,7 +109,7 @@ img {
       </a>
     </div>
 
-    <div class="tw-my-8 tw-text-md">
+    <div class="tw-mt-4 tw-text-md">
       <a href="https://youtube.com/@mauricio-poppe" target="_blank" class="my-pill">
         <span class="tw-absolute tw-left-2 tw-float-left">
           <span class="material-symbols-outlined"> music_note </span>
@@ -121,6 +118,19 @@ img {
           Music Performances
         </span>
       </a>
+
+      <a href="https://youtube.com/watch?v=TniDP9ltmyw" target="_blank">
+        <img class="tw-mt-2 tw-rounded-lg" src="https://img.youtube.com/vi/TniDP9ltmyw/maxresdefault.jpg" alt="">
+      </a>
+
+      <a href="https://youtube.com/watch?v=pjwLnpR_FBc" target="_blank">
+        <img class="tw-mt-2 tw-rounded-lg" src="https://img.youtube.com/vi/pjwLnpR_FBc/maxresdefault.jpg" alt="">
+      </a>
+
+      <!-- <a href="https://youtube.com/watch?v=a61hvCOAnCc" target="_blank"> -->
+      <!--   <img class="tw-mt-2 tw-rounded-lg" src="https://img.youtube.com/vi/a61hvCOAnCc/maxresdefault.jpg" alt=""> -->
+      <!-- </a> -->
+
       <a href="https://youtube.com/@mauricio-poppe" target="_blank" class="my-pill">
         <span class="tw-absolute tw-left-2 tw-float-left">
           <span class="material-symbols-outlined"> falling </span>
