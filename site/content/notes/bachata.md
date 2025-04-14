@@ -51,12 +51,12 @@ after midnight.
 
 Nowadays, I spend my free time at home practicing a small set of moves and some variations, as I mentioned
 before I also practice isolations a lot. My teacher says that we should dominate the fundamentals and that's
-exactly what I focus at home over and over again.
+exactly what I focus at home over and over again. To learn new combos I use https://bachatasteps.com/.
 
 In the dance floor there are good days and bad days. Days where you feel the flow of the music and all the moves
 click in your head and days where you don't feel the flow of the music at all. Days where you dance with a follower
 and all of the moves and their transitions seem so effortless and days where you can't make a connection
-with a follower and the moves don't go with the flow.
+with a follower and they seem disinterested and the moves don't go with the flow, it's just another day.
 
 It's a life long hobby, so let's just enjoy the process.
 
