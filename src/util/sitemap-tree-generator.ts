@@ -86,11 +86,8 @@ function byOrderAndDate(a: SitemapItem, b: SitemapItem) {
       // convert to dates and toDate
       const aDate = toDate(a[dateSortAttribute])
       const bDate = toDate(b[dateSortAttribute])
-      // console.log('by date')
-      // console.log(a.title, aDate)
-      // console.log(b.title, bDate)
-      // if both are articles that have dates sort them by date
-      if (aDate < bDate) return -1
+      // if both are articles that have dates sort them by date, latest written first.
+      if (aDate > bDate) return -1
       return 1
     }
     if (a[dateSortAttribute]) return -1
