@@ -80,13 +80,15 @@ function Hit({ hit }) {
   return (
     <a href={getAbsURL(hit)}>
       <div className="tw-group/related tw-container tw-mx-auto tw-p-4 tw-rounded-md hover:tw-bg-neutral-800/70 hover:light:tw-bg-primary/70">
-        <h2 className="tw-group/title tw-text-3xl tw-mb-4 md:tw-text-5xl">
-          <Highlight attribute="title" hit={hit} />
-        </h2>
-        <div className="tw-flex tw-flex-col md:tw-flex-row md:tw-space-x-4">
-          {figure}
-          <div className="tw-w-full tw-flex tw-flex-col md:tw-basis-2/3">
-            <div>{hit.summary}</div>
+        <div class="md:tw-w-3/5 tw-mx-auto">
+          <h2 className="tw-group/title tw-text-3xl tw-mb-4">
+            <Highlight attribute="title" hit={hit} />
+          </h2>
+          <div className="tw-flex tw-flex-col md:tw-flex-row md:tw-space-x-4">
+            {figure}
+            <div className="tw-w-full tw-flex tw-flex-col md:tw-basis-2/3">
+              <div>{hit.summary}</div>
+            </div>
           </div>
         </div>
       </div>
