@@ -111,7 +111,10 @@ Problem: test if an element doesn't exist in a set
 Approximate solution: same as count min sketch, if the returned value is zero then we're sure the element
 is not in the set, otherwise, it might be in the set, and we need to test for existence with another (more expensive) data structure
 
-https://florian.github.io/bloom-filters/
+For more info read:
+
+- https://florian.github.io/bloom-filters/
+- https://eli.thegreenplace.net/2025/bloom-filters/
 
 ### Applications
 

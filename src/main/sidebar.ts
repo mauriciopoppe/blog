@@ -69,7 +69,6 @@ class Sidebar {
     this.state = SidebarState.AUTO
     if (!this.isMobile && window.scrollY > this.contentLocationInPage) {
       this.state = SidebarState.FIXED
-      this.showIfHidden()
     }
     if (!this.isMobile && window.scrollY > this.footerLocationFromDocument) {
       this.state = SidebarState.RELATIVE
@@ -92,6 +91,13 @@ class Sidebar {
     if (this.hidden) {
       this.wrapper.style.opacity = '1'
       this.hidden = false
+    }
+  }
+
+  hideIfShown() {
+    if (!this.hidden) {
+      this.wrapper.style.opacity = '0'
+      this.hidden = true
     }
   }
 }
@@ -118,6 +124,16 @@ function initializeSidebar(sidebarWrapper: HTMLElement, sidebarContent: HTMLElem
       // need to be tested every time
       sidebar.onScroll()
     })
+    let lastMove = Date.now()
+    sidebar.wrapper.addEventListener('mousemove', function () {
+      lastMove = Date.now()
+      sidebar.showIfHidden()
+    })
+    setInterval(() => {
+      if (Date.now() - lastMove > 2000) {
+        sidebar.hideIfShown()
+      }
+    }, 100)
   } else {
     // Show the sidebars immediately in mobile devices.
     sidebar.showIfHidden()
