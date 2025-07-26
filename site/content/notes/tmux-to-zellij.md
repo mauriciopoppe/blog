@@ -4,7 +4,9 @@ summary: |
   Tips that helped me migrate from Tmux to Zellij, I outline key requirements
   such as organized workspaces with easy pane management,
   seamless integration with Neovim, and efficient session switching.
+
   I describe my experience adopting Zellij, highlighting its vi-like modes and custom keybindings for navigation.
+
   I then explore session management with a script
   for quickly switching between preferred and active Zellij sessions
   mirroring my previously Tmux workflow.
@@ -96,3 +98,29 @@ the following zellij config.
 
 [`zellij-switch-session`](https://github.com/mauriciopoppe/dotfiles/blob/main/zsh/bin/zellij-switch-session.py)
 is a bash script that wraps the above one zellij one liner.
+
+## Was it worth it?
+
+While zellij fulfilled my requirements and I used regulary for at least 3 weeks
+I ended up switching to tmux. First, I'll write the things that I really liked:
+
+- Open the current pane output in my editor - It's easier to do find/search in neovim.
+- The language choice to create pane configuration - I like it way more than tmuxinator yaml file
+  which is an equivalent package that I use for tmux.
+- There's a very helpful sidebar showing you what keybindings to use.
+- If a panel is resized from within (e.g. running `nvim-dap-ui` in nvim) doesn't have an effect
+  the layout of zellij. This is very annoying in tmux and fixed nicely in zellij.
+- Fullscreen mode remains in fullscreen when you switch to other panes.
+
+Unfortunately I didn't like these:
+
+- zellij doesn't have a native way to navigate to my last session - On tmux I have a binding
+  to the `Ctrl+Space` + `Space` key to switch back to my previous session, in zellij I had to
+  enter the name of the session every time I wanted to switch back.
+- No mouse editor support to resize the panes - I could only do this with keybindings.
+- I couldn't find a way to kill an unresponsive pane - In tmux if there's a pane that's stuck
+  I run `respawn-pane -k`, I couldn't find an equivalent in tmux.
+- There's a bug launching a temp pane to run a command, in some cases the layout will be changed
+  after switching to another session.
+
+It's a matter of personal preference, I'm happy with tmux for now.
