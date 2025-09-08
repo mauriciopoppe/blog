@@ -1,8 +1,8 @@
 ---
 title: "gcc"
 summary: |
-  GCC is a suite of compilers for various programming languages, including C, C++. In this article,
-  I cover the compilation stages and the flags used to compile source code into a binary
+  GCC is a suite of compilers for various programming languages, including C and C++. In this article,
+  I cover the compilation stages and the flags used to compile source code into a binary.
 image: https://upload.wikimedia.org/wikipedia/commons/a/af/GNU_Compiler_Collection_logo.svg
 tags: ["gcc", "build tools", "tooling", "c++", "c"]
 date: 2016-04-05 17:56:08
@@ -12,13 +12,13 @@ references:
 
 ## Stages
 
-- *preprocessing* - text substitution, stripping comments and file inclusion
+- *preprocessing* - Text substitution, stripping comments, and file inclusion.
 
 ```sh
 g++ -E main.cpp -o main.i
 ```
 
-- *compilation* - compilation of the processed source code into assembly language
+- *compilation* - Compilation of the processed source code into assembly language.
 
 ```sh
 g++ -S main.i -o main.s
@@ -26,7 +26,7 @@ g++ -S main.i -o main.s
 g++ -S main.cpp -o main.s
 ```
 
-- *assembler* - conversion of assembly code into machine code
+- *assembler* - Conversion of assembly code into machine code.
 
 ```sh
 as main.s -o main.o
@@ -34,9 +34,9 @@ as main.s -o main.o
 g++ -c main.cpp -o main.o
 ```
 
-- *linker* - produce a single executable program file, it combines our program with startup code like the following ones
-  - standard code at the beginning of the program to set up the running environment to pass command-line parameters and environmental variables
-  - standard code at the end of the program to pass back a return code
+- *linker* - Produce a single executable program file. It combines our program with startup code, such as the following:
+  - Standard code at the beginning of the program to set up the running environment to pass command-line parameters and environmental variables.
+  - Standard code at the end of the program to pass back a return code.
 
 ```sh
 g++ main.cpp -o main
@@ -44,14 +44,14 @@ g++ main.cpp -o main
 
 ## Flags
 
-- `-E` run the preprocessing stage
-- `-S` run the preprocessing and compilation stages
-- `-c` run the preprocessing, compilation and assemble stages
-- `-o file` write output to *file*
-- `-llibrary`, `-l library` search the library named *library* when linking
-- `-Idir` add *dir* to the list of directories to be searched for header files
-- `-Ldir` add *dir* to the list of directories to be searched for `-l`
-- `-Wall` enable all the warnings about some constructions considered questionable by some users
-- `-O` enable optimization
+- `-E` Run the preprocessing stage.
+- `-S` Run the preprocessing and compilation stages.
+- `-c` Run the preprocessing, compilation, and assemble stages.
+- `-o file` Write output to *file*.
+- `-llibrary`, `-l library` Search the library named *library* when linking.
+- `-Idir` Add *dir* to the list of directories to be searched for header files.
+- `-Ldir` Add *dir* to the list of directories to be searched for `-l`.
+- `-Wall` Enable all warnings about some constructions considered questionable by some users.
+- `-O` Enable optimization.
 
 

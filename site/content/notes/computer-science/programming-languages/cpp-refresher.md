@@ -1,6 +1,6 @@
 ---
 title: "C++ refresher"
-summary: "Refresher notes on C++, includes mechanics of a C++ program, program structure, pointers, functions, classes and misc operations"
+summary: "Refresher notes on C++, including the mechanics of a C++ program, program structure, pointers, functions, classes, and miscellaneous operations."
 image: https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg
 tags: ["c++", "c", "pointers", "classes", "multithreading"]
 date: 2016-03-26 12:30:00
@@ -11,7 +11,7 @@ references:
 
 ## If you have spare time
 
-Watch some CppCon 'Back to Basics' videos
+Watch some CppCon 'Back to Basics' videos:
 
 - [Back to Basics: The Structure of a Program - Bob Steagall - CppCon 2020](https://www.youtube.com/watch?v=3KoXeegncrs)
 - [Back to Basics: RAII and the Rule of Zero - Arthur O'Dwyer - CppCon 2019](https://www.youtube.com/watch?v=7Qgd9B1KuMQ)
@@ -22,32 +22,32 @@ Watch some CppCon 'Back to Basics' videos
 1. **Write source code**
   1.1 Unix extensions: `C,cc,cxx,c`
   1.2 GNU C++ extensions: `C,cc,cxx,cpp,c++`
-2. **Compile the source code** - translate the code to machine code, the file containing the translation is the *object code* of the program
-3. **Link the object code with additional code** - combination of the source code with *startup code* and *libraries object code* to produce a *runtime version*, the final product is a file called the *executable code* which contains a set of machine language instructions
+2. **Compile the source code** - Translate the code to machine code. The file containing the translation is the *object code* of the program.
+3. **Link the object code with additional code** - Combination of the source code with *startup code* and *library object code* to produce a *runtime version*. The final product is a file called the *executable code*, which contains a set of machine language instructions.
 4. **Execute the program**
 
-Compilation and linking is done with
+Compilation and linking is done with:
 
 - *UNIX* - `CC`
 - *GNU C++* - `gcc,g++` ([notes on the difference](http://stackoverflow.com/a/173007/3341726)), [gcc small description](../../operating-systems/bin/gcc/)
 
 ### Preprocessor
 
-The [preprocessor]( https://gcc.gnu.org/onlinedocs/cpp/index.html#Top ) processes a source file before compilation, it allows to define macros which are abbreviations for longer constructs
+The [preprocessor]( https://gcc.gnu.org/onlinedocs/cpp/index.html#Top ) processes a source file before compilation. It allows the definition of macros, which are abbreviations for longer constructs.
 
 #### Directives
 
-Lines which begin with `#`
+Lines which begin with `#`:
 
-- `#define IDENTIFIER [value]` - replaces the occurrences of `IDENTIFIER` in the code with `value`, note that value is optional
-- `#undef IDENTIFIER` - removes the definition of `IDENTIFIER`
+- `#define IDENTIFIER [value]` - Replaces the occurrences of `IDENTIFIER` in the code with `value`. Note that `value` is optional.
+- `#undef IDENTIFIER` - Removes the definition of `IDENTIFIER`.
 
-Conditional directives allow to include or discard parts of the code if a certain condition is met
+Conditional directives allow the inclusion or exclusion of parts of the code if a certain condition is met:
 
-- `#ifdef IDENTIFIER` - if `IDENTIFIER` is defined then the code that follows is included until `#endif` is included
-- `#ifndef IDENTIFIER` - if `IDENTIFIER` is not defined then the code that follows until `#endif` is included
+- `#ifdef IDENTIFIER` - If `IDENTIFIER` is defined, then the code that follows is included until `#endif` is reached.
+- `#ifndef IDENTIFIER` - If `IDENTIFIER` is not defined, then the code that follows is included until `#endif` is reached.
 
-Conditional directives are used for example to include headers only once
+Conditional directives are used, for example, to include headers only once:
 
 ```cpp
 #ifndef FOO_BAR_BAZ_H_
@@ -56,21 +56,21 @@ Conditional directives are used for example to include headers only once
 #endif // FOO_BAR_BAZ_H_
 ```
 
-File inclusion
+File inclusion:
 
-- `#include <library>` - the contents of the `library` file are sent along the source code, in essence the contents of the `library` **replace** the `#include` line, note that the compiler tries to find `library` in the host system's file system that holds the standard header files
-- `#include "library"` - same as above but `library` is looked in the current working directory
-- [`#pragma`](https://gcc.gnu.org/onlinedocs/cpp/Pragmas.html) - specify diverse options to the compiler specific of the platform/compiler
+- `#include <library>` - The contents of the `library` file are sent along with the source code. In essence, the contents of the `library` **replace** the `#include` line. Note that the compiler tries to find `library` in the host system's file system that holds the standard header files.
+- `#include "library"` - Same as above, but `library` is looked for in the current working directory.
+- [`#pragma`](https://gcc.gnu.org/onlinedocs/cpp/Pragmas.html) - Specify diverse options to the compiler that are specific to the platform/compiler.
 
 ### Program structure
 
-Large programs can be split in multiple files which can be compiled (if needed) and linked to generate an executable program, for example a program can be split into three files
+Large programs can be split into multiple files, which can be compiled (if needed) and linked to generate an executable program. For example, a program can be split into three files:
 
-- a *header file* that contains structure declarations and prototypes for functions that use those structures
-- a *source code* file that contains the code for the functions
-- a *source code* that uses those functions
+- A *header file* that contains structure declarations and prototypes for functions that use those structures.
+- A *source code* file that contains the code for the functions.
+- A *source code* file that uses those functions.
 
-The following things are commonly found in headers
+The following things are commonly found in headers:
 
 - function prototypes
 - symbolic constants defined with `#define` or `const`
@@ -88,7 +88,7 @@ trunk
 └── test    : for testing
 ```
 
-Example
+Example:
 
 ```plain
 . project
@@ -108,7 +108,7 @@ Example
 
 ### C-style strings
 
-The last character is the *null character* `\0`
+The last character is the *null character*, `\0`.
 
 ```cpp
 char name[20];              // initialized with random data
@@ -119,7 +119,7 @@ char name[8] = "john";      // right padded with \0
 char name[] = "john";       // let the compiler count
 ```
 
-Operations
+Operations:
 
 ```cpp
 #include <cstring>
@@ -137,7 +137,7 @@ strcpy(dest, source);
 strcat(dest, source);
 ```
 
-Reading input
+Reading input:
 
 ```cpp
 char name[20];
@@ -162,7 +162,7 @@ cin.getline(name);   // reads until newline
 
 ## Pointers
 
-Given a variable the address operator `&` is used to get its address or location in memory
+Given a variable, the address operator `&` is used to get its address or location in memory.
 
 ```cpp
 int oranges = 5;
@@ -177,7 +177,7 @@ int apples = 6;
 // NOTE: the difference between them is 4 bytes, the size of int
 ```
 
-Pointers are variables that store addresses of values rather than the values themselves, to declare a pointer we use the form `typeName * pointerName`
+Pointers are variables that store the addresses of values rather than the values themselves. To declare a pointer, we use the form `typeName * pointerName`.
 
 ```cpp
 int oranges = 5;
@@ -186,7 +186,7 @@ p_oranges = &oranges;  // assign address to pointer
 sizeof(p_oranges);     // 4 bytes
 ```
 
-The dereferencing operator `*` yields the value at the location.
+The dereferencing operator, `*`, yields the value at the location.
 
 ```cpp
 int oranges = 5;
@@ -204,7 +204,7 @@ int* p_int;
 *p_int = 3;     // value is lost forever
 ```
 
-When a pointer is assigned to another pointer the value stored is the address stored in the first pointer.
+When a pointer is assigned to another pointer, the value stored is the address stored in the first pointer.
 
 ```cpp
 int oranges = 5;        // value: 5,     address: 0x000
@@ -213,7 +213,7 @@ int* q = p;             // value: 0x000, address: 0x008
 *q;                     // 5
 ```
 
-If we want to create a pointer to a pointer we use extra '*', for the declaration the number of '*' must be equal to the length of pointers (including this one), in the same fashion we must use the same number of '*' for dereferencing.
+If we want to create a pointer to a pointer, we use extra '*'. For the declaration, the number of '*' must be equal to the length of pointers (including this one). In the same fashion, we must use the same number of '*' for dereferencing.
 
 ```cpp
 int oranges = 5;        // value: 5,     address: 0x000
@@ -225,7 +225,7 @@ int** q = &p;           // value: 0x004, address: 0x008
 
 ### Pointer and arrays
 
-C++ handles arrays internally using pointers which may seem equivalent, an ordinary array variable name is interpreted as the **address of the first element of the array**, the bracket notation `[]` allows us to get/set elements of the array.
+C++ handles arrays internally using pointers, which may seem equivalent. An ordinary array variable name is interpreted as the **address of the first element of the array**. The bracket notation, `[]`, allows us to get/set elements of the array.
 
 ```cpp
 int numbers[] = {1, 2, 3};
@@ -238,7 +238,7 @@ int* p_numbers = numbers;
 *p_numbers;   // 1, the value in memory accessed through pointer dereferencing
 ```
 
-Adding one to a pointer variable increases its value by the number of bytes of the type to which it points
+Adding one to a pointer variable increases its value by the number of bytes of the type to which it points.
 
 ```cpp
 int numbers[] = {1, 2, 3};
@@ -253,12 +253,12 @@ p_numbers + 2;  // points to the third element of the array
 //  numbers[2] == *(p_numbers + 2)
 ```
 
-The value `&numbers` is the address of a 3-int block of memory, so even though `&numbers[0] == numbers == &numbers` numerically the value of `&numbers + 1 != numbers + 1` because `&numbers + 1` points to the next 3-int block of memory however `numbers + 1` points to the second element of the initial 3-int block of memory
+The value `&numbers` is the address of a 3-int block of memory, so even though `&numbers[0] == numbers == &numbers` numerically, the value of `&numbers + 1 != numbers + 1` because `&numbers + 1` points to the next 3-int block of memory; however, `numbers + 1` points to the second element of the initial 3-int block of memory.
 
 - `numbers` is type pointer-to-int or `int*`
 - `&numbers` is type pointer-to-array-of-3-int or `(*int)[3]`
 
-The relationship of pointers and arrays also extend to C-style strings, and it's for C++ a quoted string constant, strings in an array and strings described by pointers are all handled equivalently
+The relationship between pointers and arrays also extends to C-style strings. For C++, a quoted string constant, strings in an array, and strings described by pointers are all handled equivalently.
 
 ```cpp
 char first[20] = "john";
@@ -266,7 +266,7 @@ const char* last = "smith";    // string literals are constant
 cout << "I am the agent" << first << " " << last
 ```
 
-Given a multidimensional array `int a[][2] = { { 1, 2 } }`, `a` is a pointer to the first element which is a 2 element array (which is a pointer to the first of its elements), therefore a pointer to `a` has form of a pointer-to-array-of-2-int
+Given a multidimensional array `int a[][2] = { { 1, 2 } }`, `a` is a pointer to the first element, which is a 2-element array (which is a pointer to the first of its elements). Therefore, a pointer to `a` has the form of a pointer-to-array-of-2-int.
 
 ```cpp
 int a[][2] = { { 1, 2 } };
@@ -281,7 +281,7 @@ int a = 1, b = 2;
 int* p[2] = {&a, &b};
 ```
 
-Since `p` is a pointer to the first element which is `&a` and `&a` is another pointer then we can reference `p` with a pointer to pointer
+Since `p` is a pointer to the first element, which is `&a`, and `&a` is another pointer, we can reference `p` with a pointer to a pointer.
 
 ```cpp
 int** q = p;
@@ -289,20 +289,20 @@ int** q = p;
 
 ### Runtime allocation: new
 
-Pointers are sort of an alias for memory accessed which could be accessed by named variables (memory allocated in compile time), however we can allocate memory in runtime with the operator `new`, runtime allocated memory can be freed with the operator `delete`
+Pointers are a sort of alias for accessed memory, which could be accessed by named variables (memory allocated at compile time). However, we can allocate memory at runtime with the `new` operator. Runtime-allocated memory can be freed with the `delete` operator.
 
-Advantages of runtime allocated memory:
+Advantages of runtime-allocated memory:
 
-- Memory is allocated only when needed
+- Memory is allocated only when needed.
 
-Drawbacks of runtime allocated memory:
+Drawbacks of runtime-allocated memory:
 
-- Memory allocated by `new` must be freed using the operator `delete` otherwise we have a *memory leak* which is memory allocated but unused, if it grows too large it can halt the execution of the program
-- An attempt of freeing a block of memory previously freed results in an undefined behavior i.e. don't use `delete` twice on the same block of memory in succession
+- Memory allocated by `new` must be freed using the `delete` operator; otherwise, we have a *memory leak*, which is memory that is allocated but unused. If it grows too large, it can halt the execution of the program.
+- An attempt to free a block of memory that has been previously freed results in undefined behavior, i.e., don't use `delete` twice on the same block of memory in succession.
 
-Additional notes regarding runtime allocated memory
+Additional notes regarding runtime-allocated memory:
 
-- Ordinary variable have their values stored in a memory region called the **stack**, memory allocated with `new` have their values stored in a memory region called the **heap**
+- Ordinary variables have their values stored in a memory region called the **stack**. Memory allocated with `new` has its values stored in a memory region called the **heap**.
 
 ```cpp
 // p_int address = 0x0065fd40
@@ -315,7 +315,7 @@ int* p_oranges = &oranges;
 delete p_oranges;
 ```
 
-Dynamic arrays can be created with `new typeName[count]`, a pointer can be assigned to the location of the **first** element of the dynamic array
+Dynamic arrays can be created with `new typeName[count]`. A pointer can be assigned to the location of the **first** element of the dynamic array.
 
 ```cpp
 // dynamic array
@@ -328,7 +328,7 @@ int* p_array = new int[10];
 delete [] p_array;
 ```
 
-Dynamic structures can be created with `new structName`, when a pointer pointer to this block of memory we can access the properties with the arrow membership operator `->`
+Dynamic structures can be created with `new structName`. When a pointer points to this block of memory, we can access the properties with the arrow membership operator, `->`.
 
 ```cpp
 struct person {
@@ -344,11 +344,11 @@ p_person->age = 25;
 
 ## Functions
 
-Steps to build a function
+Steps to build a function:
 
-- Provide a function prototype
-- Provide a function definition
-- Call the function
+- Provide a function prototype.
+- Provide a function definition.
+- Call the function.
 
 ```cpp
 // function prototype
@@ -365,13 +365,13 @@ double cube(double x) {
 }
 ```
 
-Writing prototypes have the following advantages:
+Writing prototypes has the following advantages:
 
-- the compiler correctly handles the function return value
-- the compiler checks the use of the correct number of arguments
-- the compiler checks the use of the correct type of arguments (performing conversion to the correct type if possible)
+- The compiler correctly handles the function return value.
+- The compiler checks for the use of the correct number of arguments.
+- The compiler checks for the use of the correct type of arguments (performing conversion to the correct type if possible).
 
-When a function is called with basic types for arguments the function creates a new variable and initializes it with the same value, i.e. the function works with a copy with basic types
+When a function is called with basic types for arguments, the function creates a new variable and initializes it with the same value, i.e., the function works with a copy of the basic types.
 
 ```cpp
 int main() {
@@ -387,7 +387,7 @@ double cube(double x) {
 }
 ```
 
-However we can pass instead the address of the basic type which means that the function should be rewritten to use pointers
+However, we can instead pass the address of the basic type, which means that the function should be rewritten to use pointers.
 
 ```cpp
 int main() {
@@ -403,7 +403,7 @@ double cube(double* x) {
 }
 ```
 
-This is useful for complex structures if we want to save time/space by passing a reference to the structure instead of passing the entire structure
+This is useful for complex structures if we want to save time/space by passing a reference to the structure instead of passing the entire structure.
 
 ```cpp
 struct person {
@@ -424,7 +424,7 @@ double cube(person* someone) {
 }
 ```
 
-When a function is called with an array what's sent actually is the name of the array which is the address of the first element/a pointer-to-int (`int *`), this is different from basic types because the array is not copied, instead the function works with the original array
+When a function is called with an array, what's actually sent is the name of the array, which is the address of the first element (a pointer-to-int, `int *`). This is different from basic types because the array is not copied; instead, the function works with the original array.
 
 ```cpp
 const int k_size = 3;
@@ -449,7 +449,7 @@ double sum(int* a, int k_size) {
 
 ### Inline functions
 
-When a program is executed and a function is about to be invoked the following steps occur with the program
+When a program is executed and a function is about to be invoked, the following steps occur with the program:
 
 - store the memory address of the next instruction
 - copy function arguments to the stack
@@ -457,7 +457,7 @@ When a program is executed and a function is about to be invoked the following s
 - execute the function code
 - jump back to the instruction stored
 
-A little enhancement to speed up the program is to make the function *inline*, that is the program replaces the function call with the function code avoiding the jumps
+A small enhancement to speed up the program is to make the function *inline*. That is, the program replaces the function call with the function code, avoiding the jumps.
 
 When to use it:
 
@@ -469,17 +469,17 @@ inline double cube(double x) { return x * x * x; }
 
 ### Reference variables
 
-A reference variable is a name that acts as an alias on a previously defined variable
+A reference variable is a name that acts as an alias for a previously defined variable.
 
 ```cpp
 int p;
 int& q = p;
 ```
 
-In this context `&` is not the address operator, instead it serves as part of the type identifier, like `int*` is a pointer-to-int `int&` is a reference-to-int
+In this context, `&` is not the address operator. Instead, it serves as part of the type identifier. Like `int*` is a pointer-to-int, `int&` is a reference-to-int.
 
-- a reference must be initialized to a defined variable when declared
-- a reference is like a const pointer e.g. `int& r_n = n;` is like `int* const r_n = &n;`
+- A reference must be initialized to a defined variable when declared.
+- A reference is like a const pointer, e.g., `int& r_n = n;` is like `int* const r_n = &n;`.
 
 ```cpp
 int n = 5;
@@ -491,7 +491,7 @@ int& r_n = n;
 // - p_n, &r_n, &n to get the address
 ```
 
-Example with a function
+Example with a function:
 
 ```cpp
 int main() {
@@ -506,9 +506,9 @@ int pow2(int& x) {
 }
 ```
 
-Note any change to `x` in `pow2()` will actually change the original value, to avoid this behavior use `const` e.g. `int pow2(const int &x)`
+Note that any change to `x` in `pow2()` will actually change the original value. To avoid this behavior, use `const`, e.g., `int pow2(const int &x)`.
 
-Reference arguments should be used to
+Reference arguments should be used to:
 
 - allow the modification of data inside a function
 - speed the program by passing a reference instead of an entire data object
@@ -530,14 +530,14 @@ public:
 
 ### Class member functions
 
-- class member functions can access the private components of the class
-- to identify to which class a function definition belongs to the operator `::` is used
+- Class member functions can access the private components of the class.
+- To identify which class a function definition belongs to, the `::` operator is used.
 
 ```cpp
 void Person::sayHi() { /* ... */ }
 ```
 
-- if a class member function won't modify the instance created then use the `const` qualifier for the function
+- If a class member function won't modify the created instance, then use the `const` qualifier for the function.
 
 ```cpp
 // function prototype
@@ -550,12 +550,12 @@ class Person {
 void Person::show() const { /* ... */ }
 ```
 
-All class methods have a `this` pointer set to the address of the object that invokes this method, class members can be accessed through pointer dereferencing
+All class methods have a `this` pointer set to the address of the object that invokes the method. Class members can be accessed through pointer dereferencing.
 
 ### Class constructor/destructor
 
-- a class has the *default constructor* by default, it has the form `Person() {}`
-- custom constructors/destructor can be defined as follows
+- A class has the *default constructor* by default. It has the form `Person() {}`.
+- Custom constructors/destructors can be defined as follows:
 
 ```cpp
 class Person {
@@ -623,13 +623,13 @@ int main() {
 
 http://andybohn.com/deciphering-variable-types/
 
-1. Find the identifier and start there
+1. Find the identifier and start there.
 2. Sweep to the right, translating the symbols you see. You should stop your sweep to the right when you get to the end of the type, or if you see a lone right parenthesis `)`. Seeing a left parenthesis `(` is the start of a function symbol, so continue sweeping right.
 3. Sweep left of the identifier until you run out of symbols, or you hit a left parenthesis `(`. If you hit the left parenthesis now, you should go back to part 2, sweeping right, but now on the outside of the enclosing `)`, and continuing onto part 3 on the outside of the enclosing `(`.
 
 ### Reading examples
 
-Read a number and the next line as a string
+Read a number and the next line as a string:
 
 ```cpp
 // input:
@@ -641,7 +641,7 @@ string name;
 getline(cin, name);
 ```
 
-Read until a char is found (note that `cin >> ch` omits spaces)
+Read until a char is found (note that `cin >> ch` omits spaces):
 
 ```cpp
 char ch;
@@ -652,7 +652,7 @@ while (ch != '#') {
 }
 ```
 
-Read until EOF
+Read until EOF:
 
 ```cpp
 int a, b;
@@ -672,7 +672,7 @@ char ch;
 while ((ch = cin.get()) != EOF) { ... }
 ```
 
-Tokenize
+Tokenize:
 
 ```cpp
 // example: split the following line by commas
@@ -686,7 +686,7 @@ getline(tokens, rank, ',')
 getline(tokens, description)
 ```
 
-Read/write files
+Read/write files:
 
 ```cpp
 #include <fstream>
@@ -712,7 +712,7 @@ inFile.close();
 outFile.close();
 ```
 
-Read from file reusing the stdin stream, write to file reusing the stdout stream, see [`freopen`](http://www.cplusplus.com/reference/cstdio/freopen/)
+Read from a file, reusing the stdin stream, and write to a file, reusing the stdout stream. See [`freopen`](http://www.cplusplus.com/reference/cstdio/freopen/):
 
 ```cpp
 #include <cstdio>
@@ -739,12 +739,12 @@ int* p_number = (int*) 0xB8000000;
 
 ### C++11
 
-Declarations
+Declarations:
 
-- `auto` automatic type deduction
-- `decltype` creates a variable of the type indicated by an expression
+- `auto`: automatic type deduction.
+- `decltype`: creates a variable of the type indicated by an expression.
 
-Range-based `for` loop
+Range-based `for` loop:
 
 ```cpp
 int numbers[] = {1, 2, 3, 4, 5};

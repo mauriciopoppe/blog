@@ -5,9 +5,9 @@ summary: |
   amounts of data across multiple commodity servers.
 
   <br />
-  This article covers key design features of cassandra such as the usage of consistent hashing, the write
-  pattern to a write ahead log and a memtable, the read pattern from the memtable and from sstables,
-  and finally and most important, some examples about data modeling for different types of queries.
+  This article covers key design features of Cassandra, such as the usage of consistent hashing, the write
+  pattern to a write-ahead log and a memtable, the read pattern from the memtable and from SSTables,
+  and, most importantly, some examples of data modeling for different types of queries.
 image: https://upload.wikimedia.org/wikipedia/commons/5/5e/Cassandra_logo.svg
 tags: ["system design", "distributed systems", "databases", "columnar datastore", "memtable", "sstable", "quorum", "data modeling"]
 libraries: ["math"]
@@ -25,9 +25,9 @@ references:
 ### Features
 
 - Consistent hashing
-- Replication factor, replicas of the data across the cluster
+- Replication factor: replicas of the data across the cluster.
 - [Consistency level controlled for each query](https://docs.datastax.com/en/archived/cassandra/3.0/cassandra/dml/dmlConfigConsistency.html)
-- Up to 2 billion key-value pairs in a row
+- Up to 2 billion key-value pairs in a row.
 
 <hr />
 
@@ -35,42 +35,42 @@ references:
 
 - Replication factor = 3
 - Consistency level = QUORUM
-- Clients talks to any node, the node hashes the partition key and finds the location of the data
-- Data is read from all the replicas waiting for responses until we reach a quorum
+- Clients talk to any node. The node hashes the partition key and finds the location of the data.
+- Data is read from all the replicas, waiting for responses until we reach a quorum.
 
 <hr />
 
-{{< figure src="/images/cassandra-write.jpeg" title="Cassandra write" class="tw-mx-auto md:tw-w-1/2">}}
+{{< figure src="/images/cassandra-write.jpeg" title="Cassandra write" class="tw-mx-auto md:tw-w-1/2" >}}
 
-- Acknowledged when we write to both the commit log (append only) and the memtable
-- When the memtable becomes full it's flushed into an SSTable
-- Periodically SSTables are merged
+- Acknowledged when we write to both the commit log (append-only) and the memtable.
+- When the memtable becomes full, it's flushed into an SSTable.
+- Periodically, SSTables are merged.
 
 <hr />
 
-{{< figure src="/images/cassandra-read.jpeg" title="Cassandra read" class="tw-mx-auto md:tw-w-1/2">}}
+{{< figure src="/images/cassandra-read.jpeg" title="Cassandra read" class="tw-mx-auto md:tw-w-1/2" >}}
 
-- Check if the key is in the in-memory row cache
-- Query the bloomfilters of the existing SSTables to find the record, if it doesn't exist then skip the SSTable
-- If the bloomfilter says that there may be data check the in-memory key cache
-- On miss get the data from the SSTable and merge it with the data in the memtable, write the key to the in-memory key-cache and merged result to the in-memory row cache
+- Check if the key is in the in-memory row cache.
+- Query the Bloom filters of the existing SSTables to find the record. If it doesn't exist, then skip the SSTable.
+- If the Bloom filter says that there may be data, check the in-memory key cache.
+- On a miss, get the data from the SSTable and merge it with the data in the memtable. Write the key to the in-memory key cache and the merged result to the in-memory row cache.
 
 ## Data modeling
 
 ### Goals
 
-- spread data evenly around the cluster
-- minimize the number of partitions read
-- keep partitions manageable
+- Spread data evenly around the cluster.
+- Minimize the number of partitions read.
+- Keep partitions manageable.
 
 ### Process
 
-- Identify initial entities and relationships
-- Key attributes (map to PK columns)
-- Equality search attributes (map to the beginning of the PK)
-- Inequality search attributes (map to clustering columns)
-- Other attributes
-  - Static attributes are shared within a given partition
+- Identify initial entities and relationships.
+- Key attributes (map to PK columns).
+- Equality search attributes (map to the beginning of the PK).
+- Inequality search attributes (map to clustering columns).
+- Other attributes:
+  - Static attributes are shared within a given partition.
 
 ```text
 primary key = partition key + clustering columns
@@ -84,15 +84,14 @@ C Clustering key and their ordering (ascending or descending)
 S Static columns, fixed and shared per partition
 ```
 
-{{< figure src="/images/cassandra-table-structure.png" title="Cassandra table structure" class="tw-mx-auto md:tw-w-1/2">}}
+{{< figure src="/images/cassandra-table-structure.png" title="Cassandra table structure" class="tw-mx-auto md:tw-w-1/2" >}}
 
 ### Validation
 
 - Is data evenly spread?
-- 1 partition per read?
+- One partition per read?
 - Are writes (overwrites) possible?
-- How large are the partitions? Let's assume that each partition should have at most 1M cells,
- $n_{cells} = n_{rows} * (n_{cols} - n_{K} - n_{S}) + n_{S} < 1M$
+- How large are the partitions? Let's assume that each partition should have at most 1M cells: $n_{cells} = n_{rows} * (n_{cols} - n_{K} - n_{S}) + n_{S} < 1M$.
 - How much data duplication?
 
 ## Examples
@@ -116,13 +115,13 @@ S Static columns, fixed and shared per partition
 - Is data evenly spread? Yes
 - 1 partition per read? Yes
 - Are writes (overwrites) possible? Yes
-- How large are the partitions? $1 * (5 - 1 - 0) + 0 &lt; 1M$
+- How large are the partitions? $1 * (5 - 1 - 0) + 0 < 1M$
 - How much data duplication? 0
 {{% /markdown %}}
   </div>
 </div>
 
-**Register a user uniquely identified by an email/password, we also want their fullname. They will be accessed by email and password or by UUID**
+**Register a user uniquely identified by an email/password. We also want their full name. They will be accessed by email and password or by UUID.**
 
 <div class="tw-flex tw-flex-col md:tw-flex-row tw-mb-4">
   <div class="md:tw-w-1/3">
@@ -138,14 +137,14 @@ S Static columns, fixed and shared per partition
   <div class="md:tw-w-2/3">
 {{% markdown %}}
 
-Q1: find users by login info
+Q1: Find users by login info.
 
-Q3: find users by email (to guarantee uniqueness)
+Q3: Find users by email (to guarantee uniqueness).
 
 - Is data evenly spread? Yes
 - 1 partition per read? Yes
 - Are writes (overwrites) possible? Yes
-- How large are the partitions? $1 * (4 - 1 - 0) + 0 &lt; 1M$
+- How large are the partitions? $1 * (4 - 1 - 0) + 0 < 1M$
 - How much data duplication? 0
 {{% /markdown %}}
   </div>
@@ -162,18 +161,18 @@ Q3: find users by email (to guarantee uniqueness)
   </div>
   <div class="md:tw-w-2/3">
 {{% markdown %}}
-Q2: get users by UUID
+Q2: Get users by UUID.
 
 - Is data evenly spread? Yes
 - 1 partition per read? Yes
 - Are writes (overwrites) possible? Yes
-- How large are the partitions? $1 * (2 - 1 - 0) + 0 &lt; 1M$
+- How large are the partitions? $1 * (2 - 1 - 0) + 0 < 1M$
 - How much data duplication? 0
 {{% /markdown %}}
   </div>
 </div>
 
-**Find books a logged in user has read sorted by title and author**
+**Find books a logged-in user has read, sorted by title and author.**
 
 <div class="tw-flex tw-flex-col md:tw-flex-row tw-mb-4">
   <div class="md:tw-w-1/3">
@@ -198,8 +197,8 @@ Q2: get users by UUID
 
 <div>$$
 \begin{align*}
-n_{books} * (7 - 1 - 1) + 1 & &lt; 1M \\\\
-n_{books} & &lt; \frac{1M}{5} - 1 \\\\
+n_{books} * (7 - 1 - 1) + 1 & &lt; 1M \\
+n_{books} & &lt; \frac{1M}{5} - 1 \\
 n_{books} & &lt; 200k
 \end{align*}
 $$</div>
@@ -209,7 +208,7 @@ $$</div>
   </div>
 </div>
 
-**Interaction of every user in the website**
+**Interaction of every user on the website**
 
 <div class="tw-flex tw-flex-col md:tw-flex-row tw-mb-4">
   <div class="md:tw-w-1/3">
@@ -227,11 +226,11 @@ $$</div>
 - Is data evenly spread? Yes
 - 1 partition per read? Yes
 - Are writes (overwrites) possible? Yes
-- How large are the partitions? (up to 333k book reads per user, 333k actions may be low number of actions to store therefore *we should store actions by bucket*)
+- How large are the partitions? (up to 333k book reads per user; 333k actions may be a low number of actions to store, therefore *we should store actions by bucket*)
 
 <div>$$
 \begin{align*}
-n_{actions} * (4 - 1 - 0) + 0 & &lt; 1M \\\\
+n_{actions} * (4 - 1 - 0) + 0 & &lt; 1M \\
 n_{actions} & &lt; 333K
 \end{align*}
 $$</div>
@@ -269,7 +268,7 @@ $$</div>
 
 <div>$$
 \begin{align*}
-n_{actions} * (5 - 2 - 0) + 0 & &lt; 1M \\\\
+n_{actions} * (5 - 2 - 0) + 0 & &lt; 1M \\
 n_{actions} & &lt; 333K
 \end{align*}
 $$</div>

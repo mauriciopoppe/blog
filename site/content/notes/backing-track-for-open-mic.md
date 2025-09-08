@@ -1,12 +1,12 @@
 ---
-title: Creating a backing track from your favorite song for an open mic
+title: Creating a Backing Track from Your Favorite Song for an Open Mic
 summary: |
-  I perform in open mics in my spare time, when I decide to perform a cover of
-  a song I usually play the guitar as well as singing it. Therefore, I prepare
-  a backing track without those tracks that I use as background music during
+  I perform in open mics in my spare time. When I decide to perform a cover of
+  a song, I usually play the guitar and sing. Therefore, I prepare
+  a backing track without the tracks I use as background music during
   the performance.
 
-  In this article I show how to create a backing track using yt-dlp, demucs and ffmpeg.
+  In this article, I show how to create a backing track using yt-dlp, Demucs, and FFmpeg.
 tags: ['life', 'karaoke', 'open mic', 'demucs', 'ffmpeg', 'guitar', 'singing', 'music', 'bachata']
 image: /images/open-mic-guitar.jpg
 imageAlt: |
@@ -16,37 +16,37 @@ date: 2024-12-01 14:49:00
 
 I have a couple of ways to split a song:
 
-- With Logic Pro for iPad - In the update for 2024, there's a way to split
-  a song into tracks (bass, drums, other, vocals), this feature is called
+- With Logic Pro for iPad: In the update for 2024, there's a way to split
+  a song into tracks (bass, drums, other, vocals). This feature is called
   [stem splitter](https://support.apple.com/guide/logicpro-ipad/extract-vocal-instrumental-stems-stem-lpip1b60ada3/ipados).
-- With [demucs](https://github.com/facebookresearch/demucs) which is an open source tool capable of separating
-  drums, bass, and vocals from the rest of the accompaniment
-  - It has a feature where it can split a song using more instruments (bass, drums, guitar, other, piano, vocals),
-    in this mode I can keep important tracks in the backing track such as the "other" and "piano" tracks
+- With [Demucs](https://github.com/facebookresearch/demucs), which is an open-source tool capable of separating
+  drums, bass, and vocals from the rest of the accompaniment.
+  - It has a feature where it can split a song using more instruments (bass, drums, guitar, other, piano, vocals).
+    In this mode, I can keep important tracks in the backing track, such as the "other" and "piano" tracks,
     which make the backing track feel complete.
 
-In this article I show how to use demucs to split a song into tracks.
+In this article, I show how to use Demucs to split a song into tracks.
 
 ## Splitting a song with Demucs
 
 ### High level steps
 
-- Install essential tools
-  - [git](https://git-scm.com/downloads)
-  - [python](https://www.python.org/downloads/)
-- Download dependencies (there's an automated step to download these below)
-  - Install [yt-dlp](https://github.com/yt-dlp/yt-dlp) to download your song (if you have your song skip this step).
-  - Install [demucs](https://github.com/facebookresearch/demucs/) to split the track.
-  - Install [ffmpeg](https://ffmpeg.org/) to combine selected tracks into a combined track.
-- Download your song with `yt-dlp`
-- Separate the track with `demucs`
-- Join the drums/bass/other tracks with `ffmpeg` into a track that you can use as your backing track!
+- Install essential tools:
+  - [Git](https://git-scm.com/downloads)
+  - [Python](https://www.python.org/downloads/)
+- Download dependencies (there's an automated step to download these below).
+  - Install [yt-dlp](https://github.com/yt-dlp/yt-dlp) to download your song (if you have your song, skip this step).
+  - Install [Demucs](https://github.com/facebookresearch/demucs/) to split the track.
+  - Install [FFmpeg](https://ffmpeg.org/) to combine selected tracks into a combined track.
+- Download your song with `yt-dlp`.
+- Separate the track with `Demucs`.
+- Join the drums/bass/other tracks with `FFmpeg` into a track that you can use as your backing track!
 
 ### Download demucs dependencies
 
-The assumption is that you already have git and python installed.
+The assumption is that you already have Git and Python installed.
 
-I've created a project that has a file with all the dependencies to install, you just need to clone
+I've created a project that has a file with all the dependencies to install. You just need to clone
 the repository and use the `requirements.txt` file to install the dependencies.
 
 ```
@@ -59,12 +59,12 @@ python3 -m pip install -r requirements.txt
 
 ### Download your song
 
-I'll create a backing track with bass, drums, piano and other for the song
-[December 21 by Prince Royce](https://www.youtube.com/watch?v=A9B1Uo-VQas)
+I'll create a backing track with bass, drums, piano, and other instruments for the song
+[December 21 by Prince Royce](https://www.youtube.com/watch?v=A9B1Uo-VQas).
 
 <iframe class="tw-mx-auto tw-aspect-video md:tw-w-full" src="https://www.youtube.com/embed/A9B1Uo-VQas?si=OILLax2aDMwMna8D" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-First let's download the song assuming that it's on Youtube:
+First, let's download the song, assuming that it's on YouTube:
 
 ```
 yt-dlp -x --audio-format mp3 <link-to-song>
@@ -94,13 +94,13 @@ Deleting original file Prince Royce - Dec. 21 (Official Video) [A9B1Uo-VQas].m4a
 
 The track is downloaded in the same location as where the command was run.
 
-Next let's use `demucs` to separate the track into different instrument tracks.
+Next, let's use `Demucs` to separate the track into different instrument tracks.
 
 ```
 demucs -n htdemucs_6s --mp3 -j 2 <path-to-downloaded-song>
 ```
 
-Example
+Example:
 
 ```
 demucs -n htdemucs_6s --mp3 -j 2 "Prince Royce - Dec. 21 (Official Video) [A9B1Uo-VQas].mp3"
@@ -110,7 +110,7 @@ Separating track Prince Royce - Dec. 21 (Official Video) [A9B1Uo-VQas].mp3
 100%|██████████████████████████████████████████████████████████████████████| 216.45/216.45 [01:28<00:00,  2.46seconds/s]
 ```
 
-`demucs` created multiple files in the directory `separated`, let's list them:
+`Demucs` created multiple files in the directory `separated`. Let's list them:
 
 ```
 tree separated/
@@ -126,7 +126,7 @@ separated/
 
 ```
 
-Finally let's join the bass, drums, other, piano tracks with `ffmpeg` into the combined file `combined.mp3`.
+Finally, let's join the bass, drums, other, and piano tracks with `FFmpeg` into the combined file `combined.mp3`.
 
 ```
 cd separated/htdemucs_6s/Prince\ Royce\ -\ Dec.\ 21\ \(Official\ Video\)\ \[A9B1Uo-VQas\]/
@@ -152,13 +152,13 @@ Let's compare the original song with two versions of the backing track, one with
       <td><audio controls src="/audio/bass-drums-open-mic.mp3"></audio></td>
     </tr>
     <tr>
-      <td>Backing track (bass, drums, other, piano), no voice or guitar</td>
+      <td>Backing track (bass, drums, other, piano), no voice or guitar.</td>
       <td><audio controls src="/audio/combined-open-mic.mp3"></audio></td>
     </tr>
   </tbody>
 </table>
 
-`demucs` is an amazing tool and so useful for open mics!
+`Demucs` is an amazing tool and so useful for open mics!
 
 <div class="tw-flex tw-flex-row tw-justify-center tw-mb-5">
   <div class="github-card" data-github="mauriciopoppe/open-mic" data-width="400" data-height="" data-theme="default"></div>

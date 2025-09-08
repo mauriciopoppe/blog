@@ -6,8 +6,8 @@ summary: |
   a function changes with respect to its input as the input changes very slightly.
 
   <br />
-  This article covers physical and geometric interpretation of the derivative as well
-  as some applications like finding maxima and minima in a function and newton-raphson.
+  This article covers the physical and geometric interpretation of the derivative, as well
+  as some applications like finding maxima and minima in a function and Newton-Raphson.
 tags: ["math", "calculus", "derivative", "maxima minima"]
 image: /images/derivative.jpg
 date: 2015-04-02 10:00:00
@@ -16,34 +16,34 @@ libraries: ["function-plot", "math"]
 
 ## Physical interpretation of the derivative
 
-> The primary concept of the calculus deals with the rate of change of one variable with respect to another
+> The primary concept of calculus deals with the rate of change of one variable with respect to another.
 
 ### Instantaneous speed
 
-Let's imagine a person who travels 90km in 3 hours, his *average speed* (rate of change of distance with respect to time) is 30km/h, of course he doesn't need to travel at that fixed speed, he may slow down/speed up at different times during the time he traveled, for *many* purposes it suffices to know the average speed.
+Let's imagine a person who travels 90km in 3 hours. His *average speed* (rate of change of distance with respect to time) is 30km/h. Of course, he doesn't need to travel at that fixed speed; he may slow down or speed up at different times during the time he traveled. For *many* purposes, it suffices to know the average speed.
 
-However in many daily happenings the average speed is not a significant quantity, if a person traveling in an automobile strikes a tree the quantity that matters is the speed at the *instant of collision* (this quantity might determine if he survives or not)
+However, in many daily happenings, the average speed is not a significant quantity. If a person traveling in an automobile strikes a tree, the quantity that matters is the speed at the *instant of collision* (this quantity might determine if he survives or not).
 
-|concept|description|
-|----|----|
-|interval|happens over a *period* of time|
-|instant|happens so fast that no time elapses|
+| Concept | Description |
+|---|---|
+| Interval | Happens over a *period* of time |
+| Instant | Happens so fast that no time elapses |
 
-Calculating the *average speed* is simple, by definition it's the rate of change of distance with respect to time
+Calculating the *average speed* is simple. By definition, it's the rate of change of distance with respect to time.
 
 <div>$$
 \text{average speed} = \frac{\text{distance traveled}}{\text{interval of time}}
 $$</div>
 
-The same computation process can't be applied to get the *instantaneous speed* at some point in time since *instantaneous* means that the event happened in an infinitesimal or very short space of time, then distance and the time might be both zero hence using the *average speed* definition won't help because $\frac{0}{0}$ is meaningless, we know that this is a physical reality but if we can't calculate it it's impossible to work with it mathematically.
+The same computation process can't be applied to get the *instantaneous speed* at some point in time. Since *instantaneous* means that the event happened in an infinitesimal or very short space of time, then distance and time might both be zero. Hence, using the *average speed* definition won't help because $\frac{0}{0}$ is meaningless. We know that this is a physical reality, but if we can't calculate it, it's impossible to work with it mathematically.
 
-We can't compute it with the knowledge we have right now but we can surely approximate it, let's say that there's a ball dropped near the surface of the earth and we want to know its instantaneous speed after 4 seconds, to calculate the instantaneous speed at any point in time we need to know the distance it travels after some period of time, this relation could be expressed as a formula which relates distance and time traveled, the formula that relates the distance (in feet) with the time elapsed is
+We can't compute it with the knowledge we have right now, but we can surely approximate it. Let's say that there's a ball dropped near the surface of the earth, and we want to know its instantaneous speed after 4 seconds. To calculate the instantaneous speed at any point in time, we need to know the distance it travels after some period of time. This relation could be expressed as a formula that relates distance and time traveled. The formula that relates the distance (in feet) to the time elapsed is:
 
 <div>$$
 f(t) = s = 16t^2
 $$</div>
 
-We can calculate the distance the ball traveled after 4 seconds by replacing $t$ with 4
+We can calculate the distance the ball traveled after 4 seconds by replacing $t$ with 4:
 
 <div>$$
 \begin{align*}
@@ -52,7 +52,7 @@ s_4 &= 16 * 4^2 \\
 \end{align*}
 $$</div>
 
-Let's also compute the distance the ball traveled after 5 seconds
+Let's also compute the distance the ball traveled after 5 seconds:
 
 <div>$$
 \begin{align*}
@@ -61,32 +61,32 @@ s_5 &= 16 * 5^2 \\
 \end{align*}
 $$</div>
 
-The *average speed* for this interval of time is then
+The *average speed* for this interval of time is then:
 
 <div>$$
 \text{average speed for the interval of time [4, 5]} = \frac{s_5 - s_4}{1} = \frac{400 - 256}{1} = 144 \;\text{feet/s}
 $$</div>
 
-So the *average speed* during the fifth second is $144\;\text{feet/s}$, this quantity is no more than an approximation of the *instantaneous speed*, but we may improve the approximation by calculating the average speed in the interval of time from 4 to 4.1 seconds which is
+So the *average speed* during the fifth second is $144\;\text{feet/s}$. This quantity is no more than an approximation of the *instantaneous speed*, but we may improve the approximation by calculating the average speed in the interval of time from 4 to 4.1 seconds, which is:
 
 <div>$$
 \text{average speed for the interval of time [4, 4.1]} = \frac{268.96 - 256}{0.1} = 129.6\;\text{feet/s}
 $$</div>
 
-Let's register more computations of the above process with smaller and smaller intervals of time in a table
+Let's register more computations of the above process with smaller and smaller intervals of time in a table:
 
 ```sh
 |time elapsed after 4 seconds|  1|  0.1|  0.01|  0.001|  0.0001|
 |average speed (in feet/s)   |144|129.6|128.16|128.016|128.0016|
 ```
 
-Of course no matter how small the interval is the result is not the instant speed at the instant $t=4$ however we now see that the average speed for the intervals seem to be approaching to the fixed number **128 feet/s**
+Of course, no matter how small the interval is, the result is not the instant speed at the instant $t=4$. However, we now see that the average speed for the intervals seems to be approaching the fixed number **128 feet/s**.
 
 ### Method of increments
 
-Let's redo the process described above over an *arbitrary* interval of time, to do so let's introduce a quantity $h$ which represents an interval of time beginning at $t=4$ which extends before or after $t=4$ ($h$ is called an *increment* in $t$ because it's some interval of time)
+Let's redo the process described above over an *arbitrary* interval of time. To do so, let's introduce a quantity $h$, which represents an interval of time beginning at $t=4$ and extending before or after $t=4$. ($h$ is called an *increment* in $t$ because it's some interval of time.)
 
-The formula for the example above is
+The formula for the example above is:
 
 <div>$$
 \begin{equation}
@@ -95,7 +95,7 @@ s = 16t^2
 \end{equation}
 $$</div>
 
-When calculated once by the end of the fourth second is
+When calculated once by the end of the fourth second, it is:
 
 <div>$$
 \begin{equation}
@@ -104,7 +104,7 @@ s_4 = 16 * 4^2 = 256
 \end{equation}
 $$</div>
 
-When substituted with the interval $[4, 4 + h]$ is
+When substituted with the interval $[4, 4 + h]$, it is:
 
 <div>$$
 \begin{align}
@@ -113,23 +113,23 @@ s_4 + k &= 16 (4 + h) ^2 \notag \\
 \end{align}
 $$</div>
 
-Where $k$ is the additional distance the object falls $h$ seconds after the initial $4$ seconds, to obtain $k$ we have to subtract $\eqref{balldrop1}$ from $\eqref{balldrop2}$, the result is
+Where $k$ is the additional distance the object falls $h$ seconds after the initial $4$ seconds. To obtain $k$, we have to subtract $\eqref{balldrop1}$ from $\eqref{balldrop2}$. The result is:
 
 <div>$$
 k = 128h + 16h^2
 $$</div>
 
-The average speed in this interval of time is then $\frac{k}{h}$, dividing both sides by $h$
+The average speed in this interval of time is then $\frac{k}{h}$. Dividing both sides by $h$:
 
 <div>$$
 \frac{k}{h} = 128 + 16h
 $$</div>
 
-To compute the instantaneous speed the interval $h$ must become smaller and smaller until it reaches 0, if $h$ approaches 0 then $16h$ also approaches 0, we can conclude that the instantaneous speed when $t=4$ approaches **128 feet/s**
+To compute the instantaneous speed, the interval $h$ must become smaller and smaller until it reaches 0. If $h$ approaches 0, then $16h$ also approaches 0. We can conclude that the instantaneous speed when $t=4$ approaches **128 feet/s**.
 
 #### Generalization
 
-Let's generalize the process above for $\eqref{balldrop}$ for any value of $t$, to do so let's apply the method of increments when $t$ is substituted with the interval $t + h$
+Let's generalize the process above for $\eqref{balldrop}$ for any value of $t$. To do so, let's apply the method of increments when $t$ is substituted with the interval $t + h$:
 
 <div>$$
 \begin{align*}
@@ -138,7 +138,7 @@ s + k &= 16(t + h)^2 \\
 \end{align*}
 $$</div>
 
-Subtracting $\eqref{balldrop}$ from the equation above
+Subtracting $\eqref{balldrop}$ from the equation above:
 
 <div>$$
 \begin{align*}

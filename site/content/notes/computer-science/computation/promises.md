@@ -1,31 +1,31 @@
 ---
-title: "Implementing an A+ conformat Promise library in JavaScript the TDD way"
+title: "Implementing an A+ Conformant Promise Library in JavaScript the TDD Way"
 summary: |
-  Future/promises refer to constructs used to synchronize program execution.
-  Learning how it works under the hood by implementing it is a great fundamental skill to know.
+  Futures/promises refer to constructs used to synchronize program execution.
+  Learning how they work under the hood by implementing them is a great fundamental skill to have.
   <br />
   <br />
-  This article is about writing an A+ Promise implementation from scratch
+  This article is about writing an A+ Promise implementation from scratch,
   following the A+ promise spec in JavaScript the TDD way.
 image: /images/promises.png
 tags: ["Promises", "JavaScript", "Futures", "Software Engineering"]
 date: 2017-09-16T21:05:42Z
 ---
 
-My objective is to write a Promises/A+ conformant implementation similar to [`then/promise`](https://github.com/then/promise/blob/master/src/core.js), also, I'll do it the TDD way where I'll write the some tests first and then implement what's needed to make the tests pass (tests will be written on the platform [Jest](https://jestjs.io/)
+My objective is to write a Promises/A+ conformant implementation similar to [`then/promise`](https://github.com/then/promise/blob/master/src/core.js). Also, I'll do it the TDD way, where I'll write some tests first and then implement what's needed to make the tests pass (tests will be written on the [Jest](https://jestjs.io/) platform).
 
-[This article](https://www.promisejs.org/implementing/) was one of the best references I found online, this implementation is heavily inspired by it. I'll also refer to the [A+ promise spec](https://promisesaplus.com/) when necessary.
+[This article](https://www.promisejs.org/implementing/) was one of the best references I found online. This implementation is heavily inspired by it. I'll also refer to the [A+ promise spec](https://promisesaplus.com/) when necessary.
 
 ### Promise state
 
-A promise is an object/function that must be in one of these states: `PENDING`, `FULFILLED`, `REJECTED`, initially the promise is in a `PENDING` state.
+A promise is an object/function that must be in one of these states: `PENDING`, `FULFILLED`, or `REJECTED`. Initially, the promise is in a `PENDING` state.
 
 A promise can transition from a `PENDING` state to either a `FULFILLED` state with a fulfillment `value` or to a `REJECTED` state with a rejection `reason`.
 
-To make the transition the Promise constructor receives a function called `executor`, the executor is called immediately with two functions `fulfill` and `reject` that when called perform the state transition:
+To make the transition, the Promise constructor receives a function called `executor`. The executor is called immediately with two functions, `fulfill` and `reject`, that when called, perform the state transition:
 
-- `fulfill(value)` - from `PENDING` to `FULFILLED` with `value`, the `value` is now a property of the promise.
-- `reject(reason)` - from `PENDING` to `REJECTED` with `reason`, the `reason` is now a property of the promise.
+- `fulfill(value)` - from `PENDING` to `FULFILLED` with `value`. The `value` is now a property of the promise.
+- `reject(reason)` - from `PENDING` to `REJECTED` with `reason`. The `reason` is now a property of the promise.
 
 ```javascript
 it('receives a executor function when constructed which is called immediately', () => {
@@ -62,7 +62,7 @@ it('transitions to the REJECTED state with a `reason`', () => {
 })
 ```
 
-The initial implementation is straightforward
+The initial implementation is straightforward:
 
 {{< snippet lang="javascript" >}}
 // possible states
@@ -112,12 +112,12 @@ function doResolve(promise, executor) {
 
 ### Observing state changes
 
-To observe changes in the state of the promise (and the fulfillment value or rejection reason) we use the `then` method, the method receives 2 parameters, an `onFulfilled` function and an `onRejected` function, the rules to invoke these functions are the following:
+To observe changes in the state of the promise (and the fulfillment value or rejection reason), we use the `then` method. The method receives two parameters, an `onFulfilled` function and an `onRejected` function. The rules to invoke these functions are the following:
 
-- when the promise is in a `FULFILLED` state the `onFulfilled` function will be called with the promise's fulfillment `value` e.g. `onFulfilled(value)`
-- when the promise is in a `REJECTED` state the `onRejected` function will be called with the promise's rejection `reason` e.g. `onRejected(reason)`
+- When the promise is in a `FULFILLED` state, the `onFulfilled` function will be called with the promise's fulfillment `value`, e.g., `onFulfilled(value)`.
+- When the promise is in a `REJECTED` state, the `onRejected` function will be called with the promise's rejection `reason`, e.g., `onRejected(reason)`.
 
-From now on these functions will be referred as promise `handlers`.
+From now on, these functions will be referred to as promise `handlers`.
 
 ```javascript
 it('should have a .then method', () => {
@@ -148,7 +148,7 @@ it('transitions to the REJECTED state with a `reason`', () => {
 })
 ```
 
-Let's add the `.then` function to the class prototype, note that it'll call either the `onFulfilled` or `onRejected` function based on the state of the promise
+Let's add the `.then` function to the class prototype. Note that it'll call either the `onFulfilled` or `onRejected` function based on the state of the promise:
 
 {{< snippet lang="javascript" line="3-5,9-12" >}}
 class APromise {
@@ -208,7 +208,7 @@ it('when a promise is rejected it should not be fulfilled with another value', (
 })
 ```
 
-In our current implementation, the function that calls the executor should make sure that either `fulfill` or `reject` is called once, subsequent calls should be ignored
+In our current implementation, the function that calls the executor should make sure that either `fulfill` or `reject` is called only once. Subsequent calls should be ignored:
 
 {{< snippet lang="javascript" line="2,5,6,11,12" >}}
 function doResolve(promise, executor) {
@@ -234,7 +234,7 @@ function doResolve(promise, executor) {
 
 ### Handling executor errors
 
-If the execution of the `executor` fails the promise should transition to the `REJECTED` state with the failure reason
+If the execution of the `executor` fails, the promise should transition to the `REJECTED` state with the failure reason.
 
 ```javascript
 describe('handling executor errors', () => {
@@ -252,7 +252,7 @@ describe('handling executor errors', () => {
 })
 ```
 
-The function that calls the executor should wrap it in a try/catch block and transition to `REJECTED` if the catch block is executed
+The function that calls the executor should wrap it in a try/catch block and transition to `REJECTED` if the catch block is executed:
 
 {{< snippet lang="javascript" line="3-7" >}}
 function doResolve(promise, executor) {
@@ -269,7 +269,7 @@ function doResolve(promise, executor) {
 
 ### Async executor
 
-If the resolver's `fulfill`/`reject` are executed asynchronously our `.then` method will fail because its handlers are executed immediately.
+If the resolver's `fulfill`/`reject` are executed asynchronously, our `.then` method will fail because its handlers are executed immediately.
 
 ```javascript
 it('should queue callbacks when the promise is not fulfilled immediately', done => {
@@ -327,7 +327,7 @@ it('should queue callbacks when the promise is not rejected immediately', done =
 })
 ```
 
-Let's add a queue to the promise, its purpose is to store handlers that will be called once the promise state changes from `PENDING` to something else, at the same time our `.then` method should check the promise state to decide whether to call the handler immediately or to store the handler, let's move this logic to a new helper function `handle`
+Let's add a queue to the promise. Its purpose is to store handlers that will be called once the promise state changes from `PENDING` to something else. At the same time, our `.then` method should check the promise state to decide whether to call the handler immediately or to store it. Let's move this logic to a new helper function, `handle`:
 
 {{< snippet lang="javascript" line="4-5,10,14-25,27-30" >}}
 class APromise {
@@ -362,7 +362,7 @@ function handleResolved(promise, handler) {
 }
 {{< /snippet >}}
 
-Also the `fulfill`, `reject` methods should be updated so that they invoke all the handlers stored in the promise when called, this is implemented in a new function `finale` called after the state and the value have been updated.
+Also, the `fulfill` and `reject` methods should be updated so that they invoke all the handlers stored in the promise when called. This is implemented in a new function, `finale`, called after the state and the value have been updated.
 
 {{< snippet lang="javascript" line="4,10,13-19" >}}
 function fulfill(promise, value) {
@@ -390,7 +390,7 @@ function finale(promise) {
 
 ### Chaining promises
 
-Our `.then` methods should return a new promise. Note that in the example below `p.then` returns a promise `q`, the handler `qOnFulfilled` is stored on `q`, also the handler `rOnFulfilled` is stored in `r`.
+Our `.then` methods should return a new promise. Note that in the example below, `p.then` returns a promise `q`. The handler `qOnFulfilled` is stored on `q`, and the handler `rOnFulfilled` is stored in `r`.
 
 ```javascript
 it('.then should return a new promise', () => {
@@ -404,13 +404,13 @@ it('.then should return a new promise', () => {
 })
 ```
 
-The implementation is again straightforward, however as we'll see the new promise transitions to a different state in a different way than using a executor, the new promise uses the handlers to make the transition as follows:
+The implementation is again straightforward. However, as we'll see, the new promise transitions to a different state in a different way than by using an executor. The new promise uses the handlers to make the transition as follows:
 
-- if the `onFulfilled` or `onRejected` function is called
-  - if there are **no errors** executing it, the promise will transition to the `FULFILLED` state with the returned value as the fulfillment `value`
-  - if there is an **error** executing it, the promise will transition to the `REJECTED` state with the error as the rejection `reason`
+- if the `onFulfilled` or `onRejected` function is called:
+  - if there are **no errors** executing it, the promise will transition to the `FULFILLED` state with the returned value as the fulfillment `value`.
+  - if there is an **error** executing it, the promise will transition to the `REJECTED` state with the error as the rejection `reason`.
 
-Let's make the `.then` method return a promise first
+Let's make the `.then` method return a promise first:
 
 {{< snippet lang="javascript" line="4,5,7" >}}
 class APromise {
@@ -424,7 +424,7 @@ class APromise {
 }
 {{< /snippet >}}
 
-And then write the test to handle the new promise resolution
+And then write the test to handle the new promise resolution:
 
 ```javascript
 it('if .then\'s onFulfilled is called without errors it should transition to FULFILLED', () => {
@@ -468,7 +468,7 @@ it('if .then\'s onRejected is called and has an error it should transition to RE
 })
 ```
 
-For the implementation, we first have to store the new promise in the handler queue as well, that way if the observed promise is resolved the elements in the queue know which promise they need to resolve.
+For the implementation, we first have to store the new promise in the handler queue as well. That way, if the observed promise is resolved, the elements in the queue know which promise they need to resolve.
 
 {{< snippet lang="javascript" line="5-6,13-19" >}}
 class APromise {
@@ -497,7 +497,7 @@ function handleResolved(promise, handler) {
 
 ### Async handlers
 
-Next let's consider the case where a handler returns a promise, in this case, the promise that's part of the handler (not the returned promise) should adopt the state and fulfillment value or rejection reason of the returned promise.
+Next, let's consider the case where a handler returns a promise. In this case, the promise that's part of the handler (not the returned promise) should adopt the state and fulfillment value or rejection reason of the returned promise.
 
 ```javascript
 it('if a handler returns a promise, the previous promise should ' +
@@ -526,7 +526,7 @@ it('if a handler returns a promise resolved in the future, ' +
 })
 ```
 
-Let's imagine the following scenario
+Let's imagine the following scenario:
 
 ```javascript
 const executor = fulfill => setTimeout(fulfill, 0, 'p')
@@ -542,9 +542,9 @@ const rOnFulfilled = value => (
 const r = q.then(rOnFulfilled)
 ```
 
-In our current implementation the tuple `{ q, qOnFulfilled }` is stored in the handlers of `p` and we are sure that `qOnFulfilled` is called before storing the tuple `{ r, rOnFulfilled }` in `q`, we could take advantage of this fact and detect when a handler returns a promise to store observers in the returned promise instead e.g. store `{ r, onFulfilled }` on the promise returned by `qOnFulfilled`.
+In our current implementation, the tuple `{ q, qOnFulfilled }` is stored in the handlers of `p`, and we are sure that `qOnFulfilled` is called before storing the tuple `{ r, rOnFulfilled }` in `q`. We could take advantage of this fact and detect when a handler returns a promise to store observers in the returned promise instead, e.g., store `{ r, onFulfilled }` on the promise returned by `qOnFulfilled`.
 
-Note that we're using a `while` because a nested promise might itself have another promise as the resolution value.
+Note that we're using a `while` loop because a nested promise might itself have another promise as its resolution value.
 
 {{< snippet lang="javascript" line="2-5" >}}
 function handle(promise, handler) {
@@ -569,7 +569,7 @@ function handle(promise, handler) {
 
 #### Invalid handlers
 
-If the handler that was supposed to be a function is not a function our implementation will fail
+If the handler that was supposed to be a function is not a function, our implementation will fail.
 
 ```javascript
 it('works with invalid handlers (fulfill)', () => {
@@ -597,7 +597,7 @@ it('works with invalid handlers (reject)', () => {
 })
 ```
 
-Let's imagine the following scenario
+Let's imagine the following scenario:
 
 ```javascript
 const p = new APromise(fulfill => fulfill('p'))
@@ -605,7 +605,7 @@ const qOnFulfilled = null
 const q = p.then(qOnFulfilled)
 ```
 
-In this case, `q` should be resolved right away with the resolution value of `p`
+In this case, `q` should be resolved right away with the resolution value of `p`.
 
 {{< snippet lang="javascript" line="4-11" >}}
 function handleResolved(promise, handler) {
@@ -630,7 +630,7 @@ function handleResolved(promise, handler) {
 
 #### Execute the handlers after the event loop
 
-Requirement [2.2.4](https://promisesaplus.com/#point-34), as pointed in [3.1](https://promisesaplus.com/#point-67) the handlers are called with a fresh stack, also, this makes the promise resolution consistent by ensuring that the observers are called in the future even if the executor/handlers are synchronous.
+Requirement [2.2.4](https://promisesaplus.com/#point-34): As pointed out in [3.1](https://promisesaplus.com/#point-67), the handlers are called with a fresh stack. Also, this makes the promise resolution consistent by ensuring that the observers are called in the future, even if the executor/handlers are synchronous.
 
 ```javascript
 it('the promise observers are called after the event loop', done => {
@@ -654,7 +654,7 @@ it('the promise observers are called after the event loop', done => {
 })
 ```
 
-We can use any function that allows us to call a function after the event loop, this includes `setTimeout`, `setImmediate` and `requestAnimationFrame`
+We can use any function that allows us to call a function after the event loop. This includes `setTimeout`, `setImmediate`, and `requestAnimationFrame`.
 
 {{< snippet lang="javascript" line="2,4" >}}
 function handleResolved(promise, handler) {
@@ -690,7 +690,7 @@ it('rejects with a resolved promise', done => {
 })
 ```
 
-Only adopt the state of the nested promise if the promise is not in a REJECTED state.
+Only adopt the state of the nested promise if the promise is not in a `REJECTED` state.
 
 {{< snippet lang="javascript" line="3" >}}
 function handle(promise, handler) {
@@ -727,7 +727,7 @@ it('should throw when attempted to be resolved with itself', done => {
 })
 ```
 
-On the `fulfill` method let's check that the fulfillment value is not equal to the promise itself, if so then throw a `TypeError` as mentioned in [2.3.1](https://promisesaplus.com/#point-48)
+On the `fulfill` method, let's check that the fulfillment value is not equal to the promise itself. If so, then throw a `TypeError` as mentioned in [2.3.1](https://promisesaplus.com/#point-48).
 
 {{< snippet lang="javascript" line="2-5" >}}
 function fulfill(promise, value) {
@@ -742,7 +742,7 @@ function fulfill(promise, value) {
 
 #### Thenables
 
-Related requirement [2.3.3.3](https://promisesaplus.com/#point-56), the handler's returned value may be a `thenable`, an object/function that has a `then` property that is accessible and that is a function, the `then` function is like a executor, it receives a `fulfill` and `reject` callbacks that should be used to transition the state of the thenable.
+Related requirement [2.3.3.3](https://promisesaplus.com/#point-56): The handler's returned value may be a `thenable`, an object/function that has a `then` property that is accessible and is a function. The `then` function is like an executor; it receives `fulfill` and `reject` callbacks that should be used to transition the state of the thenable.
 
 ```javascript
 it('should work with thenables', done => {
@@ -763,9 +763,9 @@ it('should work with thenables', done => {
 })
 ```
 
-Let's modify the `fulfill` method and add the check for thenables, note that accessing a property is not always a safe operation (e.g. the property might be defined using a [`getter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get) that fails), that's why we should wrap it in a try/catch.
+Let's modify the `fulfill` method and add the check for thenables. Note that accessing a property is not always a safe operation (e.g., the property might be defined using a [`getter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get) that fails), which is why we should wrap it in a try/catch.
 
-Also, note that by the requirement [2.3.3.3](https://promisesaplus.com/#point-56) the thenable's `then` should be called with the thenable as `this`
+Also, note that by requirement [2.3.3.3](https://promisesaplus.com/#point-56), the thenable's `then` should be called with the thenable as `this`.
 
 {{< snippet lang="javascript" line="5-24" >}}
 function fulfill(promise, value) {
@@ -803,9 +803,9 @@ function fulfill(promise, value) {
 
 ### The end
 
-That was it! What I learned from implementing it on my own was that a promise can be a rejection error, previously I thought that promises would never be something that an observer would receive, I thought that all the promises were unwrapped before sending them to the observer.
+That was it! What I learned from implementing it on my own was that a promise can be a rejection error. Previously, I thought that promises would never be something that an observer would receive. I thought that all promises were unwrapped before being sent to the observer.
 
-This is the final version of our tests and the promise implementation
+This is the final version of our tests and the promise implementation:
 
 {{< repl external="true" id="@mauriciopoppe/Implementing-Promises-from-Scratch-8" >}}
 
@@ -823,8 +823,7 @@ This implementation passed all the 872 tests, cool!
 
 #### Improvements
 
-- Add a task queue so that the execution of multiple handlers happens in a *batch* (it's not actually a batch, the way the event loop works is that multiple calls to an API like `setTimeout` will add multiple tasks to the task queue as well, however, if we send them in a *batch* all the handlers will be executed in a row in the next event loop)
-- Add missing methods: `Promise.all`, `Promise.race` and the like
-- Performance improvements, the creator of BlueBird has a [detailed document](https://github.com/petkaantonov/bluebird/wiki/Optimization-killers) with some optimization tips
-- Async stack traces, see [`q`](https://github.com/kriskowal/q#long-stack-traces)
-
+- Add a task queue so that the execution of multiple handlers happens in a *batch* (it's not actually a batch; the way the event loop works is that multiple calls to an API like `setTimeout` will add multiple tasks to the task queue as well. However, if we send them in a *batch*, all the handlers will be executed in a row in the next event loop).
+- Add missing methods: `Promise.all`, `Promise.race`, and the like.
+- Performance improvements: The creator of Bluebird has a [detailed document](https://github.com/petkaantonov/bluebird/wiki/Optimization-killers) with some optimization tips.
+- Async stack traces: See [`q`](https://github.com/kriskowal/q#long-stack-traces).

@@ -1,8 +1,8 @@
 ---
 title: Documenting my life
 summary: |
-  Ordinary moments don't have a value right now but they will value over time.
-  I decided to document my life by journaling, printing pictures and making vlogs.
+  Ordinary moments don't have value right now, but they will gain value over time.
+  I decided to document my life by journaling, printing pictures, and making vlogs.
 tags: ['life']
 image: /images/documenting-my-life.jpg
 imageAlt: |
@@ -12,8 +12,8 @@ date: 2024-11-10 16:28:00
 
 ## Why am I documenting my life?
 
-Ordinary moments don't have a value right now but they will value over time.
-We might think that mundane things will stay the same forever but they don't.
+Ordinary moments don't have value right now, but they will gain value over time.
+We might think that mundane things will stay the same forever, but they don't.
 
 [I took the following notes from a vlogger that I admire called Riza](https://www.youtube.com/watch?v=fO43lbqSOkU):
 
@@ -32,25 +32,25 @@ Perhaps four, five times more, perhaps not even that.*
 
 <div class="tw-text-primary tw-my-4 tw-text-3xl md:tw-mx-auto md:tw-w-1/2">
   <div class="tw-text-center">
-    <p>Life moves pretty fast, I want to do my best to remember it.</p>
+    <p>Life moves pretty fast. I want to do my best to remember it.</p>
   </div>
 </div>
 
 ## How do I document my life?
 
-I like writing so I'll start with a journal. I'll also get a video camera and I'll start with one that's the most convenient to use.
+I like writing, so I'll start with a journal. I'll also get a video camera and I'll start with one that's the most convenient to use.
 I'll also learn to edit videos because I want to romanticize my life by recording my adventures
 as something that my future self would like.
 
-I'm the subject and reporter of my own life, when I talk to myself in a video
-it's like I'm asking questions and answering them out loud.
+I'm the subject and reporter of my own life. When I talk to myself in a video,
+it's like I'm asking and answering questions out loud.
 
 ### Journaling
 
-I have a google doc where every night I write an entry about my day, sometimes I forget
-to do it but that's ok, it doesn't need to be perfect and it can have as much detail
-as I want to. It's a google doc for now but I feel I'd value a physical journal a lot because
-I could hand write it! Maybe I'll do that later.
+I have a Google Doc where I write an entry about my day every night. Sometimes I forget
+to do it, but that's okay. It doesn't need to be perfect, and it can have as much detail
+as I want. It's a Google Doc for now, but I feel I'd value a physical journal a lot because
+I could handwrite it! Maybe I'll do that later.
 
 There's a template at the top with the following questions:
 
@@ -64,34 +64,34 @@ There's a template at the top with the following questions:
 * What will I do better tomorrow?
 ```
 
-Somedays I feel like reading a few entries from the past, it feels great to go back in time
+Some days, I feel like reading a few entries from the past. It feels great to go back in time
 to see what I did in my life and how I grew as a person from that moment in time.
 
-I also have a special doc for dreams, I'm trying to get better at being
-able to have vivid dreams where I remember more details of my dreams,
-regardless of having a happy or sad vivid dream I record it so my
+I also have a special doc for dreams. I'm trying to get better at being
+able to have vivid dreams where I remember more details of my dreams.
+Regardless of having a happy or sad vivid dream, I record it so my
 future self can remember it.
 
 ### Photos
 
-I got myself an instax camera and I used in a trip abroad, while I'm able to capture things
-in the moment with my phone and I can share them online it doesn't have the same
+I got myself an Instax camera and I used it on a trip abroad. While I'm able to capture things
+in the moment with my phone and I can share them online, it doesn't have the same
 value as taking a physical picture in the moment and sharing it with someone.
 
 ### Video
 
-I decided to get a nice vlogging camera called DJI Osmo Pocket 3, it's great
-because it very compact and has a stabilizer. I learned the basics about photography
-and video editing with Davinci Resolve and I practice to summarize a series of
-random clips that I took during a day.
+I decided to get a nice vlogging camera called DJI Osmo Pocket 3. It's great
+because it's very compact and has a stabilizer. I learned the basics about photography
+and video editing with Davinci Resolve, and I practice summarizing a series of
+random clips that I took during the day.
 
 ## Reflecting on my life
 
-Every 4 months I write a small essay about my life for that 4 month period.
-Every year on my birthday I wrote a longer essay about my life during the last year.
-I capture highlights about the things that I did and progress on the objectives I set for myself
+Every 4 months, I write a small essay about my life for that 4-month period.
+Every year on my birthday, I wrote a longer essay about my life during the past year.
+I capture highlights about the things that I did and the progress on the objectives I set for myself
 in a previous essay. Writing these thoughts is a great way to reflect on my life.
 
-To help me on this reflection I use NotebookLM which helps me remember details of my life,
-I chat with it to see big picture topics in the goals I've set. This is an interesting
+To help me on this reflection, I use NotebookLM, which helps me remember details of my life.
+I chat with it to see big-picture topics in the goals I've set. This is an interesting
 way to do therapy :).

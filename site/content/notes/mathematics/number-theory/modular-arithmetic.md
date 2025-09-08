@@ -6,9 +6,9 @@ summary: |
   and division, but with the added concept of a "modulus" or a "mod" value.
 
   <br />
-  This article covers the definition a congruence relation, and some of its properties like
-  addition, multiplication, exponentiation and inverse.
-  Next I show how we can use the extended euclidean algorithm to find the modular multiplicative inverse
+  This article covers the definition of a congruence relation, and some of its properties like
+  addition, multiplication, exponentiation, and inverse.
+  Next, I show how we can use the Extended Euclidean Algorithm to find the modular multiplicative inverse
   in a general case and in the case of coprime numbers.
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "divisibility", "modulo"]
@@ -18,7 +18,7 @@ date: 2015-06-04 16:29:18
 
 ## Congruence relation
 
-For a positive integer $n$ two integers $a$ and $b$ are said to be **congruent modulo** $n$ if the remainders of $a / n$ and $b / n$ are the same, that is written as
+For a positive integer $n$, two integers $a$ and $b$ are said to be **congruent modulo** $n$ if the remainders of $a / n$ and $b / n$ are the same. This is written as
 
 <div>$$
 \begin{equation}\label{congruent-modulo}
@@ -26,7 +26,7 @@ a \equiv b \pmod n
 \end{equation}
 $$</div>
 
-it can also be proven that $n \mid a - b$, let $a = xn + s$ and $b = yn + t$ where $x, y, s, t$ are integers, if the remainders of $a/n$ and $b/n$ are the same then $t = s$
+It can also be proven that $n \mid a - b$. Let $a = xn + s$ and $b = yn + t$ where $x, y, s, t$ are integers. If the remainders of $a/n$ and $b/n$ are the same, then $t = s$
 
 <div>$$
 \begin{align*}
@@ -49,12 +49,12 @@ a - b = n(x - y)
 \end{equation}
 $$</div>
 
-Since $x$ and $y$ are integers then $x - y$ is also an integer which means that $a - b$ is a multiple of $n$ thus $n \mid a - b$
+Since $x$ and $y$ are integers, then $x - y$ is also an integer, which means that $a - b$ is a multiple of $n$; thus $n \mid a - b$
 
 ### Properties
 
-1. Reflexive: $a \equiv a \pmod n$ since $a - a = 0$ is a multiple of any $n$
-2. Symetric: $a \equiv b \pmod n \Rightarrow b \equiv a \pmod n$ (the same as multiplying \eqref{congruent-relation-proof} by $-1$)
+1. Reflexive: $a \equiv a \pmod n$ since $a - a = 0$ is a multiple of any integer $n$
+2. Symmetric: $a \equiv b \pmod n \Rightarrow b \equiv a \pmod n$ (the same as multiplying \eqref{congruent-relation-proof} by $-1$)
 3. Transitive: if $a \equiv b \pmod n$ and $b \equiv c \pmod n$ then $a \equiv c \pmod n$
 
 ### Rules
@@ -76,7 +76,7 @@ The following rules apply
 a \pm c \equiv b \pm d \pmod n
 $$</div>
 
-*proof:* let $a - c = nk$ and $b - d = nl$, adding both equations $(a + b) - (c + d) = n(k + l)$ which is the same as $a + b \equiv c + d \pmod n$
+**Proof:** let $a - c = nk$ and $b - d = nl$. Adding both equations $(a + b) - (c + d) = n(k + l)$, which is the same as $a + b \equiv c + d \pmod n$
 
 #### Multiplication rule
 
@@ -84,7 +84,7 @@ $$</div>
 ac \equiv bd \pmod n
 $$</div>
 
-*proof:* let
+**Proof:** let
 
 <div>$$
 a = nk + b \\
@@ -109,7 +109,7 @@ Since $a^k$ is just repeated multiplication then
 a^k \equiv b^k \pmod n
 $$</div>
 
-Where $k$ is a positive integer
+where $k$ is a positive integer.
 
 Implementation based on [Binary Exponentiation](../binary-exponentiation/)
 
@@ -119,7 +119,7 @@ Implementation based on [Binary Exponentiation](../binary-exponentiation/)
 
 #### Extended Euclidean Algorithm
 
-The multiplicative inverse of a number $a$ is a number which multiplied by $a$ yields the multiplicative identity, for modular arithmetic the modular multiplicative inverse is also defined, the modular multiplicative inverse of a number $a$ modulo $m$ is an integer $x$ such that
+The multiplicative inverse of a number $a$ is a number which multiplied by $a$ yields the multiplicative identity. For modular arithmetic, the modular multiplicative inverse is also defined. The modular multiplicative inverse of a number $a$ modulo $m$ is an integer $x$ such that
 
 <div>$$
 \begin{equation}\label{modular-multiplicative-inverse}
@@ -127,7 +127,7 @@ a \; x \equiv 1 \pmod m
 \end{equation}
 $$</div>
 
-Such a number exists only if *$a$ and $m$ are coprime*, e.g. $gcd(a, m) = 1$
+Such a number exists only if *$a$ and $m$ are coprime* (e.g., $gcd(a, m) = 1$)
 
 The number $x$ can be found using the [Extended Euclidean Algorithm](../extended-euclidean-algorithm/), by the definition of the congruence relation $m \mid ax - 1$
 
@@ -141,13 +141,13 @@ Rearranging
 ax - mq = 1
 $$</div>
 
-This is the exact form of the equation that the Extended Euclidean Algorithm solves where $gcd(a, m) = 1$ is already predetermined instead of discovered using the algorithm
+This is the exact form of the equation that the Extended Euclidean Algorithm solves, where $gcd(a, m) = 1$ is already predetermined, instead of discovered using the algorithm
 
 {{< snippet file="static/code/math/modularMultiplicativeInverse.cpp" lang="cpp" />}}
 
 ### Euler's Theorem
 
-The modular multiplicative inverse can be also found using Euler's theorem, if $a$ is relatively prime to $n$ then
+The modular multiplicative inverse can be also found using Euler's Theorem. If $a$ is relatively prime to $n$, then
 
 <div>$$
 a^{\phi(m)} \equiv 1 \pmod m

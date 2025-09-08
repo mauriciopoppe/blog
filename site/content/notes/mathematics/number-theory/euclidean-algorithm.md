@@ -1,7 +1,7 @@
 ---
 title:  "Euclidean Algorithm"
 summary: |
-  The euclidean algorithm finds the greatest common divisor of two numbers. In this article
+  The Euclidean Algorithm finds the greatest common divisor of two numbers. In this article
   I implement the algorithm from scratch in C++.
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "divisibility", "modulo", "euclidean algorithm", "greatest common divisor", "gcd"]
@@ -10,7 +10,7 @@ date:   2015-06-01 12:00:00
 categories: algorithms math
 ---
 
-Euclid's algorithm for finding the **Greatest Common Divisor** of two or more integers is based on the following observations:
+Euclid's Algorithm for finding the **Greatest Common Divisor** of two or more integers is based on the following observations:
 
 1. if $x = y$ then
 
@@ -24,7 +24,7 @@ $$</div>
 gcd(x, y) = gcd(x - y, y)
 $$</div>
 
-*proof:* suppose that $d$ is a divisor of $x$ and $y$ then $x$ and $y$ can be expressed as
+**Proof:** suppose that $d$ is a divisor of $x$ and $y$, then $x$ and $y$ can be expressed as
 
 <div>$$
 \begin{align*}
@@ -39,7 +39,7 @@ But then
 x - y = q_1d - q_2d = d(q_1 - q_2)
 $$</div>
 
-Therefore $d$ is a divisor of $x - y$
+Therefore, $d$ is a divisor of $x - y$
 
 ```cpp
 int gcd(int x, int y) {
@@ -54,7 +54,7 @@ int gcd(int x, int y) {
 }
 ```
 
-Using the remainder operator instead of multiple subtraction operations is an improvement in performance however eventually one of $x$ or $y$ will become zero
+Using the remainder operator instead of multiple subtraction operations is an improvement in performance; however, eventually one of $x$ or $y$ will become zero
 
 <div>$$
 gcd(x, 0) = gcd(0, x) = x
@@ -73,7 +73,7 @@ int gcd(int x, int y) {
 }
 ```
 
-By ensuring that $x \geq y$ we can get rid of the `if` statement inside the `while` loop
+By ensuring that $x \geq y$, we can get rid of the `if` statement inside the `while` loop
 
 ```cpp
 int gcd(int x, int y) {
@@ -90,7 +90,7 @@ int gcd(int x, int y) {
 }
 ```
 
-However if $x < y$ the first iteration of the loop will actually swap the operands, e.g. when $x = 3, y = 5$, $remainder = 3 % 5 = 3$, $x_{new} = 5$, $y_{new} = 3$ therefore it's not necessary to make the initial swap
+However, if $x < y$, the first iteration of the loop will actually swap the operands (e.g., when $x = 3, y = 5$, $remainder = 3 % 5 = 3$, $x_{new} = 5$, $y_{new} = 3$). Therefore, it's not necessary to make the initial swap
 
 ```cpp
 int gcd(int x, int y) {
@@ -104,7 +104,7 @@ int gcd(int x, int y) {
 }
 ```
 
-*Example:* finding the GCD of $102$ and $38$
+**Example:** Finding the GCD of $102$ and $38$
 
 <div>$$
 \begin{align*}
@@ -115,7 +115,7 @@ int gcd(int x, int y) {
 \end{align*}
 $$</div>
 
-The last non-zero remainder is $2$ thus the GCD is 2
+The last non-zero remainder is $2$; thus, the GCD is 2.
 
 ### Implementation
 
