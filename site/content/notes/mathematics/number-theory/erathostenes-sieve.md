@@ -1,7 +1,7 @@
 ---
-title:  "Erathostenes Sieve"
+title:  "Eratosthenes Sieve"
 summary: |
-  The erathostenes sieve is an algorithm to find prime numbers up to a positive number $n$
+  The Eratosthenes Sieve is an algorithm to find prime numbers up to a positive number $n$
   using $O(n)$ space.
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "prime numbers", "erathostenes sieve"]
@@ -12,11 +12,11 @@ categories: algorithms math
 
 ### Definition
 
-An algorithm to find prime numbers up to a number $n$
+This algorithm finds prime numbers up to a number $n$.
 
 ### Algorithm description
 
-Using a boolean vector of size $n$ iteratively mark all the multiples of nonvisited positions as not primes
+Using a boolean vector of size $n$, iteratively mark all the multiples of non-visited positions as non-primes.
 
 ### Implementation
 

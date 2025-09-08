@@ -2,7 +2,7 @@
 title: "Special factorial modulo p"
 summary: |
   Let $n!_{\\%p}$ be a special factorial where $n!$ is divided by the maximum exponent of $p$
-  that divides $n!$. This article describes this problem and its solution with
+  that divides $n!$. This article describes this problem and its solution, with
   an implementation in C++.
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "prime numbers", "modular arithmetic", "divisibility"]
@@ -16,11 +16,11 @@ Let $n!_{\\%p}$ be a special factorial where $n!$ is divided by the maximum expo
 n!_{\%p} = \frac{n!}{d_p(n!)}
 $$</div>
 
-Where $d_p(n!)$ is called [Legendre's Formula](http://www.wikiwand.com/en/Legendre%27s_formula) which is explained in detail in [this article](../prime-factors-factorial)
+Here, $d_p(n!)$ is called [Legendre's Formula](http://www.wikiwand.com/en/Legendre%27s_formula), which is explained in detail in [this article](../prime-factors-factorial)
 
 > Compute $n!_{\\%p} \pmod{p}$ given that $p$ is a prime number
 
-First let's write this special factorial explicitly
+First, let's write this special factorial explicitly
 
 <div>$$
 \begin{equation} \label{explicit}
@@ -28,31 +28,31 @@ n!_{\%p} = \tfrac{1 \cdot 2 \cdot \ldots \cdot (p - 1) \cdot p \cdot (p + 1) \cd
 \end{equation}
 $$</div>
 
-The number $kp$ is a number that is divisible by $p$, we also see that $k$ might be a composite number that could be divisible by $p$ again
+The number $kp$ is a number that is divisible by $p$. We also see that $k$ might be a composite number that may be divisible by $p$ again.
 
-Now let's first divide the equation by $p^{ \tfrac{n}{p} }$ which is exactly the number of multiples of $p$
+Now, let's first divide the equation by $p^{ \tfrac{n}{p} }$ which is exactly the number of multiples of $p$.
 
 <div>$$
 n!_{\%p} = \tfrac{1 \cdot 2 \cdot \ldots \cdot (p - 1) \cdot 1 \cdot (p + 1) \cdot \ldots \cdot (2p - 1) \cdot 2 \cdot (2p + 1) \cdot \ldots \cdot (kp - 1) \cdot k \cdot (kp + 1) \cdot \ldots \cdot (n - 1) \cdot n}{p^{ \tfrac{n}{p^2} + ... }}
 $$</div>
 
-If we apply the modulo operation to each term except the multiples of $p$ we have
+If we apply the modulo operation to each term except the multiples of $p$ we have:
 
 <div>$$
 n!_{\%p} = \tfrac{1 \cdot 2 \cdot \ldots \cdot (p - 1) \cdot 1 \cdot 1 \cdot 2 \cdot \ldots \cdot (p - 1) \cdot 2 \cdot 1 \cdot 2 \cdot \ldots \cdot (p - 1) \cdot p \cdot 1 \cdot 2 \cdot \ldots \cdot (p - 1) \cdot kp}{p^{ \tfrac{n}{p^2} + ... }} \cdot 1 \cdot 2 \cdot \ldots \cdot (n - 1) \cdot n
 $$</div>
 
-NOTE: we're not applying the modulo operator to each multiple of $p$ because they don't actually exist since there are no $p$ factors in the equation, they are reduced with posterior divisions by $p^{ \tfrac{n}{p^i} }$
+**NOTE:** we're not applying the modulo operator to each multiple of $p$ because they don't actually exist, since there are no $p$ factors in the equation; they are reduced with posterior divisions by $p^{\frac{n}{p^i} }$
 
-NOTE: the number $kp$ described in \eqref{explicit} just denotes a multiple of $p$
+**NOTE:** the number $kp$ described in \eqref{explicit} just denotes a multiple of $p$
 
-We see that the expression $1 \cdot 2 \cdot \ldots \cdot (p - 1)$ is repeated many times in the equation above + a product of some additional terms which don't form an entire sequence, let $c = 1 \cdot 2 \cdot \ldots \cdot (p - 1)$ then
+We see that the expression $1 \cdot 2 \cdot \ldots \cdot (p - 1)$ is repeated many times in the equation above, plus a product of some additional terms which don't form an entire sequence. Let $c = 1 \cdot 2 \cdot \ldots \cdot (p - 1)$, then
 
 <div>$$
 n!_{\%p} = \tfrac{1c \cdot 2c \cdot \ldots \cdot (p - 1)c \cdot pc \cdot (p + 1)c \cdot \ldots \cdot (kp - 1)c \cdot kpc}{p^{ \tfrac{n}{p^2} + ... }} \cdot 1 \cdot 2 \cdot \ldots \cdot (n - 1) \cdot n
 $$</div>
 
-Since each $c$ factor occurs in every contiguous sequence of length $p$ there are exactly $\left \lfloor \tfrac{n}{p} \right \rfloor$ $c$ factors, factoring $c$ we have
+Since each $c$ factor occurs in every contiguous sequence of length $p$, there are exactly $\left \lfloor \tfrac{n}{p} \right \rfloor$ $c$ factors. Factoring $c$, we have
 
 <div>$$
 n!_{\%p} = c^{\left \lfloor \tfrac{n}{p} \right \rfloor} \cdot \tfrac{1 \cdot 2 \cdot \ldots \cdot (p - 1) \cdot p \cdot (p + 1) \cdot \ldots \cdot (2p - 1) \cdot 2p \cdot (2p + 1) \cdot \ldots \cdot (kp - 1) \cdot kp}{p^{ \tfrac{n}{p^2} + ... }} \cdot 1 \cdot 2 \cdot \ldots \cdot (n - 1) \cdot n

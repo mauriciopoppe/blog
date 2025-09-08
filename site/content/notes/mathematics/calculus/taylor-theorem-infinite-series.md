@@ -1,7 +1,7 @@
 ---
 title: "Taylor's Theorem and Infinite Series"
 summary: |
-  Taylor Series helps approximate the value of a definite integral for a function
+  Taylor series help approximate the value of a definite integral for a function
   whose antiderivative is hard to find. This article explains the key ideas
   behind Taylor's Theorem and an example of approximating its value with
   a polynomial function.
@@ -11,15 +11,15 @@ libraries: ["math"]
 date: 2015-04-02 10:00:00
 ---
 
-There are simple functions for which we cannot find antiderivatives in terms of the functions we know, some examples are
+There are simple functions for which we cannot find antiderivatives in terms of the functions we know, some examples are:
 
 <div>$$
 \frac{sin(x)}{x} \quad\quad e^{-x^2}
 $$</div>
 
-Another problem that arises in problems of the calculus is that of calculating the values of functions, for a given polynomial like $3x^2 + 7x + 1$ it's simple to calculate the value of the function for various values of $x$ but it's not so simple for a function like $sin(x)$, to calculate the value of the function at a some value of $x$ we would have to construct a right triangle containing the desired angle $x$ and then measure the side of the opposite side and the hypotenuse, however this process is not very accurate if $x$ is something like 30°50'47
+Another problem that arises in problems in calculus is that of calculating the values of functions, for a given polynomial like $3x^2 + 7x + 1$, it's simple to calculate the value of the function for various values of $x$ but it's not so simple for a function like $sin(x)$, to calculate the value of the function at some value of $x$ we would have to construct a right triangle containing the desired angle $x$ and then measure the side of the opposite side and the hypotenuse, However, this process is not very accurate if $x$ is, for example, 30°50'47
 
-The answer to the problems above is approximate unmanageable functions by manageable ones by also determining precisely what the error incurred is, if we are to approximate a given function $f(x)$ by $g(x)$ we should make $g(x)$ relatively simple so that we can calculate its values, now the simplest functions to work with are the *polynomials* and therefore we should approximate the function by polynomials
+The answer to the problems above is to approximate unmanageable functions with manageable ones, while also precisely determining the incurred error, if we are to approximate a given function $f(x)$ by $g(x)$ we should make $g(x)$ relatively simple so that we can calculate its values, now the simplest functions to work with are the *polynomials* and therefore we should approximate the function by polynomials
 
 First let's look into the simpler problem of approximating a function around one value of $x$, let's say that we have the function $f(x)$ and we want to approximate its value near $x = 0$, let's consider the polynomial $g(x)$ as an approximation to $f(x)$
 

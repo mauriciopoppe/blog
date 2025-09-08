@@ -1,5 +1,5 @@
 ---
-title: Tmux to Zellij
+title: Tmux to Zellij (and back)
 summary: |
   Tips that helped me when trying Zellij and why I went back to Tmux,
   I outline key requirements such as organized workspaces with easy pane management,
@@ -21,18 +21,18 @@ My requirements for a terminal multiplexer:
 - Organization of workspaces using sessions
   - Quickly create vertical and horizontal panes
   - Seamless movement between my editor and my terminals
-  - Seamless integration with neovim
+  - Seamless integration with Neovim
 - Switch sessions effectively
   - Single keybind to switch between sessions
   - Use a list of known workspaces as input to start/switch sessions
 
 ## Learning Zellij
 
-Zellij's introduces modes similar to vi where each mode has its
+Zellij introduces modes similar to vi where each mode has its
 own separate keybindings, for more info about the modes
 read https://zellij.dev/documentation/keybindings-modes.html
 
-I mapped `Ctrl + Space` to enter switch from Normal mode to Tmux mode
+I mapped `Ctrl + Space` to switch from Normal mode to Tmux mode
 and back.
 
 ## Organization of workspaces using sessions
@@ -40,16 +40,16 @@ and back.
 I mapped `Ctrl + Space`+`-` to create a horizontal pane and
 `Ctrl + Space`+`\` to create a vertical pane.
 
-Because of the different modes that zellij has I also use
+Because of the different modes that Zellij has I also use
 the [`zellij-autolock` plugin](https://github.com/fresh2dev/zellij-autolock) to
 provide a single keybind combination to move across panes, while this is possible
-to do with zellij without plugins the plugin is needed for zellij to
+to do with Zellij without plugins the plugin is needed for Zellij to
 be aware of switching modes when entering a pane running a program.
 
 [My zellij-autolock setup is very similar to the one in the repo](https://github.com/mauriciopoppe/dotfiles/blob/main/zellij/config.kdl).
 
 Neovim needs to be aware of the plugin, fortunately,
-the same author created [zellij.vim](https://github.com/fresh2dev/zellij.vim)
+the same author created [zellij.vim](https://github.com/fresh2dev/zellij.vim),
 which I included through my preferred package manager.
 
 ## Single keybind launcher to switch sessions
@@ -57,8 +57,8 @@ which I included through my preferred package manager.
 {{< figure src="/images/zellij-switch-session.gif" caption="Demo of switching sessions with Zellij">}}
 
 I want a system that helps me find my preferred session to launch
-or to switch too, the sessions to display are my preferred list of
-sessions and the currently opened sessions, After I make the selection
+or to switch to, the sessions to display are my preferred list of
+sessions and the currently opened sessions. After I make the selection
 in the fuzzy finder, I want to switch to that session.
 
 With tmux, [I have this setup](https://github.com/mauriciopoppe/dotfiles/blob/b183e64e8a0927254c8ebaab76688d4a6eeca0c8/zsh/bin/tmux-switch-client.py)
@@ -71,7 +71,7 @@ with this one liner:
 
 Zellij doesn't have a subcommand similar to `tmux switch-client`.
 There's this [reddit thread](https://www.reddit.com/r/zellij/comments/18go1y5/switching_sessions_via_cli/)
-where Zellij's author mention that the way to do this is with a plugin.
+where Zellij's author mentions that the way to do this is with a plugin.
 Fortunately, the plugin [zellij-switch](https://github.com/mostafaqanbaryan/zellij-switch)
 already does this.
 
@@ -82,8 +82,8 @@ already does this.
   -- "session $(basename {}) --cwd {} --layout default"
 ```
 
-I map the above the the keybinding `Ctrl + Space`+`Ctrl J` with
-the following zellij config.
+I map the above to the keybinding `Ctrl + Space`+`Ctrl J` with
+the following Zellij config.
 
 ```
         bind "Ctrl j" {
@@ -96,33 +96,33 @@ the following zellij config.
 ```
 
 [`zellij-switch-session`](https://github.com/mauriciopoppe/dotfiles/blob/main/zsh/bin/zellij-switch-session.py)
-is a bash script that wraps the above one zellij one liner.
+is a bash script that wraps the above Zellij one-liner.
 
 ## Was it worth it?
 
-While zellij fulfilled my requirements and I used regulary for at least 3 weeks
+While Zellij fulfilled my requirements and I used it regularly for at least 3 weeks
 I ended up going back to tmux.
 
-First, I'll write the things that I really liked about zellij:
+First, I'll write the things that I really liked about Zellij:
 
-- Open the current pane output in my editor - It's easier to do find/search in neovim.
+- Open the current pane output in my editor - It's easier to do find/search in Neovim.
 - The language choice to create pane configuration - I like it way more than tmuxinator yaml file
   which is an equivalent package that I use for tmux.
 - There's a very helpful sidebar showing you what keybindings to use.
-- If a panel is resized from within (e.g. running `nvim-dap-ui` in nvim) doesn't have an effect
-  the layout of the window. In tmux the windows panes are resized and it's very annoying
-  but it's not a problem in zellij.
+- If a panel is resized from within (e.g. running `nvim-dap-ui` in nvim) it doesn't have an effect
+  on the layout of the window. In tmux the windows panes are resized and it's very annoying
+  but it's not a problem in Zellij.
 - Fullscreen mode remains in fullscreen when you switch to other panes.
 
 Unfortunately, I found these annoying:
 
-- zellij doesn't have a native way to navigate to my last session - On tmux I have a binding
-  to the `Ctrl+Space` + `Space` key to switch back to my previous session, in zellij I had to
+- Zellij doesn't have a native way to navigate to my last session - On tmux I have a binding
+  to the `Ctrl+Space` + `Space` key to switch back to my previous session, in Zellij I had to
   enter the name of the session every time I wanted to switch back.
 - No mouse editor support to resize the panes - I could only do this with keybindings.
 - I couldn't find a way to kill an unresponsive pane - In tmux if there's a pane that's stuck
-  I run `respawn-pane -k` to restart the pane, I couldn't find an equivalent in tmux.
-- There's a bug launching a temp pane to run a command, in some cases the layout will be changed
+  I run `respawn-pane -k` to restart the pane, I couldn't find an equivalent in Zellij.
+- There's a bug launching a temp pane to run a command, in some cases, the layout will be changed
   after switching to another session.
 
 It's a matter of personal preference, I'm happy with tmux for now.

@@ -2,8 +2,8 @@
 title: "Bayesian Networks"
 summary: |
   A Bayesian network is a directed graph in which each node is annotated with quantitative probability
-  information. This article covers the definition of a bayesian network with a graphical representation,
-  the determination of independence between variables and the problem of finding the probability
+  information. This article covers the definition of a Bayesian network with a graphical representation,
+  the determination of independence between variables, and the problem of finding the probability
   distribution of a set of query values given some observed events.
 image: /images/math-generic.jpeg
 tags: ["math", "probability", "bayesian networks", "exact inference", "conditional independence relations", "full joint distribution"]
@@ -16,12 +16,12 @@ date: 2020-03-05 18:11:00
 A Bayesian network is a directed graph in which each node is annotated with quantitative probability information. The full specification is as follows:
 
 1. Each node corresponds to a random variable, which may be discrete or continuous.
-2. A set of directed links or arrows connects pairs of nodes. If there is an arrow from node $X$ to node $Y$, $X$ is said to be a parent of $Y$. The graph has no directed cycles (and hence is a directed acyclic graph, or DAG.
+2. A set of directed links or arrows connects pairs of nodes. If there is an arrow from node $X$ to node $Y$, $X$ is said to be a parent of $Y$. The graph has no directed cycles (and hence is a directed acyclic graph, or DAG).
 3. Each node $X_i$ has a conditional probability distribution $P(X_i|Parents(X_i))$ that quantifies the effect of the parents on the node.
 
 {{< figure src="/images/bayesian_network_full.jpg" title="Example Bayesian Network" class="tw-mx-auto md:tw-w-1/2" >}}
 
-Semantics of a bayesian network:
+Semantics of a Bayesian network:
 
 - The network is a representation of a joint probability distribution
 - Encoding of a collection of conditional independence statements
@@ -58,16 +58,16 @@ Provided that $Parents(X_i) \subseteq \{ X_{i-1}, \ldots, X_1 \}$
 
 Steps to determine if two variables are conditionally independent
 
-1. **Draw the ancestral graph** Construct the "ancestral graph" of all variables mentioned in the probability expression. This is a reduced version of the original net, consisting only of the variables mentioned and all of their ancestors (parents, parents' parents, etc.)
-2. **_Moralize_ the ancestral graph by _marrying_ the parents** For each pair of variables with a common child, draw an undirected edge (line) between them. (If a variable has more than two parents, draw lines between every pair of parents.)
+1. **Draw the ancestral graph.** Construct the "ancestral graph" of all variables mentioned in the probability expression. This is a reduced version of the original net, consisting only of the variables mentioned and all of their ancestors (parents, parents' parents, etc.)
+2. **_Moralize_ the ancestral graph by _marrying_ the parents.** For each pair of variables with a common child, draw an undirected edge (line) between them. (If a variable has more than two parents, draw lines between every pair of parents.)
 3. **_Disorient_ the graph by replacing the directed edges (arrows) with undirected edges (lines)**.
 4. **Delete the givens and their edges**. If the independence question had any given variables, erase those variables from the graph and erase all of their connections, too.
 5. **Given a query between two variables A, B**
-  1. If the variables are **disconnected** then they're independent
-  2. If the variables are **connected** then they're dependent
+  1. If the variables are **disconnected**, then they're independent
+  2. If the variables are **connected**, then they're dependent
   3. If the variables are **missing** because they were a given, they're independent
 
-In the following example we skip step 1 and moralize the entire bayesian network
+In the following example we skip step 1 and moralize the entire Bayesian network
 
 <div class="tw-flex tw-gap-4 tw-flex-col md:tw-flex-row">
   <div class="">
@@ -193,10 +193,10 @@ P(e|\neg c, b) &= \alpha \sum_{a,d,f} P(a) P(b) P(\neg c \given a,b) P(d \given 
 \end{bmatrix}} \bordermatrix{}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 0.35 \\ 0.65 \end{bmatrix}} \\
 &= \alpha P(b) \sum_{a}
 \bordermatrix{}{\g{a} \\ \g{\neg a}}{\begin{bmatrix} 0.09 \\ 0.44 \end{bmatrix}}
-\bordermatrix{}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 0.35 \\ 0.65 \end{bmatrix}} \quad \text{the element wise product is with unrelated bases so we do with $a^T$} \\
+\bordermatrix{}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 0.35 \\ 0.65 \end{bmatrix}} \quad \text{the element-wise product is with unrelated bases, so we do with $a^T$} \\
 &= \alpha P(b) \sum_{a}
 \bordermatrix{\g{a} & \g{\neg a}}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 0.0315 & 0.154 \\ 0.0585 & 0.2275 \end{bmatrix}} \\
-&= \bordermatrix{}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 0.1855 \\ 0.286 \end{bmatrix}} \quad \text{$P(b)$ is not a factor, it's an evidence} \\
+&= \bordermatrix{}{\g{e} \\ \g{\neg e}}{\begin{bmatrix} 0.1855 \\ 0.286 \end{bmatrix}} \quad \text{$P(b)$ is not a factor, it's evidence} \\
 &= \alpha [0.1855, 0.286] \\
 &= [\textbf{0.393425239}, 0.606574761]
 \end{align*}

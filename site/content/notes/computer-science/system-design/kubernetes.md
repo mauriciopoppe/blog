@@ -29,13 +29,13 @@ date: 2023-04-30T18:27:00Z
 
 ## Playground
 
-As I started to contribute to kubernetes I created a few environments for easier development.
+As I started to contribute to Kubernetes, I created a few environments for easier development.
 
 <div style="text-align: center">
 <a href="https://github.com/mauriciopoppe/kubernetes-playground"><img src="https://gh-card.dev/repos/mauriciopoppe/kubernetes-playground.svg"></a>
 </div>
 
-Please check it out for examples about:
+Please check it out for examples of the following:
 
 - Running a [client-go application through skaffold](https://github.com/mauriciopoppe/kubernetes-playground/blob/master/docs/sandbox-with-debugger.md)
 - [Running the kube controller manager in debug mode](https://github.com/mauriciopoppe/kubernetes-playground/blob/master/docs/kube-controller-manager.md)

@@ -1,13 +1,12 @@
 ---
 title: Divisibility
 summary: |
-  Let $a,b \in \mathbb{Z}$, we say that $a$ _**divides**_ $b$, written $a \given b$, if there's an integer $n$ so that:
-  $b = na$. If $a$ divides $b$ then $b$ is _**divisible**_ by $a$ and $a$ is a
-  _**divisor or factor**_ of $b$, also $b$ is called a _**multiple**_ of $a$.
+  Let $a,b \in \mathbb{Z}$. We say that $a$ _**divides**_ $b$, written $a \given b$, if there's an integer $n$ such that $b = na$. If $a$ divides $b$, then $b$ is _**divisible**_ by $a$, and $a$ is a
+  _**divisor or factor**_ of $b$. Also, $b$ is called a _**multiple**_ of $a$.
 
   <br />
-  This article covers the greatest common divisor and how to find it using the euclidean algorithm,
-  the extended euclidean algorithm to find solutions to the equation $ax + by = gcd(a, b)$ where $a, b$ are unknowns.
+  This article covers the greatest common divisor and how to find it using the Euclidean Algorithm,
+  the Extended Euclidean Algorithm to find solutions to the equation $ax + by = gcd(a, b)$ where $x, y$ are unknowns.
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "divisibility", "modulo", "euclidean algorithm", "extended euclidean algorithm"]
 libraries: ["math"]
@@ -17,49 +16,42 @@ references:
   - https://math.berkeley.edu/~sagrawal/su14_math55/notes_gcd.pdf
 ---
 
-> Let $a,b \in \mathbb{Z}$, we say that $a$ _**divides**_ $b$, written $a \given b$, if there's an integer $n$ so that
-> $$
-b = na
-$$
+> Let $a,b \in \mathbb{Z}$. We say that $a$ _**divides**_ $b$, written $a \given b$, if there's an integer $n$ such that
+> $b = na
 
-If $a$ divides $b$ then $b$ is _**divisible**_ by $a$ and $a$ is a _**divisor or factor**_ of $b$, also $b$ is called a _**multiple**_ of $a$.
+If $a$ divides $b$, then $b$ is _**divisible**_ by $a$, and $a$ is a _**divisor or factor**_ of $b$. Also, $b$ is called a _**multiple**_ of $a$.
 
 Additional properties of the relation $|$:
 
-1. if $a \given b$ and $b \given c$ then $a \given c$
-2. if $a \given b$ and $c \given d$ then $ac \given bd$
-3. if $d \given a$ and $d \given b$ then $d \given a + b$
-4. if $d \given a$ and $d \given b$ then $d \given ax + by$ for any
-   integers $x,y$
+1. if $a \given b$ and $b \given c$ then $a \given c$.
+2. if $a \given b$ and $c \given d$ then $ac \given bd$.
+3. if $d \given a$ and $d \given b$ then $d \given a + b$.
+4. if $d \given a$ and $d \given b$ then $d \given ax + by$ for any integers $x, y$.
 
-Proof.
+**Proof.**
 
-1. if $b=ma$ and $c=nb$ then $c=(nm)a$
-2. if $b=ma$ and $d=nc$ then $bd=(nm)ac$
-3. if $a=md$ and $b=nd$ then $a + b=(m + n)d$
-4. if $a=md$, $b=nd$ then $ax=(mx)d$, $by=(ny)d$ therefore $ax + by = (mx + ny)d$
+1. if $b=ma$ and $c=nb$, then $c=(nm)a.
+2. if $b=ma$ and $d=nc$, then $bd=(nm)ac.
+3. if $a=md$ and $b=nd$, then $a + b=(m + n)d.
+4. if $a=md$, $b=nd$, then $ax=(mx)d$ and $by=(ny)d$; therefore, $ax + by = (mx + ny)d$.
 
 ## Division algorithm
 
 > Let $a, b \in \mathbb{Z}$ with $b > 0$, then there exists $q, r \in \mathbb{Z}$ such that
-> $$
-a = bq + r, \quad \text{where $0 \leq r \lt b$}
-$$
+> $a = bq + r, \quad \text{where $0 \le r \lt b$}
 
-Proof. if $bq$ is the largest multiple of $b$ that does not exceed $a$ then $r = a - bq$ is positive and since $b(q + 1) > a$ then $r \lt b$.
+**Proof.** If $bq$ is the largest multiple of $b$ that does not exceed $a$, then $r = a - bq$ is positive, and since $b(q + 1) > a$, then $r \lt b$
 
-Also, if $r = 0$ then $a = bq$ which implies that $q \given a$.
+Also, if $r = 0$, then $a = bq$, which implies that $q \given a$.
 
 ## Greatest common divisor
 
-Let $a, b \in \mathbb{N}$, the greatest common divisor of $a$ and $b$, written as $gcd(a,b)$ or $(a,b)$, is the element $d$ in $\mathbb{N}$ such that $d \given a$ and $d \given b$ and every common divisor of $a$ and $b$ also divides $d$.
+Let $a, b \in \mathbb{N}$, the greatest common divisor of $a$ and $b$, written as $gcd(a,b)$ or $(a,b)$, is the element $d$ in $\mathbb{N}$ such that $d \given a$, and $d \given b$, and every common divisor of $a$ and $b$ also divides $d$.
 
 > Let $a$ and $b$ be two numbers in $\mathbb{N}$, the value of $(a,b)$ is a *linear combination* of $a$ and $b$ i.e. there exists $s,t$ in $\mathbb{Z}$ such that
-> $$
-sa + tb = (a, b)
-$$
+> $sa + tb = (a, b)$
 
-Proof.
+**Proof.**
 
 Let $d$ be the least positive integer that is a *linear combination* of $a$ and $b$
 
@@ -67,7 +59,7 @@ Let $d$ be the least positive integer that is a *linear combination* of $a$ and 
 d = sa + tb
 $$</div>
 
-First lets show that $d \given a$, by the division algorithm we know that
+First, let's show that $d \given a$. By the division algorithm, we know that
 
 <div>$$
 a = dq + r, \quad \text{where $0 \le r \lt d$}
@@ -84,9 +76,9 @@ r &= a - dq \\
 \end{align*}
 $$</div>
 
-We can see that $r$ is a linear combination of $a$ and $b$. Since $0 \le r \lt d$ and considering that we defined $d$ as the *least positive* linear combination of $a$ and $b$ it follows that $r = 0$ (if $0 \lt r \lt d$ then $r$ would be the least possible linear combination which is a contradiction), therefore $d \given a$.
+We can see that $r$ is a linear combination of $a$ and $b$. Since $0 \le r \lt d$ and considering that we defined $d$ as the *least positive* linear combination of $a$ and $b$, it follows that $r = 0$ (if $0 \lt r \lt d$ then $r$ would be the least possible linear combination, which is a contradiction); therefore, $d \given a$.
 
-In a similar fashion $d \given b$, therefore by the divisibility property #4
+In a similar fashion, $d \given b$; therefore, by the divisibility property #4
 
 <div>$$
 d \given sa + tb
@@ -96,7 +88,7 @@ The next thing to prove is that $d$ is the *greatest common divisor* of $a$ and
 $b$. To prove this lets show that if $d'$ is any other common divisor of $a$ and
 $b$ then $d' \le d$.
 
-If $d' \given a$ and $d' \given b$ then by the divisibility property #4 it divides any other linear combination of $a$ and $b$, since $d = sa + bt$ is one linear combination of $a$ and $b$ it follows that $d' \given d$ so either $d' \lt d$ or $d' = d$, finally we can conclude that
+If $d' \given a$ and $d' \given b$ then by the divisibility property #4 it divides any other *linear combination* of $a$ and $b$, since $d = sa + bt$ is one linear combination of $a$ and $b$ it follows that $d' \given d$ so either $d' \lt d$ or $d' = d$, finally we can conclude that
 
 <div>$$
 d = (a,b)
@@ -136,43 +128,13 @@ r_{n-1} &= r_n q_{n+1}, \quad \quad (r_{n-1}, r_n) = r_n
 \end{align*}
 $$</div>
 
-Therefore
+Therefore:
 
 <div>$$
 (a,b) = (b,r_1) = (r_1,r_2) = (r_2, r_3) = (r_3, r_4) = \ldots = (r_{n-3}, r_{n-2}) = (r_{n-2}, r_{n-1}) = (r_{n-1}, r_n) = r_n
 $$</div>
 
 ### Extended Euclidean Algorithm
-
-<!--
-Let's rewrite $r_n$ in terms of the previous $r_i$
-
-<div>$$
-r_n = r_{n-2} - r_{n-1} q_n
-$$</div>
-
-Substituting for $r_{n-1}$ from the previous equation
-
-<div>$$
-\begin{align**}
-r_n &= r_{n-2} - (r_{n-3} - r_{n-2} q_{n-1}) q_n \\
-r_n &= r_{n-2} (1 + q_n q_{n-1}) - r_{n-3} q_n \\
-r_n &= r_{n-3} (-q_n) + r_{n-2} (1 + q_n q_{n-1})
-\end{align**}
-$$</div>
-
-Substituting for $r_{n-2}$
-
-<div>$$
-\begin{align**}
-r_n &= r_{n-3} (-q_n) + (r_{n-4} - r_{n-3} q_{n-2}) (1 + q_n q_{n-1}) \\
-r_n &= r_{n-3} (-q_n) + r_{n-4} - r_{n-3} q_{n-2} + r_{n-4} q_n q_{n-1} - r_{n-3} q_{n-2} q_n q_{n-1} \\
-r_n &= r_{n-4} (1 + q_n q_{n-1}) + r_{n-3} (-q_n - q_{n-2} - q_{n} q_{n-1} q_{n-2}) \\
-\end{align**}
-$$</div>
-
-We could keep on doing substitutions with the previous equations like we did above until the quantities $r_i$ and $r_{i-1}$ become $a$ and $b$ respectively.
--->
 
 One of the applications of the *euclidean algorithm* is the calculation of the integers $x,y$ satisfying $d = (a,b) = ax + by$
 
@@ -219,4 +181,3 @@ x' - \left \lfloor \frac{a}{b} \right \rfloor y', & \text{otherwise}
 $$</div>
 
 {{< repl id="I0vB" >}}
-

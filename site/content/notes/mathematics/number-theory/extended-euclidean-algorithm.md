@@ -1,9 +1,9 @@
 ---
 title:  "Extended Euclidean Algorithm"
 summary: |
-  The extended euclidean algorithm finds solutions to the equation $ax + by = gcd(a, b)$
-  where $a, b$ are unknowns. This article covers a few applications of the extended euclidean algorithm
-  like finding the modular multiplicative inverse of a number, and finding solutions for
+  The Extended Euclidean Algorithm finds solutions to the equation $ax + by = gcd(a, b)$
+  where $x, y$ are unknowns. This article covers a few applications of the Extended Euclidean Algorithm
+  like finding the modular multiplicative inverse of a number and finding solutions for
   linear congruence equations.
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "divisibility", "modulo", "linear congruence equations", "mudular multiplicative inverse", "extended euclidean algorithm", "euclidean algorithm", "diophantine equations"]
@@ -13,7 +13,7 @@ date:   2015-06-02 12:00:00
 
 ## Bezout's identity
 
-For **non-zero integers** $a$ and $b$, let $d$ be the greatest common divisor $d = gcd(a, b)$. Then there exists integers $x$ and $y$ such that
+For **non-zero integers** $a$ and $b$, let $d$ be the greatest common divisor $d = gcd(a, b)$. Then there exist integers $x$ and $y$ such that
 
 <div>$$
 \begin{equation} \label{bezout}
@@ -21,13 +21,13 @@ ax + by = d
 \end{equation}
 $$</div>
 
-If $a$ and $b$ are relatively prime then $gcd(a, b) = 1$ and by Bezout's Identity there are integers $x$ and $y$ such that
+If $a$ and $b$ are relatively prime, then $gcd(a, b) = 1$ and by Bezout's Identity, there are integers $x$ and $y$ such that
 
 <div>$$
 ax + by = 1
 $$</div>
 
-*Example:* $3x + 8y = 1$, one solution is $x = 3$ and $y = -1$
+**Example:** $3x + 8y = 1$, one solution is $x = 3$ and $y = -1$.
 
 ## Extended Euclidean Algorithm
 
@@ -41,7 +41,7 @@ See [divisibility](../divisibility/) for more details.
 
 ### Diophantine equations
 
-Equations with integer variables and coefficients are called *Diophantine equations*, the simplest non-trivial linear equation has the form
+Equations with integer variables and coefficients are called *Diophantine equations*. The simplest non-trivial linear equation has the form
 
 <div>$$
 \begin{equation}\label{linear-diophantine-equation}
@@ -51,13 +51,13 @@ $$</div>
 
 Where $a, b, c$ are given integers and $x, y$ are unknown integers
 
-Using the *extended Euclidean algorithm* it's possible to find $x$ and $y$ given that $c$ is divisible by $gcd(a, b)$ otherwise the equation has no solutions, this follows the fact that a linear combination of two numbers continue to be divided by their common divisor, starting with \eqref{bezout}
+Using the *Extended Euclidean Algorithm* it's possible to find $x$ and $y$ given that $c$ is divisible by $gcd(a, b)$. Otherwise the equation has no solutions. This follows the fact that a linear combination of two numbers continues to be divided by their common divisor. Starting with \eqref{bezout}
 
 <div>$$
 ax_g + by_g = gcd(a, b)
 $$</div>
 
-multiplying it by $\tfrac{c}{gcd(a, b)}$
+Multiplying it by $\tfrac{c}{gcd(a, b)}$
 
 <div>$$
 \begin{equation}\label{diophantine-equation-gcd}
@@ -80,13 +80,13 @@ y_0 = y_g \cdot \big( \frac{c}{gcd(a, b)} \big)
 \end{cases}
 $$</div>
 
-we can find all of the solutions replacing $x_0$ by $x_0 + \tfrac{b}{gcd(a, b)}$ and $y_0$ by $y_0 - \tfrac{a}{gcd(a, b)}$
+we can find all of the solutions by replacing $x_0$ by $x_0 + \tfrac{b}{gcd(a, b)}$ and $y_0$ by $y_0 - \tfrac{a}{gcd(a, b)}$
 
 <div>$$
 a \cdot \Big( x_0 + \tfrac{b}{gcd(a, b)} \Big) + b \cdot \Big( y_0 - \tfrac{a}{gcd(a, b)} \Big) = ax_0 + \tfrac{ab}{gcd(a, b)} + by_0 - \tfrac{ab}{gcd(a, b)} = ax_0 + by_0 = c
 $$</div>
 
-This process could be repeated for any number in the form
+This process can be repeated for any number in the form
 
 <div>$$
 \begin{cases}
@@ -123,7 +123,7 @@ Reordering the equation
 ax - my = b
 $$</div>
 
-Which is a linear diophantine equation discussed above, it's solvable only if $b$ is divisible by $gcd(a, m)$, additionally $gcd(a, m)$ tells us the number of distinct solutions in the ring of integers modulo $m$
+This is a linear Diophantine equation discussed above. It's solvable only if $b$ is divisible by $gcd(a, m)$. Additionally, $gcd(a, m)$ tells us the number of distinct solutions in the ring of integers modulo $m$
 
 ---
 
