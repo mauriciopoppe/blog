@@ -11,17 +11,17 @@ libraries: ["math"]
 date: 2015-04-02 10:00:00
 ---
 
-There are simple functions for which we cannot find antiderivatives in terms of the functions we know, some examples are:
+There are simple functions for which we cannot find antiderivatives in terms of the functions we know. Some examples are:
 
 <div>$$
-\frac{sin(x)}{x} \quad\quad e^{-x^2}
+\frac{\sin(x)}{x} \quad\quad e^{-x^2}
 $$</div>
 
-Another problem that arises in problems in calculus is that of calculating the values of functions, for a given polynomial like $3x^2 + 7x + 1$, it's simple to calculate the value of the function for various values of $x$ but it's not so simple for a function like $sin(x)$, to calculate the value of the function at some value of $x$ we would have to construct a right triangle containing the desired angle $x$ and then measure the side of the opposite side and the hypotenuse, However, this process is not very accurate if $x$ is, for example, 30°50'47
+Another problem that arises in calculus is calculating the values of functions. For a given polynomial like $3x^2 + 7x + 1$, it's simple to calculate the value of the function for various values of $x$, but it's not so simple for a function like $\sin(x)$. To calculate the value of the function at some value of $x$, we would have to construct a right triangle containing the desired angle $x$ and then measure the opposite side and the hypotenuse. However, this process is not very accurate if $x$ is, for example, 30°50'47".
 
-The answer to the problems above is to approximate unmanageable functions with manageable ones, while also precisely determining the incurred error, if we are to approximate a given function $f(x)$ by $g(x)$ we should make $g(x)$ relatively simple so that we can calculate its values, now the simplest functions to work with are the *polynomials* and therefore we should approximate the function by polynomials
+The answer to the problems above is to approximate unmanageable functions with manageable ones, while also precisely determining the incurred error. If we are to approximate a given function $f(x)$ by $g(x)$, we should make $g(x)$ relatively simple so that we can calculate its values. The simplest functions to work with are *polynomials*, and therefore we should approximate the function by polynomials.
 
-First let's look into the simpler problem of approximating a function around one value of $x$, let's say that we have the function $f(x)$ and we want to approximate its value near $x = 0$, let's consider the polynomial $g(x)$ as an approximation to $f(x)$
+First, let's look into the simpler problem of approximating a function around one value of $x$. Let's say that we have the function $f(x)$ and we want to approximate its value near $x = 0$. Let's consider the polynomial $g(x)$ as an approximation to $f(x)$:
 
 <div>$$
 \begin{equation}\label{gx}
@@ -29,61 +29,61 @@ g(x) = c_0 + c_1x + c_2x^2 + \cdots + c_nx^n
 \end{equation}
 $$</div>
 
-We can make $g(x)$ agree with $f(x)$ at $x = 0$ because by $g(0) = c_0$ we can take $c_0$ to be $f(0)$, if we expect that $g(x)$ is an approximation of $f(x)$ at $x = 0$ we would also expect that the tangent line at $x = 0$ approximates the curve closely in the point of tangency, hence we should make the slope of $g(x)$ agree with the slope of $f(x)$ at $x = 0$, applying a differentiation process to $g(x)$
+We can make $g(x)$ agree with $f(x)$ at $x = 0$ because, with $g(0) = c_0$, we can take $c_0$ to be $f(0)$. If we expect that $g(x)$ is an approximation of $f(x)$ at $x = 0$, we would also expect that the tangent line at $x = 0$ approximates the curve closely at the point of tangency. Hence, we should make the slope of $g(x)$ agree with the slope of $f(x)$ at $x = 0$. Applying a differentiation process to $g(x)$:
 
 <div>$$
 g'(x) = c_1 + 2c_2x + 3c_3x^2 + 4c_4x^3 + \cdots + nc_nx^{n-1}
 $$</div>
 
-At $x = 0$ $g'(0) = c_1$, if $g'(0)$ agrees with $f'(0)$ then
+At $x = 0$, $g'(0) = c_1$. If $g'(0)$ agrees with $f'(0)$, then:
 
 <div>$$
 c_1 = f'(0)
 $$</div>
 
-We can apply the same idea by making $g'' (x)$ agree with $f'' (x)$ at $x = 0$, applying a differentiation process to $g'(x)$
+We can apply the same idea by making $g''(x)$ agree with $f''(x)$ at $x = 0$. Applying a differentiation process to $g'(x)$:
 
 <div>$$
-g'' (x) = 2c_2 + 2 \cdot 3c_3x^1 + 3 \cdot 4c_4x^2 + \cdots + n(n - 1)c_nx^{n-2}
+g''(x) = 2c_2 + 2 \cdot 3c_3x^1 + 3 \cdot 4c_4x^2 + \cdots + n(n - 1)c_nx^{n-2}
 $$</div>
 
-Then $g'' (0) = 2c_2$ and if $g'' (0)$ is the same as $f'' (0)$ then $f'' (0) = 2c_2$ or
+Then $g''(0) = 2c_2$, and if $g''(0)$ is the same as $f''(0)$, then $f''(0) = 2c_2$, or:
 
 <div>$$
-c_2 = \frac{f'' (0)}{2}
+c_2 = \frac{f''(0)}{2}
 $$</div>
 
-To determine $c_3$ we would make the third derivatives of both functions agree at $x = 0$
+To determine $c_3$, we would make the third derivatives of both functions agree at $x = 0$:
 
 <div>$$
 g'''(x) = 2 \cdot 3c_3 + 2 \cdot 3 \cdot 4c_4x + \cdots + n(n - 1)(n - 2)c_nx^{n-3}
 $$</div>
 
-Then $g''' (0) = 2 \cdot 3c_3$ which is the same as $f''' (0)$ then
+Then $g'''(0) = 2 \cdot 3c_3$, which is the same as $f'''(0)$, then:
 
 <div>$$
 c_3 = \frac{f'''(0)}{2 \cdot 3}
 $$</div>
 
-we can see that the $n$-th derivate of $g(x)$ is $g^{(n)}(x) = n(n - 1)(n - 2)\ldots$ and if $g^{(n)}(0)$ is equal to $g^{(n)}(0)$
+We can see that the $n$-th derivative of $g(x)$ is $g^{(n)}(x) = n(n - 1)(n - 2)\ldots$, and if $g^{(n)}(0)$ is equal to $f^{(n)}(0)$:
 
 <div>$$
 c_n = \frac{f^{(n)}(0)}{n(n-1)(n-2) \ldots 2 \cdot 1} = \frac{f^{(n)}(0)}{n!}
 $$</div>
 
-Because we used the condition that each pair of successive derivatives agree at $x = 0$ $g(x)$ takes the form
+Because we used the condition that each pair of successive derivatives agree at $x = 0$, $g(x)$ takes the form:
 
 <div>$$
 g(x) = f(0) + f'(0)x + \frac{f''(0)}{2!}x^2 + \cdots + \frac{f^{(n)}(0)}{n!}x^n
 $$</div>
 
-We could equally make the approximation near any other value of $x$ e.g. $x = a$, thus the proper form of $g(x)$ which generalizes on the form \eqref{gx}
+We could equally make the approximation near any other value of $x$, e.g., $x = a$. Thus, the proper form of $g(x)$ which generalizes on the form \eqref{gx} is:
 
 <div>$$
 g(x) = c_0 + c_1(x - a) + c_2(x - a)^2 + \cdots + c_n(x - a)^n
 $$</div>
 
-Then the final formula for approximating any function $f(x)$ by a polynomial $g(x)$ near $x = a$ is
+Then the final formula for approximating any function $f(x)$ by a polynomial $g(x)$ near $x = a$ is:
 
 <div>$$
 \begin{equation}\label{taylor}
@@ -91,15 +91,14 @@ g(x) = f(a) + f'(a)(x - a) + \frac{f''(a)}{2!}(x - a)^2 + \cdots + \frac{f^{(n)}
 \end{equation}
 $$</div>
 
-## Taylor's theorem
+## Taylor's Theorem
 
-\eqref{taylor} approximates the value of a function $f(x)$ at the point $a$ however we do not know how good the approximation is numerically, at $x = a, g(a) = f(a)$ which is exact, however for any $x$ near $a$ like $a + h, g(a + h) \approx f(a + h)$, the difference $f(a + h) - g(a + h)$ is the error in approximating $f(x)$ by the polynomial $g(x)$, the formula that approximates $f(x)$ considering also the error was first given by Brook Taylor
+\eqref{taylor} approximates the value of a function $f(x)$ at the point $a$; however, we do not know how good the approximation is numerically. At $x = a, g(a) = f(a)$, which is exact. However, for any $x$ near $a$, like $a + h, g(a + h) \approx f(a + h)$. The difference $f(a + h) - g(a + h)$ is the error in approximating $f(x)$ by the polynomial $g(x)$. The formula that approximates $f(x)$, considering also the error, was first given by Brook Taylor.
 
-> For any function $f(x)$ which has $(n + 1)$ derivatives in the interval from $a$ to $x$
+> For any function $f(x)$ which has $(n + 1)$ derivatives in the interval from $a$ to $x$:
 
 <div>$$
 f(x) = f(a) + f'(a)(x - a) + f''(a)\frac{(x - a)^2}{2!} + \cdots + f^n(a) \frac{(x - a)^n}{n!} + f^{(n + 1)}(\mu) \frac{(x - a)^{n + 1}}{(n + 1)!}
 $$</div>
 
-Where $\mu$ is between $x$ and $a$
-
+Where $\mu$ is between $x$ and $a$.

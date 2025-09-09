@@ -7,22 +7,22 @@ summary: |
 
   <br />
   This article covers the physical and geometric interpretation of the derivative, as well
-  as some applications like finding maxima and minima in a function and Newton-Raphson.
+  as some applications like finding maxima and minima in a function and the Newton-Raphson method.
 tags: ["math", "calculus", "derivative", "maxima minima"]
 image: /images/derivative.jpg
 date: 2015-04-02 10:00:00
 libraries: ["function-plot", "math"]
 ---
 
-## Physical interpretation of the derivative
+## Physical Interpretation of the Derivative
 
 > The primary concept of calculus deals with the rate of change of one variable with respect to another.
 
-### Instantaneous speed
+### Instantaneous Speed
 
-Let's imagine a person who travels 90km in 3 hours. His *average speed* (rate of change of distance with respect to time) is 30km/h. Of course, he doesn't need to travel at that fixed speed; he may slow down or speed up at different times during the time he traveled. For *many* purposes, it suffices to know the average speed.
+Let's imagine a person who travels 90 km in 3 hours. Their *average speed* (rate of change of distance with respect to time) is 30 km/h. Of course, they don't need to travel at that fixed speed; they may slow down or speed up at different times during their travel. For *many* purposes, it suffices to know the average speed.
 
-However, in many daily happenings, the average speed is not a significant quantity. If a person traveling in an automobile strikes a tree, the quantity that matters is the speed at the *instant of collision* (this quantity might determine if he survives or not).
+However, in many daily happenings, the average speed is not a significant quantity. If a person traveling in an automobile strikes a tree, the quantity that matters is the speed at the *instant of collision* (this quantity might determine if they survive or not).
 
 | Concept | Description |
 |---|---|
@@ -37,7 +37,7 @@ $$</div>
 
 The same computation process can't be applied to get the *instantaneous speed* at some point in time. Since *instantaneous* means that the event happened in an infinitesimal or very short space of time, then distance and time might both be zero. Hence, using the *average speed* definition won't help because $\frac{0}{0}$ is meaningless. We know that this is a physical reality, but if we can't calculate it, it's impossible to work with it mathematically.
 
-We can't compute it with the knowledge we have right now, but we can surely approximate it. Let's say that there's a ball dropped near the surface of the earth, and we want to know its instantaneous speed after 4 seconds. To calculate the instantaneous speed at any point in time, we need to know the distance it travels after some period of time. This relation could be expressed as a formula that relates distance and time traveled. The formula that relates the distance (in feet) to the time elapsed is:
+We can't compute it with the knowledge we have right now, but we can surely approximate it. Let's say that a ball is dropped near the surface of the Earth, and we want to know its instantaneous speed after 4 seconds. To calculate the instantaneous speed at any point in time, we need to know the distance it travels after some period of time. This relation can be expressed as a formula that relates distance and time traveled. The formula that relates the distance (in feet) to the time elapsed is:
 
 <div>$$
 f(t) = s = 16t^2
@@ -47,7 +47,7 @@ We can calculate the distance the ball traveled after 4 seconds by replacing $t$
 
 <div>$$
 \begin{align*}
-s_4 &= 16 * 4^2 \\
+s_4 &= 16 \cdot 4^2 \\
 &= 256 \text{ feet}
 \end{align*}
 $$</div>
@@ -56,7 +56,7 @@ Let's also compute the distance the ball traveled after 5 seconds:
 
 <div>$$
 \begin{align*}
-s_5 &= 16 * 5^2 \\
+s_5 &= 16 \cdot 5^2 \\
 &= 400 \text{ feet}
 \end{align*}
 $$</div>
@@ -80,9 +80,9 @@ Let's register more computations of the above process with smaller and smaller i
 |average speed (in feet/s)   |144|129.6|128.16|128.016|128.0016|
 ```
 
-Of course, no matter how small the interval is, the result is not the instant speed at the instant $t=4$. However, we now see that the average speed for the intervals seems to be approaching the fixed number **128 feet/s**.
+Of course, no matter how small the interval is, the result is not the instantaneous speed at the instant $t=4$. However, we now see that the average speed for the intervals seems to be approaching the fixed number **128 feet/s**.
 
-### Method of increments
+### Method of Increments
 
 Let's redo the process described above over an *arbitrary* interval of time. To do so, let's introduce a quantity $h$, which represents an interval of time beginning at $t=4$ and extending before or after $t=4$. ($h$ is called an *increment* in $t$ because it's some interval of time.)
 
@@ -100,7 +100,7 @@ When calculated once by the end of the fourth second, it is:
 <div>$$
 \begin{equation}
 \label{balldrop1}
-s_4 = 16 * 4^2 = 256
+s_4 = 16 \cdot 4^2 = 256
 \end{equation}
 $$</div>
 
@@ -146,7 +146,7 @@ k &= 32th + h^2
 \end{align*}
 $$</div>
 
-Dividing both sides by $h$
+Dividing both sides by $h$:
 
 <div>$$
 \begin{equation}
@@ -155,9 +155,9 @@ Dividing both sides by $h$
 \end{equation}
 $$</div>
 
-Just like stated above to compute the instantaneous speed the interval $h$ must become smaller and smaller until it reaches 0, if $h$ approaches 0 then the instantaneous speed approaches $32t$ which is a function that will tell us the *instantaneous speed* of the falling object at any time $t$!
+Just as stated above, to compute the instantaneous speed, the interval $h$ must become smaller and smaller until it reaches 0. If $h$ approaches 0, then the instantaneous speed approaches $32t$, which is a function that will tell us the *instantaneous speed* of the falling object at any time $t$!
 
-It has been customarily since the days of Euler use $\Delta{t}$ (*delta* t) for the increment of $t$, $\Delta{t}$ means a "change in the value of $t$". Thus $\Delta{t}$ has the same meaning as $h$, likewise $\Delta{s}$ has the same meaning as $k$, we can rewrite $\eqref{balldrop-derivative}$ as
+It has been customary since the days of Euler to use $\Delta{t}$ (*delta* t) for the increment of $t$. $\Delta{t}$ means a "change in the value of $t$". Thus, $\Delta{t}$ has the same meaning as $h$; likewise, $\Delta{s}$ has the same meaning as $k$. We can rewrite $\eqref{balldrop-derivative}$ as:
 
 <div>$$
 \begin{equation}
@@ -166,13 +166,13 @@ It has been customarily since the days of Euler use $\Delta{t}$ (*delta* t) for 
 \end{equation}
 $$</div>
 
-It's desirable to have some short notation for the statement that we have evaluated the *limit* of as the values of $\Delta{t}$ approach 0 which can be expressed as
+It's desirable to have some short notation for the statement that we have evaluated the *limit* of as the values of $\Delta{t}$ approach 0, which can be expressed as:
 
 <div>$$
 \lim_{\Delta{t} \to 0} \frac{\Delta{s}}{\Delta{t}}
 $$</div>
 
-Where *lim* is an abbreviation for limit, replacing $\eqref{balldrop3}$ with this new notation
+Where *lim* is an abbreviation for limit, replacing $\eqref{balldrop3}$ with this new notation:
 
 <div>$$
 \begin{equation}
@@ -181,15 +181,15 @@ Where *lim* is an abbreviation for limit, replacing $\eqref{balldrop3}$ with thi
 \end{equation}
 $$</div>
 
-To some mathematicians this notation is somewhat lengthy, hence mathematicians replaced it with different variations
+To some mathematicians, this notation is somewhat lengthy; hence, mathematicians replaced it with different variations:
 
 <div>$$
 \lim_{\Delta{t} \to 0} \frac{\Delta{s}}{\Delta{t}} = \frac{ds}{dt} = s' = f'(t)
 $$</div>
 
-The rate of change is not always related with time or distances, a generalization of the formulas above is needed, instead of the symbols $s$ and $t$ let's use $x$ and $y$ without specifying what $x$ and $y$ mean physically
+The rate of change is not always related to time or distances. A generalization of the formulas above is needed. Instead of the symbols $s$ and $t$, let's use $x$ and $y$ without specifying what $x$ and $y$ mean physically.
 
-Let's calculate the instantaneous rate of change of $y$ with respect to $x$ (the word *instantaneous* does not really apply because $x$ doesn't represent time), using the *method of increments* on a function which depends on $x$
+Let's calculate the instantaneous rate of change of $y$ with respect to $x$ (the word *instantaneous* does not really apply because $x$ doesn't represent time), using the *method of increments* on a function which depends on $x$:
 
 <div>$$
 \begin{align}
@@ -198,19 +198,19 @@ y + \Delta{y} &= f(x + \Delta{x}) \label{x-b}
 \end{align}
 $$</div>
 
-Subtracting $\eqref{x-a}$ from $\eqref{x-b}$
+Subtracting $\eqref{x-a}$ from $\eqref{x-b}$:
 
 <div>$$
 \Delta{y} = f(x + \Delta{x}) - f(x)
 $$</div>
 
-Dividing both sides by $\Delta{x}$
+Dividing both sides by $\Delta{x}$:
 
 <div>$$
 \frac{\Delta{y}}{\Delta{x}} = \frac{f(x + \Delta{x}) - f(x)}{\Delta{x}}
 $$</div>
 
-The instantaneous rate of change of $y$ with respect to $x$ is reached when $\Delta{x}$ approaches 0
+The instantaneous rate of change of $y$ with respect to $x$ is reached when $\Delta{x}$ approaches 0:
 
 <div>$$
 \begin{equation} \label{limit}
@@ -218,17 +218,17 @@ The instantaneous rate of change of $y$ with respect to $x$ is reached when $\De
 \end{equation}
 $$</div>
 
-We can also use the variations for the notation of the rate of change
+We can also use the variations for the notation of the rate of change:
 
 <div>$$
 \lim_{\Delta{t} \to 0} \frac{\Delta{y}}{\Delta{x}} = \frac{dy}{dx} = y' = f'(x)
 $$</div>
 
-What we did with the process above was to *find the instantaneous rate of change of $y$ with respect to $x$*, we call this rate the **derivative** of $y$ with respect to $x$, the process of applying the method of increments to obtain the derivative is called **differentiation**
+What we did with the process above was to *find the instantaneous rate of change of $y$ with respect to $x$*. We call this rate the **derivative** of $y$ with respect to $x$. The process of applying the method of increments to obtain the derivative is called **differentiation**.
 
-## Geometric interpretation of the derivative
+## Geometric Interpretation of the Derivative
 
-Let's graph the following formula
+Let's graph the following formula:
 
 <div>$$
 \begin{equation}\label{yx2}
@@ -238,23 +238,23 @@ $$</div>
 
 <div id="geometric-representation"></div>
 
-A point belonging to this geometrical representation of $y$ has the form $(x_1, f(x_1))$, e.g. when $x = 1, y = 1$ and when $x = 2, y = 4$
+A point belonging to this geometrical representation of $y$ has the form $(x_1, f(x_1))$; e.g., when $x = 1, y = 1$ and when $x = 2, y = 4$.
 
 <div id="geometric-representation-two-points"></div>
 
-Let's say that $(x_1, f(x_1))$ is a fixed point on the curve (for the sake of this example the point will be $x_1 = 1, y_1 = 1$), any other point that belongs to the curve can make a line with the fixed point
+Let's say that $(x_1, f(x_1))$ is a fixed point on the curve (for the sake of this example, the point will be $x_1 = 1, y_1 = 1$). Any other point that belongs to the curve can make a line with the fixed point.
 
 <div id="geometric-representation-secant"></div>
 
-The slope is a quantity that describes the direction and steepness of a line and is calculated by finding the ratio of the *vertical change* to the *horizontal change* between any **distinct** two points on the line, the previous statement expressed as a formula is
+The slope is a quantity that describes the direction and steepness of a line and is calculated by finding the ratio of the *vertical change* to the *horizontal change* between any two **distinct** points on the line. The previous statement expressed as a formula is:
 
 <div>$$
 m = \frac{y_2 - y_1}{x_2 - x_1} = \frac{\Delta{y}}{\Delta{x}}
 $$</div>
 
-What if the movable point get closer and closer to the fixed point such that $\Delta{x}$ reaches 0? That's exactly the definition of the derivative which means that the derivative of a function will tell us the *slope* of the [*tangent* line][tangent-line] to the function (represented geometrically as a curve) at any derivable point!
+What if the movable point gets closer and closer to the fixed point such that $\Delta{x}$ reaches 0? That's exactly the definition of the derivative, which means that the derivative of a function will tell us the *slope* of the [*tangent* line][tangent-line] to the function (represented geometrically as a curve) at any derivable point!
 
-Let's find the instantaneous rate of change of this function evaluated at $x=1$, using $\eqref{limit}$
+Let's find the instantaneous rate of change of this function evaluated at $x=1$, using $\eqref{limit}$:
 
 <div>$$
 \begin{align*}
@@ -266,7 +266,7 @@ m_1 = f'(1) &= \lim_{\Delta{x} \to 0} \frac{f(1 + \Delta{x}) - f(1)}{\Delta{x}} 
 \end{align*}
 $$</div>
 
-This fixed number is the value of the *slope* of the line tangent to the derivative function when it's evaluated with $1$, let's find out the *Point–slope* form of the *tangent* line whose *slope* is $m$
+This fixed number is the value of the *slope* of the line tangent to the derivative function when it's evaluated with $1$. Let's find out the *Point–slope* form of the *tangent* line whose *slope* is $m$:
 
 <div>$$
 \begin{equation}\label{line-equation}
@@ -274,7 +274,7 @@ y - y_1 = m(x - x_1)
 \end{equation}
 $$</div>
 
-Substituting $y_1=1$, $m=2$ and $x_1=1$ computed above
+Substituting $y_1=1$, $m=2$, and $x_1=1$ computed above:
 
 <div>$$
 \begin{align*}
@@ -284,21 +284,21 @@ y &= 2(x - 1) + 1 \\
 \end{align*}
 $$</div>
 
-If we graph this line next to the geometric representation of $y = x^2$ we see that's actually touching the curve at the point $(1, 1)$
+If we graph this line next to the geometric representation of $y = x^2$, we see that it's actually touching the curve at the point $(1, 1)$.
 
 <div id="slope-static-x-1"></div>
 
-Before finding the equation of the slope for any value of $x$ let's imagine the graph produced by the slope function, if we take a look at the graph produced by $\eqref{yx2}$ we can see that for any point that belongs to the curve whose $x$ coordinate is negative the slope will be negative and for any point that belongs to the curve whose $x$ coordinate is positive the slope will be positive, expressed mathematically
+Before finding the equation of the slope for any value of $x$, let's imagine the graph produced by the slope function. If we take a look at the graph produced by $\eqref{yx2}$, we can see that for any point that belongs to the curve whose $x$ coordinate is negative, the slope will be negative, and for any point that belongs to the curve whose $x$ coordinate is positive, the slope will be positive, expressed mathematically:
 
 <div>$$
-sgn(m) = \begin{cases}
--1 & if x &lt; 0, \\
-0 & if x = 0, \\
-1 & if x &gt; 0.
+sign(m) = \begin{cases}
+-1 & \text{if } x < 0, \\
+0 & \text{if } x = 0, \\
+1 & \text{if } x > 0.
 \end{cases}
 $$</div>
 
-Now that we have an idea of the values of the *slope* let's find the value of $m$ for any value of $x$ that is the derivative of $y$ with respect to $x$, using $\eqref{limit}$
+Now that we have an idea of the values of the *slope*, let's find the value of $m$ for any value of $x$ that is the derivative of $y$ with respect to $x$, using $\eqref{limit}$:
 
 <div>$$
 \begin{align*}
@@ -312,21 +312,21 @@ $$</div>
 
 <div id="slope-graph"></div>
 
-By looking at the line we confirm our expectation of the values, any point which belongs to the line whose $x$ coordinate is negative has it's $y$ coordinate (the value of the *slope*) negative as well, and any $x$ coordinate belonging to the line whose $x$ coordinate is positive has it's $y$ coordinate positive as well.
+By looking at the line, we confirm our expectation of the values. Any point which belongs to the line whose $x$ coordinate is negative has its $y$ coordinate (the value of the *slope*) negative as well, and any $x$ coordinate belonging to the line whose $x$ coordinate is positive has its $y$ coordinate positive as well.
 
-There are infinite tangent lines to the curve that represents $\eqref{yx2}$, in the following graph the equation of the line is computed dynamically based on the position of the mouse pointer (computed doing substitutions on $\eqref{line-equation}$)
+There are infinite tangent lines to the curve that represents $\eqref{yx2}$. In the following graph, the equation of the line is computed dynamically based on the position of the mouse pointer (computed by doing substitutions on $\eqref{line-equation}$):
 
 <div id="slope-dynamic"></div>
 
 ### Second Derivative
 
-Going back to the falling object formula ($s$ is the distance the object moved after $t$ seconds have elapsed)
+Going back to the falling object formula ($s$ is the distance the object moved after $t$ seconds have elapsed):
 
 <div>$$
 s = 16t^2
 $$</div>
 
-The instantaneous rate of change of the distance with respect to time is
+The instantaneous rate of change of the distance with respect to time is:
 
 <div>$$
 \begin{equation}
@@ -335,7 +335,7 @@ s' = 32t
 \end{equation}
 $$</div>
 
-$s'$ represents speed and is customarily to use $v$ (the first letter of velocity) instead of $s'$
+$s'$ represents speed, and it is customary to use $v$ (the first letter of velocity) instead of $s'$:
 
 <div>$$
 \begin{equation}
@@ -344,7 +344,7 @@ v = 32t
 \end{equation}
 $$</div>
 
-Now $v$ is a function of $t$ and we can ask for the rate of change of the $v$ with respect to $t$, this is called *instantaneous acceleration*, *acceleration* is a change of speed that takes place during an interval of time, if there weren't acceleration in a moving object the moving object will be moving the rest of his life with a constant speed, if the speed is given as a function of time then we can calculate the *instantaneous* rate of change of the velocity with respect to time
+Now $v$ is a function of $t$, and we can ask for the rate of change of $v$ with respect to $t$. This is called *instantaneous acceleration*. *Acceleration* is a change of speed that takes place during an interval of time. If there weren't acceleration in a moving object, the moving object would be moving for the rest of its life with a constant speed. If the speed is given as a function of time, then we can calculate the *instantaneous* rate of change of the velocity with respect to time:
 
 <div>$$
 \begin{equation}
@@ -353,39 +353,39 @@ v' = 32
 \end{equation}
 $$</div>
 
-The *instantaneous acceleration* obtained above is the derived function of the *isntantaneous speed* which is the derived function of the *distance function*, then we can relate the *instantaneous acceleration* and the *distance function* with the following notation
+The *instantaneous acceleration* obtained above is the derived function of the *instantaneous speed*, which is the derived function of the *distance function*. Then we can relate the *instantaneous acceleration* and the *distance function* with the following notation:
 
 <div>$$
-s'' \quad or \quad \frac{d^2s}{dt^2}
+s'' \quad \text{or} \quad \frac{d^2s}{dt^2}
 $$</div>
 
-The function above is called the *second derived function* of $\eqref{balldrop}$, this notation applied to the generalized version using the variables $x$ and $y$ is
+The function above is called the *second derived function* of $\eqref{balldrop}$. This notation applied to the generalized version using the variables $x$ and $y$ is:
 
 <div>$$
-\frac{d^2y}{dx^2} \quad or \quad y'' \quad or \quad f''(x)
+\frac{d^2y}{dx^2} \quad \text{or} \quad y'' \quad \text{or} \quad f''(x)
 $$</div>
 
-### The chain rule
+### The Chain Rule
 
-Physical problems lead to more complicated algebraic functions, for example $y = \sqrt{x^2 + 1}$ which arises when one wants to work with the upper half of the parabola $y^2 = x^2 + 1$, we can express this function as a combination of two functions:
+Physical problems lead to more complicated algebraic functions, for example, $y = \sqrt{x^2 + 1}$, which arises when one wants to work with the upper half of the parabola $y^2 = x^2 + 1$. We can express this function as a combination of two functions:
 
 <div>$$
-y = \sqrt{u}\;, \quad u = x^2 + 1
+y = \sqrt{u}\, \quad u = x^2 + 1
 $$</div>
 
-If $y$ is a function of $u$ and $u$ is a function of $x$ then:
+If $y$ is a function of $u$ and $u$ is a function of $x$, then:
 
 <div>$$
 \frac{dy}{dx} = \frac{dy}{du} \cdot \frac{du}{dx}
 $$</div>
 
-Expressed in the function notation
+Expressed in the function notation:
 
 <div>$$
 y = f(u) \quad \text{and} \quad u = g(x)
 $$</div>
 
-Then
+Then:
 
 <div>$$
 \begin{equation}\label{chain-rule}
@@ -393,17 +393,17 @@ Then
 \end{equation}
 $$</div>
 
-Returning to the original problem, let's find the derivative of $y = \sqrt{x^2 + 1}$ with respect to $x$ using the *chain rule*
+Returning to the original problem, let's find the derivative of $y = \sqrt{x^2 + 1}$ with respect to $x$ using the *chain rule*:
 
-Let $f(u) = u^{1/2}$ and $g(x) = x^2 + 1$
+Let $f(u) = u^{1/2}$ and $g(x) = x^2 + 1$.
 
 <div>$$
 \frac{dy}{dx} = f'(u) \cdot g'(x) = \frac{u^{-1/2}}{2} \cdot 2x = \frac{x}{\sqrt{x^2 + 1}}
 $$</div>
 
-#### Differentiation of implicit functions
+#### Differentiation of Implicit Functions
 
-Going back to the definition of a function, it's a relation between two variables such that given a value of one in some domain there's a unique value determined for the second variable however functions often occur in forms where giving the independent variable some value will not result in a unique value, for example the equation of a circle of radius equal to 5 is:
+Going back to the definition of a function, it's a relation between two variables such that given a value of one in some domain, there's a unique value determined for the second variable. However, functions often occur in forms where giving the independent variable some value will not result in a unique value. For example, the equation of a circle of radius equal to 5 is:
 
 <div>$$
 \begin{equation}\label{implicit}
@@ -411,7 +411,7 @@ x^2 + y^2 = 25
 \end{equation}
 $$</div>
 
-Here $y$is not expressed in terms of $x$, solving for $x$ we have two equations:
+Here, $y$ is not expressed in terms of $x$. Solving for $y$, we have two equations:
 
 <div>$$
 \begin{equation}\label{explicit}
@@ -419,48 +419,48 @@ y = \sqrt{25 - x^2} \quad y = -\sqrt{25 - x^2}
 \end{equation}
 $$</div>
 
-$\eqref{implicit}$ represents the circle *implicitly* and $\eqref{explicit}$ represents the equation *explicitly*
+$\\eqref{implicit}$ represents the circle *implicitly*, and $\\eqref{explicit}$ represents the equation *explicitly*.
 
-We know that $y$ in $\eqref{implicit}$ represents some function of $x$, if we recognize that the left side of $\eqref{implicit}$ is only a set of terms in $x$ then we can differentiate it, the problem is to find the derivative of $y^2$ which should remind us of the chain rule ($y$ plays the role of $u$ in the chain rule)
+We know that $y$ in $\\eqref{implicit}$ represents some function of $x$. If we recognize that the left side of $\\eqref{implicit}$ is only a set of terms in $x$, then we can differentiate it. The problem is to find the derivative of $y^2$, which should remind us of the chain rule ($y$ plays the role of $u$ in the chain rule):
 
 <div>$$
 \frac{d(y^2)}{dx} = 2y \frac{dy}{dx}
 $$</div>
 
-Applying a differentiation process to $\eqref{implicit}$
+Applying a differentiation process to $\\eqref{implicit}$:
 
 <div>$$
 2x + 2y \frac{dy}{dx} = 0
 $$</div>
 
-Solving for $\frac{dy}{dx}$
+Solving for $\\frac{dy}{dx}$:
 
 <div>$$
 \frac{dy}{dx} = -\frac{x}{y}
 $$</div>
 
-### Theorems on differentiation
+### Theorems on Differentiation
 
-Read "Calculus: An Intuitive and Physical Approach"
+Read "Calculus: An Intuitive and Physical Approach".
 
 ## Applications of the Derivative
 
-* Determination of the velocity and acceleration of a particle given its distance as a function of time
-* Concentrate light, sound and radio waves in a particular direction (see the [reflective property of the parabola](http://www.wikiwand.com/en/Parabola#/section_Proof_of_the_reflective_property))
-* Finding the maximum/minimum value of a function, i.e. find the largest/smallest value of $f(x)$ when $a \leq x \leq b$, a well described solution to this problem can be found [here](https://www.whitman.edu/mathematics/calculus/calculus_06_Applications_of_the_Derivative.pdf)
-* Approximation of the roots of a polynomial with Newton's method, described [here](https://www.whitman.edu/mathematics/calculus/calculus_06_Applications_of_the_Derivative.pdf)
+* Determination of the velocity and acceleration of a particle given its distance as a function of time.
+* Concentrate light, sound, and radio waves in a particular direction (see the [reflective property of the parabola](http://www.wikiwand.com/en/Parabola_#section_Proof_of_the_reflective_property)).
+* Finding the maximum/minimum value of a function, i.e., find the largest/smallest value of $f(x)$ when $a \leq x \leq b$. A well-described solution to this problem can be found [here](https://www.whitman.edu/mathematics/calculus/calculus_06_Applications_of_the_Derivative.pdf).
+* Approximation of the roots of a polynomial with Newton's method, described [here](https://www.whitman.edu/mathematics/calculus/calculus_06_Applications_of_the_Derivative.pdf).
 
-### Maxima/minima
+### Maxima/Minima
 
-Let's say that we throw an object into the air and we want to know the maximum height it acquires, as it rises it's velocity decreases and when it reaches the highest point its velocity is zero, we also know that the velocity is the instantaneous rate of change of height with respect to time hence the derivative is involved in this process and therefore we expect it to be involved in other maxima/minima problems
+Let's say that we throw an object into the air and we want to know the maximum height it acquires. As it rises, its velocity decreases, and when it reaches the highest point, its velocity is zero. We also know that the velocity is the instantaneous rate of change of height with respect to time; hence, the derivative is involved in this process, and therefore we expect it to be involved in other maxima/minima problems.
 
-More generally if $y$ is a function of $x$ it seems that to find the maximum value of $y$ we must find $y'$ and set it to 0
+More generally, if $y$ is a function of $x$, it seems that to find the maximum value of $y$, we must find $y'$ and set it to 0.
 
-Let's see an example, the following function has a maximum value of $3.333$ near $x = 1$ and a minimum value of $2$ near $x = 3$,
-if we analyze the slope of the function near those points we will see that on the left of $x = 1$ the slope is positive and on the
-right of $x = 1$ the slope is negative, since we know that the derivative represents the slope of a function we can also expect that
-the derivative of this function near $x = 1$ will go from a positive value to a negative value intersecting the x-axis,
-if we analyze the slope near $x = 3$ will will see the same behavior with the slope but it's going from a negative value to a positive one
+Let's see an example. The following function has a maximum value of $3.333$ near $x = 1$ and a minimum value of $2$ near $x = 3$.
+If we analyze the slope of the function near those points, we will see that on the left of $x = 1$, the slope is positive, and on the
+right of $x = 1$, the slope is negative. Since we know that the derivative represents the slope of a function, we can also expect that
+the derivative of this function near $x = 1$ will go from a positive value to a negative value, intersecting the x-axis.
+If we analyze the slope near $x = 3$, we will see the same behavior with the slope, but it's going from a negative value to a positive one.
 
 <div class="tw-flex tw-flex-col md:tw-flex-row">
     <div class="md:tw-w-1/2 tw-relative">
@@ -477,7 +477,7 @@ if we analyze the slope near $x = 3$ will will see the same behavior with the sl
     </div>
 </div>
 
-Now the problem reduces to finding the points where $y' = 0$ in the derivative function, finding them will tell us exactly the maximum/minimum value of $y$, finding the values of $x$ when $y' = 0$
+Now the problem reduces to finding the points where $y' = 0$ in the derivative function. Finding them will tell us exactly the maximum/minimum value of $y$. Finding the values of $x$ when $y' = 0$:
 
 <div>$$
 \begin{align*}
@@ -489,34 +489,36 @@ $$</div>
 And we see that:
 
 <div>$$
-y' = 0 \quad when \quad x = 1 \quad and \quad x = 3
+y' = 0 \quad \text{when} \quad x = 1 \quad \text{and} \quad x = 3
 $$</div>
 
-The process didn't actually find the maximum/minimum values since for $x > 3$ the function increases indefinitely, same goes when $x < 1$ but in this case the function decreases indefinitely, these values are called the *relative maxima/minima* because **near** $x = 3$ or $x = 1$ these points are the minimum/maximum that can be found
+The process didn't actually find the maximum/minimum values since for $x > 3$, the function increases indefinitely. The same goes for when $x < 1$, but in this case, the function decreases indefinitely. These values are called the *relative maxima/minima* because **near** $x = 3$ or $x = 1$, these points are the minimum/maximum that can be found.
 
-#### Applications of maxima/minima
+#### Applications of Maxima/Minima
 
-- refraction of light, we can build a function of time which relates the velocity/distance the light travels in different mediums, finding the derivative and making it equal to $0$ will find the relative minimum time needed to go from one point in the medium $a$ to a point in a medium $b$
-- finding the sides of the rectangle with the maximum perimeter
+- Refraction of light: we can build a function of time which relates the velocity/distance the light travels in different mediums. Finding the derivative and making it equal to $0$ will find the relative minimum time needed to go from one point in medium $a$ to a point in medium $b$.
+- Finding the sides of the rectangle with the maximum perimeter.
 
-### Newton-Raphson method
+### Newton-Raphson Method
 
-The slope of the tangent line of a function $f(x)$ at any derivable point is given by $m = f'(x)$, let $x_1$ be a derivable point then the slope of the tangent line at $x_1$ is $m_1 = f'(x_1)$, the *Point–slope* form of the *tangent* line whose *slope* is $f'(x_1)$ is
+The slope of the tangent line of a function $f(x)$ at any derivable point is given by $m = f'(x)$. Let $x_1$ be a derivable point; then the slope of the tangent line at $x_1$ is $m_1 = f'(x_1)$. The *Point–slope* form of the *tangent* line whose *slope* is $f'(x_1)$ is:
 
 <div>$$
-y - y_1 = m_1(x - x_1) \\
-y - f(x_1) = f'(x_1) \cdot (x - x_1)
+\begin{align*}
+y - y_1 &= m_1(x - x_1) \\
+y - f(x_1) &= f'(x_1) \cdot (x - x_1)
+\end{align*}
 $$</div>
 
-Newton find out that if we find the intercept of this tangent line with the $x$-axis at some initial guess $x_1$, the value found approaches one of the roots of $f(x)$, i.e. when $f(x) = 0$ (obviously given that it has roots)
+Newton found out that if we find the intercept of this tangent line with the $x$-axis at some initial guess $x_1$, the value found approaches one of the roots of $f(x)$, i.e., when $f(x) = 0$ (obviously, given that it has roots).
 
-if $y = f(x) = 0$ then the equation of the line is
+If $y = f(x) = 0$, then the equation of the line is:
 
 <div>$$
 0 - f(x_1) = f'(x_1) \cdot (x - x_1)
 $$</div>
 
-Solving for $x$
+Solving for $x$:
 
 <div>$$
 \begin{equation}\label{newton-raphson}
@@ -524,34 +526,34 @@ x = x_1 - \frac{f(x_1)}{f'(x_1)}
 \end{equation}
 $$</div>
 
-$x$ in the last equation is the abscissa of the next approximation of one of the roots of $x$, if we run the algorithm above a few times with an acceptable initial guess then we'll obtain a better approximation of one of the roots of $f(x)$
+$x$ in the last equation is the abscissa of the next approximation of one of the roots of $f(x)$. If we run the algorithm above a few times with an acceptable initial guess, then we'll obtain a better approximation of one of the roots of $f(x)$.
 
 <div id="newton-raphson"></div>
 <div class="tw-text-center tw-mb-4">
   <button id="run-newton-raphson" class="tw-inline-block tw-p-2 tw-rounded-md tw-border-2 tw-border-primary">Approximate with Newton-Raphson</button>
 </div>
 
-#### Finding the square root of a number
+#### Finding the Square Root of a Number
 
-Let's say that we want to find the square root of a number $n$, this is equivalent to finding the solution to
+Let's say that we want to find the square root of a number $n$. This is equivalent to finding the solution to:
 
 <div>$$
 x^2 = n
 $$</div>
 
-The function to use is then
+The function to use is then:
 
 <div>$$
 f(x) = x^2 - n
 $$</div>
 
-whose derivative is
+whose derivative is:
 
 <div>$$
 f'(x) = 2x
 $$</div>
 
-Substituting in $\eqref{newton-raphson}$
+Substituting in $\\eqref{newton-raphson}$:
 
 <div>$$
 \begin{align*}
