@@ -1,4 +1,4 @@
 ---
-title: "I saw a rat 🐀"
+title: "I Saw a Rat 🐀"
 layout: "layout-rat"
 ---

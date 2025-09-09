@@ -1,8 +1,8 @@
 ---
-title: "Flat shading"
+title: "Flat Shading"
 date: 2016-06-09 12:39:53
 summary: |
-  Flat shading is the simplest shading model, we cover the advantages/disadvantages and a simple implementation in GLSL.
+  Flat shading is the simplest shading model. We cover the advantages/disadvantages and a simple implementation in GLSL.
 image: /images/flat-shading.svg
 references:
   - "Illumination-based Shading. Retrieved 9 June 2016, from http://www.di.ubi.pt/~agomes/cg/teoricas/07e-shading.pdf"
@@ -10,20 +10,20 @@ references:
 tags: ["shading", "surface", "computer graphics"]
 ---
 
-Flat shading is the simplest shading model which calculates the illumination at a single point for each polygon (or polygon vertices in OpenGL) which means that it **the color is the same for all points of each polygon**
+Flat shading is the simplest shading model, which calculates the illumination at a single point for each polygon (or polygon vertices in OpenGL). This means that **the color is the same for all points of each polygon**.
 
-Advantages
+**Advantages**
 
-- Fast, a single computation per polygon (or one per polygon vertex in OpenGL)
+- Fast: a single computation per polygon (or one per polygon vertex in OpenGL).
 
-Disadvantages
+**Disadvantages**
 
-- Inaccurate
-- Discontinuities at polygon boundaries
+- Inaccurate.
+- Discontinuities at polygon boundaries.
 
 ## Implementation
 
-GLSL has the keyword `flat` to skip interpolation
+GLSL has the keyword `flat` to skip interpolation.
 
 ```glsl
 // vertex shader
@@ -40,4 +40,3 @@ void main () {
   color = polygon_color;
 }
 ```
-

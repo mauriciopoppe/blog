@@ -2,24 +2,21 @@
 title: "Quaternions"
 date: 2016-04-26 16:39:27
 summary: |
-  Quaternions are an alternate way to describe orientation or rotations in 3d space
-  using an ordered set of four numbers. They have the ability to uniquely describe
-  any 3d rotation about an arbitrary axis and do not suffer from a problem using
-  euler angles called gimbal lock.
+  Quaternions are an alternate way to describe orientation or rotations in 3D space using an ordered set of four numbers. They have the ability to uniquely describe any 3D rotation about an arbitrary axis and do not suffer from a problem using Euler angles called gimbal lock.
 image: /images/flat-shading.svg
 tags: ["quaternions", "3d", "computer graphics", "rotation"]
 libraries: ["math"]
 ---
 
-## Quaternions as rotations
+## Quaternions as Rotations
 
-Let $p$ be a 3d point represented as a quaternion using its homogeneous coordinates, $p = [w, \mathbf{v}]$ and let $q$ be any non-zero quaternion then
+Let $p$ be a 3D point represented as a quaternion using its homogeneous coordinates, $p = [w, \mathbf{v}]$, and let $q$ be any non-zero quaternion. Then:
 
-> Theorem: The product $qpq^{-1}$ takes $p = [w, \mathbf{v}]$ to $p' = [w, \mathbf{v'}]$
+> Theorem: The product $qpq^{-1}$ takes $p = [w, \mathbf{v}]$ to $p' = [w, \mathbf{v'}]$.
 
-Before proving this theorem let's make the following observation, we can express $q$ as a multiplication of a scalar quaternion $s$ and a unit quaternion $\mathbf{U}q$, $q = s\mathbf{U}q$, then $qpq^{-1}=s\mathbf{U}qp(s\mathbf{U}q)^{-1}=s\mathbf{U}qp\mathbf{U}q^{-1}s^{-1}$, because the scalar multiplication is commutative $\mathbf{U}qp\mathbf{U}q^{-1}ss^{-1}=\mathbf{U}qp\mathbf{U}q^{-1}$ so the product doesn't change irrespective of whether $q$ is a unit quaternion or not, finally notice that $\mathbf{U}q^{-1} = \mathbf{U}q^\*$ so we can write the action as $qpq^\*$ **note that from now on, $q$ is assumed to be a unit quaternion without loss of generality**
+Before proving this theorem, let's make the following observation. We can express $q$ as a multiplication of a scalar quaternion $s$ and a unit quaternion $\mathbf{U}q$, so $q = s\mathbf{U}q$. Then $qpq^{-1}=s\mathbf{U}qp(s\mathbf{U}q)^{-1}=s\mathbf{U}qp\mathbf{U}q^{-1}s^{-1}$. Because the scalar multiplication is commutative, $\mathbf{U}qp\mathbf{U}q^{-1}ss^{-1}=\mathbf{U}qp\mathbf{U}q^{-1}$, so the product doesn't change irrespective of whether $q$ is a unit quaternion or not. Finally, notice that $\mathbf{U}q^{-1} = \mathbf{U}q^\*$, so we can write the action as $qpq^\*$. **Note that from now on, $q$ is assumed to be a unit quaternion without loss of generality.**
 
-Next, let's prove that the scalar part $qpq^{*}$ is the same as the scalar of $p$ (we can use the formula to find the scalar component of a quaternion)
+Next, let's prove that the scalar part of $qpq^{*}$ is the same as the scalar of $p$ (we can use the formula to find the scalar component of a quaternion):
 
 <div>$$
 \begin{align*}
@@ -32,24 +29,24 @@ Next, let's prove that the scalar part $qpq^{*}$ is the same as the scalar of $p
 &= 2[s_ps_q, s_p\mathbf{v_q}][s_q, -\mathbf{v_q}] \\
 &= 2[s_ps_q^2 - s_p (\mathbf{v_q} \cdot -\mathbf{v_q}), -s_ps_q\mathbf{v_q} + s_ps_q\mathbf{v_q} + s_p\mathbf{v_q \times v_q}] \\
 &= 2[s_ps_q^2 + s_p\norm{v}^2, \mathbf{0}] \\
-&= 2[s_ps_q^2 + s_p(1 - s_q^2), \mathbf{0}] \quad \text{because of the definition of a unit quaternion} \\
+&= 2[s_ps_q^2 + s_p(1 - s_q^2), \mathbf{0}] \text{because of the definition of a unit quaternion} \\
 &= 2[s_p, \mathbf{0}] \\
 &= 2S(p)
 \end{align*}
 $$</div>
 
-Therefore the scalar part of $p$ remains constants in the operation i.e. if $p = [w, \mathbf{v}]$ then $p' = qpq^{*} = [w, \mathbf{v'}]$, and because multiplication preserves norms then $\norm{p} = \norm{p'}$ and also $\norm{v} = \norm{v'}$ $\blacksquare$
+Therefore, the scalar part of $p$ remains constant in the operation, i.e., if $p = [w, \mathbf{v}]$, then $p' = qpq^{*} = [w, \mathbf{v'}]$. And because multiplication preserves norms, then $\norm{p} = \norm{p'}$ and also $\norm{v} = \norm{v'}$. $\blacksquare$
 
-> Theorem: if $\norm{q} = 1$ then $q = [\cos{\theta}, \unit{v} \sin{\theta}]$ acts to rotate around unit axis $\unit{v}$ by $2 \theta$
+> Theorem: If $\norm{q} = 1$, then $q = [\cos{\theta}, \unit{v} \sin{\theta}]$ acts to rotate around the unit axis $\unit{v}$ by $2 \theta$.
 
-Let
+Let:
 
 <div>$$
 v_0 = [0, \mathbf{v_0}] \quad \norm{v_0} = \norm{\mathbf{v_0}} = 1 \\
 v_1 = [0, \mathbf{v_1}] \quad \norm{v_1} = \norm{\mathbf{v_1}} = 1
 $$</div>
 
-Be two pure quaternions (which can be represented in 3d space), and an arbitrary quaternion $q$ which has the form
+Be two pure quaternions (which can be represented in 3D space), and an arbitrary quaternion $q$ which has the form:
 
 <div>$$
 \begin{align}
@@ -59,7 +56,7 @@ q &= v_1v_0^* \label{q} \\
 \end{align}
 $$</div>
 
-Let $\theta$ be the angle between $\mathbf{v_0}$ and $\mathbf{v_1}$ then $\mathbf{v_0 \cdot v_1} = \cos{\theta}$, also let $\mathbf{v_0 \times v_1} = \sin{\theta} \unit{v}$, then \eqref{q} becomes
+Let $\theta$ be the angle between $\mathbf{v_0}$ and $\mathbf{v_1}$. Then $\mathbf{v_0 \cdot v_1} = \cos{\theta}$. Also, let $\mathbf{v_0 \times v_1} = \sin{\theta} \unit{v}$. Then \eqref{q} becomes:
 
 <div>$$
 \begin{equation} \label{q2}
@@ -67,7 +64,7 @@ q = [\cos{\theta}, \sin{\theta} \unit{v}]
 \end{equation}
 $$</div>
 
-Let's prove first that the product $v\_2 = qv\_0q^{*}$ lies in the same plane as $\mathbf{v_0}$ and $\mathbf{v_1}$, we do so by proving first that the product $v\_2v\_1^\*$ has the same components (dot and cross products) as $v\_1v\_0^\*$
+Let's first prove that the product $v\_2 = qv\_0q^{*}$ lies in the same plane as $\mathbf{v_0}$ and $\mathbf{v_1}$. We do so by first proving that the product $v\_2v\_1^\*$ has the same components (dot and cross products) as $v\_1v\_0^\*$:
 
 <div>$$
 \begin{align*}
@@ -82,9 +79,9 @@ $$</div>
 
 <img class="lazy-load" data-src="https://i.imgur.com/wVzPl0R.png" alt="" style="display: block; margin: 0 auto; width: 300px">
 
-Then if $v_2 v_1^\* = v_1v_0^\*$ that means that $v_2=qv_0q^*$ lies in the same plane as $v_0$ and $v_1$, also $v_2$ forms an angle of $\theta$ with $v_1$, furthermore $\mathbf{v_1} \times \mathbf{v_2} = \unit{v} \sin{\theta}$, finally if the angle between $v_0$ and $v_1$ is $\theta$ then the angle between $v_0$ and $v_2$ is $2\theta$ which confirms what's seen on the image above
+Then, if $v_2 v_1^\* = v_1v_0^\*$, that means that $v_2=qv_0q^*$ lies in the same plane as $v_0$ and $v_1$. Also, $v_2$ forms an angle of $\theta$ with $v_1$. Furthermore, $\mathbf{v_1} \times \mathbf{v_2} = \unit{v} \sin{\theta}$. Finally, if the angle between $v_0$ and $v_1$ is $\theta$, then the angle between $v_0$ and $v_2$ is $2\theta$, which confirms what's seen on the image above.
 
-Furthermore the same can be said of $q$ acting on $v_1$, let $v_3 = qv_1q^{*}$ then
+Furthermore, the same can be said of $q$ acting on $v_1$. Let $v_3 = qv_1q^{*}$. Then:
 
 <div>$$
 \begin{align*}
@@ -96,9 +93,9 @@ v_3v_2^* &= (qv_1q^*)(qv_0q^*)^* \\
 \end{align*}
 $$</div>
 
-Now any vector $p$ can be represented in terms of the base $v_0$, $v_1$ and $\unit{v}$ e.g. $p = s_1\mathbf{v_0} + s_1\mathbf{v_1} + s_2\unit{v}$, we've seen what $q$ does to $v_0$ and $v_1$ so let's see what it does to $\unit{v}$
+Now, any vector $p$ can be represented in terms of the basis $v_0$, $v_1$, and $\unit{v}$, e.g., $p = s_1\mathbf{v_0} + s_1\mathbf{v_1} + s_2\unit{v}$. We've seen what $q$ does to $v_0$ and $v_1$, so let's see what it does to $\unit{v}$.
 
-Before computing $q\unit{v}q^{*}$ see that
+Before computing $q\unit{v}q^{*}$, see that:
 
 <div>$$
 \begin{align*}
@@ -108,13 +105,13 @@ q\unit{v} &= [\cos{\theta}, \sin{\theta} \unit{v}][0, \unit{v}] \\
 \end{align*}
 $$</div>
 
-So $q\unit{v}$ is a commutative operation because the cross product is the only term that makes the quaternion operation non-commutable and in $q\unit{v}$ that therm is zero therefore $q\unit{v}q^ \* = \unit{v}qq^ \* = \unit{v}$ which means that $q$ does not modify $\unit{v}$
+So $q\unit{v}$ is a commutative operation because the cross product is the only term that makes the quaternion operation non-commutable, and in $q\unit{v}$, that term is zero. Therefore, $q\unit{v}q^ \* = \unit{v}qq^ \* = \unit{v}$, which means that $q$ does not modify $\unit{v}$.
 
-Thus the action of $q$ on any vector $p$ is a rotation around $\unit{v}$ by $2\theta$ $\blacksquare$
+Thus, the action of $q$ on any vector $p$ is a rotation around $\unit{v}$ by $2\theta$. $\blacksquare$
 
-## Quaternion rotation facts
+## Quaternion Rotation Facts
 
-Let $q_1$ be a quaternion which rotates the pure quaternion $p_1$ to $p_2$ and also let $q_2$ be a quaternion which rotates the vector $p_2$ to $p_3$ then $p_3$ will have the form
+Let $q_1$ be a quaternion that rotates the pure quaternion $p_1$ to $p_2$, and also let $q_2$ be a quaternion that rotates the vector $p_2$ to $p_3$. Then $p_3$ will have the form:
 
 <div>$$
 \begin{align*}
@@ -125,6 +122,6 @@ p_3 &= q_2p_2q_2^* \\
 \end{align*}
 $$</div>
 
-Therefore the combination of rotation $q_1$ followed by $q_2$ is given by $q = q_2q_1$
+Therefore, the combination of rotation $q_1$ followed by $q_2$ is given by $q = q_2q_1$.
 
-> When the rotations $q_1, q_2, \ldots, q_n$ are applied to the pure quaternion $p$ the result is equal to $qpq^*$ where $q = q_n q_{n-1} \ldots q_2 q_1$
+> When the rotations $q_1, q_2, \ldots, q_n$ are applied to the pure quaternion $p$, the result is equal to $qpq^*$, where $q = q_n q_{n-1} \ldots q_2 q_1$.

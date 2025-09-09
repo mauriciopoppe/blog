@@ -1,9 +1,8 @@
 ---
-title: Scaling objects with a Transformation Matrix
+title: "Scaling Objects with a Transformation Matrix"
 date: 2015-10-20 13:30:00
 summary: |
-  We build different types of transformation matrices to scale objects along cardinal axes,
-  arbitrary axes in 2d and 3d with matrix multiplication!
+  We build different types of transformation matrices to scale objects along cardinal axes and arbitrary axes in 2D and 3D with matrix multiplication!
 image: /images/scale!arbitrary-axis.png
 tags: ["computer graphics", "transformation matrix", "2d", "3d", "linear algebra", "scaling"]
 libraries: ["math"]
@@ -19,24 +18,24 @@ This article is part 2 in the series about transformation matrices:
 - [Part 4: Translating objects with a transformation matrix](../translation/)
 - [Part 5: Combining Matrix Transformations](../combining-transformations/)
 
-## Scaling along the cardinal axes
+## Scaling Along the Cardinal Axes
 
-Intuitively the basis vectors should be multiplied by an scalar, also they are independently affected by the scale factors
+Intuitively, the basis vectors should be multiplied by a scalar. Also, they are independently affected by the scale factors.
 
-In 2D the basis vectors become
+In 2D, the basis vectors become:
 
 <div>$$
 \mathbf{p'} = k_x \mathbf{p} = k_x \begin{bmatrix} 1 \\ 0 \end{bmatrix} = \begin{bmatrix} k_x \\ 0 \end{bmatrix} \\
 \mathbf{q'} = k_y \mathbf{q} = k_y \begin{bmatrix} 0 \\ 1 \end{bmatrix} = \begin{bmatrix} 0 \\ k_y \end{bmatrix}
 $$</div>
 
-Constructing the 2D scale matrix $\mathbf{S}(k_x, k_y)$ from these basis vectors
+Constructing the 2D scale matrix $\mathbf{S}(k_x, k_y)$ from these basis vectors:
 
 <div>$$
-\mathbf{S}(k_x, k_y) = \begin{bmatrix} k_x & 0 \\ 0 & k_y \end{bmatrix}
+\mathbf{S}(k_x, k_y) = \begin{bmatrix} k_x & 0 \ 0 & k_y \end{bmatrix}
 $$</div>
 
-Similarly the 3D scale matrix is given by
+Similarly, the 3D scale matrix is given by:
 
 <div>$$
 \mathbf{S}(k_x, k_y, k_z) = \begin{bmatrix}
@@ -46,23 +45,23 @@ k_x & 0 & 0 \\
 \end{bmatrix}
 $$</div>
 
-## Scaling along an arbitrary axis
+## Scaling Along an Arbitrary Axis
 
-Let $\unit{n}$ be the unit vector parallel to the direction of scale and $k$ to be the scale factor, a vector transformed by this scale operations can be represented as
+Let $\unit{n}$ be the unit vector parallel to the direction of scale and $k$ to be the scale factor. A vector transformed by this scale operation can be represented as:
 
 <div>$$
 \mathbf{v'} = \mathbf{S}(\unit{n}, k) \mathbf{v}
 $$</div>
 
-{{< figure src="/images/scale!arbitrary-axis.png" title="scale arbitrary axis" >}}
+{{< figure src="/images/scale!arbitrary-axis.png" title="Scale Arbitrary Axis" >}}
 
-Separate $\mathbf{v}$ in two vectors, a vector parallel to $\unit{v}$ called $\mathbf{v_{\parallel}}$ and a vector perpendicular to $\unit{v}$ called $\mathbf{v_{\perp}}$ such that
+Separate $\mathbf{v}$ into two vectors: a vector parallel to $\unit{v}$ called $\mathbf{v_{\parallel}}$ and a vector perpendicular to $\unit{v}$ called $\mathbf{v_{\perp}}$ such that:
 
 <div>$$
 \mathbf{v} = \mathbf{v_{\parallel}} + \mathbf{v_{\perp}}
 $$</div>
 
-Where
+Where:
 
 <div>$$
 \begin{align*}
@@ -71,17 +70,17 @@ Where
 \end{align*}
 $$</div>
 
-We can also represent $\mathbf{v'}$ as a sum of two vectors parallel and perpendicular to $\unit{n}$
+We can also represent $\mathbf{v'}$ as a sum of two vectors parallel and perpendicular to $\unit{n}$:
 
 <div>$$
 \mathbf{v'} = \mathbf{v_{\parallel}'} + \mathbf{v_{\perp}'}
 $$</div>
 
-Note that any vector that lies in the 2d line or 3d plane perpendicular to $\unit{n}$ will not be affected by the scale operation so $\mathbf{v'} = \mathbf{v_{\parallel}'} + \mathbf{v_{\perp}}$
+Note that any vector that lies in the 2D line or 3D plane perpendicular to $\unit{n}$ will not be affected by the scale operation, so $\mathbf{v'} = \mathbf{v_{\parallel}'} + \mathbf{v_{\perp}}$.
 
-Since $\mathbf{v_{\parallel}}$ is parallel to the direction of scale then $\mathbf{v_{\parallel}'} = k\mathbf{v_{\parallel}}$
+Since $\mathbf{v_{\parallel}}$ is parallel to the direction of scale, then $\mathbf{v_{\parallel}'} = k\mathbf{v_{\parallel}}$.
 
-Reconstructing the solution from the observations above
+Reconstructing the solution from the observations above:
 
 <div>$$
 \begin{align*}
@@ -97,7 +96,7 @@ Reconstructing the solution from the observations above
 \end{align*}
 $$</div>
 
-We can construct a general scale matrix by computing the vectors resulting after transforming the basis vectors $\mathbf{p}$, $\mathbf{q}$ and $\mathbf{r}$, for example let's transform $\mathbf{p} = \begin{bmatrix} 1 & 0 & 0 \end{bmatrix}^T$
+We can construct a general scale matrix by computing the vectors resulting after transforming the basis vectors $\mathbf{p}$, $\mathbf{q}$, and $\mathbf{r}$. For example, let's transform $\mathbf{p} = \begin{bmatrix} 1 & 0 & 0 \end{bmatrix}^T$:
 
 <div>$$
 \begin{align*}
@@ -112,7 +111,7 @@ We can construct a general scale matrix by computing the vectors resulting after
 \end{align*}
 $$</div>
 
-Similarly the values of $\mathbf{q'}$ and $\mathbf{r'}$ can be found which make the general rotation matrix equal to
+Similarly, the values of $\mathbf{q'}$ and $\mathbf{r'}$ can be found, which make the general rotation matrix equal to:
 
 <div>$$
 \begin{align*}
@@ -124,4 +123,3 @@ Similarly the values of $\mathbf{q'}$ and $\mathbf{r'}$ can be found which make 
 \end{bmatrix}
 \end{align*}
 $$</div>
-
