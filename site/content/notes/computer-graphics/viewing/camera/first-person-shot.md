@@ -1,43 +1,40 @@
 ---
-title: "Building a first person shooter camera in C++"
+title: "Building a First-Person Shooter Camera in C++"
 date: 2016-04-29 22:10:40
 summary: |
-  A first person camera captures objects from the viewpoint of a player's character.
-  Some aspects have to be considered like the characteristics of the camera (orbiting
-  with the mouse and translation with keyboard keys) as well as how we could capture
-  all these characteristics with math and linear algebra.
+  A first-person camera captures objects from the viewpoint of a player's character. Some aspects have to be considered, like the characteristics of the camera (orbiting with the mouse and translation with keyboard keys), as well as how we could capture all these characteristics with math and linear algebra.
 
   <br />
-  In this article I analyze the math needed to design and implement a 1st person shooter camera in C++.
+  In this article, I analyze the math needed to design and implement a first-person shooter camera in C++.
 image: /images/first-person-pov.jpeg
-tags: ["camera", "first person", "pov", "euler angles", "linear algebra"]
+tags: ["camera", "first-person", "pov", "euler angles", "linear algebra"]
 libraries: ["math"]
 ---
 
-A first person camera captures objects from the viewpoint of a player's character, the camera has the following characteristics:
+A first-person camera captures objects from the viewpoint of a player's character. The camera has the following characteristics:
 
-- orbit: the character can look to the left, right, up & down, however if we imagine the head of the character it can't be tilted
-- translation: the character can move in 4 directions, forward backward, to the left and to the right, note that the vector that represents the direction the character is looking at doesn't change (the orbit is not affected by translation)
-  - our camera will always move in the same direction the camera is looking at, this is usually done differently on first person shooters where the character may move in a different direction than the direction the camera is looking at
+- **Orbit**: The character can look left, right, up, and down; however, if we imagine the character's head, it can't be tilted.
+- **Translation**: The character can move in four directions: forward, backward, left, and right. Note that the vector that represents the direction the character is looking at doesn't change (the orbit is not affected by translation).
+  - Our camera will always move in the same direction the camera is looking. This is usually done differently in first-person shooters, where the character may move in a different direction than the camera is looking.
 
-Both characteristics can be implemented by creating a space for the camera and defining the direction in this space, that way translation doesn't modify the direction the camera is looking at and for orbit we would rotate the basis vectors of the space
+Both characteristics can be implemented by creating a space for the camera and defining the direction in this space. That way, translation doesn't modify the direction the camera is looking at, and for orbit, we would rotate the basis vectors of the space.
 
-Assuming that the world space axes are as follows
+Assuming that the world space axes are as follows:
 
 <figure>
   <div class="figure-images">
     <img class="lazy-load" data-src="/images/xyz.jpg" alt="" />
   </div>
-  <figcaption>Chosen world space \(+x\) (right), \(+y\) (up) and \(+z\) (backward), note that the choice is just personal preference</figcaption>
+  <figcaption>Chosen world space: \(+\mathbf{x}\) (right), \(+\mathbf{y}\) (up), and \(+\mathbf{z}\) (backward). Note that the choice is just personal preference.</figcaption>
 </figure>
 
 
-Let $\mathbf{M}\_{upright \leftarrow camera}$ be the rotation matrix that transform points from *camera space* to *upright space*, also let the "look at" vector be defined as $\mathbf{p}\_{camera} = \begin{bmatrix} 0 & 0 & -1 \end{bmatrix}^T$ in *camera space*. To define the rotation matrix $\mathbf{M}\_{upright \leftarrow camera}$ let's first identify the euler angles involved in the rotation, taking the image above as a reference we can identify the following actions:
+Let $\mathbf{M}_{upright \leftarrow camera}$ be the rotation matrix that transforms points from *camera space* to *upright space*. Also, let the "look at" vector be defined as $\mathbf{p}_{camera} = \begin{bmatrix} 0 & 0 & -1 \end{bmatrix}^T$ in *camera space*. To define the rotation matrix $\mathbf{M}_{upright \leftarrow camera}$, let's first identify the Euler angles involved in the rotation. Taking the image above as a reference, we can identify the following actions:
 
-- the character looks to the left or right - rotation relative to the *upright space* $y$-axis
-- the character looks up or down - rotation relative to the *upright space* $x$-axis
+- The character looks left or right - rotation relative to the *upright space* $y$-axis.
+- The character looks up or down - rotation relative to the *upright space* $x$-axis.
 
-Note that the sequence of [intrinsic rotations](../../../transformation-matrices/rotation/euler-angles#intrinsic-rotations) $y-x'$ or $x-y$ if expressed as a sequence of *extrinsic rotations*) represents the rotation of the camera, the sequence of extrinsic rotations can be represented as a multiplication of the following rotation matrices
+Note that the sequence of [intrinsic rotations](../../../transformation-matrices/rotation/euler-angles#intrinsic-rotations) ($y-x'$ or $x-y$ if expressed as a sequence of *extrinsic rotations*) represents the rotation of the camera. The sequence of extrinsic rotations can be represented as a multiplication of the following rotation matrices:
 
 <div>$$
 \begin{align*}
@@ -62,7 +59,7 @@ $$</div>
 
 The angles $\alpha$ and $\beta$ are computed as follows:
 
-- let $\Delta{\alpha}$ and $\Delta{\beta}$ represent the change in the rotation around the $\mathbf{Y}$ and $\mathbf{X}$ axis respectively, the values of $\alpha$ and $\beta$ are computed based on the previous state
+- Let $\Delta{\alpha}$ and $\Delta{\beta}$ represent the change in the rotation around the $\mathbf{Y}$ and $\mathbf{X}$ axes, respectively. The values of $\alpha$ and $\beta$ are computed based on the previous state:
 
 <div>$$
 \begin{align*}
@@ -73,12 +70,12 @@ $$</div>
 
 <span></span>
 
-- if the character looks up then $\Delta{\beta}$ is positive
-- if the character looks to the right then $\Delta{\alpha}$ is negative
+- If the character looks up, then $\Delta{\beta}$ is positive.
+- If the character looks to the right, then $\Delta{\alpha}$ is negative.
 
-## Mouse coordinates delta to extrinsic rotations delta
+## Mouse Coordinates Delta to Extrinsic Rotations Delta
 
-Next we need to define what happens when we move the mouse, we can configure a window manager like [GLFW](http://www.glfw.org/) to call a callback method whenever we move the mouse with the coordinates of the mouse as an argument (e.g. as $x_{new}$ and $y_{new}$), **Note: the coordinates of the mouse are expressed relative to the top left corner of the window whose $+x$-axis points right and $+y$-axis points down**, if we keep the old coordinates of the mouse (as $x_{old}$ and $y_{old}$) we can obtain how much the mouse moved with respect to the old position with the following calculation
+Next, we need to define what happens when we move the mouse. We can configure a window manager like [GLFW](http://www.glfw.org/) to call a callback method whenever we move the mouse with the coordinates of the mouse as an argument (e.g., as $x_{new}$ and $y_{new}$). **Note: The coordinates of the mouse are expressed relative to the top-left corner of the window, whose $+x$-axis points right and $+y$-axis points down.** If we keep the old coordinates of the mouse (as $x_{old}$ and $y_{old}$), we can obtain how much the mouse moved with respect to the old position with the following calculation:
 
 <div>$$
 \begin{align*}
@@ -87,9 +84,9 @@ Next we need to define what happens when we move the mouse, we can configure a w
 \end{align*}
 $$</div>
 
-Note that $y_{new} - y_{old}$ will be positive if we move the mouse down which is unintuitive, therefore we can multiply this result by $-1$ so that moving the mouse downward sets a negative value in $\Delta y$
+Note that $y_{new} - y_{old}$ will be positive if we move the mouse down, which is unintuitive. Therefore, we can multiply this result by $-1$ so that moving the mouse downward sets a negative value in $\Delta y$.
 
-The next step is to update the values of $\alpha$ (yaw) and $\beta$ (pitch) using $\Delta x$ and $\Delta y$, note that when we move the mouse to the right we're moving clockwise with respect to the $+y$ axis and when we move the mouse upward we're moving counterclockwise with respect to the $+x$-axis therefore
+The next step is to update the values of $\alpha$ (yaw) and $\beta$ (pitch) using $\Delta x$ and $\Delta y$. Note that when we move the mouse to the right, we're moving clockwise with respect to the $+y$-axis, and when we move the mouse upward, we're moving counterclockwise with respect to the $+x$-axis. Therefore:
 
 <div>$$
 \begin{align*}
@@ -98,9 +95,9 @@ The next step is to update the values of $\alpha$ (yaw) and $\beta$ (pitch) usin
 \end{align*}
 $$</div>
 
-Note that the we also need to value of $\beta$ to be inside the range $-\deg{90} \leq \beta \leq \deg{90}$ to avoid looking backwards
+Note that we also need the value of $\beta$ to be inside the range $-\deg{90} \leq \beta \leq \deg{90}$ to avoid looking backward.
 
-Finally to compute the value of $\mathbf{p}\_{world}$ we need to transform $\mathbf{p}\_{object}$ with $\mathbf{M}\_{world \leftarrow object}$, note that the value of $\mathbf{p}\_{object} = \begin{bmatrix} 0 & 0 & -1 \end{bmatrix}^T$ is always the same, therefore the value of $\mathbf{p}\_{world}$ is
+Finally, to compute the value of $\mathbf{p}_{world}$, we need to transform $\mathbf{p}_{object}$ with $\mathbf{M}_{world \leftarrow object}$. Note that the value of $\mathbf{p}_{object} = \begin{bmatrix} 0 & 0 & -1 \end{bmatrix}^T$ is always the same. Therefore, the value of $\mathbf{p}_{world}$ is:
 
 <div>$$
 \begin{align*}
@@ -119,4 +116,3 @@ Finally to compute the value of $\mathbf{p}\_{world}$ we need to transform $\mat
 $$</div>
 
 {{< snippet file="static/code/opengl/fps.cpp" lang="cpp" />}}
-

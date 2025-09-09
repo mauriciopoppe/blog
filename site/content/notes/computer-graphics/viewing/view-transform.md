@@ -1,12 +1,10 @@
 ---
-title: "Transformation matrix to transform 3D objects from World Space to View Space (View transform)"
+title: "Transformation Matrix to Transform 3D Objects from World Space to View Space (View Transform)"
 summary: |
-  One matrix transformation in the 3D to a 2D transformation pipeline is the view transform
-  where objects are transformed from world space to view space.
-  a transformation matrix.
+  One matrix transformation in the 3D to 2D transformation pipeline is the view transform, where objects are transformed from world space to view space using a transformation matrix.
 
   <br />
-  In this article I cover the math behind the generation of this transformation matrix.
+  In this article, I cover the math behind the generation of this transformation matrix.
 image: /images/camera-transformation!camera-space.jpg
 tags: ["computer graphics", "transformation matrix", "view transform", "3d", "2d"]
 libraries: ["math"]
@@ -16,19 +14,19 @@ references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
 ---
 
-The objective of this step is to find a transformation matrix to transform points expressed in *world space* to *view space*, a camera can be imagined to exist from a known point of view that captures some objects of the space
+The objective of this step is to find a transformation matrix to transform points expressed in *world space* to *view space*. A camera can be imagined to exist from a known point of view that captures some objects in the space.
 
 <div>$$
 \mathbf{v}_{view} = \mathbf{M}_{view} \mathbf{v}_{wld}
 $$</div>
 
-The construction of the transformation matrix to transform points from *world space* to *view space* needs 3 parameters:
+The construction of the transformation matrix to transform points from *world space* to *view space* needs three parameters:
 
-- $\mathbf{camera}$ a point expressed in world space defining the location of the point of view, note that the $\mathbf{camera}$ is at the origin of the *view space*
-- $\mathbf{at}$ the direction where the camera is aiming at
-- $\mathbf{up}$ denotes the upward orientation of the camera (typically coincides with the positive $y$-axis)
+- $\mathbf{camera}$: a point expressed in world space defining the location of the point of view. Note that the $\mathbf{camera}$ is at the origin of the *view space*.
+- $\mathbf{at}$: the direction where the camera is aiming.
+- $\mathbf{up}$: denotes the upward orientation of the camera (typically coincides with the positive $y$-axis).
 
-{{< figure src="/images/camera-transformation!camera-space.jpg" title="view transform" >}}
+{{< figure src="/images/camera-transformation!camera-space.jpg" title="View Transform" >}}
 
 <!--
 In OpenGL we can use the GLU function `gluLookAt()` to position the camera
@@ -48,21 +46,21 @@ gluLookAt(0.0, 0.0, 0.0,
 ```
 -->
 
-Note that the camera is looking at the negative $z$-axis of the *view space*, this is a convention rather than a rule since the *projection matrix* will be constructed in a way so that points in the $-z$-axis in *view space* are transformed to the range $[-1,1]$
+Note that the camera is looking at the negative $z$-axis of the *view space*; this is a convention rather than a rule since the *projection matrix* will be constructed in a way so that points in the $-z$-axis in *view space* are transformed to the range $[-1,1]$.
 
-## Derivation of the view transform matrix
+## Derivation of the View Transform Matrix
 
-The process of transforming the vertices in the *world space* to *view space* is given by
+The process of transforming the vertices in *world space* to *view space* is given by:
 
-- Creation of a coordinate frame for the *view space*
-- Application of the appropriate translation for the camera location (world space -> upright space)
-- Transformation of the points in world space to camera space (upright space -> object space)
+- Creation of a coordinate frame for the *view space*.
+- Application of the appropriate translation for the camera location (world space -> upright space).
+- Transformation of the points in world space to camera space (upright space -> object space).
 
-### Creation of a coordinate frame for the view space
+### Creation of a Coordinate Frame for the View Space
 
-Given $\mathbf{camera}$, $\mathbf{at}$ and $\mathbf{up}$ the steps to compute the coordinate frame are whose basis vectors are $\mathbf{u}$, $\mathbf{v}$ and $\mathbf{w}$ (note that since these are basis vectors they need to be unit vectors)
+Given $\mathbf{camera}$, $\mathbf{at}$, and $\mathbf{up}$, the steps to compute the coordinate frame whose basis vectors are $\mathbf{u}$, $\mathbf{v}$, and $\mathbf{w}$ are as follows (note that since these are basis vectors, they need to be unit vectors):
 
-- compute $\mathbf{w}$ trivially by normalizing the vector $\mathbf{camera - at}$
+- Compute $\mathbf{w}$ trivially by normalizing the vector $\mathbf{camera - at}$.
 
 <div>$$
 \mathbf{w} = \frac{\mathbf{camera - at}}{\norm{\mathbf{camera - at}}}
@@ -70,7 +68,7 @@ $$</div>
 
 <span></span>
 
-- next $\mathbf{u}$ can be computed with the cross product of $\mathbf{w}$ and $\mathbf{up}$, again the resulting vector must be normalized
+- Next, $\mathbf{u}$ can be computed with the cross product of $\mathbf{w}$ and $\mathbf{up}$. Again, the resulting vector must be normalized.
 
 <div>$$
 \mathbf{u} = \frac{\mathbf{w} \times \mathbf{up}}{\norm{ \mathbf{w} \times \mathbf{up} }}
@@ -78,15 +76,15 @@ $$</div>
 
 <span></span>
 
-- finally $\mathbf{v}$ can be computed as
+- Finally, $\mathbf{v}$ can be computed as:
 
 <div>$$
 \mathbf{v} = \mathbf{w} \times \mathbf{u}
 $$</div>
 
-### Camera translation
+### Camera Translation
 
-The transformation matrix that moves all the points from *world space* to *view's upright space* is
+The transformation matrix that moves all the points from *world space* to *view's upright space* is:
 
 <div>$$
 \mathbf{T} = \begin{bmatrix}
@@ -97,9 +95,9 @@ The transformation matrix that moves all the points from *world space* to *view'
 \end{bmatrix}
 $$</div>
 
-### Transformation of the points from world space to view space
+### Transformation of the Points from World Space to View Space
 
-Given that the camera transformation basis vectors (encoded in a matrix) are
+Given that the camera transformation basis vectors (encoded in a matrix) are:
 
 <div>$$
 \mathbf{M}_{wld \leftarrow view} = \begin{bmatrix}
@@ -109,7 +107,7 @@ Given that the camera transformation basis vectors (encoded in a matrix) are
 \end{bmatrix}
 $$</div>
 
-Expressed in a 4x4 matrix
+Expressed in a 4x4 matrix:
 
 <div>$$
 \mathbf{M}_{wld \leftarrow view} = \begin{bmatrix}
@@ -120,7 +118,7 @@ z_u & z_v & z_w & 0 \\
 \end{bmatrix}
 $$</div>
 
-Works as a transformation matrix to transform points from *view space* to *world space*, therefore the matrix that does the opposite operation (transformation from *world space* to *view space*) is the inverse of this matrix (the transpose is equivalent since the matrix is orthonormal)
+This works as a transformation matrix to transform points from *view space* to *world space*. Therefore, the matrix that does the opposite operation (transformation from *world space* to *view space*) is the inverse of this matrix (the transpose is equivalent since the matrix is orthonormal).
 
 <div>$$
 \mathbf{M}_{view \leftarrow wld} = \mathbf{M^{-1}}_{wld \leftarrow view}  = \mathbf{M}^T_{wld \leftarrow view} = \begin{bmatrix}
@@ -131,9 +129,9 @@ x_w & y_w & z_w & 0 \\
 \end{bmatrix}
 $$</div>
 
-### The view matrix
+### The View Matrix
 
-We can combine the translation and the rotation matrix in a single matrix called the *view matrix* which has the form
+We can combine the translation and the rotation matrix in a single matrix called the *view matrix*, which has the form:
 
 <div>$$
 \begin{align*}
@@ -150,11 +148,10 @@ x_w & y_w & z_w & 0 \\
 0 & 0 & 0 & 1
 \end{bmatrix} \\
 &= \begin{bmatrix}
-x_u & y_u & z_u & -\mathbf{camera \cdot u} \\
-x_v & y_v & z_v & -\mathbf{camera \cdot v} \\
-x_w & y_w & z_w & -\mathbf{camera \cdot w} \\
+x_u & y_u & z_u & - \mathbf{camera} \cdot \mathbf{u} \\
+x_v & y_v & z_v & - \mathbf{camera} \cdot \mathbf{v} \\
+x_w & y_w & z_w & - \mathbf{camera} \cdot \mathbf{w} \\
 0 & 0 & 0 & 1
 \end{bmatrix}
 \end{align*}
 $$</div>
-

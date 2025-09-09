@@ -54,8 +54,8 @@ There are three ways of annotating a quaternion $q$:
 \begin{align}
 q &= s + xi + yj + zk \\
 q &= s + \mathbf{v} \\
-q &= [s, \mathbf{v}] \
-& \text{where } s,x,y,z \in \mathbb{R}, \mathbf{v} \in \mathbb{R}^3 \nonumber \\
+q &= [s, \mathbf{v}] \\
+& \text{where } s,x,y,z \in \mathbb{R}, \mathbf{v} \in \mathbb{R}^3 \\
 & \text{and } i^2 = j^2 = k^2 = ijk = -1 \nonumber
 \end{align}
 $$</div>
@@ -174,7 +174,7 @@ By doing some groupings:
 \begin{align*}
 q_aq_b &= [s_as_b - x_ax_b - y_ay_b - z_az_b, \\
 & \quad s_a(x_b \mathbf{i} + y_b \mathbf{j} + z_b \mathbf{k}) + s_b(x_a \mathbf{i} + y_a \mathbf{j} + z_a \mathbf{k}) \\
-& \quad + (y_az_b - y_bz_a) \mathbf{i} + (z_ax_b - z_bx_a) \mathbf{j} + (x_ay_b - x_by_a) \mathbf{k}] \
+& \quad + (y_az_b - y_bz_a) \mathbf{i} + (z_ax_b - z_bx_a) \mathbf{j} + (x_ay_b - x_by_a) \mathbf{k}] \\
 &= [s_as_b - \mathbf{a} \cdot \mathbf{b}, s_a\mathbf{b} + s_b\mathbf{a} + \mathbf{a} \times \mathbf{b}]
 \end{align*}
 $$</div>

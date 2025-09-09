@@ -1,15 +1,11 @@
 ---
-title: "Orthographic projection"
+title: "Orthographic Projection"
 date: 2016-02-05 23:15:00
 summary: |
-  Orthographic projection is a fundamental projection technique that transforms objects
-  in a higher dimension to a lower dimension. This transformation is usually used for
-  objects in a 3d world to be rendered into a screen (a 2d surface) and in the process
-  keeps parallel lines parallel in the lower dimension.
+  Orthographic projection is a fundamental projection technique that transforms objects in a higher dimension to a lower dimension. This transformation is usually used for objects in a 3D world to be rendered into a screen (a 2D surface) and in the process keeps parallel lines parallel in the lower dimension.
   <br />
   <br />
-  This article covers the math behind it and how to generate the transformation
-  matrix to achieve the transformation.
+  This article covers the math behind it and how to generate the transformation matrix to achieve the transformation.
 image: https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Axonometric_projection.svg/800px-Axonometric_projection.svg.png
 tags: ["computer graphics", "orthographic projection"]
 bibliography:
@@ -17,13 +13,13 @@ bibliography:
 libraries: ["math"]
 ---
 
-## Orthographic projection
+## Orthographic Projection
 
-A projection is a *dimension-reducing* operation, if we apply a scale operation with $k = 0$ all the points are projected onto the perpendicular axis in 2d or the perpendicular plane in 3d of $\unit{n}$, this type of projection is called *orthographic projection*
+A projection is a *dimension-reducing* operation. If we apply a scale operation with $k = 0$, all the points are projected onto the perpendicular axis in 2D or the perpendicular plane in 3D of $\unit{n}$. This type of projection is called *orthographic projection*.
 
-### Projection on a cardinal axis/plane
+### Projection on a Cardinal Axis/Plane
 
-The simplest type of projection just discards a coordinate of the vectors transformed, e.g. in 2d the vector $\mathbf{v} = \begin{bmatrix} v_x & v_y \end{bmatrix}^T$ projected onto the $x$ axis will discard its $y$ coordinate and make $\mathbf{v'} = \begin{bmatrix} v_x & 0 \end{bmatrix}^T$, the operation can be achieved by applying a scale transformation with $k = 0$
+The simplest type of projection just discards a coordinate of the vectors transformed. E.g., in 2D, the vector $\mathbf{v} = \begin{bmatrix} v_x & v_y \end{bmatrix}^T$ projected onto the $x$-axis will discard its $y$-coordinate and make $\mathbf{v'} = \begin{bmatrix} v_x & 0 \end{bmatrix}^T$. The operation can be achieved by applying a scale transformation with $k = 0$.
 
 <div>$$
 \mathbf{P_x} = \mathbf{S} \left (\begin{bmatrix}
@@ -43,7 +39,7 @@ $$</div>
 \end{bmatrix}
 $$</div>
 
-When a 3d vector $v = [v_x, v_y, v_z]$ is projected onto the $xy$ plane then the $v_z$ coordinate will be discarded by copying just $v_x$ and $v_y$ i.e. $v' = [v_x, v_y, 0]$
+When a 3D vector $v = [v_x, v_y, v_z]$ is projected onto the $xy$-plane, then the $v_z$ coordinate will be discarded by copying just $v_x$ and $v_y$, i.e., $v' = [v_x, v_y, 0]$.
 
 <div>$$
 \mathbf{P_{xy}} = \mathbf{S} \left (\begin{bmatrix}
@@ -75,11 +71,11 @@ $$</div>
 \end{bmatrix}
 $$</div>
 
-### Projection onto an arbitrary axis/plane
+### Projection onto an Arbitrary Axis/Plane
 
-We can apply a zero factor scale along the direction of the vector perpendicular to the axis/plane
+We can apply a zero-factor scale along the direction of the vector perpendicular to the axis/plane.
 
-In 2d
+In 2D:
 
 <div>$$
 \begin{align*}
@@ -95,7 +91,7 @@ In 2d
 \end{align*}
 $$</div>
 
-In 3d
+In 3D:
 
 <div>$$
 \begin{align*}
