@@ -295,7 +295,7 @@ qp &= [s, \lambda \unit{n}][0, \mathbf{v}] \\
 \end{align*}
 $$</div>
 
-Note that the term $-\\lambda \\ \unit{n} \\ \cdot \\ \mathbf{v}$ does not vanish since for the general case, $\unit{n}$ and $\mathbf{v}$ are no longer perpendicular. What's more important is that the product $qp$ is no longer a pure quaternion. Multiplying a vector by a non-orthogonal quaternion has converted some of the vector information into the quaternion's scalar component.
+Note that the term $-\lambda \unit{n} \cdot \mathbf{v}$ does not vanish since for the general case, $\unit{n}$ and $\mathbf{v}$ are no longer perpendicular. What's more important is that the product $qp$ is no longer a pure quaternion. Multiplying a vector by a non-orthogonal quaternion has converted some of the vector information into the quaternion's scalar component.
 
 What happens if we post-multiply $qp$ by $q^{-1}$? Could it reverse the operation? (Note that since $q$ is a norm quaternion, $q^{-1} = q^*$.)
 

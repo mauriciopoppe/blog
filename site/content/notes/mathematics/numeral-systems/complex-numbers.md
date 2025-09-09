@@ -71,7 +71,7 @@ $$</div>
 
 <div>$$
 \begin{align*}
-z_1z_2 &= a_1a_2 + a_1b_2i + a_2b_1i + b_1b_2i^2 \quad \text{given that } i^2 = -1 \\
+z_1z_2 &= a_1a_2 + a_1b_2i + a_2b_1i + b_1b_2i^2 \quad \text{given that i^2 = -1} \\
 &= (a_1a_2 - b_1b_2) + (a_1b_2 + b_1a_2)i
 \end{align*}
 $$</div>

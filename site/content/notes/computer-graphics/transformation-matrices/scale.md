@@ -32,7 +32,7 @@ $$</div>
 Constructing the 2D scale matrix $\mathbf{S}(k_x, k_y)$ from these basis vectors:
 
 <div>$$
-\mathbf{S}(k_x, k_y) = \begin{bmatrix} k_x & 0 \ 0 & k_y \end{bmatrix}
+\mathbf{S}(k_x, k_y) = \begin{bmatrix} k_x & 0 \\ 0 & k_y \end{bmatrix}
 $$</div>
 
 Similarly, the 3D scale matrix is given by:
