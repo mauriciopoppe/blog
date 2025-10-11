@@ -1,0 +1,40 @@
+{{ $myList := slice "atari" "stripe" }}
+{{ $randomElement := index (shuffle $myList) 0 }}
+
+{{ if .Get "type" }}
+  {{ $randomElement = .Get "type" }}
+{{ end }}
+
+<div class="tw-text-primary tw-absolute tw-left-0">
+  <div class="tw-absolute tw-left-0 tw-top-0 tw-opacity-25">
+    {{ if (eq $randomElement "atari") }}
+      <css-doodle>
+        @grid: 1 / 100vw 100vh / #0a0c27;
+        background-size: 200px 200px;
+        background-image: @doodle(
+          @grid: 6 / 100%;
+          @size: 4px;
+          font-size: 4px;
+          color: hsl(@r240, 30%, 50%);
+          box-shadow: @m3x5(
+            calc(4em - @nx*1em) @ny(*1em)
+              @p(@m3(currentColor), @m2(#0000)),
+            calc(2em + @nx*1em) @ny(*1em)
+              @lp
+          );
+        );
+      </css-doodle>
+    {{ end }}
+    {{ if (eq $randomElement "stripe") }}
+      <css-doodle>
+        @grid: 10 / 100vw 100vh / #0a0c27;
+        background: linear-gradient(
+          @rand(360deg),
+          @stripe(#60569e, #e6437d, #ebbf4d)
+        )
+      </css-doodle>
+    {{ end }}
+  </div>
+  {{ .Inner }}
+</div>
+<div style="height: 100vh;"></div>

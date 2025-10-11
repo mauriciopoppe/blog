@@ -8,6 +8,7 @@ summary: |
 image: /images/epi-ctci.webp
 tags: ["interview preparation", "software engineering", "system design", "coding interview", "behavioral interview"]
 date: 2020-10-12 21:23:30
+libraries: ['doodle']
 order: 10
 ---
 
@@ -61,12 +62,16 @@ now I realize that the interview process gave me invaluable information that hel
 If you fail, it just means that you've failed that attempt. After all of your rounds, reflect on what you did right and wrong and focus on improving
 that part for the next shot.
 
-<div class="tw-text-primary tw-my-4 tw-text-3xl md:tw-mx-auto md:tw-w-1/2">
-  <div class="tw-text-center">
-    <p><span class="tw-text-primary">Luck</span> is what happens when <span class="tw-text-primary">preparation</span> meets <span class="tw-text-primary">opportunity</span>.</p>
-    <p class="tw-text-right tw-text-xl"><i>Seneca</i></p>
+{{< full-screen-with-background >}}
+  <div class="md:tw-w-3/5 tw-m-auto tw-relative tw-h-screen tw-grid tw-place-content-center">
+    <div class="tw-text-primary tw-text-3xl md:tw-text-5xl md:tw-mx-auto tw-font-[Ultra] tw-text-center">
+      <p><span class="tw-text-primary">Luck</span> is what happens when <span class="tw-text-primary">preparation</span> meets <span class="tw-text-primary">opportunity</span>.</p>
+      <p class="tw-text-right tw-text-xl"><i>Seneca</i></p>
+    </div>
   </div>
-</div>
+{{< /full-screen-with-background >}}
+<!-- This p exists to give artificial margin -->
+<p></p>
 
 Getting an offer is not the end of the journey. It might be possible that even after you reach your target company and you
 work there for some years, you might look for new challenges in other top companies. The interview skill is something
@@ -436,8 +441,6 @@ so your interviewer is aware of this. Big focus on mentioning tradeoffs.
 - Latency requirements, tradeoff fast reads for slow writes?
 - Data consistency, eventual vs. strong consistency?
 
----
-
 > Design a chat system where users send and receive messages in real-time.
 
 (after talking about the functional and non-functional requirements)
@@ -600,13 +603,17 @@ Pure behavioral round. If you're targeting L5+, be honest about your experience!
 
 ## The end?
 
-<div class="tw-text-primary tw-my-4 tw-text-3xl md:tw-mx-auto md:tw-w-1/2">
-  <div class="tw-text-center">
-    <p>Success is not final, failure is not fatal, it is the courage to continue that counts.</p>
-    <p class="tw-text-right tw-text-xl"><i>Winston Churchill</i></p>
-  </div>
-</div>
-
 Passing/failing the interview is not the end, and if you fail, it doesn't
-mean that you're not good enough. There are too many variables outside
-your control. So if it didn't go well, try again!
+mean that you're not good enough. There are too many variables outside your control.
+
+- If it went well, then it's a good opportunity to learn.
+- If it didn't go well, then it was also a good opportunity to learn and if you want, try again!
+
+{{< full-screen-with-background >}}
+  <div class="md:tw-w-3/5 tw-m-auto tw-relative tw-h-screen tw-grid tw-place-content-center">
+    <div class="tw-text-primary tw-text-3xl md:tw-text-5xl md:tw-mx-auto tw-font-[Ultra] tw-text-center">
+      <p>Success is not final, failure is not fatal, it is the <b>courage to continue</b> that counts.</p>
+      <p class="tw-text-right tw-text-xl"><i>Winston Churchill</i></p>
+    </div>
+  </div>
+{{< /full-screen-with-background >}}

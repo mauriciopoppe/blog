@@ -32,30 +32,13 @@ Perhaps four, five times more, perhaps not even that.*
 >   <i>Riza</i>
 > </div>
 
-<div class="tw-text-primary tw-absolute tw-left-0">
-  <css-doodle class="tw-absolute tw-left-0 tw-top-0 tw-opacity-25">
-    @grid: 1 / 100vw 100vh / #0a0c27;
-    background-size: 200px 200px;
-    background-image: @doodle(
-      @grid: 6 / 100%;
-      @size: 4px;
-      font-size: 4px;
-      color: hsl(@r240, 30%, 50%);
-      box-shadow: @m3x5(
-        calc(4em - @nx*1em) @ny(*1em)
-          @p(@m3(currentColor), @m2(#0000)),
-        calc(2em + @nx*1em) @ny(*1em)
-          @lp
-      );
-    );
-  </css-doodle>
+{{< full-screen-with-background type="atari" >}}
   <div class="md:tw-w-3/5 tw-m-auto tw-relative tw-h-screen tw-grid tw-place-content-center">
     <div class="tw-text-primary tw-text-3xl md:tw-text-5xl md:tw-mx-auto tw-font-[Ultra] tw-text-center">
       <p>Life goes by fast. I want to do my best to remember it.</p>
     </div>
   </div>
-</div>
-<div style="height: 100vh;"></div>
+{{< /full-screen-with-background >}}
 
 ## How do I document my life?
 
