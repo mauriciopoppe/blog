@@ -30,9 +30,10 @@ function SearchBox(props) {
   }
 
   return (
-    <div className="tw-flex tw-flex-row md:tw-justify-center tw-p-4 tw-w-full tw-fixed tw-top-0 tw-bg-black/90">
+    <div className="tw-flex tw-flex-row md:tw-justify-center tw-p-4 tw-w-full tw-fixed tw-top-0">
       <form onSubmit={onSubmit}>
         <input
+          name="search"
           className="tw-text-3xl md:tw-w-full tw-rounded-md tw-bg-neutral-800 tw-text-neutral-100 tw-p-2"
           ref={inputRef}
           autoComplete="off"
@@ -57,42 +58,38 @@ function SearchBox(props) {
 }
 
 function Hit({ hit }) {
-  let figure = null
-
   // skip sandbox entries
   if (hit.uri.indexOf('sandbox') >= 0) {
     return null
   }
 
-  if (hit.image) {
-    figure = (
-      <figure className="tw-w-full tw-text-right md:tw-basis-1/3">
-        <img src={hit.image} alt={hit.title} className="tw-aspect-auto tw-max-h-72 md:tw-max-h-none" />
-        {hit.imageAlt ? (
-          <figcaption>
-            <i className="tw-text-sm">{hit.imageAlt}</i>
-          </figcaption>
-        ) : null}
-      </figure>
-    )
+  function formatDate(date) {
+    const options = {
+      weekday: 'short', // "Mon"
+      month: 'short',   // "Jan"
+      day: 'numeric',   // "2"
+      year: 'numeric'   // "2006"
+    };
+    return date.toLocaleDateString('en-US', options);
   }
 
+  // This component reimplements the same view as note-preview.html but with JS.
   return (
-    <a href={getAbsURL(hit)}>
-      <div className="tw-group/related tw-container tw-mx-auto tw-p-4 tw-rounded-md hover:tw-bg-neutral-800/70 hover:light:tw-bg-primary/70">
-        <div class="md:tw-w-3/5 tw-mx-auto">
-          <h2 className="tw-group/title tw-text-3xl tw-mb-4">
-            <Highlight attribute="title" hit={hit} />
-          </h2>
-          <div className="tw-flex tw-flex-col md:tw-flex-row md:tw-space-x-4">
-            {figure}
-            <div className="tw-w-full tw-flex tw-flex-col md:tw-basis-2/3">
-              <div>{hit.summary}</div>
+    <div className="md:tw-w-3/5 tw-mx-auto">
+      <a className="tw-block tw-my-4" href={getAbsURL(hit)}>
+        <div className="tw-grid md:tw-grid-cols-[10em_auto] tw-place-content-start md:tw-gap-4 tw-leading-tight">
+          <div>{formatDate(new Date(hit.date))}</div>
+          <div>
+            <h2>
+              <Highlight attribute="title" hit={hit} />
+            </h2>
+            <div className="tw-text-xs">
+              {hit.summary}
             </div>
           </div>
         </div>
-      </div>
-    </a>
+      </a>
+    </div>
   )
 }
 

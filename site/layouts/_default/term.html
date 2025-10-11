@@ -10,7 +10,6 @@
 </header>
 {{ end }}
 
-
 {{ define "main" }}
 <main class="tw-container tw-mx-auto tw-px-4">
   <h1 class="tw-text-5xl">{{ .Title }}</h1>
@@ -21,9 +20,9 @@
   <style>.group\/note-preview h2 { font-size: 2rem; }</style>
   <div class="md:tw-w-3/5 tw-mx-auto">
     {{ range .Pages }}
-      <div class="tw-mb-6 group/note-preview">
-          {{ partial "note-preview.html" . }}
-      </div>
+      <a href="{{ .RelPermalink }}" class="tw-block tw-my-4">
+        {{ partial "note-preview.html" . }}
+      </a>
     {{ end }}
   </div>
 </main>
