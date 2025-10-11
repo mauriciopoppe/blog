@@ -15,9 +15,8 @@
     <div class="md:tw-w-3/5">
 
       <!-- article[role=main] is used in many places, remember not to change it-->
-      <!-- position:relative is needed for the font size, I don't know why -->
-      <!-- class content is how we set defaults, this was inherited from bulma -->
-      <article role="main" class="content tw-relative">
+      <!-- class="content" is inherited from bulma, check src/main/css/lib/bulma-content.css -->
+      <article role="main" class="content">
         <!-- the content -->
         {{ .Content }}
       </article>
