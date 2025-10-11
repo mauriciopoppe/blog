@@ -8,9 +8,7 @@ summary: |
 
   In this article, I show how to create a backing track using yt-dlp, Demucs, and FFmpeg.
 tags: ['life', 'karaoke', 'open mic', 'demucs', 'ffmpeg', 'guitar', 'singing', 'music', 'bachata']
-image: /images/open-mic-guitar.jpg
-imageAlt: |
-  Photo by Brands&People on <a href="https://unsplash.com/photos/man-in-black-and-white-checkered-button-up-shirt-playing-white-electric-guitar-FuezoxTPpDk?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+image: /images/music-gear.jpg
 date: 2024-12-01 14:49:00
 ---
 

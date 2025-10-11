@@ -151,7 +151,7 @@ $$</div>
 
 We know from Euler's Primality Test that if $a^{n - 1} \equiv 1 \pmod{n}$ then $a^{(n - 1) / 2} \equiv \pm 1 \pmod{n}$. Let's say that $a^{(n - 1) / 2} \equiv 1 \pmod{n}$; then, also because of Euler's Primality Test, $a^{(n - 1) / 2^2} \equiv \pm 1 \pmod{n}$. What this says is that as long as we can take the square root of some $a^{(n - 1) / 2^i} \equiv 1 \pmod{n}$, the result must be $\pm 1$; otherwise, it's a composite number by Euler's Primality Test.
 
-The base case occurs when we cannot take the square root of some $a^{\tfrac{n - 1}{2^i}} \pmod{n}$, i.e., when $\tfrac{n - 1}{2^i}$ is no longer divisible by $2$, which is exactly the number $q$. For this base case, we're sure of something: if $a^q ar{\equiv} \pm 1 \pmod{n}$ then it means that it's the square root of $a^{2q} \equiv 1 \pmod{n}$ (obviously, $2q \leq n - 1$ because $n - 1$ is even and must be divisible by at least $2$).
+The base case occurs when we cannot take the square root of some $a^{\tfrac{n - 1}{2^i}} \pmod{n}$, i.e., when $\tfrac{n - 1}{2^i}$ is no longer divisible by $2$, which is exactly the number $q$. For this base case, we're sure of something: if $a^qar{\equiv} \pm 1 \pmod{n}$ then it means that it's the square root of $a^{2q} \equiv 1 \pmod{n}$ (obviously, $2q \leq n - 1$ because $n - 1$ is even and must be divisible by at least $2$).
 
 If $a^q
 ot\\equiv \\pm 1 \\pmod{n}$, we have to analyze $a^2q \\pmod{n}$ and there are three possible outcomes:

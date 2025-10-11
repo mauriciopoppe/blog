@@ -192,8 +192,6 @@ If we agree to measure the distance from the point where the object is thrown, t
 s = 16t^2 + 100t
 $$</div>
 
----
-
 It's convenient to measure distance from the Earth's surface and not from any arbitrary distance like the examples above. However, this means that the upward direction is positive. Then the acceleration of gravity must be negative, i.e., $-32\;ft/sec^2$, so that the distance traveled by reason of this acceleration is recorded as downward.
 
 <div>$$
@@ -540,8 +538,6 @@ We can estimate the value of the integral by adding the areas computed for each 
   &\approx \tfrac{h}{3} (y_0 + 4y_1 + 2y_2 + 4y_3 + 2y_4 + \ldots + 4y_{n-1} + y_n) \\
 \end{align*}
 $$</div>
-
----
 
 <script src="/js/calculus/integral.js"></script>
 
