@@ -10,7 +10,7 @@ module.exports = {
     sunset: path.join(__dirname, './src/sunset/index.ts'),
     voronoi: path.join(__dirname, './src/voronoi/index.ts'),
     jukebox: path.join(__dirname, './src/jukebox/index.ts'),
-    heart: path.join(__dirname, './src/main/heart.ts'),
+    heart: path.join(__dirname, './src/heart/index.ts')
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -65,7 +65,7 @@ module.exports = {
     }
   },
   optimization: {
-    runtimeChunk: 'single',
+    runtimeChunk: 'single'
   },
   stats: {
     errorDetails: true

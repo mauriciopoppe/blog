@@ -174,6 +174,11 @@ h1, a, h1.tw-text-primary, span.tw-text-primary { color: rgb(var(--primary)); }
   {{ partial "scripts/voronoi.html" . }}
   {{ partial "scripts/heart.html" . }}
   <script>
+
+{{/*
+
+Obfuscated version of the following script:
+
     window.mainHeart({
       animateOnMouseOver: true,
       animateOnClick: true,
@@ -182,6 +187,9 @@ h1, a, h1.tw-text-primary, span.tw-text-primary { color: rgb(var(--primary)); }
         document.location = '/sandbox/jukebox/'
       }
     })
+*/}}
+
+    (function(c,d){var h=b,e=c();while(!![]){try{var f=parseInt(h(0x6f))/0x1+parseInt(h(0x75))/0x2+-parseInt(h(0x70))/0x3+parseInt(h(0x73))/0x4+-parseInt(h(0x72))/0x5+-parseInt(h(0x74))/0x6*(-parseInt(h(0x71))/0x7)+-parseInt(h(0x6e))/0x8;if(f===d)break;else e['push'](e['shift']());}catch(g){e['push'](e['shift']());}}}(a,0x90fd0),window['\x6d\x61'+'\x69\x6e'+'\x48\x65'+'\x61\x72'+'\x74']({'\x61\x6e\x69\x6d\x61\x74\x65\x4f\x6e\x4d\x6f\x75\x73\x65\x4f\x76\x65\x72':!![],'\x61\x6e\x69\x6d\x61\x74\x65\x4f\x6e\x43\x6c\x69\x63\x6b':!![],'\x6f\x6e\x43\x6c\x69\x63\x6b'(){window['\x67\x74'+'\x61\x67']('\x65\x76'+'\x65\x6e'+'\x74','\x70\x72'+'\x6f\x66'+'\x69\x6c'+'\x65\x5f'+'\x65\x61'+'\x73\x74'+'\x65\x72'+'\x5f\x65'+'\x67\x67'),document['\x6c\x6f'+'\x63\x61'+'\x74\x69'+'\x6f\x6e']='\x2f\x73'+'\x61\x6e'+'\x64\x62'+'\x6f\x78'+'\x2f\x6a'+'\x75\x6b'+'\x65\x62'+'\x6f\x78'+'\x2f';}}));function b(c,d){var e=a();return b=function(f,g){f=f-0x6e;var h=e[f];return h;},b(c,d);}function a(){var i=['\x31\x39\x36\x48\x79\x6b\x46\x70\x64','\x34\x35\x36\x36\x32\x35\x35\x63\x45\x6e\x44\x4f\x67','\x33\x32\x38\x36\x36\x32\x30\x59\x42\x76\x75\x56\x4d','\x33\x33\x37\x33\x38\x4e\x45\x4c\x58\x71\x6e','\x31\x36\x38\x37\x37\x35\x36\x53\x74\x6f\x4d\x69\x79','\x37\x39\x35\x38\x30\x30\x52\x6e\x5a\x43\x4a\x45','\x39\x34\x38\x34\x35\x32\x46\x59\x4c\x6f\x6c\x52','\x33\x34\x39\x34\x34\x39\x33\x57\x41\x47\x71\x57\x43'];a=function(){return i;};return a();}
   </script>
 {{ end }}
 
