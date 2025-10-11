@@ -22,17 +22,6 @@ pre[class*=language-] {
   -webkit-hyphens: none;
           hyphens: none;
 }
-pre[class*=language-]::-moz-selection, pre[class*=language-] ::-moz-selection,
-code[class*=language-]::-moz-selection, code[class*=language-] ::-moz-selection {
-  color: inherit;
-}
-pre[class*=language-]::-moz-selection, pre[class*=language-] ::-moz-selection, code[class*=language-]::-moz-selection, code[class*=language-] ::-moz-selection {
-  color: inherit;
-}
-pre[class*=language-]::selection, pre[class*=language-] ::selection,
-code[class*=language-]::selection, code[class*=language-] ::selection {
-  color: inherit;
-}
 /* Code blocks */
 :not(pre) > code[class*=language-],
 pre[class*=language-] {

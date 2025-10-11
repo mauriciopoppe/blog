@@ -1,0 +1,34 @@
+{{/*
+  layout for content/presentations/_index.md
+  renders layouts/_default/term.html
+*/}}
+
+{{/* overrides the blocks set on baseof.html */}}
+
+{{ define "head" }}
+  {{ partial "head.html" . }}
+{{ end }}
+
+{{ define "header" }}
+<header class="tw-container tw-mx-auto tw-p-4">
+  {{ partial "header-navigation.html" . }}
+  {{ partial "single-header-summary.html" . }}
+</header>
+{{ end }}
+
+
+{{ define "main" }}
+<main class="tw-container tw-mx-auto tw-px-4">
+  <!-- article[role=main] is used in many places, remember not to change it-->
+  <!-- class="content" is inherited from bulma, check src/main/css/lib/bulma-content.css -->
+  <article role="main" class="content md:tw-w-3/5 tw-mx-auto">
+    <!-- the content -->
+    {{ .Content }}
+  </article>
+</main>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "single-footer.html" . }}
+{{ end }}
+
