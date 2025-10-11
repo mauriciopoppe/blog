@@ -89,7 +89,7 @@ Once I clone a codebase worth remembering, I `cd` into it and invoke a script [`
 
 Finally, it comes time to pick a codebase that I want to work on. To do so, I use a [Python script](https://github.com/mauriciopoppe/dotfiles/blob/main/zsh/bin/tmux-switch-client.py) that reads the `~/.bookmarks.data` file and feeds it to `fzf` to provide fuzzy finding over all the existing and saved (but not started) sessions. After a bookmark (or tmux session) is selected, then it comes time to call tmuxinator within that directory and start a new tmux session or just switch to an existing one if the selected item was already a tmux session.
 
-This Ruby script is keymapped to be called whenever I type `<ctrl+space><ctrl+j>` with this [tmux config](https://github.com/mauriciopoppe/dotfiles/blob/22fdba7e6f179077dce2f780d598a1a6c4c12a3a/tmux/.tmux.conf#L72).
+This script is under a tmux keymap and is called whenever I type `<ctrl+space><ctrl+j>` with this [tmux config](https://github.com/mauriciopoppe/dotfiles/blob/22fdba7e6f179077dce2f780d598a1a6c4c12a3a/tmux/.tmux.conf#L72).
 
 With the concepts learned above, it comes time to talk about my workflow:
 
