@@ -6,7 +6,7 @@ summary: |
 tags: ['life']
 image: /images/documenting-my-life.jpg
 imageAlt: |
-  Photo by Annushka Ahuja: https://www.pexels.com/photo/a-person-holding-a-camera-8114300/
+  [Photo by Annushka Ahuja](https://www.pexels.com/photo/a-person-holding-a-camera-8114300/)
 date: 2024-11-10 16:28:00
 ---
 
@@ -30,7 +30,7 @@ Perhaps four, five times more, perhaps not even that.*
 >   <i>Riza</i>
 > </div>
 
-<div class="tw-text-primary tw-my-4 tw-text-3xl md:tw-mx-auto md:tw-w-1/2">
+<div class="tw-text-primary tw-my-32 tw-text-5xl md:tw-mx-auto tw-font-[Ultra]">
   <div class="tw-text-center">
     <p>Life moves pretty fast. I want to do my best to remember it.</p>
   </div>

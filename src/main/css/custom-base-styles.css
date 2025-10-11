@@ -4,17 +4,20 @@
 :root {
   --family-sans: Lato, system-ui, sans-serif;
   --family-serif: "EB Garamond", system-ui, serif;
+  --family-strong: "Ultra", serif;
   --family-monospace: Consolas, monospace;
 }
 
 html {
   font-family: var(--family-serif);
-  font-size: 18px;
+  font-size: 24px;
   background-color: var(--grey-darker);
 }
 
 body {
-  @apply tw-text-base tw-antialiased tw-font-normal md:tw-text-xl md:tw-leading-6;
+  @apply tw-text-base tw-antialiased tw-font-normal;
+  /* The website is mobile first, overrides are for a desktop viewport */
+  @apply md:tw-text-lg md:tw-leading-6;
   color: var(--grey-light);
 }
 

@@ -1,0 +1,43 @@
+<div class="tw-group/note-preview">
+
+  {{ if .Params.image }}
+  <figure class="md:tw-w-3/5 tw-mx-auto tw-text-center">
+    {{ $image := .Params.image | absURL }}
+    <img src="{{ $image }}" alt="{{ .Title }}" class="tw-aspect-auto tw-max-h-80 tw-inline-block" />
+    {{ if .Params.imageAlt }}
+      <figcaption><i class="tw-text-sm">{{ .Params.imageAlt | markdownify }}</i></figcaption>
+    {{ end }}
+  </figure>
+  {{ end }}
+
+  <h2 class="tw-group/title md:tw-w-4/5 tw-mx-auto tw-text-center tw-text-4xl md:tw-text-6xl tw-m-5
+    tw-font-[Ultra]">
+    <a href="{{ .RelPermalink }}">
+      {{ .Title }}
+    </a>
+  </h2>
+
+  <div class="md:tw-w-3/5 tw-mx-auto tw-text-center tw-flex tw-flex-col tw-gap-5">
+    <div>
+      {{ $summary := .Params.summary | default .Summary }}
+      {{ $summary | markdownify }}
+    </div>
+    <div class="tw-text-xs tw-flex tw-flex-row tw-justify-center tw-gap-2 tw-leading-snug">
+      <div class="tw-group/image">
+        {{ $image := .Site.Params.logo | absURL }}
+        <img class="tw-rounded-full tw-width tw-border tw-border-primary" style="filter: drop-shadow(0px
+          0px 5px rgba(var(--primary), 0.5));" src="{{ $image }}" data-src="{{ $image }}" width="75"
+            height="75" alt="Me" />
+      </div>
+      <div class="tw-text-left">
+        Published on {{ .Page.PublishDate.Format "Mon, Jan 2, 2006" }} <br />
+        Last modified on {{ .Page.Lastmod.Format "Mon, Jan 2, 2006" }} <br />
+        {{ .WordCount }} words -
+        <a class="tw-underline" target="_blank" href="https://github.com/mauriciopoppe/blog/tree/main/site/content/{{ .File.Path }}">Page Source</a>
+      </div>
+    </div>
+  </div> <!-- flex -->
+
+  <hr class="md:tw-w-3/5 tw-mx-auto tw-mt-5" />
+
+</div> <!-- group/note-preview -->

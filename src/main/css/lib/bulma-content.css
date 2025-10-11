@@ -247,4 +247,6 @@ code, .content code {
   transform: translate(.1em, -.2em);
 }
 
-
+.footnotes {
+  font-size: .8em;
+}

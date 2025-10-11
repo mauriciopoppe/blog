@@ -3,7 +3,7 @@
   {{ $libraries = jsonify .Params.libraries }}
 {{ end }}
 
-<section class="tw-container tw-mx-auto tw-p-4" data-libraries='{{ $libraries }}'>
+<section class="tw-container tw-mx-auto tw-p-3" data-libraries='{{ $libraries }}'>
   <div class="tw-flex tw-flex-col tw-gap-4 md:tw-flex-row">
 
     <!-- table of contents -->
@@ -33,6 +33,11 @@
         </ul>
       </div>
       {{ end }}
+
+      <!-- tags -->
+      <div class="tw-text-center tw-text-xs">
+        {{ partial "tags.html" (dict "tags" .Params.tags) }}
+      </div>
 
       <!-- related articles -->
       <div data-article-related>

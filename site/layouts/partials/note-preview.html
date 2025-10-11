@@ -10,7 +10,9 @@ Used in:
     <h2 class="tw-group/title tw-text-3xl md:tw-text-5xl"> {{ .Title }} </h2>
   </a>
 
-  {{ partial "tags.html" (dict "tags" .Params.tags) }}
+  <div class="tw-text-xs">
+    {{ partial "tags.html" (dict "tags" .Params.tags) }}
+  </div>
 
   <div class="tw-flex tw-flex-col md:tw-flex-row md:tw-space-x-4">
 
@@ -18,19 +20,16 @@ Used in:
     <figure class="tw-w-full tw-text-right md:tw-basis-1/3">
       {{ $image := .Params.image | absURL }}
       <img src="{{ $image }}" alt="{{ .Title }}" class="tw-aspect-auto tw-max-h-72 md:tw-max-h-none" />
-      {{ if .Params.imageAlt }}
-        <figcaption><i class="tw-text-sm">{{ .Params.imageAlt | markdownify }}</i></figcaption>
-      {{ end }}
     </figure>
     {{ end }}
 
-    <div class="tw-w-full tw-flex tw-flex-col md:tw-basis-2/3">
+    <div class="tw-w-full tw-text-xs tw-flex tw-flex-col md:tw-basis-2/3">
       <div>
         {{ $summary := .Params.summary | default .Summary }}
         {{ $summary | markdownify }}
       </div>
       <div class="tw-h-5 md:tw-grow"></div>
-      <div class="tw-text-base tw-flex tw-flex-row tw-gap-2 tw-leading-snug">
+      <div class="tw-flex tw-flex-row tw-gap-2 tw-leading-snug">
         <div class="tw-group/image">
           {{ $image := .Site.Params.logo | absURL }}
           <img class="tw-rounded-full tw-width tw-border tw-border-primary" style="filter: drop-shadow(0px

@@ -22,7 +22,7 @@ This article is part 5 in the series about transformation matrices:
 - [Part 4: Translating objects with a transformation matrix](../translation/)
 - **[Part 5: Combining Matrix Transformations](../combining-transformations/) (this article)**
 
-We can compose a series of transformations by multiplying the matrices that define the transformation. For example, if we have one object in the world with an arbitrary position and orientation that we want to render through a camera lens located in the same world, also with an arbitrary position and orientation, to get the coordinates of the object relative to the camera lens, we must transform the object from *object space* to *world space* (a transformation known as **model transform**), denoted by the matrix $\mathbf{M}_{world \leftarrow object}$, and then transform the vertices of the object from *world space* to *view space* (a transformation known as **view transform**), denoted with $\mathbf{M}_{view \leftarrow world}$.
+We can compose a series of transformations by multiplying the matrices that define the transformation. For example, if we have one object in the world with an arbitrary position and orientation that we want to render through a camera lens located in the same world, also with an arbitrary position and orientation, to get the coordinates of the object relative to the camera lens, we must transform the object from *object space* to *world space* (a transformation known as **model transform**), denoted by the matrix $\mathbf{M}\_{world \leftarrow object}$, and then transform the vertices of the object from *world space* to *view space* (a transformation known as **view transform**), denoted with $\mathbf{M}\_{view \leftarrow world}$.
 
 <div>$$
 \begin{align*}
@@ -184,7 +184,7 @@ z_u & z_v & z_w & z_e \\
 \end{bmatrix} \begin{bmatrix} u_p \\ v_p \\ w_p \\ 1 \end{bmatrix}
 $$</div>
 
-We can then introduce $\mathbf{p}_{uvw}$, which is the point $\mathbf{p}$ expressed in the nested coordinate system. Similarly, $\mathbf{p}_{xyz}$ is the same point expressed in the canonical coordinate system.
+We can then introduce $\mathbf{p}\_{uvw}$, which is the point $\mathbf{p}$ expressed in the nested coordinate system. Similarly, $\mathbf{p}\_{xyz}$ is the same point expressed in the canonical coordinate system.
 
 <div>$$
 \begin{equation} \label{frame-to-canonical}
