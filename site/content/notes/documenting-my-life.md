@@ -1,18 +1,20 @@
 ---
 title: Documenting my life
 summary: |
-  Ordinary moments don't have value right now, but they will gain value over time.
+  Ordinary moments don't have value right now, but they will have value over time.
+  We might think that mundane things will stay the same forever, but they don't.
   I decided to document my life by journaling, printing pictures, and making vlogs.
 tags: ['life']
 image: /images/documenting-my-life.jpg
 imageAlt: |
   [Photo by Annushka Ahuja](https://www.pexels.com/photo/a-person-holding-a-camera-8114300/)
 date: 2024-11-10 16:28:00
+libraries: ['doodle']
 ---
 
 ## Why am I documenting my life?
 
-Ordinary moments don't have value right now, but they will gain value over time.
+Ordinary moments don't have value right now, but they will have value over time.
 We might think that mundane things will stay the same forever, but they don't.
 
 [I took the following notes from a vlogger that I admire called Riza](https://www.youtube.com/watch?v=fO43lbqSOkU):
@@ -30,11 +32,30 @@ Perhaps four, five times more, perhaps not even that.*
 >   <i>Riza</i>
 > </div>
 
-<div class="tw-text-primary tw-my-32 tw-text-5xl md:tw-mx-auto tw-font-[Ultra]">
-  <div class="tw-text-center">
-    <p>Life moves pretty fast. I want to do my best to remember it.</p>
+<div class="tw-text-primary tw-absolute tw-left-0">
+  <css-doodle class="tw-absolute tw-left-0 tw-top-0 tw-opacity-25">
+    @grid: 1 / 100vw 100vh / #0a0c27;
+    background-size: 200px 200px;
+    background-image: @doodle(
+      @grid: 6 / 100%;
+      @size: 4px;
+      font-size: 4px;
+      color: hsl(@r240, 30%, 50%);
+      box-shadow: @m3x5(
+        calc(4em - @nx*1em) @ny(*1em)
+          @p(@m3(currentColor), @m2(#0000)),
+        calc(2em + @nx*1em) @ny(*1em)
+          @lp
+      );
+    );
+  </css-doodle>
+  <div class="md:tw-w-3/5 tw-m-auto tw-relative tw-h-screen tw-grid tw-place-content-center">
+    <div class="tw-text-primary tw-text-3xl md:tw-text-5xl md:tw-mx-auto tw-font-[Ultra] tw-text-center">
+      <p>Life goes by fast. I want to do my best to remember it.</p>
+    </div>
   </div>
 </div>
+<div style="height: 100vh;"></div>
 
 ## How do I document my life?
 
