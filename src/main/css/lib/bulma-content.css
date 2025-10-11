@@ -76,7 +76,7 @@
 
 .content blockquote {
   background-color: var(--grey-dark);
-  border-left: 5px solid var(--grey-light);
+  border-left: 5px solid rgb(var(--primary));
   padding: 1.25em 1.5em;
 }
 

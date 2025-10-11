@@ -124,13 +124,18 @@ function initializeSidebar(sidebarWrapper: HTMLElement, sidebarContent: HTMLElem
       // need to be tested every time
       sidebar.onScroll()
     })
-    let lastMove = Date.now()
-    sidebar.wrapper.addEventListener('mousemove', function () {
-      lastMove = Date.now()
+    let lastMouseIn = 0
+    let isMouseEnter = false
+    sidebar.wrapper.addEventListener('mouseleave', function () {
+      isMouseEnter = false
+      lastMouseIn = Date.now()
+    })
+    sidebar.wrapper.addEventListener('mouseenter', function () {
+      isMouseEnter = true
       sidebar.showIfHidden()
     })
     setInterval(() => {
-      if (Date.now() - lastMove > 2000) {
+      if (Date.now() - lastMouseIn > 2000 && !isMouseEnter) {
         sidebar.hideIfShown()
       }
     }, 100)

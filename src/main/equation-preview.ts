@@ -9,7 +9,7 @@ function run() {
   const container = document.querySelector('article[role=main]')
   tooltip.style.display = 'none'
   tooltip.style.backgroundColor = 'var(--grey-darker)'
-  tooltip.classList.add('mathjax-tooltip', 'tw-w-full', 'tw-rounded', 'tw-border', 'tw-absolute')
+  tooltip.classList.add('mathjax-tooltip', 'tw-rounded', 'tw-border', 'tw-mx-auto', 'tw-absolute')
   container.appendChild(tooltip)
 
   function getTarget(ev: Event) {
@@ -23,10 +23,14 @@ function run() {
     let target = decodeURIComponent(href.hash || href?.href?.baseVal)
     target = target.replace(/:/g, '\\:')
     const number = document.querySelector(target)
+    const targetContainer = number.closest('.content')
     const equation = number.closest('.MathJax')
+
+    console.log(targetContainer.getBoundingClientRect().width)
 
     Object.assign(tooltip.style, {
       top: `${(href.closest('.MathJax') as HTMLElement).offsetTop + 50}px`,
+      width: `${targetContainer.getBoundingClientRect().width}px`,
       display: 'block'
     })
 

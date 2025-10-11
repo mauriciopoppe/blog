@@ -22,6 +22,9 @@
       {{ $summary := .Params.summary | default .Summary }}
       {{ $summary | markdownify }}
     </div>
+
+    {{ if .Params.hideArticleDetails }}
+    {{ else }}
     <div class="tw-text-xs tw-flex tw-flex-row tw-justify-center tw-gap-2 tw-leading-snug">
       <div class="tw-group/image">
         {{ $image := .Site.Params.logo | absURL }}
@@ -36,6 +39,7 @@
         <a class="tw-underline" target="_blank" href="https://github.com/mauriciopoppe/blog/tree/main/site/content/{{ .File.Path }}">Page Source</a>
       </div>
     </div>
+    {{ end }}
   </div> <!-- flex -->
 
   <hr class="md:tw-w-3/5 tw-mx-auto tw-mt-5" />

@@ -15,10 +15,14 @@ html {
 }
 
 body {
-  @apply tw-text-base tw-antialiased tw-font-normal;
+  @apply tw-text-base tw-antialiased tw-font-normal tw-leading-6;
   /* The website is mobile first, overrides are for a desktop viewport */
-  @apply md:tw-text-lg md:tw-leading-5;
+  @apply md:tw-text-lg md:tw-leading-6;
   color: var(--grey-light);
+}
+
+::selection {
+  background-color: rgba(var(--primary), 0.3);
 }
 
 a {
@@ -62,25 +66,28 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 hr {
-  background-color: rgb(var(--primary));
+  border-color: rgb(var(--primary));
 }
 
 pre {
   @apply tw-leading-4;
-}
-
-pre code {
-  background-color: transparent;
-  color: currentColor;
-  font-size: 1em;
-  padding: 0;
+  code {
+    background-color: transparent;
+    color: currentColor;
+    font-size: 1em;
+    padding: 0;
+  }
 }
 
 code {
   background-color: var(--grey-dark);
   color: rgb(var(--primary));
-  font-size: 0.75em;
-  padding: 0.25em;
+  font-size: 0.7em;
+  padding: 0.1em 0.25em;
+}
+
+blockquote {
+  @apply tw-rounded-md;
 }
 
 @view-transition {

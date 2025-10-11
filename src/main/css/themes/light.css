@@ -1,7 +1,7 @@
 html[data-theme=light] {
-  --grey: rgb(248, 248, 248);
-  --grey-dark: rgb(248, 245, 235);
-  --grey-darker: rgb(255, 252, 243);
+  --grey: rgb(247, 247, 233);
+  --grey-dark: rgb(255, 245, 231);
+  --grey-darker: rgb(255, 252, 240);
   --grey-light: rgb(51, 51, 51);
   --grey-lighter: rgb(21, 21, 21);
   --primary: 176, 104, 120;
