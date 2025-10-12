@@ -13,7 +13,7 @@ Also the same layout is written in src/main/algolia.jsx but in JSX.
     <h2>{{ .Title }}</h2>
     <div class="tw-text-xs">
       {{ $summary := .Params.summary | default .Summary }}
-      {{ $summary }}
+      {{ $summary | plainify }}
     </div>
   </div>
 </div>

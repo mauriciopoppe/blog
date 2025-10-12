@@ -27,7 +27,7 @@
             <div class="tw-w-full tw-flex tw-flex-col md:tw-basis-2/3">
               <div>
                 {{ $summary := .Params.summary | default .Summary }}
-                {{ $summary }}
+                {{ $summary | plainify }}
               </div>
               <div class="tw-h-4 md:tw-grow"></div>
               <div class="tw-flex tw-flex-row tw-gap-2 tw-leading-snug">

@@ -53,7 +53,7 @@ hideArticleDetails: true
 
 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQibAetKc5T_7bjJ-GJXFvbMa6Rj5C8rTK_qLAb1tp_rQKvNcsZ_3tFauqSrOWDuKg0pkQMYD1Q3ojK/embed?start=false&loop=false&delayms=3000" frameborder="0" class="tw-mx-auto tw-aspect-video md:tw-w-full" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 
-### Debugging K8s e2e tests with delve
+### CSI Sidecars All In One (AIO)
 
 - **Location**: Remote for the Kubernetes CSI Community
 - **Date**: June 2024

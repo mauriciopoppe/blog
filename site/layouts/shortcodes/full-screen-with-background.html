@@ -5,12 +5,11 @@
   {{ $randomElement = .Get "type" }}
 {{ end }}
 
-<div class="tw-text-primary tw-absolute tw-left-0">
+<div class="my-parallax tw-text-primary tw-absolute tw-left-0">
   <div class="tw-absolute tw-left-0 tw-top-0 tw-opacity-25">
     {{ if (eq $randomElement "atari") }}
       <css-doodle>
-        @grid: 1;
-        @size: 100vw 100vh;
+        @grid: 1 / 100vw 100vh / #0a0c27;
         background-size: 200px 200px;
         background-image: @doodle(
           @grid: 6 / 100%;
@@ -28,8 +27,7 @@
     {{ end }}
     {{ if (eq $randomElement "stripe") }}
       <css-doodle>
-        @grid: 1;
-        @size: 100vw 100vh;
+        @grid: 10 / 100vw 100vh / #0a0c27;
         background: linear-gradient(
           @rand(360deg),
           @stripe(#F8B501, #60569e, #e6437d)
@@ -74,12 +72,76 @@
           to { transform: rotate(1turn) }
         }
       </css-doodle>
-    {{end }}
+    {{ end }}
   </div>
   {{ .Inner }}
 </div>
 <div style="height: 100vh;"></div>
 
+{{ if (eq $randomElement "ripple") }}
 <div class="tw-text-center tw-mt-10">
   <a target="_blank" href="https://yuanchuan.dev/">Animation by Chuan</a>
 </div>
+{{ end }}
+
+<script>
+(function () {
+  let parallaxTarget = '{{ .Get "parallaxTarget" }}'
+  if (!parallaxTarget) {
+    return
+  }
+
+  const myScrollableContent = document.querySelector(parallaxTarget);
+  if (!myScrollableContent) {
+    console.error(`could not find target=${parallaxTarget} to enable parallax.`)
+    return;
+  }
+
+  myScrollableContent.style.position = "relative"
+  myScrollableContent.style.top = `200px`
+
+  const container = myScrollableContent.closest('.my-parallax');
+  // The animation will be 20% faster than the scroll amount.
+  const parallaxFactor = 1.2;
+
+  function animateOnScroll() {
+    const rect = container.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+
+    // Start the animation 100px before the container enters the viewport.
+    const animationStart = viewportHeight + 100;
+    // Finish the animation as soon as the container leaves the viewport.
+    const animationEnd = -container.offsetHeight;
+
+    let translateY;
+    if (rect.top > animationStart) {
+      // Before animation starts, position is unchanged.
+      translateY = 0;
+    } else if (rect.top < animationEnd) {
+      // After animation ends, lock to final position.
+      const totalScroll = animationStart - animationEnd;
+      translateY = -totalScroll * (parallaxFactor - 1);
+    } else {
+      // During animation, calculate position based on scroll.
+      const scrollAmount = animationStart - rect.top;
+      translateY = -scrollAmount * (parallaxFactor - 1);
+    }
+
+    myScrollableContent.style.transform = `translateY(${translateY}px)`;
+  }
+
+  let ticking = false;
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      window.requestAnimationFrame(function() {
+        animateOnScroll();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // Also run the animation on load.
+  animateOnScroll();
+})();
+</script>

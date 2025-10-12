@@ -32,13 +32,15 @@ Perhaps four, five times more, perhaps not even that.*
 >   <i>Riza</i>
 > </div>
 
-{{< full-screen-with-background type="ripple" >}}
+<p class="tw-h-16"></p>
+{{< full-screen-with-background type="ripple" parallaxTarget="#my-parallax-content" >}}
   <div class="md:tw-w-3/5 tw-m-auto tw-relative tw-h-screen tw-grid tw-place-content-center">
     <div class="tw-text-primary tw-text-3xl md:tw-text-5xl md:tw-mx-auto tw-font-[Ultra] tw-text-center">
-      <p>Life goes by fast. I want to do my best to remember it.</p>
+      <p id="my-parallax-content">Life goes by fast. I want to do my best to remember it.</p>
     </div>
   </div>
 {{< /full-screen-with-background >}}
+<p class="tw-h-16"></p>
 
 ## How do I document my life?
 
