@@ -158,14 +158,12 @@ function initialize() {
   initializeSidebar(tocWrapper, toc)
 
   // tocbot offset for the links
-  const header = document.querySelector('header')
   tocbot.init({
     tocSelector: '.toc',
     contentSelector: 'article[role=main]',
     headingSelector: 'h1,h2,h3,h4,h5,h6',
     collapseDepth: 6,
-    throttleTimeout: 200,
-    headingsOffset: -header.getBoundingClientRect().height
+    throttleTimeout: 200
   })
 }
 

@@ -62,7 +62,7 @@ now I realize that the interview process gave me invaluable information that hel
 If you fail, it just means that you've failed that attempt. After all of your rounds, reflect on what you did right and wrong and focus on improving
 that part for the next shot.
 
-{{< full-screen-with-background >}}
+{{< full-screen-with-background type="atari" >}}
   <div class="md:tw-w-3/5 tw-m-auto tw-relative tw-h-screen tw-grid tw-place-content-center">
     <div class="tw-text-primary tw-text-3xl md:tw-text-5xl md:tw-mx-auto tw-font-[Ultra] tw-text-center">
       <p><span class="tw-text-primary">Luck</span> is what happens when <span class="tw-text-primary">preparation</span> meets <span class="tw-text-primary">opportunity</span>.</p>

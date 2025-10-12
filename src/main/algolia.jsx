@@ -66,11 +66,11 @@ function Hit({ hit }) {
   function formatDate(date) {
     const options = {
       weekday: 'short', // "Mon"
-      month: 'short',   // "Jan"
-      day: 'numeric',   // "2"
-      year: 'numeric'   // "2006"
-    };
-    return date.toLocaleDateString('en-US', options);
+      month: 'short', // "Jan"
+      day: 'numeric', // "2"
+      year: 'numeric' // "2006"
+    }
+    return date.toLocaleDateString('en-US', options)
   }
 
   // This component reimplements the same view as note-preview.html but with JS.

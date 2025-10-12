@@ -9,7 +9,8 @@
   <div class="tw-absolute tw-left-0 tw-top-0 tw-opacity-25">
     {{ if (eq $randomElement "atari") }}
       <css-doodle>
-        @grid: 1 / 100vw 100vh / #0a0c27;
+        @grid: 1;
+        @size: 100vw 100vh;
         background-size: 200px 200px;
         background-image: @doodle(
           @grid: 6 / 100%;
@@ -27,14 +28,58 @@
     {{ end }}
     {{ if (eq $randomElement "stripe") }}
       <css-doodle>
-        @grid: 10 / 100vw 100vh / #0a0c27;
+        @grid: 1;
+        @size: 100vw 100vh;
         background: linear-gradient(
           @rand(360deg),
-          @stripe(#60569e, #e6437d, #ebbf4d)
+          @stripe(#F8B501, #60569e, #e6437d)
         )
       </css-doodle>
     {{ end }}
+    {{ if (eq $randomElement "ripple") }}
+      <style>
+      :root {
+        --doodle-ripple-filter: (
+          filter: @svg-filter(<svg>
+            <filter>
+              <feTurbulence type="fractalNoise" baseFrequency=".02" numOctaves="1" />
+              <feDisplacementMap in="SourceGraphic" scale="300" />
+            </filter>
+          </svg>);
+        );
+      }
+      </style>
+      <css-doodle>
+        :doodle {
+          @grid: 10;
+          @size: 100vw 100vh;
+          @use: var(--doodle-ripple-filter);
+        }
+        :container {
+          animation: r 500s linear infinite;
+        }
+        @place: center;
+        @size: 100% 2vmin;
+        background: @pick-d(
+          color-mix(in srgb, rgb(var(--primary)) 50%, black),
+          color-mix(in srgb, rgb(var(--primary)) 70%, black),
+          color-mix(in srgb, rgb(var(--primary)) 90%, black)
+        );
+        transform-origin: 5vmin center;
+        transform:
+          translateX(50%)
+          rotate(calc(@i() * 360deg / @size()));
+
+        @keyframes r {
+          to { transform: rotate(1turn) }
+        }
+      </css-doodle>
+    {{end }}
   </div>
   {{ .Inner }}
 </div>
 <div style="height: 100vh;"></div>
+
+<div class="tw-text-center tw-mt-10">
+  <a target="_blank" href="https://yuanchuan.dev/">Animation by Chuan</a>
+</div>
