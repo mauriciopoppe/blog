@@ -1,0 +1,36 @@
+{{/*
+  layout for content/notes/_index.md
+*/}}
+
+{{ define "head" }}
+  {{ partial "head.html" . }}
+{{ end }}
+
+{{ define "header" }}
+<header class="tw-container tw-mx-auto tw-p-4">
+  {{ partial "header-navigation.html" . }}
+</header>
+{{ end }}
+
+{{ define "main" }}
+<main class="tw-container tw-mx-auto tw-px-4">
+  <h1 class="tw-text-5xl">{{ .Title }}</h1>
+  <p class="block">There's a total of {{ len .Data.Pages }} notes.</p>
+  <br />
+  <hr />
+  <br />
+  <style>.group\/note-preview h2 { font-size: 2rem; }</style>
+  <div class="md:tw-w-3/5 tw-mx-auto">
+    {{ range .Pages }}
+      <a href="{{ .RelPermalink }}" class="tw-block tw-my-4">
+        {{ partial "note-preview.html" . }}
+      </a>
+    {{ end }}
+  </div>
+</main>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "single-footer.html" . }}
+{{ end }}
+

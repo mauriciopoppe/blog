@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "start": "bun run generate:sitemap && bun run generate:algolia && run-p start:*",
-    "start:hugo": "hugo server -e development -D -F --bind 0.0.0.0 -d ../dist -s site --watch --disableFastRender --disableLiveReload",
+    "start:hugo": "hugo serve -e development --buildDrafts --buildFuture --bind 0.0.0.0 -d ../dist -s site --watch --disableFastRender --disableLiveReload",
     "start:webpack": "webpack-dev-server --config webpack.config.dev.js --hot --host 0.0.0.0",
     "prebuild": "eslint 'src/**/*.{tsx,jsx,js,ts}'",
     "build": "NODE_ENV=production bun run generate:sitemap && bun run build:webpack && bun run build:copyAssets && bun run build:hugo",
@@ -50,7 +50,7 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.6",
     "beautiful-react-hooks": "^0.23.0",
-    "caniuse-lite": "^1.0.30001703",
+    "caniuse-lite": "^1.0.30001750",
     "clean-webpack-plugin": "^4.0.0",
     "color": "^3.1.2",
     "copy-webpack-plugin": "^11.0.0",

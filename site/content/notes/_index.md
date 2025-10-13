@@ -1,4 +1,4 @@
 ---
-# see site/layouts/section/notes.html for the layout.
+# see site/layouts/notes/section.html for the layout.
 title: "Notes"
 ---

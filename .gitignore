@@ -4,7 +4,7 @@
 /dist
 
 # compiled from ./src/util
-/site/layouts/partials/*auto*
+/site/layouts/_partials/*auto*
 /site/data/metadata
 
 # compiled from webpack

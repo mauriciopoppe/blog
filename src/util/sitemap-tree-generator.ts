@@ -177,8 +177,8 @@ async function main() {
   await fs.ensureDir(path.join(hugo, '/data/metadata/'))
   await fs.writeJson(path.join(hugo, '/data/metadata/render-tree.json'), sitemapJson, { spaces: 2 })
   const navbar = createNavBar(sitemapJson.children.filter((node) => node.path === 'notes')[0])
-  await fs.ensureDir(path.join(hugo, '/layouts/partials/'))
-  await fs.writeFile(path.join(hugo, '/layouts/partials/sitemap-tree.auto.html'), navbar)
+  await fs.ensureDir(path.join(hugo, '/layouts/_partials/'))
+  await fs.writeFile(path.join(hugo, '/layouts/_partials/sitemap-tree.auto.html'), navbar)
 }
 
 main()
