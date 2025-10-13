@@ -1,9 +1,15 @@
-{{ $myList := slice "atari" "stripe" }}
+{{ $myList := slice "atari" "stripe" "triangles" }}
 {{ $randomElement := index (shuffle $myList) 0 }}
 
 {{ if .Get "type" }}
   {{ $randomElement = .Get "type" }}
 {{ end }}
+
+<style>
+  css-doodle {
+    overflow: visible
+  }
+</style>
 
 <div class="my-parallax tw-text-primary tw-absolute tw-left-0">
   <div class="tw-absolute tw-left-0 tw-top-0 tw-opacity-25">
@@ -25,15 +31,45 @@
         );
       </css-doodle>
     {{ end }}
+
     {{ if (eq $randomElement "stripe") }}
       <css-doodle>
         @grid: 10 / 100vw 100vh / #0a0c27;
         background: linear-gradient(
           @rand(360deg),
           @stripe(#F8B501, #60569e, #e6437d)
-        )
+        );
       </css-doodle>
     {{ end }}
+
+    {{ if (eq $randomElement "triangles") }}
+      <style>
+      css-doodle {
+        --doodle-triangles: (
+          :doodle {
+            @grid: 10x10;
+            width: 100vw;
+            height: 100vh;
+            grid-gap: 3px;
+            contain: layout;
+          }
+          background: @pick(rgb(--primary), #fe874e, #ff93cc);
+          opacity: @rand(.9);
+          transform:
+            rotate(@rand(360deg))
+            scale(@rand(4));
+          clip-path: polygon(
+            @rand(100%) 0,
+            100% @rand(100%),
+            0 @rand(100%),
+            0 @rand(100%)
+          );
+        );
+      }
+      </style>
+      <css-doodle use="var(--doodle-triangles)"></css-doodle>
+    {{ end }}
+
     {{ if (eq $randomElement "ripple") }}
       <style>
       :root {
