@@ -25,7 +25,6 @@ Generated with `tree --gitignore -L 3 -I dist/ -d .`
 │   │   ├── notes        # Blogposts
 │   │   └── sandbox      # Sandbox pages
 │   ├── layouts
-│   │   ├── _default     # Base layouts
 │   │   ├── partials     # Fragments included in the base layouts
 │   │   └── shortcodes   # Custom shortcodes (see hugo for more info)
 │   └── static           # Static content
@@ -54,7 +53,7 @@ I use tailwind with two themes, the flow is as follows:
 - `tailwind.config.js` uses the module tw-colors as a tailwind
   plugin to create light/dark CSS rules based on special
   prefixed classes.
-- `site/layout/_default/baseof.html` has a global function that
+- `site/layouts/baseof.html` has a global function that
   checks if a theme is defined in local storage, if so then it sets
   that value in the `html` dataset activating the css variables.
 

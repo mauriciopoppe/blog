@@ -1,0 +1,18 @@
+{{/* overrides the blocks set on baseof.html */}}
+
+{{ define "head" }}
+  {{ partial "single-head.html" . }}
+{{ end }}
+
+{{ define "header" }}
+  {{ partial "single-header.html" . }}
+{{ end }}
+
+{{ define "main" }}
+  {{ partial "single-content.html" . }}
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "single-footer.html" . }}
+{{ end }}
+

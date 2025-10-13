@@ -1,7 +1,6 @@
 ---
-# see site/layouts/section/talks.html for the layout.
+# see site/layouts/talks/section.html for the layout.
 title: "Talks"
-layout: base
 summary: |
   A collections of public presentations and talks.
 

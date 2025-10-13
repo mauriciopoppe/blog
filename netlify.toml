@@ -2,12 +2,12 @@
   command = "bun run build"
 
 [build.environment]
-HUGO_VERSION = "0.138.0"
+HUGO_VERSION = "0.151.0"
 HUGO_ENV = "production"
 HUGO_ENABLEGITINFO = "true"
 
 [context.production.environment]
-HUGO_VERSION = "0.138.0"
+HUGO_VERSION = "0.151.0"
 HUGO_ENV = "production"
 HUGO_ENABLEGITINFO = "true"
 
