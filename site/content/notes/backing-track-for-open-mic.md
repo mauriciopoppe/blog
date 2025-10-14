@@ -12,9 +12,14 @@ image: /images/music-gear.jpg
 date: 2024-12-01 14:49:00
 ---
 
-I have a couple of ways to split a song:
+I perform in open mics in my spare time. When I decide to perform a cover of
+a song, I usually play the guitar and sing. Therefore, I prepare
+a backing track without the tracks I use as background music during
+the performance.
 
-- With Logic Pro for iPad: In the update for 2024, there's a way to split
+I know of a couple of ways to take a song and split it into multiple tracks:
+
+- With Logic Pro for iPad: Since 2024 it has a way to split
   a song into tracks (bass, drums, other, vocals). This feature is called
   [stem splitter](https://support.apple.com/guide/logicpro-ipad/extract-vocal-instrumental-stems-stem-lpip1b60ada3/ipados).
 - With [Demucs](https://github.com/facebookresearch/demucs), which is an open-source tool capable of separating
@@ -133,28 +138,19 @@ ffmpeg -i bass.mp3 -i drums.mp3 -i other.mp3 -i piano.mp3 -filter_complex amix=i
 
 Let's compare the original song with two versions of the backing track, one with bass and drums (no voice or guitar) and the other with bass, drums, other and piano (no voice or guitar).
 
-<table class="tw-table-auto">
-  <thead>
-    <tr>
-      <th>Song</th>
-      <th>Sample Audio</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Original song (voice and all instruments)</td>
-      <td><audio controls src="/audio/original-open-mic.mp3"></audio></td>
-    </tr>
-    <tr>
-      <td>Backing track (bass, drums), no voice or guitar. This is what you'd get using Logic Pro's stem split feature.</td>
-      <td><audio controls src="/audio/bass-drums-open-mic.mp3"></audio></td>
-    </tr>
-    <tr>
-      <td>Backing track (bass, drums, other, piano), no voice or guitar.</td>
-      <td><audio controls src="/audio/combined-open-mic.mp3"></audio></td>
-    </tr>
-  </tbody>
-</table>
+<div class="tw-grid md:tw-grid-cols-2 tw-gap-4 tw-mb-5">
+  <div class="tw-font-bold">Song</div>
+  <div class="tw-font-bold">Sample Audio</div>
+
+  <div>Original song (voice and all instruments)</div>
+  <div><audio controls src="/audio/original-open-mic.mp3"></audio></div>
+
+  <div>Backing track (bass, drums), no voice or guitar. This is what you'd get using Logic Pro's stem split feature.</div>
+  <div><audio controls src="/audio/bass-drums-open-mic.mp3"></audio></div>
+
+  <div>Backing track (bass, drums, other, piano), no voice or guitar.</div>
+  <div><audio controls src="/audio/combined-open-mic.mp3"></audio></div>
+</div>
 
 `Demucs` is an amazing tool and so useful for open mics!
 
