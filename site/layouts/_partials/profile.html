@@ -1,26 +1,26 @@
 <div class="tw-flex tw-flex-col tw-justify-center">
   <a href="/" class="tw-mb-4">
-    <h1 class="tw-text-5xl tw-text-primary">Mauricio Poppe's blog</h1>
+    <h1 class="tw-text-3xl md:tw-text-5xl tw-text-primary">Mauricio Poppe's blog</h1>
   </a>
 
   {{ if .IsHome }}
-  <div>
-    <p class="tw-mb-4">
+  <div class="">
+    <p class="md:tw-mb-4">
     Hi 👋, my name is Mauricio and this is my blog where I write notes about
     Life, Math and Computer Science.
     </p>
 
-    <p class="tw-mb-4">
-    There's a hidden <span class="tw-text-primary">easter egg</span> in this
-    page, <br/>
-    <a href="https://forms.gle/AnZoqQzacNSuWCau7" target="_blank">let me know</a> if you found it 😄.
+    <p class="tw-hidden md:tw-block tw-mb-4">
+      There's a hidden <span class="tw-text-primary">easter egg</span> in this
+      page, <br/>
+      <a href="https://forms.gle/AnZoqQzacNSuWCau7" target="_blank">let me know</a> if you found it 😄.
     </p>
   </div>
   {{ end }}
 
-  <br />
+  <br class="tw-hidden md:tw-block" />
 
-  <p class="tw-italic">
+  <p class="tw-hidden md:tw-block tw-italic">
     <span class="tw-text-primary">Luck</span> is what happens when <span
             class="tw-text-primary">preparation</span> meets <span
             class="tw-text-primary">opportunity</span>.
@@ -28,22 +28,24 @@
     <i class="has-text-right">Seneca</i>
   </p>
 
-  <br />
+  <br class="tw-hidden md:tw-block"/>
 
   <!-- <hr /> -->
-  <p class="">
-    Made with <span class="heart" style="font-size: 0.7em; cursor: pointer; position: relative">♥</span>
-    <a href="https://gohugo.io/" target="noopener">Hugo</a> and
-    <a href="https://tailwindcss.com/" target="noopener">Tailwind</a>.
-    <br />
-    Hosted on <a href="https://netlify.com/" target="noopener">Netlify</a>. <br />
-  </p>
-  <p class="">
-    <a href="{{ "index.xml" | absURL }}" target="noopener">
-      <span class="material-symbols-outlined"> rss_feed </span>
-      RSS
-    </a>
-  </p>
-  <p class="">© 2015 - {{ now.Year }}</p>
+  <div class="tw-hidden md:tw-block">
+    <p>
+      Made with <span class="heart" style="font-size: 0.7em; cursor: pointer; position: relative">♥</span>
+      <a href="https://gohugo.io/" target="noopener">Hugo</a> and
+      <a href="https://tailwindcss.com/" target="noopener">Tailwind</a>.
+      <br />
+      Hosted on <a href="https://netlify.com/" target="noopener">Netlify</a>. <br />
+    </p>
+    <p>
+      <a href="{{ "index.xml" | absURL }}" target="noopener">
+        <span class="material-symbols-outlined"> rss_feed </span>
+        RSS
+      </a>
+    </p>
+    <p>© 2015 - {{ now.Year }}</p>
+  </div>
 </div>
 
