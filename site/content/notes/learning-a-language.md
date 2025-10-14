@@ -19,7 +19,7 @@ My goals for learning a language:
   I'm not that interested in learning how to write it perfectly (although it helps).
 * **It's a fun activity to do** - It's a hobby, and I look forward to practicing it, which is important for motivation.
 * **I want to connect with people better** - Whenever I meet new people, I try to guess where they're from.
-  If I know a few words of their language, I try to speak them, and I immediately see how they light up.
+  If I know a few words of their language, I try to speak them, and I immediately see how they light up [^laoshu].
   I get happier when I make other people happy 🙂.
 
 [^laoshu]: [laoshu50500 was a polyglot Youtuber and a language teacher](https://www.youtube.com/@laoshu505000)
