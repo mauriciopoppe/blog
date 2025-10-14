@@ -36,7 +36,9 @@
         Published on {{ .Page.PublishDate.Format "Mon, Jan 2, 2006" }} <br />
         Last modified on {{ .Page.Lastmod.Format "Mon, Jan 2, 2006" }} <br />
         {{ .WordCount }} words -
-        <a class="tw-underline" target="_blank" href="https://github.com/mauriciopoppe/blog/tree/main/site/content/{{ .File.Path }}">Page Source</a>
+
+        {{/* .content wraps a so that we inherit bulma styling for the link. */}}
+        <a target="_blank" href="https://github.com/mauriciopoppe/blog/tree/main/site/content/{{ .File.Path }}">Page Source</a>
       </div>
     </div>
     {{ end }}

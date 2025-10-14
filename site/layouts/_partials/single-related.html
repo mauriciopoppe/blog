@@ -4,15 +4,15 @@
   <style>
     .tw-group\/related figure { margin-bottom: 0; margin-top: 0; }
     .tw-group\/related .tw-group\/title { font-size: 1.5rem; }
-    .tw-group\/related a:hover { filter: initial; }
+    .tw-group\/related a:hover { filter: brightness(1.25); }
+    .tw-light .tw-group\/related a:hover { filter: brightness(0.95); }
   </style>
   {{ range . }}
   <div class="tw-group/related">
     <a href="{{ .RelPermalink }}">
 
       <!-- card -->
-      <div class="tw-group/related tw-text-sm tw-my-4 tw-py-4 md:tw-p-4 tw-rounded-md
-        tw-bg-[var(--grey-dark)] hover:tw-opacity-80">
+      <div class="tw-text-sm tw-my-4 tw-py-4 md:tw-p-4 tw-rounded-md tw-bg-[var(--grey-dark)]">
 
           <h2 class="tw-group/title tw-text-3xl tw-mb-4 md:tw-text-5xl"> {{ .Title }} </h2>
 
