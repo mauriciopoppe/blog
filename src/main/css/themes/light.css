@@ -1,3 +1,4 @@
+/* palette ideas: https://mycolor.space/?hex=%23B06878&sub=1 */
 html[data-theme=light] {
   --grey: rgb(247, 247, 233);
   --grey-dark: rgb(255, 245, 231);

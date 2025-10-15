@@ -27,9 +27,9 @@ that recorded his interactions with people in lots of languages.
 Watch a few videos and you'll see how good it feels to talk with someone else in their native language.
 RIP Moses.
 
-{{< full-screen-with-background type="triangles">}}
+{{< full-screen-with-background type="triangles" parallaxTarget="#mandela">}}
   <div class="md:tw-w-3/5 tw-m-auto tw-relative tw-h-screen tw-grid tw-place-content-center tw-p-3">
-    <div class="tw-text-primary tw-text-xl md:tw-text-3xl md:tw-mx-auto tw-font-[Ultra] tw-text-center">
+    <div id="mandela" class="tw-text-primary tw-text-xl md:tw-text-3xl md:tw-mx-auto tw-font-[Ultra] tw-text-center">
       <p>
         If you talk to a man in a language he understands, that goes to his head.
         If you talk to him in his language, that goes to his heart.
@@ -88,9 +88,9 @@ Doing the homework helped a lot, though.
 One day, YouTube recommended a video that changed the way I thought about learning a language.
 It's a lecture from [Stephen Krashen on Language Acquisition and Comprehensible Input](https://www.youtube.com/watch?v=fnUc_W3xE1w).
 
-{{< full-screen-with-background>}}
+{{< full-screen-with-background parallaxTarget="#stephen">}}
   <div class="md:tw-w-3/5 tw-m-auto tw-relative tw-h-screen tw-grid tw-place-content-center">
-    <div class="tw-text-primary tw-text-md md:tw-text-3xl md:tw-mx-auto tw-font-[Ultra] tw-text-center tw-font-light tw-p-3 md:tw-break-all">
+    <div id="stephen" class="tw-text-primary tw-text-md md:tw-text-3xl md:tw-mx-auto tw-font-[Ultra] tw-text-center tw-font-light tw-p-3 md:tw-break-all">
       <p>
         We all acquire a new language in one way and only one way, <span class="tw-underline">when we get comprehensible input</span>
         in a low anxiety environment. Anything that makes input comprehensible: pictures, knowledge of the world, realia, helps language acquisition.

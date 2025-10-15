@@ -5,41 +5,45 @@
   {{ $randomElement = .Get "type" }}
 {{ end }}
 
-<style>
-  css-doodle {
-    overflow: visible
-  }
-</style>
-
 <div class="my-parallax tw-text-primary tw-absolute tw-left-0">
   <div class="tw-absolute tw-left-0 tw-top-0 tw-opacity-25">
     {{ if (eq $randomElement "atari") }}
-      <css-doodle>
-        @grid: 1 / 100vw 100vh / #0a0c27;
-        background-size: 200px 200px;
-        background-image: @doodle(
-          @grid: 6 / 100%;
-          @size: 4px;
-          font-size: 4px;
-          color: hsl(@r240, 30%, 50%);
-          box-shadow: @m3x5(
-            calc(4em - @nx*1em) @ny(*1em)
-              @p(@m3(currentColor), @m2(#0000)),
-            calc(2em + @nx*1em) @ny(*1em)
-              @lp
+      <style>
+      css-doodle {
+        --doodle-atary: (
+          @grid: 1 / 100vw 100vh / #0a0c27;
+          background-size: 200px 200px;
+          background-image: @doodle(
+            @grid: 6 / 100%;
+            @size: 4px;
+            font-size: 4px;
+            color: hsl(@r240, 30%, 50%);
+            box-shadow: @m3x5(
+              calc(4em - @nx*1em) @ny(*1em)
+                @p(@m3(currentColor), @m2(#0000)),
+              calc(2em + @nx*1em) @ny(*1em)
+                @lp
+            );
           );
         );
-      </css-doodle>
+      }
+      </style>
+      <css-doodle use="var(--doodle-atari)"></css-doodle>
     {{ end }}
 
     {{ if (eq $randomElement "stripe") }}
-      <css-doodle>
-        @grid: 10 / 100vw 100vh / #0a0c27;
-        background: linear-gradient(
-          @rand(360deg),
-          @stripe(#F8B501, #60569e, #e6437d)
+      <style>
+      css-doodle {
+        --doodle-stripe: (
+          @grid: 10 / 100vw 100vh / #0a0c27;
+          background: linear-gradient(
+            @rand(360deg),
+            @stripe(#F8B501, #60569e, #e6437d)
+          );
         );
-      </css-doodle>
+      }
+      </style>
+      <css-doodle use="var(--doodle-stripe)"></css-doodle>
     {{ end }}
 
     {{ if (eq $randomElement "triangles") }}
@@ -47,13 +51,15 @@
       css-doodle {
         --doodle-triangles: (
           :doodle {
-            @grid: 10x10;
+            @grid: 15x15;
             width: 100vw;
             height: 100vh;
-            grid-gap: 3px;
             contain: layout;
           }
-          background: @pick(rgb(--primary), #fe874e, #ff93cc);
+          /* generic gradient from https://mycolor.space/?hex=%23C27083&sub=1 */
+          background: @pick(
+            rgb(var(--primary)), #a3688a, #806289, #5e5b7f, #41536e
+          );
           opacity: @rand(.9);
           transform:
             rotate(@rand(360deg))
@@ -72,42 +78,40 @@
 
     {{ if (eq $randomElement "ripple") }}
       <style>
-      :root {
-        --doodle-ripple-filter: (
-          filter: @svg-filter(<svg>
-            <filter>
-              <feTurbulence type="fractalNoise" baseFrequency=".02" numOctaves="1" />
-              <feDisplacementMap in="SourceGraphic" scale="300" />
-            </filter>
-          </svg>);
+      css-doodle {
+        --doodle-ripple: (
+          :doodle {
+            @grid: 10;
+            @size: 100vw 100vh;
+            filter: @svg-filter(<svg>
+              <filter>
+                <feTurbulence type="fractalNoise" baseFrequency=".02" numOctaves="1" />
+                <feDisplacementMap in="SourceGraphic" scale="300" />
+              </filter>
+            </svg>);
+          }
+          :container {
+            animation: r 500s linear infinite;
+          }
+          @place: center;
+          @size: 100% 2vmin;
+          background: @pick-d(
+            color-mix(in srgb, rgb(var(--primary)) 50%, black),
+            color-mix(in srgb, rgb(var(--primary)) 70%, black),
+            color-mix(in srgb, rgb(var(--primary)) 90%, black)
+          );
+          transform-origin: 5vmin center;
+          transform:
+            translateX(50%)
+            rotate(calc(@i() * 360deg / @size()));
+
+          @keyframes r {
+            to { transform: rotate(1turn) }
+          }
         );
       }
       </style>
-      <css-doodle>
-        :doodle {
-          @grid: 10;
-          @size: 100vw 100vh;
-          @use: var(--doodle-ripple-filter);
-        }
-        :container {
-          animation: r 500s linear infinite;
-        }
-        @place: center;
-        @size: 100% 2vmin;
-        background: @pick-d(
-          color-mix(in srgb, rgb(var(--primary)) 50%, black),
-          color-mix(in srgb, rgb(var(--primary)) 70%, black),
-          color-mix(in srgb, rgb(var(--primary)) 90%, black)
-        );
-        transform-origin: 5vmin center;
-        transform:
-          translateX(50%)
-          rotate(calc(@i() * 360deg / @size()));
-
-        @keyframes r {
-          to { transform: rotate(1turn) }
-        }
-      </css-doodle>
+      <css-doodle use="var(--doodle-ripple)"></css-doodle>
     {{ end }}
   </div>
   {{ .Inner }}
