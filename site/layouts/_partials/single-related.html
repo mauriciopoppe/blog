@@ -13,7 +13,7 @@
       <!-- card -->
       <div class="tw-text-sm tw-my-3 tw-p-3 tw-rounded-md tw-bg-[var(--grey-dark)]">
 
-          <h2 class="tw-group/title tw-text-3xl tw-mb-3 md:tw-text-5xl"> {{ .Title }} </h2>
+          <h2 class="tw-group/title tw-text-3xl tw-leading-6 tw-mb-3 md:tw-text-5xl"> {{ .Title }} </h2>
 
           <div class="tw-flex tw-flex-col tw-gap-3 md:tw-flex-row">
             {{ if .Params.image }}
@@ -32,7 +32,7 @@
               <div class="tw-flex tw-flex-row tw-gap-2 tw-leading-snug">
                 <div class="tw-group/image">
                   {{ $image := .Site.Params.logo | absURL }}
-                  <img class="tw-rounded-full tw-width tw-border tw-border-primary" style="filter: drop-shadow(0px 0px 5px rgba(var(--primary), 0.5));" src="{{ $image }}" data-src="{{ $image }}" width="75" height="75" alt="Me" />
+                  <img class="tw-rounded-full tw-width tw-border tw-border-primary tw-max-w-12" style="filter: drop-shadow(0px 0px 5px rgba(var(--primary), 0.5));" src="{{ $image }}" data-src="{{ $image }}" alt="Me" />
                 </div>
                 <div class="tw-text-xs">
                   Published on {{ .Page.PublishDate.Format "Mon, Jan 2, 2006" }} <br />
