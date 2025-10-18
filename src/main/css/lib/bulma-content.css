@@ -18,7 +18,11 @@
 .content blockquote:not(:last-child),
 .content pre:not(:last-child),
 .content table:not(:last-child) {
-  margin-bottom: 1em;
+  margin-bottom: 0.8rem;
+}
+
+@container (width >= 28rem) {
+  margin-bottom: 1rem;
 }
 
 .content h1,
@@ -246,7 +250,12 @@ code, .content code {
 .content a[href*="//"]:hover:after {
   transform: translate(.1em, -.2em);
 }
-
-.footnotes {
+.content .footnote-ref {
+  display: inline-block;
+}
+.content .footnotes {
   font-size: .8em;
+}
+.content .footnotes-tooltip li {
+  list-style-type: none;
 }

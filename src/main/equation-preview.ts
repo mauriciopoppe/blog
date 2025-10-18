@@ -8,8 +8,8 @@ function run() {
   const tooltip = document.createElement('div')
   const container = document.querySelector('article[role=main]')
   tooltip.style.display = 'none'
-  tooltip.style.backgroundColor = 'var(--grey-darker)'
-  tooltip.classList.add('mathjax-tooltip', 'tw-rounded', 'tw-border', 'tw-mx-auto', 'tw-absolute')
+  tooltip.style.backgroundColor = 'var(--grey-dark)'
+  tooltip.classList.add('mathjax-tooltip', 'tw-rounded', 'tw-mx-auto', 'tw-absolute')
   container.appendChild(tooltip)
 
   function getTarget(ev: Event) {
@@ -25,8 +25,6 @@ function run() {
     const number = document.querySelector(target)
     const targetContainer = number.closest('.content')
     const equation = number.closest('.MathJax')
-
-    console.log(targetContainer.getBoundingClientRect().width)
 
     Object.assign(tooltip.style, {
       top: `${(href.closest('.MathJax') as HTMLElement).offsetTop + 50}px`,

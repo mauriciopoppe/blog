@@ -42,7 +42,11 @@ class Sidebar {
     } else if (this.state === SidebarState.FIXED) {
       this.el.style.position = 'fixed'
       this.el.style.top = `${this.navbarHeight + this.articleTopMargin}px`
-      this.el.style.width = `${this.wrapper.getBoundingClientRect().width}px`
+      const parentWidth = this.wrapper.clientWidth
+      const computedStyle = window.getComputedStyle(this.wrapper)
+      const paddingLeft = parseFloat(computedStyle.getPropertyValue('padding-left'))
+      const paddingRight = parseFloat(computedStyle.getPropertyValue('padding-right'))
+      this.el.style.width = `${parentWidth - paddingLeft - paddingRight}px`
     } else if (this.state === SidebarState.RELATIVE) {
       this.el.style.position = 'relative'
       this.el.style.top = this.footerLocationFromDocument - this.contentLocationInPage + 'px'
@@ -89,7 +93,7 @@ class Sidebar {
   // showIfHidden shows the sidebar if it's hidden
   showIfHidden() {
     if (this.hidden) {
-      this.wrapper.style.opacity = '1'
+      this.wrapper.style.opacity = '0.8'
       this.hidden = false
     }
   }
@@ -157,13 +161,21 @@ function initialize() {
   const tocWrapper: HTMLElement = document.querySelector('.toc-wrapper')
   initializeSidebar(tocWrapper, toc)
 
-  // tocbot offset for the links
+  let activeLinkClass = 'is-active-link'
+  // In mobile I've noticed that adding the active class makes the content
+  // jump on scroll sometimes because the class makes the font bold (and therefore larger).
+  //
+  // As a workaround, no need to set the activeLinkClass in mobile devices.
+  if (isMobile()) {
+    activeLinkClass = 'foo'
+  }
   tocbot.init({
     tocSelector: '.toc',
     contentSelector: 'article[role=main]',
     headingSelector: 'h1,h2,h3,h4,h5,h6',
     collapseDepth: 6,
-    throttleTimeout: 200
+    throttleTimeout: 200,
+    activeLinkClass
   })
 }
 

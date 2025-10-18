@@ -15,7 +15,7 @@ html {
 }
 
 body {
-  @apply tw-text-base tw-antialiased tw-font-normal tw-leading-6;
+  @apply tw-text-base tw-antialiased tw-font-normal tw-leading-5;
   /* The website is mobile first, overrides are for a desktop viewport */
   @apply md:tw-text-lg md:tw-leading-6;
   color: var(--grey-light);

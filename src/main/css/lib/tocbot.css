@@ -68,7 +68,29 @@ a.toc-link {
   padding-left: initial;
 }
 .toc-list-item {
-  padding-left: 10px;
+  padding-left: 15px;
+  margin: 5px 0;
+  line-height: 1.25em;
+}
+.toc > .toc-list > li {
+  padding-left: 0;
+}
+.toc > .toc-list > li:first-child {
+  margin-top: 0;
+}
+.toc > .toc-list > li:last-child {
+  margin-bottom: 0;
+}
+/* .toc-list-item:first-child { */
+/*   margin-top: 0; */
+/* } */
+/* .toc-list-item:last-child { */
+/*   margin-bottom: 0; */
+/* } */
+@container (width >= 28rem) {
+  .toc-list-item {
+    padding-left: 10px;
+  }
 }
 .toc-link:before {
   width: 2px;
@@ -82,8 +104,4 @@ a.toc-link {
 .toc-link.is-active-link::before {
   background-color: transparent;
   background-color: initial;
-}
-.toc-list-item {
-  margin: 5px 0;
-  line-height: 1.25em;
 }

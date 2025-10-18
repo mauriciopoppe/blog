@@ -8,7 +8,15 @@ function run() {
   const tooltip = document.createElement('div')
   const container = document.querySelector('article[role=main]')
   tooltip.style.display = 'none'
-  tooltip.classList.add('footnotes', 'footnotes-tooltip', 'ref-tooltip-preview')
+  tooltip.style.backgroundColor = 'var(--grey-dark)'
+  tooltip.classList.add(
+    'footnotes' /* Make it inherit the style set on .footnotes at the end of the article */,
+    'footnotes-tooltip',
+    'tw-rounded',
+    'tw-mx-auto',
+    'tw-absolute',
+    'tw-p-3'
+  )
   container.appendChild(tooltip)
 
   function getTarget(ev: Event) {
@@ -16,19 +24,27 @@ function run() {
   }
 
   function onMouseOver(ev: Event) {
-    const href = getTarget(ev)
-    if (!href) return
+    const a = getTarget(ev)
+    if (!a) return
     /** @type HTMLLinkElement */
 
-    let target: string = decodeURIComponent(href.hash)
+    let target: string = decodeURIComponent(a.hash)
     target = target.replace(/:/g, '\\:')
     const footnote = document.querySelector(target)
+    const targetContainer = footnote.closest('.content')
+    console.log(footnote)
+
     Object.assign(tooltip.style, {
-      top: `${href.offsetTop + 30}px`,
+      // Get the position of the parent <sup> element instead of the <a> element.
+      // The reason is that <sup> sets position: relative making offsetTop not work
+      // as expected on <a>.
+      top: `${a.parentElement.offsetTop + 50}px`,
+      width: `${targetContainer.getBoundingClientRect().width}px`,
       display: 'block'
     })
 
     tooltip.appendChild(footnote.cloneNode(true))
+    // debugger
   }
 
   function onMouseOut(ev: Event) {
