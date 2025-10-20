@@ -107,6 +107,10 @@ I think Stephen's strategy makes sense. When we grow up and learn our first lang
 we go through a silent period where we're primarily listening to what our parents tell us and
 how we see our environment being described before we can speak the language.
 
+The following is a great example of comprehensible input.
+
+<iframe class="tw-mx-auto tw-aspect-video md:tw-w-full" src="https://www.youtube.com/embed/ERU1mqafydA?si=3pA0KbzoY1DYTPn6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ## Progression
 
 Thanks to Stephen's video, I changed my "initial" strategy:
@@ -144,17 +148,17 @@ I use the following tools:
 * Youtube
   * I look for videos in French that have subtitles in both French and English
     on a topic I'm interested in. Initially, it was very simple
-    content about [everyday activities](https://www.youtube.com/watch?v=sOAiwNY6Blo&list=PLnazreCxpqRmpb4lGvzvCGXIXZkL3Nc27).
-    Now, for the most part, I listen to podcasts about topics I'm interested in.
+    content about [everyday activities](https://www.youtube.com/watch?v=ERU1mqafydA).
+    Now, I combine that and podcasts about topics I'm interested in.
   * My favorite channels are:
-    * [FrenchWithPanache](https://www.youtube.com/@FrenchWithPanache)
-    * [EasyFrench](https://www.youtube.com/@EasyFrench)
-    * [FrenchFacile12](https://www.youtube.com/@FrenchFacile12)
+    * [French In Motion](https://www.youtube.com/@Frenchinmotion)
+    * [French With Panache](https://www.youtube.com/@FrenchWithPanache)
+    * [Easy French](https://www.youtube.com/@EasyFrench)
+    * [French Facile 12](https://www.youtube.com/@FrenchFacile12)
 * [Readlang](https://readlang.com/)
   * Readlang is my favorite tool for practicing reading and listening.
   * I like that the transcription is interactive; if I don't know a word, I can click/tap on it, and
-    it'll save the word, highlight it, write a translation next to it, and show me the meaning of the
-    word in English or French based on its context.
+    it'll highlight it and save it on its database (with the translation and the surrounding context).
   * It's web-based, so I can access it from my phone and my laptop without installing any software.
   * It's very affordable compared to similar tools like LingQ (just ~$50 US per year) and also
     has a free version.
@@ -163,9 +167,9 @@ I use the following tools:
 * [Linguno](https://www.linguno.com/)
   * I use it to practice verb conjugation and refine my French. I wouldn't recommend using it when starting out.
 
-### My current "offline" workflow
+### My learning setup
 
-My current workflow involves podcasts, Readlang and Anki:
+My current setup involves podcasts, Readlang and Anki:
 
 * I search for a podcast on a topic that I like in the channels above and import it to Readlang.
   * Download the audio (I use `yt-dlp -x --audio-format mp3 "<youtube-link>"`).
