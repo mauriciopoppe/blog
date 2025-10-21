@@ -82,7 +82,7 @@ where a teacher teaches French grammar rules in English, or enrolling in a langu
 Unfortunately, after a few months of trying all of these methods, I got frustrated and felt that
 I was not making any significant progress.
 
-[^school]: Not that it's a bad idea, but the method of learning grammar (verbs and their conjugations) didn't work for me.
+[^school]: Not that it's a bad idea, but the method of learning grammar (verbs and their conjugations) didn't work **initially** for me.
 Doing the homework helped a lot, though.
 
 One day, YouTube recommended a video that changed the way I thought about learning a language.
@@ -118,24 +118,39 @@ Thanks to Stephen's video, I changed my "initial" strategy:
 * I focused on listening to and watching audiovisual content in French.
 * I listened to podcasts with an interactive transcription where I could see the meaning of new words.
 * I spent less time practicing my speaking skills.
-* I stopped learning grammar rules such as verb conjugations and tenses.
+* I spent less time learning grammar rules such as verb conjugations and tenses.
 
 After a few weeks/months of trying this out, I noticed I was starting to understand new words here and there
 (simply because it's natural for the most common words in a spoken language to appear most frequently in
 casual conversation). Then I realized that I no longer needed to think about the right conjugation
 for a word because it somehow just came to mind after lots of reading/listening.
 
-After I understood most of what I read or listened to, I knew it was time to speak.
+After I understood a lot of what I read or listened to, I knew it was time to speak and to learn grammar in
+an structured way.
 
-I started using [Preply](https://preply.com/) at least once a week, where I only focus on practicing my speaking skills.
-I also go to a French meetup to practice in person[^1], and
-I also practice at work with a Francophone friend during breakfast.
+My intermediate strategy:
+
+* I started speaking as much as possible using Tandem, Preply, 
+* I started learning grammar in an structured way.
+
+I use [Preply](https://preply.com/) at least once a week, where I only focus on practicing my speaking skills.
+I go to a French meetup to practice in person[^1], and
+I practice at work with a Francophone friend during breakfast.
 
 [^1]: I found it interesting that the first time I went to a French meetup, I could understand
 a lot of what people were saying, but the words didn't come quickly when I tried to speak. However, the more I go, the
 easier it gets to enter a flow state where my mind doesn't think about translating words anymore.
 
-I reached a point where I'm actively practicing vocabulary (new and existing words) and speaking
+It's very important to learn the grammar for both listening and speaking. For example in French
+I'd always wonder why `y` and `en` meant in some sentences. After watching [this video](https://www.youtube.com/watch?v=OHQPlvD1ypc)
+I learned that it refers to a previous mentioned place.
+
+It's actually not hard to find an program to learn grammar in an structured way,
+following [Iclal's advice](https://www.youtube.com/watch?v=I_3GvRAZfvQ)
+I searched for playlists and found [Learn French with Alexa](https://www.youtube.com/watch?v=hd0_GZHHWeE&list=PLV1-QgpUU7N2TVWS6gEVMqEfAFjAl-DV6)'s
+playlist perfect.
+
+I reached a point where I'm actively practicing grammar, vocabulary (new and existing words) and speaking
 the language whenever I have the chance.
 
 Next on my journey is a visit to France for some immersion time to
@@ -155,6 +170,7 @@ I use the following tools:
     * [French With Panache](https://www.youtube.com/@FrenchWithPanache)
     * [Easy French](https://www.youtube.com/@EasyFrench)
     * [French Facile 12](https://www.youtube.com/@FrenchFacile12)
+    * [Learn French With Alexa](https://www.youtube.com/watch?v=hd0_GZHHWeE&list=PLV1-QgpUU7N2TVWS6gEVMqEfAFjAl-DV6)
 * [Readlang](https://readlang.com/)
   * Readlang is my favorite tool for practicing reading and listening.
   * I like that the transcription is interactive; if I don't know a word, I can click/tap on it, and
@@ -173,8 +189,9 @@ My current setup involves podcasts, Readlang and Anki:
 
 * I search for a podcast on a topic that I like in the channels above and import it to Readlang.
   * Download the audio (I use `yt-dlp -x --audio-format mp3 "<youtube-link>"`).
-  * Upload the mp3 to [https://readlang.com/upload](https://readlang.com/upload).
-* I start a lesson in Readlang with this audio and learn new words by clicking/tapping on them.
+  * Upload the mp3 to [https://readlang.com/upload](https://readlang.com/upload) and [sync
+    the audio with a Youtube video](https://forum.readlang.com/t/synchronize-transcriptions-to-youtube-videos/30)
+* I start a lesson in Readlang and learn new words by clicking/tapping on them.
 
 I do the above a few times. Learning a new word is not a one-time activity;
 I use spaced repetition to review learned words in the future.
