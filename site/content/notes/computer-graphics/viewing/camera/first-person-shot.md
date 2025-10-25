@@ -1,11 +1,11 @@
 ---
-title: "Building a First-Person Shooter Camera in C++"
+title: "Building a First-Person Shot Camera in C++"
 date: 2016-04-29 22:10:40
 summary: |
   A first-person camera captures objects from the viewpoint of a player's character. Some aspects have to be considered, like the characteristics of the camera (orbiting with the mouse and translation with keyboard keys), as well as how we could capture all these characteristics with math and linear algebra.
 
   <br />
-  In this article, I analyze the math needed to design and implement a first-person shooter camera in C++.
+  In this article, I analyze the math needed to design and implement a first-person shot camera in C++.
 image: /images/first-person-pov.jpeg
 tags: ["camera", "first-person", "pov", "euler angles", "linear algebra"]
 libraries: ["math"]
@@ -29,7 +29,7 @@ Assuming that the world space axes are as follows:
 </figure>
 
 
-Let $\mathbf{M}_{upright \leftarrow camera}$ be the rotation matrix that transforms points from *camera space* to *upright space*. Also, let the "look at" vector be defined as $\mathbf{p}_{camera} = \begin{bmatrix} 0 & 0 & -1 \end{bmatrix}^T$ in *camera space*. To define the rotation matrix $\mathbf{M}_{upright \leftarrow camera}$, let's first identify the Euler angles involved in the rotation. Taking the image above as a reference, we can identify the following actions:
+Let $\mathbf{M}\_{upright \leftarrow camera}$ be the rotation matrix that transforms points from *camera space* to *upright space*. Also, let the "look at" vector be defined as $\mathbf{p}_{camera} = \begin{bmatrix} 0 & 0 & -1 \end{bmatrix}^T$ in *camera space*. To define the rotation matrix $\mathbf{M}\_{upright \leftarrow camera}$, let's first identify the Euler angles involved in the rotation. Taking the image above as a reference, we can identify the following actions:
 
 - The character looks left or right - rotation relative to the *upright space* $y$-axis.
 - The character looks up or down - rotation relative to the *upright space* $x$-axis.
@@ -97,7 +97,7 @@ $$</div>
 
 Note that we also need the value of $\beta$ to be inside the range $-\deg{90} \leq \beta \leq \deg{90}$ to avoid looking backward.
 
-Finally, to compute the value of $\mathbf{p}_{world}$, we need to transform $\mathbf{p}_{object}$ with $\mathbf{M}_{world \leftarrow object}$. Note that the value of $\mathbf{p}_{object} = \begin{bmatrix} 0 & 0 & -1 \end{bmatrix}^T$ is always the same. Therefore, the value of $\mathbf{p}_{world}$ is:
+Finally, to compute the value of $\mathbf{p}\_{world}$, we need to transform $\mathbf{p}\_{object}$ with $\mathbf{M}\_{world \leftarrow object}$. Note that the value of $\mathbf{p}\_{object} = \begin{bmatrix} 0 & 0 & -1 \end{bmatrix}^T$ is always the same. Therefore, the value of $\mathbf{p}\_{world}$ is:
 
 <div>$$
 \begin{align*}
