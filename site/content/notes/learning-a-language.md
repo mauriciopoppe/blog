@@ -130,7 +130,7 @@ an structured way.
 
 My intermediate strategy:
 
-* I started speaking as much as possible using Tandem, Preply, 
+* I started speaking as much as possible using Tandem, Preply,
 * I started learning grammar in an structured way.
 
 I use [Preply](https://preply.com/) at least once a week, where I only focus on practicing my speaking skills.
@@ -183,7 +183,7 @@ I use the following tools:
 * [Linguno](https://www.linguno.com/)
   * I use it to practice verb conjugation and refine my French. I wouldn't recommend using it when starting out.
 
-### My learning setup
+### My learning process through podcasts
 
 My current setup involves podcasts, Readlang and Anki:
 
@@ -215,6 +215,71 @@ I use spaced repetition to review learned words in the future.
 Now the words are in my Anki cloud account. On my phone, I open Anki, synchronize the words,
 and have daily sessions where I practice the words I've learned and their meanings with enough
 context to make sense of them.
+
+### Learning grammar with examples
+
+I follow a structured grammar program generated with AI. I asked Gemini with Deep Research
+to figure out a plan to learn grammar for my current level and it created a very detailed
+document with a step by step grammar program.
+
+For any grammar topic that I want to learn in depth I learn by example and with spaced
+repetition. I use the following prompt to generate examples for Anki.
+
+```
+**Subject:** French Grammar Anki Card Generation
+
+**Topics:**
+
+\`\`\`
+\[PASTE YOUR LEARNING TOPICS HERE\]
+\`\`\`
+
+**Task:** Based *only* on the topics provided above, generate a list of examples for each concept and sub-concept.
+
+**Rules for Generation:**
+
+1. **Quantity:** Generate at least **50 examples** for *each* major concept listed.
+2. **Complexity:** The examples must have varied complexity: include simple, intermediate, and very hard sentences.
+3. **Format:** Generate a CSV file with **no header row** and use a **semicolon (;) as the separator**.
+4. **Columns:** The CSV must have exactly three columns: `Text`, `Frequency`, `Context`.
+
+**Column-Specific Instructions:**
+
+**1\. `Text` Column:**
+
+* **Format:** Must use the Anki cloze format: `{{c1::Phrase in French::meaning in English}}`.
+* **Content:** The cloze deletion *must* be a full sentence in French, or at least a complete clause
+  that makes sense on its own.
+* **Conversational Context:** To provide a real-life conversational setting, you must add 1-2 short
+  supporting sentences before and after the main sentence.
+  * **Crucially:** These extra context sentences must be *outside* the `{{c1::...}}` cloze block.
+  * **Example:** `Salut ça va ? {{c1::Je vais bien::I am doing well}}, merci.` (Here, `Salut ça va ?`
+    is the conversational context).
+
+**2\. `Frequency` Column:**
+
+* **Content:** A number between **1** and **100**.
+* **Meaning:** **1** \= this exact phrase is *highly likely* to be used in daily conversation. **100** \=
+  this phrase is grammatically correct but *highly unlikely* to be used (e.g., very formal, obscure, or overly complex).
+
+**3\. `Context` Column:**
+
+* **Content:** A detailed explanation of the grammar rule being demonstrated in the `Text` field.
+* **Clarity:** Explain *why* the specific form was used (e.g., "The adjective 'petite' is used because it must agree
+  in gender (feminine) and number (singular) with the noun 'fille'").
+* **Restriction:** **DO NOT** add *any* sources, pointers to sources, or references to lesson numbers (e.g., "L33").
+  The explanation must stand on its own.
+```
+
+The output looks like this:
+
+```
+Qui es-tu ? {{c1::Je suis::I am}} étudiant à l'université.;1;This uses the present tense conjugation of the irregular verb *Être* (to be) for the first-person singular subject 'je'.
+Tu as l'air fatigué. {{c1::Oui, je suis::Yes, I am}} un peu malade.;1;This uses the present tense conjugation of *Être* for the first-person singular 'je'.
+...
+```
+
+I save the output to a file and import the file to Anki.
 
 ## The Ultimate Immersion: Traveling
 
