@@ -193,8 +193,9 @@ My current setup involves podcasts, Readlang and Anki:
     the audio with a Youtube video](https://forum.readlang.com/t/synchronize-transcriptions-to-youtube-videos/30)
 * I start a lesson in Readlang and learn new words by clicking/tapping on them.
 
-I do the above a few times. Learning a new word is not a one-time activity;
-I use spaced repetition to review learned words in the future.
+### Spaced Repetition
+
+I use spaced repetition to review words and phrases that I just learned or that I want to learn.
 
 * In Readlang, I export new phrases/words that I've learned to an Anki-compatible file.
   * Go to [https://readlang.com/words](https://readlang.com/words), select all words, and export them.
@@ -231,7 +232,7 @@ repetition. I use the following prompt to generate examples for Anki.
 **Topics:**
 
 \`\`\`
-\[PASTE YOUR LEARNING TOPICS HERE\]
+[PASTE YOUR LEARNING TOPICS HERE]
 \`\`\`
 
 **Task:** Based *only* on the topics provided above, generate a list of examples for each concept and sub-concept.
@@ -283,12 +284,11 @@ I save the output to a file and import the file to Anki.
 
 ## The Ultimate Immersion: Traveling
 
-I think I'm at a point where I could travel to France and immerse myself in the culture
+I'm at a point where I could travel to France and immerse myself in the culture
 and the language. Immersion will definitely accelerate my speaking skills.
 
 ## Conclusion
 
-Learning a language by applying the comprehensible input methodology accelerated my progress.
-It's a method that worked for me, and it may or may not work for you.
-
-Regardless of the method chosen, keep in mind that discipline and consistency are key.
+Learning a language by applying the comprehensible input method accelerated my progress.
+None of it would have been possible without putting effort every time that I can.
+Discipline and consistency are the key.
