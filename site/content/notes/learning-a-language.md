@@ -15,12 +15,10 @@ date: 2025-10-13 00:00:00
 
 My goals for learning a language:
 
-* **I want to be fluent in a conversational setting** - I want to speak a language comfortably in a conversational setting;
-  I'm not that interested in learning how to write it perfectly (although it helps).
-* **It's a fun activity to do** - It's a hobby, and I look forward to practicing it, which is important for motivation.
 * **I want to connect with people better** - Whenever I meet new people, I try to guess where they're from.
   If I know a few words of their language, I try to speak them, and I immediately see how they light up [^laoshu].
   I get happier when I make other people happy 🙂.
+* **It's a fun activity to do** - It's a hobby, and I look forward to practicing it, which is important for motivation.
 
 [^laoshu]: [laoshu50500 was a polyglot Youtuber and a language teacher](https://www.youtube.com/@laoshu505000)
 that recorded his interactions with people in lots of languages.
@@ -58,17 +56,19 @@ I decided to learn French because:
   French people are known for their love of food, their good manners, their love for reading
   (9/10 French people read at least one book per year), and how they enjoy their leisure time
   (flânerie is the art of aimlessly strolling through the city streets).
-[^claire]: [Claire Chicha](https://en.wikipedia.org/wiki/Spill_Tab)'s stage name is Spill Tab, she was born in Bangkok and spent
-time growing up in Paris, Los Angeles and Bangkok. She sings in both English and French.
-[^leteindien]: I remember the first time I listened to L'été indien by Joe Dassin, and I was surprised that he is literally just speaking
-the language (without a melody) for most of the song.
+  [^claire]: [Claire Chicha](https://en.wikipedia.org/wiki/Spill_Tab)'s stage name is Spill Tab, she was born in Bangkok and spent
+  time growing up in Paris, Los Angeles and Bangkok. She sings in both English and French.
+  [^leteindien]: I remember the first time I listened to L'été indien by Joe Dassin, and I was surprised that he is literally just speaking
+  the language (without a melody) for most of the song.
 
-During my learning journey, I've developed the following mindset:
+In my journey, I have realized that:
 
 * **I can only learn the language through discipline** - Like learning any other skill, it requires me to be **consistent**. This means practicing whenever
   I have the opportunity. Some days I might not feel like learning it, but I know that just trying for a few minutes will help;
   in other words, even if I don't have the motivation to practice, I do it anyway.
 * **You get as much as you put in** - Regardless of the method I use, I'm not going to learn it if I don't practice it enough.
+* **I want to be fluent in a conversational setting** - I want to speak a language comfortably in a conversational setting;
+  I'm not that interested in learning how to write it perfectly (although it helps).
 * **Having an imperfect accent is okay** - I acknowledge that I have an accent when I speak, and that's okay; my accent is what makes me unique.
   My goal is for the person or people I'm talking to to understand me, and if they can, then that's it.
   Having an accent is not an excuse to stop learning other aspects of the language, though;
