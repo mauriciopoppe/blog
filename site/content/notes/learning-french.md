@@ -1,5 +1,5 @@
 ---
-title: Learning a Language
+title: Learning to speak French
 summary: |
   I've been learning French on my own for almost two years. I'm not fluent yet, but I can
   understand and speak it with relative comfort. In this article, I share my journey of learning
@@ -11,7 +11,7 @@ libraries: ['doodle']
 date: 2025-10-13 00:00:00
 ---
 
-## Goals, picking a language and mindset
+## Why should I learn a new language?
 
 My goals for learning a language:
 
@@ -37,6 +37,8 @@ RIP Moses.
   </div>
 {{< /full-screen-with-background >}}
 <p class="tw-h-2"></p>
+
+## Why French?
 
 I decided to learn French because:
 
