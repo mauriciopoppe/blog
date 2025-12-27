@@ -21,7 +21,7 @@ My goals for learning a language:
 * **It's a fun activity to do** - It's a hobby, and I look forward to practicing it, which is important for motivation.
 
 [^laoshu]: [laoshu50500 was a polyglot Youtuber and a language teacher](https://www.youtube.com/@laoshu505000)
-that recorded his interactions with people in lots of languages.
+who recorded his interactions with people in lots of languages.
 Watch a few videos and you'll see how good it feels to talk with someone else in their native language.
 RIP Moses.
 
@@ -56,7 +56,7 @@ I decided to learn French because:
   French people are known for their love of food, their good manners, their love for reading
   (9/10 French people read at least one book per year), and how they enjoy their leisure time
   (flânerie is the art of aimlessly strolling through the city streets).
-  [^claire]: [Claire Chicha](https://en.wikipedia.org/wiki/Spill_Tab)'s stage name is Spill Tab, she was born in Bangkok and spent
+  [^claire]: [Claire Chicha](https://en.wikipedia.org/wiki/Spill_Tab)'s stage name is Spill Tab. She was born in Bangkok and spent
   time growing up in Paris, Los Angeles and Bangkok. She sings in both English and French.
   [^leteindien]: I remember the first time I listened to L'été indien by Joe Dassin, and I was surprised that he is literally just speaking
   the language (without a melody) for most of the song.
@@ -126,12 +126,12 @@ casual conversation). Then I realized that I no longer needed to think about the
 for a word because it somehow just came to mind after lots of reading/listening.
 
 After I understood a lot of what I read or listened to, I knew it was time to speak and to learn grammar in
-an structured way.
+a structured way.
 
 My intermediate strategy:
 
 * I started speaking as much as possible using Tandem, Preply,
-* I started learning grammar in an structured way.
+* I started learning grammar in a structured way.
 
 I use [Preply](https://preply.com/) at least once a week, where I only focus on practicing my speaking skills.
 I go to a French meetup to practice in person[^1], and
@@ -141,12 +141,12 @@ I practice at work with a Francophone friend during breakfast.
 a lot of what people were saying, but the words didn't come quickly when I tried to speak. However, the more I go, the
 easier it gets to enter a flow state where my mind doesn't think about translating words anymore.
 
-It's very important to learn the grammar for both listening and speaking. For example in French
-I'd always wonder why `y` and `en` meant in some sentences. After watching [this video](https://www.youtube.com/watch?v=OHQPlvD1ypc)
-I learned that it refers to a previous mentioned place.
+It's very important to learn the grammar for both listening and speaking. For example, in French,
+I'd always wonder what `y` and `en` meant in some sentences. After watching [this video](https://www.youtube.com/watch?v=OHQPlvD1ypc)
+I learned that it refers to a previously mentioned place.
 
-It's actually not hard to find an program to learn grammar in an structured way,
-following [Iclal's advice](https://www.youtube.com/watch?v=I_3GvRAZfvQ)
+It's actually not hard to find a program to learn grammar in a structured way,
+following [Iclal's advice](https://www.youtube.com/watch?v=I_3GvRAZfvQ),
 I searched for playlists and found [Learn French with Alexa](https://www.youtube.com/watch?v=hd0_GZHHWeE&list=PLV1-QgpUU7N2TVWS6gEVMqEfAFjAl-DV6)'s
 playlist perfect.
 
