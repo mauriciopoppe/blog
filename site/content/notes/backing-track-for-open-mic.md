@@ -12,12 +12,12 @@ image: /images/music-gear.jpg
 date: 2024-12-01 14:49:00
 ---
 
-I perform in open mics in my spare time. When I decide to perform a cover of
-a song, I usually play the guitar and sing. Therefore, I prepare
-a backing track without the tracks I use as background music during
-the performance.
+I play the guitar and sing in open mics in my spare time. To perform, I usually play with a backing
+track but sometimes it's hard to find a "karaoke" version and even harder to find one with
+all my desired instruments (I'd like to hear everything but the guitar because I'm going to play it!).
 
-I know of a couple of ways to take a song and split it into multiple tracks:
+There are a few ways to create a backing track from a song (maybe there are more but these are
+the ones that I know of):
 
 - With Logic Pro for iPad: Since 2024 it has a way to split
   a song into tracks (bass, drums, other, vocals). This feature is called
@@ -49,11 +49,11 @@ In this article, I show how to use Demucs to split a song into tracks.
 
 The assumption is that you already have Git and Python installed.
 
-I've created a project that has a file with all the dependencies to install. You just need to clone
-the repository and use the `requirements.txt` file to install the dependencies.
+[I've created a project](https://github.com/mauriciopoppe/open-mic) that has a file with all the dependencies to install.
+You just need to clone the repository and use the `requirements.txt` file to install the dependencies.
 
 ```
-git clone https://github.com/mauriciopoppe/open-mic/
+git clone https://github.com/mauriciopoppe/open-mic
 cd open-mic
 python3 -m venv venv
 source venv/bin/activate
@@ -70,7 +70,7 @@ I'll create a backing track with bass, drums, piano, and other instruments for t
 First, let's download the song, assuming that it's on YouTube:
 
 ```
-yt-dlp -x --audio-format mp3 <link-to-song>
+yt-dlp -x --audio-format mp3 <youtube-link-to-song>
 ```
 
 Example:
@@ -148,14 +148,10 @@ Let's compare the original song with two versions of the backing track, one with
   <div>Backing track (bass, drums), no voice or guitar. This is what you'd get using Logic Pro's stem split feature.</div>
   <div><audio controls src="/audio/bass-drums-open-mic.mp3"></audio></div>
 
-  <div>Backing track (bass, drums, other, piano), no voice or guitar.</div>
+  <div>Backing track (bass, drums, other, piano), no voice or guitar created with Demucs.</div>
   <div><audio controls src="/audio/combined-open-mic.mp3"></audio></div>
 </div>
 
-`Demucs` is an amazing tool and so useful for open mics!
-
-<div class="tw-flex tw-flex-row tw-justify-center tw-mb-5">
-  <div class="github-card" data-github="mauriciopoppe/open-mic" data-width="400" data-height="" data-theme="default"></div>
-</div>
-<script src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
+As you can hear, the backing track created with Demucs has lots of details from the original song minus
+the voice or guitar which is exactly what I need. `Demucs` is an amazing tool and so useful for open mics!
 
