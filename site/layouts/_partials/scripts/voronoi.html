@@ -7,7 +7,8 @@
   var targetEl = document.querySelector(target)
   targetEl && window.voronoi.generate({
     target: targetEl,
-    rainbow: true,
+    enableRainbowAnimation: true,
+    enableWaveAnimation: false,
     n: 300
   })
 })()

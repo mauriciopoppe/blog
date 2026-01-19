@@ -18,7 +18,19 @@ function isMobile() {
 }
 
 // called from partials/scripts/voronoi.html
-export function generate({ target, n, rainbow }) {
+export interface VoronoiOptions {
+  target: HTMLElement
+  n: number
+  enableRainbowAnimation: boolean
+  enableWaveAnimation: boolean
+}
+
+export function generate({
+  target,
+  n,
+  enableRainbowAnimation,
+  enableWaveAnimation = false
+}: VoronoiOptions) {
   // canvas setup
   const { width, height } = target.getBoundingClientRect()
   const scale = window.devicePixelRatio
@@ -91,7 +103,7 @@ export function generate({ target, n, rainbow }) {
   const initialColorSeed = Math.random() * 5000
 
   function paint(time: number) {
-    if (rainbow) {
+    if (enableRainbowAnimation) {
       // Run the banner interpolation animation every some milliseconds and not on every frame.
       if (!lastBannerInterpolation || time - lastBannerInterpolation > 50) {
         const k = (Math.cos(initialColorSeed + time / 5000) + 1) / 2
@@ -105,7 +117,7 @@ export function generate({ target, n, rainbow }) {
     context.clearRect(0, 0, width, height)
 
     // spawns a wave from a random corner
-    if (time % 10000 < animationLast % 10000) {
+    if (enableWaveAnimation && time % 10000 < animationLast % 10000) {
       waveAnimation()
     }
 
