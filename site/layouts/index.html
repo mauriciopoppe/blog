@@ -11,7 +11,6 @@
 
 <style>
 h1, a, h1.tw-text-primary, span.tw-text-primary { color: rgb(var(--primary)); }
-a { text-decoration: underline; }
 .material-symbols-outlined { font-size: 1em; vertical-align: middle; }
 </style>
 
@@ -24,8 +23,8 @@ a { text-decoration: underline; }
       {{ partial "profile" . }}
     </div>
 
-    <div class="tw-basis-2/3 tw-grid tw-gap-1 tw-text-xs md:tw-grid-cols-[10em_auto] tw-leading-tight">
-      <h4 class="md:tw-col-span-2 tw-text-2xl tw-mt-1">Favorites</h4>
+    <div class="tw-basis-2/3 tw-grid tw-gap-1 tw-text-xs md:tw-grid-cols-[10em_auto] tw-leading-tight [&>div]:tw-mb-2 md:[&>div]:tw-mb-0">
+      <h2 class="md:tw-col-span-2 tw-text-xs tw-uppercase tw-tracking-widest tw-mb-2 tw-mt-4">Favorites</h2>
       <a href="notes/documenting-my-life">
         <span class="material-symbols-outlined"> edit_note </span>
         Documenting my life
@@ -62,15 +61,15 @@ a { text-decoration: underline; }
         Productivity
       </a>
       <div>
-        Techniques to make better use of my computer time at work and at home.
+        Techniques to make better use of my time in front of a computer at work and at home.
       </div>
       <a href="notes/computer-science/data-structures/graphs/introduction/">
         <span class="material-symbols-outlined"> graph_5 </span>
         Intro to Graph Theory
       </a>
       <div>
-        This note, which shows animated graphs, led me to write <a href="https://mauriciopoppe.github.io/greuler/"
-        target="_blank">greuler</a>, a library for creating graph animations.
+        While learning about graph theory I wanted animations, this article led me to write <a href="https://mauriciopoppe.github.io/greuler/"
+        target="_blank">greuler</a> which is a library for creating graph animations.
       </div>
       <a href="notes/mathematics/calculus/introduction/">
         <span class="material-symbols-outlined"> function </span>
@@ -97,7 +96,7 @@ a { text-decoration: underline; }
         I wrote a test-driven A+ Promise implementation from scratch.
       </div>
 
-      <h4 class="md:tw-col-span-2 tw-text-2xl tw-mt-1">Software</h4>
+      <h2 class="md:tw-col-span-2 tw-text-xs tw-uppercase tw-tracking-widest tw-mb-2 tw-mt-8">Software</h2>
       <a href="https://mauriciopoppe.github.io/function-plot/" target="_blank">
         <span class="material-symbols-outlined"> function </span>
         function plot
@@ -106,7 +105,7 @@ a { text-decoration: underline; }
         A JavaScript library for plotting 2D functions.
       </div>
       <a href="https://mauriciopoppe.github.io/PojoViz/" target="_blank">
-        <span class="material-symbols-outlined"> function </span>
+        <span class="material-symbols-outlined"> data_object </span>
         PojoViz
       </a>
       <div>
