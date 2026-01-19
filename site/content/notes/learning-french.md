@@ -1,19 +1,16 @@
 ---
-title: Learning to speak French
+title: Learning French
 summary: |
   I've been learning French on my own for almost two years. I'm not fluent yet, but I can
   understand and speak it with relative comfort. In this article, I share my journey of learning
   a new language as an adult.
-image: /images/learning-a-language.jpg
 
 tags: ['learning', 'languages', 'french', 'life']
 libraries: ['doodle']
 date: 2025-10-13 00:00:00
 ---
 
-## Why should I learn a new language?
-
-My goals for learning a language:
+## My goals
 
 * **I want to connect with people better** - Whenever I meet new people, I try to guess where they're from.
   If I know a few words of their language, I try to speak them, and I immediately see how they light up [^laoshu].

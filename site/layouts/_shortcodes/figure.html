@@ -5,7 +5,7 @@
         {{ with .Get "id" }}id="{{.}}"{{end}}
 >
     {{ with .Get "link"}}<a href="{{.}}">{{ end }}
-        <img class="lazy-load" data-src="{{ .Get "src" | absURL }}" {{ if (.Get "title") }}alt="{{ with .Get "title"}}{{.}}{{ end }}" {{ end }}{{ with .Get "width" }}width="{{.}}" {{ end }}/>
+        <img class="lazy-load" {{ with .Get "imgStyle" }}style="{{. | safeCSS}}"{{ end }} data-src="{{ .Get "src" | absURL }}" {{ if (.Get "title") }}alt="{{ with .Get "title"}}{{.}}{{ end }}" {{ end }}{{ with .Get "width" }}width="{{.}}" {{ end }}/>
     {{ if .Get "link"}}</a>{{ end }}
     {{ if or (or (.Get "title") (.Get "caption")) (.Get "attr")}}
     <figcaption>{{ if isset .Params "title" }}
