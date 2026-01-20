@@ -37,26 +37,26 @@ RIP Moses.
 
 I decided to learn Japanese because:
 
-* **It makes me appreciate the Japanese culture more** - After traveling to Japan I realized I have a very deep appreciation for Japanese culture.
+* **It makes me appreciate Japanese culture more** - After traveling to Japan, I realized I have a very deep appreciation for its culture.
   I find it interesting that there are many ways of expressing yourself based on how polite you want to be.
 * **It's linguistically challenging to learn** - It's very different from the languages I already know (English, Spanish, French).
   I think it's challenging to learn Japanese words because you have to remember the meaning, the shape, and the sound.
   However, I'm ready for the challenge!
-* **I like to listen to songs in Japanese** - When I used to watch more anime I enjoyed Naruto's openings and endings like
+* **I like to listen to songs in Japanese** - When I used to watch more anime, I enjoyed Naruto's openings and endings, such as
   [Seishun Kyousoukyoku by Sambomaster](https://www.youtube.com/watch?v=lilv4MvBY6E&list=PLTGXZPSNXuQF0TugWpvhWbOAAKmyl4xVQ&index=5) or
   [Harmonia by Rythem](https://www.youtube.com/watch?v=VTIK1gBhzXk).
-  Since then, I started enjoying listening to Japanese pop music
+  Since then, I have started enjoying listening to Japanese pop music
   with artists like [Sheena Ringo](https://www.youtube.com/watch?v=H_nCw1WMFs4) and
   [Hikaru Utada](https://www.youtube.com/watch?v=UPdlfIhzPEo),
   as well as great metal bands like [Baby Metal](https://www.youtube.com/watch?v=MToMx6RCW-M), [Band Maid](https://www.youtube.com/watch?v=RCaeUkrItyY)
   and [Ningen Isu](https://www.youtube.com/watch?v=-CmbsjjMbNQ).
-* **Japanese Content** - There is a vast amount of content available in Japanese that I'm interested in consuming
+* **Japanese Content** - There is a vast amount of content available in Japanese that I'm interested in consuming,
   like [Gaki No Tsukai](https://www.reddit.com/r/GakiNoTsukai). I initially found them through their
   [Silent Library](https://www.reddit.com/r/GakiNoTsukai/wiki/sl)[^silent-library] series and then discovered their
-  No-laughing batsu games, they're so hilarious!
+  "No-laughing" batsu games—they're so hilarious!
 
-[^silent-library]: The Silent Library series is so popular worlwide that many other countries created their own
-version. I remember enjoying the MTV show a lot and at the time I didn't know that it was originally created by them.
+[^silent-library]: The Silent Library series is so popular worldwide that many other countries created their own
+version. I remember enjoying the MTV show a lot; at the time, I didn't know it was originally created by them.
 
 In my journey, I have realized that:
 
@@ -67,14 +67,14 @@ In my journey, I have realized that:
 * **Having an imperfect accent is okay** - I acknowledge that I have an accent when I speak, and that's okay; my accent is what makes me unique.
   My goal is for the person or people I'm talking to to understand me, and if they can, then that's it.
   Having an accent is not an excuse to stop learning other aspects of the language, though;
-  I do put effort into learning new words and memorizing the gender of nouns.
+  I do put effort into learning new words and grammar.
 
 ## Progression
 
 I am applying the concept of **Comprehensible Input** to learning Japanese.
-If you want to know more details about it you can watch [this video](https://www.youtube.com/watch?v=p7WUxvpPIKQ).
+If you want to know more details about it, you can watch [this video](https://www.youtube.com/watch?v=p7WUxvpPIKQ).
 
-Similarly to [my strategy for learning French through Comprehensible Input](../learning-french/#the-power-of-comprehensible-input),
+Similar to [my strategy for learning French through Comprehensible Input](../learning-french/#the-power-of-comprehensible-input),
 I'm consuming Japanese content that I can understand. My favorite platforms are YouTube and Stremio (where I can watch anime).
 
 ### Self Learning Tools
@@ -82,8 +82,8 @@ I'm consuming Japanese content that I can understand. My favorite platforms are 
 * **Understanding Japanese content in videos** - I am using my own Chrome extension called [Subtitle Insights](https://mauriciopoppe.github.io/SubtitleInsights/),
   to get smart AI insights and translations while watching videos. My current setup involves enabling the overlay where I
   attempt to read the sentence (in Kanji and Kana) without the translation enabled (which I disable to force myself to practice reading and
-  recalling content that I learned). If I want a translation of the sentence I can see that in the extension sidebar.
-  If there's a part of the sentence that I don't understand then I read the "insights" which explain parts of the grammar.
+  recalling content that I learned). If I want a translation of the sentence, I can see it in the extension sidebar.
+  If there's a part of the sentence that I don't understand, I read the "insights" which explain parts of the grammar.
   I configured the extension to use this system prompt:
 
 ```
@@ -129,12 +129,12 @@ and 「が」 (ga) marks it as the subject of the verb.
 ```
 
 
-* **Pausing, shadowing and replaying** - When I'm actively learning (i.e. when I'm not consuming content passively) I want to understand
-  most of the details worth understanding in the sentence if not every word. I realized I needed to pause the video at the end to
+* **Pausing, shadowing and replaying** - When I'm actively learning (i.e., when I'm not consuming content passively), I want to understand
+  most of the details worth understanding in the sentence, if not every word. I realized I needed to pause the video at the end to
   attempt to understand words from the subtitle with Yomitan[^yomitan]. I also wanted to shadow the speaker by replaying
-  the current subtitle from where it begins. while Yomitan is giving me per-word explanations, I also wished that I could get deeper insights
-  from a sentence like understanding the grammar, particles and choice of verb endings.
-  [I'm able to do all of these with my extension](https://mauriciopoppe.github.io/SubtitleInsights/guides/youtube.html#intensive-mining-workflow)
+  the current subtitle from where it begins. While Yomitan gives me per-word explanations, I also wished I could get deeper insights
+  into a sentence, such as understanding the grammar, particles, and choice of verb endings.
+  [I'm able to do all of these with my extension](https://mauriciopoppe.github.io/SubtitleInsights/guides/youtube.html#intensive-mining-workflow),
   which is working wonderfully for me.
 
 [^yomitan]: Yomitan is a powerful browser extension that allows you to instantly look up Japanese words and grammar by hovering over text.
@@ -145,14 +145,14 @@ and 「が」 (ga) marks it as the subject of the verb.
   Because Gemini in Chrome has awareness of your current page and context, it can provide highly relevant answers.
   [I wrote more details about this workflow in this guide](https://mauriciopoppe.github.io/SubtitleInsights/guides/gemini-side-panel.html).
 * **Mining Words with Yomitan** - I have configured Yomitan with the Jitendex.org index and the BCCWJ frequency dictionary.
-  As a result, when I hover over a new word I get to see: how it's pronounced in Furigana, its meanings and how often it appears.
-  Knowing how often it appears is the most useful thing because if a word appears often in text then it means that it should be very
-  high in the list of words that I should learn. I wrote more details about how I mine words with Yomitan and my extension in
+  As a result, when I hover over a new word I get to see: how it's pronounced in Furigana, its meanings, and how often it appears.
+  Knowing how often it appears is the most useful thing because if a word appears often in text, it should be very
+  high on the list of words I learn. I wrote more details about how I mine words with Yomitan and my extension in
   [this guide](https://mauriciopoppe.github.io/SubtitleInsights/guides/yomitan-mining.html).
-* **Augmenting content to mined vocabulary** - Japanese words may have Kanji in addition to Kana. To remember the Kanji and Kana I learn mnemonics,
-  I ask Gemini to create a mnemonic focused on the 3 things I'm interested about: meaning, shape and sound.
-  It's much simpler to look at the strokes that make the character and remember a story around it, which eventually
-  tells me the meaning, shape, and sound. This has worked wonderfully for me so far.
+* **Augmenting content to mined vocabulary** - Japanese words may have Kanji in addition to Kana. To remember Kanji and Kana, I use mnemonics.
+  I ask Gemini to create a mnemonic focused on three things: meaning, shape, and sound.
+  It's much simpler to look at the strokes that form the character and remember a story around it, which eventually
+  helps me recall the meaning, shape, and sound. This has worked wonderfully for me so far.
 
   * While I could do that manually through the Gemini UI, [I have a script](https://github.com/mauriciopoppe/anki-decks)
     that scans my list of recently learned words from Anki and augments notes to it.
@@ -209,15 +209,15 @@ they will kick you! (きく).
 ```
 
 * **Reviewing mined vocabulary in Anki** - The 'Forgetting Curve' suggests that without review, you lose 70% of new vocabulary within 24 hours.
-  This is where Anki and its spaced repetition system helps, with Anki I can review a word just before I forget it. Moreover, the
-  word frequency data exported by Yomitan helps sort the list of words that I learn, therefore, I'm sure I'm learning words that really matter
-  in this stage of my learning process and not learning words that I'll rarely use.
+  This is where Anki and its spaced repetition system helps; with Anki, I can review a word just before I forget it. Moreover, the
+  word frequency data exported by Yomitan helps sort the list of words that I learn; therefore, I'm sure I'm learning words that really matter
+  at this stage of my learning process and not learning words that I'll rarely use.
 
 {{< figure src="https://raw.githubusercontent.com/mauriciopoppe/anki-decks/refs/heads/main/resources/kanji-mnemonic-after.png" caption="My Anki template with mnemonics generated by AI" imgStyle="max-height: 400px; width: auto;" >}}
 
 ## Visiting Japan in the future
 
-Another reason why I decided to learn Japanese is that I'm planning to visit Japan again. I enjoyed my stay there so much 
+Another reason why I decided to learn Japanese is that I'm planning to visit Japan again. I enjoyed my stay there so much, 
 and I miss it dearly! I'll leave this image here as motivation, reminding me of how happy I felt experiencing everything 
 firsthand.
 
