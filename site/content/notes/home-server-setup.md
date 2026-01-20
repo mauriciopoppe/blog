@@ -5,24 +5,28 @@ tags: ['ai', 'gemini', 'devops', 'orangepi', 'sshfs', 'productivity', 'self-host
 summary: "How I leveraged Gemini and SSHFS to rapidly architect a secure, observable, and automated home server setup on an Orange Pi 5."
 ---
 
-In this post, I'll walk through the architecture of my home server setup.
-I was able to build a secure environment very fast using Gemini in just a few sessions.
+I'll walk through the architecture of my home server setup which runs on top of an [Orange Pi 5](http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-5.html).
+
+The reason I decided to have a home server is to block ads and malware for all my devices through a [DNS sinkhole](https://en.wikipedia.org/wiki/DNS_sinkhole).
+Since then, I realized how useful a Pi could be with additional programs. There are lots of home server
+programs out these that are good alternatives to paid software! In my case I wanted to strike a balance
+between software that I already pay for and software that I could host on my own.
 
 {{< figure src="/images/home-server-diagram.png" caption="Home Server Architecture" style="background: var(--grey-dark); padding: 1.25em 1.5em; border-radius: 0.375rem;" >}}
 
 ## Assumptions
 
 - SSH access to the home server.
-- Any terminal based AI agent, my choice is gemini-cli.
+- Any terminal based AI agent, my choice is Gemini which I access through gemini-cli.
 
-## The Workflow
+## Development Workflow
 
-While my home server (an [Orange Pi 5](http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-5.html) running [DietPi](https://dietpi.com/)) isn't powerful enough to run gemini-cli locally, it doesn't have to.
-gemini-cli only needs access to a filesystem and permissions to run commands.
+While my home server isn't powerful enough to run Gemini locally, it doesn't have to.
+Gemini only needs access to a filesystem and permissions to run commands.
 
-- **Access to a filesystem** - I mount the Pi's entire filesystem to my MacBook Pro using [SSHFS](https://github.com/libfuse/sshfs). To my Mac (and Gemini), the server's code looks like a local folder.
-  Because Gemini is launched within this mounted codebase, it has a "Senior DevOps" level of understanding of my entire system.
-  It doesn't just suggest snippets, it analyzes my stacks, identifies resource bottlenecks, and generates entire configuration files.
+- **Access to a filesystem** - I mount the Pi's entire filesystem to my MacBook Pro using [SSHFS](https://github.com/libfuse/sshfs).
+  To my Mac (and Gemini), the server's code looks like a local folder.
+  Because Gemini is launched within this mounted codebase, it has a a good level of understanding of my stacks.
 
 ```bash
 # One time mount
@@ -32,10 +36,12 @@ sshfs myuser@myhost:/home/myuser/infrastructure ~/mnt/orangepi
 ```
 
 - **Running commands** - I've taught Gemini that the filesystem it sees is thanks to the mount and
-  I've told it how to run commands directly on the Pi via SSH.
-  It can apply the changes it just wrote, check container logs, and verify that the setup is working as expected.
+  I've told it how to run commands directly on the Pi via SSH therefore if it needs to check something
+  outside the mounted filesystem it can run any SSH command.
 
-This REPL environment allowed me to iterate very fast and bridged the gap between a small SBC and a powerful AI.
+This REPL environment allowed me to iterate very fast in my small SBC.
+
+Of course, a fast workflow is only useful if I can actually access the server safely when I'm away from my desk.
 
 ## Secure Remote Access: Tailscale
 
@@ -47,26 +53,35 @@ my iPhone or MacBook anywhere in the world as if I were sitting in my living roo
 
 The best part of tailscale is that I don't get to see ads in my devices even when I'm not at home!
 
+However, having this level of convenient access made me think harder about what would happen if one of those exposed services was actually compromised.
+
 ## Zero Trust
 
-My security philosophy starts with a pessimistic assumption: **any container running on my server is potentially vulnerable to an attack I'm not yet aware of.** Therefore, I operate under the assumption that a container *will* be compromised at some point.
+Before getting an Orange Pi I had lots questions about having a device in my home network that's always connected to the internet and
+possibly running programs that could be compromised. I have this mindset about security in containers: **any container running on my
+server is potentially vulnerable to an attack I'm not yet aware of.** Therefore, I setup the stacks under the assumption that
+a container *will* be compromised at some point with something outside my control.
 
 To mitigate the blast radius of such an event, I implement a "Zero Trust" policy at multiple levels:
 
-1.  **Network Isolation**: I never run containers in `host` network mode unless absolutely necessary (and it rarely is). Each stack runs in its own isolated bridge network, preventing a compromised container from sniffing traffic on the host interface.
-2.  **Resource Quotas**: To prevent a compromised or malfunctioning container from crashing the entire system (a Denial of Service attack), every single service has strict `cpus` and `memory` limits defined in its Docker Compose file.
-3.  **One-Way Access**: While my trusted devices (laptop, phone) can access the Pi via SSH or HTTPS, the Pi—and specifically the containers running on it—are restricted from initiating connections to other sensitive devices on my local network. This containment ensures that even if a container is breached, it cannot be used as a pivot point to attack my personal workstation.
-4.  **Pinned Image Versions**: I never use the `:latest` tag for container images. Using `latest` makes the system susceptible to supply chain attacks, as a simple `docker compose pull` could replace a trusted image with a compromised one. Every image is pinned to a specific version tag or digest.
+*   **Network Isolation**: I never run containers in `host` network mode unless absolutely needed. Each stack runs in its own isolated bridge network, which prevents a compromised container from sniffing traffic on the host interface.
+*   **Strict Resource Quotas**: To prevent a compromised container from crashing the entire system (a Denial of Service attack), every single service has `cpus` and `memory` limits defined. If a process goes rogue, it only kills itself, not the Pi.
+*   **One-Way Access**: While my trusted devices (laptop, phone) can access the Pi via SSH or HTTPS, the Pi is strictly forbidden from initiating connections to other devices on my local network. This containment ensures that a breach on the Pi doesn't become a pivot point to attack my workstation.
+*   **Pinned Image Versions**: I never use the `:latest` tag for container images. Using `latest` is asking for a supply chain attack during a routine update. Every image is pinned to a specific version or digest that I've verified.
 
-## Docker Compose Stacks
+These principles of isolation and quota management are what dictated how I eventually organized my services.
+
+## Stacks
 
 I've organized the system into independent Docker Compose stacks. This separation of concerns makes updates and troubleshooting much easier.
+Also since Gemini is aware of the setup, it's super simple to make refactors in the codebase. For example my gateway and media
+server were in the same docker-compose file. It took a single prompt to make the refactor and have them on separate stacks.
+
+Here is a breakdown of the core stacks currently running:
 
 ### Security & DNS: AdGuard Home
 
-I dislike how obstrusive ads are. While Chrome Extensions could block ads when I'm on my laptop I can't install the same extension in my phone.
-
-The reason I decided to have a home server in the first place is to block ads and malware for all my devices through a [DNS sinkhole](https://en.wikipedia.org/wiki/DNS_sinkhole).
+I dislike how obstrusive ads are. While Chrome Extensions could block ads when I'm on my laptop I can't install them on my phone.
 
 [AdGuard Home](https://adguard.com/en/adguard-home/overview.html) handles DNS for my entire network, blocking trackers and malware at the source. It's wonderful not
 having to see ads in my phone whenever I read news articles.
@@ -96,21 +111,20 @@ Whenever I need to make an analysis of my financials, I give the spreadsheet to 
 
 ### Observability: Prometheus & Grafana
 
-You can't manage what you don't measure. My observability stack includes [Prometheus](https://prometheus.io/) for metric collection and [Grafana](https://grafana.com/) for visualization,
+My observability stack includes [Prometheus](https://prometheus.io/) for metric collection and [Grafana](https://grafana.com/) for visualization,
 with [cAdvisor](https://github.com/google/cadvisor) and [Node Exporter](https://github.com/prometheus/node_exporter) tracking performance at both the container and host levels.
-Every service has **Docker Resource Limits** (CPU/Memory) defined to ensure no single container can starve the system.
+Every service has resource limits on CPU and memory to ensure no single container can starve the system.
 
-### Backups
+Monitoring gives me a great view of the current health of the Pi, but it can't save me from a total hardware failure or a catastrophic mistake. That's where the backups come in.
 
-Backups are handled by [Restic](https://restic.net/) and [Rclone](https://rclone.org/) storing data in my Google Drive
+## Backups
 
-*  **Isolation**: The Pi uses a "Sandboxed" Google OAuth client. It can only see the specific folder it creates for backups—it has zero access to my personal Google Drive files.
-*  **Automation**: A weekly cron job handles the backup and prunes old snapshots.
+A home server without a backup is just a temporary hobby. I use [Restic](https://restic.net/) and [Rclone](https://rclone.org/) to push encrypted snapshots to my Google Drive.
+
+The entire process is automated through a bash script and scheduled weekly via crontab. I use a "Sandboxed" Google OAuth client, so the Pi can only see its own backup folder and nothing else. Knowing that I can restore the whole setup from a fresh SD card in minutes gives me the peace of mind to experiment without fear of losing data.
 
 ## Key Takeaways
 
-* **AI is a Force Multiplier**: Gemini turned a complex DevOps setup into a series of fast iterations.
-* **Monitor the stacks**: Since I'm running on an SD card, I watch CPU IOWait in Grafana as a leading indicator of hardware failure.
-* **Isolate your backups**: Don't give your server full access to your cloud storage.
+Mounting the Pi's filesystem through SSHFS and letting Gemini know the environment where it's running in helped me
+iterate fast in the setup. In the ocassions I had issues, Gemini was able to realize the problem and the solutions.
 
-By combining the affordability of an Orange Pi 5 with the intelligence of Gemini via SSHFS, I've built a home server that just works—and I did it in record time.

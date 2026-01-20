@@ -77,14 +77,13 @@ If you want to know more details about it, you can watch [this video](https://ww
 Similar to [my strategy for learning French through Comprehensible Input](../learning-french/#the-power-of-comprehensible-input),
 I'm consuming Japanese content that I can understand. My favorite platforms are YouTube and Stremio (where I can watch anime).
 
-### Self Learning Tools
-
-* **Understanding Japanese content in videos** - I am using my own Chrome extension called [Subtitle Insights](https://mauriciopoppe.github.io/SubtitleInsights/),
-  to get smart AI insights and translations while watching videos. My current setup involves enabling the overlay where I
-  attempt to read the sentence (in Kanji and Kana) without the translation enabled (which I disable to force myself to practice reading and
-  recalling content that I learned). If I want a translation of the sentence, I can see it in the extension sidebar.
-  If there's a part of the sentence that I don't understand, I read the "insights" which explain parts of the grammar.
-  I configured the extension to use this system prompt:
+### Understanding Japanese content in videos
+I am using my own Chrome extension called [Subtitle Insights](https://mauriciopoppe.github.io/SubtitleInsights/),
+to get smart AI insights and translations while watching videos. My current setup involves enabling the overlay where I
+attempt to read the sentence (in Kanji and Kana) without the translation enabled (which I disable to force myself to practice reading and
+recalling content that I learned). If I want a translation of the sentence, I can see it in the extension sidebar.
+If there's a part of the sentence that I don't understand, I read the "insights" which explain parts of the grammar.
+I configured the extension to use this system prompt:
 
 ```
 Role: Japanese Grammar Instructor for English speakers.
@@ -129,30 +128,36 @@ and 「が」 (ga) marks it as the subject of the verb.
 ```
 
 
-* **Pausing, shadowing and replaying** - When I'm actively learning (i.e., when I'm not consuming content passively), I want to understand
-  most of the details worth understanding in the sentence, if not every word. I realized I needed to pause the video at the end to
-  attempt to understand words from the subtitle with Yomitan[^yomitan]. I also wanted to shadow the speaker by replaying
-  the current subtitle from where it begins. While Yomitan gives me per-word explanations, I also wished I could get deeper insights
-  into a sentence, such as understanding the grammar, particles, and choice of verb endings.
-  [I'm able to do all of these with my extension](https://mauriciopoppe.github.io/SubtitleInsights/guides/youtube.html#intensive-mining-workflow),
-  which is working wonderfully for me.
+### Pausing, shadowing and replaying
+When I'm actively learning (i.e., when I'm not consuming content passively), I want to understand
+most of the details worth understanding in the sentence, if not every word. I realized I needed to pause the video at the end to
+attempt to understand words from the subtitle with Yomitan[^yomitan]. I also wanted to shadow the speaker by replaying
+the current subtitle from where it begins. While Yomitan gives me per-word explanations, I also wished I could get deeper insights
+into a sentence, such as understanding the grammar, particles, and choice of verb endings.
+[I'm able to do all of these with my extension](https://mauriciopoppe.github.io/SubtitleInsights/guides/youtube.html#intensive-mining-workflow),
+which is working wonderfully for me.
 
 [^yomitan]: Yomitan is a powerful browser extension that allows you to instantly look up Japanese words and grammar by hovering over text.
 
-* **Deep grammar explanations** - Japanese has multiple ways to express causality (like `から - kara` vs `ので - node`),
-  and choosing the right one depends on politeness and sentence structure. While watching a video, I press `Command+Ctrl+g`
-  (the default shortcut to trigger Gemini in Chrome) and ask Gemini to explain the specific nuances.
-  Because Gemini in Chrome has awareness of your current page and context, it can provide highly relevant answers.
-  [I wrote more details about this workflow in this guide](https://mauriciopoppe.github.io/SubtitleInsights/guides/gemini-side-panel.html).
-* **Mining Words with Yomitan** - I have configured Yomitan with the Jitendex.org index and the BCCWJ frequency dictionary.
-  As a result, when I hover over a new word I get to see: how it's pronounced in Furigana, its meanings, and how often it appears.
-  Knowing how often it appears is the most useful thing because if a word appears often in text, it should be very
-  high on the list of words I learn. I wrote more details about how I mine words with Yomitan and my extension in
-  [this guide](https://mauriciopoppe.github.io/SubtitleInsights/guides/yomitan-mining.html).
-* **Augmenting content to mined vocabulary** - Japanese words may have Kanji in addition to Kana. To remember Kanji and Kana, I use mnemonics.
-  I ask Gemini to create a mnemonic focused on three things: meaning, shape, and sound.
-  It's much simpler to look at the strokes that form the character and remember a story around it, which eventually
-  helps me recall the meaning, shape, and sound. This has worked wonderfully for me so far.
+### Deep grammar explanations
+Japanese has multiple ways to express causality (like `から - kara` vs `ので - node`),
+and choosing the right one depends on politeness and sentence structure. While watching a video, I press `Command+Ctrl+g`
+(the default shortcut to trigger Gemini in Chrome) and ask Gemini to explain the specific nuances.
+Because Gemini in Chrome has awareness of your current page and context, it can provide highly relevant answers.
+[I wrote more details about this workflow in this guide](https://mauriciopoppe.github.io/SubtitleInsights/guides/gemini-side-panel.html).
+
+### Mining Words with Yomitan
+I have configured Yomitan with the Jitendex.org index and the BCCWJ frequency dictionary.
+As a result, when I hover over a new word I get to see: how it's pronounced in Furigana, its meanings, and how often it appears.
+Knowing how often it appears is the most useful thing because if a word appears often in text, it should be very
+high on the list of words I learn. I wrote more details about how I mine words with Yomitan and my extension in
+[this guide](https://mauriciopoppe.github.io/SubtitleInsights/guides/yomitan-mining.html).
+
+### Augmenting content to mined vocabulary
+Japanese words may have Kanji in addition to Kana. To remember Kanji and Kana, I use mnemonics.
+I ask Gemini to create a mnemonic focused on three things: meaning, shape, and sound.
+It's much simpler to look at the strokes that form the character and remember a story around it, which eventually
+helps me recall the meaning, shape, and sound. This has worked wonderfully for me so far.
 
   * While I could do that manually through the Gemini UI, [I have a script](https://github.com/mauriciopoppe/anki-decks)
     that scans my list of recently learned words from Anki and augments notes to it.
@@ -208,18 +213,18 @@ Sound: Watch out! If the guards catch you spying at the gate,
 they will kick you! (きく).
 ```
 
-* **Reviewing mined vocabulary in Anki** - The 'Forgetting Curve' suggests that without review, you lose 70% of new vocabulary within 24 hours.
-  This is where Anki and its spaced repetition system helps; with Anki, I can review a word just before I forget it. Moreover, the
-  word frequency data exported by Yomitan helps sort the list of words that I learn; therefore, I'm sure I'm learning words that really matter
-  at this stage of my learning process and not learning words that I'll rarely use.
+### Reviewing mined vocabulary in Anki
+The 'Forgetting Curve' suggests that without review, you lose 70% of new vocabulary within 24 hours.
+This is where Anki and its spaced repetition system helps; with Anki, I can review a word just before I forget it. Moreover, the
+word frequency data exported by Yomitan helps sort the list of words that I learn; therefore, I'm sure I'm learning words that really matter
+at this stage of my learning process and not learning words that I'll rarely use.
 
 {{< figure src="https://raw.githubusercontent.com/mauriciopoppe/anki-decks/refs/heads/main/resources/kanji-mnemonic-after.png" caption="My Anki template with mnemonics generated by AI" imgStyle="max-height: 400px; width: auto;" >}}
 
 ## Visiting Japan in the future
 
-Another reason why I decided to learn Japanese is that I'm planning to visit Japan again. I enjoyed my stay there so much, 
-and I miss it dearly! I'll leave this image here as motivation, reminding me of how happy I felt experiencing everything 
-firsthand.
+Another reason why I decided to learn Japanese is that I'm planning to visit Japan again. I enjoyed my stay there so much,
+and I miss it dearly! I'll leave this image here as motivation, reminding me of how happy I felt while staying there.
 
 {{< figure src="/images/japan-2025.jpg" caption="Me enjoying Japan" imgStyle="max-height: 800px; width: auto;" >}}
 
