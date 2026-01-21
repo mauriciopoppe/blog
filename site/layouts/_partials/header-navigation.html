@@ -8,27 +8,25 @@ Used in:
 <div class="tw-container tw-mx-auto">
   <div class="md:tw-w-3/5 tw-mx-auto tw-flex tw-items-center tw-justify-between tw-gap-4 tw-mb-8">
     <div class="tw-flex tw-flex-1">
-      {{ if not .IsHome }}
-      <a href="/" class="tw-flex tw-items-center tw-justify-center tw-h-10 tw-w-10 tw-rounded-full tw-bg-[var(--grey-dark)] tw-shadow-md tw-ring-1 tw-ring-zinc-900/5 light:tw-ring-zinc-900/5 dark:tw-ring-white/10 hover:tw-ring-primary dark:hover:tw-ring-primary tw-transition">
+      <a href="/" class="tw-flex tw-items-center tw-justify-center tw-h-10 tw-w-10 tw-rounded-full tw-bg-[var(--grey-dark)] tw-shadow-md tw-ring-1 tw-ring-zinc-900/5 light:tw-ring-zinc-900/5 dark:tw-ring-white/10 hover:tw-ring-primary tw-transition">
          <span class="material-symbols-outlined tw-text-zinc-800 dark:tw-text-zinc-200 light:tw-text-zinc-800"> home </span>
       </a>
-      {{ end }}
     </div>
 
     <nav class="tw-pointer-events-auto tw-hidden md:tw-block">
       <ul class="tw-flex tw-rounded-full tw-bg-[var(--grey-dark)] tw-px-3 tw-text-sm tw-font-medium tw-text-zinc-800 dark:tw-text-zinc-200 tw-shadow-lg tw-ring-1 tw-ring-zinc-900/5 light:tw-ring-zinc-900/5 dark:tw-ring-white/10">
-        <li><a class="tw-relative tw-block tw-px-3 tw-py-2 tw-transition hover:tw-text-primary light:hover:tw-text-primary {{ if (hasPrefix .RelPermalink "/notes/") }}tw-text-primary{{ end }}" href="/notes/">Notes</a></li>
-        <li><a class="tw-relative tw-block tw-px-3 tw-py-2 tw-transition hover:tw-text-primary dark:hover:tw-text-primary" href="/#software">Projects</a></li>
-        <li><a class="tw-relative tw-block tw-px-3 tw-py-2 tw-transition hover:tw-text-primary dark:hover:tw-text-primary {{ if (hasPrefix .RelPermalink "/talks/") }}tw-text-primary{{ end }}" href="/talks/">Speaking</a></li>
+        <li><a class="tw-relative tw-block tw-px-3 tw-py-2 tw-transition {{ if (hasPrefix .RelPermalink "/notes/") }}tw-text-primary{{ end }}" href="/notes/">Notes</a></li>
+        <li><a class="tw-relative tw-block tw-px-3 tw-py-2 tw-transition  href="/#software">Projects</a></li>
+        <li><a class="tw-relative tw-block tw-px-3 tw-py-2 tw-transition {{ if (hasPrefix .RelPermalink "/talks/") }}tw-text-primary{{ end }}" href="/talks/">Speaking</a></li>
       </ul>
     </nav>
 
     <div class="tw-flex tw-flex-1 tw-justify-end">
       <div class="tw-pointer-events-auto">
-        <button class="theme-toggle tw-flex tw-h-10 tw-w-10 tw-items-center tw-justify-center tw-rounded-full tw-bg-[var(--grey-dark)] tw-shadow-md tw-ring-1 tw-ring-zinc-900/5 light:tw-ring-zinc-900/5 dark:tw-ring-white/10 hover:tw-ring-primary dark:hover:tw-ring-primary tw-transition tw-hidden light:tw-flex" data-nexttheme="dark">
+        <button class="theme-toggle tw-flex tw-h-10 tw-w-10 tw-items-center tw-justify-center tw-rounded-full tw-bg-[var(--grey-dark)] tw-shadow-md tw-ring-1 tw-ring-zinc-900/5 light:tw-ring-zinc-900/5 dark:tw-ring-white/10 tw-transition tw-hidden light:tw-flex" data-nexttheme="dark">
           <span class="material-symbols-outlined tw-text-zinc-800"> dark_mode </span>
         </button>
-        <button class="theme-toggle tw-flex tw-h-10 tw-w-10 tw-items-center tw-justify-center tw-rounded-full tw-bg-[var(--grey-dark)] tw-shadow-md tw-ring-1 tw-ring-zinc-900/5 light:tw-ring-zinc-900/5 dark:tw-ring-white/10 hover:tw-ring-primary dark:hover:tw-ring-primary tw-transition light:tw-hidden" data-nexttheme="light">
+        <button class="theme-toggle tw-flex tw-h-10 tw-w-10 tw-items-center tw-justify-center tw-rounded-full tw-bg-[var(--grey-dark)] tw-shadow-md tw-ring-1 tw-ring-zinc-900/5 light:tw-ring-zinc-900/5 dark:tw-ring-white/10 tw-transition light:tw-hidden" data-nexttheme="light">
           <span class="material-symbols-outlined tw-text-zinc-200"> light_mode </span>
         </button>
       </div>
