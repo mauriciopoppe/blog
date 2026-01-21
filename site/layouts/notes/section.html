@@ -12,18 +12,27 @@
 {{ end }}
 
 {{ define "header" }}
-<header class="tw-container tw-mx-auto tw-p-4">
+<header class="tw-container tw-mx-auto tw-p-3">
   {{ partial "header-navigation.html" . }}
+
+  <div class="tw-group/note-preview">
+    <h2 class="tw-group/title md:tw-w-4/5 tw-mx-auto tw-text-center tw-text-4xl md:tw-text-6xl tw-m-5 tw-font-[Ultra] tw-text-primary">
+      {{ .Title }}
+    </h2>
+
+    <div class="md:tw-w-3/5 tw-mx-auto tw-text-center tw-flex tw-flex-col tw-gap-5">
+      <div>
+        There's a total of {{ len .Data.Pages }} notes.
+      </div>
+    </div>
+
+    <hr class="md:tw-w-3/5 tw-mx-auto tw-mt-5" />
+  </div>
 </header>
 {{ end }}
 
 {{ define "main" }}
 <main class="tw-container tw-mx-auto tw-px-4">
-  <h1 class="tw-text-5xl">{{ .Title }}</h1>
-  <p class="block">There's a total of {{ len .Data.Pages }} notes.</p>
-  <br />
-  <hr />
-  <br />
   <style>.group\/note-preview h2 { font-size: 2rem; }</style>
   <div class="md:tw-w-3/5 tw-mx-auto">
     {{ range .Pages }}
@@ -38,4 +47,3 @@
 {{ define "footer" }}
   {{ partial "single-footer.html" . }}
 {{ end }}
-
