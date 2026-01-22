@@ -64,18 +64,17 @@ a container *will* be compromised at some point with something outside my contro
 
 To mitigate the blast radius of such an event, I implement a "Zero Trust" policy at multiple levels:
 
-*   **Network Isolation**: I never run containers in `host` network mode unless absolutely needed. Each stack runs in its own isolated bridge network, which prevents a compromised container from sniffing traffic on the host interface.
-*   **Strict Resource Quotas**: To prevent a compromised container from crashing the entire system (a Denial of Service attack), every single service has `cpus` and `memory` limits defined. If a process goes rogue, it only kills itself, not the Pi.
-*   **One-Way Access**: While my trusted devices (laptop, phone) can access the Pi via SSH or HTTPS, the Pi is strictly forbidden from initiating connections to other devices on my local network. This containment ensures that a breach on the Pi doesn't become a pivot point to attack my workstation.
-*   **Pinned Image Versions**: I never use the `:latest` tag for container images. Using `latest` is asking for a supply chain attack during a routine update. Every image is pinned to a specific version or digest that I've verified.
-
-These principles of isolation and quota management are what dictated how I eventually organized my services.
+* I never run containers in `host` network mode unless absolutely needed. Each stack runs in its own isolated bridge network, which prevents a compromised container from sniffing traffic on the host interface.
+* To prevent a compromised container from crashing the entire system (a Denial of Service attack), every single service has `cpus` and `memory` limits defined. If a container is compromised, it only kills itself but not the Pi.
+* While my trusted devices (laptop, phone) can access the Pi via SSH or HTTPS, the Pi can't initiate connections to other devices on my local network. This containment ensures that a breach on the Pi doesn't become a pivot point to attack my other devices.
+* I never use the `:latest` tag for container images because using `latest` is asking for a supply chain attack during a routine update. Instead, I pin every image to a specific version or digest that I've verified.
 
 ## Stacks
 
 I've organized the system into independent Docker Compose stacks. This separation of concerns makes updates and troubleshooting much easier.
-Also since Gemini is aware of the setup, it's super simple to make refactors in the codebase. For example my gateway and media
-server were in the same docker-compose file. It took a single prompt to make the refactor and have them on separate stacks.
+Also, since Gemini is aware of the setup, it's super simple to make refactors in the codebase. For example, initially my gateway and media
+server were in the same `docker-compose.yaml` file, the refactor to multiple files including verification that the services were
+up and running like before took a single prompt.
 
 Here is a breakdown of the core stacks currently running:
 
@@ -108,6 +107,11 @@ Then in the n8n UI I configured a workflow to write the data to Google Sheets.
 This workflow runs regularly portfolio adjustment preferences.
 
 Whenever I need to make an analysis of my financials, I give the spreadsheet to Gemini and ask it to draw conclusions based on my goals.
+
+### Media Server: AIOStream
+
+My favorite streaming platform is Stremio because it can play many video formats on the web through a streaming server.
+I use it to play my favorite anime and to learn Japanese with my chrom extension [Subtitle Insights](https://mauriciopoppe.github.io/SubtitleInsights).
 
 ### Observability: Prometheus & Grafana
 
