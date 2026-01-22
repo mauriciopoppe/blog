@@ -41,19 +41,17 @@ sshfs myuser@myhost:/home/myuser/infrastructure ~/mnt/orangepi
 
 This REPL environment allowed me to iterate very fast in my small SBC.
 
-Of course, a fast workflow is only useful if I can actually access the server safely when I'm away from my desk.
-
 ## Secure Remote Access: Tailscale
 
-The server is never exposed to the internet via port forwarding.
+I use [Tailscale](https://tailscale.com/) which is installed across all my devices.
+The primary motivator was that the DNS sinkhole would be useful when I'm away from home.
+Inside the tailnet, AdguardHome acts as the DNS and is configured to filter most
+of the annoying ads and malware traffic which means that I don't get to see ads
+across my devices even when I'm not at home[^net-perf]!
 
-Instead, I use [Tailscale](https://tailscale.com/) which is installed across all my devices.
-This allows me to SSH into the Pi or access the Grafana dashboard from
-my iPhone or MacBook anywhere in the world as if I were sitting in my living room.
-
-The best part of tailscale is that I don't get to see ads in my devices even when I'm not at home!
-
-However, having this level of convenient access made me think harder about what would happen if one of those exposed services was actually compromised.
+[^net-perf]: The tradeoff is increased latency because every DNS request is resolved only in my home server.
+That means that if I'm very far away from home that I'd need to wait a lot! For now, I only enable it
+when I'm away from home but I haven't tried it out outside my city yet.
 
 ## Zero Trust
 
@@ -129,6 +127,10 @@ The entire process is automated through a bash script and scheduled weekly via c
 
 ## Key Takeaways
 
-Mounting the Pi's filesystem through SSHFS and letting Gemini know the environment where it's running in helped me
-iterate fast in the setup. In the ocassions I had issues, Gemini was able to realize the problem and the solutions.
+About the setup, mounting the Pi's filesystem through SSHFS and letting Gemini know the environment
+where it's running in helped me iterate very fast. While I'm happy with the current components
+of the stack the home server is like [.dotfiles](https://github.com/mauriciopoppe/dotfiles), always a work in progress.
+
+It's great the Gemini knows how to operate in the codebase because it means that I could
+focus on some other things and free up deep knowledge I'd have needed of this stack.
 
