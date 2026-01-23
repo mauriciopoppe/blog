@@ -125,9 +125,6 @@ the open mic events. I also started a YouTube channel where I upload my covers.
 - From June to Nov, I kept on going to [KS Bachata Sensual NYC](https://www.instagram.com/bachatasensual_official/)
   classes on weekdays. I didn't go to socials on Saturdays as often, which is not good!
 - I did my first bachata cover and uploaded it to YouTube. I made a cover of [Solo Conmigo by Romeo Santos](https://www.youtube.com/watch?v=XEUCbvCEjc8).
-
-<iframe class="tw-mx-auto tw-aspect-video md:tw-w-full" src="https://www.youtube.com/embed/Aify7OfmyRw?si=9NDronOOruKW3Qr_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
 - I performed at NY Guitar School with a cover of [Todavia me Amas by Aventura](https://www.youtube.com/watch?v=kADoBrj4934).
 
 <iframe class="tw-mx-auto tw-aspect-video md:tw-w-full" src="https://www.youtube.com/embed/a61hvCOAnCc?si=1b2xZohL_vGAmc2f" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
