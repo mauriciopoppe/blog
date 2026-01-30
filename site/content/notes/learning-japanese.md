@@ -50,23 +50,23 @@ I decided to learn Japanese because:
   [Hikaru Utada](https://www.youtube.com/watch?v=UPdlfIhzPEo),
   as well as great metal bands like [Baby Metal](https://www.youtube.com/watch?v=MToMx6RCW-M), [Band Maid](https://www.youtube.com/watch?v=RCaeUkrItyY)
   and [Ningen Isu](https://www.youtube.com/watch?v=-CmbsjjMbNQ).
-* **Japanese Content** - There is a vast amount of content available in Japanese that I'm interested in consuming,
-  like [Gaki No Tsukai](https://www.reddit.com/r/GakiNoTsukai). I initially found them through their
+* **Japanese Content** - There is a vast amount of content available in Japanese that I'm interested in watching like
+  [Gaki No Tsukai](https://www.reddit.com/r/GakiNoTsukai). I found them through their
   [Silent Library](https://www.reddit.com/r/GakiNoTsukai/wiki/sl)[^silent-library] series and then discovered their
-  "No-laughing" batsu games—they're so hilarious!
+  "No-laughing" batsu games, they're so hilarious!
 
 [^silent-library]: The Silent Library series is so popular worldwide that many other countries created their own
-version. I remember enjoying the MTV show a lot; at the time, I didn't know it was originally created by them.
+version. I used to watch the show on MTV but at the time I didn't know it was originally created by them.
 
 In my journey, I have realized that:
 
 * **I can only learn the language through discipline** - Like learning any other skill, it requires me to be **consistent**. This means practicing whenever
-  I have the opportunity. Some days I might not feel like learning it, but I know that just trying for a few minutes will help;
-  in other words, even if I don't have the motivation to practice, I do it anyway.
+  I have the opportunity. Some days I might not feel like learning it, but I know that just trying for a few minutes will help.
+  In other words, even if I don't have the motivation to practice, I do it anyway.
 * **You get as much as you put in** - Regardless of the method I use, I'm not going to learn it if I don't practice it enough.
-* **Having an imperfect accent is okay** - I acknowledge that I have an accent when I speak, and that's okay; my accent is what makes me unique.
+* **Having an imperfect accent is okay** - I acknowledge that I have an accent when I speak and that's okay. My accent is what makes me unique.
   My goal is for the person or people I'm talking to to understand me, and if they can, then that's it.
-  Having an accent is not an excuse to stop learning other aspects of the language, though;
+  Having an accent is not an excuse to stop learning other aspects of the language, though.
   I do put effort into learning new words and grammar.
 
 ## Progression
@@ -149,8 +149,8 @@ Because Gemini in Chrome has awareness of your current page and context, it can 
 ### Mining Words with Yomitan
 I have configured Yomitan with the Jitendex.org index and the BCCWJ frequency dictionary.
 As a result, when I hover over a new word I get to see: how it's pronounced in Furigana, its meanings, and how often it appears.
-Knowing how often it appears is the most useful thing because if a word appears often in text, it should be very
-high on the list of words I learn. I wrote more details about how I mine words with Yomitan and my extension in
+Knowing how often it appears is very useful because if a word appears often in text it should be very
+high on the list of words I learn first. I wrote more details about how I mine words with Yomitan and my extension in
 [this guide](https://mauriciopoppe.github.io/SubtitleInsights/guides/yomitan-mining.html).
 
 ### Augmenting content to mined vocabulary
