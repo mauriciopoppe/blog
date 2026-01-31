@@ -1,8 +1,8 @@
 ---
-title: "Building a Robust Home Server with Orange Pi 5 and Gemini"
+title: "Building a Home Server with Orange Pi 5 and Gemini"
 date: 2026-01-19 19:00:00
 tags: ['ai', 'gemini', 'devops', 'orangepi', 'sshfs', 'productivity', 'self-hosted']
-summary: "How I leveraged Gemini and SSHFS to rapidly architect a secure, observable, and automated home server setup on an Orange Pi 5."
+summary: "I leveraged Gemini and SSHFS to rapidly bootstrap a secure home server on an Orange Pi 5."
 ---
 
 I'll walk through the architecture of my home server setup which runs on top of an [Orange Pi 5](http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-5.html).

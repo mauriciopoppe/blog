@@ -51,14 +51,15 @@ each one serves a different purpose and allows me to "romanticize" my adventures
 
 ### Writing about my day
 
-Writing is a way to clear up my thoughts. I don't aim for perfection. Some nights the words flow continuously,
-others, they are just a few sparse sentences captured before I get sleepy. Over time, I learned new concepts
-such as the effect of being grateful for the things I have and the feeling I get when I do something good
-for someone which can be as simple as keeping the door open or saying hi to a neighbor with a smile.
+Writing is a way to clear up my thoughts. I don't aim for perfection but I reserve some minutes to get it done.
+Some nights the words just flow, but some other nights I just write a simple sentence. It's alright.
 
-There is a profound sense of time traveling and seeing your past self. Some days I find myself scrolling back through months of entries.
+Somedays I find myself in the mood of reading the letters from my previous me.
+There is a profound sense of time traveling and seeing my past self.
 It's like watching a time-lapse of my own growth, how I navigated anxieties and celebrated small wins,
-and slowly evolved into the person I am today. It reminds me that even the "ordinary" days are building something significant.
+and slowly evolved into the person I am today.
+
+This "diary" reminds me that even the "ordinary" days are building something significant.
 
 ### Writing about my dreams
 
@@ -121,5 +122,5 @@ I wonder what other things I have forgotten that were very fun to do.
 
 Every 4 months, I write a small essay about my life for that 4-month period.
 Every year on my birthday, I write a longer essay about my life during the past year.
-I capture highlights about the things that I did and the progress on the objectives I set for myself
-in a previous essay. Writing these thoughts is a great way to reflect on my life.
+I capture highlights about the things that I did and the progress on the objectives I set for myself.
+Writing these thoughts is a great way to reflect on the good and bad things of my life.
