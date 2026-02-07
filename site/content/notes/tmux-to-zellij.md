@@ -7,66 +7,106 @@ summary: |
 image: /images/zellij-switch-session.gif
 tags: ['tmux', 'zellij', 'terminal']
 date: 2025-06-21 14:00:00
+references:
+  - Phaazon. (2024, May 19). *Zellij, the modern tmux?*. strongly-typed-thoughts.net. https://phaazon.net/blog/zellij-2024
 ---
 
-## Requirements
+I use the terminal as my primary workspace where I run my text editor, my AI agent, etc.
+A good terminal multiplexer acts as the glue for that workspace,
+allowing me to manage complexity, maintain context, and persist work across accidental disconnects.
 
-My requirements for a terminal multiplexer are:
+I have used Tmux for years because it perfectly aligns with the Unix philosophy:
+it is a stable, composable tool that stays out of my way while being scriptable.
+It turns my terminal into a series of isolated project "workspaces" that I can jump between in an instant.
 
-- **Workspace organization using sessions.**
-  - Quickly create vertical and horizontal panes.
-  - Seamless movement between the editor and terminals.
-  - Seamless integration with Neovim.
-- **Effective session switching.**
-  - A single keybind to switch between sessions.
-  - Use a list of known workspaces as input to start or switch sessions.
+When evaluating a multiplexer, my core requirements are:
+
+- **Remote-First Workflow**: My laptop is a thin client. Whether at work or home, I do most of my work in a workstation that I access through SSH.
+  The multiplexer must run on these remote machines and ensure that my context survives network drops or laptop reboots.
+- **Unified Workflow**: I need a single source of truth for my environment.
+  My keybindings, configurations, and core setup must be identical across both work and personal machines so I don't have to waste mental energy remembering different shortcuts for different contexts.
+- **Persistent Workspaces**: The ability to organize work into named sessions that I can detach from and return to later, exactly where I left off.
+- **Pane Management**: Fast, intuitive ways to split the terminal horizontally and vertically to keep code, logs, and shells in view.
+- **Seamless Editor Integration**: A way to navigate between Neovim and surrounding terminal panes without thinking about it, preferably using the same keybindings.
+- **Scriptable Session Switching**: A fast launcher to jump between different projects using fuzzy searching, combining both active sessions and a list of project bookmarks.
+
+Tmux has always fulfilled these requirements for me, primarily because its robust CLI allows me to extend its behavior with simple shell scripts and tools like `fzf`.
+
+## My Current Workflow
+
+I have detailed my development workflow, which centers around Tmux, Neovim, and Zsh, in a separate article called [Productivity](../productivity-skills/).
+In that post, I talk about how I manage my tasks, my notes, and how I use Tmux to keep everything organized.
+
+However, when Zellij started gaining traction, I was curious to see if a "modern" take on the multiplexer could offer a better experience.
 
 ## Learning Zellij
 
-Zellij introduces modes similar to Vi, where each mode has its
-own separate keybindings. For more info about the modes,
-read https://zellij.dev/documentation/keybindings-modes.html.
+You can start exploring it with a single command and the built-in UI guides you from there.
+One feature I liked was the command mode toolbar, when you enter a mode, a bar at the bottom shows the next possible keyboard shortcuts.
+It felt very similar to the [which-key.nvim](https://github.com/folke/which-key.nvim) plugin for Neovim,
+which is a good way to memorize key bindings until I get into the muscle memory habit.
 
-I mapped `Ctrl + Space` to switch from Normal mode to Tmux mode
-and back.
+I also found it interesting that Zellij has a "vi" like model. It uses modes like Normal, Insert, and Pane, which feel familiar to a Neovim user.
 
-## Organization of workspaces using sessions
+However, I had mixed feelings about the configuration language choice: [KDL](https://kdl.dev/).
+While KDL is a fine language, it's yet another syntax I have to learn and maintain.
+I would have liked if Zellij had support for [YAML](https://yaml.org/) or [KYAML](https://kubernetes.io/docs/reference/encodings/kyaml/),
+which Zellij had support for at some point but the [project opted for KDL](https://zellij.dev/news/config-command-layouts/#addendum-why-did-we-choose-kdl)
+because of some downsides of YAML.
 
-I mapped `Ctrl + Space` + `-` to create a horizontal pane and
-`Ctrl + Space` + `\` to create a vertical pane.
+## Setting up key bindings and workspaces
 
-Because of the different modes in Zellij, I also use
-the [`zellij-autolock` plugin](https://github.com/fresh2dev/zellij-autolock) to
-provide a single keybind combination to move across panes. While this is possible
-in Tmux without plugins, a plugin is needed so Zellij is
-aware of the need to switch modes as it crosses panes.
+My goal was to mirror my Tmux muscle memory as closely as possible. In my [config.kdl](https://github.com/mauriciopoppe/dotfiles/blob/main/zellij/config.kdl),
+I setup initial mappings:
 
-[My zellij-autolock setup is very similar to the one in the repo](https://github.com/mauriciopoppe/dotfiles/blob/main/zellij/config.kdl).
+- `Ctrl + Space` to jump into "Tmux mode."
+- `Ctrl + Space` + `\` creates a vertical pane (right).
+- `Ctrl + Space` + `-` creates a horizontal pane (down).
+- `Ctrl + h/j/k/l` to move between panes (consistent with my Neovim/Tmux setup).
 
-Neovim needs to be aware of the plugin. Fortunately,
-the same author created [zellij.vim](https://github.com/fresh2dev/zellij.vim),
-which I included through my preferred package manager.
+My first friction point was that Zellij's own modes often conflict with Neovim's modes.
+To solve this and keep my navigation fluid I had to use a few plugins.
+
+First, I needed the [zellij-autolock](https://github.com/fresh2dev/zellij-autolock) plugin to automatically detect when
+I'm in a Neovim pane and switch Zellij from Normal mode to Locked mode. This ensures that my Neovim keybindings aren't intercepted by Zellij.
+
+On the Neovim side, I added [zellij.vim](https://github.com/fresh2dev/zellij.vim) which handle the `Ctrl + h/j/k/l` navigation
+from within Neovim in a way that coordinates with Zellij. For example, when I move from a Neovim pane to a regular terminal pane,
+the plugin signals Zellij to switch its mode from Locked back to Normal.
+
+This setup already feels like a hack because it [relies on a workaround involving timers](https://github.com/fresh2dev/zellij-autolock/blob/5346d7f45e5a54e1d906aba43ed1c063987aa135/src/main.rs#L79).
+This means that if I move across panes very rapidly, the synchronization can occasionally fail.
 
 ## Single keybind launcher to switch sessions
 
-I want a system that helps me find my preferred session to launch
-or to switch to. The sessions to display are my preferred list of
-sessions and the currently opened sessions. After I make the selection
-in the fuzzy finder, I want to switch to that session.
+One of my core requirements is **Scriptable Session Switching**.
+I need a system that works with my terminal multiplexer and helps me find a project
+and jump into its workspace (optionally creating it if it doesn't exist) with a single key binding shortcut.
 
-With tmux, [I have this setup](https://github.com/mauriciopoppe/dotfiles/blob/b183e64e8a0927254c8ebaab76688d4a6eeca0c8/zsh/bin/tmux-switch-client.py)
-using this one-liner:
+Zellij actually has its own built-in session manager with a nice UI which also provides the ability to remember and resurrect sessions.
+However, I found myself disliking it because it felt too prescriptive.
+It forces you to manage sessions its way and doesn't easily integrate with other external tools like `fzf`.
+This is where I appreciate Tmux's minimalism which fulfills the Unix philosophy of doing one thing well and then getting out of the way,
+allowing me to build my own workflows on top of it.
+
+In Tmux, I fulfill this using a custom [python script](https://github.com/mauriciopoppe/dotfiles/blob/main/zsh/bin/tmux-switch-client.py)
+which aggregates a list of project "bookmarks" and the currently active sessions. This list is then piped into `fzf` for fuzzy selection,
+it's equivalent to this one liner:
 
 ```bash
 # This is a simplified version of my setup; it doesn't run as it is.
 ( cat $bookmarks && tmux ls ) | fzf --tmux | xargs tmux switch-client -t
 ```
 
-Zellij doesn't have a subcommand similar to `tmux switch-client`.
+Zellij doesn't have a subcommand equivalent to `tmux switch-client`, which is a fundamental building block for me.
+I was surprised to find that I had to install a third-party plugin just to achieve this basic functionality,
+this really feels like it should be a core, default command. 
+
 There's this [Reddit thread](https://www.reddit.com/r/zellij/comments/18go1y5/switching_sessions_via_cli/)
-where Zellij's author mentions that the way to do this is with a plugin.
-Fortunately, the plugin [zellij-switch](https://github.com/mostafaqanbaryan/zellij-switch)
-already does this.
+where the author confirms that plugins are currently the intended way to handle this.
+Fortunately, the [zellij-switch](https://github.com/mostafaqanbaryan/zellij-switch) plugin already exists to fill that gap.
+
+I adapted my Tmux workflow to Zellij using this logic:
 
 ```bash
 # This is a simplified version of my setup; it doesn't run as it is.
@@ -75,8 +115,8 @@ already does this.
   -- "session $(basename {}) --cwd {} --layout default"
 ```
 
-I mapped the above to the keybinding `Ctrl + Space` + `Ctrl + J` with
-the following Zellij config:
+I expanded the one liner into a larger shell script [`zellij-switch-session`](https://github.com/mauriciopoppe/dotfiles/blob/main/zsh/bin/zellij-switch-session.py).
+then, I mapped a keybinding `Ctrl + Space` + `Ctrl + J` to run the script with the following Zellij config:
 
 ```bash
         bind "Ctrl j" {
@@ -88,13 +128,9 @@ the following Zellij config:
         }
 ```
 
-[`zellij-switch-session`](https://github.com/mauriciopoppe/dotfiles/blob/main/zsh/bin/zellij-switch-session.py)
-is a script that wraps the above Zellij one-liner.
-
 Here's a demo of the launcher:
 
 {{< figure src="/images/zellij-switch-session.gif" caption="Demo of switching sessions with Zellij" >}}
-
 
 ## Was it worth it?
 
@@ -104,13 +140,13 @@ I ended up going back to tmux.
 First, here are the things I really liked about Zellij:
 
 - **Open the current pane output in my editor** - It's easier to do a search and find in Neovim.
-- **The language choice to create pane configuration** - I like it way more than the Tmuxinator YAML file
-  which I use for tmux.
-- **The helpful sidebar** - It shows you which keybindings to use for the current mode.
+- **The command toolbar** - It shows you which keybindings to use for the current mode, very useful as I get into the
+  habit of building my muscle memory for key bindingds that I might need.
 - **Resizing isolation** - If a panel is resized from within (e.g., running `nvim-dap-ui` in Neovim), it doesn't affect
   the layout of the window. In tmux, when a pane is resized it causes all other panes to be resized and it's very annoying,
   but it's not a problem in Zellij.
-- **Persistent Fullscreen** - Fullscreen mode remains active when you switch to other panes.
+- **Persistent Fullscreen** - Fullscreen mode remains active when you switch to other panes. In tmux, if I move from a full screen
+  pane into another it makes Tmux exit out of full screen mode, I wished there could be an opt-in to remain in full screen mode.
 
 Unfortunately, I found these things annoying:
 
