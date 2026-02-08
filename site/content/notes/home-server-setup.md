@@ -24,9 +24,9 @@ between software that I already pay for and software that I could host on my own
 While my home server isn't powerful enough to run Gemini locally, it doesn't have to.
 Gemini only needs access to a filesystem and permissions to run commands.
 
-- **Access to a filesystem** - I mount the Pi's entire filesystem to my MacBook Pro using [SSHFS](https://github.com/libfuse/sshfs).
-  To my Mac (and Gemini), the server's code looks like a local folder.
-  Because Gemini is launched within this mounted codebase, it has a a good level of understanding of my stacks.
+I mount the Pi's entire filesystem to my MacBook Pro using [SSHFS](https://github.com/libfuse/sshfs).
+To my Mac (and Gemini), the server's code looks like a local folder.
+Because Gemini is launched within this mounted codebase, it has a a good level of understanding of my stacks.
 
 ```bash
 # One time mount
@@ -35,9 +35,9 @@ sshfs myuser@myhost:/home/myuser/infrastructure ~/mnt/orangepi
 # Then I can start gemini at ~/mnt/orangepi.
 ```
 
-- **Running commands** - I've taught Gemini that the filesystem it sees is thanks to the mount and
-  I've told it how to run commands directly on the Pi via SSH therefore if it needs to check something
-  outside the mounted filesystem it can run any SSH command.
+I've [given enough context to Gemini](https://geminicli.com/docs/cli/gemini-md/) and it knows that the filesystem it sees
+is a mounted directory from the Pi, I've told it how to run commands directly on the Pi via SSH therefore if it needs to check something
+outside the mounted filesystem it can run any SSH command.
 
 This REPL environment allowed me to iterate very fast in my small SBC.
 
@@ -133,4 +133,25 @@ of the stack the home server is like [.dotfiles](https://github.com/mauriciopopp
 
 It's great the Gemini knows how to operate in the codebase because it means that I could
 focus on some other things and free up deep knowledge I'd have needed of this stack.
+
+## Fun
+
+On the first week of February in 2026, Kai Lentit uploaded a video about setting up a server to run OpenClaw.
+The video does some of the automations (probably some aren't needed) that I did. It was so hilarious and relatable!
+
+My favorite part:
+
+> Agent: We block all unsolicited traffic from the worldwide hostile web app, but we leave one door open. Port 2222. Then we activate the firewall.
+>
+> User: Why four twos?
+>
+> Agent: Oh, it's just an arbitrary number. You could choose any.
+>
+> User: Six, seven?
+>
+> Agent: No! The standard for arbitrary numbers is 2222.
+>
+> Me: 😂😂😂
+
+<iframe class="tw-mx-auto tw-aspect-video md:tw-w-full" src="https://www.youtube.com/embed/40SnEd1RWUU?si=wupZG9EgsjsE0iNx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
