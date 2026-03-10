@@ -2,144 +2,93 @@
 title: "Building a Home Server with Orange Pi 5 and Gemini"
 date: 2026-01-19 19:00:00
 tags: ['ai', 'gemini', 'devops', 'orangepi', 'sshfs', 'productivity', 'self-hosted']
-summary: "I leveraged Gemini and SSHFS to rapidly bootstrap a secure home server on an Orange Pi 5."
+summary: "I used Gemini and SSHFS to bootstrap a home server on an Orange Pi 5."
 ---
 
-I'll walk through the architecture of my home server setup which runs on top of an [Orange Pi 5](http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-5.html).
+I'll walk through the architecture of my home server setup running on an [Orange Pi 5](http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-5.html).
 
-The reason I decided to have a home server is to block ads and malware for all my devices through a [DNS sinkhole](https://en.wikipedia.org/wiki/DNS_sinkhole).
-Since then, I realized how useful a Pi could be with additional programs. There are lots of home server
-programs out these that are good alternatives to paid software! In my case I wanted to strike a balance
-between software that I already pay for and software that I could host on my own.
+I originally set up this server to block ads and malware across my devices using a [DNS sinkhole](https://en.wikipedia.org/wiki/DNS_sinkhole). Since then, I've found plenty of other uses for it. There are so many self-hosted alternatives to paid software that it’s mostly a matter of finding the right balance between convenience and control.
 
 {{< figure src="/images/home-server-diagram.png" caption="Home Server Architecture" style="background: var(--grey-dark); padding: 1.25em 1.5em; border-radius: 0.375rem;" >}}
 
 ## Assumptions
 
 - SSH access to the home server.
-- Any terminal based AI agent, my choice is Gemini which I access through gemini-cli.
+- A terminal-based AI agent (I use Gemini via `gemini-cli`).
 
 ## Development Workflow
 
-While my home server isn't powerful enough to run Gemini locally, it doesn't have to.
-Gemini only needs access to a filesystem and permissions to run commands.
+The Orange Pi 5 isn't powerful enough to run LLMs locally, but it doesn't need to. Gemini just needs access to the files and the ability to run commands.
 
-I mount the Pi's entire filesystem to my MacBook Pro using [SSHFS](https://github.com/libfuse/sshfs).
-To my Mac (and Gemini), the server's code looks like a local folder.
-Because Gemini is launched within this mounted codebase, it has a a good level of understanding of my stacks.
+I mount the Pi's filesystem to my MacBook Pro using [SSHFS](https://github.com/libfuse/sshfs), so the server's code looks like a local folder to my Mac (and to Gemini). Since Gemini runs within this mounted directory, it understands the project structure immediately.
 
 ```bash
 # One time mount
 sshfs myuser@myhost:/home/myuser/infrastructure ~/mnt/orangepi
-
-# Then I can start gemini at ~/mnt/orangepi.
 ```
 
-I've [given enough context to Gemini](https://geminicli.com/docs/cli/gemini-md/) and it knows that the filesystem it sees
-is a mounted directory from the Pi, I've told it how to run commands directly on the Pi via SSH therefore if it needs to check something
-outside the mounted filesystem it can run any SSH command.
-
-This REPL environment allowed me to iterate very fast in my small SBC.
+I've configured Gemini to understand that it's looking at a mounted directory and taught it how to run commands on the Pi via SSH. This setup creates a tight feedback loop for iterating on a small SBC.
 
 ## Secure Remote Access: Tailscale
 
-I use [Tailscale](https://tailscale.com/) which is installed across all my devices.
-The primary motivator was that the DNS sinkhole would be useful when I'm away from home.
-Inside the tailnet, AdguardHome acts as the DNS and is configured to filter most
-of the annoying ads and malware traffic which means that I don't get to see ads
-across my devices even when I'm not at home[^net-perf]!
+I have [Tailscale](https://tailscale.com/) installed on all my devices. My main goal was to keep the DNS sinkhole active even when I’m away from home. Inside the tailnet, AdGuard Home filters out trackers and ads, so my browsing stays clean on mobile data just as it does on my home Wi-Fi[^net-perf].
 
-[^net-perf]: The tradeoff is increased latency because every DNS request is resolved only in my home server.
-That means that if I'm very far away from home that I'd need to wait a lot! For now, I only enable it
-when I'm away from home but I haven't tried it out outside my city yet.
+[^net-perf]: The tradeoff is a bit of latency, as every DNS request has to travel back to my home server. I usually only toggle this on when I'm traveling, though I haven't tested the performance outside my own city yet.
 
 ## Zero Trust
 
-Before getting an Orange Pi I had lots questions about having a device in my home network that's always connected to the internet and
-possibly running programs that could be compromised. I have this mindset about security in containers: **any container running on my
-server is potentially vulnerable to an attack I'm not yet aware of.** Therefore, I setup the stacks under the assumption that
-a container *will* be compromised at some point with something outside my control.
+I used to worry about having a 24/7 internet-connected device sitting in my living room. My security mindset for containers is pretty simple: assume any container *will* eventually be compromised.
 
-To mitigate the blast radius of such an event, I implement a "Zero Trust" policy at multiple levels:
+To limit the damage, I follow a few "Zero Trust" rules:
 
-* I never run containers in `host` network mode unless absolutely needed. Each stack runs in its own isolated bridge network, which prevents a compromised container from sniffing traffic on the host interface.
-* To prevent a compromised container from crashing the entire system (a Denial of Service attack), every single service has `cpus` and `memory` limits defined. If a container is compromised, it only kills itself but not the Pi.
-* While my trusted devices (laptop, phone) can access the Pi via SSH or HTTPS, the Pi can't initiate connections to other devices on my local network. This containment ensures that a breach on the Pi doesn't become a pivot point to attack my other devices.
-* I never use the `:latest` tag for container images because using `latest` is asking for a supply chain attack during a routine update. Instead, I pin every image to a specific version or digest that I've verified.
+*   **Network Isolation:** I avoid `host` network mode. Each stack lives in its own isolated bridge network, so a breach in one container doesn't mean the attacker can sniff traffic from everything else.
+*   **Resource Caps:** Every service has strict CPU and memory limits. This prevents a runaway process (or a malicious one) from crashing the entire Pi.
+*   **One-Way Trust:** My laptop can talk to the Pi, but the Pi can't initiate connections to my other local devices. It’s effectively quarantined.
+*   **No `:latest`:** I pin container images to specific versions or digests. Using `:latest` is a roll of the dice for supply chain attacks during an update.
 
-## Stacks
+## The Stacks
 
-I've organized the system into independent Docker Compose stacks. This separation of concerns makes updates and troubleshooting much easier.
-Also, since Gemini is aware of the setup, it's super simple to make refactors in the codebase. For example, initially my gateway and media
-server were in the same `docker-compose.yaml` file, the refactor to multiple files including verification that the services were
-up and running like before took a single prompt.
+The system is split into independent Docker Compose stacks. This makes troubleshooting much easier, and Gemini is great at helping with refactors. For example, moving my gateway and media server into separate files while verifying everything still worked took about a minute.
 
-Here is a breakdown of the core stacks currently running:
+### AdGuard Home: DNS & Security
 
-### Security & DNS: AdGuard Home
+I can't stand intrusive ads. Browser extensions help on a laptop, but they don't do much for a phone. [AdGuard Home](https://adguard.com/en/adguard-home/overview.html) handles DNS for my whole network, blocking trackers at the source. I also use DNS rewrites so my internal services resolve correctly whether I'm home or on Tailscale.
 
-I dislike how obstrusive ads are. While Chrome Extensions could block ads when I'm on my laptop I can't install them on my phone.
+The template I use is available at [ScaleTail](https://github.com/2Tiny2Scale/ScaleTail/tree/main/services/adguardhome).
 
-[AdGuard Home](https://adguard.com/en/adguard-home/overview.html) handles DNS for my entire network, blocking trackers and malware at the source. It's wonderful not
-having to see ads in my phone whenever I read news articles.
+### Caddy: The Gateway
 
-I've configured DNS rewrites so that internal aliases resolve correctly whether I'm on my local Wi-Fi or connected via **Tailscale**.
+[Caddy](https://caddyserver.com/) handles all the incoming traffic. It’s my reverse proxy and takes care of internal TLS termination automatically.
 
-The ready-to-use docker compose template is at https://github.com/2Tiny2Scale/ScaleTail/tree/main/services/adguardhome.
+### n8n + FastAPI: Automation
 
-### The Gateway: Caddy
+I run [n8n](https://n8n.io/) for workflows, paired with a few custom sidecar containers. One of these is a small Python server I wrote called `finance-sync`. It pulls data from my bank accounts and outputs a JSON summary. From there, n8n pushes that data into Google Sheets.
 
-Everything is fronted by [Caddy](https://caddyserver.com/). It acts as a reverse proxy with internal TLS termination.
+{{< figure src="/images/home-server-n8n.png" caption="n8n workflow" >}}
 
-### Automation: n8n + FastAPI
+When I want to analyze my finances, I just point Gemini at the spreadsheet and ask for a breakdown based on my savings goals.
 
-For automations, I run [n8n](https://n8n.io/) alongside sidecar containers with my personalized logic.
+### AIOStream: Media
 
-The `finance-sync` sidecar is a small python server that I developed that can fetch data from my financial sources.
-Once it fetches data it'll output a summary of my holdings to stdout as JSON.
-
-Then in the n8n UI I configured a workflow to write the data to Google Sheets.
-
-{{< figure src="/images/home-server-n8n.png" caption="n8n" >}}
-
-This workflow runs regularly portfolio adjustment preferences.
-
-Whenever I need to make an analysis of my financials, I give the spreadsheet to Gemini and ask it to draw conclusions based on my goals.
-
-### Media Server: AIOStream
-
-My favorite streaming platform is Stremio because it can play many video formats on the web through a streaming server.
-I use it to play my favorite anime and to learn Japanese with my chrom extension [Subtitle Insights](https://mauriciopoppe.github.io/SubtitleInsights).
+I use Stremio for most of my streaming because it handles almost any format through a remote server. It’s also how I practice French and Japanese, using my [Subtitle Insights](https://mauriciopoppe.github.io/SubtitleInsights) extension.
 
 ### Observability: Prometheus & Grafana
 
-My observability stack includes [Prometheus](https://prometheus.io/) for metric collection and [Grafana](https://grafana.com/) for visualization,
-with [cAdvisor](https://github.com/google/cadvisor) and [Node Exporter](https://github.com/prometheus/node_exporter) tracking performance at both the container and host levels.
-Every service has resource limits on CPU and memory to ensure no single container can starve the system.
-
-Monitoring gives me a great view of the current health of the Pi, but it can't save me from a total hardware failure or a catastrophic mistake. That's where the backups come in.
+I use [Prometheus](https://prometheus.io/) and [Grafana](https://grafana.com/) to keep an eye on things, with [cAdvisor](https://github.com/google/cadvisor) and [Node Exporter](https://github.com/prometheus/node_exporter) providing the metrics. It’s useful for catching resource leaks before they become a problem.
 
 ## Backups
 
-A home server without a backup is just a temporary hobby. I use [Restic](https://restic.net/) and [Rclone](https://rclone.org/) to push encrypted snapshots to my Google Drive.
+A home server without a backup is just a temporary hobby. I use [Restic](https://restic.net/) and [Rclone](https://rclone.org/) to send encrypted snapshots to Google Drive. It runs weekly via crontab using a sandboxed Google OAuth client, the Pi can only see its specific backup folder. Knowing I can rebuild the whole thing from a fresh SD card in a few minutes makes it much easier to experiment.
 
-The entire process is automated through a bash script and scheduled weekly via crontab. I use a "Sandboxed" Google OAuth client, so the Pi can only see its own backup folder and nothing else. Knowing that I can restore the whole setup from a fresh SD card in minutes gives me the peace of mind to experiment without fear of losing data.
+## Final Thoughts
 
-## Key Takeaways
-
-About the setup, mounting the Pi's filesystem through SSHFS and letting Gemini know the environment
-where it's running in helped me iterate very fast. While I'm happy with the current components
-of the stack the home server is like [.dotfiles](https://github.com/mauriciopoppe/dotfiles), always a work in progress.
-
-It's great the Gemini knows how to operate in the codebase because it means that I could
-focus on some other things and free up deep knowledge I'd have needed of this stack.
+Mounting the Pi’s filesystem via SSHFS and giving Gemini the context it needs has completely changed how I manage this server. It’s less about knowing every Docker command by heart and more about being able to describe what I want to happen. Like any [dotfiles](https://github.com/mauriciopoppe/dotfiles) repo, it's always a work in progress.
 
 ## Fun
 
-On the first week of February in 2026, Kai Lentit uploaded a video about setting up a server to run OpenClaw.
-The video does some of the automations (probably some aren't needed) that I did. It was so hilarious and relatable!
+Recently, Kai Lentit posted a video about setting up a server for OpenClaw. It covered some of the same automation territory I've been exploring, and it was hilariously relatable.
 
-My favorite part:
+My favorite bit:
 
 > Agent: We block all unsolicited traffic from the worldwide hostile web app, but we leave one door open. Port 2222. Then we activate the firewall.
 >
@@ -154,4 +103,3 @@ My favorite part:
 > Me: 😂😂😂
 
 <iframe class="tw-mx-auto tw-aspect-video md:tw-w-full" src="https://www.youtube.com/embed/40SnEd1RWUU?si=wupZG9EgsjsE0iNx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-

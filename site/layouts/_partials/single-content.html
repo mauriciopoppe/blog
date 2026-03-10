@@ -38,15 +38,16 @@
         {{ partial "tags.html" (dict "tags" .Params.tags) }}
       </div>
 
+      <!-- discussion -->
+      <div data-article-discussion class="">
+        {{ partial "single-discuss.html" . }}
+      </div>
+
       <!-- related articles -->
       <div data-article-related>
         {{ partial "single-related.html" . }}
       </div>
 
-      <!-- discussion -->
-      <div data-article-discussion class="">
-        {{ partial "single-discuss.html" . }}
-      </div>
     </div>
 
     <aside class="md:tw-w-1/5">

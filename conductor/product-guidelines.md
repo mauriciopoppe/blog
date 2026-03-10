@@ -5,6 +5,7 @@
     - **Technical Tutorials:** Technical, concise, and precise. Focus on facts, code, and math.
     - **Personal Reflections/Friendly Articles:** More conversational, engaging, and anecdotal while maintaining professional clarity.
     - **Math & Research:** Rigorous and objective, mirroring the structure of academic writing.
+- **AI Writing Tropes:** Avoid common AI writing patterns to maintain a human-like, varied, and specific voice. See [AI Writing Tropes to Avoid](./code_styleguides/writing.md) for detailed guidelines.
 
 ## Design Principles
 - **Generous Whitespace:** Prioritize legibility and a calm reading environment. High "breathing room" is essential for helping readers process dense technical concepts without unnecessary cognitive load.
