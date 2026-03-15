@@ -154,6 +154,9 @@ high on the list of words I learn first. I wrote more details about how I mine w
 [this guide](https://mauriciopoppe.github.io/SubtitleInsights/guides/yomitan-mining.html).
 
 ### Augmenting content to mined vocabulary
+
+#### Mnemonics
+
 Japanese words may have Kanji in addition to Kana. To remember Kanji and Kana, I use mnemonics.
 I ask Gemini to create a mnemonic focused on three things: meaning, shape, and sound.
 It's much simpler to look at the strokes that form the character and remember a story around it, which eventually
@@ -212,6 +215,59 @@ to overhear the secrets being whispered inside.
 Sound: Watch out! If the guards catch you spying at the gate,
 they will kick you! (きく).
 ```
+
+#### `i+1` method from Kaishi 1.5k deck
+
+I also learn with the [Kaishi 1.5k deck](https://ankiweb.net/shared/info/1196762551) which has a curated list of
+words. The deck follows a `i+1` method where you see one new piece of information, each card introduces a single
+new target word and provides a sentence composed entirely of words learned in previous cards.
+This approach **shares the exact same sentence** across 2 or 3 different target words!
+
+*   **Target Word A:** あなた (You) → Sentence: `あなたはトムさんですか。`
+*   **Target Word B:** さん (San) → Sentence: `あなたはトムさんですか。`
+
+This ensures that when moving from Word A to Word B, I see something "familiar" and reinforces the grammar and vocabulary of the shared sentence.
+
+I really like that methodology, unfortunately, when mining words with Yomitan it can only see the sentence where the
+word was retrieved from which might have lots of words that are still unknown.
+
+However, with AI agents is easy to express these constraints to agument context to mined words using this
+methodology. The plan that I coauthored with the agent is:
+
+```
+# Specification: i+1 Sentence Reinforcement for Japanese::Mining
+
+This track aims to enrich the `Japanese::Mining` Anki deck by populating the `Sentence`, `SentenceFurigana`, and `SentenceEnglish`
+fields with high-quality "i+1" sentences. These sentences will be specifically designed to reinforce vocabulary you have
+already learned in both the `Japanese::Kaishi 1.5k` and `Japanese::Mining` decks.
+
+## Functional Requirements
+
+1. **Vocabulary Extraction:**
+   - Identify "learned" words from both the `Japanese::Kaishi 1.5k` and `Japanese::Mining` decks.
+   - A word is considered "learned" if its card interval is greater than 0 (`Interval > 0`).
+
+2. **Target Prioritization:**
+   - Process target words in the `Japanese::Mining` deck sorted by the `FreqSort` field.
+
+3. **Sentence Generation (i+1):**
+   - For each target word, generate a sentence where the target word is the only "new" piece of vocabulary.
+   - All other vocabulary in the sentence must be from the "learned" word list.
+   - Grammar should be "Dynamic," matching the approximate level of the learned vocabulary.
+   - The context should focus on "Daily Life" situations.
+
+4. **Field Population:**
+   - **Sentence:** The raw Japanese sentence with the target word highlighted (e.g., in bold).
+   - **SentenceFurigana:** The sentence using Anki's standard furigana format (`漢字[ふりがな]`).
+   - **SentenceEnglish:** A clear English translation of the generated sentence.
+
+5. **Automation:**
+   - Utilize AI (Gemini) to generate the sentences and translations based on the provided "learned" context.
+```
+
+After processing my deck now I see the words that I learned in sentences created by the AI agent
+with words seen in the past. This environment is excellent because I can practice reading and recalling the
+meaning of other words while adding a new word to my vocabulary!
 
 ### Reviewing mined vocabulary in Anki
 The 'Forgetting Curve' suggests that without review, you lose 70% of new vocabulary within 24 hours.
