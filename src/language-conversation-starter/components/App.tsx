@@ -26,6 +26,21 @@ export const App: React.FC = () => {
     setIsFlipped((prev) => !prev)
   }, [])
 
+  const handlePrev = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    if (e.type === 'touchend') e.preventDefault()
+    prevCard()
+  }, [prevCard])
+
+  const handleNext = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    if (e.type === 'touchend') e.preventDefault()
+    nextCard()
+  }, [nextCard])
+
+  const handleFlip = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    if (e.type === 'touchend') e.preventDefault()
+    toggleFlip()
+  }, [toggleFlip])
+
   if (cards.length === 0) {
     return (
       <div className="tw-fixed tw-inset-0 tw-bg-neutral-100 dark:tw-bg-neutral-900 tw-text-neutral-900 dark:tw-text-neutral-100 tw-flex tw-items-center tw-justify-center">
@@ -40,71 +55,75 @@ export const App: React.FC = () => {
 
   return (
     <div className="tw-fixed tw-inset-0 tw-bg-neutral-100 dark:tw-bg-neutral-900 tw-text-neutral-900 dark:tw-text-neutral-100 tw-overflow-hidden tw-select-none">
-      {/* Touch Zones */}
-      <div className="tw-absolute tw-inset-0 tw-flex tw-z-20">
-        <div
-          className="tw-w-1/4 tw-h-full tw-cursor-pointer active:tw-bg-black/5 dark:active:tw-bg-white/5 tw-transition-colors"
-          onClick={prevCard}
-          onTouchEnd={(e) => {
-            e.preventDefault()
-            prevCard()
-          }}
-          aria-label="Previous card"
-        />
-        <div
-          className="tw-w-1/2 tw-h-full tw-cursor-pointer active:tw-bg-black/5 dark:active:tw-bg-white/5 tw-transition-colors"
-          onClick={toggleFlip}
-          onTouchEnd={(e) => {
-            e.preventDefault()
-            toggleFlip()
-          }}
-          aria-label="Flip card"
-        />
-        <div
-          className="tw-w-1/4 tw-h-full tw-cursor-pointer active:tw-bg-black/5 dark:active:tw-bg-white/5 tw-transition-colors"
-          onClick={nextCard}
-          onTouchEnd={(e) => {
-            e.preventDefault()
-            nextCard()
-          }}
-          aria-label="Next card"
-        />
-      </div>
+      {/* Touch Zones (Active only when NOT flipped) */}
+      {!isFlipped && (
+        <div className="tw-absolute tw-inset-0 tw-flex tw-z-30">
+          <div
+            className="tw-w-1/4 tw-h-full tw-cursor-pointer active:tw-bg-black/5 dark:active:tw-bg-white/5 tw-transition-colors"
+            onClick={handlePrev}
+            onTouchEnd={handlePrev}
+            aria-label="Previous card"
+          />
+          <div
+            className="tw-w-1/2 tw-h-full tw-cursor-pointer active:tw-bg-black/5 dark:active:tw-bg-white/5 tw-transition-colors"
+            onClick={handleFlip}
+            onTouchEnd={handleFlip}
+            aria-label="Flip card"
+          />
+          <div
+            className="tw-w-1/4 tw-h-full tw-cursor-pointer active:tw-bg-black/5 dark:active:tw-bg-white/5 tw-transition-colors"
+            onClick={handleNext}
+            onTouchEnd={handleNext}
+            aria-label="Next card"
+          />
+        </div>
+      )}
 
       {/* Main Content Area */}
-      <div className="tw-absolute tw-inset-0 tw-flex tw-flex-col tw-items-center tw-justify-center tw-p-4 md:tw-p-8">
-        <div className="tw-w-full tw-max-w-4xl tw-aspect-[16/9] tw-bg-white dark:tw-bg-neutral-800 tw-rounded-3xl tw-shadow-2xl tw-flex tw-flex-col tw-items-center tw-justify-center tw-p-8 tw-relative tw-overflow-hidden">
+      <div
+        className="tw-absolute tw-inset-0 tw-flex tw-flex-col tw-items-center tw-justify-center tw-z-10"
+        onClick={isFlipped ? toggleFlip : undefined}
+      >
+        <div className="tw-w-full tw-max-w-5xl tw-h-full tw-flex tw-flex-col tw-items-center tw-justify-center tw-relative tw-overflow-hidden">
           {!isFlipped ? (
-            <div className="tw-text-center">
-              <div className="tw-text-4xl md:tw-text-6xl tw-font-bold tw-mb-8 tw-leading-relaxed">
+            <div className="tw-text-center tw-px-4">
+              <div className="tw-text-3xl md:tw-text-5xl tw-font-bold tw-mb-8 tw-leading-relaxed">
                 {currentCard.question.map((segment, idx) => (
                   <ruby key={idx} className="tw-mx-1">
                     {segment.text}
                     {segment.rt && (
-                      <rt className="tw-text-base md:tw-text-xl tw-text-neutral-500 dark:tw-text-neutral-400">
+                      <rt className="tw-text-base md:tw-text-2xl tw-text-neutral-500 dark:tw-text-neutral-400">
                         {segment.rt}
                       </rt>
                     )}
                   </ruby>
                 ))}
               </div>
-              <div className="tw-text-xl md:tw-text-2xl tw-text-neutral-500 dark:tw-text-neutral-400 tw-italic">
+              <div className="tw-text-xl md:tw-text-3xl tw-text-neutral-500 dark:tw-text-neutral-400 tw-italic">
                 {currentCard.translation}
               </div>
             </div>
           ) : (
-            <div className="tw-w-full tw-h-full tw-flex tw-flex-col">
-              <h2 className="tw-text-2xl md:tw-text-3xl tw-font-bold tw-mb-6 tw-text-center tw-border-b tw-border-neutral-200 dark:tw-border-neutral-700 tw-pb-4">
-                Example Answers
-              </h2>
-              <div className="tw-flex-1 tw-overflow-y-auto tw-flex tw-items-center tw-justify-center">
-                <ul className="tw-space-y-4 tw-max-w-2xl">
-                  {currentCard.answers.map((answer, idx) => (
-                    <li
-                      key={idx}
-                      className="tw-text-lg md:tw-text-xl tw-border-l-4 tw-border-blue-500 tw-pl-4 tw-py-1"
-                    >
-                      {answer}
+            <div className="tw-w-full tw-max-h-full tw-flex tw-flex-col">
+              <div className="tw-flex-1 tw-overflow-y-auto tw-flex tw-flex-col tw-items-center">
+                <ul className="tw-space-y-2 tw-max-w-3xl tw-w-full tw-px-6 tw-py-12">
+                  {currentCard.answers.slice(0, 3).map((answer, idx) => (
+                    <li key={idx} className="tw-border-l-4 tw-border-blue-500 tw-pl-6 tw-py-2">
+                      <div className="tw-text-base md:tw-text-lg tw-mb-0.5 tw-leading-relaxed">
+                        {answer.segments.map((segment, sIdx) => (
+                          <ruby key={sIdx} className="tw-mr-1">
+                            {segment.text}
+                            {segment.rt && (
+                              <rt className="tw-text-xs md:tw-text-sm tw-text-neutral-500 dark:tw-text-neutral-400">
+                                {segment.rt}
+                              </rt>
+                            )}
+                          </ruby>
+                        ))}
+                      </div>
+                      <div className="tw-text-sm md:tw-text-base tw-text-neutral-500 dark:tw-text-neutral-400 tw-italic">
+                        {answer.translation}
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -119,9 +138,9 @@ export const App: React.FC = () => {
         </div>
 
         {/* Instructions Helper */}
-        <div className="tw-mt-6 tw-flex tw-gap-8 tw-text-[10px] md:tw-text-xs tw-uppercase tw-tracking-widest tw-text-neutral-400 dark:tw-text-neutral-500 tw-opacity-50">
-          <span>← Previous</span>
-          <span>Flip Card</span>
+        <div className="tw-absolute tw-bottom-4 tw-left-1/2 tw--translate-x-1/2 tw-flex tw-gap-8 tw-text-[10px] md:tw-text-xs tw-uppercase tw-tracking-widest tw-text-neutral-400 dark:tw-text-neutral-500 tw-opacity-30">
+          <span>← Prev</span>
+          <span>Flip</span>
           <span>Next →</span>
         </div>
       </div>
