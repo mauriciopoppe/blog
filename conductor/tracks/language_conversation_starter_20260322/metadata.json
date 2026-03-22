@@ -1,0 +1,8 @@
+{
+  "track_id": "language_conversation_starter_20260322",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-03-22T00:00:00Z",
+  "updated_at": "2026-03-22T00:00:00Z",
+  "description": "Create a flashcard-like SPA game in site/content/sandbox/ for language conversation practice."
+}
