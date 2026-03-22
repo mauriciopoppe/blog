@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="{{ .Lang }}">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{{ .Title }}</title>
+    {{ partial "head.html" . }}
+    <style>
+        body {
+            position: relative;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="tw-m-0 tw-p-0">
+    <div id="root"></div>
+    {{ partial "scripts/language-conversation-starter.html" . }}
+</body>
+</html>
