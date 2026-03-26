@@ -13,17 +13,17 @@ export const App: React.FC = () => {
   }, [])
 
   const nextCard = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % cards.length)
+    setCurrentIndex((prev: number) => (prev + 1) % cards.length)
     setIsFlipped(false)
   }, [cards.length])
 
   const prevCard = useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + cards.length) % cards.length)
+    setCurrentIndex((prev: number) => (prev - 1 + cards.length) % cards.length)
     setIsFlipped(false)
   }, [cards.length])
 
   const toggleFlip = useCallback(() => {
-    setIsFlipped((prev) => !prev)
+    setIsFlipped((prev: boolean) => !prev)
   }, [])
 
   const handlePrev = useCallback((e: React.MouseEvent | React.TouchEvent) => {

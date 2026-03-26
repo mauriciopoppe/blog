@@ -15,7 +15,8 @@
     "paths": {
       "*": ["node_modules/*"]
     },
-    "types": ["node", "jest"],
+    "types": ["node", "jest", "react", "react-dom"],
+    "typeRoots": ["./node_modules/@types"],
     "lib": ["es2022", "dom"]
   },
   "include": ["src"]
