@@ -46,9 +46,10 @@ I decided to learn Japanese because:
   [Seishun Kyousoukyoku by Sambomaster](https://www.youtube.com/watch?v=lilv4MvBY6E&list=PLTGXZPSNXuQF0TugWpvhWbOAAKmyl4xVQ&index=5) or
   [Harmonia by Rythem](https://www.youtube.com/watch?v=VTIK1gBhzXk).
   Since then, I have started enjoying listening to Japanese pop music
-  with artists like [Sheena Ringo](https://www.youtube.com/watch?v=H_nCw1WMFs4) and
-  [Hikaru Utada](https://www.youtube.com/watch?v=UPdlfIhzPEo),
-  as well as great metal bands like [Baby Metal](https://www.youtube.com/watch?v=MToMx6RCW-M), [Band Maid](https://www.youtube.com/watch?v=RCaeUkrItyY)
+  with artists like [Sheena Ringo](https://www.youtube.com/watch?v=H_nCw1WMFs4),
+  [Hikaru Utada](https://www.youtube.com/watch?v=UPdlfIhzPEo), [Ado](https://www.youtube.com/watch?v=x1UsJ2Znjk0) (I love her voice!)
+  as well as great metal bands like [Baby Metal](https://www.youtube.com/watch?v=MToMx6RCW-M),
+  [Band Maid](https://www.youtube.com/watch?v=RCaeUkrItyY)
   and [Ningen Isu](https://www.youtube.com/watch?v=-CmbsjjMbNQ).
 * **Japanese Content** - There is a vast amount of content available in Japanese that I'm interested in watching like
   [Gaki No Tsukai](https://www.reddit.com/r/GakiNoTsukai). I found them through their
@@ -237,14 +238,16 @@ methodology. The plan that I coauthored with the agent is:
 ```
 # Specification: i+1 Sentence Reinforcement for Japanese::Mining
 
-This track aims to enrich the `Japanese::Mining` Anki deck by populating the `Sentence`, `SentenceFurigana`, and `SentenceEnglish`
-fields with high-quality "i+1" sentences. These sentences will be specifically designed to reinforce vocabulary you have
+This track aims to enrich the `Japanese::Mining` Anki deck by populating the `Sentence`,
+`SentenceFurigana`, and `SentenceEnglish` fields with high-quality "i+1" sentences.
+These sentences will be specifically designed to reinforce vocabulary you have
 already learned in both the `Japanese::Kaishi 1.5k` and `Japanese::Mining` decks.
 
 ## Functional Requirements
 
 1. **Vocabulary Extraction:**
-   - Identify "learned" words from both the `Japanese::Kaishi 1.5k` and `Japanese::Mining` decks.
+   - Identify "learned" words from both the `Japanese::Kaishi 1.5k` and
+     `Japanese::Mining` decks.
    - A word is considered "learned" if its card interval is greater than 0 (`Interval > 0`).
 
 2. **Target Prioritization:**
@@ -262,7 +265,8 @@ already learned in both the `Japanese::Kaishi 1.5k` and `Japanese::Mining` decks
    - **SentenceEnglish:** A clear English translation of the generated sentence.
 
 5. **Automation:**
-   - Utilize AI (Gemini) to generate the sentences and translations based on the provided "learned" context.
+   - Utilize AI (Gemini) to generate the sentences and translations based on the
+     provided "learned" context.
 ```
 
 After processing my deck now I see the words that I learned in sentences created by the AI agent

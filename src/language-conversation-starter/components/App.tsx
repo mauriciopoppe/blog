@@ -89,10 +89,10 @@ export const App: React.FC = () => {
             <div className="tw-text-center tw-px-4">
               <div className="tw-text-3xl md:tw-text-5xl tw-font-bold tw-mb-8 tw-leading-relaxed">
                 {currentCard.question.map((segment, idx) => (
-                  <ruby key={idx} className="tw-mx-1">
+                  <ruby key={idx} className="tw-mx-1 tw-leading-none">
                     {segment.text}
                     {segment.rt && (
-                      <rt className="tw-text-base md:tw-text-2xl tw-text-neutral-500 dark:tw-text-neutral-400">
+                      <rt className="tw-text-base md:tw-text-2xl tw-text-neutral-500 dark:tw-text-neutral-400 tw-leading-none">
                         {segment.rt}
                       </rt>
                     )}
@@ -111,10 +111,10 @@ export const App: React.FC = () => {
                     <li key={idx} className="tw-border-l-4 tw-border-blue-500 tw-pl-6 tw-py-2">
                       <div className="tw-text-base md:tw-text-lg tw-mb-0.5 tw-leading-relaxed">
                         {answer.segments.map((segment, sIdx) => (
-                          <ruby key={sIdx} className="tw-mr-1">
+                          <ruby key={sIdx} className="tw-mr-1 tw-leading-none">
                             {segment.text}
                             {segment.rt && (
-                              <rt className="tw-text-xs md:tw-text-sm tw-text-neutral-500 dark:tw-text-neutral-400">
+                              <rt className="tw-text-xs md:tw-text-sm tw-text-neutral-500 dark:tw-text-neutral-400 tw-leading-none">
                                 {segment.rt}
                               </rt>
                             )}

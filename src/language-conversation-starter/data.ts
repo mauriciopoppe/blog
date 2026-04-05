@@ -717,109 +717,388 @@ export const cards: Card[] = [
   {
     question: [
       {
-        text: '誰',
-        rt: 'だれ'
+        text: '日本',
+        rt: 'にほん'
       },
       {
-        text: 'と'
+        text: 'に'
       },
       {
-        text: '行',
-        rt: 'い'
+        text: '興味',
+        rt: 'きょうみ'
       },
       {
-        text: 'ったんですか？'
+        text: 'を'
+      },
+      {
+        text: '持',
+        rt: 'も'
+      },
+      {
+        text: 'ったきっかけは'
+      },
+      {
+        text: '何',
+        rt: 'なに'
+      },
+      {
+        text: 'ですか？'
       }
     ],
-    translation: 'Who did you go with?',
+    translation: 'What was the reason you first became interested in Japan?',
     answers: [
       {
         segments: [
           {
-            text: '家族',
-            rt: 'かぞく'
-          },
-          {
-            text: 'と'
-          },
-          {
-            text: '行',
-            rt: 'い'
-          },
-          {
-            text: 'きました。'
-          }
-        ],
-        translation: 'I went with my family.'
-      },
-      {
-        segments: [
-          {
-            text: '会社',
-            rt: 'かいしゃ'
+            text: '日本',
+            rt: 'にほん'
           },
           {
             text: 'の'
           },
           {
-            text: '友達',
-            rt: 'ともだち'
+            text: 'アニメを'
           },
           {
-            text: 'と'
+            text: '見',
+            rt: 'み'
           },
           {
-            text: '行',
-            rt: 'い'
+            text: 'て、'
           },
           {
-            text: 'きました。'
+            text: '言葉',
+            rt: 'ことば'
+          },
+          {
+            text: 'や'
+          },
+          {
+            text: '文化',
+            rt: 'ぶんか'
+          },
+          {
+            text: 'に'
+          },
+          {
+            text: '興味',
+            rt: 'きょうみ'
+          },
+          {
+            text: 'を'
+          },
+          {
+            text: '持',
+            rt: 'も'
+          },
+          {
+            text: 'ちました。'
           }
         ],
-        translation: 'I went with a friend from work.'
+        translation: 'I became interested in the language and culture after watching Japanese anime.'
       },
       {
         segments: [
           {
-            text: '一人',
-            rt: 'ひとり'
+            text: '旅行',
+            rt: 'りょこう'
           },
           {
             text: 'で'
           },
           {
-            text: '行',
-            rt: 'い'
+            text: '日本',
+            rt: 'にほん'
           },
           {
-            text: 'きました。'
+            text: 'を'
+          },
+          {
+            text: '訪',
+            rt: 'おとず'
+          },
+          {
+            text: 'れた'
+          },
+          {
+            text: '時',
+            rt: 'とき'
+          },
+          {
+            text: 'に、'
+          },
+          {
+            text: '人',
+            rt: 'ひと'
+          },
+          {
+            text: 'がとても'
+          },
+          {
+            text: '親切',
+            rt: 'しんせつ'
+          },
+          {
+            text: 'だったので'
+          },
+          {
+            text: '好',
+            rt: 'す'
+          },
+          {
+            text: 'きになりました。'
           }
         ],
-        translation: 'I went by myself.'
+        translation: 'I liked Japan because people were very kind when I visited as a tourist.'
+      },
+      {
+        segments: [
+          {
+            text: '日本',
+            rt: 'にほん'
+          },
+          {
+            text: 'の'
+          },
+          {
+            text: '歴史',
+            rt: 'れきし'
+          },
+          {
+            text: 'や'
+          },
+          {
+            text: '伝統的',
+            rt: 'でんとうてき'
+          },
+          {
+            text: 'な'
+          },
+          {
+            text: '建物',
+            rt: 'たてもの'
+          },
+          {
+            text: 'が'
+          },
+          {
+            text: '美',
+            rt: 'うつく'
+          },
+          {
+            text: 'しくて、もっと'
+          },
+          {
+            text: '知',
+            rt: 'し'
+          },
+          {
+            text: 'りたくなりました。'
+          }
+        ],
+        translation: 'I wanted to know more because Japanese history and traditional buildings are beautiful.'
       }
     ]
   },
   {
     question: [
       {
-        text: '何',
-        rt: 'なに'
+        text: 'どんなお'
       },
       {
-        text: 'を'
+        text: '仕事',
+        rt: 'しごと'
       },
       {
-        text: '食',
-        rt: 'た'
+        text: 'をされていますか？その'
       },
       {
-        text: 'べたんですか？'
+        text: '仕事',
+        rt: 'しごと'
+      },
+      {
+        text: 'のどんなところが'
+      },
+      {
+        text: '好',
+        rt: 'す'
+      },
+      {
+        text: 'きですか？'
       }
     ],
-    translation: 'What did you eat?',
+    translation: 'What kind of work do you do, and what do you like about it?',
     answers: [
       {
         segments: [
+          {
+            text: 'ソフトウェアエンジニアをしています。'
+          },
+          {
+            text: '新',
+            rt: 'あたら'
+          },
+          {
+            text: 'しいものを'
+          },
+          {
+            text: '作',
+            rt: 'つく'
+          },
+          {
+            text: 'るのが'
+          },
+          {
+            text: '楽',
+            rt: 'たの'
+          },
+          {
+            text: 'しいです。'
+          }
+        ],
+        translation: 'I am a software engineer. I enjoy creating new things.'
+      },
+      {
+        segments: [
+          {
+            text: '先生',
+            rt: 'せんせい'
+          },
+          {
+            text: 'をしています。'
+          },
+          {
+            text: '学生',
+            rt: 'がくせい'
+          },
+          {
+            text: 'が'
+          },
+          {
+            text: '成長',
+            rt: 'せいちょう'
+          },
+          {
+            text: 'する'
+          },
+          {
+            text: '姿',
+            rt: 'すがた'
+          },
+          {
+            text: 'を'
+          },
+          {
+            text: '見',
+            rt: 'み'
+          },
+          {
+            text: 'られるのが'
+          },
+          {
+            text: '嬉',
+            rt: 'うれ'
+          },
+          {
+            text: 'しいです。'
+          }
+        ],
+        translation: 'I am a teacher. I am happy to see my students grow.'
+      },
+      {
+        segments: [
+          {
+            text: 'デザイナーをしています。'
+          },
+          {
+            text: '自分',
+            rt: 'じぶん'
+          },
+          {
+            text: 'のアイデアが'
+          },
+          {
+            text: '形',
+            rt: 'かたち'
+          },
+          {
+            text: 'になるのが'
+          },
+          {
+            text: '好',
+            rt: 'す'
+          },
+          {
+            text: 'きです。'
+          }
+        ],
+        translation: 'I am a designer. I like seeing my ideas take shape.'
+      }
+    ]
+  },
+  {
+    question: [
+      {
+        text: '今',
+        rt: 'いま'
+      },
+      {
+        text: 'すぐ'
+      },
+      {
+        text: '日本',
+        rt: 'にほん'
+      },
+      {
+        text: 'のどこにでも'
+      },
+      {
+        text: '行',
+        rt: 'い'
+      },
+      {
+        text: 'けるとしたら、どこに'
+      },
+      {
+        text: '行',
+        rt: 'い'
+      },
+      {
+        text: 'きたいですか？その'
+      },
+      {
+        text: '理由',
+        rt: 'りゆう'
+      },
+      {
+        text: 'も'
+      },
+      {
+        text: '教',
+        rt: 'おし'
+      },
+      {
+        text: 'えてください。'
+      }
+    ],
+    translation: 'If you could travel anywhere in Japan right now, where would you go and why?',
+    answers: [
+      {
+        segments: [
+          {
+            text: '北海道',
+            rt: 'ほっかいどう'
+          },
+          {
+            text: 'に'
+          },
+          {
+            text: '行',
+            rt: 'い'
+          },
+          {
+            text: 'きたいです。'
+          },
           {
             text: '美味',
             rt: 'おい'
@@ -828,173 +1107,27 @@ export const cards: Card[] = [
             text: 'しい'
           },
           {
-            text: '焼肉',
-            rt: 'やきにく'
+            text: '海鮮料理',
+            rt: 'かいせんりょうり'
           },
           {
-            text: 'を'
-          },
-          {
-            text: '食',
-            rt: 'た'
-          },
-          {
-            text: 'べました。'
-          }
-        ],
-        translation: 'I ate delicious yakiniku.'
-      },
-      {
-        segments: [
-          {
-            text: '旬',
-            rt: 'しゅん'
-          },
-          {
-            text: 'の'
-          },
-          {
-            text: '海鮮',
-            rt: 'かいせん'
-          },
-          {
-            text: 'を'
+            text: 'をたくさん'
           },
           {
             text: '食',
             rt: 'た'
           },
           {
-            text: 'べました。'
+            text: 'べたいからです。'
           }
         ],
-        translation: 'I ate seasonal seafood.'
+        translation: 'I want to go to Hokkaido because I want to eat lots of delicious seafood.'
       },
       {
         segments: [
           {
-            text: 'カフェで'
-          },
-          {
-            text: '軽食',
-            rt: 'けいしょく'
-          },
-          {
-            text: 'を'
-          },
-          {
-            text: '食',
-            rt: 'た'
-          },
-          {
-            text: 'べました。'
-          }
-        ],
-        translation: 'I had some snacks at a cafe.'
-      }
-    ]
-  },
-  {
-    question: [
-      {
-        text: 'どこにあるんですか？'
-      }
-    ],
-    translation: 'Where is it?',
-    answers: [
-      {
-        segments: [
-          {
-            text: '渋谷駅',
-            rt: 'しぶやえき'
-          },
-          {
-            text: 'の'
-          },
-          {
-            text: '近',
-            rt: 'ちか'
-          },
-          {
-            text: 'くにあります。'
-          }
-        ],
-        translation: "It's near Shibuya station."
-      },
-      {
-        segments: [
-          {
-            text: '有名',
-            rt: 'ゆうめい'
-          },
-          {
-            text: 'なデパートの'
-          },
-          {
-            text: '中',
-            rt: 'なか'
-          },
-          {
-            text: 'にあります。'
-          }
-        ],
-        translation: "It's inside a famous department store."
-      },
-      {
-        segments: [
-          {
-            text: 'ここから'
-          },
-          {
-            text: '歩',
-            rt: 'ある'
-          },
-          {
-            text: 'いて10'
-          },
-          {
-            text: '分',
-            rt: 'ぷん'
-          },
-          {
-            text: 'くらいの'
-          },
-          {
-            text: '場所',
-            rt: 'ばしょ'
-          },
-          {
-            text: 'にあります。'
-          }
-        ],
-        translation: "It's in a place about a 10-minute walk from here."
-      }
-    ]
-  },
-  {
-    question: [
-      {
-        text: 'いつ'
-      },
-      {
-        text: '行',
-        rt: 'い'
-      },
-      {
-        text: 'ったんですか？'
-      }
-    ],
-    translation: 'When did you go?',
-    answers: [
-      {
-        segments: [
-          {
-            text: '三日',
-            rt: 'みっか'
-          },
-          {
-            text: '位前',
-            rt: 'くらいまえ'
+            text: '京都',
+            rt: 'きょうと'
           },
           {
             text: 'に'
@@ -1004,16 +1137,58 @@ export const cards: Card[] = [
             rt: 'い'
           },
           {
-            text: 'きました。'
+            text: 'きたいです。'
+          },
+          {
+            text: '古',
+            rt: 'ふる'
+          },
+          {
+            text: 'いお'
+          },
+          {
+            text: '寺',
+            rt: 'てら'
+          },
+          {
+            text: 'や'
+          },
+          {
+            text: '静',
+            rt: 'しず'
+          },
+          {
+            text: 'かな'
+          },
+          {
+            text: '庭園',
+            rt: 'ていえん'
+          },
+          {
+            text: 'をゆっくり'
+          },
+          {
+            text: '見',
+            rt: 'み'
+          },
+          {
+            text: 'て'
+          },
+          {
+            text: '回',
+            rt: 'まわ'
+          },
+          {
+            text: 'りたいです。'
           }
         ],
-        translation: 'I went three days ago.'
+        translation: 'I want to go to Kyoto. I want to take my time visiting old temples and quiet gardens.'
       },
       {
         segments: [
           {
-            text: '先週末',
-            rt: 'せんしゅうまつ'
+            text: '沖縄',
+            rt: 'おきなわ'
           },
           {
             text: 'に'
@@ -1023,99 +1198,344 @@ export const cards: Card[] = [
             rt: 'い'
           },
           {
-            text: 'きました。'
+            text: 'きたいです。'
+          },
+          {
+            text: '綺麗',
+            rt: 'きれい'
+          },
+          {
+            text: 'な'
+          },
+          {
+            text: '海',
+            rt: 'うみ'
+          },
+          {
+            text: 'で'
+          },
+          {
+            text: '泳',
+            rt: 'およ'
+          },
+          {
+            text: 'いで、のんびり'
+          },
+          {
+            text: '過',
+            rt: 'す'
+          },
+          {
+            text: 'ごしたいからです。'
           }
         ],
-        translation: 'I went last weekend.'
-      },
-      {
-        segments: [
-          {
-            text: '夏休',
-            rt: 'なつやす'
-          },
-          {
-            text: 'みに'
-          },
-          {
-            text: '行',
-            rt: 'い'
-          },
-          {
-            text: 'きました。'
-          }
-        ],
-        translation: 'I went during the summer holidays.'
+        translation: 'I want to go to Okinawa because I want to swim in the beautiful sea and relax.'
       }
     ]
   },
   {
     question: [
       {
-        text: 'どうでしたか？'
+        text: '最近',
+        rt: 'さいきん'
+      },
+      {
+        text: '、ハマっていることはありますか？'
       }
     ],
-    translation: 'How was it?',
+    translation: "What is something you've been obsessed with lately?",
     answers: [
       {
         segments: [
           {
-            text: 'とてもワクワクしました。'
-          }
-        ],
-        translation: 'It was very exciting.'
-      },
-      {
-        segments: [
-          {
-            text: '期待',
-            rt: 'きたい'
+            text: '料理',
+            rt: 'りょうり'
           },
           {
-            text: 'していた'
+            text: 'にハマっています。'
           },
           {
-            text: '以上',
-            rt: 'いじょう'
+            text: '週末',
+            rt: 'しゅうまつ'
           },
           {
             text: 'に'
           },
           {
-            text: '良',
-            rt: 'よ'
+            text: '新',
+            rt: 'あたら'
           },
           {
-            text: 'かったです。'
-          }
-        ],
-        translation: 'It was better than I expected.'
-      },
-      {
-        segments: [
-          {
-            text: '少',
-            rt: 'すこ'
+            text: 'しいレシピに'
           },
           {
-            text: 'し'
+            text: '挑戦',
+            rt: 'ちょうせん'
           },
           {
-            text: '混',
-            rt: 'こ'
-          },
-          {
-            text: 'んでいましたが、'
+            text: 'するのが'
           },
           {
             text: '楽',
             rt: 'たの'
           },
           {
-            text: 'しかったです。'
+            text: 'しいです。'
           }
         ],
-        translation: 'It was a bit crowded, but fun.'
+        translation: "I'm into cooking. It's fun to try new recipes on weekends."
+      },
+      {
+        segments: [
+          {
+            text: '写真',
+            rt: 'しゃしん'
+          },
+          {
+            text: 'を'
+          },
+          {
+            text: '撮',
+            rt: 'と'
+          },
+          {
+            text: 'ることにハマっています。'
+          },
+          {
+            text: '近所',
+            rt: 'きんじょ'
+          },
+          {
+            text: 'の'
+          },
+          {
+            text: '公園',
+            rt: 'こうえん'
+          },
+          {
+            text: 'で'
+          },
+          {
+            text: '花',
+            rt: 'はな'
+          },
+          {
+            text: 'や'
+          },
+          {
+            text: '景色',
+            rt: 'けしき'
+          },
+          {
+            text: 'を'
+          },
+          {
+            text: '撮',
+            rt: 'と'
+          },
+          {
+            text: 'っています。'
+          }
+        ],
+        translation: "I'm obsessed with taking photos. I take pictures of flowers and scenery in the neighborhood park."
+      },
+      {
+        segments: [
+          {
+            text: 'キャンプにハマっています。'
+          },
+          {
+            text: '自然',
+            rt: 'しぜん'
+          },
+          {
+            text: 'の'
+          },
+          {
+            text: '中',
+            rt: 'なか'
+          },
+          {
+            text: 'で'
+          },
+          {
+            text: '過',
+            rt: 'す'
+          },
+          {
+            text: 'ごすと、とてもリラックスできます。'
+          }
+        ],
+        translation: "I'm into camping. Spending time in nature is very relaxing."
+      }
+    ]
+  },
+  {
+    question: [
+      {
+        text: '休',
+        rt: 'やす'
+      },
+      {
+        text: 'みの'
+      },
+      {
+        text: '日',
+        rt: 'ひ'
+      },
+      {
+        text: 'はどのように'
+      },
+      {
+        text: '過',
+        rt: 'す'
+      },
+      {
+        text: 'ごすのが'
+      },
+      {
+        text: '一番好',
+        rt: 'いちばんす'
+      },
+      {
+        text: 'きですか？'
+      }
+    ],
+    translation: 'What is your favorite way to spend a holiday?',
+    answers: [
+      {
+        segments: [
+          {
+            text: '家',
+            rt: 'いえ'
+          },
+          {
+            text: 'でゆっくり'
+          },
+          {
+            text: '本',
+            rt: 'ほん'
+          },
+          {
+            text: 'を'
+          },
+          {
+            text: '読',
+            rt: 'よ'
+          },
+          {
+            text: 'んだり、'
+          },
+          {
+            text: '映画',
+            rt: 'えいが'
+          },
+          {
+            text: 'を'
+          },
+          {
+            text: '見',
+            rt: 'み'
+          },
+          {
+            text: 'たりするのが'
+          },
+          {
+            text: '一番好',
+            rt: 'いちばんす'
+          },
+          {
+            text: 'きです。'
+          }
+        ],
+        translation: 'I like relaxing at home, reading books or watching movies the best.'
+      },
+      {
+        segments: [
+          {
+            text: '友達',
+            rt: 'ともだち'
+          },
+          {
+            text: 'と'
+          },
+          {
+            text: '一緒',
+            rt: 'いっしょ'
+          },
+          {
+            text: 'に'
+          },
+          {
+            text: '美味',
+            rt: 'おい'
+          },
+          {
+            text: 'しいレストランへ'
+          },
+          {
+            text: '行',
+            rt: 'い'
+          },
+          {
+            text: 'くのが'
+          },
+          {
+            text: '一番',
+            rt: 'いちばん'
+          },
+          {
+            text: 'の'
+          },
+          {
+            text: '楽',
+            rt: 'たの'
+          },
+          {
+            text: 'しみです。'
+          }
+        ],
+        translation: 'My favorite thing is going to delicious restaurants with my friends.'
+      },
+      {
+        segments: [
+          {
+            text: '山',
+            rt: 'やま'
+          },
+          {
+            text: 'へハイキングに'
+          },
+          {
+            text: '行',
+            rt: 'い'
+          },
+          {
+            text: 'って、'
+          },
+          {
+            text: '体',
+            rt: 'からだ'
+          },
+          {
+            text: 'を'
+          },
+          {
+            text: '動',
+            rt: 'うご'
+          },
+          {
+            text: 'かすのが'
+          },
+          {
+            text: '一番好',
+            rt: 'いちばんす'
+          },
+          {
+            text: 'きです。'
+          }
+        ],
+        translation: 'I like going hiking in the mountains and exercising the best.'
       }
     ]
   },
@@ -1491,105 +1911,183 @@ export const cards: Card[] = [
   {
     question: [
       {
-        text: '毎日',
-        rt: 'まいにち'
+        text: '今',
+        rt: 'いま'
       },
       {
-        text: '、'
+        text: 'まで'
       },
       {
-        text: '野菜',
-        rt: 'やさい'
+        text: 'に'
       },
       {
-        text: 'を'
+        text: '行',
+        rt: 'い'
       },
       {
-        text: '食',
-        rt: 'た'
+        text: 'った'
       },
       {
-        text: 'べますか？'
+        text: '旅行',
+        rt: 'りょこう'
+      },
+      {
+        text: 'の'
+      },
+      {
+        text: '中',
+        rt: 'なか'
+      },
+      {
+        text: 'で、'
+      },
+      {
+        text: '一番',
+        rt: 'いちばん'
+      },
+      {
+        text: 'の'
+      },
+      {
+        text: '思',
+        rt: 'おも'
+      },
+      {
+        text: 'い'
+      },
+      {
+        text: '出',
+        rt: 'で'
+      },
+      {
+        text: 'は'
+      },
+      {
+        text: '何',
+        rt: 'なに'
+      },
+      {
+        text: 'ですか？'
       }
     ],
-    translation: 'Do you eat vegetables every day?',
+    translation: "What is your favorite memory from a trip you've taken?",
     answers: [
       {
         segments: [
           {
-            text: 'はい、'
+            text: '北海道',
+            rt: 'ほっかいどう'
           },
           {
-            text: '健康',
-            rt: 'けんこう'
-          },
-          {
-            text: 'のために'
-          },
-          {
-            text: '沢山食',
-            rt: 'たくさんた'
-          },
-          {
-            text: 'べるようにしています。'
-          }
-        ],
-        translation: 'Yes, I try to eat a lot for my health.'
-      },
-      {
-        segments: [
-          {
-            text: 'サラダを'
-          },
-          {
-            text: '毎日',
-            rt: 'まいにち'
-          },
-          {
-            text: '作',
-            rt: 'つく'
-          },
-          {
-            text: 'って'
+            text: 'で'
           },
           {
             text: '食',
             rt: 'た'
           },
           {
-            text: 'べています。'
+            text: 'べた'
+          },
+          {
+            text: '海鮮丼',
+            rt: 'かいせんどん'
+          },
+          {
+            text: 'が'
+          },
+          {
+            text: '最高',
+            rt: 'さいこう'
+          },
+          {
+            text: 'に'
+          },
+          {
+            text: '美味',
+            rt: 'おい'
+          },
+          {
+            text: 'しかったです。'
           }
         ],
-        translation: 'I make and eat a salad every day.'
+        translation: 'The seafood bowl I ate in Hokkaido was the best.'
       },
       {
         segments: [
           {
-            text: 'あまり'
+            text: '沖縄',
+            rt: 'おきなわ'
           },
           {
-            text: '好',
-            rt: 'す'
+            text: 'の'
           },
           {
-            text: 'きじゃないですが、'
+            text: '海',
+            rt: 'うみ'
           },
           {
-            text: '少',
-            rt: 'すこ'
+            text: 'でダイビングをしたのが、とても'
           },
           {
-            text: 'しずつ'
+            text: '綺麗',
+            rt: 'きれい'
           },
           {
-            text: '食',
-            rt: 'た'
+            text: 'で'
           },
           {
-            text: 'べています。'
+            text: '感動',
+            rt: 'かんどう'
+          },
+          {
+            text: 'しました。'
           }
         ],
-        translation: "I don't like them much, but I eat them little by little."
+        translation: 'Diving in the ocean in Okinawa was so beautiful and moving.'
+      },
+      {
+        segments: [
+          {
+            text: '去年',
+            rt: 'きょねん'
+          },
+          {
+            text: '行',
+            rt: 'い'
+          },
+          {
+            text: 'った'
+          },
+          {
+            text: '京都',
+            rt: 'きょうと'
+          },
+          {
+            text: 'の'
+          },
+          {
+            text: '紅葉',
+            rt: 'こうよう'
+          },
+          {
+            text: 'が、'
+          },
+          {
+            text: '信',
+            rt: 'しん'
+          },
+          {
+            text: 'じられないほど'
+          },
+          {
+            text: '美',
+            rt: 'うつく'
+          },
+          {
+            text: 'しかったです。'
+          }
+        ],
+        translation: 'The autumn leaves in Kyoto last year were unbelievably beautiful.'
       }
     ]
   },
@@ -1687,258 +2185,220 @@ export const cards: Card[] = [
   {
     question: [
       {
-        text: 'アニメを'
+        text: '今年',
+        rt: 'ことし'
       },
       {
-        text: '見',
-        rt: 'み'
+        text: 'の'
       },
       {
-        text: 'ますか？'
+        text: '目標',
+        rt: 'もくひょう'
+      },
+      {
+        text: 'は'
+      },
+      {
+        text: '何',
+        rt: 'なに'
+      },
+      {
+        text: 'ですか？'
       }
     ],
-    translation: 'Do you watch anime?',
+    translation: 'What are some of your goals for this year?',
     answers: [
       {
         segments: [
           {
-            text: 'はい、よく'
-          },
-          {
-            text: '見',
-            rt: 'み'
-          },
-          {
-            text: 'ます。'
-          },
-          {
-            text: '最近',
-            rt: 'さいきん'
-          },
-          {
-            text: 'は「SPY×FAMILY」に'
-          },
-          {
-            text: '嵌',
-            rt: 'は'
-          },
-          {
-            text: 'まっています。'
-          }
-        ],
-        translation: 'Yes, I watch it often. Recently I am hooked on "SPY×FAMILY".'
-      },
-      {
-        segments: [
-          {
-            text: '子供',
-            rt: 'こども'
+            text: '日本語',
+            rt: 'にほんご'
           },
           {
             text: 'の'
           },
           {
-            text: '頃',
-            rt: 'ころ'
+            text: '試験',
+            rt: 'しけん'
           },
           {
-            text: 'はよく'
+            text: 'に'
           },
           {
-            text: '見',
-            rt: 'み'
+            text: '合格',
+            rt: 'ごうかく'
           },
           {
-            text: 'ていましたが、'
+            text: 'することです。'
           },
           {
-            text: '最近',
-            rt: 'さいきん'
+            text: '毎日',
+            rt: 'まいにち'
           },
           {
-            text: 'はあまり'
+            text: '1'
           },
           {
-            text: '見',
-            rt: 'み'
+            text: '時間勉強',
+            rt: 'じかんべんきょう'
           },
           {
-            text: 'ません。'
+            text: 'しています。'
           }
         ],
-        translation: 'I used to watch it a lot when I was a child, but I do not watch it much lately.'
+        translation: 'My goal is to pass the Japanese language exam. I study for an hour every day.'
       },
       {
         segments: [
           {
-            text: '日本',
-            rt: 'にほん'
+            text: '健康',
+            rt: 'けんこう'
           },
           {
-            text: 'のアニメは'
+            text: 'のために、'
           },
           {
-            text: '世界中',
-            rt: 'せかいじゅう'
+            text: '毎日運動',
+            rt: 'まいにちうんどう'
           },
           {
-            text: 'で'
+            text: 'を'
           },
           {
-            text: '人気',
-            rt: 'にんき'
+            text: '続',
+            rt: 'つづ'
           },
           {
-            text: 'ですね。'
+            text: 'けることです。'
           }
         ],
-        translation: 'Japanese anime is popular all over the world, isn’t it?'
+        translation: 'My goal is to continue exercising every day for my health.'
+      },
+      {
+        segments: [
+          {
+            text: '新',
+            rt: 'あたら'
+          },
+          {
+            text: 'しい'
+          },
+          {
+            text: '趣味',
+            rt: 'しゅみ'
+          },
+          {
+            text: 'を'
+          },
+          {
+            text: '見',
+            rt: 'み'
+          },
+          {
+            text: 'つけて、もっとプライベートを'
+          },
+          {
+            text: '充実',
+            rt: 'じゅうじつ'
+          },
+          {
+            text: 'させたいです。'
+          }
+        ],
+        translation: 'I want to find a new hobby and make my private life more fulfilling.'
       }
     ]
   },
   {
     question: [
       {
-        text: 'どのコンビニが'
+        text: '来月',
+        rt: 'らいげつ'
       },
       {
-        text: '好',
-        rt: 'す'
+        text: '、'
       },
       {
-        text: 'きですか？'
+        text: '楽',
+        rt: 'たの'
+      },
+      {
+        text: 'しみにしていることはありますか？'
       }
     ],
-    translation: 'Which convenience store do you like?',
+    translation: "What is something you're looking forward to in the next month?",
     answers: [
       {
         segments: [
           {
-            text: 'セブンイレブンが'
+            text: '来月',
+            rt: 'らいげつ'
           },
           {
-            text: '一番好',
-            rt: 'いちばんす'
+            text: 'は'
           },
           {
-            text: 'きです。おにぎりが'
-          },
-          {
-            text: '美味',
-            rt: 'おい'
-          },
-          {
-            text: 'しいですよ。'
-          }
-        ],
-        translation: 'I like Seven-Eleven the best. Their rice balls are delicious.'
-      },
-      {
-        segments: [
-          {
-            text: 'ローソンのスイーツが'
-          },
-          {
-            text: '大好',
-            rt: 'だいす'
-          },
-          {
-            text: 'きです。'
-          }
-        ],
-        translation: 'I love Lawson’s sweets.'
-      },
-      {
-        segments: [
-          {
-            text: '近',
-            rt: 'ちか'
-          },
-          {
-            text: 'くにファミリーマートがあるので、よく'
-          },
-          {
-            text: '行',
-            rt: 'い'
-          },
-          {
-            text: 'きます。'
-          }
-        ],
-        translation: 'There is a FamilyMart nearby, so I go there often.'
-      }
-    ]
-  },
-  {
-    question: [
-      {
-        text: '沖縄',
-        rt: 'おきなわ'
-      },
-      {
-        text: 'に'
-      },
-      {
-        text: '行',
-        rt: 'い'
-      },
-      {
-        text: 'きたいですか？'
-      }
-    ],
-    translation: 'Do you want to go to Okinawa?',
-    answers: [
-      {
-        segments: [
-          {
-            text: 'はい、'
-          },
-          {
-            text: '綺麗',
-            rt: 'きれい'
-          },
-          {
-            text: 'な'
-          },
-          {
-            text: '海',
-            rt: 'うみ'
-          },
-          {
-            text: 'で'
-          },
-          {
-            text: '泳',
-            rt: 'およ'
-          },
-          {
-            text: 'いでみたいです。'
-          }
-        ],
-        translation: 'Yes, I want to try swimming in the beautiful ocean.'
-      },
-      {
-        segments: [
-          {
-            text: 'いつか'
-          },
-          {
-            text: '冬',
-            rt: 'ふゆ'
+            text: '友達',
+            rt: 'ともだち'
           },
           {
             text: 'の'
           },
           {
-            text: '寒',
-            rt: 'さむ'
+            text: '結婚式',
+            rt: 'けっこんしき'
           },
           {
-            text: 'い'
+            text: 'があるので、とても'
           },
           {
-            text: '時期',
-            rt: 'じき'
+            text: '楽',
+            rt: 'たの'
+          },
+          {
+            text: 'しみです。'
+          }
+        ],
+        translation: "I'm looking forward to my friend's wedding next month."
+      },
+      {
+        segments: [
+          {
+            text: '新',
+            rt: 'あたら'
+          },
+          {
+            text: 'しいゲームが'
+          },
+          {
+            text: '発売',
+            rt: 'はつばい'
+          },
+          {
+            text: 'されるので、それを'
+          },
+          {
+            text: '楽',
+            rt: 'たの'
+          },
+          {
+            text: 'しみにしています。'
+          }
+        ],
+        translation: "A new game is coming out, so I'm looking forward to that."
+      },
+      {
+        segments: [
+          {
+            text: '家族',
+            rt: 'かぞく'
+          },
+          {
+            text: 'と'
+          },
+          {
+            text: '温泉',
+            rt: 'おんせん'
           },
           {
             text: 'に'
@@ -1948,36 +2408,426 @@ export const cards: Card[] = [
             rt: 'い'
           },
           {
-            text: 'ってみたいです。'
+            text: 'く'
+          },
+          {
+            text: '計画',
+            rt: 'けいかく'
+          },
+          {
+            text: 'があるので、わくわくしています。'
           }
         ],
-        translation: 'I want to go there sometime during the cold winter season.'
-      },
-      {
-        segments: [
-          {
-            text: '一度行',
-            rt: 'いちどい'
-          },
-          {
-            text: 'ったことがありますが、また'
-          },
-          {
-            text: '行',
-            rt: 'い'
-          },
-          {
-            text: 'きたいです。'
-          }
-        ],
-        translation: 'I have been there once, but I want to go again.'
+        translation: "I have plans to go to a hot spring with my family, so I'm excited."
       }
     ]
   },
   {
     question: [
       {
-        text: 'どんなスポーツが'
+        text: '一生',
+        rt: 'いっしょう'
+      },
+      {
+        text: '、'
+      },
+      {
+        text: '一種類',
+        rt: 'いっしゅるい'
+      },
+      {
+        text: 'の'
+      },
+      {
+        text: '料理',
+        rt: 'りょうり'
+      },
+      {
+        text: 'しか'
+      },
+      {
+        text: '食',
+        rt: 'た'
+      },
+      {
+        text: 'べられないとしたら、'
+      },
+      {
+        text: '何',
+        rt: 'なに'
+      },
+      {
+        text: 'を'
+      },
+      {
+        text: '選',
+        rt: 'えら'
+      },
+      {
+        text: 'びますか？'
+      }
+    ],
+    translation: 'If you could only eat one type of cuisine for the rest of your life, what would it be?',
+    answers: [
+      {
+        segments: [
+          {
+            text: '寿司',
+            rt: 'すし'
+          },
+          {
+            text: 'を'
+          },
+          {
+            text: '選',
+            rt: 'えら'
+          },
+          {
+            text: 'びます。'
+          },
+          {
+            text: '飽',
+            rt: 'あ'
+          },
+          {
+            text: 'きないし、ヘルシーだからです。'
+          }
+        ],
+        translation: "I would choose sushi. I won't get tired of it and it's healthy."
+      },
+      {
+        segments: [
+          {
+            text: 'イタリア'
+          },
+          {
+            text: '料理',
+            rt: 'りょうり'
+          },
+          {
+            text: 'を'
+          },
+          {
+            text: '選',
+            rt: 'えら'
+          },
+          {
+            text: 'びます。パスタやピザが'
+          },
+          {
+            text: '大好',
+            rt: 'だいす'
+          },
+          {
+            text: 'きだからです。'
+          }
+        ],
+        translation: 'I would choose Italian food. I love pasta and pizza.'
+      },
+      {
+        segments: [
+          {
+            text: '日本',
+            rt: 'にほん'
+          },
+          {
+            text: 'の'
+          },
+          {
+            text: '定食',
+            rt: 'ていしょく'
+          },
+          {
+            text: 'を'
+          },
+          {
+            text: '選',
+            rt: 'えら'
+          },
+          {
+            text: 'びます。'
+          },
+          {
+            text: '栄養', rt: 'えいよう'
+          },
+          {
+            text: 'のバランスが'
+          },
+          {
+            text: '良',
+            rt: 'よ'
+          },
+          {
+            text: 'いからです。'
+          }
+        ],
+        translation: 'I would choose Japanese set meals. They have a good nutritional balance.'
+      }
+    ]
+  },
+  {
+    question: [
+      {
+        text: 'あなたの'
+      },
+      {
+        text: '考',
+        rt: 'かんが'
+      },
+      {
+        text: 'え'
+      },
+      {
+        text: '方',
+        rt: 'かた'
+      },
+      {
+        text: 'に'
+      },
+      {
+        text: '大',
+        rt: 'おお'
+      },
+      {
+        text: 'きな'
+      },
+      {
+        text: '影響',
+        rt: 'えいきょう'
+      },
+      {
+        text: 'を'
+      },
+      {
+        text: '与',
+        rt: 'あた'
+      },
+      {
+        text: 'えた'
+      },
+      {
+        text: '本',
+        rt: 'ほん'
+      },
+      {
+        text: 'や'
+      },
+      {
+        text: '映画',
+        rt: 'えいが'
+      },
+      {
+        text: 'は'
+      },
+      {
+        text: '何',
+        rt: 'なに'
+      },
+      {
+        text: 'ですか？'
+      }
+    ],
+    translation: "What's a book or movie that significantly influenced your way of thinking?",
+    answers: [
+      {
+        segments: [
+          {
+            text: '「'
+          },
+          {
+            text: '7',
+            rt: 'なな'
+          },
+          {
+            text: 'つの'
+          },
+          {
+            text: '習慣',
+            rt: 'しゅうかん'
+          },
+          {
+            text: '」という'
+          },
+          {
+            text: '本',
+            rt: 'ほん'
+          },
+          {
+            text: 'を'
+          },
+          {
+            text: '読',
+            rt: 'よ'
+          },
+          {
+            text: 'んで、'
+          },
+          {
+            text: '時間',
+            rt: 'じかん'
+          },
+          {
+            text: 'の'
+          },
+          {
+            text: '使',
+            rt: 'つか'
+          },
+          {
+            text: 'い'
+          },
+          {
+            text: '方',
+            rt: 'かた'
+          },
+          {
+            text: 'が'
+          },
+          {
+            text: '変',
+            rt: 'か'
+          },
+          {
+            text: 'わりました。'
+          }
+        ],
+        translation: 'After reading the book "The 7 Habits," the way I use my time changed.'
+      },
+      {
+        segments: [
+          {
+            text: '「'
+          },
+          {
+            text: '最強',
+            rt: 'さいきょう'
+          },
+          {
+            text: 'のふたり」という'
+          },
+          {
+            text: '映画',
+            rt: 'えいが'
+          },
+          {
+            text: 'を'
+          },
+          {
+            text: '観',
+            rt: 'み'
+          },
+          {
+            text: 'て、'
+          },
+          {
+            text: '友情',
+            rt: 'ゆうじょう'
+          },
+          {
+            text: 'の'
+          },
+          {
+            text: '大切',
+            rt: 'たいせつ'
+          },
+          {
+            text: 'さを'
+          },
+          {
+            text: '学',
+            rt: 'まな'
+          },
+          {
+            text: 'びました。'
+          }
+        ],
+        translation: 'Watching the movie "The Intouchables," I learned the importance of friendship.'
+      },
+      {
+        segments: [
+          {
+            text: '小説',
+            rt: 'しょうせつ'
+          },
+          {
+            text: 'を'
+          },
+          {
+            text: '読',
+            rt: 'よ'
+          },
+          {
+            text: 'んで、'
+          },
+          {
+            text: '他',
+            rt: 'ほか'
+          },
+          {
+            text: 'の'
+          },
+          {
+            text: '人',
+            rt: 'ひと'
+          },
+          {
+            text: 'の'
+          },
+          {
+            text: '視点',
+            rt: 'してん'
+          },
+          {
+            text: 'から'
+          },
+          {
+            text: '世界',
+            rt: 'せかい'
+          },
+          {
+            text: 'を'
+          },
+          {
+            text: '見',
+            rt: 'み'
+          },
+          {
+            text: 'ることを'
+          },
+          {
+            text: '覚',
+            rt: 'おぼ'
+          },
+          {
+            text: 'えました。'
+          }
+        ],
+        translation: "By reading novels, I learned to see the world from other people's perspectives."
+      }
+    ]
+  },
+  {
+    question: [
+      {
+        text: '忙',
+        rt: 'いそが'
+      },
+      {
+        text: 'しい'
+      },
+      {
+        text: '一日',
+        rt: 'いちにち'
+      },
+      {
+        text: 'の'
+      },
+      {
+        text: '後',
+        rt: 'あと'
+      },
+      {
+        text: '、どのようにリラックスするのが'
       },
       {
         text: '好',
@@ -1987,12 +2837,66 @@ export const cards: Card[] = [
         text: 'きですか？'
       }
     ],
-    translation: 'What kind of sports do you like?',
+    translation: 'How do you usually like to relax after a busy day?',
     answers: [
       {
         segments: [
           {
-            text: 'サッカーを'
+            text: 'お'
+          },
+          {
+            text: '風呂',
+            rt: 'ふろ'
+          },
+          {
+            text: 'にゆっくり'
+          },
+          {
+            text: '入',
+            rt: 'はい'
+          },
+          {
+            text: 'って、'
+          },
+          {
+            text: '好',
+            rt: 'す'
+          },
+          {
+            text: 'きな'
+          },
+          {
+            text: '音楽',
+            rt: 'おんがく'
+          },
+          {
+            text: 'を'
+          },
+          {
+            text: '聴',
+            rt: 'き'
+          },
+          {
+            text: 'きます。'
+          }
+        ],
+        translation: 'I take a long bath and listen to my favorite music.'
+      },
+      {
+        segments: [
+          {
+            text: '冷',
+            rt: 'つめ'
+          },
+          {
+            text: 'たいビールを'
+          },
+          {
+            text: '飲',
+            rt: 'の'
+          },
+          {
+            text: 'みながら、YouTubeを'
           },
           {
             text: '観',
@@ -2002,241 +2906,212 @@ export const cards: Card[] = [
             text: 'るのが'
           },
           {
-            text: '好',
-            rt: 'す'
+            text: '最高',
+            rt: 'さいこう'
           },
           {
-            text: 'きです。'
+            text: 'です。'
           }
         ],
-        translation: 'I like watching soccer.'
+        translation: 'Drinking a cold beer while watching YouTube is the best.'
       },
       {
         segments: [
           {
-            text: 'テニスをするのが'
+            text: 'アロマを'
           },
           {
-            text: '楽',
-            rt: 'たの'
+            text: '焚',
+            rt: 'た'
           },
           {
-            text: 'しいです。'
+            text: 'いて、'
+          },
+          {
+            text: '何',
+            rt: 'なに'
+          },
+          {
+            text: 'も'
+          },
+          {
+            text: '考',
+            rt: 'かんが'
+          },
+          {
+            text: 'えずに'
+          },
+          {
+            text: '早',
+            rt: 'はや'
+          },
+          {
+            text: 'めに'
+          },
+          {
+            text: '寝',
+            rt: 'ね'
+          },
+          {
+            text: 'ます。'
           }
         ],
-        translation: 'Playing tennis is fun.'
-      },
-      {
-        segments: [
-          {
-            text: '冬',
-            rt: 'ふゆ'
-          },
-          {
-            text: 'はスキーに'
-          },
-          {
-            text: '行',
-            rt: 'い'
-          },
-          {
-            text: 'くのが'
-          },
-          {
-            text: '好',
-            rt: 'す'
-          },
-          {
-            text: 'きです。'
-          }
-        ],
-        translation: 'I like going skiing in winter.'
+        translation: 'I light some incense and go to bed early without thinking about anything.'
       }
     ]
   },
   {
     question: [
       {
-        text: '旅行',
-        rt: 'りょこう'
+        text: '最近',
+        rt: 'さいきん'
       },
       {
-        text: 'が'
+        text: '、'
       },
       {
-        text: '好',
-        rt: 'す'
+        text: '言語以外',
+        rt: 'げんごいがい'
       },
       {
-        text: 'きですか？'
+        text: 'で'
+      },
+      {
+        text: '新',
+        rt: 'あたら'
+      },
+      {
+        text: 'しく'
+      },
+      {
+        text: '学',
+        rt: 'まな'
+      },
+      {
+        text: 'んだことはありますか？'
       }
     ],
-    translation: 'Do you like traveling?',
+    translation: "What's something you've learned recently that wasn't related to languages?",
     answers: [
       {
         segments: [
           {
-            text: 'はい、'
+            text: '最近',
+            rt: 'さいきん'
           },
           {
-            text: '新',
-            rt: 'あたら'
+            text: '、'
           },
           {
-            text: 'しい'
-          },
-          {
-            text: '場所',
-            rt: 'ばしょ'
-          },
-          {
-            text: 'に'
-          },
-          {
-            text: '行',
-            rt: 'い'
-          },
-          {
-            text: 'くのが'
-          },
-          {
-            text: '好',
-            rt: 'す'
-          },
-          {
-            text: 'きです。'
-          }
-        ],
-        translation: 'Yes, I like going to new places.'
-      },
-      {
-        segments: [
-          {
-            text: '海外旅行',
-            rt: 'かいがいりょこう'
-          },
-          {
-            text: 'に'
-          },
-          {
-            text: '興味',
-            rt: 'きょうみ'
-          },
-          {
-            text: 'があります。'
-          }
-        ],
-        translation: 'I am interested in traveling abroad.'
-      },
-      {
-        segments: [
-          {
-            text: '忙',
-            rt: 'いそが'
-          },
-          {
-            text: 'しくてあまり'
-          },
-          {
-            text: '行',
-            rt: 'い'
-          },
-          {
-            text: 'けませんが、'
-          },
-          {
-            text: '好',
-            rt: 'す'
-          },
-          {
-            text: 'きです。'
-          }
-        ],
-        translation: "I'm busy and can't go often, but I like it."
-      }
-    ]
-  },
-  {
-    question: [
-      {
-        text: '北海道',
-        rt: 'ほっかいどう'
-      },
-      {
-        text: 'に'
-      },
-      {
-        text: '行',
-        rt: 'い'
-      },
-      {
-        text: 'ったことがありますか？'
-      }
-    ],
-    translation: 'Have you ever been to Hokkaido?',
-    answers: [
-      {
-        segments: [
-          {
-            text: 'はい、'
-          },
-          {
-            text: '去年',
-            rt: 'きょねん'
+            text: '動画',
+            rt: 'どうが'
           },
           {
             text: 'の'
           },
           {
-            text: '冬',
-            rt: 'ふゆ'
+            text: '編集',
+            rt: 'へんしゅう'
           },
           {
-            text: 'に'
+            text: 'のやり'
           },
           {
-            text: '行',
-            rt: 'い'
+            text: '方',
+            rt: 'かた'
           },
           {
-            text: 'きました。'
+            text: 'を'
+          },
+          {
+            text: '学',
+            rt: 'まな'
+          },
+          {
+            text: 'び'
+          },
+          {
+            text: '始',
+            rt: 'はじ'
+          },
+          {
+            text: 'めました。'
           }
         ],
-        translation: 'Yes, I went there last winter.'
+        translation: 'I recently started learning how to edit videos.'
       },
       {
         segments: [
           {
-            text: 'いいえ、ありません。いつか'
+            text: '観葉植物',
+            rt: 'かんようしょくぶつ'
           },
           {
-            text: '行',
-            rt: 'い'
+            text: 'の'
           },
           {
-            text: 'ってみたいです。'
+            text: '育',
+            rt: 'そだ'
+          },
+          {
+            text: 'て'
+          },
+          {
+            text: '方',
+            rt: 'かた'
+          },
+          {
+            text: 'について'
+          },
+          {
+            text: '詳',
+            rt: 'くわ'
+          },
+          {
+            text: 'しくなりました。'
           }
         ],
-        translation: 'No, I haven’t. I want to go there someday.'
+        translation: "I've become knowledgeable about how to grow houseplants."
       },
       {
         segments: [
           {
-            text: '出張',
-            rt: 'しゅっちょう'
+            text: '瞑想',
+            rt: 'めいそう'
           },
           {
-            text: 'で'
+            text: 'の'
           },
           {
-            text: '一度行',
-            rt: 'いちどい'
+            text: '習慣',
+            rt: 'しゅうかん'
           },
           {
-            text: 'ったことがあります。'
+            text: 'がメンタルに'
+          },
+          {
+            text: '与',
+            rt: 'あた'
+          },
+          {
+            text: 'える'
+          },
+          {
+            text: '効果',
+            rt: 'こうか'
+          },
+          {
+            text: 'を'
+          },
+          {
+            text: '学',
+            rt: 'まな'
+          },
+          {
+            text: 'びました。'
           }
         ],
-        translation: 'I went there once for a business trip.'
+        translation: 'I learned about the effects of a meditation habit on mental health.'
       }
     ]
   },
@@ -2416,367 +3291,319 @@ export const cards: Card[] = [
   {
     question: [
       {
-        text: '英語',
-        rt: 'えいご'
+        text: 'もし'
       },
       {
-        text: 'を'
+        text: '魔法',
+        rt: 'まほう'
       },
       {
-        text: '話',
-        rt: 'はな'
+        text: 'が'
       },
       {
-        text: 'せますか？'
+        text: '使',
+        rt: 'つか'
+      },
+      {
+        text: 'えるとしたら、どんなことがしたいですか？'
       }
     ],
-    translation: 'Can you speak English?',
+    translation: 'If you could have any superpower, what would it be and why?',
     answers: [
       {
         segments: [
           {
-            text: 'はい、'
+            text: '空',
+            rt: 'そら'
           },
           {
-            text: '少',
-            rt: 'すこ'
+            text: 'を'
           },
           {
-            text: 'しだけ'
+            text: '飛',
+            rt: 'と'
           },
           {
-            text: '話',
-            rt: 'はな'
+            text: 'んでみたいです。'
           },
           {
-            text: 'せます。'
-          }
-        ],
-        translation: 'Yes, I can speak it just a little.'
-      },
-      {
-        segments: [
-          {
-            text: '日常会話',
-            rt: 'にちじょうかいわ'
+            text: '高',
+            rt: 'たか'
           },
           {
-            text: 'なら'
+            text: 'いところから'
           },
           {
-            text: '問題',
-            rt: 'もんだい'
+            text: '景色',
+            rt: 'けしき'
           },
           {
-            text: 'ありません。'
-          }
-        ],
-        translation: 'If it is daily conversation, there is no problem.'
-      },
-      {
-        segments: [
-          {
-            text: 'いいえ、まだ'
-          },
-          {
-            text: '勉強中',
-            rt: 'べんきょうちゅう'
-          },
-          {
-            text: 'です。'
-          }
-        ],
-        translation: 'No, I am still studying.'
-      }
-    ]
-  },
-  {
-    question: [
-      {
-        text: '最近',
-        rt: 'さいきん'
-      },
-      {
-        text: '、'
-      },
-      {
-        text: '休',
-        rt: 'やす'
-      },
-      {
-        text: 'みの'
-      },
-      {
-        text: '日',
-        rt: 'ひ'
-      },
-      {
-        text: 'は'
-      },
-      {
-        text: '何',
-        rt: 'なに'
-      },
-      {
-        text: 'をしていますか？'
-      }
-    ],
-    translation: 'What have you been doing on your days off lately?',
-    answers: [
-      {
-        segments: [
-          {
-            text: '家',
-            rt: 'いえ'
-          },
-          {
-            text: 'で映画を'
+            text: 'を'
           },
           {
             text: '見',
             rt: 'み'
           },
           {
-            text: 'ています。'
+            text: 'てみたいからです。'
           }
         ],
-        translation: 'I am watching movies at home.'
+        translation: 'I want to try flying in the sky because I want to see the scenery from a high place.'
       },
       {
         segments: [
           {
-            text: 'カフェで'
-          },
-          {
-            text: '本',
-            rt: 'ほん'
-          },
-          {
-            text: 'を'
-          },
-          {
-            text: '読',
-            rt: 'よ'
-          },
-          {
-            text: 'んでいます。'
-          }
-        ],
-        translation: 'I am reading books at a cafe.'
-      },
-      {
-        segments: [
-          {
-            text: '友達',
-            rt: 'ともだち'
-          },
-          {
-            text: 'とキャンプに'
-          },
-          {
-            text: '行',
-            rt: 'い'
-          },
-          {
-            text: 'っています。'
-          }
-        ],
-        translation: 'I am going camping with friends.'
-      }
-    ]
-  },
-  {
-    question: [
-      {
-        text: '日本',
-        rt: 'にほん'
-      },
-      {
-        text: 'でラーメンを'
-      },
-      {
-        text: '食',
-        rt: 'た'
-      },
-      {
-        text: 'べたことがありますか？'
-      }
-    ],
-    translation: 'Have you ever eaten ramen in Japan?',
-    answers: [
-      {
-        segments: [
-          {
-            text: 'はい、とんこつラーメンがとても'
-          },
-          {
-            text: '美味',
-            rt: 'おい'
-          },
-          {
-            text: 'しかったです。'
-          }
-        ],
-        translation: 'Yes, the tonkotsu ramen was very delicious.'
-      },
-      {
-        segments: [
-          {
-            text: 'いいえ、まだありません。'
-          },
-          {
-            text: '有名',
-            rt: 'ゆうめい'
-          },
-          {
-            text: 'な'
-          },
-          {
-            text: '店',
-            rt: 'みせ'
-          },
-          {
-            text: 'に'
-          },
-          {
-            text: '行',
-            rt: 'い'
-          },
-          {
-            text: 'ってみたいです。'
-          }
-        ],
-        translation: 'No, not yet. I want to go to a famous shop.'
-      },
-      {
-        segments: [
-          {
-            text: 'はい、'
-          },
-          {
-            text: '昨日',
-            rt: 'きのう'
+            text: '世界中',
+            rt: 'せかいじゅう'
           },
           {
             text: 'の'
           },
           {
-            text: '昼',
-            rt: 'ひる'
+            text: '言葉',
+            rt: 'ことば'
           },
           {
-            text: 'ご'
+            text: 'を'
           },
           {
-            text: '飯',
-            rt: 'はん'
+            text: '話',
+            rt: 'はな'
           },
           {
-            text: 'に'
+            text: 'せるようになりたいです。'
           },
           {
-            text: '食',
-            rt: 'た'
+            text: '色々',
+            rt: 'いろいろ'
           },
           {
-            text: 'べました。'
+            text: 'な'
+          },
+          {
+            text: '国',
+            rt: 'くに'
+          },
+          {
+            text: 'の'
+          },
+          {
+            text: '人',
+            rt: 'ひと'
+          },
+          {
+            text: 'と'
+          },
+          {
+            text: '話',
+            rt: 'はな'
+          },
+          {
+            text: 'したいからです。'
           }
         ],
-        translation: 'Yes, I ate it for lunch yesterday.'
+        translation: 'I want to be able to speak languages from all over the world because I want to talk to people from various countries.'
+      },
+      {
+        segments: [
+          {
+            text: '瞬間移動',
+            rt: 'しゅんかんいどう'
+          },
+          {
+            text: 'ができるようになりたいです。'
+          },
+          {
+            text: '旅行',
+            rt: 'りょこう'
+          },
+          {
+            text: 'がもっと'
+          },
+          {
+            text: '楽',
+            rt: 'らく'
+          },
+          {
+            text: 'になるからです。'
+          }
+        ],
+        translation: 'I want to be able to teleport. It would make traveling much easier.'
       }
     ]
   },
   {
     question: [
       {
-        text: '辛',
-        rt: 'から'
+        text: 'もし'
       },
       {
-        text: 'い'
+        text: '歴史上',
+        rt: 'れきしじょう'
       },
       {
-        text: '食',
-        rt: 'た'
+        text: 'のどの'
       },
       {
-        text: 'べ'
+        text: '時代',
+        rt: 'じだい'
       },
       {
-        text: '物',
-        rt: 'もの'
+        text: 'でも'
       },
       {
-        text: 'が'
-      },
-      {
-        text: '好',
+        text: '住',
         rt: 'す'
       },
       {
-        text: 'きですか？'
+        text: 'めるとしたら、いつを'
+      },
+      {
+        text: '選',
+        rt: 'えら'
+      },
+      {
+        text: 'びますか？その'
+      },
+      {
+        text: '理由',
+        rt: 'りゆう'
+      },
+      {
+        text: 'も'
+      },
+      {
+        text: '教',
+        rt: 'おし'
+      },
+      {
+        text: 'えてください。'
       }
     ],
-    translation: 'Do you like spicy food?',
+    translation: 'If you could live in any era of history, which one would you choose and why?',
     answers: [
       {
         segments: [
           {
-            text: 'はい、'
+            text: '江戸時代',
+            rt: 'えどじだい'
           },
           {
-            text: '辛',
-            rt: 'から'
+            text: 'を'
           },
           {
-            text: 'いカレーが'
+            text: '歩',
+            rt: 'ある'
           },
           {
-            text: '大好',
-            rt: 'だいす'
+            text: 'いてみたいです。'
           },
           {
-            text: 'きです。'
+            text: '侍',
+            rt: 'さむらい'
+          },
+          {
+            text: 'や'
+          },
+          {
+            text: '文化',
+            rt: 'ぶんか'
+          },
+          {
+            text: 'に'
+          },
+          {
+            text: '興味',
+            rt: 'きょうみ'
+          },
+          {
+            text: 'があるからです。'
           }
         ],
-        translation: 'Yes, I love spicy curry.'
+        translation: 'I want to walk through the Edo period. I am interested in samurai and the culture.'
       },
       {
         segments: [
           {
-            text: 'あまり'
+            text: '1960'
           },
           {
-            text: '得意',
-            rt: 'とくい'
+            text: '年代',
+            rt: 'ねんだい'
           },
           {
-            text: 'ではありません。'
+            text: 'の'
+          },
+          {
+            text: 'アメリカ'
+          },
+          {
+            text: 'に'
+          },
+          {
+            text: '行',
+            rt: 'い'
+          },
+          {
+            text: 'きたいです。'
+          },
+          {
+            text: '音楽',
+            rt: 'おんがく'
+          },
+          {
+            text: 'やファッションが'
+          },
+          {
+            text: '好',
+            rt: 'す'
+          },
+          {
+            text: 'きだからです。'
           }
         ],
-        translation: "I'm not very good with it."
+        translation: 'I want to go to America in the 1960s. I like the music and fashion.'
       },
       {
         segments: [
           {
-            text: '少',
-            rt: 'すこ'
+            text: '未来',
+            rt: 'みらい'
           },
           {
-            text: 'しだけなら'
+            text: 'の'
           },
           {
-            text: '大丈夫',
-            rt: 'だいじょうぶ'
+            text: '100',
+            rt: 'ひゃく'
           },
           {
-            text: 'です。'
+            text: '年後',
+            rt: 'ねんご'
+          },
+          {
+            text: 'を'
+          },
+          {
+            text: '見',
+            rt: 'み'
+          },
+          {
+            text: 'てみたいです。テクノロジーがどうなっているか'
+          },
+          {
+            text: '気',
+            rt: 'き'
+          },
+          {
+            text: 'になります。'
           }
         ],
-        translation: 'If it is just a little, I am fine.'
+        translation: "I want to see 100 years into the future. I'm curious about what technology will be like."
       }
     ]
   },
+
   {
     question: [
       {
@@ -2995,125 +3822,7 @@ export const cards: Card[] = [
       }
     ]
   },
-  {
-    question: [
-      {
-        text: '会社',
-        rt: 'かいしゃ'
-      },
-      {
-        text: 'に'
-      },
-      {
-        text: '行',
-        rt: 'い'
-      },
-      {
-        text: 'く'
-      },
-      {
-        text: '時',
-        rt: 'とき'
-      },
-      {
-        text: '、'
-      },
-      {
-        text: '電車',
-        rt: 'でんしゃ'
-      },
-      {
-        text: 'に'
-      },
-      {
-        text: '乗',
-        rt: 'の'
-      },
-      {
-        text: 'りますか？'
-      }
-    ],
-    translation: 'Do you take the train when you go to work?',
-    answers: [
-      {
-        segments: [
-          {
-            text: 'はい、'
-          },
-          {
-            text: '満員電車',
-            rt: 'まんいんでんしゃ'
-          },
-          {
-            text: 'に'
-          },
-          {
-            text: '乗',
-            rt: 'の'
-          },
-          {
-            text: 'っています。'
-          }
-        ],
-        translation: 'Yes, I take a crowded train.'
-      },
-      {
-        segments: [
-          {
-            text: 'いいえ、'
-          },
-          {
-            text: '自転車',
-            rt: 'じてんしゃ'
-          },
-          {
-            text: 'で'
-          },
-          {
-            text: '行',
-            rt: 'い'
-          },
-          {
-            text: 'っています。'
-          }
-        ],
-        translation: 'No, I go by bicycle.'
-      },
-      {
-        segments: [
-          {
-            text: '家',
-            rt: 'いえ'
-          },
-          {
-            text: 'から'
-          },
-          {
-            text: '近',
-            rt: 'ちか'
-          },
-          {
-            text: 'いので、'
-          },
-          {
-            text: '歩',
-            rt: 'ある'
-          },
-          {
-            text: 'いて'
-          },
-          {
-            text: '行',
-            rt: 'い'
-          },
-          {
-            text: 'きます。'
-          }
-        ],
-        translation: 'It is close to my house, so I go on foot.'
-      }
-    ]
-  },
+
   {
     question: [
       {
@@ -3290,86 +3999,7 @@ export const cards: Card[] = [
       }
     ]
   },
-  {
-    question: [
-      {
-        text: '料理',
-        rt: 'りょうり'
-      },
-      {
-        text: 'が'
-      },
-      {
-        text: '好',
-        rt: 'す'
-      },
-      {
-        text: 'きですか？'
-      }
-    ],
-    translation: 'Do you like cooking?',
-    answers: [
-      {
-        segments: [
-          {
-            text: 'はい、'
-          },
-          {
-            text: '週末',
-            rt: 'しゅうまつ'
-          },
-          {
-            text: 'によく'
-          },
-          {
-            text: '作',
-            rt: 'つく'
-          },
-          {
-            text: 'ります。'
-          }
-        ],
-        translation: 'Yes, I often make it on weekends.'
-      },
-      {
-        segments: [
-          {
-            text: 'あまりしませんが、パスタを'
-          },
-          {
-            text: '作',
-            rt: 'つく'
-          },
-          {
-            text: 'るのが'
-          },
-          {
-            text: '得意',
-            rt: 'とくい'
-          },
-          {
-            text: 'です。'
-          }
-        ],
-        translation: "I don't do it often, but I'm good at making pasta."
-      },
-      {
-        segments: [
-          {
-            text: 'いいえ、いつも'
-          },
-          {
-            text: '外食',
-            rt: 'がいしょく'
-          },
-          {
-            text: 'をしています。'
-          }
-        ],
-        translation: 'No, I always eat out.'
-      }
-    ]
-  },
+
   {
     question: [
       {
@@ -3773,107 +4403,7 @@ export const cards: Card[] = [
       }
     ]
   },
-  {
-    question: [
-      {
-        text: '日本',
-        rt: 'にほん'
-      },
-      {
-        text: 'で'
-      },
-      {
-        text: '桜',
-        rt: 'さくら'
-      },
-      {
-        text: 'を'
-      },
-      {
-        text: '見',
-        rt: 'み'
-      },
-      {
-        text: 'たことがありますか？'
-      }
-    ],
-    translation: 'Have you ever seen cherry blossoms in Japan?',
-    answers: [
-      {
-        segments: [
-          {
-            text: 'はい、'
-          },
-          {
-            text: '去年',
-            rt: 'きょねん'
-          },
-          {
-            text: 'の上野公園で'
-          },
-          {
-            text: '見',
-            rt: 'み'
-          },
-          {
-            text: 'ました。'
-          }
-        ],
-        translation: 'Yes, I saw them at Ueno Park last year.'
-      },
-      {
-        segments: [
-          {
-            text: 'いいえ、まだありません。'
-          },
-          {
-            text: '来年',
-            rt: 'らいねん'
-          },
-          {
-            text: 'こそ'
-          },
-          {
-            text: '見',
-            rt: 'み'
-          },
-          {
-            text: 'たいです。'
-          }
-        ],
-        translation: 'No, not yet. I definitely want to see them next year.'
-      },
-      {
-        segments: [
-          {
-            text: 'お'
-          },
-          {
-            text: '花見',
-            rt: 'はなみ'
-          },
-          {
-            text: 'をしながらお'
-          },
-          {
-            text: '弁当',
-            rt: 'べんとう'
-          },
-          {
-            text: 'を'
-          },
-          {
-            text: '食',
-            rt: 'た'
-          },
-          {
-            text: 'べました。'
-          }
-        ],
-        translation: 'I ate a bento while viewing the flowers.'
-      }
-    ]
-  },
+
   {
     question: [
       {
@@ -4057,244 +4587,8 @@ export const cards: Card[] = [
       }
     ]
   },
-  {
-    question: [
-      {
-        text: '雪',
-        rt: 'ゆき'
-      },
-      {
-        text: 'が'
-      },
-      {
-        text: '好',
-        rt: 'す'
-      },
-      {
-        text: 'きですか？'
-      }
-    ],
-    translation: 'Do you like snow?',
-    answers: [
-      {
-        segments: [
-          {
-            text: 'はい、'
-          },
-          {
-            text: '景色',
-            rt: 'けしき'
-          },
-          {
-            text: 'が'
-          },
-          {
-            text: '綺麗',
-            rt: 'きれい'
-          },
-          {
-            text: 'になるので'
-          },
-          {
-            text: '好',
-            rt: 'す'
-          },
-          {
-            text: 'きです。'
-          }
-        ],
-        translation: 'Yes, I like it because the scenery becomes beautiful.'
-      },
-      {
-        segments: [
-          {
-            text: '寒',
-            rt: 'さむ'
-          },
-          {
-            text: 'いのが'
-          },
-          {
-            text: '苦手',
-            rt: 'にがて'
-          },
-          {
-            text: 'なので、あまり'
-          },
-          {
-            text: '好',
-            rt: 'す'
-          },
-          {
-            text: 'きではありません。'
-          }
-        ],
-        translation: "I'm not good with the cold, so I don't like it much."
-      },
-      {
-        segments: [
-          {
-            text: 'スキーができるので'
-          },
-          {
-            text: '嬉',
-            rt: 'うれ'
-          },
-          {
-            text: 'しいです。'
-          }
-        ],
-        translation: 'I am happy because I can ski.'
-      }
-    ]
-  },
-  {
-    question: [
-      {
-        text: '日本',
-        rt: 'にほん'
-      },
-      {
-        text: 'のカレーライスを'
-      },
-      {
-        text: '食',
-        rt: 'た'
-      },
-      {
-        text: 'べたことがありますか？'
-      }
-    ],
-    translation: 'Have you ever eaten Japanese curry rice?',
-    answers: [
-      {
-        segments: [
-          {
-            text: 'はい、とても'
-          },
-          {
-            text: '美味',
-            rt: 'おい'
-          },
-          {
-            text: 'しくて'
-          },
-          {
-            text: '大好',
-            rt: 'だいす'
-          },
-          {
-            text: 'きです。'
-          }
-        ],
-        translation: 'Yes, it is very delicious and I love it.'
-      },
-      {
-        segments: [
-          {
-            text: 'いいえ、まだありません。食べてみたいです。'
-          }
-        ],
-        translation: 'No, not yet. I want to try it.'
-      },
-      {
-        segments: [
-          {
-            text: '家庭的',
-            rt: 'かていてき'
-          },
-          {
-            text: 'な'
-          },
-          {
-            text: '味',
-            rt: 'あじ'
-          },
-          {
-            text: 'で'
-          },
-          {
-            text: '良',
-            rt: 'よ'
-          },
-          {
-            text: 'かったです。'
-          }
-        ],
-        translation: 'It was good with a home-style taste.'
-      }
-    ]
-  },
-  {
-    question: [
-      {
-        text: '毎日',
-        rt: 'まいにち'
-      },
-      {
-        text: '、'
-      },
-      {
-        text: '散歩',
-        rt: 'さんぽ'
-      },
-      {
-        text: 'しますか？'
-      }
-    ],
-    translation: 'Do you go for a walk every day?',
-    answers: [
-      {
-        segments: [
-          {
-            text: 'はい、'
-          },
-          {
-            text: '夕方',
-            rt: 'ゆうがた'
-          },
-          {
-            text: 'に'
-          },
-          {
-            text: '近',
-            rt: 'ちか'
-          },
-          {
-            text: 'くを'
-          },
-          {
-            text: '歩',
-            rt: 'ある'
-          },
-          {
-            text: 'いています。'
-          }
-        ],
-        translation: 'Yes, I walk nearby in the evening.'
-      },
-      {
-        segments: [
-          {
-            text: '忙',
-            rt: 'いそが'
-          },
-          {
-            text: 'しいときはできませんが、なるべくするようにしています。'
-          }
-        ],
-        translation: "I can't do it when I'm busy, but I try to as much as possible."
-      },
-      {
-        segments: [
-          {
-            text: 'いいえ、あまりしません。'
-          }
-        ],
-        translation: "No, I don't do it much."
-      }
-    ]
-  },
+
+
   {
     question: [
       {
@@ -4855,82 +5149,6 @@ export const cards: Card[] = [
           }
         ],
         translation: 'There was also a time when I was working part-time at a cafe.'
-      }
-    ]
-  },
-  {
-    question: [
-      {
-        text: 'スキーに'
-      },
-      {
-        text: '興味',
-        rt: 'きょうみ'
-      },
-      {
-        text: 'がありますか？'
-      }
-    ],
-    translation: 'Are you interested in skiing?',
-    answers: [
-      {
-        segments: [
-          {
-            text: 'はい、いつかやってみたいと'
-          },
-          {
-            text: '思',
-            rt: 'おも'
-          },
-          {
-            text: 'っています。'
-          }
-        ],
-        translation: 'Yes, I am thinking I want to try it someday.'
-      },
-      {
-        segments: [
-          {
-            text: 'はい、'
-          },
-          {
-            text: '毎年冬',
-            rt: 'まいとしふゆ'
-          },
-          {
-            text: 'に'
-          },
-          {
-            text: '行',
-            rt: 'い'
-          },
-          {
-            text: 'っています。'
-          }
-        ],
-        translation: 'Yes, I go every winter.'
-      },
-      {
-        segments: [
-          {
-            text: 'いいえ、'
-          },
-          {
-            text: '寒',
-            rt: 'さむ'
-          },
-          {
-            text: 'いのが'
-          },
-          {
-            text: '苦手',
-            rt: 'にがて'
-          },
-          {
-            text: 'なのであまりありません。'
-          }
-        ],
-        translation: "No, I don't have much interest because I'm not good with the cold."
       }
     ]
   },
