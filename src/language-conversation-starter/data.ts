@@ -2548,7 +2548,8 @@ export const cards: Card[] = [
             text: 'びます。'
           },
           {
-            text: '栄養', rt: 'えいよう'
+            text: '栄養',
+            rt: 'えいよう'
           },
           {
             text: 'のバランスが'
@@ -3262,7 +3263,7 @@ export const cards: Card[] = [
             rt: 'ほ'
           },
           {
-            text: 'します。'
+            text: 'します���'
           }
         ],
         translation: 'I hang out a lot of laundry.'
@@ -3402,7 +3403,8 @@ export const cards: Card[] = [
             text: 'したいからです。'
           }
         ],
-        translation: 'I want to be able to speak languages from all over the world because I want to talk to people from various countries.'
+        translation:
+          'I want to be able to speak languages from all over the world because I want to talk to people from various countries.'
       },
       {
         segments: [
@@ -4588,7 +4590,6 @@ export const cards: Card[] = [
     ]
   },
 
-
   {
     question: [
       {
@@ -5184,11 +5185,7 @@ export const cards: Card[] = [
         translation: 'I started three months ago.'
       },
       {
-        segments: [
-          { text: 'まだ' },
-          { text: '始', rt: 'はじ' },
-          { text: 'めたばかりです。' }
-        ],
+        segments: [{ text: 'まだ' }, { text: '始', rt: 'はじ' }, { text: 'めたばかりです。' }],
         translation: "I've just started."
       }
     ]
@@ -5458,11 +5455,7 @@ export const cards: Card[] = [
         translation: 'Yes, I participated for the first time last week.'
       },
       {
-        segments: [
-          { text: 'いいえ、まだありませんが、' },
-          { text: '行', rt: 'い' },
-          { text: 'ってみたいです。' }
-        ],
+        segments: [{ text: 'いいえ、まだありませんが、' }, { text: '行', rt: 'い' }, { text: 'ってみたいです。' }],
         translation: 'No, not yet, but I want to go.'
       },
       {
