@@ -64,3 +64,15 @@ from = "/notes/computer-graphics/viewing/camera/first-person/"
 to = "/notes/computer-graphics/viewing/camera/first-person-shot/"
 status = 301
 force = false
+
+[[redirects]]
+from = "/sandbox/rat/"
+to = "https://rattrack-nyc-673673358142.us-west1.run.app"
+status = 301
+force = true
+
+[[redirects]]
+from = "/sandbox/rat"
+to = "https://rattrack-nyc-673673358142.us-west1.run.app"
+status = 301
+force = true
