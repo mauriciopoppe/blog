@@ -63,14 +63,14 @@ I decided to learn French because:
 In my journey, I have realized that:
 
 * **I can only learn the language through discipline** - Like learning any other skill, it requires me to be **consistent**. This means practicing whenever
-  I have the opportunity. Some days I might not feel like learning it, but I know that just trying for a few minutes will help;
+  I have the opportunity. Some days I might not feel like learning it, but I know that just trying for a few minutes will help,
   in other words, even if I don't have the motivation to practice, I do it anyway.
 * **You get as much as you put in** - Regardless of the method I use, I'm not going to learn it if I don't practice it enough.
-* **I want to be fluent in a conversational setting** - I want to speak a language comfortably in a conversational setting;
+* **I want to be fluent in a conversational setting** - I want to speak a language comfortably in a conversational setting,
   I'm not that interested in learning how to write it perfectly (although it helps).
-* **Having an imperfect accent is okay** - I acknowledge that I have an accent when I speak, and that's okay; my accent is what makes me unique.
+* **Having an imperfect accent is okay** - I acknowledge that I have an accent when I speak, and that's okay, my accent is what makes me unique.
   My goal is for the person or people I'm talking to to understand me, and if they can, then that's it.
-  Having an accent is not an excuse to stop learning other aspects of the language, though;
+  Having an accent is not an excuse to stop learning other aspects of the language, though,
   I do put effort into learning new words and memorizing the gender of nouns.
 
 ## The Power of Comprehensible Input
@@ -112,12 +112,12 @@ The following is a great example of comprehensible input.
 
 ## Progression
 
-Thanks to Stephen's video, I changed my "initial" strategy:
+Thanks to Stephen's video, I changed my initial strategy:
 
-* I focused on listening to and watching audiovisual content in French.
+* I focused on listening to and watching content in French.
 * I listened to podcasts with an interactive transcription where I could see the meaning of new words.
 * I spent less time practicing my speaking skills.
-* I spent less time learning grammar rules such as verb conjugations and tenses.
+* I spent less time learning grammar rules like verb conjugations and tenses.
 
 After a few weeks/months of trying this out, I noticed I was starting to understand new words here and there
 (simply because it's natural for the most common words in a spoken language to appear most frequently in
@@ -129,7 +129,7 @@ a structured way.
 
 My intermediate strategy:
 
-* I started speaking as much as possible using Tandem, Preply,
+* I started speaking as much as possible using Tandem, Preply.
 * I started learning grammar in a structured way.
 
 I use [Preply](https://preply.com/) at least once a week, where I only focus on practicing my speaking skills.
@@ -172,7 +172,7 @@ I use the following tools:
     * [Learn French With Alexa](https://www.youtube.com/watch?v=hd0_GZHHWeE&list=PLV1-QgpUU7N2TVWS6gEVMqEfAFjAl-DV6)
 * [Readlang](https://readlang.com/)
   * Readlang is my favorite tool for practicing reading and listening.
-  * I like that the transcription is interactive; if I don't know a word, I can click/tap on it, and
+  * I like that the transcription is interactive, if I don't know a word, I can click/tap on it, and
     it'll highlight it and save it on its database (with the translation and the surrounding context).
   * It's web-based, so I can access it from my phone and my laptop without installing any software.
   * It's very affordable compared to similar tools like LingQ (just ~$50 US per year) and also
@@ -216,70 +216,29 @@ Now the words are in my Anki cloud account. On my phone, I open Anki, synchroniz
 and have daily sessions where I practice the words I've learned and their meanings with enough
 context to make sense of them.
 
-### Learning grammar with examples
+### Automating flashcard enrichment with AI
 
-I follow a structured grammar program generated with AI. I asked Gemini with Deep Research
-to figure out a plan to learn grammar for my current level and it created a very detailed
-document with a step by step grammar program.
+I used to manually prompt AI to generate lists of sentences for Anki, but I've since moved to a more automated workflow. I built a repository of [Anki Skills](https://github.com/mauriciopoppe/anki-decks) that allows me to point Gemini or Claude at my Anki deck and let them enrich my cards automatically.
 
-For any grammar topic that I want to learn in depth I learn by example and with spaced
-repetition. I use the following prompt to generate examples for Anki.
+The workflow is straightforward:
+1. I add a simple word or phrase I want to learn to Anki (often just a "Basic" card with the word and its translation).
+2. I run a set of AI skills that scan my deck for empty fields.
+3. The AI agent fills in the blanks based on the existing content of the card.
 
-```
-**Subject:** French Grammar Anki Card Generation
+My favorite skills from this setup are:
 
-**Topics:**
+* **`anki-add-notes`**: It generates detailed grammar explanations and mnemonics for the word I'm learning.
+* **`anki-add-sentence`**: It creates "i+1" sentences, sentences that use the word I'm learning but where every *other* word is already part of my known vocabulary. This ensures the context is actually comprehensible.
+* **`anki-add-frequency`**: It tags the card with a frequency rank (1-1000). If a word is rank 900, I know it's relatively obscure and I shouldn't stress about it as much as a rank 50 word.
+* **`anki-monolingual-hints`**: Once I'm more comfortable, this skill converts my English hints into simple French ones to force me to stop translating in my head.
 
-\`\`\`
-[PASTE YOUR LEARNING TOPICS HERE]
-\`\`\`
+If you use an agent like Gemini CLI, you can add these skills to your workspace:
 
-**Task:** Based *only* on the topics provided above, generate a list of examples for each concept and sub-concept.
-
-**Rules for Generation:**
-
-1. **Quantity:** Generate at least **50 examples** for *each* major concept listed.
-2. **Complexity:** The examples must have varied complexity: include simple, intermediate, and very hard sentences.
-3. **Format:** Generate a CSV file with **no header row** and use a **semicolon (;) as the separator**.
-4. **Columns:** The CSV must have exactly three columns: `Text`, `Frequency`, `Context`.
-
-**Column-Specific Instructions:**
-
-**1\. `Text` Column:**
-
-* **Format:** Must use the Anki cloze format: `{{c1::Phrase in French::meaning in English}}`.
-* **Content:** The cloze deletion *must* be a full sentence in French, or at least a complete clause
-  that makes sense on its own.
-* **Conversational Context:** To provide a real-life conversational setting, you must add 1-2 short
-  supporting sentences before and after the main sentence.
-  * **Crucially:** These extra context sentences must be *outside* the `{{c1::...}}` cloze block.
-  * **Example:** `Salut ça va ? {{c1::Je vais bien::I am doing well}}, merci.` (Here, `Salut ça va ?`
-    is the conversational context).
-
-**2\. `Frequency` Column:**
-
-* **Content:** A number between **1** and **100**.
-* **Meaning:** **1** \= this exact phrase is *highly likely* to be used in daily conversation. **100** \=
-  this phrase is grammatically correct but *highly unlikely* to be used (e.g., very formal, obscure, or overly complex).
-
-**3\. `Context` Column:**
-
-* **Content:** A detailed explanation of the grammar rule being demonstrated in the `Text` field.
-* **Clarity:** Explain *why* the specific form was used (e.g., "The adjective 'petite' is used because it must agree
-  in gender (feminine) and number (singular) with the noun 'fille'").
-* **Restriction:** **DO NOT** add *any* sources, pointers to sources, or references to lesson numbers (e.g., "L33").
-  The explanation must stand on its own.
+```bash
+npx skills add mauriciopoppe/anki-decks
 ```
 
-The output looks like this:
-
-```
-Qui es-tu ? {{c1::Je suis::I am}} étudiant à l'université.;1;This uses the present tense conjugation of the irregular verb *Être* (to be) for the first-person singular subject 'je'.
-Tu as l'air fatigué. {{c1::Oui, je suis::Yes, I am}} un peu malade.;1;This uses the present tense conjugation of *Être* for the first-person singular 'je'.
-...
-```
-
-I save the output to a file and import the file to Anki.
+This turns Anki from a simple memorization tool into a personalized, AI-driven language tutor.
 
 ## The Ultimate Immersion: Traveling
 
