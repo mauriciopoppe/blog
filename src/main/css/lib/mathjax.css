@@ -3,6 +3,12 @@ mjx-container.MathJax {
   overflow-x: auto;
   min-width: auto !important;
 }
+
+mjx-container.MathJax[display="true"] {
+  font-size: 0.8em !important;
+  margin: 1em 0 !important;
+}
+
 mjx-container.MathJax[jax=SVG] > svg a {
   fill: inherit;
   stroke: inherit;

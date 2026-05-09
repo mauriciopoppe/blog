@@ -37,7 +37,7 @@
 }
 
 .content h1 {
-  font-size: 2em;
+  font-size: 1.4em;
   margin-bottom: 0.5em;
 }
 
@@ -46,7 +46,7 @@
 }
 
 .content h2 {
-  font-size: 1.75em;
+  font-size: 1.3em;
   margin-bottom: 0.5714em;
 }
 
@@ -55,7 +55,7 @@
 }
 
 .content h3 {
-  font-size: 1.5em;
+  font-size: 1.2em;
   margin-bottom: 0.6666em;
 }
 
@@ -64,12 +64,12 @@
 }
 
 .content h4 {
-  font-size: 1.25em;
+  font-size: 1.1em;
   margin-bottom: 0.8em;
 }
 
 .content h5 {
-  font-size: 1.125em;
+  font-size: 1.05em;
   margin-bottom: 0.8888em;
 }
 
