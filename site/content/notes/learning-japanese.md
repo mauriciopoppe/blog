@@ -1,7 +1,7 @@
 ---
 title: Learning Japanese
 summary: |
-  I've recently started learning Japanese. In this article, I share my goals, motivations, and the tools and strategies I'm using to acquire this new language.
+  I've recently started learning Japanese. In this article, I share my goals and the tools and strategies I'm using to learn this new language.
 
 tags: ['learning', 'languages', 'japanese', 'life']
 libraries: ['doodle']
@@ -39,10 +39,10 @@ I decided to learn Japanese because:
 
 * **It makes me appreciate Japanese culture more** - After traveling to Japan, I realized I have a very deep appreciation for its culture.
   I find it interesting that there are many ways of expressing yourself based on how polite you want to be.
-* **It's linguistically challenging to learn** - It's very different from the languages I already know (English, Spanish, French).
-  I think it's challenging to learn Japanese words because you have to remember the meaning, the shape, and the sound.
-  However, I'm ready for the challenge!
-* **I like to listen to songs in Japanese** - When I used to watch more anime, I enjoyed Naruto's openings and endings, such as
+* **It's way different from other languages** - It's very different from the languages I already know (English, Spanish, French).
+  I think it's hard to learn Japanese words because you have to remember the meaning, the shape, and the sound.
+  But I'm ready for the challenge!
+* **I like to listen to songs in Japanese** - When I used to watch more anime, I enjoyed Naruto's openings and endings, like
   [Seishun Kyousoukyoku by Sambomaster](https://www.youtube.com/watch?v=lilv4MvBY6E&list=PLTGXZPSNXuQF0TugWpvhWbOAAKmyl4xVQ&index=5) or
   [Harmonia by Rythem](https://www.youtube.com/watch?v=VTIK1gBhzXk).
   Since then, I have started enjoying listening to Japanese pop music
@@ -51,7 +51,7 @@ I decided to learn Japanese because:
   as well as great metal bands like [Baby Metal](https://www.youtube.com/watch?v=MToMx6RCW-M),
   [Band Maid](https://www.youtube.com/watch?v=RCaeUkrItyY)
   and [Ningen Isu](https://www.youtube.com/watch?v=-CmbsjjMbNQ).
-* **Japanese Content** - There is a vast amount of content available in Japanese that I'm interested in watching like
+* **Japanese Content** - There is a lot of content available in Japanese that I'm interested in watching like
   [Gaki No Tsukai](https://www.reddit.com/r/GakiNoTsukai). I found them through their
   [Silent Library](https://www.reddit.com/r/GakiNoTsukai/wiki/sl)[^silent-library] series and then discovered their
   "No-laughing" batsu games, they're so hilarious!
@@ -61,13 +61,13 @@ version. I used to watch the show on MTV but at the time I didn't know it was or
 
 In my journey, I have realized that:
 
-* **I can only learn the language through discipline** - Like learning any other skill, it requires me to be **consistent**. This means practicing whenever
+* **I can only learn the language through discipline** - Like learning any other skill, it requires me to be consistent. This means practicing whenever
   I have the opportunity. Some days I might not feel like learning it, but I know that just trying for a few minutes will help.
-  In other words, even if I don't have the motivation to practice, I do it anyway.
-* **You get as much as you put in** - Regardless of the method I use, I'm not going to learn it if I don't practice it enough.
-* **Having an imperfect accent is okay** - I acknowledge that I have an accent when I speak and that's okay. My accent is what makes me unique.
+  Anyway, even if I don't have the motivation to practice, I do it anyway.
+* **You get as much as you put in** - No matter what method I use, I'm not going to learn it if I don't practice a lot.
+* **Having an imperfect accent is okay** - I know that I have an accent when I speak and that's okay. My accent is what makes me unique.
   My goal is for the person or people I'm talking to to understand me, and if they can, then that's it.
-  Having an accent is not an excuse to stop learning other aspects of the language, though.
+  Having an accent is not an excuse to stop learning other things about the language though.
   I do put effort into learning new words and grammar.
 
 ## Progression
@@ -75,7 +75,7 @@ In my journey, I have realized that:
 I am applying the concept of **Comprehensible Input** to learning Japanese.
 If you want to know more details about it, you can watch [this video](https://www.youtube.com/watch?v=p7WUxvpPIKQ).
 
-Similar to [my strategy for learning French through Comprehensible Input](../learning-french/#the-power-of-comprehensible-input),
+Similar to [my strategy for learning French](../learning-french/#the-power-of-comprehensible-input),
 I'm consuming Japanese content that I can understand. My favorite platforms are YouTube and Stremio (where I can watch anime).
 
 ### Understanding Japanese content in videos
@@ -154,7 +154,7 @@ Knowing how often it appears is very useful because if a word appears often in t
 high on the list of words I learn first. I wrote more details about how I mine words with Yomitan and my extension in
 [this guide](https://mauriciopoppe.github.io/SubtitleInsights/guides/yomitan-mining.html).
 
-### Augmenting content to mined vocabulary
+### Adding more content to mined words
 
 #### Mnemonics
 
@@ -163,8 +163,8 @@ I ask Gemini to create a mnemonic focused on three things: meaning, shape, and s
 It's much simpler to look at the strokes that form the character and remember a story around it, which eventually
 helps me recall the meaning, shape, and sound. This has worked wonderfully for me so far.
 
-  * While I could do that manually through the Gemini UI, [I have a script](https://github.com/mauriciopoppe/anki-decks)
-    that scans my list of recently learned words from Anki and augments notes to it.
+  * While I could do that by hand through the Gemini UI, [I have a script](https://github.com/mauriciopoppe/anki-decks)
+    that scans my list of recently learned words from Anki and adds notes to it.
 
 ```
 You are a Japanese Mnemonic Specialist.
@@ -222,18 +222,18 @@ they will kick you! (きく).
 I also learn with the [Kaishi 1.5k deck](https://ankiweb.net/shared/info/1196762551) which has a curated list of
 words. The deck follows a `i+1` method where you see one new piece of information, each card introduces a single
 new target word and provides a sentence composed entirely of words learned in previous cards.
-This approach **shares the exact same sentence** across 2 or 3 different target words!
+This approach shares the exact same sentence across 2 or 3 different target words!
 
 *   **Target Word A:** あなた (You) → Sentence: `あなたはトムさんですか。`
 *   **Target Word B:** さん (San) → Sentence: `あなたはトムさんですか。`
 
-This ensures that when moving from Word A to Word B, I see something "familiar" and reinforces the grammar and vocabulary of the shared sentence.
+This ensures that when moving from Word A to Word B, I see something familiar and reinforces the grammar and vocabulary of the shared sentence.
 
 I really like that methodology, unfortunately, when mining words with Yomitan it can only see the sentence where the
-word was retrieved from which might have lots of words that are still unknown.
+word was retrieved from which might have a lot of words that are still unknown.
 
-However, with AI agents is easy to express these constraints to agument context to mined words using this
-methodology. The plan that I coauthored with the agent is:
+However, with AI agents is easy to express these constraints to add context to mined words using this
+methodology. The plan that I wrote with the agent is:
 
 ```
 # Specification: i+1 Sentence Reinforcement for Japanese::Mining
@@ -265,18 +265,18 @@ already learned in both the `Japanese::Kaishi 1.5k` and `Japanese::Mining` decks
    - **SentenceEnglish:** A clear English translation of the generated sentence.
 
 5. **Automation:**
-   - Utilize AI (Gemini) to generate the sentences and translations based on the
+   - Use AI (Gemini) to generate the sentences and translations based on the
      provided "learned" context.
 ```
 
 After processing my deck now I see the words that I learned in sentences created by the AI agent
-with words seen in the past. This environment is excellent because I can practice reading and recalling the
+with words seen in the past. This is excellent because I can practice reading and recalling the
 meaning of other words while adding a new word to my vocabulary!
 
 ### Reviewing mined vocabulary in Anki
 The 'Forgetting Curve' suggests that without review, you lose 70% of new vocabulary within 24 hours.
-This is where Anki and its spaced repetition system helps; with Anki, I can review a word just before I forget it. Moreover, the
-word frequency data exported by Yomitan helps sort the list of words that I learn; therefore, I'm sure I'm learning words that really matter
+This is where Anki and its spaced repetition system helps, with Anki, I can review a word just before I forget it. Moreover, the
+word frequency data exported by Yomitan helps sort the list of words that I learn, therefore, I'm sure I'm learning words that really matter
 at this stage of my learning process and not learning words that I'll rarely use.
 
 {{< figure src="https://raw.githubusercontent.com/mauriciopoppe/anki-decks/refs/heads/main/resources/kanji-mnemonic-after.png" caption="My Anki template with mnemonics generated by AI" imgStyle="max-height: 400px; width: auto;" >}}
@@ -290,8 +290,7 @@ You can find the tool here: [Japanese Conversation Starter](/sandbox/language-co
 
 ## Visiting Japan in the future
 
-Another reason why I decided to learn Japanese is that I'm planning to visit Japan again. I enjoyed my stay there so much,
+Another reason why I decided to learn Japanese is that I'm planning to visit Japan again. I enjoyed my stay there a lot,
 and I miss it dearly! I'll leave this image here as motivation, reminding me of how happy I felt while staying there.
 
 {{< figure src="/images/japan-2025.jpg" caption="Me enjoying Japan" imgStyle="max-height: 800px; width: auto;" >}}
-

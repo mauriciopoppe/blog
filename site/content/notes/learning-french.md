@@ -2,8 +2,8 @@
 title: Learning French
 summary: |
   I've been learning French on my own for almost two years. I'm not fluent yet, but I can
-  understand and speak it with relative comfort. In this article, I share my journey of learning
-  a new language as an adult.
+  understand and speak it with relative comfort. In this article, I share how I'm learning
+  this new language.
 
 tags: ['learning', 'languages', 'french', 'life']
 libraries: ['doodle']
@@ -15,7 +15,7 @@ date: 2025-10-13 00:00:00
 * **I want to connect with people better** - Whenever I meet new people, I try to guess where they're from.
   If I know a few words of their language, I try to speak them, and I immediately see how they light up [^laoshu].
   I get happier when I make other people happy 🙂.
-* **It's a fun activity to do** - It's a hobby, and I look forward to practicing it, which is important for motivation.
+* **It's a fun activity to do** - It's a hobby, and I look forward to practicing it, which is important.
 
 [^laoshu]: [laoshu50500 was a polyglot Youtuber and a language teacher](https://www.youtube.com/@laoshu505000)
 who recorded his interactions with people in lots of languages.
@@ -51,7 +51,7 @@ I decided to learn French because:
   [Marie Laforêt](https://www.youtube.com/watch?v=oxnX23_494U),
   and [Joe Dassin](https://www.youtube.com/watch?v=V1T5sewxgYk)[^leteindien].
 * **I'm interested in the French culture** - I love traveling and getting to know new cultures.
-  I picked French because French cultural activities match my lifestyle.
+  I picked French because French culture matches how I like to live.
   French people are known for their love of food, their good manners, their love for reading
   (9/10 French people read at least one book per year), and how they enjoy their leisure time
   (flânerie is the art of aimlessly strolling through the city streets).
@@ -62,27 +62,27 @@ I decided to learn French because:
 
 In my journey, I have realized that:
 
-* **I can only learn the language through discipline** - Like learning any other skill, it requires me to be **consistent**. This means practicing whenever
+* **I can only learn the language through discipline** - Like learning any other skill, it requires me to be consistent. This means practicing whenever
   I have the opportunity. Some days I might not feel like learning it, but I know that just trying for a few minutes will help,
-  in other words, even if I don't have the motivation to practice, I do it anyway.
-* **You get as much as you put in** - Regardless of the method I use, I'm not going to learn it if I don't practice it enough.
+  anyway, even if I don't have the motivation to practice, I do it anyway.
+* **You get as much as you put in** - No matter what method I use, I'm not going to learn it if I don't practice enough.
 * **I want to be fluent in a conversational setting** - I want to speak a language comfortably in a conversational setting,
-  I'm not that interested in learning how to write it perfectly (although it helps).
-* **Having an imperfect accent is okay** - I acknowledge that I have an accent when I speak, and that's okay, my accent is what makes me unique.
+  I'm not that interested in learning how to write it perfectly though it helps.
+* **Having an imperfect accent is okay** - I know that I have an accent when I speak and that's okay, my accent is what makes me unique.
   My goal is for the person or people I'm talking to to understand me, and if they can, then that's it.
-  Having an accent is not an excuse to stop learning other aspects of the language, though,
-  I do put effort into learning new words and memorizing the gender of nouns.
+  Having an accent is not an excuse to stop learning other things though,
+  I do put effort into learning new words and the gender of nouns.
 
 ## The Power of Comprehensible Input
 
-When I decided to learn French, I did what most people would probably do: search online for recommended methods
+When I decided to learn French, I did what most people would probably do, search online for recommended methods
 and try them, like reading a beginner's "Learn French" book, listening to audiobooks
-where a teacher teaches French grammar rules in English, or enrolling in a language learning school[^school].
-Unfortunately, after a few months of trying all of these methods, I got frustrated and felt that
-I was not making any significant progress.
+where a teacher teaches French grammar rules in English, or enrolling in a language school[^school].
+Anyway, after a few months of trying all of these methods, I got frustrated and felt that
+I was not making much progress.
 
-[^school]: Not that it's a bad idea, but the method of learning grammar (verbs and their conjugations) didn't work **initially** for me.
-Doing the homework helped a lot, though.
+[^school]: Not that it's a bad idea, but the method of learning grammar (verbs and their conjugations) didn't work initially for me.
+Doing the homework helped a lot though.
 
 One day, YouTube recommended a video that changed the way I thought about learning a language.
 It's a lecture from [Stephen Krashen on Language Acquisition and Comprehensible Input](https://www.youtube.com/watch?v=fnUc_W3xE1w).
@@ -92,7 +92,7 @@ It's a lecture from [Stephen Krashen on Language Acquisition and Comprehensible 
     <div id="stephen" class="tw-text-primary tw-text-md md:tw-text-3xl md:tw-mx-auto tw-font-[Ultra] tw-text-center tw-font-light tw-p-3 md:tw-break-all">
       <p>
         We all acquire a new language in one way and only one way, <span class="tw-underline">when we get comprehensible input</span>
-        in a low anxiety environment. Anything that makes input comprehensible: pictures, knowledge of the world, realia, helps language acquisition.
+        in a low anxiety environment. Anything that makes input comprehensible: pictures, knowledge of the world, realia, helps language learning.
       </p>
       <p class="tw-text-right tw-text-sm md:tw-text-xl tw-italic">
         Stephen Krashen on <a target="_blank" href="https://www.youtube.com/watch?v=fnUc_W3xE1w">Language Acquisition and Comprehensible Input</a>
@@ -114,23 +114,22 @@ The following is a great example of comprehensible input.
 
 Thanks to Stephen's video, I changed my initial strategy:
 
-* I focused on listening to and watching content in French.
+* I focused on listening to and watching stuff in French.
 * I listened to podcasts with an interactive transcription where I could see the meaning of new words.
 * I spent less time practicing my speaking skills.
 * I spent less time learning grammar rules like verb conjugations and tenses.
 
 After a few weeks/months of trying this out, I noticed I was starting to understand new words here and there
-(simply because it's natural for the most common words in a spoken language to appear most frequently in
-casual conversation). Then I realized that I no longer needed to think about the right conjugation
+because it's natural for the most common words in a language to appear most frequently in
+casual conversation. Then I realized that I no longer needed to think about the right conjugation
 for a word because it somehow just came to mind after lots of reading/listening.
 
-After I understood a lot of what I read or listened to, I knew it was time to speak and to learn grammar in
-a structured way.
+After I understood a lot of what I read or listened to, I knew it was time to speak and to learn grammar properly.
 
 My intermediate strategy:
 
 * I started speaking as much as possible using Tandem, Preply.
-* I started learning grammar in a structured way.
+* I started learning grammar properly.
 
 I use [Preply](https://preply.com/) at least once a week, where I only focus on practicing my speaking skills.
 I go to a French meetup to practice in person[^1], and
@@ -140,11 +139,11 @@ I practice at work with a Francophone friend during breakfast.
 a lot of what people were saying, but the words didn't come quickly when I tried to speak. However, the more I go, the
 easier it gets to enter a flow state where my mind doesn't think about translating words anymore.
 
-It's very important to learn the grammar for both listening and speaking. For example, in French,
+It's very important to learn grammar for both listening and speaking. For example, in French,
 I'd always wonder what `y` and `en` meant in some sentences. After watching [this video](https://www.youtube.com/watch?v=OHQPlvD1ypc)
 I learned that it refers to a previously mentioned place.
 
-It's actually not hard to find a program to learn grammar in a structured way,
+It's actually not hard to find a program to learn grammar properly,
 following [Iclal's advice](https://www.youtube.com/watch?v=I_3GvRAZfvQ),
 I searched for playlists and found [Learn French with Alexa](https://www.youtube.com/watch?v=hd0_GZHHWeE&list=PLV1-QgpUU7N2TVWS6gEVMqEfAFjAl-DV6)'s
 playlist perfect.
@@ -153,7 +152,7 @@ I reached a point where I'm actively practicing grammar, vocabulary (new and exi
 the language whenever I have the chance.
 
 Next on my journey is a visit to France for some immersion time to
-practice speaking and listening to French every day.
+practice speaking and listening every day.
 
 ### Self learning tools
 
@@ -175,10 +174,10 @@ I use the following tools:
   * I like that the transcription is interactive, if I don't know a word, I can click/tap on it, and
     it'll highlight it and save it on its database (with the translation and the surrounding context).
   * It's web-based, so I can access it from my phone and my laptop without installing any software.
-  * It's very affordable compared to similar tools like LingQ (just ~$50 US per year) and also
+  * It's very affordable compared to similar tools like LingQ and also
     has a free version.
 * [Anki](https://apps.ankiweb.net/)
-  * To practice new words through spaced repetition. It's a great complementary tool to Readlang.
+  * To practice new words through spaced repetition. It's a great tool to use with Readlang.
 * [Linguno](https://www.linguno.com/)
   * I use it to practice verb conjugation and refine my French. I wouldn't recommend using it when starting out.
 
@@ -218,7 +217,7 @@ context to make sense of them.
 
 ### Automating flashcard enrichment with AI
 
-I used to manually prompt AI to generate lists of sentences for Anki, but I've since moved to a more automated workflow. I built a repository of [Anki Skills](https://github.com/mauriciopoppe/anki-decks) that allows me to point Gemini or Claude at my Anki deck and let them enrich my cards automatically.
+I used to manually ask AI to generate lists of sentences for Anki, but I've since moved to a more automated workflow. I built a repo of [Anki Skills](https://github.com/mauriciopoppe/anki-decks) that allows me to point Gemini or Claude at my Anki deck and let them add more stuff to my cards automatically.
 
 The workflow is straightforward:
 1. I add a simple word or phrase I want to learn to Anki (often just a "Basic" card with the word and its translation).
@@ -228,7 +227,7 @@ The workflow is straightforward:
 My favorite skills from this setup are:
 
 * **`anki-add-notes`**: It generates detailed grammar explanations and mnemonics for the word I'm learning.
-* **`anki-add-sentence`**: It creates "i+1" sentences, sentences that use the word I'm learning but where every *other* word is already part of my known vocabulary. This ensures the context is actually comprehensible.
+* **`anki-add-sentence`**: It creates "i+1" sentences, sentences that use the word I'm learning but where every other word is already part of my known vocabulary. This ensures the context is actually comprehensible.
 * **`anki-add-frequency`**: It tags the card with a frequency rank (1-1000). If a word is rank 900, I know it's relatively obscure and I shouldn't stress about it as much as a rank 50 word.
 * **`anki-monolingual-hints`**: Once I'm more comfortable, this skill converts my English hints into simple French ones to force me to stop translating in my head.
 
@@ -248,5 +247,5 @@ and the language. Immersion will definitely accelerate my speaking skills.
 ## Conclusion
 
 Learning a language by applying the comprehensible input method accelerated my progress.
-None of it would have been possible without putting effort every time that I can.
+None of it would have been possible without trying whenever I can.
 Discipline and consistency are the key.
