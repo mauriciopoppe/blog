@@ -19,6 +19,9 @@ a.toc-link {
   color: currentColor;
   height: 100%;
 }
+a.toc-link:hover {
+  color: rgb(var(--primary));
+}
 .is-collapsible {
   max-height: 1000px;
   overflow: hidden;

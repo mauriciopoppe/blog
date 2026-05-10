@@ -17,8 +17,8 @@
   cursor: pointer;
   height: 100%;
 }
-.my-sitemap li[data-url-target]:hover {
-  padding-left: 25px;
+.my-sitemap li div:hover {
+  color: rgb(var(--primary));
 }
 .my-sitemap li.is-active > div {
   font-weight: bold;
