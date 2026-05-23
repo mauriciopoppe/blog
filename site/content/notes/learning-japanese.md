@@ -1,7 +1,7 @@
 ---
 title: Learning Japanese
 summary: |
-  I've recently started learning Japanese. In this article, I share my goals and the tools and strategies I'm using to learn this new language.
+  I've been learning Japanese since December 2025. In this article, I share my goals and the tools and strategies I'm using to learn this new language.
 
 tags: ['learning', 'languages', 'japanese', 'life']
 libraries: ['doodle']

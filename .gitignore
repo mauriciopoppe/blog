@@ -185,3 +185,7 @@ fabric.properties
 
 # End of https://www.gitignore.io/api/intellij
 conductor/code_styleguides/writing.md
+
+# Antigravity (AGY) & AI Metadata
+.antigravity/
+.antigravitycli/
