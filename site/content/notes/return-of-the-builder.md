@@ -14,8 +14,6 @@ I first discovered this during my college years through the International Colleg
 
 I remember nights at home practicing in the University of Valladolid (uVA) problems and encountering a problem so interesting that would make me lose my ability of keeping track of time. My mom would sometimes bring dinner to my room and leave it on my desk. I'd be so deep in the problem, reading it, thinking about it and spending endless time thinking about it, that three hours would pass in what felt like minutes. I'd eventually make progress or solve it, look down, and realize my dinner was cold in the desk!
 
-That's how deep I would go into these problems.
-
 ## Fundamentals
 
 In my first job, I realized that being a deep thinker and solver is actually a big asset as a software engineer. I spent my time reading codebases, learning from my peers. Learning large codebases seemed natural simply because I'm used to spending time reading code and thinking about problems. Early in my career I knew that I had to learn fundamentals to be effective so I would spend lots of time reading Javascript manuals and know internals about how things work. I started doing frontend right at around the time when Promises were a new thing, I would implement them from scratch to know how they work and apply them to my projects at work. Because I focused a lot on my fundamentals that meant that I could adapt rapidly to new projects, onboard new libraries into our codebase, and bring new people up to speed into work.
