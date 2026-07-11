@@ -286,7 +286,7 @@ To practice the language with native speakers at meetups, I've created a small f
 where I can practice common questions and their possible answers. I use it when I want to be the one
 asking questions to keep the conversation going!
 
-You can find the tool here: [Japanese Conversation Starter](/sandbox/language-conversation-starter/)
+You can find the tool here: [Japanese Conversation Starter](https://japanese-conversation-starter.ai.studio)
 
 ## Visiting Japan in the future
 
