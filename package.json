@@ -17,7 +17,8 @@
     "build:hugo": "hugo --source site --destination ../dist",
     "serve:prod": "http-server -S -C site/cert/localhost.pem -K site/cert/localhost-key.pem dist",
     "generate:sitemap": "bun run src/util/sitemap-tree-generator.ts",
-    "generate:algolia": "[ -z ${ALGOLIA_WRITE_KEY} ] && exit 1 || hugo-algolia -i \"site/content/**\" --config site/config/_default/config.yaml -o dist/sitemap.json"
+    "generate:algolia": "[ -z ${ALGOLIA_WRITE_KEY} ] && exit 1 || hugo-algolia -i \"site/content/**\" --config site/config/_default/config.yaml -o dist/sitemap.json",
+    "test": "bun test site/ src/"
   },
   "dependencies": {
     "@babel/cli": "^7.8.3",

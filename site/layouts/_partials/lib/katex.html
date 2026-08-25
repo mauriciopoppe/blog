@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<style>
+  .katex {
+    font-size: 0.88em !important;
+  }
+  .katex-display {
+    font-size: 0.95em !important;
+    margin: 1.2em 0 !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  /* Scale math inside SVG diagrams so it matches diagram typography */
+  svg foreignObject .katex {
+    font-size: 1.08em !important;
+  }
+  svg foreignObject .katex-display {
+    font-size: 1.12em !important;
+  }
+</style>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderKaTeX()"></script>
+<script>
+  function renderKaTeX() {
+    if (window.renderMathInElement) {
+      window.renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ],
+        throwOnError: false,
+        ignoredClasses: ["tex2jax_ignore"]
+      });
+    }
+  }
+  document.addEventListener("DOMContentLoaded", renderKaTeX);
+</script>
