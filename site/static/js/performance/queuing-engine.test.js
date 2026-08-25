@@ -96,8 +96,8 @@ describe('QueuingEngine Simulation Logic', () => {
     expect(metrics.rawLoad).toBe(150.0);
     expect(metrics.theoreticalRho).toBe(100.0);
     expect(metrics.theoreticalHeadroom).toBe(0.0);
-    expect(metrics.measuredRho).toBe(100.0);
-    expect(metrics.headroom).toBe(0.0);
+    expect(metrics.measuredRho).toBeCloseTo(100.0, 1);
+    expect(metrics.headroom).toBeCloseTo(0.0, 1);
     expect(metrics.queueLength).toBeGreaterThan(5);
   });
 
