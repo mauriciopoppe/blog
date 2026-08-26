@@ -1,0 +1,194 @@
+/*
+ * Math Term Reference Popover Styling
+ *
+ * Copyright (c) 2026 Mauricio Poppe
+ * Licensed under the MIT license.
+ */
+
+.math-popover-card {
+  position: absolute;
+  z-index: 9999;
+  width: 370px;
+  max-width: calc(100vw - 32px);
+  background: var(--grey-darker);
+  border: 1px solid var(--grey-dark);
+  border-radius: 12px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.25);
+  padding: 16px;
+  color: var(--grey-lighter);
+  line-height: 1.35;
+  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(6px) scale(0.98);
+  transition: opacity 0.16s cubic-bezier(0.16, 1, 0.3, 1), transform 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.math-popover-card.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.math-popover-header {
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--grey-dark);
+}
+
+.math-popover-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.math-popover-symbol {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: rgb(var(--primary));
+  flex-shrink: 0;
+}
+
+.math-popover-name {
+  font-family: var(--family-sans, system-ui, sans-serif);
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--grey-lighter);
+  margin: 0;
+  line-height: 1.25;
+}
+
+.math-popover-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 0;
+  line-height: 1.1;
+}
+
+.math-popover-category {
+  font-family: var(--family-sans, system-ui, sans-serif);
+  font-size: 0.64rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: rgb(var(--primary));
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+.math-popover-unit-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--family-sans, system-ui, sans-serif);
+  font-size: 0.65rem;
+  line-height: 1.1;
+  color: var(--grey-light);
+  white-space: nowrap;
+}
+
+.math-popover-unit-label {
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  opacity: 0.7;
+}
+
+.math-popover-unit {
+  font-family: var(--family-monospace, Consolas, monospace);
+  font-size: 0.66rem;
+  background: var(--grey-dark);
+  color: var(--grey-lighter);
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid var(--grey);
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.math-popover-summary {
+  font-family: var(--family-serif, "EB Garamond", serif);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--grey-light);
+  margin-bottom: 12px;
+}
+
+.math-popover-formulas-block {
+  margin-bottom: 12px;
+}
+
+.math-popover-section-label {
+  font-family: var(--family-sans, system-ui, sans-serif);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  color: var(--grey-light);
+  margin-bottom: 4px;
+  opacity: 0.8;
+}
+
+.math-popover-formulas {
+  background: var(--grey-dark);
+  border: 1px solid var(--grey);
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.math-popover-formula-line {
+  font-size: 0.85rem;
+  color: var(--grey-lighter);
+  display: flex;
+  align-items: center;
+}
+
+.math-popover-insight {
+  font-family: var(--family-serif, "EB Garamond", serif);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  background: rgba(var(--primary), 0.08);
+  border-left: 3px solid rgb(var(--primary));
+  border-radius: 0 6px 6px 0;
+  padding: 8px 10px;
+  color: var(--grey-light);
+}
+
+.math-popover-insight-tag {
+  font-family: var(--family-sans, system-ui, sans-serif);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgb(var(--primary));
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+/* Subtle term highlight affordance with delicate 1px hairline dots */
+[data-term-active],
+.katex [data-term-active] {
+  background-image: linear-gradient(to right, rgba(160, 160, 160, 0.35) 1px, transparent 1px);
+  background-position: bottom left;
+  background-size: 5px 1px;
+  background-repeat: repeat-x;
+  padding-bottom: 2px;
+  cursor: help;
+  transition: background-color 0.15s ease;
+  border-radius: 2px;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+[data-term-active]:hover,
+.katex [data-term-active]:hover {
+  background-image: none;
+  border-bottom: 1.5px solid rgb(var(--primary));
+  background-color: rgba(var(--primary), 0.15);
+  padding-bottom: 0.5px;
+}

@@ -16,12 +16,12 @@ export function initDiurnalSimulator() {
         
         <!-- Action Buttons -->
         <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-          <button id="diurnal-strategy-static" style="background: var(--grey-dark); border: 1px solid var(--grey); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">Static (3 Cores)</button>
-          <button id="diurnal-strategy-auto" style="background: rgba(var(--primary), 0.25); border: 1px solid rgb(var(--primary)); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">Autoscaling (Target 70%)</button>
-          <div style="width: 1px; height: 18px; background: var(--grey); margin: 0 4px;"></div>
-          <button id="diurnal-btn-play-pause" style="background: var(--grey-dark); border: 1px solid var(--grey); color: var(--grey-lighter); padding: 5px 0; min-width: 34px; text-align: center; border-radius: 6px; font-size: 0.85rem; cursor: pointer;" title="Play / Pause">⏸</button>
-          <button id="diurnal-btn-reset" style="background: var(--grey-dark); border: 1px solid var(--grey); color: var(--grey-light); padding: 5px 0; min-width: 34px; text-align: center; border-radius: 6px; font-size: 0.85rem; cursor: pointer;" title="Reset to Midnight">↺</button>
-          <button id="diurnal-btn-speed" style="background: var(--grey-dark); border: 1px solid var(--grey); color: var(--grey-lighter); padding: 5px 8px; min-width: 44px; text-align: center; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">1.0x</button>
+          <button id="diurnal-strategy-static" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">Static (3 Cores)</button>
+          <button id="diurnal-strategy-auto" style="background: rgba(var(--primary), 0.2); border: 1px solid rgba(var(--primary), 0.6); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">Autoscaling (Target 70%)</button>
+          <div style="width: 1px; height: 18px; background: rgba(255, 255, 255, 0.1); margin: 0 4px;"></div>
+          <button id="diurnal-btn-play-pause" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 0; min-width: 34px; text-align: center; border-radius: 6px; font-size: 0.85rem; cursor: pointer;" title="Play / Pause">⏸</button>
+          <button id="diurnal-btn-reset" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-light); padding: 5px 0; min-width: 34px; text-align: center; border-radius: 6px; font-size: 0.85rem; cursor: pointer;" title="Reset to Midnight">↺</button>
+          <button id="diurnal-btn-speed" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 8px; min-width: 44px; text-align: center; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">1.0x</button>
         </div>
       </div>
 
@@ -625,10 +625,10 @@ export function initDiurnalSimulator() {
     strategy = 'static';
     currentHour = 9.0;
     timeSlider.value = 9.0;
-    strategyStatic.style.background = 'rgba(var(--primary), 0.25)';
-    strategyStatic.style.borderColor = 'rgb(var(--primary))';
+    strategyStatic.style.background = 'rgba(var(--primary), 0.2)';
+    strategyStatic.style.borderColor = 'rgba(var(--primary), 0.6)';
     strategyAuto.style.background = 'var(--grey-dark)';
-    strategyAuto.style.borderColor = 'var(--grey)';
+    strategyAuto.style.borderColor = 'rgba(255, 255, 255, 0.08)';
     resetMicroSim(true);
   });
 
@@ -636,10 +636,10 @@ export function initDiurnalSimulator() {
     strategy = 'auto';
     currentHour = 9.0;
     timeSlider.value = 9.0;
-    strategyAuto.style.background = 'rgba(var(--primary), 0.25)';
-    strategyAuto.style.borderColor = 'rgb(var(--primary))';
+    strategyAuto.style.background = 'rgba(var(--primary), 0.2)';
+    strategyAuto.style.borderColor = 'rgba(var(--primary), 0.6)';
     strategyStatic.style.background = 'var(--grey-dark)';
-    strategyStatic.style.borderColor = 'var(--grey)';
+    strategyStatic.style.borderColor = 'rgba(255, 255, 255, 0.08)';
     resetMicroSim(true);
   });
 

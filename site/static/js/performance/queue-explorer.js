@@ -125,11 +125,33 @@ export function initQueueExplorer(containerId = '#interactive-queue-curve') {
     xAxisGroup.selectAll('line').attr('stroke', 'var(--grey)');
     xAxisGroup.select('.domain').attr('stroke', 'var(--grey)');
 
+    // X-Axis Title
+    xAxisGroup.selectAll('.axis-label').remove();
+    xAxisGroup.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', width / 2)
+      .attr('y', 36)
+      .attr('fill', 'var(--grey-light)')
+      .attr('font-size', '11px')
+      .attr('text-anchor', 'middle')
+      .text('Arrival Rate λ (req/s)');
+
     yAxisGroup.call(d3.axisLeft(yScale).ticks(5))
       .selectAll('text')
       .attr('fill', 'var(--grey-light)');
     yAxisGroup.selectAll('line').attr('stroke', 'var(--grey)');
     yAxisGroup.select('.domain').attr('stroke', 'var(--grey)');
+
+    // Y-Axis Title
+    yAxisGroup.selectAll('.axis-label').remove();
+    yAxisGroup.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', 0)
+      .attr('y', -8)
+      .attr('fill', 'var(--grey-light)')
+      .attr('font-size', '11px')
+      .attr('text-anchor', 'start')
+      .text('Response Time W (ms)');
 
     const points = [];
     const step = mu / 120;

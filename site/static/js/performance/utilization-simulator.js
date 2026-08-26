@@ -12,13 +12,13 @@ export function initUtilizationSimulator(containerId = '#interactive-utilization
         <span style="font-size: 1.05rem; font-weight: 600; color: var(--grey-lighter);">Live Queuing Simulator</span>
         
         <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-          <button id="preset-under" style="background: var(--grey-dark); border: 1px solid var(--grey); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">35% (Under)</button>
-          <button id="preset-knee" style="background: rgba(var(--primary), 0.25); border: 1px solid rgb(var(--primary)); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">75% (Knee)</button>
-          <button id="preset-sat" style="background: var(--grey-dark); border: 1px solid var(--grey); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">98% (Sat)</button>
-          <div style="width: 1px; height: 18px; background: var(--grey); margin: 0 4px;"></div>
-          <button id="btn-play-pause" style="background: var(--grey-dark); border: 1px solid var(--grey); color: var(--grey-lighter); padding: 5px 0; min-width: 34px; text-align: center; border-radius: 6px; font-size: 0.85rem; cursor: pointer;" title="Pause / Resume">⏸</button>
-          <button id="btn-reset" style="background: var(--grey-dark); border: 1px solid var(--grey); color: var(--grey-light); padding: 5px 0; min-width: 34px; text-align: center; border-radius: 6px; font-size: 0.85rem; cursor: pointer;" title="Reset Simulation">↺</button>
-          <button id="btn-speed" style="background: var(--grey-dark); border: 1px solid var(--grey); color: var(--grey-lighter); padding: 5px 8px; min-width: 44px; text-align: center; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">1.0x</button>
+          <button id="preset-under" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">35% (Under)</button>
+          <button id="preset-knee" style="background: rgba(var(--primary), 0.2); border: 1px solid rgba(var(--primary), 0.6); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">75% (Knee)</button>
+          <button id="preset-sat" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">98% (Sat)</button>
+          <div style="width: 1px; height: 18px; background: rgba(255, 255, 255, 0.1); margin: 0 4px;"></div>
+          <button id="btn-play-pause" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 0; min-width: 34px; text-align: center; border-radius: 6px; font-size: 0.85rem; cursor: pointer;" title="Pause / Resume">⏸</button>
+          <button id="btn-reset" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-light); padding: 5px 0; min-width: 34px; text-align: center; border-radius: 6px; font-size: 0.85rem; cursor: pointer;" title="Reset Simulation">↺</button>
+          <button id="btn-speed" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 8px; min-width: 44px; text-align: center; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">1.0x</button>
         </div>
       </div>
 
@@ -169,23 +169,23 @@ export function initUtilizationSimulator(containerId = '#interactive-utilization
     statTheoCap.textContent = `Cap: ${metrics.capacity.toFixed(1)} req/s`;
 
     btnPresetUnder.style.background = 'var(--grey-dark)';
-    btnPresetUnder.style.borderColor = 'var(--grey)';
+    btnPresetUnder.style.borderColor = 'rgba(255, 255, 255, 0.08)';
     btnPresetKnee.style.background = 'var(--grey-dark)';
-    btnPresetKnee.style.borderColor = 'var(--grey)';
+    btnPresetKnee.style.borderColor = 'rgba(255, 255, 255, 0.08)';
     btnPresetSat.style.background = 'var(--grey-dark)';
-    btnPresetSat.style.borderColor = 'var(--grey)';
+    btnPresetSat.style.borderColor = 'rgba(255, 255, 255, 0.08)';
 
     if (metrics.theoreticalRho < 55) {
-      btnPresetUnder.style.background = 'rgba(76, 175, 80, 0.25)';
-      btnPresetUnder.style.borderColor = 'rgba(76, 175, 80, 0.8)';
+      btnPresetUnder.style.background = 'rgba(76, 175, 80, 0.2)';
+      btnPresetUnder.style.borderColor = 'rgba(76, 175, 80, 0.6)';
       diagnosticSummary.textContent = `Near-zero queue wait (W ≈ ${avgServiceS.toFixed(2)}s); low hardware efficiency`;
     } else if (metrics.theoreticalRho <= 85) {
-      btnPresetKnee.style.background = 'rgba(var(--primary), 0.25)';
-      btnPresetKnee.style.borderColor = 'rgb(var(--primary))';
+      btnPresetKnee.style.background = 'rgba(var(--primary), 0.2)';
+      btnPresetKnee.style.borderColor = 'rgba(var(--primary), 0.6)';
       diagnosticSummary.textContent = `Healthy ~${metrics.theoreticalHeadroom.toFixed(0)}% headroom absorbing traffic bursts`;
     } else {
-      btnPresetSat.style.background = 'rgba(244, 67, 54, 0.25)';
-      btnPresetSat.style.borderColor = 'rgba(244, 67, 54, 0.8)';
+      btnPresetSat.style.background = 'rgba(244, 67, 54, 0.2)';
+      btnPresetSat.style.borderColor = 'rgba(244, 67, 54, 0.6)';
       diagnosticSummary.textContent = 'Queue exploding! Latency degrading asymptotically';
     }
   }

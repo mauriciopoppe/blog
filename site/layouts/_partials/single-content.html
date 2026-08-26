@@ -3,7 +3,14 @@
   {{ $libraries = jsonify .Params.libraries }}
 {{ end }}
 
-<section class="tw-container tw-mx-auto tw-p-3" data-libraries='{{ $libraries }}'>
+{{ $mathTerms := "" }}
+{{ if (isset .Params "mathterms") }}
+  {{ $mathTerms = jsonify .Params.mathterms }}
+{{ else if (isset .Params "math_terms") }}
+  {{ $mathTerms = jsonify .Params.math_terms }}
+{{ end }}
+
+<section class="tw-container tw-mx-auto tw-p-3" data-libraries='{{ $libraries }}' data-math-terms='{{ $mathTerms }}'>
   <div class="tw-flex tw-flex-col tw-gap-4 md:tw-flex-row">
 
     <!-- table of contents -->
