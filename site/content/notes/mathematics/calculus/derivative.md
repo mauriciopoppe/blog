@@ -11,7 +11,7 @@ summary: |
 tags: ["math", "calculus", "derivative", "maxima minima"]
 image: /images/derivative.jpg
 date: 2015-04-02 10:00:00
-libraries: ["function-plot", "math"]
+libraries: ["math"]
 ---
 
 ## Physical Interpretation of the Derivative
@@ -580,6 +580,6 @@ double square_root(double n) {
 }
 ```
 
-<script src="/js/calculus/derivative.js"></script>
+<script type="module" src="/js/calculus/derivative.js"></script>
 
 [tangent-line]: https://www.wikiwand.com/en/Tangent

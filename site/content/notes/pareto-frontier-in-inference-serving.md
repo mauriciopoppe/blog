@@ -4,9 +4,10 @@ summary: |
   A deep dive into measuring and optimizing LLM inference performance: from traditional web service metrics to LLM-native metrics (TTFT, TPOT, TPS, NTTFT), framing serving as a multi-objective optimization problem, navigating trade-offs along the Pareto frontier, and analyzing automated tuning frameworks like Optuna and Google Vizier.
 image: /images/neural-network.jpeg
 tags: ["machine learning", "system design", "inference serving", "pareto frontier", "optimization", "optuna", "vizier"]
-date: 2026-08-23T23:16:00Z
+date: 2026-08-25T23:16:00Z
 draft: true
-libraries: ["function-plot", "katex"]
+libraries: ["katex"]
+mathTerms: ["llm", "systems"]
 ---
 
 Serving large language models (LLMs) and generative AI workloads introduces unique systems challenges that break traditional assumptions about service performance. Unlike typical stateless REST APIs or database queries, inference execution is stateful, iterative, heterogeneous, and memory-bandwidth bound.

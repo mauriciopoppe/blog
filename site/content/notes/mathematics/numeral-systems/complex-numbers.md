@@ -10,7 +10,7 @@ summary: |
   the geometric and polar representations of complex numbers.
 image: /images/math-generic.jpeg
 tags: ["math", "numeral systems", "complex numbers", "imaginary numbers"]
-libraries: ["function-plot", "math"]
+libraries: ["math"]
 date: 2015-09-08 13:30:00
 ---
 
@@ -382,4 +382,4 @@ x' + y'i &= (\cos \theta + i \sin \theta)(x + yi) \\
 \end{align*}
 $$</div>
 
-<script src="/js/math/numeral-systems/complex-numbers.js"></script>
+<script type="module" src="/js/math/numeral-systems/complex-numbers.js"></script>

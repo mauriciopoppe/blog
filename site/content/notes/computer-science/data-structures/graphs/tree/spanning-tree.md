@@ -13,7 +13,7 @@ summary: |
   implement an algorithm to find the number of minimal spanning trees in a graph.
 image: /images/minimum-spanning-tree.png
 tags: ["minimum spanning tree", "prim", "kruskal", "graph theory", "disjoint set", "union find"]
-libraries: ["greuler", "math"]
+libraries: ["math"]
 ---
 
 If a connected graph $G$ of order $n$ has no cycles, then, of course, $G$ is a tree. Let's suppose that $G$ contains cycles. Let $e_1$ be an edge lying on a cycle of $G$. We know that since $e_1$ is part of a cycle, it's not a bridge, which means that $G - e_1$ is connected. If $G - e_1$ contains cycles, then let $e_2$ be an edge lying on a cycle of $G - e_1$. $e_2$ is not a bridge, and therefore $G - e_1 - e_2$ is still connected. Eventually, we arrive at the set $X = {e_1, e_2, \ldots, e_k}$ of edges such that $G - X$ doesn't contain cycles (i.e., it's a tree) and has the same vertex set as $G$ ($V(G) = V(G - X)$).
@@ -138,4 +138,4 @@ Computing the number of spanning trees of a graph $G = K_n$, where $V(G) = \{v_1
 
 > The number of spanning trees of order $n$ with a specific vertex set is $n^{n - 2}$.
 
-<script src="/js/graph/trees/spanning-tree.js"></script>
+<script type="module" src="/js/graph/trees/spanning-tree.js"></script>

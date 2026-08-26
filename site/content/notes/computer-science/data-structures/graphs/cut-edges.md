@@ -9,7 +9,7 @@ summary: |
   Next, I describe an algorithm to find strong bridges in directed graphs.
 tags: ["graph theory", "cut edges", "bridges", "depth first search"]
 image: /images/cut-edges-bridges.png
-libraries: ["greuler", "math"]
+libraries: ["math"]
 ---
 
 ## Undirected graph
@@ -57,29 +57,25 @@ Let $uv$ be an edge of a digraph $G$. We say that $uv$ is **redundant** if there
 
 http://www.sofsem.cz/sofsem12/files/presentations/Thursday/GiuseppeItaliano.pdf
 
-{{< script >}}
-document.addEventListener('DOMContentLoaded', function () {
-  function getJson(file, callback) {
-    fetch(file)
-      .then((response) => response.json())
-      .then((data) => callback(null, data))
-      .catch((err) => callback(err))
-  }
+<script type="module">
+import greuler from 'https://cdn.jsdelivr.net/npm/greuler@1.0.0/+esm'
 
-  getJson('/js/graph/data/bridges.json', function (err, data) {
-    if (err) { throw err }
+fetch('/js/graph/data/bridges.json')
+  .then((r) => r.json())
+  .then((data) => {
     greuler({
       target: '#figure-bridges',
       data: data
     }).update()
-  });
-  getJson('/js/graph/data/bridges-directed.json', function (err, data) {
-    if (err) { throw err }
+  })
+
+fetch('/js/graph/data/bridges-directed.json')
+  .then((r) => r.json())
+  .then((data) => {
     greuler({
       directed: true,
       target: '#figure-bridges-directed',
       data: data
     }).update()
-  });
-}, false)
-{{< /script >}}
+  })
+</script>

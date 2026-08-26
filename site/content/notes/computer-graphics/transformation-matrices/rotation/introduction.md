@@ -8,7 +8,7 @@ summary: |
 
   For quaternions, please also look at [https://eater.net/quaternions](https://eater.net/quaternions) for amazing animations!
 image: /images/flat-shading.svg
-libraries: ["function-plot", "math"]
+libraries: ["math"]
 tags: ["rotation", "quaternions", "2d", "3d", "computer graphics"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
@@ -421,29 +421,29 @@ $$</div>
 
 The second formula works for all cases, as noted [here](http://math.stackexchange.com/questions/90081/quaternion-distance) (the first one doesn't work when $a \cdot b < 0$).
 
-{{< script >}}
-document.addEventListener('DOMContentLoaded', function () {
-  function unitCircle() {
-    return {
-      x: 'cos(t)',
-      y: 'sin(t)',
-      color: 'lightgrey',
-      fnType: 'parametric',
-      graphType: 'polyline'
-    }
-  }
+<script type="module">
+import functionPlot from 'https://cdn.jsdelivr.net/npm/function-plot@1.25.4/+esm'
 
-  functionPlot({
-    target: '#two-dimensions',
-    grid: true,
-    xAxis: { domain: [-6, 6] },
-    data: [
-      { vector: [1, 0], color: '#FFCCCB', fnType: 'vector', graphType: 'polyline' },
-      { vector: [0, 1], color: '#add8e6', fnType: 'vector', graphType: 'polyline' },
-      { vector: [0.86602540378, 0.5], color: 'red', fnType: 'vector', graphType: 'polyline'},
-      { vector: [-0.5, 0.86602540378], color: 'blue', fnType: 'vector', graphType: 'polyline' },
-      unitCircle()
-    ]
-  })
+function unitCircle() {
+  return {
+    x: 'cos(t)',
+    y: 'sin(t)',
+    color: 'lightgrey',
+    fnType: 'parametric',
+    graphType: 'polyline'
+  }
+}
+
+functionPlot({
+  target: '#two-dimensions',
+  grid: true,
+  xAxis: { domain: [-6, 6] },
+  data: [
+    { vector: [1, 0], color: '#FFCCCB', fnType: 'vector', graphType: 'polyline' },
+    { vector: [0, 1], color: '#add8e6', fnType: 'vector', graphType: 'polyline' },
+    { vector: [0.86602540378, 0.5], color: 'red', fnType: 'vector', graphType: 'polyline' },
+    { vector: [-0.5, 0.86602540378], color: 'blue', fnType: 'vector', graphType: 'polyline' },
+    unitCircle()
+  ]
 })
-{{< /script >}}
+</script>

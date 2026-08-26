@@ -11,7 +11,7 @@ summary: |
 image: https://i.imgur.com/Q3MA6dZ.png
 tags: ["graph theory", "topological sorting", "dag", "graph cycles"]
 date: 2015-06-24 11:30:00
-libraries: ["greuler", "math"]
+libraries: ["math"]
 ---
 
 Let $G$ be a digraph. The **topological sorting** algorithm is a linear ordering of the vertices of $G$ such that for every directed edge $u \rightarrow v$, where $u,v \in V(G)$, $u$ comes before $v$ in the ordering. The ordering is possible only if the graph *has no directed cycles*.
@@ -28,11 +28,13 @@ Let $G$ be a digraph. The **topological sorting** algorithm is a linear ordering
 
 {{< snippet file="static/code/graphs/shortest_path_dag.cpp" lang="cpp" />}}
 
-{{< script >}}
-document.addEventListener('DOMContentLoaded', function () {
-  d3.json('/js/graph/data/topological-sorting.json', function (err, data) {
-    var width = document.querySelector('article.content').clientWidth
-    if (err) { throw err }
+<script type="module">
+import greuler from 'https://cdn.jsdelivr.net/npm/greuler@1.0.0/+esm'
+
+fetch('/js/graph/data/topological-sorting.json')
+  .then((response) => response.json())
+  .then((data) => {
+    const width = document.querySelector('article.content').clientWidth
     greuler({
       directed: true,
       target: '#figure-topological-sorting',
@@ -40,5 +42,4 @@ document.addEventListener('DOMContentLoaded', function () {
       width: width
     }).update({ iterations: [30, 30, 30] })
   })
-})
-{{< /script >}}
+</script>

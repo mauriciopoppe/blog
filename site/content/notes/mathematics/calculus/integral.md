@@ -7,7 +7,7 @@ summary: |
 date: 2015-04-02 10:00:00
 image: https://content.wolfram.com/uploads/sites/39/2021/08/algebraic-integrals-hero.png
 tags: ["math", "calculus", "integral", "maxima minima"]
-libraries: ["function-plot", "math"]
+libraries: ["math"]
 ---
 
 <style>
@@ -539,7 +539,7 @@ We can estimate the value of the integral by adding the areas computed for each 
 \end{align*}
 $$</div>
 
-<script src="/js/calculus/integral.js"></script>
+<script type="module" src="/js/calculus/integral.js"></script>
 
 ### Physical Applications of the Definite Integral
 

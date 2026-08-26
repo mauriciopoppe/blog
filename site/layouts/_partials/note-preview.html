@@ -1,19 +1,69 @@
-{{/*
+{{ $summary := .Params.summary | default .Summary }}
+{{ $hasInteractive := false }}
+{{ if .Params.interactive }}
+  {{ $hasInteractive = true }}
+{{ end }}
+{{ with .Params.libraries }}
+  {{ if in . "doodle" }}
+    {{ $hasInteractive = true }}
+  {{ end }}
+{{ end }}
+{{ if or (in .Params.tags "interactive") (in .Params.tags "simulator") }}
+  {{ $hasInteractive = true }}
+{{ end }}
+{{ if or (strings.Contains .RawContent "<script") (strings.Contains .RawContent "interactive-") (strings.Contains .RawContent "-simulator") }}
+  {{ $hasInteractive = true }}
+{{ end }}
 
-Used in:
-- term.html
+<div class="tw-group/related tw-my-3">
+  <a href="{{ .RelPermalink }}" class="tw-block tw-no-underline">
+    <!-- card -->
+    <div class="tw-text-sm tw-p-4 tw-rounded-md tw-bg-[var(--grey-dark)] hover:tw-brightness-110 tw-transition-all">
+      <div class="tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-2 tw-mb-3">
+        <h2 class="tw-group/title tw-text-xl md:tw-text-2xl tw-leading-tight tw-m-0 tw-text-primary group-hover/related:tw-drop-shadow-[0_0_6px_rgba(var(--primary),0.35)] tw-transition-all">
+          {{ .Title }}
+        </h2>
+        {{ if $hasInteractive }}
+          <span class="tw-inline-block tw-rounded-md tw-border tw-border-primary tw-text-primary tw-text-xs tw-px-2 tw-py-0.5">
+            ✦ Interactive
+          </span>
+        {{ end }}
+      </div>
 
-Also the same layout is written in src/main/algolia.jsx but in JSX.
+      <div class="tw-flex tw-flex-col tw-gap-4 md:tw-flex-row md:tw-items-start">
+        {{ if .Params.image }}
+        <figure class="tw-w-full md:tw-basis-1/3 tw-m-0 tw-self-start">
+          {{ $image := .Params.image | absURL }}
+          <img src="{{ $image }}" alt="{{ .Title }}" class="tw-rounded-md tw-aspect-auto tw-max-h-48 md:tw-max-h-none tw-w-full tw-object-cover" />
+        </figure>
+        {{ end }}
 
-*/}}
+        <div class="tw-w-full tw-flex tw-flex-col {{ if .Params.image }}md:tw-basis-2/3{{ end }}">
+          {{ with $summary }}
+            <div class="tw-text-sm md:tw-text-base tw-text-neutral-300 tw-leading-normal" style="font-family: var(--family-serif);">
+              {{ . | markdownify }}
+            </div>
+          {{ end }}
 
-<div class="tw-grid md:tw-grid-cols-[10em_auto] tw-place-content-start md:tw-gap-4 tw-leading-tight">
-  <div>{{ .Page.PublishDate.Format "Mon, Jan 2, 2006" }}</div>
-  <div>
-    <h2>{{ .Title }}</h2>
-    <div class="tw-text-xs">
-      {{ $summary := .Params.summary | default .Summary }}
-      {{ $summary | plainify }}
-    </div>
-  </div>
+          <div class="tw-h-3 md:tw-grow"></div>
+
+          <div class="tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-2 tw-pt-3 tw-mt-2 tw-border-t tw-border-white/[0.06]">
+            <div class="tw-text-xs tw-text-neutral-400">
+              Published on {{ .Page.PublishDate.Format "Mon, Jan 2, 2006" }} • {{ .ReadingTime }} min read
+            </div>
+
+            {{ with .Params.tags }}
+              <div class="tw-flex tw-flex-wrap tw-gap-1">
+                {{ range first 4 . }}
+                  <span class="tw-inline-block tw-rounded-md tw-border tw-border-primary tw-text-primary tw-text-xs tw-px-2 tw-py-0.5">
+                    #{{ . }}
+                  </span>
+                {{ end }}
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div> <!-- card -->
+  </a>
 </div>

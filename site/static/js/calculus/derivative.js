@@ -1,17 +1,29 @@
-window.addEventListener('load', function () {
-  var functionPlot = window.functionPlot
+import functionPlot from 'https://cdn.jsdelivr.net/npm/function-plot@1.25.4/+esm'
 
-  var contentsBounds = document.querySelector('article[role=main]').getBoundingClientRect()
-  var width = 600
-  var height = 350
-  if (contentsBounds.width < width) {
-    var ratio = contentsBounds.width / width
-    width *= ratio
-    height *= ratio
-  }
+const articleEl = document.querySelector('article.content') || document.querySelector('article[role=main]') || document.body
+const contentsBounds = articleEl.getBoundingClientRect()
+let width = 600
+let height = 350
+if (contentsBounds.width && contentsBounds.width < width) {
+  const ratio = contentsBounds.width / width
+  width *= ratio
+  height *= ratio
+}
 
-  functionPlot({
-    target: '#geometric-representation',
+functionPlot({
+  target: '#geometric-representation',
+  width: width,
+  height: height,
+  yAxis: { domain: [-1, 9] },
+  data: [
+    {
+      fn: 'x * x'
+    }
+  ]
+})
+;(() => {
+  const instance = functionPlot({
+    target: '#geometric-representation-two-points',
     width: width,
     height: height,
     yAxis: { domain: [-1, 9] },
@@ -21,98 +33,88 @@ window.addEventListener('load', function () {
       }
     ]
   })
-  ;(function () {
-    var instance = functionPlot({
-      target: '#geometric-representation-two-points',
-      width: width,
-      height: height,
-      yAxis: { domain: [-1, 9] },
-      data: [
+  instance.root.selectAll('circle').attr('r', 3)
+})()
+
+functionPlot({
+  target: '#geometric-representation-secant',
+  width: width,
+  height: height,
+  tip: {
+    xLine: true
+  },
+  yAxis: { domain: [-1, 9] },
+  data: [
+    {
+      fn: 'x * x',
+      secants: [
         {
-          fn: 'x * x'
-        }
-      ]
-    })
-    instance.root.selectAll('circle').attr('r', 3)
-  })()
-
-  functionPlot({
-    target: '#geometric-representation-secant',
-    width: width,
-    height: height,
-    tip: {
-      xLine: true
-    },
-    yAxis: { domain: [-1, 9] },
-    data: [
-      {
-        fn: 'x * x',
-        secants: [
-          {
-            x0: 1,
-            x1: 2,
-            updateOnMouseMove: true
-          }
-        ]
-      }
-    ]
-  })
-
-  functionPlot({
-    target: '#slope-static-x-1',
-    width: width,
-    height: height,
-    yAxis: { domain: [-1, 9] },
-    data: [
-      {
-        fn: 'x * x'
-      },
-      {
-        title: 'y = 2x - 1',
-        fn: '2 * x - 1',
-        graphType: 'polyline',
-        nSamples: 2,
-        skipTip: true
-      }
-    ]
-  })
-
-  functionPlot({
-    target: '#slope-graph',
-    width: width,
-    height: height,
-    data: [
-      {
-        fn: '2 * x'
-      }
-    ]
-  })
-
-  // slope example + dynamic line
-  functionPlot({
-    target: '#slope-dynamic',
-    width: width,
-    height: height,
-    yAxis: { domain: [-1, 9] },
-    tip: {
-      xLine: true,
-      yLine: true
-    },
-    data: [
-      {
-        fn: 'x * x',
-        derivative: {
-          fn: '2 * x',
+          x0: 1,
+          x1: 2,
           updateOnMouseMove: true
         }
-      }
-    ]
-  })
+      ]
+    }
+  ]
+})
 
-  // ## Applications of the derivative
-  ;(function () {
-    var adim = document.querySelector('#maxima-minima-f').getBoundingClientRect()
-    var a = functionPlot({
+functionPlot({
+  target: '#slope-static-x-1',
+  width: width,
+  height: height,
+  yAxis: { domain: [-1, 9] },
+  data: [
+    {
+      fn: 'x * x'
+    },
+    {
+      title: 'y = 2x - 1',
+      fn: '2 * x - 1',
+      graphType: 'polyline',
+      nSamples: 2,
+      skipTip: true
+    }
+  ]
+})
+
+functionPlot({
+  target: '#slope-graph',
+  width: width,
+  height: height,
+  data: [
+    {
+      fn: '2 * x'
+    }
+  ]
+})
+
+// slope example + dynamic line
+functionPlot({
+  target: '#slope-dynamic',
+  width: width,
+  height: height,
+  yAxis: { domain: [-1, 9] },
+  tip: {
+    xLine: true,
+    yLine: true
+  },
+  data: [
+    {
+      fn: 'x * x',
+      derivative: {
+        fn: '2 * x',
+        updateOnMouseMove: true
+      }
+    }
+  ]
+})
+
+// ## Applications of the derivative
+;(() => {
+  const aEl = document.querySelector('#maxima-minima-f')
+  if (aEl) {
+    const adim = aEl.getBoundingClientRect()
+    const a = functionPlot({
       target: '#maxima-minima-f',
       xAxis: { domain: [-4, 8] },
       yAxis: { domain: [-4, 8] },
@@ -138,86 +140,94 @@ window.addEventListener('load', function () {
         }
       ]
     })
-    var bdim = document.querySelector('#maxima-minima-f-derivative').getBoundingClientRect()
-    var b = functionPlot({
-      target: '#maxima-minima-f-derivative',
-      xAxis: { domain: [-4, 8] },
-      yAxis: { domain: [-4, 8] },
-      width: bdim.width,
-      annotations: [
-        {
-          x: 1,
-          text: 'intercept'
-        },
-        {
-          x: 3,
-          text: 'intercept'
-        }
-      ],
-      data: [
-        {
-          fn: 'x * x - 4 * x + 3',
-          graphType: 'polyline'
-        }
-      ]
-    })
-    a.addLink(b)
-    b.addLink(a)
-  })()
-  ;(function () {
-    var options = {
-      target: '#newton-raphson',
-      width: width,
-      height: height,
-      yAxis: { domain: [-3, 7] },
-      annotations: [],
-      data: [
-        {
-          fn: 'x * x - 2',
-          derivative: {
-            fn: '2 * x'
+    const bEl = document.querySelector('#maxima-minima-f-derivative')
+    if (bEl) {
+      const bdim = bEl.getBoundingClientRect()
+      const b = functionPlot({
+        target: '#maxima-minima-f-derivative',
+        xAxis: { domain: [-4, 8] },
+        yAxis: { domain: [-4, 8] },
+        width: bdim.width,
+        annotations: [
+          {
+            x: 1,
+            text: 'intercept'
+          },
+          {
+            x: 3,
+            text: 'intercept'
           }
-        }
-      ]
+        ],
+        data: [
+          {
+            fn: 'x * x - 4 * x + 3',
+            graphType: 'polyline'
+          }
+        ]
+      })
+      a.addLink(b)
+      b.addLink(a)
     }
-    functionPlot(options)
-
-    var newtonRaphson = function () {
-      function f(x) {
-        return x * x - 2
-      }
-
-      function f1(x) {
-        return 2 * x
-      }
-
-      function iteration(x) {
-        return x - f(x) / f1(x)
-      }
-
-      var x0 = 0.5
-      var n = 0
-      var limit = 5
-
-      function run() {
-        options.annotations.push({
-          x: x0,
-          text: n !== limit ? '' : 'x = ' + x0.toFixed(3)
-        })
-        options.data[0].derivative.x0 = x0
-        functionPlot(options)
-
-        x0 = iteration(x0)
-
-        if (n < limit) {
-          n += 1
-          setTimeout(run, 1000)
+  }
+})()
+;(() => {
+  const el = document.querySelector('#newton-raphson')
+  if (!el) return
+  const options = {
+    target: '#newton-raphson',
+    width: width,
+    height: height,
+    yAxis: { domain: [-3, 7] },
+    annotations: [],
+    data: [
+      {
+        fn: 'x * x - 2',
+        derivative: {
+          fn: '2 * x'
         }
       }
+    ]
+  }
+  functionPlot(options)
 
-      run()
+  const newtonRaphson = () => {
+    function f(x) {
+      return x * x - 2
     }
 
-    document.querySelector('#run-newton-raphson').addEventListener('click', newtonRaphson)
-  })()
-})
+    function f1(x) {
+      return 2 * x
+    }
+
+    function iteration(x) {
+      return x - f(x) / f1(x)
+    }
+
+    let x0 = 0.5
+    let n = 0
+    const limit = 5
+
+    function run() {
+      options.annotations.push({
+        x: x0,
+        text: n !== limit ? '' : 'x = ' + x0.toFixed(3)
+      })
+      options.data[0].derivative.x0 = x0
+      functionPlot(options)
+
+      x0 = iteration(x0)
+
+      if (n < limit) {
+        n += 1
+        setTimeout(run, 1000)
+      }
+    }
+
+    run()
+  }
+
+  const runBtn = document.querySelector('#run-newton-raphson')
+  if (runBtn) {
+    runBtn.addEventListener('click', newtonRaphson)
+  }
+})()

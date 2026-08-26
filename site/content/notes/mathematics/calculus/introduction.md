@@ -8,7 +8,7 @@ summary: |
 image: https://wordsmithofbengal.files.wordpress.com/2021/08/calculus_score-sheet.png
 date: 2015-03-31 15:35:06
 tags: ["math", "calculus", "function"]
-libraries: ["function-plot", "math"]
+libraries: ["math"]
 ---
 
 ### Why?
@@ -53,9 +53,9 @@ $$</div>
 
 The function above is simple in that for each value of $x$, there's a corresponding value of $y$. However, the concept of a function does not require this. For example, the function:
 
-<div>$$
+$$
 y = \frac{1}{x}
-$$</div>
+$$
 
 does not have a valid value when $x = 0$. This means that the function exists for each value of $x$ other than $0$.
 
@@ -63,6 +63,6 @@ does not have a valid value when $x = 0$. This means that the function exists fo
 
 The concept of a function, then, doesn't require that there's a $y$ for every $x$, but it does require a $y$-value for each value $x$ in some collection/set of $x$ values. The collection of $x$ values for which a $y$ value exists is called the *domain*, and the collection of the corresponding $y$ values is called the *range*.
 
-<script src="/js/calculus/intro.js"></script>
+<script type="module" src="/js/calculus/intro.js"></script>
 
 *Image taken from https://wordsmithofbengal.wordpress.com/2021/08/02/dr-philos-the-creative-fantasy-of-differential-and-integral-calculus/*

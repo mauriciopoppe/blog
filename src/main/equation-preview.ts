@@ -44,7 +44,7 @@ function run() {
 
   async function start() {
     // some pages don't have mathjax enabled by default
-    if (!window.MathJax) return
+    if (!window.MathJax?.startup?.promise) return
 
     await window.MathJax.startup.promise
     Array.from(document.querySelectorAll('.MathJax_ref')).forEach((el) => {

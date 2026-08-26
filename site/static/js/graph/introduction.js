@@ -1,121 +1,21 @@
-window.addEventListener('load', function () {
-  const greuler = window.greuler
+import greuler from 'https://cdn.jsdelivr.net/npm/greuler@1.0.0/+esm'
 
-  function getJson(file, callback) {
-    fetch(file)
-      .then((response) => response.json())
-      .then((data) => callback(null, data))
-      .catch((err) => callback(err))
-  }
+function loadGraph(url, options, updateOpts) {
+  fetch(url)
+    .then((r) => r.json())
+    .then((data) => {
+      greuler(Object.assign({ data }, options)).update(updateOpts)
+    })
+}
 
-  getJson('/js/graph/data/introduction.json', function (err, data) {
-    if (err) {
-      throw err
-    }
-    greuler({
-      target: '#figure-introduction',
-      data: data
-    }).update()
-  })
-
-  getJson('/js/graph/data/complete-graph.json', function (err, data) {
-    if (err) {
-      throw err
-    }
-    greuler({
-      target: '#figure-complete-graph',
-      data: data
-    }).update({ iterations: [30, 30, 30] })
-  })
-
-  getJson('/js/graph/data/complement-graph.json', function (err, data) {
-    if (err) {
-      throw err
-    }
-    greuler({
-      target: '#figure-complement-graph',
-      data: data
-    }).update()
-  })
-
-  getJson('/js/graph/data/bipartite-graph.json', function (err, data) {
-    if (err) {
-      throw err
-    }
-    greuler({
-      target: '#figure-bipartite-graph',
-      data: data
-    }).update()
-  })
-
-  getJson('/js/graph/data/biconnected-graph.json', function (err, data) {
-    if (err) {
-      throw err
-    }
-    greuler({
-      target: '#figure-biconnected-graph',
-      data: data
-    }).update()
-  })
-
-  getJson('/js/graph/data/pseudograph.json', function (err, data) {
-    if (err) {
-      throw err
-    }
-    greuler({
-      target: '#figure-pseudograph',
-      data: data
-    }).update()
-  })
-
-  getJson('/js/graph/data/multigraph.json', function (err, data) {
-    if (err) {
-      throw err
-    }
-    greuler({
-      target: '#figure-multigraph',
-      data: data
-    }).update()
-  })
-
-  getJson('/js/graph/data/weighted-graph.json', function (err, data) {
-    if (err) {
-      throw err
-    }
-    greuler({
-      target: '#figure-weighted-graph',
-      data: data
-    }).update()
-  })
-
-  getJson('/js/graph/data/directed-graph.json', function (err, data) {
-    if (err) {
-      throw err
-    }
-    greuler({
-      directed: true,
-      target: '#figure-directed-graph',
-      data: data
-    }).update()
-  })
-
-  getJson('/js/graph/data/degree-sequence.json', function (err, data) {
-    if (err) {
-      throw err
-    }
-    greuler({
-      target: '#figure-degree-sequence',
-      data: data
-    }).update({ iterations: [10, 10, 10] })
-  })
-
-  getJson('/js/graph/data/adjacency-incidence-matrix.json', function (err, data) {
-    if (err) {
-      throw err
-    }
-    greuler({
-      target: '#figure-adjacency-incidence-matrix',
-      data: data
-    }).update()
-  })
-})
+loadGraph('/js/graph/data/introduction.json', { target: '#figure-introduction' })
+loadGraph('/js/graph/data/complete-graph.json', { target: '#figure-complete-graph' }, { iterations: [30, 30, 30] })
+loadGraph('/js/graph/data/complement-graph.json', { target: '#figure-complement-graph' })
+loadGraph('/js/graph/data/bipartite-graph.json', { target: '#figure-bipartite-graph' })
+loadGraph('/js/graph/data/biconnected-graph.json', { target: '#figure-biconnected-graph' })
+loadGraph('/js/graph/data/pseudograph.json', { target: '#figure-pseudograph' })
+loadGraph('/js/graph/data/multigraph.json', { target: '#figure-multigraph' })
+loadGraph('/js/graph/data/weighted-graph.json', { target: '#figure-weighted-graph' })
+loadGraph('/js/graph/data/directed-graph.json', { directed: true, target: '#figure-directed-graph' })
+loadGraph('/js/graph/data/degree-sequence.json', { target: '#figure-degree-sequence' }, { iterations: [10, 10, 10] })
+loadGraph('/js/graph/data/adjacency-incidence-matrix.json', { target: '#figure-adjacency-incidence-matrix' })

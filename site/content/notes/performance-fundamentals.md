@@ -7,6 +7,7 @@ tags: ["performance", "system design", "queuing theory", "latency", "throughput"
 date: 2026-08-23T23:16:00Z
 libraries: ["katex"]
 mathTerms: ["systems", "queuing"]
+interactive: true
 ---
 
 Computing systems are characterized by three core metrics: **Latency**, **Throughput**, and **Resource Utilization**.

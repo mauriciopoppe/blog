@@ -21,24 +21,21 @@
     </h2>
 
     <div class="md:tw-w-3/5 tw-mx-auto tw-text-center tw-flex tw-flex-col tw-gap-5">
-      <div>
-        There's a total of {{ len .Data.Pages }} notes.
+      <div class="tw-text-neutral-400">
+        A collection of {{ len .RegularPagesRecursive }} notes, essays, and interactive guides.
       </div>
     </div>
 
-    <hr class="md:tw-w-3/5 tw-mx-auto tw-mt-5" />
+    <hr class="md:tw-w-3/5 tw-mx-auto tw-mt-5 tw-border-white/10" />
   </div>
 </header>
 {{ end }}
 
 {{ define "main" }}
-<main class="tw-container tw-mx-auto tw-px-4">
-  <style>.group\/note-preview h2 { font-size: 2rem; }</style>
-  <div class="md:tw-w-3/5 tw-mx-auto">
-    {{ range .Pages }}
-      <a href="{{ .RelPermalink }}" class="tw-block tw-my-4">
-        {{ partial "note-preview.html" . }}
-      </a>
+<main class="tw-container tw-mx-auto tw-px-4 tw-pb-16">
+  <div class="md:tw-w-3/5 tw-mx-auto tw-flex tw-flex-col">
+    {{ range .RegularPagesRecursive.ByDate.Reverse }}
+      {{ partial "note-preview.html" . }}
     {{ end }}
   </div>
 </main>

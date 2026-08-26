@@ -7,6 +7,7 @@ tags: ["system design", "benchmarking", "load testing", "capacity planning", "di
 date: 2026-08-24T23:30:00Z
 draft: true
 libraries: ["katex"]
+mathTerms: ["systems", "queuing"]
 ---
 
 Benchmarking production infrastructure is deceptively difficult. It is remarkably easy to run a load test tool, receive a clean report claiming a "p99 latency of 12ms at 10,000 RPS", and deploy to production only to suffer catastrophic outages under a fraction of that traffic.

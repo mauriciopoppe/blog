@@ -1,6 +1,6 @@
-import * as THREE from 'three'
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import { GUI } from 'three/addons/libs/lil-gui.module.min.js'
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js'
+import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/controls/OrbitControls.js/+esm'
+import { GUI } from 'https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/libs/lil-gui.module.min.js/+esm'
 
 function perspectiveProjection(el, cameraType = 'perspective') {
   el.style.width = '100%'
