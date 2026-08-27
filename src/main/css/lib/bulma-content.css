@@ -163,40 +163,131 @@
 }
 
 .content table {
+  display: table;
   width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--grey-dark);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1.5rem 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
 }
 
-.content table td,
-.content table th {
-  border: 1px solid #dbdbdb;
-  border-width: 0 0 1px;
-  padding: 0.5em 0.75em;
-  vertical-align: top;
+html[data-theme=dark] .content table {
+  border-color: rgba(255, 255, 255, 0.12);
+  background-color: var(--grey-darker);
 }
 
-.content table th {
-  color: var(--grey-light);
+html[data-theme=light] .content table {
+  border-color: rgba(0, 0, 0, 0.1);
+  background-color: var(--grey-darker);
+}
+
+/* Header styling */
+.content table thead {
+  background-color: rgba(var(--primary), 0.14);
+}
+
+html[data-theme=light] .content table thead {
+  background-color: rgba(var(--primary), 0.12);
+}
+
+.content table thead th,
+.content table thead td {
+  font-family: var(--family-sans);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  color: var(--grey-lighter);
+  padding: 0.55rem 0.85rem;
+  border-bottom: 2px solid rgba(var(--primary), 0.35);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  vertical-align: middle;
+}
+
+html[data-theme=light] .content table thead th,
+html[data-theme=light] .content table thead td {
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.content table thead th:last-child,
+.content table thead td:last-child {
+  border-right: none;
 }
 
 .content table th:not([align]) {
   text-align: inherit;
 }
 
-.content table thead td,
-.content table thead th {
-  border-width: 0 0 2px;
+/* Body cell styling */
+.content table td,
+.content table tbody th {
+  padding: 0.55rem 0.85rem;
+  vertical-align: top;
   color: var(--grey-light);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+html[data-theme=light] .content table td,
+html[data-theme=light] .content table tbody th {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.content table td:last-child,
+.content table tbody th:last-child {
+  border-right: none;
+}
+
+/* Zebra striping and hover effect */
+.content table tbody tr:nth-child(even) {
+  background-color: rgba(var(--grey-dark), 0.35);
+}
+
+html[data-theme=light] .content table tbody tr:nth-child(even) {
+  background-color: rgba(var(--grey-dark), 0.45);
+}
+
+.content table tbody tr:hover {
+  background-color: rgba(var(--primary), 0.08);
+  transition: background-color 0.15s ease;
+}
+
+/* Last row clean bottom border */
+.content table tbody tr:last-child td,
+.content table tbody tr:last-child th {
+  border-bottom: none;
+}
+
+/* Remove unwanted paragraph & nested element margins inside table cells */
+.content table td p,
+.content table th p,
+.content table td ul,
+.content table td ol {
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+}
+
+.content table td strong,
+.content table tbody th {
+  color: var(--grey-lighter);
+  font-weight: 600;
+}
+
+.content table td code {
+  font-size: 0.85em;
+  padding: 0.15em 0.35em;
 }
 
 .content table tfoot td,
 .content table tfoot th {
-  border-width: 2px 0 0;
+  border-top: 2px solid rgba(var(--primary), 0.35);
+  padding: 0.65rem 0.85rem;
   color: var(--grey-light);
-}
-
-.content table tbody tr:last-child td,
-.content table tbody tr:last-child th {
-  border-bottom-width: 0;
+  font-family: var(--family-sans);
 }
 
 .content .tabs li + li {

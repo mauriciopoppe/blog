@@ -116,9 +116,14 @@ When a request arrives, the worker is idle. It immediately executes in $10\text{
 
 The worker is busy half the time. Because requests arrive randomly (stochastic Poisson bursts) rather than in a synchronized rhythmic cadence, half the time a new request arrives, the worker is already occupied:
 
-- **What $L_q = 0.5$ means physically**: If you inspect the queue at random moments throughout the day, $50\%$ of the time it is completely empty ($0$ items) because the worker was free, and $50\%$ of the time there is $1$ request waiting in line. The time-averaged queue depth is $(0.50 \times 0) + (0.50 \times 1) = \mathbf{0.5\text{ requests}}$ (matching Little's Law: $L_q = \lambda \cdot W_q = 50\text{ req/s} \times 0.010\text{ s} = 0.5$).
-- **The resulting latency**: When an arriving request has to wait, it must wait for the worker to finish executing the operation ahead of it ($S = 10\text{ ms}$). Because this contention happens half the time, the average queue wait time across all incoming requests rises to $W_q = 10\text{ ms}$. Total response time inside the server doubles to **$W = 20\text{ ms}$** ($10\text{ ms wait} + 10\text{ ms execution}$).
-- **The $50\%$ load rule**: At $50\%$ utilization ($\rho = 0.5$), average queue wait time $W_q$ is **always equal to $S$** ($W_q = \frac{\rho}{1-\rho} \cdot S = 1.0 \cdot S$), no matter what service time $S$ was chosen. A system running at $50\%$ load will always experience a $2.0\times$ latency penalty over its baseline execution floor.
+- **Why wait time is not zero (Deterministic vs. Poisson)**: If requests arrived on a perfectly spaced clock (e.g. exactly 1 request every $20\text{ ms}$), the worker would finish each $10\text{ ms}$ task and sit idle for $10\text{ ms}$ before the next request arrived, resulting in $W_q = 0\text{ ms}$. But under stochastic Poisson arrivals, requests arrive in random clusters.
+- **The physical wait breakdown**:
+  - $50\%$ of incoming requests find the worker idle and begin execution immediately ($\text{Wait} = 0\text{ ms}$).
+  - $50\%$ of incoming requests collide with an occupied worker or an active line. Due to memoryless exponential service times, when an arriving request finds a busy system, the conditional expected wait time is $\frac{S}{1 - \rho} = \frac{10\text{ ms}}{1 - 0.5} = 20\text{ ms}$.
+  - Combining both scenarios across all incoming traffic gives an overall average wait of $W_q = (0.50 \times 0\text{ ms}) + (0.50 \times 20\text{ ms}) = \mathbf{10\text{ ms}}$.
+- **What $L_q = 0.5$ means physically**: If you inspect the queue buffer at random moments throughout the day, $50\%$ of the time it is completely empty ($0$ items) and $50\%$ of the time there is $1$ request waiting in line. The time-averaged queue depth is $(0.50 \times 0) + (0.50 \times 1) = \mathbf{0.5\text{ requests}}$ (matching Little's Law: $L_q = \lambda \cdot W_q = 50\text{ req/s} \times 0.010\text{ s} = 0.5$).
+- **The resulting latency**: Queue wait ($W_q = 10\text{ ms}$) plus execution ($S = 10\text{ ms}$) doubles total server response time to **$W = 20\text{ ms}$** ($2.0\times$ baseline delay).
+- **The $50\%$ load rule**: At $50\%$ utilization ($\rho = 0.5$), average queue wait time $W_q$ is **always equal to $S$** ($W_q = \frac{\rho}{1-\rho} \cdot S = 1.0 \cdot S$), regardless of the baseline task duration. A system running at $50\%$ load will always experience a $2.0\times$ latency penalty over its zero-load floor.
 
 **At $\lambda = 75\text{ req/s}$ ($75\%$ Utilization, The Operational Knee)**: 
 
