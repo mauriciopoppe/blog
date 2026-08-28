@@ -29,8 +29,28 @@ This document captures development workflows, architecture rules, system quirks,
 
 ### Headings & Section Separation
 - **No Numbered Headings**: Never prefix headings with numbers (e.g. use `## Latency`, not `## 1. Latency`).
-- **No Horizontal Rules**: Never use `<hr>` or markdown `---` rules to separate sections. Use clean typography and whitespace.
-- **Tone & Style**: Follow [`conductor/code_styleguides/writing.md`](file:///conductor/code_styleguides/writing.md) (simple, human, direct voice; avoid AI tropes, marketing buzzwords, semicolons, and em-dashes).
+- **No Horizontal Rules**: Never use `<hr>` or markdown `---` rules to separate content sections. Use clean typography and vertical whitespace.
+
+### Writing Voice & Style (Human, Direct, Anti-Tropes)
+- **Direct Technical Mechanics**: State the mechanism, facts, and tradeoffs immediately without throat-clearing preambles ("Let's break this down step by step", "Two constraints shape the design", "What is worth noting here is...").
+- **No Em-Dashes (`—`)**: Never use em-dashes (`—`). When inserting side notes, clarifications, or soft thoughts, use parentheses `(soft thoughts)` instead, or split the thought into separate, clear sentences.
+  - *Avoid*: `In a synchronized system—say, exactly one request every 20ms—the worker is idle.`
+  - *Use*: `In a synchronized system (say, exactly one request every 20ms), the worker is idle.`
+- **No Semicolons (`;`)**: Avoid semicolons in prose. Split long compound thoughts into separate, clear sentences.
+- **No Negative Parallelism**: Never use "It's not X — it's Y" or "The question isn't X, it's Y". State the positive truth directly.
+- **No Triple Negations or Reveal Drama**: Avoid "Not X. Not Y. Just Z" or "Not a bug. Not a feature. A design flaw."
+- **No False Ranges**: Avoid "from X to Y" unless X and Y form a real, measurable numeric spectrum (avoid "from innovation to implementation").
+- **No Rhetorical Q&A**: Never pose a rhetorical question only to answer it immediately for false drama ("The result? Devastating", "The scary part? Nobody saw it coming").
+- **No Grandiose Stakes Inflation**: Do not inflate technical trade-offs into world-historical revolutions ("fundamentally reshapes how we think about computing").
+- **No Patronizing Analogies**: Avoid "Think of it as a Swiss Army knife...". Explain the technical model directly.
+- **No Manufactured Suspense**: Avoid "Here's the catch", "Here's what most people miss", "Here's the kicker".
+- **Banned AI Tell Words**:
+  - `delve`, `leverage`, `utilize`, `harness`, `streamline`, `robust`, `seamless`
+  - `tapestry`, `landscape`, `paradigm`, `synergy`, `ecosystem`, `load-bearing` (when used as a buzzword)
+  - `serves as`, `stands as`, `marks a pivotal moment` (use `is` or `are`)
+  - `quietly`, `deeply`, `fundamentally`, `remarkably`, `arguably`
+  - `game-changer`, `superpower`, `revolutionize`
+- **Percentages in Prose**: Always write percentages in standard prose (`50%`, `75%`, `90%`, `99%`) rather than wrapping them in inline math (`$50\%$`), as LaTeX/KaTeX treats `%` as a comment symbol.
 
 ---
 
@@ -78,12 +98,15 @@ The site selectively loads math engines via the `libraries` array in frontmatter
 </foreignObject>
 ```
 
-### Underscores in Display Math
-- Multi-line display math blocks with multiple underscores (e.g. `$$\text{TPS}_{\text{system}} = \frac{\sum_{i=1}^N O_i}{\Delta t}$$`) can conflict with Markdown emphasis parsers. Always place display math delimiters on separate lines:
+### Underscores & `\underbrace` in Display Math
+- Multi-line display math blocks with multiple underscores (e.g. `$$\text{TPS}_{\text{system}} = \frac{\sum_{i=1}^N O_i}{\Delta t}$$`) or repeated `\underbrace` annotations can conflict with Goldmark's Markdown emphasis parser (`_italic_`).
+- Always place display math delimiters (`$$`) on their own separate lines.
+- For `\underbrace{...}_{...}`, escape the underscore as `\underbrace{...}\_{\text{...}}` so Goldmark does not convert paired underscores into HTML `<em>` italic tags that break KaTeX parsing.
 
 ```latex
+<!-- Correct: escaped underscores for KaTeX underbrace in Markdown -->
 $$
-\text{TPS}_{\text{system}} = \frac{\sum_{i=1}^{N} O_i}{\Delta t}
+W_q = \underbrace{(1 - \rho) \cdot 0}\_{\text{Arrive when Idle}} + \underbrace{\rho \cdot \left(\frac{S}{1 - \rho}\right)}\_{\text{Arrive when Busy}}
 $$
 ```
 
