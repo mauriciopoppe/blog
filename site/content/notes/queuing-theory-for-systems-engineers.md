@@ -1,371 +1,358 @@
 ---
 title: "Queuing Theory for Systems Engineers"
 summary: |
-  A practical, example-first guide to queuing theory in distributed systems: from single-server hyperbolic latency curves and Pollaczek–Khinchine service variance to multi-server pooling, Kendall's notation, and interactive curve exploration.
-image: /images/performance-fundamentals.png
+  A practical, example-first guide to queuing theory in systems engineering: single-server M/M/1 response time and the 50% load paradox, the hockey stick latency curve, Pollaczek-Khinchine service variance, multi-server resource pooling (M/M/c), and capacity planning rules of thumb with interactive visualizers.
+image: /images/hockey-stick-queue-theory.png
 tags: ["system design", "performance", "queuing theory", "distributed systems", "math", "latency"]
 date: 2026-08-24T23:00:00Z
-draft: true
 libraries: ["katex"]
 mathTerms: ["queuing", "systems"]
+interactive: true
 ---
 
 In production systems, latency degradation rarely happens linearly. A service handling 5,000 requests per second with a 15ms response time might run smoothly all day, but an extra 5% traffic surge can suddenly spike tail latency from 15ms to 800ms.
 
-This non-linear cliff is governed by **queuing theory**—the mathematical study of waiting lines. 
+This non-linear cliff is governed by **queuing theory** (the mathematical study of waiting lines).
 
 *(For foundational metrics, latency breakdowns, and resource utilization, see [Performance Fundamentals](/notes/performance-fundamentals/).)*
 
-## The Single-Worker Baseline: Why Latency Explodes Non-Linearly
+## The Anatomy of Waiting: Why Queues Form
 
-To understand why queues behave so aggressively, start with the simplest possible system: a single worker thread (like a Redis process, a Node.js event loop, or a single CPU core) handling requests one by one.
+Consider a single worker thread (such as a Redis process, a Node.js event loop, or an isolated CPU core) where each task takes an average service execution time of **$S = 10\text{ ms}$** (giving a maximum processing capacity of $\mu = \frac{1}{S} = 100\text{ req/s}$).
 
-Suppose this worker takes an average of $S = 10\text{ ms}$ to execute a single task. Its maximum theoretical processing capacity is:
+Suppose client traffic arrives at **$\lambda = 50\text{ req/s}$**, putting the worker at **50% utilization** ($\rho = \frac{\lambda}{\mu} = 0.5$).
 
-$$\mu = \frac{1}{S} = \frac{1}{0.010\text{ s}} = 100\text{ req/s}$$
+### Clockwork vs. Random Bursts
 
-What happens to total response time ($W = W_q + S$) as client demand ($\lambda$) increases from 0 to 100 req/s?
+In a perfectly synchronized system where requests arrive on a rigid, clockwork cadence (say, exactly one request every $20\text{ ms}$), the worker finishes each $10\text{ ms}$ task, rests for $10\text{ ms}$, and is always idle when the next request lands. Average queue wait is zero ($W_q = 0\text{ ms}$).
 
-### The Worked Example
+In real systems, requests arrive **stochastically in random bursts** (a Poisson arrival process). Because thousands of independent client browsers click buttons without coordinating with each other, arrivals naturally clump together in time. Even when average traffic is low (say, 50 req/s on average), 4 requests can randomly land within the exact same 5ms window, forcing 3 of them to wait in line.
 
-**At $\lambda = 0\text{ req/s}$ (Idle, $\rho = 0\%$)**: 
+### What Happens When You Arrive: The Coin-Flip Model
 
-<div style="display: flex; justify-content: center; margin: 1.2rem 0;">
-<svg viewBox="0 0 880 148" width="100%" style="max-width: 880px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 14px 16px; border: 1px solid rgba(255, 255, 255, 0.08);">
+When an incoming request arrives at a server with utilization $\rho = \frac{\lambda}{\mu}$, how many existing requests ($k$) will it find ahead of it?
+
+Think of arriving at the server as a sequential coin-flip game where each flip lands on *"Yes, a request is present"* with probability $\rho$, and *"No, the line stops here"* with probability $1 - \rho$:
+
+- **$k = 0$ jobs (Server Idle)**: With probability $1 - \rho$, the worker is free. The request begins execution immediately with $0\text{ ms}$ queue wait.
+- **$k = 1$ job (Worker Busy)**: With probability $(1 - \rho)\rho$, exactly 1 job is executing. Due to the memoryless property of exponential service times, it still has an average of $S$ remaining. The incoming request waits $S$.
+- **$k = 2$ jobs (Worker Busy + 1 Queued)**: With probability $(1 - \rho)\rho^2$, 1 job is executing and 1 is queued. The incoming request waits $2 \times S$.
+- **$k = 3$ jobs (Worker Busy + 2 Queued)**: With probability $(1 - \rho)\rho^3$, 1 job is executing and 2 are queued. The incoming request waits $3 \times S$.
+
+In general, for any count $k \ge 0$, the probability of finding exactly $k$ requests ahead in line is:
+
+$$
+P(N = k) = (1 - \rho)\rho^k
+$$
+
+Summing the expected number of requests gives the average backlog ($L$):
+
+$$
+L = \sum_{k=0}^\infty k \cdot P(N = k) = (1 - \rho) \sum_{k=0}^\infty k \rho^k
+$$
+
+To evaluate $\sum_{k=0}^\infty k \rho^k$, differentiate the standard geometric series with respect to $\rho$:
+
+$$
+\begin{aligned}
+\sum_{k=0}^\infty \rho^k &= \frac{1}{1 - \rho} \\\\
+\frac{d}{d\rho} \left( \sum_{k=0}^\infty \rho^k \right) &= \frac{d}{d\rho} \left( \frac{1}{1 - \rho} \right) \\\\
+\sum_{k=1}^\infty k \rho^{k-1} &= \frac{1}{(1 - \rho)^2} \\\\
+\sum_{k=0}^\infty k \rho^k &= \frac{\rho}{(1 - \rho)^2}
+\end{aligned}
+$$
+
+Substituting this series back into $L$:
+
+$$
+L = (1 - \rho) \cdot \frac{\rho}{(1 - \rho)^2} = \frac{\rho}{1 - \rho}
+$$
+
+Multiplying that backlog by the average service execution time ($S$) yields the expected queue wait time ($W_q$):
+
+$$
+W_q = L \cdot S = \sum_{k=0}^{\infty} (k \cdot S) \cdot P(N = k) = \frac{\rho \cdot S}{1 - \rho}
+$$
+
+Total server response time ($W$) is the queue wait plus execution time ($S$):
+
+$$
+W = W_q + S = \frac{\rho \cdot S}{1 - \rho} + S = \frac{S}{1 - \rho}
+$$
+
+### Worked Application ($\lambda = 50\text{ req/s}$, $S = 10\text{ ms}$)
+
+Applying the formulas to our baseline worker handling $\lambda = 50\text{ req/s}$ with service time $S = 10\text{ ms}$ (service capacity $\mu = 100\text{ req/s}$, utilization $\rho = \frac{\lambda}{\mu} = 0.50$):
+
+| Jobs Ahead ($k$) | Wait Time ($k \times S$) | Probability ($P(N=k) = (1-\rho)\rho^k$) | Weighted Contribution |
+| :--- | :--- | :--- | :--- |
+| $k = 0$ (Idle) | $0\text{ ms}$ | $(1 - 0.5) \cdot 0.5^0 = 0.50$ (50%) | $0\text{ ms} \times 0.50 = \mathbf{0\text{ ms}}$ |
+| $k = 1$ | $10\text{ ms}$ | $(1 - 0.5) \cdot 0.5^1 = 0.25$ (25%) | $10\text{ ms} \times 0.25 = \mathbf{2.5\text{ ms}}$ |
+| $k = 2$ | $20\text{ ms}$ | $(1 - 0.5) \cdot 0.5^2 = 0.125$ (12.5%) | $20\text{ ms} \times 0.125 = \mathbf{2.5\text{ ms}}$ |
+| $k = 3$ | $30\text{ ms}$ | $(1 - 0.5) \cdot 0.5^3 = 0.0625$ (6.25%) | $30\text{ ms} \times 0.0625 = \mathbf{1.875\text{ ms}}$ |
+| $k = 4$ | $40\text{ ms}$ | $(1 - 0.5) \cdot 0.5^4 = 0.03125$ (3.125%) | $40\text{ ms} \times 0.03125 = \mathbf{1.25\text{ ms}}$ |
+| **Total Average** | - | **$\sum P = 1.0$ (100%)** | **$W_q = \mathbf{10\text{ ms}}$** |
+
+Evaluating the closed-form results:
+- **Expected Backlog**: $L = \frac{0.50}{1 - 0.50} = \mathbf{1.0\text{ request}}$
+- **Expected Queue Wait**: $W_q = 1.0 \times 10\text{ ms} = \mathbf{10\text{ ms}}$
+- **Total Latency**: $W = \frac{10\text{ ms}}{1 - 0.50} = \mathbf{20\text{ ms}}$
+- **Little's Law Check**: $L = \lambda \cdot W = 50\text{ req/s} \times 0.020\text{ s} = \mathbf{1.0\text{ request}}$
+
+### The 50% Load Paradox: Why Does Latency Double?
+
+Running a single-server queue at 50% CPU load ($\rho = 0.50$) does not mean near-zero queuing delay. Instead, average response time **always doubles** ($W = 2S$):
+
+- **50% of the time**, the server is completely idle, so the incoming request executes immediately ($\text{Wait} = 0$).
+- **50% of the time**, the server is busy processing a burst, where the expected wait for the backlog to clear is **$2S$**.
+
+The overall average queue wait is the weighted combination of both states:
+
+$$
+W_q = \underbrace{(0.50 \cdot 0)}\_{\text{Arrive when Idle}} + \underbrace{(0.50 \cdot 2S)}\_{\text{Arrive when Busy}} = \mathbf{1.0 \cdot S}
+$$
+
+Adding the task's own execution duration ($S$) yields:
+
+$$
+W = W_q + S = 1.0S + 1.0S = \mathbf{2.0 \cdot S}
+$$
+
+Even with 50% idle headroom, random Poisson arrival bursts cause enough temporary clumping that requests spend as much time waiting in line ($S$) as they do running on the CPU ($S$).
+
+<div id="coin-flip-simulator"></div>
+
+## The Non-Linear Latency Penalty: The Hockey Stick Curve
+
+Because $W = \frac{S}{1 - \rho}$, response time scales with the hyperbolic multiplier $\frac{1}{1 - \rho}$. This causes latency to remain relatively flat across light and moderate loads before shooting upward asymptotically near capacity:
+
+<div id="hockey-stick-explorer" style="width: 100%; margin: 1.5rem 0;">
+<svg viewBox="0 0 880 390" width="100%" style="width: 100%; height: auto; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 12px 16px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box;">
   <defs>
-    <marker id="arr-we-0" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(171, 171, 171, 0.35)" />
-    </marker>
-    <marker id="arr-we-inner-0" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(var(--primary), 0.6)" />
-    </marker>
+    <linearGradient id="curve-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#81c784" />
+      <stop offset="60%" stop-color="#ffb74d" />
+      <stop offset="85%" stop-color="rgb(var(--primary))" />
+      <stop offset="100%" stop-color="#ffa726" />
+    </linearGradient>
+    <linearGradient id="area-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(var(--primary), 0.25)" />
+      <stop offset="100%" stop-color="rgba(var(--primary), 0.0)" />
+    </linearGradient>
   </defs>
-  <!-- Inbound Traffic Box -->
-  <rect x="15" y="14" width="175" height="120" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
-  <text x="102" y="38" fill="var(--grey-light)" font-size="11" font-weight="700" letter-spacing="0.05em" text-anchor="middle">INBOUND TRAFFIC</text>
-  <text x="102" y="70" fill="var(--grey-lighter)" font-size="18" font-weight="700" text-anchor="middle">λ = 0 req/s</text>
-  <text x="102" y="100" fill="#81c784" font-size="13" font-weight="600" text-anchor="middle">0% Utilization (Idle)</text>
-  <!-- Arrow: Traffic into Server -->
-  <line x1="193" y1="74" x2="225" y2="74" stroke="rgba(171, 171, 171, 0.35)" stroke-width="1.5" marker-end="url(#arr-we-0)" />
-  <!-- Server Boundary Container -->
-  <rect x="228" y="14" width="635" height="120" rx="8" fill="rgba(255, 255, 255, 0.015)" stroke="rgba(171, 171, 171, 0.2)" stroke-width="1" stroke-dasharray="4 3" />
-  <text x="245" y="32" fill="var(--grey-light)" font-size="11" font-weight="700" letter-spacing="0.05em">SERVER BOUNDARY</text>
-  <!-- Inside Server Top Row: Queue -->
-  <rect x="245" y="40" width="285" height="42" rx="6" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
-  <text x="257" y="66" fill="var(--grey-lighter)" font-size="13"><tspan font-weight="600">Queue:</tspan> <tspan font-weight="700" fill="#81c784">Wq = 0 ms</tspan> <tspan font-size="12" fill="var(--grey-light)">(Empty, Lq = 0)</tspan></text>
-  <!-- Arrow: Queue to Worker -->
-  <line x1="534" y1="61" x2="556" y2="61" stroke="rgba(var(--primary), 0.5)" stroke-width="1.5" marker-end="url(#arr-we-inner-0)" />
-  <!-- Inside Server Top Row: Worker -->
-  <rect x="560" y="40" width="285" height="42" rx="6" fill="rgba(129, 199, 132, 0.1)" stroke="rgba(129, 199, 132, 0.3)" stroke-width="1" />
-  <text x="572" y="66" font-size="13"><tspan font-weight="700" fill="#81c784">Worker:</tspan> <tspan font-weight="700" fill="var(--grey-lighter)">S = 10 ms</tspan> <tspan font-size="12" fill="#81c784">(100% Free Headroom)</tspan></text>
-  <!-- Inside Server Bottom Row: Server Latency (W = Wq + S) -->
-  <rect x="245" y="90" width="600" height="34" rx="6" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
-  <text x="257" y="112" fill="var(--grey-light)" font-size="11" font-weight="700" letter-spacing="0.04em">SERVER LATENCY:</text>
-  <rect x="370" y="95" width="65" height="24" rx="4" fill="rgba(129, 199, 132, 0.15)" stroke="rgba(129, 199, 132, 0.4)" stroke-width="1" />
-  <text x="402" y="111" fill="#81c784" font-size="11" font-weight="700" text-anchor="middle">Wq: 0ms</text>
-  <rect x="440" y="95" width="60" height="24" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
-  <text x="470" y="111" fill="var(--grey-lighter)" font-size="11" font-weight="700" text-anchor="middle">S: 10ms</text>
-  <text x="510" y="112" fill="var(--grey-lighter)" font-size="14" font-weight="700">= 10 ms</text>
-  <text x="575" y="112" fill="#81c784" font-size="12" font-weight="600">(1.0× Floor — Zero Queue Delay)</text>
+  <!-- Zone Header Titles -->
+  <text x="260" y="26" fill="#81c784" font-size="11" font-weight="700" letter-spacing="0.04em" text-anchor="middle">SAFE ZONE (0% - 50% LOAD)</text>
+  <text x="530" y="26" fill="#ffb74d" font-size="11" font-weight="700" letter-spacing="0.04em" text-anchor="middle">THE KNEE (50% - 75%)</text>
+  <text x="710" y="26" fill="#ffa726" font-size="11" font-weight="700" letter-spacing="0.04em" text-anchor="middle">SATURATION CLIFF (75% - 100%)</text>
+  <!-- Background Operating Zone Bands -->
+  <rect x="80" y="38" width="360" height="272" fill="#81c784" fill-opacity="0.04" rx="4" />
+  <rect x="440" y="38" width="180" height="272" fill="#ffb74d" fill-opacity="0.04" rx="4" />
+  <rect x="620" y="38" width="180" height="272" fill="#ffa726" fill-opacity="0.05" rx="4" />
+  <!-- Horizontal Grid Lines -->
+  <line x1="80" y1="286" x2="800" y2="286" stroke="rgba(255, 255, 255, 0.07)" stroke-width="1" />
+  <line x1="80" y1="263" x2="800" y2="263" stroke="rgba(255, 255, 255, 0.07)" stroke-width="1" />
+  <line x1="80" y1="216" x2="800" y2="216" stroke="rgba(255, 255, 255, 0.07)" stroke-width="1" />
+  <line x1="80" y1="168" x2="800" y2="168" stroke="rgba(255, 255, 255, 0.07)" stroke-width="1" />
+  <line x1="80" y1="121" x2="800" y2="121" stroke="rgba(255, 255, 255, 0.07)" stroke-width="1" />
+  <line x1="80" y1="74" x2="800" y2="74" stroke="rgba(255, 255, 255, 0.07)" stroke-width="1" />
+  <!-- Vertical Grid Lines -->
+  <line x1="80" y1="38" x2="80" y2="310" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+  <line x1="260" y1="38" x2="260" y2="310" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+  <line x1="440" y1="38" x2="440" y2="310" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+  <line x1="620" y1="38" x2="620" y2="310" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+  <line x1="728" y1="38" x2="728" y2="310" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+  <!-- Asymptote Line (rho = 100%) -->
+  <line x1="800" y1="38" x2="800" y2="310" stroke="#ffa726" stroke-width="1.5" stroke-dasharray="4 4" />
+  <text x="794" y="145" fill="#ffa726" font-size="10" font-weight="700" text-anchor="end">Capacity Limit (ρ = 1.0)</text>
+  <text x="794" y="160" fill="#ffa726" font-size="10" font-weight="600" text-anchor="end">Latency W → ∞</text>
+  <!-- Axes Labels -->
+  <text x="72" y="290" fill="var(--grey-light)" font-size="11" font-weight="600" text-anchor="end">1.0×</text>
+  <text x="72" y="267" fill="var(--grey-light)" font-size="11" font-weight="600" text-anchor="end">2.0×</text>
+  <text x="72" y="220" fill="var(--grey-light)" font-size="11" font-weight="600" text-anchor="end">4.0×</text>
+  <text x="72" y="172" fill="var(--grey-light)" font-size="11" font-weight="600" text-anchor="end">6.0×</text>
+  <text x="72" y="125" fill="var(--grey-light)" font-size="11" font-weight="600" text-anchor="end">8.0×</text>
+  <text x="72" y="78" fill="var(--grey-light)" font-size="11" font-weight="600" text-anchor="end">10.0×</text>
+  <!-- X-Axis Ticks & Utilization -->
+  <text x="80" y="332" fill="var(--grey-light)" font-size="11" font-weight="600" text-anchor="middle">0%</text>
+  <text x="260" y="332" fill="var(--grey-light)" font-size="11" font-weight="600" text-anchor="middle">25%</text>
+  <text x="440" y="332" fill="var(--grey-light)" font-size="11" font-weight="600" text-anchor="middle">50%</text>
+  <text x="620" y="332" fill="var(--grey-light)" font-size="11" font-weight="600" text-anchor="middle">75%</text>
+  <text x="728" y="332" fill="var(--grey-light)" font-size="11" font-weight="600" text-anchor="middle">90%</text>
+  <text x="800" y="332" fill="#ffa726" font-size="11" font-weight="700" text-anchor="middle">100%</text>
+  <!-- Axis Titles -->
+  <text x="440" y="362" fill="var(--grey-lighter)" font-size="12" font-weight="700" letter-spacing="0.05em" text-anchor="middle">SERVER UTILIZATION (ρ = λ / μ)</text>
+  <text x="18" y="175" fill="var(--grey-lighter)" font-size="11" font-weight="700" letter-spacing="0.04em" transform="rotate(-90 18 175)" text-anchor="middle">RESPONSE TIME MULTIPLIER (W / S)</text>
+  <!-- The Curve (Shaded Area + Stroke) -->
+  <path d="M 80 286 L 152 284 L 224 280 L 296 276 L 368 271 L 440 263 L 512 251 L 584 231 L 620 216 L 656 192 L 692 152 L 728 74 L 738 45 L 738 310 L 80 310 Z" fill="url(#area-grad)" />
+  <path d="M 80 286 L 152 284 L 224 280 L 296 276 L 368 271 L 440 263 L 512 251 L 584 231 L 620 216 L 656 192 L 692 152 L 728 74 L 738 45" fill="none" stroke="url(#curve-grad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Key Data Point Callouts -->
+  <!-- Point 1: 0% Load -->
+  <circle cx="80" cy="286" r="4.5" fill="#81c784" stroke="var(--grey-darker)" stroke-width="2" />
+  <text x="88" y="278" fill="#81c784" font-size="11" font-weight="700">1.0× (10ms)</text>
+  <!-- Point 2: 50% Load -->
+  <circle cx="440" cy="263" r="5" fill="#ffb74d" stroke="var(--grey-darker)" stroke-width="2" />
+  <line x1="440" y1="263" x2="440" y2="310" stroke="#ffb74d" stroke-width="1" stroke-dasharray="3 3" opacity="0.6" />
+  <text x="440" y="248" fill="#ffb74d" font-size="11" font-weight="700" text-anchor="middle">2.0× (20ms)</text>
+  <!-- Point 3: 75% Load (The Knee) -->
+  <circle cx="620" cy="216" r="5.5" fill="rgb(var(--primary))" stroke="var(--grey-darker)" stroke-width="2" />
+  <line x1="620" y1="216" x2="620" y2="310" stroke="rgb(var(--primary))" stroke-width="1" stroke-dasharray="3 3" opacity="0.6" />
+  <text x="605" y="206" fill="rgb(var(--primary))" font-size="11" font-weight="700" text-anchor="end">4.0× (40ms)</text>
+  <!-- Point 4: 90% Load (Saturation) -->
+  <circle cx="728" cy="74" r="5.5" fill="#ffa726" stroke="var(--grey-darker)" stroke-width="2" />
+  <line x1="728" y1="74" x2="728" y2="310" stroke="#ffa726" stroke-width="1" stroke-dasharray="3 3" opacity="0.6" />
+  <text x="716" y="80" fill="#ffa726" font-size="11" font-weight="700" text-anchor="end">10.0× (100ms)</text>
 </svg>
 </div>
 
-When a request arrives, the worker is idle. It immediately executes in $10\text{ ms}$ with zero queue wait ($W_q = 0\text{ ms}$). Total response time is $W = 10\text{ ms}$.
+Applying Little's Law strictly to the waiting queue buffer ($L_q = \lambda \cdot W_q$) with arrival rate $\lambda = \frac{\rho}{S}$ and queue wait $W_q = \frac{\rho \cdot S}{1 - \rho}$:
 
-**At $\lambda = 50\text{ req/s}$ ($50\%$ Utilization, $\rho = 0.5$)**: 
+$$
+L_q = \lambda \cdot W_q = \left(\frac{\rho}{S}\right) \cdot \left(\frac{\rho \cdot S}{1 - \rho}\right) = \frac{\rho^2}{1 - \rho}
+$$
 
-<div style="display: flex; justify-content: center; margin: 1.2rem 0;">
-<svg viewBox="0 0 880 148" width="100%" style="max-width: 880px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 14px 16px; border: 1px solid rgba(255, 255, 255, 0.08);">
-  <defs>
-    <marker id="arr-we-50" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(171, 171, 171, 0.35)" />
-    </marker>
-    <marker id="arr-we-inner-50" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(var(--primary), 0.6)" />
-    </marker>
-  </defs>
-  <!-- Inbound Traffic Box -->
-  <rect x="15" y="14" width="175" height="120" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
-  <text x="102" y="38" fill="var(--grey-light)" font-size="11" font-weight="700" letter-spacing="0.05em" text-anchor="middle">INBOUND TRAFFIC</text>
-  <text x="102" y="70" fill="var(--grey-lighter)" font-size="18" font-weight="700" text-anchor="middle">λ = 50 req/s</text>
-  <text x="102" y="100" fill="rgb(var(--primary))" font-size="13" font-weight="600" text-anchor="middle">50% Utilization (ρ = 0.5)</text>
-  <!-- Arrow: Traffic into Server -->
-  <line x1="193" y1="74" x2="225" y2="74" stroke="rgba(171, 171, 171, 0.35)" stroke-width="1.5" marker-end="url(#arr-we-50)" />
-  <!-- Server Boundary Container -->
-  <rect x="228" y="14" width="635" height="120" rx="8" fill="rgba(255, 255, 255, 0.015)" stroke="rgba(171, 171, 171, 0.2)" stroke-width="1" stroke-dasharray="4 3" />
-  <text x="245" y="32" fill="var(--grey-light)" font-size="11" font-weight="700" letter-spacing="0.05em">SERVER BOUNDARY</text>
-  <!-- Inside Server Top Row: Queue -->
-  <rect x="245" y="40" width="285" height="42" rx="6" fill="var(--grey-dark)" stroke="rgba(var(--primary), 0.35)" stroke-width="1" />
-  <text x="257" y="66" font-size="13"><tspan font-weight="600" fill="rgb(var(--primary))">Queue:</tspan> <tspan font-weight="700" fill="#ffb74d">Wq = 10 ms</tspan> <tspan font-size="12" fill="var(--grey-light)">(Avg Depth Lq = 0.5)</tspan></text>
-  <!-- Arrow: Queue to Worker -->
-  <line x1="534" y1="61" x2="556" y2="61" stroke="rgba(var(--primary), 0.5)" stroke-width="1.5" marker-end="url(#arr-we-inner-50)" />
-  <!-- Inside Server Top Row: Worker -->
-  <rect x="560" y="40" width="285" height="42" rx="6" fill="rgba(var(--primary), 0.1)" stroke="rgba(var(--primary), 0.35)" stroke-width="1" />
-  <text x="572" y="66" font-size="13"><tspan font-weight="700" fill="rgb(var(--primary))">Worker:</tspan> <tspan font-weight="700" fill="var(--grey-lighter)">S = 10 ms</tspan> <tspan font-size="12" fill="var(--grey-light)">(50% Busy Duty Cycle)</tspan></text>
-  <!-- Inside Server Bottom Row: Server Latency (W = Wq + S) -->
-  <rect x="245" y="90" width="600" height="34" rx="6" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
-  <text x="257" y="112" fill="var(--grey-light)" font-size="11" font-weight="700" letter-spacing="0.04em">SERVER LATENCY:</text>
-  <rect x="370" y="95" width="68" height="24" rx="4" fill="rgba(255, 183, 77, 0.35)" stroke="rgba(255, 183, 77, 0.6)" stroke-width="1" />
-  <text x="404" y="111" fill="var(--grey-lighter)" font-size="11" font-weight="700" text-anchor="middle">Wq: 10ms</text>
-  <rect x="443" y="95" width="60" height="24" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
-  <text x="473" y="111" fill="var(--grey-lighter)" font-size="11" font-weight="700" text-anchor="middle">S: 10ms</text>
-  <text x="513" y="112" fill="var(--grey-lighter)" font-size="14" font-weight="700">= 20 ms</text>
-  <text x="575" y="112" fill="#ffb74d" font-size="12" font-weight="600">(2.0× Baseline Delay)</text>
-</svg>
-</div>
+## Kendall's Notation ($A/S/c$): A Universal Shorthand
 
-The worker is busy half the time. Because requests arrive randomly (stochastic Poisson bursts) rather than in a synchronized rhythmic cadence, half the time a new request arrives, the worker is already occupied:
+Everything analyzed and simulated in the first half of this note describes an **$M/M/1$** system: **M**emoryless arrivals, **M**emoryless service times, and **1** single worker.
 
-- **Why wait time is not zero (Deterministic vs. Poisson)**: If requests arrived on a perfectly spaced clock (e.g. exactly 1 request every $20\text{ ms}$), the worker would finish each $10\text{ ms}$ task and sit idle for $10\text{ ms}$ before the next request arrived, resulting in $W_q = 0\text{ ms}$. But under stochastic Poisson arrivals, requests arrive in random clusters.
-- **The physical wait breakdown**:
-  - $50\%$ of incoming requests find the worker idle and begin execution immediately ($\text{Wait} = 0\text{ ms}$).
-  - $50\%$ of incoming requests collide with an occupied worker or an active line. Due to memoryless exponential service times, when an arriving request finds a busy system, the conditional expected wait time is $\frac{S}{1 - \rho} = \frac{10\text{ ms}}{1 - 0.5} = 20\text{ ms}$.
-  - Combining both scenarios across all incoming traffic gives an overall average wait of $W_q = (0.50 \times 0\text{ ms}) + (0.50 \times 20\text{ ms}) = \mathbf{10\text{ ms}}$.
-- **What $L_q = 0.5$ means physically**: If you inspect the queue buffer at random moments throughout the day, $50\%$ of the time it is completely empty ($0$ items) and $50\%$ of the time there is $1$ request waiting in line. The time-averaged queue depth is $(0.50 \times 0) + (0.50 \times 1) = \mathbf{0.5\text{ requests}}$ (matching Little's Law: $L_q = \lambda \cdot W_q = 50\text{ req/s} \times 0.010\text{ s} = 0.5$).
-- **The resulting latency**: Queue wait ($W_q = 10\text{ ms}$) plus execution ($S = 10\text{ ms}$) doubles total server response time to **$W = 20\text{ ms}$** ($2.0\times$ baseline delay).
-- **The $50\%$ load rule**: At $50\%$ utilization ($\rho = 0.5$), average queue wait time $W_q$ is **always equal to $S$** ($W_q = \frac{\rho}{1-\rho} \cdot S = 1.0 \cdot S$), regardless of the baseline task duration. A system running at $50\%$ load will always experience a $2.0\times$ latency penalty over its zero-load floor.
+To classify different queuing architectures, queuing theory uses **Kendall's Notation** ($A/S/c$), introduced by David G. Kendall in 1953:
 
-**At $\lambda = 75\text{ req/s}$ ($75\%$ Utilization, The Operational Knee)**: 
+$$A / S / c$$
 
-<div style="display: flex; justify-content: center; margin: 1.2rem 0;">
-<svg viewBox="0 0 880 148" width="100%" style="max-width: 880px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 14px 16px; border: 1px solid rgba(255, 255, 255, 0.08);">
-  <defs>
-    <marker id="arr-we-75" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(171, 171, 171, 0.35)" />
-    </marker>
-    <marker id="arr-we-inner-75" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(var(--primary), 0.6)" />
-    </marker>
-  </defs>
-  <!-- Inbound Traffic Box -->
-  <rect x="15" y="14" width="175" height="120" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
-  <text x="102" y="38" fill="var(--grey-light)" font-size="11" font-weight="700" letter-spacing="0.05em" text-anchor="middle">INBOUND TRAFFIC</text>
-  <text x="102" y="70" fill="var(--grey-lighter)" font-size="18" font-weight="700" text-anchor="middle">λ = 75 req/s</text>
-  <text x="102" y="100" fill="#ffb74d" font-size="13" font-weight="600" text-anchor="middle">75% Load (The Knee)</text>
-  <!-- Arrow: Traffic into Server -->
-  <line x1="193" y1="74" x2="225" y2="74" stroke="rgba(171, 171, 171, 0.35)" stroke-width="1.5" marker-end="url(#arr-we-75)" />
-  <!-- Server Boundary Container -->
-  <rect x="228" y="14" width="635" height="120" rx="8" fill="rgba(255, 255, 255, 0.015)" stroke="rgba(171, 171, 171, 0.2)" stroke-width="1" stroke-dasharray="4 3" />
-  <text x="245" y="32" fill="var(--grey-light)" font-size="11" font-weight="700" letter-spacing="0.05em">SERVER BOUNDARY</text>
-  <!-- Inside Server Top Row: Queue -->
-  <rect x="245" y="40" width="285" height="42" rx="6" fill="var(--grey-dark)" stroke="rgba(255, 183, 77, 0.35)" stroke-width="1" />
-  <text x="257" y="66" font-size="13"><tspan font-weight="600" fill="#ffb74d">Queue:</tspan> <tspan font-weight="700" fill="#ffb74d">Wq = 30 ms</tspan> <tspan font-size="12" fill="var(--grey-light)">(Backlog Lq = 2.3)</tspan></text>
-  <!-- Arrow: Queue to Worker -->
-  <line x1="534" y1="61" x2="556" y2="61" stroke="rgba(var(--primary), 0.5)" stroke-width="1.5" marker-end="url(#arr-we-inner-75)" />
-  <!-- Inside Server Top Row: Worker -->
-  <rect x="560" y="40" width="285" height="42" rx="6" fill="rgba(255, 183, 77, 0.1)" stroke="rgba(255, 183, 77, 0.35)" stroke-width="1" />
-  <text x="572" y="66" font-size="13"><tspan font-weight="700" fill="var(--grey-lighter)">Worker:</tspan> <tspan font-weight="700" fill="var(--grey-lighter)">S = 10 ms</tspan> <tspan font-size="12" fill="#ffb74d">(25% Idle Headroom)</tspan></text>
-  <!-- Inside Server Bottom Row: Server Latency (W = Wq + S) -->
-  <rect x="245" y="90" width="600" height="34" rx="6" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
-  <text x="257" y="112" fill="var(--grey-light)" font-size="11" font-weight="700" letter-spacing="0.04em">SERVER LATENCY:</text>
-  <rect x="370" y="95" width="75" height="24" rx="4" fill="rgba(255, 183, 77, 0.35)" stroke="rgba(255, 183, 77, 0.6)" stroke-width="1" />
-  <text x="407" y="111" fill="var(--grey-lighter)" font-size="11" font-weight="700" text-anchor="middle">Wq: 30ms</text>
-  <rect x="450" y="95" width="60" height="24" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
-  <text x="480" y="111" fill="var(--grey-lighter)" font-size="11" font-weight="700" text-anchor="middle">S: 10ms</text>
-  <text x="520" y="112" fill="var(--grey-lighter)" font-size="14" font-weight="700">= 40 ms</text>
-  <text x="580" y="112" fill="#ffb74d" font-size="12" font-weight="600">(4.0× Baseline — Queue wait dominates!)</text>
-</svg>
-</div>
+- **$A$ (Arrival Process)**:
+  - $M$ (*Markovian* / Memoryless): Random Poisson arrivals ($\lambda$).
+  - $D$ (*Deterministic*): Fixed, clockwork intervals (e.g. cron schedule).
+  - $G$ (*General*): Arbitrary arrival distribution.
+- **$S$ (Service Time Distribution)**:
+  - $M$ (*Exponential* / Memoryless): Randomly distributed task execution times.
+  - $D$ (*Deterministic*): Fixed, constant execution time for every job (e.g. exactly 10ms).
+  - $G$ (*General*): Arbitrary or high-variance execution times (e.g. fast cache hits mixed with slow database scans).
+- **$c$ (Number of Parallel Servers)**: Count of independent worker threads or CPU cores.
 
-Utilization is high, but the worker still has $25\%$ idle buffer headroom. However, because requests arrive in stochastic Poisson bursts, a persistent backlog forms:
+| Model | System Architecture | Real-World Production Example |
+| :--- | :--- | :--- |
+| **$M/M/1$** | Single worker processing Poisson arrivals with memoryless execution time. | Single-threaded in-memory databases (Redis event loop, Node.js main thread). |
+| **$M/D/1$** | Poisson arrivals with constant, deterministic processing time. | Fixed-size packet hashing, ASIC cryptographic hardware verification. |
+| **$M/G/1$** | Poisson arrivals with high-variance, arbitrary service times. | Relational database queries (fast primary-key lookups mixed with unindexed table scans). |
+| **$M/M/c$** | Shared FIFO queue dispatched across $c$ identical parallel worker threads. | Multi-threaded thread pool, web server worker processes (Gunicorn, Puma, Go worker pool). |
+| **$G/G/c$** | Bursty general arrivals across $c$ parallel workers with arbitrary execution times. | General multi-tier microservice architecture under real-world internet traffic. |
 
-- **What $L_q = 2.3$ means physically**: On average, more than $2$ requests are permanently waiting in line ($L_q = \lambda \cdot W_q = 75\text{ req/s} \times 0.030\text{ s} = 2.25$).
-- **The resulting latency**: Average queue wait time jumps to $W_q = 30\text{ ms}$ ($3\times$ the service time!). Total server latency quadruples to **$W = 40\text{ ms}$** ($4.0\times$ baseline delay).
-
-**At $\lambda = 90\text{ req/s}$ ($90\%$ Utilization, The Saturation Cliff)**: 
-
-<div style="display: flex; justify-content: center; margin: 1.2rem 0;">
-<svg viewBox="0 0 880 148" width="100%" style="max-width: 880px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 14px 16px; border: 1px solid rgba(229, 115, 115, 0.25);">
-  <defs>
-    <marker id="arr-we-90" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(229, 115, 115, 0.5)" />
-    </marker>
-    <marker id="arr-we-inner-90" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(229, 115, 115, 0.7)" />
-    </marker>
-  </defs>
-  <!-- Inbound Traffic Box -->
-  <rect x="15" y="14" width="175" height="120" rx="8" fill="var(--grey-dark)" stroke="rgba(229, 115, 115, 0.3)" stroke-width="1" />
-  <text x="102" y="38" fill="var(--grey-light)" font-size="11" font-weight="700" letter-spacing="0.05em" text-anchor="middle">INBOUND TRAFFIC</text>
-  <text x="102" y="70" fill="var(--grey-lighter)" font-size="18" font-weight="700" text-anchor="middle">λ = 90 req/s</text>
-  <text x="102" y="100" fill="#e57373" font-size="13" font-weight="600" text-anchor="middle">90% Load (The Cliff)</text>
-  <!-- Arrow: Traffic into Server -->
-  <line x1="193" y1="74" x2="225" y2="74" stroke="rgba(229, 115, 115, 0.4)" stroke-width="1.5" marker-end="url(#arr-we-90)" />
-  <!-- Server Boundary Container -->
-  <rect x="228" y="14" width="635" height="120" rx="8" fill="rgba(229, 115, 115, 0.04)" stroke="rgba(229, 115, 115, 0.3)" stroke-width="1" stroke-dasharray="4 3" />
-  <text x="245" y="32" fill="#e57373" font-size="11" font-weight="700" letter-spacing="0.05em">SERVER BOUNDARY (SATURATED)</text>
-  <!-- Inside Server Top Row: Queue -->
-  <rect x="245" y="40" width="285" height="42" rx="6" fill="var(--grey-dark)" stroke="rgba(229, 115, 115, 0.3)" stroke-width="1" />
-  <text x="257" y="66" font-size="13"><tspan font-weight="600" fill="#e57373">Queue:</tspan> <tspan font-weight="700" fill="#e57373">Wq = 90 ms</tspan> <tspan font-size="12" fill="var(--grey-light)">(Heavy Backlog Lq = 8.1)</tspan></text>
-  <!-- Arrow: Queue to Worker -->
-  <line x1="534" y1="61" x2="556" y2="61" stroke="rgba(229, 115, 115, 0.6)" stroke-width="1.5" marker-end="url(#arr-we-inner-90)" />
-  <!-- Inside Server Top Row: Worker -->
-  <rect x="560" y="40" width="285" height="42" rx="6" fill="rgba(229, 115, 115, 0.15)" stroke="rgba(229, 115, 115, 0.3)" stroke-width="1" />
-  <text x="572" y="66" font-size="13"><tspan font-weight="700" fill="#e57373">Worker:</tspan> <tspan font-weight="700" fill="var(--grey-lighter)">S = 10 ms</tspan> <tspan font-size="12" fill="var(--grey-light)">(Only 10% Buffer Left)</tspan></text>
-  <!-- Inside Server Bottom Row: Server Latency (W = Wq + S) -->
-  <rect x="245" y="90" width="600" height="34" rx="6" fill="var(--grey-dark)" stroke="rgba(229, 115, 115, 0.3)" stroke-width="1" />
-  <text x="257" y="112" fill="var(--grey-light)" font-size="11" font-weight="700" letter-spacing="0.04em">SERVER LATENCY:</text>
-  <rect x="370" y="95" width="85" height="24" rx="4" fill="rgba(229, 115, 115, 0.4)" stroke="rgba(229, 115, 115, 0.7)" stroke-width="1" />
-  <text x="412" y="111" fill="var(--grey-lighter)" font-size="11" font-weight="700" text-anchor="middle">Wq: 90ms</text>
-  <rect x="460" y="95" width="60" height="24" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
-  <text x="490" y="111" fill="var(--grey-lighter)" font-size="11" font-weight="700" text-anchor="middle">S: 10ms</text>
-  <text x="530" y="112" fill="#e57373" font-size="14" font-weight="700">= 100 ms</text>
-  <text x="605" y="112" fill="#e57373" font-size="12" font-weight="700">(10× Baseline Delay Penalty)</text>
-</svg>
-</div>
-
-Headroom shrinks to just $10\%$. The worker spends almost all its time processing requests, leaving virtually no idle gaps to drain burst backlogs:
-
-- **What $L_q = 8.1$ means physically**: An average of $8$ requests are stacked waiting in the queue buffer ($L_q = \lambda \cdot W_q = 90\text{ req/s} \times 0.090\text{ s} = 8.1$).
-- **The resulting latency**: Waiting in line ($W_q = 90\text{ ms}$) now accounts for $90\%$ of total request lifetime. Response time jumps to **$W = 100\text{ ms}$** ($10\times$ the baseline service floor!).
-
-**At $\lambda = 99\text{ req/s}$ ($99\%$ Utilization, Catastrophic Stall)**: 
-
-<div style="display: flex; justify-content: center; margin: 1.2rem 0;">
-<svg viewBox="0 0 880 148" width="100%" style="max-width: 880px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 14px 16px; border: 1px solid rgba(229, 115, 115, 0.4);">
-  <defs>
-    <marker id="arr-we-99" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(229, 115, 115, 0.7)" />
-    </marker>
-    <marker id="arr-we-inner-99" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#e57373" />
-    </marker>
-  </defs>
-  <!-- Inbound Traffic Box -->
-  <rect x="15" y="14" width="175" height="120" rx="8" fill="rgba(229, 115, 115, 0.12)" stroke="rgba(229, 115, 115, 0.4)" stroke-width="1" />
-  <text x="102" y="38" fill="var(--grey-light)" font-size="11" font-weight="700" letter-spacing="0.05em" text-anchor="middle">INBOUND TRAFFIC</text>
-  <text x="102" y="70" fill="#e57373" font-size="18" font-weight="700" text-anchor="middle">λ = 99 req/s</text>
-  <text x="102" y="100" fill="#e57373" font-size="13" font-weight="700" text-anchor="middle">99% Load (Meltdown)</text>
-  <!-- Arrow: Traffic into Server -->
-  <line x1="193" y1="74" x2="225" y2="74" stroke="rgba(229, 115, 115, 0.6)" stroke-width="1.5" marker-end="url(#arr-we-99)" />
-  <!-- Server Boundary Container -->
-  <rect x="228" y="14" width="635" height="120" rx="8" fill="rgba(229, 115, 115, 0.08)" stroke="rgba(229, 115, 115, 0.4)" stroke-width="1" stroke-dasharray="4 3" />
-  <text x="245" y="32" fill="#e57373" font-size="11" font-weight="700" letter-spacing="0.05em">SERVER BOUNDARY (OVERFLOW)</text>
-  <!-- Inside Server Top Row: Queue -->
-  <rect x="245" y="40" width="285" height="42" rx="6" fill="var(--grey-dark)" stroke="rgba(229, 115, 115, 0.4)" stroke-width="1" />
-  <text x="257" y="66" font-size="13"><tspan font-weight="700" fill="#e57373">Queue:</tspan> <tspan font-weight="700" fill="#e57373">Wq = 990 ms</tspan> <tspan font-size="12" fill="var(--grey-lighter)" font-weight="600">(Lq = 98.0 Items)</tspan></text>
-  <!-- Arrow: Queue to Worker -->
-  <line x1="534" y1="61" x2="556" y2="61" stroke="#e57373" stroke-width="1.5" marker-end="url(#arr-we-inner-99)" />
-  <!-- Inside Server Top Row: Worker -->
-  <rect x="560" y="40" width="285" height="42" rx="6" fill="rgba(229, 115, 115, 0.25)" stroke="rgba(229, 115, 115, 0.5)" stroke-width="1" />
-  <text x="572" y="66" font-size="13"><tspan font-weight="700" fill="#e57373">Worker:</tspan> <tspan font-weight="700" fill="var(--grey-lighter)">S = 10 ms</tspan> <tspan font-size="12" fill="var(--grey-light)">(1% Buffer Left)</tspan></text>
-  <!-- Inside Server Bottom Row: Server Latency (W = Wq + S) -->
-  <rect x="245" y="90" width="600" height="34" rx="6" fill="var(--grey-dark)" stroke="rgba(229, 115, 115, 0.4)" stroke-width="1" />
-  <text x="257" y="112" fill="var(--grey-light)" font-size="11" font-weight="700" letter-spacing="0.04em">SERVER LATENCY:</text>
-  <rect x="370" y="95" width="95" height="24" rx="4" fill="rgba(229, 115, 115, 0.6)" stroke="#e57373" stroke-width="1" />
-  <text x="417" y="111" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">Wq: 990ms</text>
-  <rect x="470" y="95" width="60" height="24" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
-  <text x="500" y="111" fill="var(--grey-lighter)" font-size="11" font-weight="700" text-anchor="middle">S: 10ms</text>
-  <text x="540" y="112" fill="#e57373" font-size="14" font-weight="700">= 1,000 ms</text>
-  <text x="635" y="112" fill="#e57373" font-size="12" font-weight="700">(100× Penalty)</text>
-</svg>
-</div>
-
-With only $1\%$ buffer headroom, any minor arrival burst creates a massive queue backlog that takes dozens of seconds to recover:
-
-- **What $L_q = 98.0$ means physically**: An average of $98$ requests are permanently trapped waiting in the buffer ($L_q = \lambda \cdot W_q = 99\text{ req/s} \times 0.990\text{ s} = 98.0$).
-- **The resulting latency**: Queue wait time explodes to $W_q = 990\text{ ms}$. Total response time hits **$W = 1,000\text{ ms } (1.0\text{ s})$**, a catastrophic $100\times$ delay penalty for pushing utilization only $9\%$ higher.
-
-### The Hyperbolic Multiplier: $1 / (1 - \rho)$
-
-Under random Poisson arrivals and exponential service times ($M/M/1$), total response time ($W$) and queue wait time ($W_q$) follow exact closed-form hyperbolic equations:
-
-$$W = \frac{S}{1 - \rho} = \frac{1}{\mu - \lambda}$$
-
-$$W_q = \frac{\rho \cdot S}{1 - \rho} = \frac{\rho}{\mu(1 - \rho)}$$
-
-The term $\frac{1}{1 - \rho}$ acts as an exponential penalty multiplier on latency:
-
-| Utilization ($\rho$) | Multiplier ($\frac{1}{1 - \rho}$) | Base Service Time ($S = 10\text{ ms}$) | Total Response Time ($W$) | Queue Wait ($W_q$) |
-| :--- | :--- | :--- | :--- | :--- |
-| **$0\%$** | $1.0\times$ | $10\text{ ms}$ | $10.0\text{ ms}$ | $0.0\text{ ms}$ |
-| **$50\%$** | $2.0\times$ | $10\text{ ms}$ | $20.0\text{ ms}$ | $10.0\text{ ms}$ |
-| **$75\%$ (Operational Knee)** | $4.0\times$ | $10\text{ ms}$ | $40.0\text{ ms}$ | $30.0\text{ ms}$ |
-| **$90\%$** | $10.0\times$ | $10\text{ ms}$ | $100.0\text{ ms}$ | $90.0\text{ ms}$ |
-| **$95\%$** | $20.0\times$ | $10\text{ ms}$ | $200.0\text{ ms}$ | $190.0\text{ ms}$ |
-| **$99\%$** | $100.0\times$ | $10\text{ ms}$ | $1,000.0\text{ ms } (1\text{ s})$ | $990.0\text{ ms}$ |
-
-And through Little's Law ($L = \lambda \cdot W$), the average number of requests queued ($L_q$) and in the system ($L$) follow the exact same curve:
-
-$$L_q = \frac{\rho^2}{1 - \rho}, \quad L = \frac{\rho}{1 - \rho}$$
-
-### Interactive $M/M/1$ Queuing Curve Explorer
-
-Use the slider below to adjust service capacity ($\mu$) and hover across the curve to observe how response latency $W$ remains predictable in the flat zone before shooting upward asymptotically near the saturation limit ($\mu$):
-
-<div id="interactive-queue-curve" style="margin: 2rem 0;"></div>
+With this vocabulary in place, we can explore two core deviations from the single-worker baseline:
+1. **Changing Service Distribution ($S \to G$)**: The variance penalty in an $M/G/1$ queue.
+2. **Changing Worker Count ($c \to N$)**: Multi-server pooling in an $M/M/c$ queue.
 
 ## The Variance Penalty: Why Average Service Time Lies ($M/G/1$)
 
-In the real world, execution times are rarely identical. Consider two different API services running on identical 100 req/s single-core workers at $80\%$ utilization ($\lambda = 80\text{ req/s}, \mu = 100\text{ req/s}, \rho = 0.80$):
+In the real world, execution times are rarely identical. Consider two different API services running on identical 100 req/s single-core workers at 80% utilization ($\lambda = 80\text{ req/s}, \mu = 100\text{ req/s}, S = 10\text{ ms}, \rho = 0.80$).
+
+On a standard $M/M/1$ worker, the average queue wait time at 80% load is **$40\text{ ms}$**:
+
+$$W_{q, M/M/1} = \frac{\rho \cdot S}{1 - \rho} = \frac{0.80 \cdot 10\text{ ms}}{1 - 0.80} = \mathbf{40\text{ ms}}$$
+
+Now compare what happens when service execution times change:
 
 - **Service A (Deterministic)**: Every request is a fixed-size cryptographic token validation that takes exactly $10\text{ ms}$.
-- **Service B (High Variance)**: $95\%$ of requests are fast 2ms cache lookups, but $5\%$ are heavy 162ms unindexed database queries. **Average service time is still exactly $10\text{ ms}$!**
+- **Service B (High Variance)**: 90% of requests are fast $1\text{ ms}$ cache lookups, but 10% are heavy $91\text{ ms}$ unindexed database queries. **Average service time is still exactly $10\text{ ms}$** ($(0.90 \times 1\text{ ms}) + (0.10 \times 91\text{ ms}) = 10\text{ ms}$).
+
+In a single-worker queue, waiting in line is caused by two separate sources of randomness: **when requests arrive** (arrival jitter) and **how long requests take to execute** (service jitter). Each source contributes roughly half of the total queue delay.
 
 What happens to average queue wait time ($W_q$)?
 
-- In **Service A**, average queue wait time is **$20\text{ ms}$**.
-- In **Service B**, average queue wait time is **$100\text{ ms}$** ($5\times$ higher!).
+- In **Service A**, execution time is fixed at exactly $10\text{ ms}$, eliminating service jitter entirely. With half of the system's randomness gone, average queue wait time drops in half to **$20\text{ ms}$** ($0.5\times$ of baseline $M/M/1$).
+- In **Service B**, execution jitter explodes ($1\text{ ms}$ cache hits mixed with $91\text{ ms}$ table scans), trapping fast requests behind heavy queries and inflating queue wait time to **$200\text{ ms}$** ($5\times$ baseline $M/M/1$, $10\times$ higher than Service A).
 
-Why does Service B suffer $5\times$ worse queuing delay when both services have the exact same $80\%$ utilization and identical $10\text{ms}$ average execution time?
+Why does Service B suffer $10\times$ worse queuing delay when both services have the exact same 80% utilization and identical $10\text{ ms}$ average execution time?
 
 ### Head-of-Line Blocking
 
-Because requests share a single FIFO queue, whenever one of those 162ms heavy queries enters execution, it holds the worker hostage. Dozens of fast 2ms requests that arrive right behind it get trapped waiting in line.
+Because requests share a single FIFO queue, whenever one of those 91ms heavy queries enters execution, it holds the worker hostage. Dozens of fast 1ms requests that arrive right behind it get trapped waiting in line.
 
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 880 270" width="100%" style="max-width: 880px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08);">
-  <!-- Top Panel: Low Variance M/D/1 -->
-  <text x="30" y="32" fill="var(--grey-lighter)" font-size="15" font-weight="700">Deterministic Service (Cv = 0): Smooth FIFO Drainage</text>
-  <rect x="30" y="46" width="60" height="28" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
-  <text x="60" y="65" fill="var(--grey-lighter)" font-size="13" text-anchor="middle">10ms</text>
-  <rect x="95" y="46" width="60" height="28" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
-  <text x="125" y="65" fill="var(--grey-lighter)" font-size="13" text-anchor="middle">10ms</text>
-  <rect x="160" y="46" width="60" height="28" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
-  <text x="190" y="65" fill="var(--grey-lighter)" font-size="13" text-anchor="middle">10ms</text>
-  <rect x="225" y="46" width="60" height="28" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
-  <text x="255" y="65" fill="var(--grey-lighter)" font-size="13" text-anchor="middle">10ms</text>
-  <text x="310" y="65" fill="#81c784" font-size="14" font-weight="700">Wait Multiplier = 0.5x (Half of M/M/1!)</text>
-
-  <!-- Divider Line -->
-  <line x1="30" y1="96" x2="850" y2="96" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" stroke-dasharray="4 3" />
-
-  <!-- Bottom Panel: High Variance M/G/1 Head-of-Line Blocking -->
-  <text x="30" y="128" fill="#f44336" font-size="15" font-weight="700">High-Variance Service (Cv = 3): Head-of-Line Blocking</text>
-  <!-- Huge 120ms Task -->
-  <rect x="30" y="142" width="290" height="38" rx="5" fill="#f44336" fill-opacity="0.2" stroke="#f44336" stroke-width="1.2" />
-  <text x="175" y="166" fill="var(--grey-lighter)" font-size="14" font-weight="700" text-anchor="middle">Heavy Table Scan Query (162ms)</text>
-  <!-- Queue Backlog of Fast Queries Behind It -->
-  <rect x="340" y="142" width="42" height="38" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
-  <text x="361" y="166" fill="var(--grey-lighter)" font-size="13" text-anchor="middle">2ms</text>
-  <rect x="388" y="142" width="42" height="38" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
-  <text x="409" y="166" fill="var(--grey-lighter)" font-size="13" text-anchor="middle">2ms</text>
-  <rect x="436" y="142" width="42" height="38" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
-  <text x="457" y="166" fill="var(--grey-lighter)" font-size="13" text-anchor="middle">2ms</text>
-  <rect x="484" y="142" width="42" height="38" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
-  <text x="505" y="166" fill="var(--grey-lighter)" font-size="13" text-anchor="middle">2ms</text>
-  <text x="555" y="166" fill="#f44336" font-size="14" font-weight="700">Wait Multiplier = 5.0x (Trapped in line)</text>
-  <text x="30" y="222" fill="var(--grey-light)" font-size="13">Even with identical 80% average load, high variance drastically inflates queue wait times for lightweight requests.</text>
+<svg viewBox="0 0 880 290" width="100%" style="max-width: 880px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08);">
+  <defs>
+    <marker id="hol-arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#81c784" />
+    </marker>
+    <marker id="hol-arrow-orange" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#ffa726" />
+    </marker>
+  </defs>
+  <!-- Column Header Labels -->
+  <text x="145" y="24" fill="var(--grey-light)" font-size="12" font-weight="700" letter-spacing="0.05em" text-anchor="middle">ACTIVE WORKER CORE</text>
+  <text x="540" y="24" fill="var(--grey-light)" font-size="12" font-weight="700" letter-spacing="0.05em" text-anchor="middle">FIFO QUEUE (WAITING IN LINE)</text>
+  <!-- Top Panel: Service A (Deterministic) -->
+  <text x="25" y="52" fill="var(--grey-lighter)" font-size="14" font-weight="700">Service A (Deterministic): Smooth FIFO Drainage</text>
+  <!-- Service A Core Box -->
+  <rect x="25" y="64" width="240" height="48" rx="6" fill="var(--grey-dark)" stroke="rgba(129, 199, 132, 0.4)" stroke-width="1.5" />
+  <rect x="35" y="72" width="100" height="32" rx="4" fill="rgba(var(--primary), 0.3)" stroke="rgba(var(--primary), 0.7)" stroke-width="1" />
+  <text x="85" y="93" fill="var(--grey-lighter)" font-size="12" font-weight="600" text-anchor="middle">Task (10ms)</text>
+  <text x="150" y="93" fill="#81c784" font-size="12" font-weight="600">Processing</text>
+  <!-- Queue Arrow -->
+  <line x1="330" y1="88" x2="280" y2="88" stroke="#81c784" stroke-width="2" marker-end="url(#hol-arrow-green)" />
+  <!-- Service A Queue Items -->
+  <rect x="345" y="64" width="410" height="48" rx="6" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" stroke-dasharray="3 2" />
+  <rect x="360" y="72" width="70" height="32" rx="4" fill="rgba(var(--primary), 0.2)" stroke="rgba(var(--primary), 0.5)" stroke-width="1" />
+  <text x="395" y="93" fill="var(--grey-lighter)" font-size="12" text-anchor="middle">10ms</text>
+  <rect x="440" y="72" width="70" height="32" rx="4" fill="rgba(var(--primary), 0.2)" stroke="rgba(var(--primary), 0.5)" stroke-width="1" />
+  <text x="475" y="93" fill="var(--grey-lighter)" font-size="12" text-anchor="middle">10ms</text>
+  <text x="535" y="93" fill="#81c784" font-size="13" font-weight="700">Avg Wait: 20ms (0.5× M/M/1)</text>
+  <!-- Divider -->
+  <line x1="25" y1="130" x2="855" y2="130" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" stroke-dasharray="4 3" />
+  <!-- Bottom Panel: Service B (High Variance Head-of-Line Blocking) -->
+  <text x="25" y="156" fill="#ffa726" font-size="14" font-weight="700">Service B (High Variance): Head-of-Line Blocking</text>
+  <!-- Service B Core Box (Locked by heavy query) -->
+  <rect x="25" y="168" width="240" height="54" rx="6" fill="rgba(255, 167, 38, 0.12)" stroke="#ffa726" stroke-width="1.5" />
+  <text x="145" y="191" fill="#ffa726" font-size="12" font-weight="700" text-anchor="middle">Heavy Table Scan (91ms)</text>
+  <text x="145" y="210" fill="var(--grey-light)" font-size="11" text-anchor="middle">Worker held hostage for 91ms</text>
+  <!-- Queue Blocked Arrow -->
+  <line x1="330" y1="195" x2="280" y2="195" stroke="#ffa726" stroke-width="2" marker-end="url(#hol-arrow-orange)" />
+  <!-- Service B Queue Items (Dense Backlog of 7 Fast Queries) -->
+  <rect x="345" y="168" width="510" height="54" rx="6" fill="var(--grey-dark)" stroke="rgba(255, 167, 38, 0.3)" stroke-width="1" stroke-dasharray="3 2" />
+  <rect x="358" y="179" width="34" height="32" rx="4" fill="rgba(var(--primary), 0.25)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
+  <text x="375" y="200" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">1ms</text>
+  <rect x="398" y="179" width="34" height="32" rx="4" fill="rgba(var(--primary), 0.25)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
+  <text x="415" y="200" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">1ms</text>
+  <rect x="438" y="179" width="34" height="32" rx="4" fill="rgba(var(--primary), 0.25)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
+  <text x="455" y="200" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">1ms</text>
+  <rect x="478" y="179" width="34" height="32" rx="4" fill="rgba(var(--primary), 0.25)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
+  <text x="495" y="200" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">1ms</text>
+  <rect x="518" y="179" width="34" height="32" rx="4" fill="rgba(var(--primary), 0.25)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
+  <text x="535" y="200" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">1ms</text>
+  <rect x="558" y="179" width="34" height="32" rx="4" fill="rgba(var(--primary), 0.25)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
+  <text x="575" y="200" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">1ms</text>
+  <rect x="598" y="179" width="34" height="32" rx="4" fill="rgba(var(--primary), 0.25)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
+  <text x="615" y="200" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">1ms</text>
+  <text x="645" y="200" fill="#ffa726" font-size="13" font-weight="700">7+ Fast Requests Trapped!</text>
+  <!-- Summary Footer Caption -->
+  <text x="25" y="258" fill="var(--grey-light)" font-size="12.5">At 80 req/s, 7 to 8 fast requests arrive during a single 91ms query, backing up the entire FIFO queue to an average wait of 200ms.</text>
 </svg>
 </div>
 
 ### The Pollaczek–Khinchine (P-K) Formula
 
+To quantify execution time spread, we use the **Coefficient of Variation ($C_v$)**, defined as the standard deviation of service time ($\sigma$) divided by the mean service time ($S$):
+
+$$C_v = \frac{\sigma}{S}$$
+
+- **$C_v = 0$ (Deterministic)**: Every task takes the exact same duration ($\sigma = 0$).
+- **$C_v = 1$ (Exponential / $M/M/1$)**: Standard random variance where $\sigma = S$.
+- **$C_v > 1$ (High Variance / Bimodal)**: Fast tasks mixed with heavy tail outliers ($\sigma > S$).
+
 The mathematical relationship between service time variance and queue wait time is governed by the **Pollaczek–Khinchine (P-K) formula** ($M/G/1$):
 
-$$W_q = \frac{\rho \cdot S}{1 - \rho} \cdot \left(\frac{1 + C_v^2}{2}\right)$$
+$$
+W_q = \underbrace{\left(\frac{\rho \cdot S}{1 - \rho}\right)}\_{\text{Baseline } M/M/1 \text{ Wait}} \times \underbrace{\left(\frac{1 + C_v^2}{2}\right)}\_{\text{Variance Multiplier}}
+$$
 
-where $C_v = \frac{\sigma_S}{\mu_S}$ is the **Coefficient of Variation** of service time (standard deviation $\sigma_S$ divided by mean service time $\mu_S$).
-
-The term $\left(\frac{1 + C_v^2}{2}\right)$ scales queue waiting time directly:
+The variance multiplier term scales queue waiting time directly:
 
 1. **Deterministic Execution ($C_v = 0$)**:
-   $$\frac{1 + 0}{2} = 0.5 \implies W_q = 0.5 \cdot W_{q, M/M/1}$$
+   $$\frac{1 + 0}{2} = 0.5 \implies W_q = 0.5 \times 40\text{ ms} = \mathbf{20\text{ ms}} \quad (\text{Service A})$$
    When every task takes the exact same time, queue wait time is **cut in half**.
 2. **Exponential Execution ($C_v = 1$)**:
-   $$\frac{1 + 1^2}{2} = 1.0 \implies W_q = W_{q, M/M/1}$$
+   $$\frac{1 + 1^2}{2} = 1.0 \implies W_q = 1.0 \times 40\text{ ms} = \mathbf{40\text{ ms}} \quad (\text{Baseline } M/M/1)$$
 3. **High-Variance Execution ($C_v = 3$)**:
-   $$\frac{1 + 3^2}{2} = \frac{1 + 9}{2} = 5.0 \implies W_q = 5.0 \cdot W_{q, M/M/1}$$
+   $$\frac{1 + 3^2}{2} = \frac{1 + 9}{2} = 5.0 \implies W_q = 5.0 \times 40\text{ ms} = \mathbf{200\text{ ms}} \quad (\text{Service B})$$
+   A high-variance distribution inflates queue wait time by **$5\times$ over baseline** and **$10\times$ over deterministic execution**.
 
 ### Systems Engineering Takeaway: Isolate Variance
 
@@ -381,57 +368,113 @@ Now consider scaling up from 1 worker to $c$ parallel workers handling an aggreg
 
 Compare two different architectural patterns handling 400 req/s across 4 workers:
 
-- **Design A (4 Isolated Single-Worker Queues, $4 \times M/M/1$)**: Incoming traffic is split (e.g. by round-robin DNS or static hashing). Each worker has its own private queue and handles 100 req/s on 1 core ($\rho = 80\%$).
+- **Design A (4 Isolated Single-Worker Queues, $4 \times M/M/1$)**: Incoming traffic is split (e.g. by round-robin DNS or static hashing). Each worker has its own private queue and handles 100 req/s on 1 core ($\rho = 0.80$, 80% load).
 - **Design B (1 Pooled Shared Queue, $1 \times M/M/4$)**: All 400 req/s enter a single shared FIFO queue. Whichever worker finishes its job first immediately pulls the next request from the queue.
 
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 880 260" width="100%" style="max-width: 880px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08);">
-  <!-- Left Side: Isolated Queues -->
-  <rect x="25" y="20" width="395" height="215" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
-  <text x="222" y="48" fill="var(--grey-lighter)" font-size="14" font-weight="700" text-anchor="middle">Design A: 4 Isolated Queues (4 x M/M/1)</text>
-  <!-- Node 1: Overloaded -->
-  <text x="45" y="84" fill="var(--grey-light)" font-size="13">Worker 1:</text>
-  <rect x="115" y="68" width="74" height="24" rx="3" fill="#f44336" fill-opacity="0.2" stroke="#f44336" stroke-width="1" />
-  <text x="152" y="85" fill="var(--grey-lighter)" font-size="12" text-anchor="middle">Busy</text>
-  <text x="205" y="85" fill="#f44336" font-size="12" font-weight="600">Queue: 4 waiting (Blocked!)</text>
-  <!-- Node 2: Busy -->
-  <text x="45" y="118" fill="var(--grey-light)" font-size="13">Worker 2:</text>
-  <rect x="115" y="102" width="74" height="24" rx="3" fill="rgba(var(--primary), 0.2)" stroke="rgba(var(--primary), 0.5)" stroke-width="1" />
-  <text x="152" y="119" fill="var(--grey-lighter)" font-size="12" text-anchor="middle">Busy</text>
-  <text x="205" y="119" fill="var(--grey-light)" font-size="12">Queue: 1 waiting</text>
-  <!-- Node 3: Idle! -->
-  <text x="45" y="152" fill="var(--grey-light)" font-size="13">Worker 3:</text>
-  <rect x="115" y="136" width="74" height="24" rx="3" fill="var(--grey-darker)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" stroke-dasharray="2 2" />
-  <text x="152" y="153" fill="#81c784" font-size="12" font-weight="700" text-anchor="middle">IDLE</text>
-  <text x="205" y="153" fill="#81c784" font-size="12" font-weight="600">Queue: Empty (Wasted!)</text>
-  <!-- Node 4: Busy -->
-  <text x="45" y="186" fill="var(--grey-light)" font-size="13">Worker 4:</text>
-  <rect x="115" y="170" width="74" height="24" rx="3" fill="rgba(var(--primary), 0.2)" stroke="rgba(var(--primary), 0.5)" stroke-width="1" />
-  <text x="152" y="187" fill="var(--grey-lighter)" font-size="12" text-anchor="middle">Busy</text>
-  <text x="205" y="187" fill="var(--grey-light)" font-size="12">Queue: 0 waiting</text>
-  <text x="222" y="222" fill="#f44336" font-size="13" font-weight="600" text-anchor="middle">Unbalanced: Worker 3 is idle while Worker 1 backs up!</text>
-
-  <!-- Right Side: Pooled Multi-Server M/M/c Queue -->
-  <rect x="455" y="20" width="400" height="215" rx="8" fill="var(--grey-dark)" stroke="rgba(var(--primary), 0.4)" stroke-width="1.5" />
-  <text x="655" y="48" fill="var(--grey-lighter)" font-size="14" font-weight="700" text-anchor="middle">Design B: 1 Pooled Shared Queue (M/M/4)</text>
-  <!-- Shared Queue Buffer -->
-  <rect x="475" y="68" width="130" height="126" rx="6" fill="var(--grey-darker)" stroke="rgba(var(--primary), 0.5)" stroke-width="1" stroke-dasharray="3 2" />
-  <text x="540" y="92" fill="rgb(var(--primary))" font-size="13" font-weight="700" text-anchor="middle">Shared Queue</text>
-  <rect x="490" y="110" width="26" height="26" rx="3" fill="rgba(var(--primary), 0.35)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
-  <text x="503" y="128" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">J2</text>
-  <rect x="522" y="110" width="26" height="26" rx="3" fill="rgba(var(--primary), 0.35)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
-  <text x="535" y="128" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">J1</text>
-  <text x="540" y="172" fill="var(--grey-light)" font-size="12" text-anchor="middle">Dispatches to free core</text>
-  <!-- 4 Cores -->
-  <rect x="630" y="68" width="200" height="24" rx="4" fill="rgba(var(--primary), 0.2)" stroke="rgba(var(--primary), 0.4)" stroke-width="1" />
-  <text x="730" y="85" fill="var(--grey-lighter)" font-size="12" font-weight="600" text-anchor="middle">Core 1: Active</text>
-  <rect x="630" y="100" width="200" height="24" rx="4" fill="rgba(var(--primary), 0.2)" stroke="rgba(var(--primary), 0.4)" stroke-width="1" />
-  <text x="730" y="117" fill="var(--grey-lighter)" font-size="12" font-weight="600" text-anchor="middle">Core 2: Active</text>
-  <rect x="630" y="132" width="200" height="24" rx="4" fill="rgba(var(--primary), 0.2)" stroke="rgba(var(--primary), 0.4)" stroke-width="1" />
-  <text x="730" y="149" fill="var(--grey-lighter)" font-size="12" font-weight="600" text-anchor="middle">Core 3: Active (Took J1!)</text>
-  <rect x="630" y="164" width="200" height="24" rx="4" fill="rgba(var(--primary), 0.2)" stroke="rgba(var(--primary), 0.4)" stroke-width="1" />
-  <text x="730" y="181" fill="var(--grey-lighter)" font-size="12" font-weight="600" text-anchor="middle">Core 4: Active</text>
-  <text x="655" y="222" fill="#81c784" font-size="13" font-weight="600" text-anchor="middle">Optimal: Zero idle waste while jobs wait.</text>
+<svg viewBox="0 0 880 460" width="100%" style="max-width: 880px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08);">
+  <defs>
+    <marker id="pool-arrow-gray" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--grey-light)" />
+    </marker>
+    <marker id="pool-arrow-orange" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#ffa726" />
+    </marker>
+    <marker id="pool-arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#81c784" />
+    </marker>
+    <marker id="pool-arrow-primary" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgb(var(--primary))" />
+    </marker>
+  </defs>
+  <!-- TOP PANEL: Design A (4 Isolated Queues) -->
+  <text x="25" y="30" fill="var(--grey-lighter)" font-size="14" font-weight="700">Design A: 4 Isolated Single-Worker Queues (4 × M/M/1)</text>
+  <!-- Ingress Box (Design A) -->
+  <rect x="25" y="52" width="130" height="142" rx="6" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+  <text x="90" y="85" fill="rgb(var(--primary))" font-size="13" font-weight="700" text-anchor="middle">Traffic Ingress</text>
+  <text x="90" y="105" fill="var(--grey-lighter)" font-size="12" text-anchor="middle">400 req/s</text>
+  <text x="90" y="145" fill="var(--grey-light)" font-size="11" text-anchor="middle">Static Hash / DNS</text>
+  <text x="90" y="162" fill="var(--grey-light)" font-size="11" text-anchor="middle">(100 req/s each)</text>
+  <!-- Ingress Arrows (Design A) -->
+  <path d="M 155 80 L 195 62" stroke="var(--grey)" stroke-width="1.5" fill="none" marker-end="url(#pool-arrow-gray)" />
+  <path d="M 155 102 L 195 97" stroke="var(--grey)" stroke-width="1.5" fill="none" marker-end="url(#pool-arrow-gray)" />
+  <path d="M 155 125 L 195 132" stroke="var(--grey)" stroke-width="1.5" fill="none" marker-end="url(#pool-arrow-gray)" />
+  <path d="M 155 147 L 195 167" stroke="var(--grey)" stroke-width="1.5" fill="none" marker-end="url(#pool-arrow-gray)" />
+  <!-- Worker 1: Congested -->
+  <rect x="200" y="48" width="150" height="28" rx="4" fill="rgba(255, 167, 38, 0.15)" stroke="#ffa726" stroke-width="1" />
+  <text x="275" y="67" fill="#ffa726" font-size="12" font-weight="600" text-anchor="middle">Queue: 4 Waiting (Blocked!)</text>
+  <line x1="350" y1="62" x2="375" y2="62" stroke="#ffa726" stroke-width="1.5" marker-end="url(#pool-arrow-orange)" />
+  <rect x="380" y="48" width="125" height="28" rx="4" fill="rgba(var(--primary), 0.2)" stroke="rgba(var(--primary), 0.5)" stroke-width="1" />
+  <text x="442" y="67" fill="var(--grey-lighter)" font-size="12" font-weight="600" text-anchor="middle">Worker 1: Busy</text>
+  <!-- Worker 2: Normal -->
+  <rect x="200" y="83" width="150" height="28" rx="4" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+  <text x="275" y="102" fill="var(--grey-light)" font-size="12" text-anchor="middle">Queue: 1 Waiting</text>
+  <line x1="350" y1="97" x2="375" y2="97" stroke="var(--grey)" stroke-width="1.5" marker-end="url(#pool-arrow-gray)" />
+  <rect x="380" y="83" width="125" height="28" rx="4" fill="rgba(var(--primary), 0.2)" stroke="rgba(var(--primary), 0.5)" stroke-width="1" />
+  <text x="442" y="102" fill="var(--grey-lighter)" font-size="12" font-weight="600" text-anchor="middle">Worker 2: Busy</text>
+  <!-- Worker 3: IDLE WASTE -->
+  <rect x="200" y="118" width="150" height="28" rx="4" fill="rgba(129, 199, 132, 0.08)" stroke="rgba(129, 199, 132, 0.4)" stroke-width="1" stroke-dasharray="3 2" />
+  <text x="275" y="137" fill="#81c784" font-size="12" font-weight="600" text-anchor="middle">Queue: Empty (Wasted!)</text>
+  <line x1="350" y1="132" x2="375" y2="132" stroke="#81c784" stroke-width="1.5" marker-end="url(#pool-arrow-green)" />
+  <rect x="380" y="118" width="125" height="28" rx="4" fill="rgba(129, 199, 132, 0.15)" stroke="#81c784" stroke-width="1" />
+  <text x="442" y="137" fill="#81c784" font-size="12" font-weight="700" text-anchor="middle">Worker 3: IDLE</text>
+  <!-- Worker 4: Normal -->
+  <rect x="200" y="153" width="150" height="28" rx="4" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+  <text x="275" y="172" fill="var(--grey-light)" font-size="12" text-anchor="middle">Queue: 0 Waiting</text>
+  <line x1="350" y1="167" x2="375" y2="167" stroke="var(--grey)" stroke-width="1.5" marker-end="url(#pool-arrow-gray)" />
+  <rect x="380" y="153" width="125" height="28" rx="4" fill="rgba(var(--primary), 0.2)" stroke="rgba(var(--primary), 0.5)" stroke-width="1" />
+  <text x="442" y="172" fill="var(--grey-lighter)" font-size="12" font-weight="600" text-anchor="middle">Worker 4: Busy</text>
+  <!-- Design A Summary Badge -->
+  <rect x="535" y="52" width="320" height="129" rx="6" fill="var(--grey-dark)" stroke="#ffa726" stroke-width="1" stroke-dasharray="3 2" />
+  <text x="695" y="80" fill="#ffa726" font-size="13" font-weight="700" text-anchor="middle">Unbalanced Queues</text>
+  <text x="695" y="104" fill="var(--grey-lighter)" font-size="12" text-anchor="middle">Worker 3 sits idle while Worker 1 stalls.</text>
+  <text x="695" y="124" fill="var(--grey-light)" font-size="11.5" text-anchor="middle">Random client bursts cause isolated backlogs.</text>
+  <text x="695" y="158" fill="#ffa726" font-size="14" font-weight="700" text-anchor="middle">Average Queue Wait: 40ms</text>
+  <!-- Divider Line -->
+  <line x1="25" y1="210" x2="855" y2="210" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" stroke-dasharray="4 3" />
+  <!-- BOTTOM PANEL: Design B (1 Pooled Shared Queue) -->
+  <text x="25" y="238" fill="#81c784" font-size="14" font-weight="700">Design B: 1 Pooled Shared Queue (1 × M/M/4)</text>
+  <!-- Ingress Box (Design B) -->
+  <rect x="25" y="258" width="130" height="142" rx="6" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+  <text x="90" y="315" fill="rgb(var(--primary))" font-size="13" font-weight="700" text-anchor="middle">Traffic Ingress</text>
+  <text x="90" y="335" fill="var(--grey-lighter)" font-size="12" text-anchor="middle">400 req/s</text>
+  <text x="90" y="365" fill="var(--grey-light)" font-size="11" text-anchor="middle">All requests enter</text>
+  <text x="90" y="380" fill="var(--grey-light)" font-size="11" text-anchor="middle">single buffer</text>
+  <!-- Ingress Arrow to Shared Queue -->
+  <line x1="155" y1="329" x2="195" y2="329" stroke="rgb(var(--primary))" stroke-width="2" marker-end="url(#pool-arrow-primary)" />
+  <!-- Central Shared Queue -->
+  <rect x="200" y="258" width="160" height="142" rx="6" fill="var(--grey-dark)" stroke="rgba(var(--primary), 0.5)" stroke-width="1.5" stroke-dasharray="3 2" />
+  <text x="280" y="282" fill="rgb(var(--primary))" font-size="13" font-weight="700" text-anchor="middle">Shared FIFO Queue</text>
+  <rect x="215" y="296" width="30" height="28" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
+  <text x="230" y="315" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">J3</text>
+  <rect x="250" y="296" width="30" height="28" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
+  <text x="265" y="315" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">J2</text>
+  <rect x="285" y="296" width="30" height="28" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgba(var(--primary), 0.6)" stroke-width="1" />
+  <text x="300" y="315" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">J1</text>
+  <text x="280" y="358" fill="var(--grey-light)" font-size="11" text-anchor="middle">Instant dispatch to</text>
+  <text x="280" y="375" fill="var(--grey-light)" font-size="11" text-anchor="middle">first available core</text>
+  <!-- Dispatch Arrows (Design B) -->
+  <path d="M 360 300 L 395 268" stroke="#81c784" stroke-width="1.5" fill="none" marker-end="url(#pool-arrow-green)" />
+  <path d="M 360 318 L 395 303" stroke="#81c784" stroke-width="1.5" fill="none" marker-end="url(#pool-arrow-green)" />
+  <path d="M 360 338 L 395 338" stroke="#81c784" stroke-width="1.5" fill="none" marker-end="url(#pool-arrow-green)" />
+  <path d="M 360 358 L 395 373" stroke="#81c784" stroke-width="1.5" fill="none" marker-end="url(#pool-arrow-green)" />
+  <!-- 4 Pooled Cores (Design B) -->
+  <rect x="400" y="254" width="115" height="28" rx="4" fill="rgba(var(--primary), 0.2)" stroke="rgba(var(--primary), 0.5)" stroke-width="1" />
+  <text x="457" y="273" fill="var(--grey-lighter)" font-size="12" font-weight="600" text-anchor="middle">Core 1: Active</text>
+  <rect x="400" y="289" width="115" height="28" rx="4" fill="rgba(var(--primary), 0.2)" stroke="rgba(var(--primary), 0.5)" stroke-width="1" />
+  <text x="457" y="308" fill="var(--grey-lighter)" font-size="12" font-weight="600" text-anchor="middle">Core 2: Active</text>
+  <rect x="400" y="324" width="115" height="28" rx="4" fill="rgba(129, 199, 132, 0.2)" stroke="#81c784" stroke-width="1.2" />
+  <text x="457" y="343" fill="#81c784" font-size="12" font-weight="700" text-anchor="middle">Core 3: Took J1!</text>
+  <rect x="400" y="359" width="115" height="28" rx="4" fill="rgba(var(--primary), 0.2)" stroke="rgba(var(--primary), 0.5)" stroke-width="1" />
+  <text x="457" y="378" fill="var(--grey-lighter)" font-size="12" font-weight="600" text-anchor="middle">Core 4: Active</text>
+  <!-- Design B Summary Badge -->
+  <rect x="535" y="258" width="320" height="129" rx="6" fill="var(--grey-dark)" stroke="#81c784" stroke-width="1.2" />
+  <text x="695" y="286" fill="#81c784" font-size="13" font-weight="700" text-anchor="middle">Zero Idle Waste</text>
+  <text x="695" y="310" fill="var(--grey-lighter)" font-size="12" text-anchor="middle">No worker is ever idle while requests wait.</text>
+  <text x="695" y="330" fill="var(--grey-light)" font-size="11.5" text-anchor="middle">Shared pool naturally absorbs traffic jitter.</text>
+  <text x="695" y="364" fill="#81c784" font-size="14" font-weight="700" text-anchor="middle">Average Queue Wait: 7.5ms (5.3× faster!)</text>
+  <!-- Footer Insight -->
+  <text x="25" y="432" fill="var(--grey-light)" font-size="12.5">Both architectures use identical hardware at 80% total utilization, but pooling eliminates artificial idle capacity loss.</text>
 </svg>
 </div>
 
@@ -441,7 +484,7 @@ In Design A, a sudden cluster of 4 requests hitting Worker 1 creates a severe qu
 
 In Design B, a worker is never idle when there is work waiting to be done.
 
-Mathematically, the probability that an incoming request finds all $c$ workers busy and must wait in line is given by the **Erlang C formula**:
+Mathematically, the probability that an incoming request finds all $c$ workers busy and must wait in line is given by the **Erlang C formula** (see [Erlang C derivation](https://en.wikipedia.org/wiki/Erlang_(unit)#Erlang_C_formula) for the complete birth-death Markov chain proof):
 
 $$P(\text{Wait} > 0) = C(c, a) = \frac{\frac{a^c}{c!} \frac{1}{1 - \rho}}{\sum_{k=0}^{c-1} \frac{a^k}{k!} + \frac{a^c}{c!} \frac{1}{1 - \rho}}$$
 
@@ -451,110 +494,43 @@ The average queue wait time across $c$ pooled workers is:
 
 $$W_q = \frac{C(c, a) \cdot S}{c(1 - \rho)}$$
 
-Notice the factor of $c$ in the denominator: **Pooling $c$ workers cuts average queue wait time by roughly a factor of $c$ at the exact same utilization $\rho$.**
+Notice the factor of $c$ in the denominator: **pooling $c$ workers cuts average queue wait time by roughly a factor of $c$ at the exact same overall utilization $\rho$.**
 
-## Kendall's Notation ($A/S/c$): A Universal Shorthand
+### Worked Comparison: 4 Isolated Queues vs. 1 Shared Queue
 
-Now that we have explored the impact of arrival distributions, service variance, and server counts, we can tie them together with **Kendall's Notation**, introduced by David G. Kendall in 1953:
+Evaluating our 4-worker cluster handling $400\text{ req/s}$ at 80% utilization ($\lambda = 400\text{ req/s}, S = 10\text{ ms}, c = 4, \rho = 0.80$):
 
-$$A / S / c$$
+- **Design A ($4 \times M/M/1$)**:
+  $$W_{q, A} = \frac{0.80 \cdot 10\text{ ms}}{1 - 0.80} = \mathbf{40\text{ ms}}$$
+- **Design B ($1 \times M/M/4$)**:
+  With traffic intensity $a = 4 \times 0.80 = 3.2$ Erlangs, the Erlang C probability is $C(4, 3.2) \approx 0.596$ (59.6% chance of finding all cores busy):
+  $$W_{q, B} = \frac{0.596 \cdot 10\text{ ms}}{4 \cdot (1 - 0.80)} = \frac{5.96\text{ ms}}{0.80} = \mathbf{7.5\text{ ms}}$$
 
-- **$A$ (Arrival Process)**:
-  - $M$ (*Markovian* / Memoryless): Random Poisson arrivals ($\lambda$).
-  - $D$ (*Deterministic*): Fixed, clockwork intervals (e.g. cron schedule).
-  - $G$ (*General*): Arbitrary arrival distribution.
-- **$S$ (Service Time Distribution)**:
-  - $M$ (*Exponential*): Memoryless service times ($C_v = 1$).
-  - $D$ (*Deterministic*): Fixed, constant execution times ($C_v = 0$).
-  - $G$ (*General*): Arbitrary variance and distribution ($C_v \ne 1$).
-- **$c$ (Number of Parallel Servers)**: Count of independent worker threads or CPU cores.
-
-<div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 880 210" width="100%" style="max-width: 880px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid var(--grey-dark);">
-  <defs>
-    <marker id="arrow-kendall" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--grey-lighter)" />
-    </marker>
-  </defs>
-  <!-- Arrival Section -->
-  <rect x="20" y="60" width="150" height="90" rx="8" fill="var(--grey-dark)" stroke="var(--grey)" stroke-width="1.5" />
-  <text x="95" y="94" fill="var(--grey-lighter)" font-size="14" font-weight="600" text-anchor="middle">Arrivals (A)</text>
-  <text x="95" y="116" fill="var(--grey-light)" font-size="12" text-anchor="middle">Rate: $\lambda$ req/s</text>
-  <text x="95" y="134" fill="rgb(var(--primary))" font-size="11" text-anchor="middle">M, D, or G</text>
-  <!-- Arrow from Arrival to Queue -->
-  <line x1="170" y1="105" x2="240" y2="105" stroke="var(--grey-lighter)" stroke-width="2" marker-end="url(#arrow-kendall)" />
-  <!-- Queue Container -->
-  <rect x="250" y="45" width="220" height="120" rx="8" fill="var(--grey-dark)" stroke="rgb(var(--primary))" stroke-width="1.5" stroke-dasharray="4 3" />
-  <text x="360" y="72" fill="rgb(var(--primary))" font-size="13" font-weight="600" text-anchor="middle">FIFO Queue Buffer</text>
-  <!-- Waiting Job Blocks in Queue -->
-  <rect x="270" y="88" width="30" height="34" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.2" />
-  <text x="285" y="110" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">J4</text>
-  <rect x="310" y="88" width="30" height="34" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.2" />
-  <text x="325" y="110" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">J3</text>
-  <rect x="350" y="88" width="30" height="34" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.2" />
-  <text x="365" y="110" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">J2</text>
-  <rect x="390" y="88" width="30" height="34" rx="4" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.2" />
-  <text x="405" y="110" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">J1</text>
-  <text x="360" y="148" fill="var(--grey-light)" font-size="11" text-anchor="middle">Wait Time: $W_q$</text>
-  <!-- Dispatch Arrow to Workers -->
-  <line x1="470" y1="105" x2="540" y2="105" stroke="var(--grey-lighter)" stroke-width="2" marker-end="url(#arrow-kendall)" />
-  <!-- Parallel Server Worker Pool -->
-  <rect x="550" y="25" width="200" height="160" rx="8" fill="var(--grey-dark)" stroke="var(--grey)" stroke-width="1.5" />
-  <text x="650" y="48" fill="var(--grey-lighter)" font-size="13" font-weight="600" text-anchor="middle">c Parallel Servers (S)</text>
-  <!-- Core 1 -->
-  <rect x="568" y="60" width="164" height="26" rx="5" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
-  <text x="650" y="77" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">Core 1: Busy ($\mu$ req/s)</text>
-  <!-- Core 2 -->
-  <rect x="568" y="92" width="164" height="26" rx="5" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
-  <text x="650" y="109" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">Core 2: Busy ($\mu$ req/s)</text>
-  <!-- Core c -->
-  <rect x="568" y="124" width="164" height="26" rx="5" fill="var(--grey-darker)" stroke="var(--grey)" stroke-width="1" stroke-dasharray="3 2" />
-  <text x="650" y="141" fill="var(--grey-light)" font-size="11" text-anchor="middle">Core c: Idle ($S = 1/\mu$)</text>
-  <text x="650" y="172" fill="var(--grey-light)" font-size="11" text-anchor="middle">Total Capacity: $c \cdot \mu$</text>
-  <!-- Exit Arrow -->
-  <line x1="750" y1="105" x2="820" y2="105" stroke="var(--grey-lighter)" stroke-width="2" marker-end="url(#arrow-kendall)" />
-  <text x="825" y="102" fill="var(--grey-lighter)" font-size="12" font-weight="600">Departures</text>
-  <text x="825" y="120" fill="var(--grey-light)" font-size="11">Total: $W = W_q + S$</text>
-</svg>
-</div>
-
-### Real-World Architectures in Kendall Notation
-
-| Model | System Architecture | Real-World Production Example |
-| :--- | :--- | :--- |
-| **$M/M/1$** | Single worker processing Poisson arrivals with variable execution time. | Single-threaded in-memory databases (Redis event loop, Node.js main thread). |
-| **$M/D/1$** | Poisson arrivals with perfectly constant, deterministic processing time. | Fixed-size packet hashing, ASIC cryptographic hardware verification. |
-| **$M/G/1$** | Poisson arrivals with high-variance, arbitrary service times. | Relational database queries (fast primary-key lookups mixed with unindexed table scans). |
-| **$M/M/c$** | Shared FIFO queue dispatched across $c$ identical parallel worker threads. | Multi-threaded thread pool, web server worker processes (Gunicorn, Puma, Go worker pool). |
-| **$G/G/c$** | Bursty general arrivals across $c$ parallel workers with arbitrary execution times. | General multi-tier microservice architecture under real-world internet traffic. |
+Simply pooling the 4 cores to pull from a single shared queue reduces average queue wait from **$40\text{ ms}$ to $7.5\text{ ms}$** (over **$5\times$ faster**) with identical total throughput, identical hardware, and identical 80% CPU load.
 
 ## The Capacity Planning Mental Model
+
+Subtracting execution time ($S$) from total response time ($W = \frac{S}{1 - \rho}$) isolates the pure queue wait multiplier:
+
+$$W_q = W - S = \frac{S}{1 - \rho} - S = \left(\frac{\rho}{1 - \rho}\right) \cdot S$$
 
 When sizing server clusters or diagnosing latency regressions, translate target utilization ($\rho$) directly into **task durations of queue wait ($W_q = \text{Multiplier} \times S$)**:
 
 | Utilization ($\rho$) | Queue Multiplier ($\frac{\rho}{1-\rho}$) | Queue Wait ($W_q$) | Total Response Time ($W$) | Operating State |
 | :--- | :--- | :--- | :--- | :--- |
-| **$0\%$** | $0.0\times$ | **$0 \times S$** ($0\text{ ms}$) | **$1.0\times$** ($10\text{ ms}$) | **Idle**: Zero contention, requests execute immediately. |
-| **$50\%$** | $1.0\times$ | **$1 \times S$** ($10\text{ ms}$) | **$2.0\times$** ($20\text{ ms}$) | **Safe Zone**: Wait time equals exactly one task duration ($W_q = S$). |
-| **$75\%$** | $3.0\times$ | **$3 \times S$** ($30\text{ ms}$) | **$4.0\times$** ($40\text{ ms}$) | **The Operational Knee**: Maximum safe steady-state target. |
-| **$90\%$** | $9.0\times$ | **$9 \times S$** ($90\text{ ms}$) | **$10.0\times$** ($100\text{ ms}$) | **The Saturation Cliff**: Queue wait accounts for $90\%$ of total latency. |
-| **$99\%$** | $99.0\times$ | **$99 \times S$** ($990\text{ ms}$) | **$100.0\times$** ($1,000\text{ ms}$) | **Catastrophic Meltdown**: Buffers overflow and tail latency collapses. |
+| **0%** | $0.0\times$ | **$0 \times S$** ($0\text{ ms}$) | **$1.0\times$** ($10\text{ ms}$) | **Idle**: Zero contention, requests execute immediately. |
+| **50%** | $1.0\times$ | **$1 \times S$** ($10\text{ ms}$) | **$2.0\times$** ($20\text{ ms}$) | **Safe Zone**: Wait time equals exactly one task duration ($W_q = S$). |
+| **75%** | $3.0\times$ | **$3 \times S$** ($30\text{ ms}$) | **$4.0\times$** ($40\text{ ms}$) | **The Operational Knee**: Maximum safe steady-state target. |
+| **90%** | $9.0\times$ | **$9 \times S$** ($90\text{ ms}$) | **$10.0\times$** ($100\text{ ms}$) | **The Saturation Cliff**: Queue wait accounts for 90% of total latency. |
+| **99%** | $99.0\times$ | **$99 \times S$** ($990\text{ ms}$) | **$100.0\times$** ($1,000\text{ ms}$) | **Catastrophic Meltdown**: Buffers overflow and tail latency collapses. |
 
 ## Summary & Systems Engineering Rules of Thumb
 
-| Queuing System | Governing Formula | Key Engineering Insight |
+| Queuing System | Governing Formula | Systems Engineering Rule of Thumb |
 | :--- | :--- | :--- |
-| **Single-Server ($M/M/1$)** | $W = \frac{S}{1 - \rho}$ | Latency explodes hyperbolically beyond the $\rho \approx 75\%$ knee. Never size steady-state clusters for $>75\text{--}80\%$ utilization. |
-| **Service Variance ($M/G/1$)** | $W_q = \frac{\rho S}{1-\rho} \left(\frac{1 + C_v^2}{2}\right)$ | Service time variance ($C_v$) inflates queue wait times linearly. Segregate slow batch jobs from fast interactive requests to eliminate Head-of-Line blocking. |
-| **Multi-Server Pooling ($M/M/c$)** | $W_q = \frac{C(c, a) \cdot S}{c(1 - \rho)}$ | Shared worker pools absorb traffic bursts far better than isolated single-worker queues without requiring extra hardware. |
+| **Single-Server ($M/M/1$)** | $W = \frac{S}{1 - \rho}$ | **Target $\le 70\%$ to 75% Steady-State Load**: Latency explodes hyperbolically beyond the knee. At 50% load, queue wait equals one task duration ($W_q = S$), doubling baseline response time ($W = 2S$). Headroom is the mathematical prerequisite for absorbing bursts. |
+| **Service Variance ($M/G/1$)** | $W_q = \frac{\rho S}{1-\rho} \left(\frac{1 + C_v^2}{2}\right)$ | **Isolate Variance ($C_v \to 0$)**: Service variance inflates queue wait times linearly via Head-of-Line blocking. Segregate slow batch or analytical queries from fast interactive requests, and set strict execution timeouts. |
+| **Multi-Server Pooling ($M/M/c$)** | $W_q = \frac{C(c, a) \cdot S}{c(1 - \rho)}$ | **Pool Queues Across Workers**: Prefer 1 shared queue across $N$ worker threads ($M/M/N$) over $N$ isolated queues ($N \times M/M/1$) to eliminate idle worker waste and cut average queue delay by roughly a factor of $c$. |
 
-### Core Architectural Takeaways
-
-1. **The $50\%$ Load Rule**: At $50\%$ load, queue wait time $W_q$ is always equal to $S$, doubling baseline response time ($W = 2S$) regardless of task duration.
-2. **Buffer Headroom is Not Wasted Capacity**: Leaving $20\%\text{--}30\%$ headroom is the mathematical prerequisite for preventing burst-induced queue stalls.
-3. **Variance is the Enemy of Tail Latency**: A single $100\text{ms}$ query sharing a FIFO queue with $2\text{ms}$ queries creates severe tail latency amplification ($C_v \gg 1$).
-4. **Pool Single Queues Across Multiple Workers**: Prefer 1 shared queue across $N$ workers ($M/M/N$) over $N$ isolated queues ($N \times M/M/1$) to eliminate idle capacity waste.
-
-*This note and its interactive visualizers were co-authored in pair programming with [Antigravity (Agy)](https://antigravity.google).*
-
-<script type="module" src="/js/performance/queue-explorer.js"></script>
+<script type="module" src="/js/performance/coin-flip-simulator.js"></script>
+<script type="module" src="/js/performance/hockey-stick-explorer.js"></script>
