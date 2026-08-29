@@ -72,9 +72,9 @@ Finally, the transformation matrix that transforms $\mathbf{v}$ to $\mathbf{v^\p
 
 $$
 \mathbf{v^\prime} = \begin{bmatrix}
-1 & 0 & 0 & 0 \\
-0 & 1 & 0 & 0 \\
-0 & 0 & 1 & 0 \\
+1 & 0 & 0 & 0 \\\\
+0 & 1 & 0 & 0 \\\\
+0 & 0 & 1 & 0 \\\\
 0 & 0 & \tfrac{1}{d} & 0
-\end{bmatrix} \begin{bmatrix} v\_x \\ v\_y \\ v\_z \\ 1 \end{bmatrix} = \begin{bmatrix} v\_x \\ v\_y \\ v\_z \\ \frac{v\_z}{d} \end{bmatrix}
+\end{bmatrix} \begin{bmatrix} v\_x \\\\ v\_y \\\\ v\_z \\\\ 1 \end{bmatrix} = \begin{bmatrix} v\_x \\\\ v\_y \\\\ v\_z \\\\ \frac{v\_z}{d} \end{bmatrix}
 $$

@@ -26,18 +26,18 @@ The simplest type of projection just discards a coordinate of the vectors transf
 
 $$
 \mathbf{P\_x} = \mathbf{S} \left (\begin{bmatrix}
-0 \\ 1
+0 \\\\ 1
 \end{bmatrix}, 0 \right ) = \begin{bmatrix}
-1 & 0 \\
+1 & 0 \\\\
 0 & 0
 \end{bmatrix}
 $$
 
 $$
 \mathbf{P\_y} = \mathbf{S} \left (\begin{bmatrix}
-1 \\ 0
+1 \\\\ 0
 \end{bmatrix}, 0 \right ) = \begin{bmatrix}
-0 & 0 \\
+0 & 0 \\\\
 0 & 1
 \end{bmatrix}
 $$
@@ -46,30 +46,30 @@ When a 3D vector $v = [v\_x, v\_y, v\_z]$ is projected onto the $xy$-plane, then
 
 $$
 \mathbf{P\_{xy}} = \mathbf{S} \left (\begin{bmatrix}
-0 \\ 0 \\ 1
+0 \\\\ 0 \\\\ 1
 \end{bmatrix}, 0 \right ) = \begin{bmatrix}
-1 & 0 & 0 \\
-0 & 1 & 0 \\
+1 & 0 & 0 \\\\
+0 & 1 & 0 \\\\
 0 & 0 & 0
 \end{bmatrix}
 $$
 
 $$
 \mathbf{P\_{xz}} = \mathbf{S}\left (\begin{bmatrix}
-0 \\ 1 \\ 0
+0 \\\\ 1 \\\\ 0
 \end{bmatrix}, 0 \right ) = \begin{bmatrix}
-1 & 0 & 0 \\
-0 & 0 & 0 \\
+1 & 0 & 0 \\\\
+0 & 0 & 0 \\\\
 0 & 0 & 1
 \end{bmatrix}
 $$
 
 $$
 \mathbf{P\_{yz}} = \mathbf{S} \left (\begin{bmatrix}
-1 \\ 0 \\ 0
+1 \\\\ 0 \\\\ 0
 \end{bmatrix}, 0 \right ) = \begin{bmatrix}
-0 & 0 & 0 \\
-0 & 1 & 0 \\
+0 & 0 & 0 \\\\
+0 & 1 & 0 \\\\
 0 & 0 & 1
 \end{bmatrix}
 $$
@@ -83,12 +83,12 @@ In 2D:
 $$
 \begin{align*}
 \mathbf{P}(\mathbf{n}) = \mathbf{S}(\mathbf{n}, 0) &= \begin{bmatrix}
-1 + (0 - 1){n\_x}^2 & (0 - 1)n\_xn\_y \\
+1 + (0 - 1){n\_x}^2 & (0 - 1)n\_xn\_y \\\\
 (0 - 1)n\_xn\_y & 1 + (0 - 1){n\_y}^2
-\end{bmatrix} \\
-\\
+\end{bmatrix} \\\\
+\\\\
 &= \begin{bmatrix}
-1 - {n\_x}^2 & -n\_xn\_y \\
+1 - {n\_x}^2 & -n\_xn\_y \\\\
 -n\_xn\_y & 1 - {n\_y}^2
 \end{bmatrix}
 \end{align*}
@@ -99,15 +99,15 @@ In 3D:
 $$
 \begin{align*}
 \mathbf{P}(\mathbf{n}) = \mathbf{S}(\mathbf{n}, 0) &= \begin{bmatrix}
-1 + (0 - 1){n\_x}^2 & (0 - 1)n\_yn\_x & (0 - 1)n\_zn\_x \\
-(0 - 1)n\_xn\_y & 1 + (0 - 1){n\_y}^2 & (0 - 1)n\_zn\_y \\
+1 + (0 - 1){n\_x}^2 & (0 - 1)n\_yn\_x & (0 - 1)n\_zn\_x \\\\
+(0 - 1)n\_xn\_y & 1 + (0 - 1){n\_y}^2 & (0 - 1)n\_zn\_y \\\\
 (0 - 1)n\_xn\_z & (0 - 1)n\_yn\_z & 1 + (0 - 1){n\_z}^2
-\end{bmatrix} \\
-\\
+\end{bmatrix} \\\\
+\\\\
 &= \begin{bmatrix}
-1 - {n\_x}^2 & -n\_yn\_x & -n\_zn\_x \\
--n\_xn\_y & 1 - {n\_y}^2 & -n\_zn\_y \\
--n\_xn\_z & -n\_yn\_z & 1 - {n\_z}^2 \\
+1 - {n\_x}^2 & -n\_yn\_x & -n\_zn\_x \\\\
+-n\_xn\_y & 1 - {n\_y}^2 & -n\_zn\_y \\\\
+-n\_xn\_z & -n\_yn\_z & 1 - {n\_z}^2 \\\\
 \end{bmatrix}
 \end{align*}
 $$
