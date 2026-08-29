@@ -11,7 +11,7 @@ summary: |
   needed to express objects in a different reference frame.
 image: /images/combining-transformations!coordinate-systems.jpg
 tags: ["computer graphics", "transformation matrix", "coordinate systems", "object space", "upright space", "world space"]
-libraries: ["math"]
+libraries: ["katex"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 aliases:
@@ -52,20 +52,20 @@ A coordinate system consists of:
 
 The numeric coordinates of a vector expressed with respect to some basis are the coefficients of the representation of the vector as a linear combination of the basis vectors.
 
-<div>$$
-\mathbf{v} = v_x \mathbf{i} + v_y \mathbf{j} + v_z \mathbf{k}
-$$</div>
+$$
+\mathbf{v} = v\_x \mathbf{i} + v\_y \mathbf{j} + v\_z \mathbf{k}
+$$
 
-In other words, the numeric coordinates are the quantities that multiply each basis vector, which are $v_x$, $v_y$, and $v_z$.
+In other words, the numeric coordinates are the quantities that multiply each basis vector, which are $v\_x$, $v\_y$, and $v\_z$.
 
 When the basis vectors are $\mathbf{i} = [1, 0, 0]$, $\mathbf{j} = [0, 1, 0]$, and $\mathbf{k} = [0, 0, 1]$, then:
 
-<div>$$
+$$
 \begin{align*}
-\mathbf{v} &= v_x \begin{bmatrix} 1 & 0 & 0 \end{bmatrix} + v_y \begin{bmatrix} 0 & 1 & 0 \end{bmatrix} + v_z \begin{bmatrix} 0 & 0 & 1 \end{bmatrix} \\
-&= \begin{bmatrix} v_x & v_y & v_z \end{bmatrix}
+\mathbf{v} &= v\_x \begin{bmatrix} 1 & 0 & 0 \end{bmatrix} + v\_y \begin{bmatrix} 0 & 1 & 0 \end{bmatrix} + v\_z \begin{bmatrix} 0 & 0 & 1 \end{bmatrix} \\\\
+&= \begin{bmatrix} v\_x & v\_y & v\_z \end{bmatrix}
 \end{align*}
-$$</div>
+$$
 
 ## Transformations between space coordinates
 
@@ -73,19 +73,19 @@ $$</div>
 
 Let $\mathbf{v}$ be some vector expressed/measured relative to a space (object space) whose basis vectors are $\mathbf{p}, \mathbf{q}, \mathbf{r}$ (which are themselves expressed/measured relative to a wrapper space). The vector $\mathbf{v}$ expressed relative to the wrapper space is:
 
-<div>$$
-\begin{align}
-\mathbf{v}_{upright} &= v_x \mathbf{p} + v_y \mathbf{q} + v_z \mathbf{r} \label{object-upright}
-&= v_x \begin{bmatrix} p_x & p_y & p_z \end{bmatrix} + v_y \begin{bmatrix} q_x & q_y & q_z \end{bmatrix} + v_z \begin{bmatrix} r_x & r_y & r_z \end{bmatrix} \nonumber \
+$$
+\begin{align*}
+\mathbf{v}\_{\text{upright}} &= v\_x \mathbf{p} + v\_y \mathbf{q} + v\_z \mathbf{r} \\\\
+&= v\_x \begin{bmatrix} p\_x & p\_y & p\_z \end{bmatrix} + v\_y \begin{bmatrix} q\_x & q\_y & q\_z \end{bmatrix} + v\_z \begin{bmatrix} r\_x & r\_y & r\_z \end{bmatrix} \\\\
 &= \begin{bmatrix}
-v_x p_x + v_y q_x + v_z r_x &
-v_x p_y + v_y q_y + v_z r_y &
-v_x p_z + v_y q_z + v_z r_z
-\end{bmatrix}  \nonumber
-\end{align}
-$$</div>
+v\_x p\_x + v\_y q\_x + v\_z r\_x \\\\
+v\_x p\_y + v\_y q\_y + v\_z r\_y \\\\
+v\_x p\_z + v\_y q\_z + v\_z r\_z
+\end{bmatrix}
+\end{align*}
+$$
 
-Note that if $\mathbf{p}, \mathbf{q}, \mathbf{r}$ were not orthogonal, then $\mathbf{v}_{upright}$ couldn't be *uniquely* determined.
+Note that if $\mathbf{p}, \mathbf{q}, \mathbf{r}$ were not orthogonal, then $\mathbf{v}\_{\text{upright}}$ couldn't be *uniquely* determined.
 
 The coordinates of $\mathbf{p}, \mathbf{q}, \mathbf{r}$ are always equal to $[1, 0, 0], [0, 1, 0]$, and $[0, 0, 1]$ respectively *when expressed using the coordinate system for which they are the basis*; relative to other wrapper coordinate systems, they will have arbitrary coordinates.
 
@@ -93,39 +93,39 @@ The coordinates of $\mathbf{p}, \mathbf{q}, \mathbf{r}$ are always equal to $[1,
 
 Since the axes of the upright space are parallel to the axes of the world space, the only difference between these spaces is the translation of these axes with respect to the origin of the axes of the world space. Let $\mathbf{o}$ be the translation of the upright basis axes, then:
 
-<div>$$
-\mathbf{v}_{world} = \mathbf{o} + \mathbf{v}_{upright}
-$$</div>
+$$
+\mathbf{v}\_{\text{world}} = \mathbf{o} + \mathbf{v}\_{\text{upright}}
+$$
 
 ### From world space to upright space
 
 We just have to translate the whole space so that the origin lies exactly on the origin of the upright space. If $\mathbf{o}$ is the origin of the upright space expressed in world space, then:
 
-<div>$$
-\mathbf{v}_{upright} = \mathbf{v}_{world} - \mathbf{o}
-$$</div>
+$$
+\mathbf{v}\_{\text{upright}} = \mathbf{v}\_{\text{world}} - \mathbf{o}
+$$
 
 ### From upright space to object space
 
-What if $\mathbf{v}\_{upright}$ is known and we want to know $\mathbf{v}$? The dot product is the key, as it's used to measure distance in a particular direction. Since we know that the basis vectors $\mathbf{p}, \mathbf{q}, \mathbf{r}$ are expressed in terms of the upright space perspective, we just have to calculate the projection of $\mathbf{v}_{upright}$ in the direction of each of $\mathbf{p}, \mathbf{q}, \mathbf{r}$.
+What if $\mathbf{v}\_{\text{upright}}$ is known and we want to know $\mathbf{v}$? The dot product is the key, as it's used to measure distance in a particular direction. Since we know that the basis vectors $\mathbf{p}, \mathbf{q}, \mathbf{r}$ are expressed in terms of the upright space perspective, we just have to calculate the projection of $\mathbf{v}\_{\text{upright}}$ in the direction of each of $\mathbf{p}, \mathbf{q}, \mathbf{r}$.
 
-<div>$$
+$$
 \begin{align*}
-v_x = \mathbf{v}_{upright} \cdot \mathbf{p} \\
-v_y = \mathbf{v}_{upright} \cdot \mathbf{q} \\
-v_z = \mathbf{v}_{upright} \cdot \mathbf{r}
+v\_x = \mathbf{v}\_{\text{upright}} \cdot \mathbf{p} \\\\
+v\_y = \mathbf{v}\_{\text{upright}} \cdot \mathbf{q} \\\\
+v\_z = \mathbf{v}\_{\text{upright}} \cdot \mathbf{r}
 \end{align*}
-$$</div>
+$$
 
-If we use \eqref{object-upright}, this works because the dot product with $\mathbf{p}$ will isolate the $v_x$ coordinate:
+Using the expansion of $\mathbf{v}\_{\text{upright}}$ above, the dot product with $\mathbf{p}$ will isolate the $v\_x$ coordinate:
 
-<div>$$
+$$
 \begin{align*}
-\mathbf{v}_{upright} \cdot \mathbf{p} &= v_x (\mathbf{p} \cdot \mathbf{p}) + v_y (\mathbf{q} \cdot \mathbf{p}) + v_z (\mathbf{r} \cdot \mathbf{p}) \\
-&= v_x (1) + v_y (0) + v_z (0) \\
-&= v_x
+\mathbf{v}\_{\text{upright}} \cdot \mathbf{p} &= v\_x (\mathbf{p} \cdot \mathbf{p}) + v\_y (\mathbf{q} \cdot \mathbf{p}) + v\_z (\mathbf{r} \cdot \mathbf{p}) \\\\
+&= v\_x (1) + v\_y (0) + v\_z (0) \\\\
+&= v\_x
 \end{align*}
-$$</div>
+$$
 
 **Note:** This only works when $\mathbf{p}, \mathbf{q}, \mathbf{r}$ are orthonormal. For the general case, we have to solve this using linear algebra.
 
