@@ -18,7 +18,9 @@
     "serve:prod": "http-server -S -C site/cert/localhost.pem -K site/cert/localhost-key.pem dist",
     "generate:sitemap": "bun run src/util/sitemap-tree-generator.ts",
     "generate:algolia": "[ -z ${ALGOLIA_WRITE_KEY} ] && exit 1 || hugo-algolia -i \"site/content/**\" --config site/config/_default/config.yaml -o dist/sitemap.json",
-    "test": "bun test site/ src/"
+    "test": "bun test site/ src/",
+    "preflight": "bun run src/scripts/preflight.ts",
+    "publish:note": "bun run src/scripts/publish-note.ts"
   },
   "dependencies": {
     "@babel/cli": "^7.8.3",
@@ -126,5 +128,9 @@
     "webpack-merge": "^4.2.2",
     "yt-player": "^3.5.0",
     "zustand": "^3.2.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "playwright": "^1.62.1"
   }
 }

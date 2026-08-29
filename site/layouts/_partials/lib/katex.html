@@ -4,10 +4,18 @@
     font-size: 0.88em !important;
   }
   .katex-display {
+    display: block !important;
     font-size: 0.95em !important;
     margin: 1.2em 0 !important;
-    overflow-x: auto;
-    overflow-y: hidden;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 2px 0 !important;
+  }
+  .katex-display > .katex {
+    display: inline-block !important;
+    text-align: center !important;
   }
   /* Scale math inside SVG diagrams so it matches diagram typography */
   svg foreignObject .katex {
@@ -15,6 +23,21 @@
   }
   svg foreignObject .katex-display {
     font-size: 1.12em !important;
+  }
+  /* Strict clipping for KaTeX screen reader MathML subtree */
+  .katex-mathml {
+    position: absolute !important;
+    clip: rect(1px, 1px, 1px, 1px) !important;
+    padding: 0 !important;
+    border: 0 !important;
+    height: 1px !important;
+    width: 1px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+  }
+  .katex-mathml * {
+    max-width: 1px !important;
+    max-height: 1px !important;
   }
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>

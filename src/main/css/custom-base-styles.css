@@ -95,6 +95,25 @@ blockquote {
   @apply tw-rounded-md;
 }
 
+table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+svg {
+  overflow: hidden;
+}
+
+.content {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  min-width: 0;
+  max-width: 100%;
+}
+
 @view-transition {
   navigation: auto;
 }

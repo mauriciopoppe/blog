@@ -45,7 +45,7 @@ This document captures development workflows, architecture rules, system quirks,
 - **No Patronizing Analogies**: Avoid "Think of it as a Swiss Army knife...". Explain the technical model directly.
 - **No Manufactured Suspense**: Avoid "Here's the catch", "Here's what most people miss", "Here's the kicker".
 - **Banned AI Tell Words**:
-  - `delve`, `leverage`, `utilize`, `harness`, `streamline`, `robust`, `seamless`
+  - `delve`, `leverage`, `utilize`, `harness`, `streamline`, `robust`, `seamless`, `deceptively`
   - `tapestry`, `landscape`, `paradigm`, `synergy`, `ecosystem`, `load-bearing` (when used as a buzzword)
   - `serves as`, `stands as`, `marks a pivotal moment` (use `is` or `are`)
   - `quietly`, `deeply`, `fundamentally`, `remarkably`, `arguably`

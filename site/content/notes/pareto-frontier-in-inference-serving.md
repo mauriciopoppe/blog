@@ -177,7 +177,8 @@ The position of an inference cluster on the Pareto curve is governed by internal
 | **Max Batched Tokens** (`max_num_batched_tokens`) | Higher $\to$ $\uparrow$ System TPS, $\uparrow$ TPOT | Controls iteration computation density vs. decode iteration latency. |
 | **Max Running Sequences** (`max_num_seqs`) | Higher $\to$ $\uparrow$ Concurrency, $\uparrow$ KV Cache Pressure | Amortizes weight loading, but risks KV cache preemption and swapping. |
 | **Chunked Prefill Size** (`max_num_seqs_per_chunk`) | Larger $\to$ $\downarrow$ TTFT, $\uparrow$ TPOT jitter | Slices large prompt prefills to prevent starvation of active decode streams. |
-| **Parallelism Strategy** ($TP$ vs. $PP$ vs. $DP$) | $TP$ $\to$ $\downarrow$ Latency, $\uparrow$ All-Reduce overhead | Tensor parallelism lowers per-request latency; Data parallelism scales total TPS. |
+| **Parallelism Strategy** ($TP$ vs. $PP$ vs. $DP$) | $TP$ $\to$ $\downarrow$ Latency, $\uparrow$ All-Reduce overhead | Tensor parallelism lowers per-request latency, while Data parallelism scales total TPS. |
+| **Prefill-Decode Disaggregation** (PD Split) | Shifts the entire Pareto curve outward | Decouples compute-bound prefill from memory-bound decode over RDMA, eliminating TPOT jitter. |
 | **Speculative Decoding** (Draft Length $K$) | Larger $K$ $\to$ $\downarrow$ TPOT (if accepted) | Accelerates memory-bound decode, but wastes compute if acceptance rate drops. |
 
 ### The Prefill-Decode Interference Problem
@@ -224,6 +225,19 @@ Engines employ **chunked prefill** (breaking prompt computation into token chunk
 - Large chunk size $C$: TTFT decreases, but active decode streams stall.
 
 <div id="interactive-chunking-demo"></div>
+
+### Shifting the Frontier: Prefill-Decode (PD) Disaggregation
+
+Chunked prefill is a single-GPU mitigation that trades TTFT for TPOT along a static curve. 
+
+To **shift the Pareto frontier outward** (achieving low TTFT and low TPOT simultaneously without throughput loss), distributed orchestration frameworks like [`llm-d`](https://llm-d.ai/) implement **Prefill-Decode (PD) Disaggregation**:
+
+1. **Dedicated Prefill Nodes**: Compute-dense GPU workers evaluate input prompts at maximum tensor core utilization without decode overhead.
+2. **Dedicated Decode Nodes**: High-bandwidth memory GPU workers execute autoregressive generation loops with zero prefill interruption ($C_v \approx 0$), eliminating TPOT tail jitter.
+3. **Direct KV Transfer**: Once the prefill phase finishes, the engine transfers the KV cache blocks across high-speed RDMA / NIXL networks directly to a decode worker.
+4. **Prefix-Cache-Aware Routing**: The Gateway router hashes prompt prefixes to send requests to nodes holding pre-cached KV blocks, skipping prompt evaluation entirely for shared system prompts.
+
+By decoupling the single heterogeneous queue into two specialized homogeneous queues, distributed orchestration expands the reachable Pareto envelope.
 
 ### Mathematical Formulation of Serving Multi-Objective Optimization
 
