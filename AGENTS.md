@@ -23,6 +23,30 @@ This document captures development workflows, architecture rules, system quirks,
   bun run build # builds sitemaps, webpack bundles, and hugo site into dist/
   ```
 
+### Article Pre-Flight & Publishing Workflow
+- **Pre-Flight Validation**:
+  ```bash
+  bun run preflight site/content/notes/<article>.md
+  ```
+  Validates:
+  1. Frontmatter metadata (`date` is today's date, `draft` property is absent, hero `image` exists in `site/static/images/` and is non-empty).
+  2. Syntax integrity (Hugo Goldmark SVG contiguity with zero empty blank lines, LaTeX `%` checks).
+  3. Playwright headless browser check across mobile (`375px`, `390px`) and desktop (`1280px`) viewports to guarantee zero horizontal page-level overflow (`overflow-x`).
+
+- **Deterministic One-Step Publishing**:
+  ```bash
+  bun run publish:note site/content/notes/<article>.md
+  ```
+  Automates:
+  1. Setting `date` in frontmatter to the current timestamp and removing `draft: true`.
+  2. Executing the preflight suite.
+  3. Creating a dedicated git commit (`"Publish note: <title>"`).
+  4. Creating the annotated git tag `vYYYY-MM-DD-<slug>` (e.g. `v2026-08-28-benchmarking-and-capacity-planning`).
+  5. Deploying and triggering automated GitHub Releases via `git push origin main --tags`.
+
+- **Automated GitHub Releases**:
+  - The workflow [`.github/workflows/release-on-tag.yml`](file:///.github/workflows/release-on-tag.yml) automatically triggers upon pushing `v*` tags, extracting the article's title, summary, tags, and publishing a rich GitHub Release linking directly to `https://mauriciopoppe.com/notes/<slug>`.
+
 ---
 
 ## 2. Content & Markdown Conventions
