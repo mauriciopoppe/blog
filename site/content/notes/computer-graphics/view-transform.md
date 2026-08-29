@@ -152,6 +152,8 @@ Reading $\mathbf{M}\_{\text{view}} = \mathbf{R}^T \mathbf{T}\_{-\mathbf{e}}$ rig
 1. **$\mathbf{T}\_{-\mathbf{e}}$**: shifts the world by $-\mathbf{e}$, moving the eye from $\mathbf{e}$ to the origin.
 2. **$\mathbf{R}^T$**: rotates the world about the origin, aligning $(\mathbf{u}, \mathbf{v}, \mathbf{w})$ with $(\mathbf{x}, \mathbf{y}, \mathbf{z})$.
 
+*(For an interactive camera that builds its own frame with orbit and translation controls, see [First-Person Camera](/notes/computer-graphics/first-person-camera/).)*
+
 ## Interactive Coordinate Frame & Camera View Explorer
 
 Use the interactive simulator below to observe how the View Matrix transforms points between coordinate frames:

@@ -48,3 +48,7 @@ The value of a pixel depends on the precision and range of value needed. For exa
 - **12- to 14-bit RGB, 36-42 bits per pixel**: Raw camera images for professional photography.
 - **16-bit half-precision RGB, 48 bits per pixel**: HDR images used in real-time rendering.
 - **32-bit floating-point RGB, 96 bits per pixel**: HDR images for software rendering.
+
+## Computing Pixel Colors
+
+Rendering produces the array of pixels described above. [Ray Tracing](/notes/computer-graphics/ray-tracing/) generates a ray from each pixel and finds the closest surface it hits. [Surface Shading](/notes/computer-graphics/surface-shading/) covers how the surface intersection is colored from the surface normal and the light direction.
