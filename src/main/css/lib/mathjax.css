@@ -4,6 +4,10 @@ mjx-container.MathJax {
   min-width: auto !important;
 }
 
+mjx-container.MathJax:not([display="true"]) {
+  font-size: 0.88em !important;
+}
+
 mjx-container.MathJax[display="true"] {
   font-size: 0.8em !important;
   margin: 1em 0 !important;

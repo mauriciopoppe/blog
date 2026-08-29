@@ -1,4 +1,4 @@
-import functionPlot from 'https://cdn.jsdelivr.net/npm/function-plot@1.25.4/+esm'
+import functionPlot from 'https://esm.sh/function-plot@1.25.4'
 
 const articleEl = document.querySelector('article.content') || document.querySelector('article[role=main]') || document.body
 const contentsBounds = articleEl.getBoundingClientRect()

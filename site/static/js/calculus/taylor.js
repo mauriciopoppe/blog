@@ -1,4 +1,4 @@
-import functionPlot from 'https://cdn.jsdelivr.net/npm/function-plot@1.25.4/+esm'
+import functionPlot from 'https://esm.sh/function-plot@1.25.4'
 
 functionPlot({
   target: '#approximation-at-point',

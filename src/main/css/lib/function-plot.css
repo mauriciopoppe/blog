@@ -2,17 +2,68 @@
   margin: 0px auto 20px;
   display: block;
 }
+
 .function-plot text {
   font-size: 15px;
   fill: var(--grey-light);
-  font-family: "EB Garamond", serif;
+  font-family: var(--family-sans, system-ui, sans-serif);
 }
+
+/* Main coordinate origin axes (x=0, y=0) */
 .function-plot path.origin {
-  stroke: var(--grey-light);
+  stroke: var(--grey-lighter) !important;
+  opacity: 0.65 !important;
+  stroke-width: 1.5px !important;
 }
+
+/* Background grid lines and tick marks */
+.function-plot line {
+  stroke: var(--grey) !important;
+  opacity: 0.28 !important;
+}
+
+.function-plot path.domain {
+  stroke: var(--grey) !important;
+  opacity: 0.28 !important;
+}
+
+/* Function curve */
 .function-plot path.line {
   stroke: rgb(var(--primary));
+  stroke-width: 2px;
 }
+
+/* Annotations & Guideline Markers (e.g. x=1, y=1) */
+.function-plot .annotations path {
+  stroke: rgb(var(--primary)) !important;
+  stroke-dasharray: 4 3 !important;
+  stroke-width: 1.5px !important;
+  opacity: 0.85 !important;
+}
+
+.function-plot .annotations text {
+  fill: rgb(var(--primary)) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+/* Scatter plot points */
+.function-plot circle.scatter,
+.function-plot .scatter {
+  fill: rgb(var(--primary)) !important;
+  stroke: var(--grey-lighter) !important;
+  stroke-width: 1.5px !important;
+  opacity: 1 !important;
+  r: 4px !important;
+}
+
+/* Interactive Cursor Tooltip & Crosshairs */
 .function-plot .tip circle {
   fill: rgb(var(--primary));
+}
+
+.function-plot .tip-x-line,
+.function-plot .tip-y-line {
+  stroke: var(--grey-light) !important;
+  opacity: 0.5 !important;
 }
