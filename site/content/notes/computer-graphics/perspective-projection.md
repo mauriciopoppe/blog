@@ -8,7 +8,7 @@ summary: |
 image: /images/perspective-projection-real-life.jpeg
 tags: ["computer graphics", "perspective projection"]
 date: 2016-02-06 18:00:00
-libraries: ["math"]
+libraries: ["katex"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 aliases:
@@ -21,8 +21,8 @@ As seen in [projective geometry](notes/mathematics/geometry/projective-space/), 
 
 The rendering pipeline's perspective matrix, which maps the view frustum into the canonical cube, is derived in [The Projection Transform](/notes/computer-graphics/projection-transform/).
 
-We can again use some concepts of projective geometry to understand perspective projection, particularly the fact that any object in our 3D world is represented in the 4D projective hyperplane by the homogeneous coordinate $(x, y, z, 1)$. Now, any finite point with $w
-ot = 1$ can be projected to the 4D hyperplane $w = 1$ by dividing each coordinate by $w$, i.e., $(\tfrac{x}{w}, \tfrac{y}{w}, \tfrac{z}{w})$. A key observation in the values of $w$ is that *the higher the value of $w$, the smaller the object will be when it gets projected to the $w=1$ hyperplane*.
+We can again use some concepts of projective geometry to understand perspective projection, particularly the fact that any object in our 3D world is represented in the 4D projective hyperplane by the homogeneous coordinate $(x, y, z, 1)$. Now, any finite point with $w 
+eq 1$ can be projected to the 4D hyperplane $w = 1$ by dividing each coordinate by $w$, i.e., $(\tfrac{x}{w}, \tfrac{y}{w}, \tfrac{z}{w})$. A key observation in the values of $w$ is that *the higher the value of $w$, the smaller the object will be when it gets projected to the $w=1$ hyperplane*.
 
 > Perspective is implemented in 3D by using a transformation matrix that changes the value of $w$ based on how far the object is (the $z$-coordinate).
 
@@ -32,49 +32,49 @@ Now, let's imagine that we want to project the points that exist in our world to
 
 By similar images, we can see that the projected value of the $y$-coordinate is:
 
-<div>$$
-\frac{v_y'}{d} = \frac{v_y}{v_z} \Rightarrow v_y' = \frac{d v_y}{v_z}
-$$</div>
+$$
+\frac{v\_y^\prime}{d} = \frac{v\_y}{v\_z} \Rightarrow v\_y^\prime = \frac{d v\_y}{v\_z}
+$$
 
 The projected value of the $x$-coordinate can be computed in a similar way:
 
 {{< figure src="/images/perspective-projection!x.png" title="Perspective Projection X" >}}
 
-<div>$$
-\frac{v_x'}{d} = \frac{v_x}{v_z} \Rightarrow v_x' = \frac{d v_x}{v_z}
-$$</div>
+$$
+\frac{v\_x^\prime}{d} = \frac{v\_x}{v\_z} \Rightarrow v\_x^\prime = \frac{d v\_x}{v\_z}
+$$
 
 The projected value of the $z$-coordinate is the same for all the points:
 
-<div>$$
-v_z' = d
-$$</div>
+$$
+v\_z^\prime = d
+$$
 
 Summarizing:
 
-<div>$$
-\mathbf{v'} = \begin{bmatrix} \tfrac{d v_x}{v_z} & \tfrac{d v_y}{v_z} & d \end{bmatrix}^T
-$$</div>
+$$
+\mathbf{v^\prime} = \begin{bmatrix} \tfrac{d v\_x}{v\_z} & \tfrac{d v\_y}{v\_z} & d \end{bmatrix}^T
+$$
 
 Manipulating the last equation so that it has a common denominator:
 
-<div>$$
-\mathbf{v'} = \begin{bmatrix} \tfrac{d v_x}{v_z} & \tfrac{d v_y}{v_z} & d \tfrac{v_z}{v_z} \end{bmatrix}^T = \frac{  \begin{bmatrix} v_x & v_y & v_z \end{bmatrix}^T }{ \tfrac{v_z}{d} }
-$$</div>
+$$
+\mathbf{v^\prime} = \begin{bmatrix} \tfrac{d v\_x}{v\_z} & \tfrac{d v\_y}{v\_z} & d \tfrac{v\_z}{v\_z} \end{bmatrix}^T = \frac{  \begin{bmatrix} v\_x & v\_y & v\_z \end{bmatrix}^T }{ \tfrac{v\_z}{d} }
+$$
 
 The point above expressed in 4D homogeneous coordinates is:
 
-<div>$$
-\mathbf{v'} = \begin{bmatrix} v_x & v_y & v_z & \tfrac{v_z}{d}  \end{bmatrix}^T
-$$</div>
+$$
+\mathbf{v^\prime} = \begin{bmatrix} v\_x & v\_y & v\_z & \tfrac{v\_z}{d}  \end{bmatrix}^T
+$$
 
-Finally, the transformation matrix that transforms $\mathbf{v}$ to $\mathbf{v'}$ is:
+Finally, the transformation matrix that transforms $\mathbf{v}$ to $\mathbf{v^\prime}$ is:
 
-<div>$$
-\mathbf{v'} = \begin{bmatrix}
+$$
+\mathbf{v^\prime} = \begin{bmatrix}
 1 & 0 & 0 & 0 \\
 0 & 1 & 0 & 0 \\
 0 & 0 & 1 & 0 \\
 0 & 0 & \tfrac{1}{d} & 0
-\end{bmatrix} \begin{bmatrix} v_x \\ v_y \\ v_z \\ 1 \end{bmatrix} = \begin{bmatrix} v_x \\ v_y \\ v_z \\ \frac{v_z}{d} \end{bmatrix}
-$$</div>
+\end{bmatrix} \begin{bmatrix} v\_x \\ v\_y \\ v\_z \\ 1 \end{bmatrix} = \begin{bmatrix} v\_x \\ v\_y \\ v\_z \\ \frac{v\_z}{d} \end{bmatrix}
+$$
