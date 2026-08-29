@@ -29,17 +29,6 @@ Consider a subset $L$ of $\mathbb{A}^2$ consisting of points satisfying
 $$</div>
 
 <div id="line"></div>
-<script type="module">
-import functionPlot from 'https://cdn.jsdelivr.net/npm/function-plot@1.25.4/+esm'
-
-functionPlot({
-  target: '#line',
-  grid: true,
-  data: [{
-    fn: '2 + x'
-  }]
-})
-</script>
 
 Where any point has the form $(x, f(x)) = (x, 2 + x)$, the line can be made into an affine space by defining $+: L \times V \rightarrow L$ (note that $V$ is a vector space) such that for any $u \in V$
 
@@ -76,19 +65,6 @@ $$</div>
 Let $\lambda = 1, \mu = 1$, $a = (-1,1)$, and $b = (2, 2)$. Then $a + b = (1, 1)$.
 
 <div id="affine-1"></div>
-<script type="module">
-import functionPlot from 'https://cdn.jsdelivr.net/npm/function-plot@1.25.4/+esm'
-
-functionPlot({
-  target: '#affine-1',
-  annotations: [{ x: 1 }, { y: 1 }],
-  data: [{
-    points: [[-1,-1], [2,2], [1, 1]],
-    fnType: 'points',
-    graphType: 'scatter'
-  }]
-})
-</script>
 
 If we change the coordinate system to have an origin at $(1,1)$ with the same basis vectors, then the coordinates of the given points are $a=(-2,-2)$ and $b=(1,1)$. The linear combination is then $a + b = (-1,-1)$, which is the same as the point $(0,0)$ of the first coordinate system. Therefore, $a+b$ corresponds to two different points depending on the coordinate system used.
 
@@ -150,4 +126,6 @@ An affine map between two affine spaces $X$ and $Y$ is a map $f: X \rightarrow Y
 <div>$$
 f \left (\sum_{i \in I} \lambda_i a_i \right ) = \sum_{i \in I} \lambda_i f(a_i)
 $$</div>
+
+<script type="module" src="/js/math/geometry/affine-spaces.js"></script>
 
