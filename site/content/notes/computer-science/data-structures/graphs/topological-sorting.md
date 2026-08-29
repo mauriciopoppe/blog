@@ -28,18 +28,4 @@ Let $G$ be a digraph. The **topological sorting** algorithm is a linear ordering
 
 {{< snippet file="static/code/graphs/shortest_path_dag.cpp" lang="cpp" />}}
 
-<script type="module">
-import greuler from 'https://cdn.jsdelivr.net/npm/greuler@1.0.0/+esm'
-
-fetch('/js/graph/data/topological-sorting.json')
-  .then((response) => response.json())
-  .then((data) => {
-    const width = document.querySelector('article.content').clientWidth
-    greuler({
-      directed: true,
-      target: '#figure-topological-sorting',
-      data: data,
-      width: width
-    }).update({ iterations: [30, 30, 30] })
-  })
-</script>
+<script type="module" src="/js/graph/topological-sorting.js"></script>

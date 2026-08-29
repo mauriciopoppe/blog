@@ -57,25 +57,4 @@ Let $uv$ be an edge of a digraph $G$. We say that $uv$ is **redundant** if there
 
 http://www.sofsem.cz/sofsem12/files/presentations/Thursday/GiuseppeItaliano.pdf
 
-<script type="module">
-import greuler from 'https://cdn.jsdelivr.net/npm/greuler@1.0.0/+esm'
-
-fetch('/js/graph/data/bridges.json')
-  .then((r) => r.json())
-  .then((data) => {
-    greuler({
-      target: '#figure-bridges',
-      data: data
-    }).update()
-  })
-
-fetch('/js/graph/data/bridges-directed.json')
-  .then((r) => r.json())
-  .then((data) => {
-    greuler({
-      directed: true,
-      target: '#figure-bridges-directed',
-      data: data
-    }).update()
-  })
-</script>
+<script type="module" src="/js/graph/cut-edges.js"></script>

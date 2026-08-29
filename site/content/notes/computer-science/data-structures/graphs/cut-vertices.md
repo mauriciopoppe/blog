@@ -69,24 +69,4 @@ There are other measures of how connected a graph is. Let $X$ be a set of edges 
 
 - For a complete graph $G$ of order $n$, $\lambda(G) = n - 1$.
 
-<script type="module">
-import greuler from 'https://cdn.jsdelivr.net/npm/greuler@1.0.0/+esm'
-
-fetch('/js/graph/data/cut-vertex.json')
-  .then((r) => r.json())
-  .then((data) => {
-    greuler({
-      target: '#figure-cut-vertex',
-      data: data
-    }).update()
-  })
-
-fetch('/js/graph/data/cut-vertex-2.json')
-  .then((r) => r.json())
-  .then((data) => {
-    greuler({
-      target: '#figure-cut-vertex-2',
-      data: data
-    }).update()
-  })
-</script>
+<script type="module" src="/js/graph/cut-vertices.js"></script>
