@@ -11,6 +11,10 @@ date: 2016-02-13 11:59:56
 references:
   - "Schaback, J. (2016). Camera Transformation and View Matrix. [online] Schabby.de. [Accessed 7 Mar. 2016]."
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
+aliases:
+  - /notes/computer-graphics/viewing/view-transform/
+series: "computer-graphics-pipeline"
+pipeline_stage: "view"
 ---
 
 The view transform maps every point in the scene from *world space* to *view space*:
@@ -29,7 +33,7 @@ In view space the camera sits at the origin, so the transform is fully defined b
 
 The view matrix is built in two parts: first the camera frame $(\mathbf{u}, \mathbf{v}, \mathbf{w})$ is constructed from these parameters, and then the world is transformed so that the frame aligns with the canonical axes.
 
-*(For how matrix composition works and why the order of multiplication matters, see [Combining Matrix Transformations](/notes/computer-graphics/transformation-matrices/combining-transformations/).)*
+*(For how matrix composition works and why the order of multiplication matters, see [Combining Matrix Transformations](/notes/computer-graphics/combining-transformations/).)*
 
 ## Building the Camera Frame
 

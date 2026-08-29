@@ -6,6 +6,10 @@ summary: |
 image: /images/flat-shading.svg
 tags: ["quaternions", "3d", "computer graphics", "rotation"]
 libraries: ["math"]
+aliases:
+  - /notes/computer-graphics/transformation-matrices/rotation/quaternions/
+series: "computer-graphics-pipeline"
+pipeline_stage: "transforms"
 ---
 
 ## Quaternions as Rotations

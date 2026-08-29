@@ -1,5 +1,5 @@
 ---
-title: "Scaling Objects with a Transformation Matrix"
+title: "Scaling"
 date: 2015-10-20 13:30:00
 summary: |
   We build different types of transformation matrices to scale objects along cardinal axes and arbitrary axes in 2D and 3D with matrix multiplication!
@@ -8,15 +8,11 @@ tags: ["computer graphics", "transformation matrix", "2d", "3d", "linear algebra
 libraries: ["math"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
+aliases:
+  - /notes/computer-graphics/transformation-matrices/scale/
+series: "computer-graphics-pipeline"
+pipeline_stage: "transforms"
 ---
-
-This article is part 2 in the series about transformation matrices:
-
-- [Part 1: Coordinate systems and transformations between them](../coordinate-systems/)
-- **[Part 2: Scaling objects with a transformation matrix](../scale/) (this article)**
-- [Part 3: Shearing objects with a transformation matrix](../shearing/)
-- [Part 4: Translating objects with a transformation matrix](../translation/)
-- [Part 5: Combining Matrix Transformations](../combining-transformations/)
 
 ## Scaling Along the Cardinal Axes
 

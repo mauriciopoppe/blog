@@ -13,6 +13,10 @@ references:
 image: /images/ray-tracing!camera.jpg
 tags: ["computer graphics", "culling", "clipping", "geometry", "3d"]
 libraries: ["math"]
+aliases:
+  - /notes/computer-graphics/pipeline/culling-clipping/
+series: "computer-graphics-pipeline"
+pipeline_stage: "clipping"
 ---
 
 There's a problem when the objects transformed to NDC need to be rasterized; some objects that are behind the eye might be rendered, leading to incorrect results.
@@ -35,29 +39,7 @@ $$</div>
 Note that the equations above assume that $n,f \geq 0, n \leq f$ because $A$ and $B$ were already mapped using $-n \mapsto -1$ and $-f \mapsto 1$. For example, when $n = 1$ and $f = 10$, the possible values can be described with the following plot:
 
 <div id="z"></div>
-<script type="module">
-import functionPlot from 'https://cdn.jsdelivr.net/npm/function-plot@1.25.4/+esm'
-
-const n = 1
-const f = 10
-const A = - (f + n) / (f - n)
-const B = (-2 * f * n) / (f - n)
-const xDiff = 2
-functionPlot({
-  target: '#z',
-  xAxis: { domain: [-f - xDiff, -n + xDiff] },
-  annotations: [
-    { x: -n, text: '-n' },
-    { x: -f, text: '-f' },
-    { y: 1, text: '1' },
-    { y: -1, text: '-1' }
-  ],
-  data: [{
-    fn: '(A * x + B)/(-x)',
-    scope: { A: A, B: B }
-  }]
-})
-</script>
+<script type="module" src="/js/computer-graphics/culling-clipping.js"></script>
 
 We see that objects behind the camera (points with $z_{cam} > 0$) are mapped to NDC as $z_{ndc} > 1$, i.e., in NDC, points behind the camera are visible.
 

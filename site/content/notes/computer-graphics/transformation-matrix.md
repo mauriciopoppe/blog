@@ -9,6 +9,10 @@ libraries: ["math"]
 references:
   - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
+aliases:
+  - /notes/computer-graphics/transformation-matrices/transformation-matrix/
+series: "computer-graphics-pipeline"
+pipeline_stage: "transforms"
 ---
 
 Let's say that we're given the standard basis vectors $\mathbf{i} = [1, 0, 0], \; \mathbf{j} = [0, 1, 0], \; \mathbf{k} = [0, 0, 1]$, and we multiply each of these vectors by an *arbitrary* matrix $\mathbf{M}$:

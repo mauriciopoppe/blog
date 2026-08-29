@@ -12,6 +12,10 @@ libraries: ["katex"]
 interactive: true
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
+aliases:
+  - /notes/computer-graphics/transformation-matrices/combining-transformations/
+series: "computer-graphics-pipeline"
+pipeline_stage: "transforms"
 ---
 
 Multiplying a vector by a matrix applies one transformation. Multiplying two matrices produces a third matrix that applies both transformations in sequence, so a chain of transformations collapses into a single matrix.
@@ -35,7 +39,7 @@ $$
 \end{aligned}
 $$
 
-Order matters: $\mathbf{T}\mathbf{R}$ and $\mathbf{R}\mathbf{T}$ give different results, and the rest of this article shows why. The same composition powers the [view transform](/notes/computer-graphics/viewing/view-transform/), a change between coordinate systems, covered in its own article.
+Order matters: $\mathbf{T}\mathbf{R}$ and $\mathbf{R}\mathbf{T}$ give different results, and the rest of this article shows why. The same composition powers the [view transform](/notes/computer-graphics/view-transform/), a change between coordinate systems, covered in its own article.
 
 ## Rotation Followed by Translation
 

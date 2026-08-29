@@ -11,6 +11,8 @@ references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
 tags: ["shading", "surface", "computer graphics"]
 libraries: ["math"]
+aliases:
+  - /notes/computer-graphics/surface-shading/diffuse-shading/
 ---
 
 Many objects, for example, wood and paper, will have a surface that is not shiny. Such objects can be modeled using the Lambertian Model.

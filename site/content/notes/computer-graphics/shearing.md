@@ -1,5 +1,5 @@
 ---
-title: "Shearing Objects with a Transformation Matrix"
+title: "Shearing"
 date: 2016-02-05 10:00:00
 summary: |
   Shearing is a transformation that skews the coordinate space. The idea is to add a multiple of one coordinate to another.
@@ -8,15 +8,11 @@ tags: ["computer graphics", "transformation matrix", "shearing", "2d", "3d", "li
 libraries: ["math"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
+aliases:
+  - /notes/computer-graphics/transformation-matrices/shearing/
+series: "computer-graphics-pipeline"
+pipeline_stage: "transforms"
 ---
-
-This article is part 3 in the series about transformation matrices:
-
-- [Part 1: Coordinate systems and transformations between them](../coordinate-systems/)
-- [Part 2: Scaling objects with a transformation matrix](../scale/)
-- **[Part 3: Shearing objects with a transformation matrix](../shearing/) (this article)**
-- [Part 4: Translating objects with a transformation matrix](../translation/)
-- [Part 5: Combining Matrix Transformations](../combining-transformations/)
 
 ## 2D Shearing
 

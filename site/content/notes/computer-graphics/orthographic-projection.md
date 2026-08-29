@@ -11,6 +11,10 @@ tags: ["computer graphics", "orthographic projection"]
 bibliography:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 libraries: ["math"]
+aliases:
+  - /notes/computer-graphics/transformation-matrices/projections/orthographic/
+series: "computer-graphics-pipeline"
+pipeline_stage: "transforms"
 ---
 
 ## Orthographic Projection

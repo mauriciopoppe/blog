@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Rotation for Computer Graphics"
+title: "Rotation"
 date: 2015-12-15 13:00:00
 summary: |
   The basics of rotation in 2D and 3D for computer graphics, with a focus on 3D rotation about cardinal axes and 3D rotation with quaternions.
@@ -14,6 +14,10 @@ references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
  - "Vince, J. (2011). Quaternions for computer graphics. London: Springer."
  - "Shoemake, K. (2016). Quaternions [online] Cs.ucr.edu. Available at: http://www.cs.ucr.edu/~vbz/resources/quatut.pdf [Accessed 7 Mar. 2016]."
+aliases:
+  - /notes/computer-graphics/transformation-matrices/rotation/introduction/
+series: "computer-graphics-pipeline"
+pipeline_stage: "transforms"
 ---
 
 ## 2D Rotation
@@ -421,29 +425,4 @@ $$</div>
 
 The second formula works for all cases, as noted [here](http://math.stackexchange.com/questions/90081/quaternion-distance) (the first one doesn't work when $a \cdot b < 0$).
 
-<script type="module">
-import functionPlot from 'https://cdn.jsdelivr.net/npm/function-plot@1.25.4/+esm'
-
-function unitCircle() {
-  return {
-    x: 'cos(t)',
-    y: 'sin(t)',
-    color: 'lightgrey',
-    fnType: 'parametric',
-    graphType: 'polyline'
-  }
-}
-
-functionPlot({
-  target: '#two-dimensions',
-  grid: true,
-  xAxis: { domain: [-6, 6] },
-  data: [
-    { vector: [1, 0], color: '#FFCCCB', fnType: 'vector', graphType: 'polyline' },
-    { vector: [0, 1], color: '#add8e6', fnType: 'vector', graphType: 'polyline' },
-    { vector: [0.86602540378, 0.5], color: 'red', fnType: 'vector', graphType: 'polyline' },
-    { vector: [-0.5, 0.86602540378], color: 'blue', fnType: 'vector', graphType: 'polyline' },
-    unitCircle()
-  ]
-})
-</script>
+<script type="module" src="/js/computer-graphics/rotation.js"></script>

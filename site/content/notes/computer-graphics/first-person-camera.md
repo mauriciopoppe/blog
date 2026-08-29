@@ -1,5 +1,5 @@
 ---
-title: "Building a First-Person Shot Camera in C++"
+title: "First-Person Camera"
 date: 2016-04-29 22:10:40
 summary: |
   A first-person camera captures objects from the viewpoint of a player's character. Some aspects have to be considered, like the characteristics of the camera (orbiting with the mouse and translation with keyboard keys), as well as how we could capture all these characteristics with math and linear algebra.
@@ -9,6 +9,9 @@ summary: |
 image: /images/first-person-pov.jpeg
 tags: ["camera", "first-person", "pov", "euler angles", "linear algebra"]
 libraries: ["math"]
+aliases:
+  - /notes/computer-graphics/viewing/camera/first-person-shot/
+series: "computer-graphics-pipeline"
 ---
 
 A first-person camera captures objects from the viewpoint of a player's character. The camera has the following characteristics:
@@ -34,7 +37,7 @@ Let $\mathbf{M}\_{upright \leftarrow camera}$ be the rotation matrix that transf
 - The character looks left or right - rotation relative to the *upright space* $y$-axis.
 - The character looks up or down - rotation relative to the *upright space* $x$-axis.
 
-Note that the sequence of [intrinsic rotations](../../../transformation-matrices/rotation/euler-angles#intrinsic-rotations) ($y-x'$ or $x-y$ if expressed as a sequence of *extrinsic rotations*) represents the rotation of the camera. The sequence of extrinsic rotations can be represented as a multiplication of the following rotation matrices:
+Note that the sequence of [intrinsic rotations](../euler-angles/#intrinsic-rotations) ($y-x'$ or $x-y$ if expressed as a sequence of *extrinsic rotations*) represents the rotation of the camera. The sequence of extrinsic rotations can be represented as a multiplication of the following rotation matrices:
 
 <div>$$
 \begin{align*}

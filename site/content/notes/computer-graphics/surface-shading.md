@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Surface Shading"
+title: "Surface Shading"
 date: 2016-06-03 13:46:07
 summary: |
   Surface shading is a process to color a surface. In computer graphic applications, this is done to mimic how objects look in real life. This article covers the variables available in the rendering pipeline.
@@ -8,6 +8,8 @@ references:
   - https://thebookofshaders.com
 tags: ["shading", "surface", "computer graphics"]
 libraries: ["math"]
+aliases:
+  - /notes/computer-graphics/surface-shading/introduction/
 ---
 
 Shading is the process of altering the color of a surface. Different *shading models* capture the process of light reflection on a surface. These models use the following variables in the computation:

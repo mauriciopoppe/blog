@@ -11,6 +11,10 @@ date: 2016-02-06 18:00:00
 libraries: ["math"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
+aliases:
+  - /notes/computer-graphics/transformation-matrices/projections/perspective/
+series: "computer-graphics-pipeline"
+pipeline_stage: "transforms"
 ---
 
 As seen in [projective geometry](notes/mathematics/geometry/projective-space/), the perspective phenomenon is where an object appears to be smaller the further away it is from the point of view.

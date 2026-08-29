@@ -1,5 +1,5 @@
 ---
-title: "Transformation Matrix to Transform Objects from NDC Coordinates to Screen Coordinates (Viewport Transform)"
+title: "Screen Space"
 summary: |
   One matrix transformation in the 3D to 2D transformation pipeline is the viewport transform, where objects are transformed from normalized device coordinates (NDC) to screen coordinates (SC).
 
@@ -14,6 +14,10 @@ libraries: ["math"]
 date: 2016-03-08 22:20:58
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
+aliases:
+  - /notes/computer-graphics/viewing/viewport-transform/
+series: "computer-graphics-pipeline"
+pipeline_stage: "viewport"
 ---
 
 The objective of this step is to find a transformation matrix to transform points expressed in *normalized device coordinates* to *screen coordinates*.

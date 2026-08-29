@@ -12,6 +12,10 @@ libraries: ["math"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
  - "Images taken from https://www.wikiwand.com/en/Euler_angles#/Rotation_matrix, Author: Lionel Brits"
+aliases:
+  - /notes/computer-graphics/transformation-matrices/rotation/euler-angles/
+series: "computer-graphics-pipeline"
+pipeline_stage: "transforms"
 ---
 
 <!-- <style> -->

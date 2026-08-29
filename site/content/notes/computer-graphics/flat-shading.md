@@ -8,6 +8,8 @@ references:
   - "Illumination-based Shading. Retrieved 9 June 2016, from http://www.di.ubi.pt/~agomes/cg/teoricas/07e-shading.pdf"
   - "TU Wien Rendering #4, from https://www.youtube.com/watch?v=Gm7szS1hQxs"
 tags: ["shading", "surface", "computer graphics"]
+aliases:
+  - /notes/computer-graphics/surface-shading/flat-shading/
 ---
 
 Flat shading is the simplest shading model, which calculates the illumination at a single point for each polygon (or polygon vertices in OpenGL). This means that **the color is the same for all points of each polygon**.

@@ -1,5 +1,5 @@
 ---
-title: "Coordinate systems and transformations between them"
+title: "Coordinate Systems"
 date: 2015-10-15 12:00:00
 summary: |
   The position and orientation of an object in real life can be described with
@@ -14,15 +14,11 @@ tags: ["computer graphics", "transformation matrix", "coordinate systems", "obje
 libraries: ["math"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
+aliases:
+  - /notes/computer-graphics/transformation-matrices/coordinate-systems/
+series: "computer-graphics-pipeline"
+pipeline_stage: "transforms"
 ---
-
-This article is part 1 in the series about transformation matrices:
-
-- **[Part 1: Coordinate systems and transformations between them](../coordinate-systems/) (this article)**
-- [Part 2: Scaling objects with a transformation matrix](../scale/)
-- [Part 3: Shearing objects with a transformation matrix](../shearing/)
-- [Part 4: Translating objects with a transformation matrix](../translation/)
-- [Part 5: Combining Matrix Transformations](../combining-transformations/)
 
 ## World space[^space], upright space, object space
 

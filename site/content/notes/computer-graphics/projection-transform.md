@@ -7,10 +7,13 @@ image: /images/projection-matrix!perspective-all.png
 tags: ["computer graphics", "transformation matrix", "orthographic projection", "perspective projection", "3d", "2d"]
 libraries: ["katex"]
 math_terms: ["graphics"]
-pipeline_stage: "projection"
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
   - "Ahn, S. (2016). OpenGL Projection Matrix. [online] Songho.ca. Available at: http://www.songho.ca/opengl/gl_projectionmatrix.html [Accessed 7 Mar. 2016]."
+aliases:
+  - /notes/computer-graphics/viewing/projection-transform/
+series: "computer-graphics-pipeline"
+pipeline_stage: "projection"
 ---
 
 The *canonical view volume* is a cube with corners at $[-1, -1, -1]$ and $[1, 1, 1]$. Coordinates in this cube are called *normalized device coordinates* (NDC). The projection step maps the region of the scene we want to render, the *view volume*, into this cube:
