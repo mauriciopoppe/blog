@@ -19,7 +19,7 @@ Understanding how these metrics interact is essential for capacity planning, siz
 Latency measures the elapsed time required to process a request transaction. It is observed from two distinct system boundaries:
 
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 940 365" width="100%" style="max-width: 940px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.08);">
+<svg viewBox="0 0 940 375" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box;">
   <defs>
     <marker id="arrow-themed-latency" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgb(var(--primary))" />
@@ -27,31 +27,19 @@ Latency measures the elapsed time required to process a request transaction. It 
   </defs>
   <!-- Server Boundary Box -->
   <rect x="270" y="20" width="400" height="165" rx="10" fill="rgba(255, 255, 255, 0.015)" stroke="rgba(171, 171, 171, 0.25)" stroke-dasharray="6 4" stroke-width="1.5" />
-  <text x="470" y="44" fill="var(--grey-light)" font-size="12" font-weight="normal" text-anchor="middle" letter-spacing="1.5">SERVER BOUNDARY</text>
+  <text x="470" y="44" fill="var(--grey-light)" font-size="12" font-weight="600" text-anchor="middle" letter-spacing="1.5">SERVER BOUNDARY</text>
   <!-- Client Dispatch Box -->
   <rect x="20" y="55" width="120" height="95" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.12)" stroke-width="1.5" />
-  <foreignObject x="20" y="55" width="120" height="95">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; font-family: var(--family-sans); text-align: center;">
-      <span style="color: var(--grey-lighter); font-size: 15px; font-weight: normal;">Client</span>
-      <span style="color: var(--grey-light); font-size: 15px; margin-top: 4px;">$t_0 \text{ (Dispatch)}$</span>
-    </div>
-  </foreignObject>
-  <!-- Inbound Network Arrow & Labels (Under Arrow) -->
+  <text x="80" y="95" fill="var(--grey-lighter)" font-size="15" font-weight="600" text-anchor="middle">Client</text>
+  <text x="80" y="120" fill="var(--grey-light)" font-size="14" text-anchor="middle">t<tspan font-size="11" dy="2">0</tspan><tspan font-size="14" dy="-2"> (Dispatch)</tspan></text>
+  <!-- Inbound Network Arrow & Labels -->
   <line x1="145" y1="84" x2="260" y2="84" stroke="rgb(var(--primary))" stroke-width="2" marker-end="url(#arrow-themed-latency)" />
-  <foreignObject x="145" y="92" width="115" height="55">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; height: 100%; font-family: var(--family-sans); text-align: center;">
-      <span style="color: var(--grey-lighter); font-size: 13.5px; font-weight: normal; line-height: 1.2;">Network In</span>
-      <span style="color: var(--grey-light); font-size: 15.5px; margin-top: 3px; line-height: 1.2;">$t_{\text{net}}$</span>
-    </div>
-  </foreignObject>
+  <text x="202" y="112" fill="var(--grey-lighter)" font-size="13" font-weight="500" text-anchor="middle">Network In</text>
+  <text x="202" y="132" fill="var(--grey-light)" font-size="14" text-anchor="middle">t<tspan font-size="11" dy="2">net</tspan></text>
   <!-- Request Queue Box -->
   <rect x="285" y="55" width="160" height="95" rx="8" fill="var(--grey-dark)" stroke="rgba(var(--primary), 0.6)" stroke-width="1.5" />
-  <text x="365" y="78" fill="rgb(var(--primary))" font-size="13.5" font-weight="normal" text-anchor="middle">Request Queue</text>
-  <foreignObject x="285" y="84" width="160" height="30">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="color: var(--grey-light); font-size: 14.5px; text-align: center; font-family: var(--family-sans);">
-      $\text{Wait } W_q$
-    </div>
-  </foreignObject>
+  <text x="365" y="78" fill="rgb(var(--primary))" font-size="13.5" font-weight="600" text-anchor="middle">Request Queue</text>
+  <text x="365" y="104" fill="var(--grey-light)" font-size="14.5" text-anchor="middle">Wait W<tspan font-size="11" dy="2">q</tspan></text>
   <!-- Queue Items inside -->
   <g transform="translate(302, 120)">
     <rect x="0" y="0" width="22" height="20" rx="3" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1" />
@@ -61,45 +49,25 @@ Latency measures the elapsed time required to process a request transaction. It 
   </g>
   <!-- Arrow: Queue to Worker -->
   <line x1="445" y1="84" x2="492" y2="84" stroke="rgb(var(--primary))" stroke-width="2" marker-end="url(#arrow-themed-latency)" />
-  <!-- Worker / Execution Engine Box (Matches Request Queue styling) -->
+  <!-- Worker / Execution Engine Box -->
   <rect x="500" y="55" width="155" height="95" rx="8" fill="var(--grey-dark)" stroke="rgba(var(--primary), 0.6)" stroke-width="1.5" />
-  <text x="577" y="78" fill="rgb(var(--primary))" font-size="13.5" font-weight="normal" text-anchor="middle">Worker Engine</text>
-  <foreignObject x="500" y="86" width="155" height="58">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; font-family: var(--family-sans); text-align: center;">
-      <span style="color: var(--grey-light); font-size: 15px;">$\text{Service } S = 1/\mu$</span>
-      <span style="color: var(--grey-light); font-size: 13.5px; margin-top: 2px;">$\text{Rate } \mu$</span>
-    </div>
-  </foreignObject>
-  <!-- Outbound Network Arrow & Labels (Under Arrow) -->
+  <text x="577" y="78" fill="rgb(var(--primary))" font-size="13.5" font-weight="600" text-anchor="middle">Worker Engine</text>
+  <text x="577" y="104" fill="var(--grey-light)" font-size="14.5" text-anchor="middle">Service S = 1/μ</text>
+  <text x="577" y="126" fill="var(--grey-light)" font-size="13" text-anchor="middle">Rate μ</text>
+  <!-- Outbound Network Arrow & Labels -->
   <line x1="675" y1="84" x2="790" y2="84" stroke="rgb(var(--primary))" stroke-width="2" marker-end="url(#arrow-themed-latency)" />
-  <foreignObject x="675" y="92" width="115" height="55">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; height: 100%; font-family: var(--family-sans); text-align: center;">
-      <span style="color: var(--grey-lighter); font-size: 13.5px; font-weight: normal; line-height: 1.2;">Network Out</span>
-      <span style="color: var(--grey-light); font-size: 15.5px; margin-top: 3px; line-height: 1.2;">$t_{\text{net}}$</span>
-    </div>
-  </foreignObject>
+  <text x="732" y="112" fill="var(--grey-lighter)" font-size="13" font-weight="500" text-anchor="middle">Network Out</text>
+  <text x="732" y="132" fill="var(--grey-light)" font-size="14" text-anchor="middle">t<tspan font-size="11" dy="2">net</tspan></text>
   <!-- Client Receive Box -->
   <rect x="800" y="55" width="120" height="95" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.12)" stroke-width="1.5" />
-  <foreignObject x="800" y="55" width="120" height="95">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; font-family: var(--family-sans); text-align: center;">
-      <span style="color: var(--grey-lighter); font-size: 15px; font-weight: normal;">Client</span>
-      <span style="color: var(--grey-light); font-size: 15px; margin-top: 4px;">$t_{\text{end}} \text{ (Received)}$</span>
-    </div>
-  </foreignObject>
+  <text x="860" y="95" fill="var(--grey-lighter)" font-size="15" font-weight="600" text-anchor="middle">Client</text>
+  <text x="860" y="120" fill="var(--grey-light)" font-size="14" text-anchor="middle">t<tspan font-size="11" dy="2">end</tspan><tspan font-size="14" dy="-2"> (Received)</tspan></text>
   <!-- Server-Side Latency Bracket (W = Wq + S) -->
   <path d="M 285 195 L 285 205 L 470 205 L 470 215 L 470 205 L 655 205 L 655 195" fill="none" stroke="rgba(171, 171, 171, 0.35)" stroke-width="1.5" />
-  <foreignObject x="170" y="218" width="600" height="50">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="color: var(--grey-lighter); font-size: 18px; font-weight: normal; text-align: center; font-family: var(--family-sans);">
-      $\text{Server Latency } W = W_q + S$
-    </div>
-  </foreignObject>
+  <text x="470" y="244" fill="var(--grey-lighter)" font-size="17" font-weight="600" text-anchor="middle">Server Latency: W = W<tspan font-size="12" dy="3">q</tspan><tspan font-size="17" dy="-3"> + S</tspan></text>
   <!-- End-to-End Client Latency Bracket (L = t_end - t0) -->
   <path d="M 80 275 L 80 285 L 470 285 L 470 295 L 470 285 L 860 285 L 860 275" fill="none" stroke="rgb(var(--primary))" stroke-width="2" />
-  <foreignObject x="70" y="298" width="800" height="55">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="color: var(--grey-lighter); font-size: 19px; font-weight: normal; text-align: center; font-family: var(--family-sans);">
-      $\text{Client-Side Round-Trip Latency } (L) = t_{\text{end}} - t_0 = 2 \cdot t_{\text{net}} + W_q + S$
-    </div>
-  </foreignObject>
+  <text x="470" y="326" fill="rgb(var(--primary))" font-size="17.5" font-weight="700" text-anchor="middle">Client-Side Round-Trip Latency (L) = t<tspan font-size="12" dy="3">end</tspan><tspan font-size="17.5" dy="-3"> − t</tspan><tspan font-size="12" dy="3">0</tspan><tspan font-size="17.5" dy="-3"> = 2 · t</tspan><tspan font-size="12" dy="3">net</tspan><tspan font-size="17.5" dy="-3"> + W</tspan><tspan font-size="12" dy="3">q</tspan><tspan font-size="17.5" dy="-3"> + S</tspan></text>
 </svg>
 </div>
 
@@ -115,7 +83,7 @@ Latency measures the elapsed time required to process a request transaction. It 
 Throughput measures the rate of completed requests per unit of time ($\lambda = \frac{N_{\text{completed}}}{\Delta t}$, e.g. Requests Per Second):
 
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 880 365" width="100%" style="max-width: 880px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 18px; border: 1px solid rgba(255, 255, 255, 0.08);">
+<svg viewBox="0 0 880 365" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 18px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box;">
   <defs>
     <marker id="arrow-themed-throughput" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--grey-lighter)" />
@@ -123,11 +91,7 @@ Throughput measures the rate of completed requests per unit of time ($\lambda = 
   </defs>
   <!-- Time Window Span Container -->
   <rect x="200" y="20" width="540" height="195" rx="10" fill="rgba(255, 255, 255, 0.015)" stroke="rgba(var(--primary), 0.5)" stroke-dasharray="6 4" stroke-width="1.5" />
-  <foreignObject x="220" y="26" width="500" height="34">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="color: var(--grey-lighter); font-size: 18px; font-weight: normal; text-align: center; letter-spacing: 0.5px; font-family: var(--family-sans);">
-      $\text{Measurement Window } (\Delta t = 1.0\text{ s})$
-    </div>
-  </foreignObject>
+  <text x="470" y="48" fill="var(--grey-lighter)" font-size="16" font-weight="600" text-anchor="middle" letter-spacing="0.5">Measurement Window (Δt = 1.0 s)</text>
   <!-- Concurrent Streams -->
   <!-- Stream 1 -->
   <text x="30" y="94" fill="var(--grey-lighter)" font-size="15" font-weight="normal">Client Stream 1</text>
@@ -158,13 +122,9 @@ Throughput measures the rate of completed requests per unit of time ($\lambda = 
   <text x="200" y="262" fill="var(--grey-light)" font-size="15" font-weight="normal" text-anchor="middle">t = 0.0s</text>
   <line x1="740" y1="228" x2="740" y2="244" stroke="var(--grey-lighter)" stroke-width="2" />
   <text x="740" y="262" fill="var(--grey-light)" font-size="15" font-weight="normal" text-anchor="middle">t = 1.0s</text>
-  <!-- Unboxed 2-line Summary Footer with Matched Font Sizes -->
-  <foreignObject x="20" y="278" width="840" height="75">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="color: var(--grey-lighter); font-size: 19px; font-weight: normal; text-align: center; font-family: var(--family-sans); line-height: 1.55;">
-      <div>$\text{Throughput } (\lambda) = \frac{N_{\text{completed}}}{\Delta t} = \frac{8 \text{ Completed Requests}}{1.0 \text{ Second}} = 8 \text{ RPS}$</div>
-      <div style="margin-top: 6px;">$\text{Concurrency } (N_{\text{in-flight}}) = 3 \text{ Active Streams}$</div>
-    </div>
-  </foreignObject>
+  <!-- Summary Footer -->
+  <text x="440" y="304" fill="var(--grey-lighter)" font-size="17" font-weight="600" text-anchor="middle">Throughput (λ) = N<tspan font-size="12" dy="3">completed</tspan><tspan font-size="17" dy="-3"> / Δt = 8 Completed Requests / 1.0 s = </tspan><tspan fill="rgb(var(--primary))" font-weight="700">8 RPS</tspan></text>
+  <text x="440" y="334" fill="var(--grey-light)" font-size="15" text-anchor="middle">Concurrency (N<tspan font-size="11" dy="2">in-flight</tspan><tspan font-size="15" dy="-2">) = </tspan><tspan fill="var(--grey-lighter)" font-weight="600">3 Active Streams</tspan></text>
 </svg>
 </div>
 
@@ -190,7 +150,7 @@ How many people ($L$) are inside at any given snapshot?
 - Therefore, at any instant, there are **$10$ people inside**:
 
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 880 200" width="100%" style="max-width: 880px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08);">
+<svg viewBox="0 0 880 200" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box;">
   <defs>
     <marker id="arr-pipe-flow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(171, 171, 171, 0.5)" />
@@ -204,25 +164,25 @@ How many people ($L$) are inside at any given snapshot?
   <rect x="105" y="30" width="670" height="100" rx="10" fill="rgba(255, 255, 255, 0.015)" stroke="rgb(var(--primary))" stroke-width="1.5" stroke-dasharray="4 3" />
   <text x="440" y="52" fill="var(--grey-lighter)" font-size="13" font-weight="700" text-anchor="middle">Pipeline Transit Duration: W = 5 minutes</text>
   <!-- 10 In-Flight Items Distributed in the Pipe -->
-  <rect x="130" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1" />
+  <rect x="130" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="154" y="95" fill="var(--grey-lighter)" font-size="12" font-weight="700" text-anchor="middle">P10</text>
-  <rect x="192" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1" />
+  <rect x="192" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="216" y="95" fill="var(--grey-lighter)" font-size="12" font-weight="700" text-anchor="middle">P9</text>
-  <rect x="254" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1" />
+  <rect x="254" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="278" y="95" fill="var(--grey-lighter)" font-size="12" font-weight="700" text-anchor="middle">P8</text>
-  <rect x="316" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1" />
+  <rect x="316" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="340" y="95" fill="var(--grey-lighter)" font-size="12" font-weight="700" text-anchor="middle">P7</text>
-  <rect x="378" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1" />
+  <rect x="378" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="402" y="95" fill="var(--grey-lighter)" font-size="12" font-weight="700" text-anchor="middle">P6</text>
-  <rect x="440" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1" />
+  <rect x="440" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="464" y="95" fill="var(--grey-lighter)" font-size="12" font-weight="700" text-anchor="middle">P5</text>
-  <rect x="502" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1" />
+  <rect x="502" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="526" y="95" fill="var(--grey-lighter)" font-size="12" font-weight="700" text-anchor="middle">P4</text>
-  <rect x="564" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1" />
+  <rect x="564" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="588" y="95" fill="var(--grey-lighter)" font-size="12" font-weight="700" text-anchor="middle">P3</text>
-  <rect x="626" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1" />
+  <rect x="626" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="650" y="95" fill="var(--grey-lighter)" font-size="12" font-weight="700" text-anchor="middle">P2</text>
-  <rect x="688" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1" />
+  <rect x="688" y="66" width="48" height="48" rx="6" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="712" y="95" fill="var(--grey-lighter)" font-size="12" font-weight="700" text-anchor="middle">P1</text>
   <!-- Outflow -->
   <line x1="780" y1="80" x2="855" y2="80" stroke="rgba(171, 171, 171, 0.5)" stroke-width="2" marker-end="url(#arr-pipe-flow)" />
@@ -248,7 +208,7 @@ Imagine a bookstore or reading lounge: visitors enter at rate $\lambda$, spend a
 Little's Law applies to **any boundary you choose to draw**, as long as the arrival rate equals the departure rate in steady state:
 
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 880 235" width="100%" style="max-width: 880px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08);">
+<svg viewBox="0 0 880 235" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box;">
   <defs>
     <marker id="arr-littles" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(171, 171, 171, 0.5)" />
@@ -302,7 +262,7 @@ Little's Law applies to **any boundary you choose to draw**, as long as the arri
 ### Practical Systems Applications
 
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 880 240" width="100%" style="max-width: 880px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08);">
+<svg viewBox="0 0 880 240" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box;">
   <!-- Normal Operation Card -->
   <rect x="20" y="20" width="405" height="195" rx="8" fill="var(--grey-dark)" stroke="rgba(129, 199, 132, 0.4)" stroke-width="1" />
   <text x="222" y="48" fill="#81c784" font-size="14" font-weight="700" text-anchor="middle">Normal State: Fast Latency (W = 50 ms)</text>
@@ -314,7 +274,6 @@ Little's Law applies to **any boundary you choose to draw**, as long as the arri
   <text x="240" y="136" fill="#81c784" font-size="14" font-weight="700">N = 1000 × 0.05 = 50</text>
   <rect x="40" y="155" width="365" height="36" rx="5" fill="rgba(129, 199, 132, 0.15)" stroke="rgba(129, 199, 132, 0.4)" stroke-width="1" />
   <text x="222" y="178" fill="#81c784" font-size="12" font-weight="700" text-anchor="middle">Pool Capacity = 100 → 50% Used (Healthy Buffer)</text>
-
   <!-- Starvation Outage Card -->
   <rect x="455" y="20" width="405" height="195" rx="8" fill="var(--grey-dark)" stroke="rgba(229, 115, 115, 0.5)" stroke-width="1.5" />
   <text x="657" y="48" fill="#e57373" font-size="14" font-weight="700" text-anchor="middle">Latency Spike: Database Degraded (W = 500 ms)</text>
@@ -329,8 +288,7 @@ Little's Law applies to **any boundary you choose to draw**, as long as the arri
 </svg>
 </div>
 
-- **Sizing Connection & Worker Pools**: If an API handles $\lambda = 1,000\text{ RPS}$ and downstream database queries take an average response time of $W = 50\text{ ms} = 0.05\text{ s}$, the number of concurrent database connections required to sustain that load without queuing is:
-  $$N_{\text{connections}} = \lambda \cdot W = 1,000\text{ req/s} \times 0.05\text{ s} = 50\text{ concurrent open connections}$$
+- **Sizing Connection & Worker Pools**: If an API handles $\lambda = 1,000\text{ RPS}$ and downstream database queries take an average response time of $W = 50\text{ ms} = 0.05\text{ s}$, the number of concurrent database connections required to sustain that load without queuing is $N = \lambda \cdot W = 1,000\text{ req/s} \times 0.05\text{ s} = \mathbf{50\text{ connections}}$.
 - **Cascading Exhaustion**: If database lock contention causes latency to spike from $50\text{ ms} \to 500\text{ ms}$ ($0.5\text{ s}$), maintaining that same $1,000\text{ RPS}$ throughput suddenly requires $N = 1,000 \times 0.5 = 500\text{ active connections}$. If the pool is capped at $100$, the pool exhausts, incoming requests block in queues, and upstream services fail.
 - **Calibrating Load Tests**: When configuring load testing tools (`wrk`, `k6`, `locust`), generating a target throughput $\lambda$ at expected latency $W$ requires configuring $N = \lambda \cdot W$ concurrent virtual users (VUs).
 
@@ -348,7 +306,7 @@ At any single instant $t$, a worker core is in a binary state (computing or idle
 - **Utilization ($\rho = \frac{\text{Demand}}{\text{Capacity}} = \frac{\lambda}{c \cdot \mu}$)**: The proportion of capacity in use (e.g. $\frac{150\text{ req/s}}{200\text{ req/s}} = 75\%$).
 
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 880 340" width="100%" style="max-width: 880px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 18px; border: 1px solid rgba(255, 255, 255, 0.08);">
+<svg viewBox="0 0 880 340" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 18px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box;">
   <defs>
     <marker id="arrow-themed-util" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--grey-lighter)" />
@@ -358,41 +316,29 @@ At any single instant $t$, a worker core is in a binary state (computing or idle
   <text x="30" y="64" fill="var(--grey-lighter)" font-size="15" font-weight="normal">Worker 1</text>
   <rect x="140" y="45" width="200" height="28" rx="5" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="240" y="64" fill="var(--grey-lighter)" font-size="13" font-weight="normal" text-anchor="middle">Busy (4.0s)</text>
-  <rect x="340" y="45" width="100" height="28" rx="5" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" stroke-dasharray="3 2" />
+  <rect x="340" y="45" width="100" height="28" rx="5" fill="rgba(var(--grey-dark))" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" stroke-dasharray="3 2" />
   <text x="390" y="64" fill="var(--grey-light)" font-size="13" font-weight="normal" text-anchor="middle">Idle (2.0s)</text>
   <rect x="440" y="45" width="200" height="28" rx="5" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="540" y="64" fill="var(--grey-lighter)" font-size="13" font-weight="normal" text-anchor="middle">Busy (4.0s)</text>
-  <foreignObject x="655" y="43" width="220" height="32">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="color: var(--grey-lighter); font-size: 17px; font-family: var(--family-sans); line-height: 32px;">
-      $T_{\text{busy}} = 8.0\text{ s } (80\%)$
-    </div>
-  </foreignObject>
+  <text x="660" y="64" fill="var(--grey-lighter)" font-size="15" font-weight="500">T<tspan font-size="11" dy="2">busy</tspan><tspan font-size="15" dy="-2"> = 8.0 s (80%)</tspan></text>
   <!-- Worker 2 Row -->
   <text x="30" y="114" fill="var(--grey-lighter)" font-size="15" font-weight="normal">Worker 2</text>
   <rect x="140" y="95" width="120" height="28" rx="5" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="200" y="114" fill="var(--grey-lighter)" font-size="13" font-weight="normal" text-anchor="middle">Busy (2.4s)</text>
-  <rect x="260" y="95" width="130" height="28" rx="5" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" stroke-dasharray="3 2" />
+  <rect x="260" y="95" width="130" height="28" rx="5" fill="rgba(var(--grey-dark))" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" stroke-dasharray="3 2" />
   <text x="325" y="114" fill="var(--grey-light)" font-size="13" font-weight="normal" text-anchor="middle">Idle (2.6s)</text>
   <rect x="390" y="95" width="250" height="28" rx="5" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="515" y="114" fill="var(--grey-lighter)" font-size="13" font-weight="normal" text-anchor="middle">Busy (5.0s)</text>
-  <foreignObject x="655" y="93" width="220" height="32">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="color: var(--grey-lighter); font-size: 17px; font-family: var(--family-sans); line-height: 32px;">
-      $T_{\text{busy}} = 7.4\text{ s } (74\%)$
-    </div>
-  </foreignObject>
+  <text x="660" y="114" fill="var(--grey-lighter)" font-size="15" font-weight="500">T<tspan font-size="11" dy="2">busy</tspan><tspan font-size="15" dy="-2"> = 7.4 s (74%)</tspan></text>
   <!-- Worker 3 Row -->
   <text x="30" y="164" fill="var(--grey-lighter)" font-size="15" font-weight="normal">Worker 3</text>
   <rect x="140" y="145" width="250" height="28" rx="5" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="265" y="164" fill="var(--grey-lighter)" font-size="13" font-weight="normal" text-anchor="middle">Busy (5.0s)</text>
-  <rect x="390" y="145" width="100" height="28" rx="5" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" stroke-dasharray="3 2" />
+  <rect x="390" y="145" width="100" height="28" rx="5" fill="rgba(var(--grey-dark))" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" stroke-dasharray="3 2" />
   <text x="440" y="164" fill="var(--grey-light)" font-size="13" font-weight="normal" text-anchor="middle">Idle (2.0s)</text>
   <rect x="490" y="145" width="150" height="28" rx="5" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="565" y="164" fill="var(--grey-lighter)" font-size="13" font-weight="normal" text-anchor="middle">Busy (3.0s)</text>
-  <foreignObject x="655" y="143" width="220" height="32">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="color: var(--grey-lighter); font-size: 17px; font-family: var(--family-sans); line-height: 32px;">
-      $T_{\text{busy}} = 8.0\text{ s } (80\%)$
-    </div>
-  </foreignObject>
+  <text x="660" y="164" fill="var(--grey-lighter)" font-size="15" font-weight="500">T<tspan font-size="11" dy="2">busy</tspan><tspan font-size="15" dy="-2"> = 8.0 s (80%)</tspan></text>
   <!-- Time Axis -->
   <line x1="140" y1="200" x2="650" y2="200" stroke="var(--grey-light)" stroke-width="2" marker-end="url(#arrow-themed-util)" />
   <!-- Ticks -->
@@ -408,23 +354,15 @@ At any single instant $t$, a worker core is in a binary state (computing or idle
   <text x="540" y="222" fill="var(--grey-light)" font-size="14" font-weight="normal" text-anchor="middle">8s</text>
   <line x1="640" y1="194" x2="640" y2="206" stroke="var(--grey-lighter)" stroke-width="2" />
   <text x="640" y="222" fill="var(--grey-light)" font-size="14" font-weight="normal" text-anchor="middle">10.0s</text>
-  <foreignObject x="655" y="186" width="220" height="32">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="color: var(--grey-lighter); font-size: 17px; font-family: var(--family-sans); line-height: 32px;">
-      $T_{\text{total}} = 10.0\text{ s } (c = 3)$
-    </div>
-  </foreignObject>
+  <text x="660" y="205" fill="var(--grey-light)" font-size="14">T<tspan font-size="10" dy="2">total</tspan><tspan font-size="14" dy="-2"> = 10.0 s (c = 3)</tspan></text>
   <!-- Utilization Metric Footer with Step-by-Step Calculation -->
-  <foreignObject x="20" y="250" width="840" height="75">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="color: var(--grey-lighter); font-size: 20px; font-weight: normal; text-align: center; font-family: var(--family-sans); line-height: 1.55;">
-      <div>$\text{Utilization } (\rho) = \frac{\sum T_{\text{busy}}}{c \cdot T_{\text{total}}} = \frac{8.0\text{ s} + 7.4\text{ s} + 8.0\text{ s}}{3 \times 10.0\text{ s}} = \frac{23.4\text{ s}}{30.0\text{ s}} = 78.0\%$</div>
-      <div style="margin-top: 5px; color: var(--grey-lighter); font-size: 18px;">$\text{Available Headroom } (1 - \rho) = 100\% - 78.0\% = 22.0\%$</div>
-    </div>
-  </foreignObject>
+  <text x="440" y="275" fill="var(--grey-lighter)" font-size="17" font-weight="600" text-anchor="middle">Utilization (ρ) = Σ T<tspan font-size="12" dy="3">busy</tspan><tspan font-size="17" dy="-3"> / (c · T</tspan><tspan font-size="12" dy="3">total</tspan><tspan font-size="17" dy="-3">) = 23.4 s / 30.0 s = </tspan><tspan fill="rgb(var(--primary))" font-weight="700">78.0%</tspan></text>
+  <text x="440" y="305" fill="var(--grey-light)" font-size="15" text-anchor="middle">Available Headroom (1 − ρ) = 100% − 78.0% = <tspan fill="var(--grey-lighter)" font-weight="600">22.0%</tspan></text>
 </svg>
 </div>
 
 - **Under-Utilized ($\rho < 0.5$)**: Workers are frequently idle. Incoming requests find an idle worker immediately with near-zero queue wait ($W_q \approx 0$), achieving the minimum latency floor ($W \approx S = 1/\mu$).
-- **Operational Knee ($\rho \approx 0.7 - 0.8$)**: Balances high hardware efficiency with sufficient buffer headroom ($1 - \rho \approx 20\%\text{--}30\%$) to absorb traffic bursts without queue buildup.
+- **Operational Knee ($\rho \approx 0.7 - 0.8$)**: Balances high hardware efficiency with sufficient buffer headroom ($1 - \rho \approx 20\%-30\%$) to absorb traffic bursts without queue buildup.
 - **Saturation Limit ($\rho \to 1.0$)**: Worker duty cycles reach 100%. Incoming requests find all servers occupied, causing queue wait times ($W_q$) to surge.
 
 ## Live Simulation: Stochastic Queuing & Utilization
@@ -454,7 +392,7 @@ The simulation below demonstrates this 24-hour diurnal wave. Toggle between **St
 | :--- | :--- | :--- |
 | **Latency ($L, W$)** | $L = 2 \cdot t_{\text{net}} + W_q + S$ | Separate network transit from server processing ($W = W_q + S$). Track percentiles ($P_{50}, P_{90}, P_{99}$) rather than averages. |
 | **Throughput ($\lambda$)** | $\lambda = \frac{N_{\text{completed}}}{\Delta t}$ | In-flight concurrency follows Little's Law ($N_{\text{in-flight}} = \lambda \cdot W$). Sustained throughput requires $\lambda \le c \cdot \mu$. |
-| **Utilization ($\rho$)** | $\rho = \frac{\sum T_{\text{busy}}}{c \cdot T_{\text{total}}}$ | Target the **operational knee** ($\rho \approx 70\%\text{--}80\%$). Operating at $100\%$ removes the burst headroom ($1 - \rho$) needed to prevent queuing delay. |
+| **Utilization ($\rho$)** | $\rho = \frac{\sum T_{\text{busy}}}{c \cdot T_{\text{total}}}$ | Target the **operational knee** ($\rho \approx 70\%-80\%$). Operating at $100\%$ removes the burst headroom ($1 - \rho$) needed to prevent queuing delay. |
 | **Diurnal Elasticity** | $\lambda(t) \text{ vs } C(t) = c(t) \cdot \mu$ | Static sizing balances idle waste against peak saturation. Autoscaling matches capacity to demand. |
 
 *This note and its interactive queuing simulation engines were co-authored in pair programming with [Antigravity (Agy)](https://antigravity.google).*

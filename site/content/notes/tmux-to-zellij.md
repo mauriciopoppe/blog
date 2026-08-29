@@ -71,20 +71,34 @@ I ended up writing a shell script called [`zellij-switch-session`](https://githu
 
 {{< figure src="/images/zellij-switch-session.gif" caption="Demo of switching sessions with Zellij" >}}
 
+## Feature & Workflow Comparison
+
+| Capability | Tmux Setup | Zellij |
+| :--- | :--- | :--- |
+| **Session Switching** | Instant fuzzy jump with `switch-client` + `fzf` | Built-in session UI or third-party CLI plugin |
+| **Last-Session Toggle** | Native `switch-client -l` (instant back-and-forth) | Manual name selection in session manager |
+| **Neovim Navigation** | Native `vim-tmux-navigator` (seamless socket check) | Requires `zellij-autolock` / `smart-splits.nvim` |
+| **Scriptability** | Fully headless via `tmux send-keys` & IPC | Action CLI & WebAssembly plugin architecture |
+| **Config Syntax** | Flat `tmux.conf` (UNIX style) | Structured [KDL](https://kdl.dev/) format |
+| **Pane Recovery** | `respawn-pane -k` to unwedge hung processes | Re-attach or kill pane from action menu |
+| **Discoverability** | Cheatsheets and manual status bar configs | Built-in command mode toolbar (`which-key` style) |
+
 ## The Verdict
 
 After using Zellij for three weeks, I went back to Tmux. There are several things I liked about Zellij:
 
-- **Editor Integration**: Being able to open the current pane's output directly in Neovim for searching is great.
-- **Discovery**: The command toolbar is a great way to learn shortcuts without constantly checking a cheatsheet.
-- **Layout Isolation**: Resizing a pane from within (like opening a debugger UI in Vim) doesn't mess up the rest of the window's layout.
-- **Persistent Zoom**: If you zoom into a pane, it stays zoomed even if you switch to another pane and back.
+- **Editor Integration**: Opening the current pane's scrollback output directly in Neovim for searching is fast and natural.
+- **Discovery**: The command toolbar provides an intuitive way to learn shortcuts without constantly referencing a cheatsheet.
+- **Layout Isolation**: Resizing a pane from within (such as opening a debugger UI in Vim) does not distort the rest of the window's layout.
+- **Persistent Zoom**: If you zoom into a pane, it stays zoomed even when switching across tabs or panes.
 
-However, I encountered friction with the following:
+However, I encountered friction with several core power-user requirements:
 
-- **No "Last Session" Shortcut**: Tmux has a native way to toggle between your current and previous session (`switch-client -l`). I use this constantly. In Zellij, I'd have to type out the session name or use the launcher every time.
-- **No Mouse Resizing**: I couldn't find a way to resize panes with the mouse, I had to use keybindings for everything.
-- **Unresponsive Panes**: If a pane gets stuck, Tmux lets me `respawn-pane -k` to force-restart it. I couldn't find an easy equivalent in Zellij.
-- **Layout Quirks**: I ran into a few bugs where temporary panes would cause the layout to shift unexpectedly after switching sessions.
+- **No "Last Session" Shortcut**: Tmux provides a native way to toggle between current and previous sessions (`switch-client -l`). In Zellij, jumping between two active workspaces requires typing out the session name or opening the picker every time.
+- **Mouse Resizing**: Adjusting split dimensions with click-and-drag mouse events required extra keybinding modes.
+- **Unresponsive Panes**: If a build process or SSH tunnel hangs, Tmux lets you immediately run `respawn-pane -k` to restart it without destroying pane geometry.
+- **Layout Synchronization**: Temporary floating panes occasionally caused background pane layouts to shift unexpectedly across session restores.
 
-Zellij is a great project, and for many people, the out-of-the-box experience will be much better than Tmux. But for my specific, script-heavy workflow, Tmux's simplicity is still hard to beat.
+Zellij is an impressive project with active development. For engineers looking for a modern, batteries-included terminal multiplexer with zero initial configuration, Zellij offers a welcoming experience. But for terminal workflows built around headless shell orchestration, `fzf` pipeline integration, and fast SSH session switching, Tmux's lightweight scriptability remains the gold standard.
+
+For a deeper look into the surrounding terminal setup (including Neovim configuration, Zsh aliases, and dotfiles management), see my [Productivity & Terminal Workflow](../productivity-skills/) note.

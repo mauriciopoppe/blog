@@ -489,4 +489,6 @@ for trial in optimal_trials:
 3. **The Pareto Frontier formalizes non-dominated efficiency**: Systems engineers must aim for the frontier envelope rather than arbitrary local optima.
 4. **Automate frontier discovery**: Optimization toolkits like **Optuna** and **Google Vizier** systematically trace the Pareto frontier across high-dimensional parameter spaces without costly manual trial and error.
 
+*This note and its interactive Pareto frontier simulator were co-authored in pair programming with [Antigravity (Agy)](https://antigravity.google).*
+
 <script type="module" src="/js/ai/pareto-frontier.js"></script>

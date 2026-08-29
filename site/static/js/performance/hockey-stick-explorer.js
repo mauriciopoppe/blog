@@ -33,13 +33,13 @@ export function initHockeyStickExplorer(containerId = '#hockey-stick-explorer') 
   let currentRho = 0.75; // 75% default
 
   container.innerHTML = `
-    <div style="width: 100%; box-sizing: border-box; background: var(--grey-darker); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 18px; font-family: var(--family-sans, system-ui, sans-serif);">
+    <div style="width: 100%; box-sizing: border-box; background: var(--grey-darker); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 14px; font-family: var(--family-sans, system-ui, sans-serif);">
       <!-- Single Minimal Header Slider -->
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 14px;">
-        <div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 260px;">
-          <span style="font-size: 0.85rem; font-weight: 600; color: var(--grey-lighter); white-space: nowrap;">Service Time ($S$):</span>
-          <input type="range" id="slider-service-time" min="2" max="50" step="1" value="10" style="flex: 1; accent-color: rgb(var(--primary)); cursor: pointer;">
-          <strong id="label-service-time" style="color: rgb(var(--primary)); font-size: 0.95rem; min-width: 50px;">10 ms</strong>
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
+        <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 200px; max-width: 100%;">
+          <span style="font-size: 0.82rem; font-weight: 600; color: var(--grey-lighter); white-space: nowrap;">Service Time ($S$):</span>
+          <input type="range" id="slider-service-time" min="2" max="50" step="1" value="10" style="flex: 1; min-width: 60px; accent-color: rgb(var(--primary)); cursor: pointer;">
+          <strong id="label-service-time" style="color: rgb(var(--primary)); font-size: 0.9rem; min-width: 42px; text-align: right;">10 ms</strong>
         </div>
         <div style="font-size: 0.75rem; color: var(--grey-light);">
           <span>✦ Hover or drag across graph to inspect any load point</span>

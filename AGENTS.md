@@ -97,6 +97,10 @@ This document captures development workflows, architecture rules, system quirks,
 ### Self-Contained SVG `<defs>`
 - When using markers (such as arrowheads `marker-end="url(#arrow-id)"`), define a unique `<defs><marker id="..."></marker></defs>` inside each `<svg>` rather than relying on cross-SVG definitions.
 
+### Critical Rule: Never Use `<foreignObject>` in Responsive SVGs
+- **The Issue**: WebKit (Safari, Chrome on iOS) has a notorious rendering bug where HTML DOM elements inside `<foreignObject>` do not scale when the SVG's `viewBox` shrinks to fit mobile viewports. The SVG container scales down, but the `<foreignObject>` contents stay rendered at unscaled pixel coordinates, spilling outside the SVG container and overlapping article paragraphs.
+- **The Rule**: Always use **native SVG `<text>` and `<tspan>` elements** for labels and mathematical subscripts/superscripts inside SVGs (e.g. `<text x="100" y="50">W<tspan font-size="11" dy="2">q</tspan><tspan font-size="14" dy="-2"> + S</tspan></text>`). Native SVG text scales with mathematical precision across all browser engines.
+
 ---
 
 ## 4. LaTeX & Math Rendering
@@ -194,6 +198,9 @@ All interactive modules are self-contained ES6 modules without global UMD librar
 
   // Three.js
   import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js';
+
+  // FunctionPlot (use esm.sh bundle for correct interval-arithmetic sub-dependencies)
+  import functionPlot from 'https://esm.sh/function-plot@1.25.4';
 
   // Greuler
   import greuler from 'https://cdn.jsdelivr.net/npm/greuler@1.0.0/+esm';

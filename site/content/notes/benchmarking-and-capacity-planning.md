@@ -119,7 +119,11 @@ $$
 Instead of arbitrary numbers, frame percentile SLAs as **multipliers of the baseline service duration ($S$)**, bounded by an OS jitter noise floor ($t_{\text{floor}} \approx 1\text{ to } 2\text{ ms}$ for sub-millisecond endpoints):
 
 $$
-P_{50} \le 1.5 \times S, \quad P_{95} \le 3.0 \times S, \quad P_{99} \le \max(4.0 \times S, t_{\text{floor}})
+\begin{aligned}
+P_{50} &\le 1.5 \times S \\\\
+P_{95} &\le 3.0 \times S \\\\
+P_{99} &\le \max(4.0 \times S, t_{\text{floor}})
+\end{aligned}
 $$
 
 These multipliers map directly to practical operational zones in pooled systems:
@@ -550,7 +554,10 @@ To eliminate Coordinated Omission, modern load testing tools use **open-loop, ra
 - **Schedule Delay Tracking**: Measure total response time ($L_{\text{true}}$) starting from the intended schedule time rather than the actual socket write time:
 
 $$
-L_{\text{true}} = t_{\text{response}} - t_{\text{scheduled}} = \underbrace{(t_{\text{dispatch}} - t_{\text{scheduled}})}\_{\text{Schedule Delay}} + \underbrace{(t_{\text{response}} - t_{\text{dispatch}})}\_{\text{Server Latency}}
+\begin{aligned}
+L_{\text{true}} &= t_{\text{response}} - t_{\text{scheduled}} \\\\
+&= \underbrace{(t_{\text{dispatch}} - t_{\text{scheduled}})}\_{\text{Schedule Delay}} + \underbrace{(t_{\text{response}} - t_{\text{dispatch}})}\_{\text{Server Latency}}
+\end{aligned}
 $$
 
 - **Accumulated Backlog Accounting**: If the server stalls, every request accumulating in the queue receives its full schedule penalty, faithfully reporting the true production tail percentiles ($P_{99}$, $P_{99.9}$).

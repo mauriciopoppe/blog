@@ -84,7 +84,7 @@ $$
 
 Applying the formulas to our baseline worker handling $\lambda = 50\text{ req/s}$ with service time $S = 10\text{ ms}$ (service capacity $\mu = 100\text{ req/s}$, utilization $\rho = \frac{\lambda}{\mu} = 0.50$):
 
-| Jobs Ahead ($k$) | Wait Time ($k \times S$) | Probability ($P(N=k) = (1-\rho)\rho^k$) | Weighted Contribution |
+| Jobs ($k$) | Wait ($k \cdot S$) | Probability ($P_k$) | Contribution |
 | :--- | :--- | :--- | :--- |
 | $k = 0$ (Idle) | $0\text{ ms}$ | $(1 - 0.5) \cdot 0.5^0 = 0.50$ (50%) | $0\text{ ms} \times 0.50 = \mathbf{0\text{ ms}}$ |
 | $k = 1$ | $10\text{ ms}$ | $(1 - 0.5) \cdot 0.5^1 = 0.25$ (25%) | $10\text{ ms} \times 0.25 = \mathbf{2.5\text{ ms}}$ |
@@ -516,10 +516,10 @@ $$W_q = W - S = \frac{S}{1 - \rho} - S = \left(\frac{\rho}{1 - \rho}\right) \cdo
 
 When sizing server clusters or diagnosing latency regressions, translate target utilization ($\rho$) directly into **task durations of queue wait ($W_q = \text{Multiplier} \times S$)**:
 
-| Utilization ($\rho$) | Queue Multiplier ($\frac{\rho}{1-\rho}$) | Queue Wait ($W_q$) | Total Response Time ($W$) | Operating State |
+| Utilization ($\rho$) | Multiplier ($\frac{\rho}{1-\rho}$) | Wait ($W_q$) | Total ($W$) | Operating State |
 | :--- | :--- | :--- | :--- | :--- |
 | **0%** | $0.0\times$ | **$0 \times S$** ($0\text{ ms}$) | **$1.0\times$** ($10\text{ ms}$) | **Idle**: Zero contention, requests execute immediately. |
-| **50%** | $1.0\times$ | **$1 \times S$** ($10\text{ ms}$) | **$2.0\times$** ($20\text{ ms}$) | **Safe Zone**: Wait time equals exactly one task duration ($W_q = S$). |
+| **50%** | $1.0\times$ | **$1 \times S$** ($10\text{ ms}$) | **$2.0\times$** ($20\text{ ms}$) | **Safe Zone**: Wait time equals one task duration ($W_q = S$). |
 | **75%** | $3.0\times$ | **$3 \times S$** ($30\text{ ms}$) | **$4.0\times$** ($40\text{ ms}$) | **The Operational Knee**: Maximum safe steady-state target. |
 | **90%** | $9.0\times$ | **$9 \times S$** ($90\text{ ms}$) | **$10.0\times$** ($100\text{ ms}$) | **The Saturation Cliff**: Queue wait accounts for 90% of total latency. |
 | **99%** | $99.0\times$ | **$99 \times S$** ($990\text{ ms}$) | **$100.0\times$** ($1,000\text{ ms}$) | **Catastrophic Meltdown**: Buffers overflow and tail latency collapses. |
@@ -528,9 +528,11 @@ When sizing server clusters or diagnosing latency regressions, translate target 
 
 | Queuing System | Governing Formula | Systems Engineering Rule of Thumb |
 | :--- | :--- | :--- |
-| **Single-Server ($M/M/1$)** | $W = \frac{S}{1 - \rho}$ | **Target $\le 70\%$ to 75% Steady-State Load**: Latency explodes hyperbolically beyond the knee. At 50% load, queue wait equals one task duration ($W_q = S$), doubling baseline response time ($W = 2S$). Headroom is the mathematical prerequisite for absorbing bursts. |
+| **Single-Server ($M/M/1$)** | $W = \frac{S}{1 - \rho}$ | **Target $\le$ 70% to 75% Steady-State Load**: Latency explodes hyperbolically beyond the knee. At 50% load, queue wait equals one task duration ($W_q = S$), doubling baseline response time ($W = 2S$). Headroom is the mathematical prerequisite for absorbing bursts. |
 | **Service Variance ($M/G/1$)** | $W_q = \frac{\rho S}{1-\rho} \left(\frac{1 + C_v^2}{2}\right)$ | **Isolate Variance ($C_v \to 0$)**: Service variance inflates queue wait times linearly via Head-of-Line blocking. Segregate slow batch or analytical queries from fast interactive requests, and set strict execution timeouts. |
 | **Multi-Server Pooling ($M/M/c$)** | $W_q = \frac{C(c, a) \cdot S}{c(1 - \rho)}$ | **Pool Queues Across Workers**: Prefer 1 shared queue across $N$ worker threads ($M/M/N$) over $N$ isolated queues ($N \times M/M/1$) to eliminate idle worker waste and cut average queue delay by roughly a factor of $c$. |
+
+*This note and its interactive queuing simulation engines were co-authored in pair programming with [Antigravity (Agy)](https://antigravity.google).*
 
 <script type="module" src="/js/performance/coin-flip-simulator.js"></script>
 <script type="module" src="/js/performance/hockey-stick-explorer.js"></script>
