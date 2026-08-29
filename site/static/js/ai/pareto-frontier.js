@@ -60,19 +60,19 @@ export function initParetoPlayground(containerId = '#interactive-pareto-playgrou
       <!-- Metrics Readout Card -->
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; background: var(--grey-dark); padding: 12px; border-radius: 8px; text-align: center; margin-top: 14px;">
         <div>
-          <div style="font-size: 0.72rem; color: var(--grey-light); text-transform: uppercase; letter-spacing: 0.5px;">System Throughput</div>
+          <div style="font-size: 0.72rem; color: var(--grey-light); letter-spacing: 0.5px;">System Throughput</div>
           <div id="metric-tps" style="font-size: 1.25rem; font-weight: bold; color: rgb(var(--primary));">3,450 TPS</div>
         </div>
         <div>
-          <div style="font-size: 0.72rem; color: var(--grey-light); text-transform: uppercase; letter-spacing: 0.5px;">P99 TTFT</div>
+          <div style="font-size: 0.72rem; color: var(--grey-light); letter-spacing: 0.5px;">P99 TTFT</div>
           <div id="metric-ttft" style="font-size: 1.25rem; font-weight: bold; color: var(--grey-lighter);">185 ms</div>
         </div>
         <div>
-          <div style="font-size: 0.72rem; color: var(--grey-light); text-transform: uppercase; letter-spacing: 0.5px;">P99 TPOT</div>
+          <div style="font-size: 0.72rem; color: var(--grey-light); letter-spacing: 0.5px;">P99 TPOT</div>
           <div id="metric-tpot" style="font-size: 1.25rem; font-weight: bold; color: var(--grey-lighter);">24.2 ms</div>
         </div>
         <div>
-          <div style="font-size: 0.72rem; color: var(--grey-light); text-transform: uppercase; letter-spacing: 0.5px;">Est. GPU VRAM</div>
+          <div style="font-size: 0.72rem; color: var(--grey-light); letter-spacing: 0.5px;">Est. GPU VRAM</div>
           <div id="metric-vram" style="font-size: 1.25rem; font-weight: bold; color: var(--grey-lighter);">19.8 GB</div>
         </div>
       </div>
