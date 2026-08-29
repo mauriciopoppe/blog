@@ -5,221 +5,159 @@ summary: |
   Taking multiple matrices, each encoding a single transformation, and combining them
   is how we transform vectors between different spaces. This article covers creating a
   transformation matrix that combines a rotation followed by a translation, a translation
-  followed by a rotation, and creating transformation matrices to transform between different
-  coordinate systems.
+  followed by a rotation, and why the order of the multiplication matters.
 image: /images/scaling-rotation-translation.png
 tags: ["computer graphics", "transformation matrix", "linear algebra"]
-libraries: ["math"]
+libraries: ["katex"]
+interactive: true
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 ---
 
-This article is part 5 in the series about transformation matrices:
+Multiplying a vector by a matrix applies one transformation. Multiplying two matrices produces a third matrix that applies both transformations in sequence, so a chain of transformations collapses into a single matrix.
 
-- [Part 1: Coordinate systems and transformations between them](../coordinate-systems/)
-- [Part 2: Scaling objects with a transformation matrix](../scale/)
-- [Part 3: Shearing objects with a transformation matrix](../shearing/)
-- [Part 4: Translating objects with a transformation matrix](../translation/)
-- **[Part 5: Combining Matrix Transformations](../combining-transformations/) (this article)**
+Rendering is one place where this matters. An object's vertices are expressed in several spaces before they reach the screen. The **model transform** $\mathbf{M}\_{\text{world} \leftarrow \text{object}}$ moves vertices from *object space* to *world space*, and the **view transform** $\mathbf{M}\_{\text{view} \leftarrow \text{world}}$ moves them from *world space* to *view space*:
 
-We can compose a series of transformations by multiplying the matrices that define the transformation. For example, if we have one object in the world with an arbitrary position and orientation that we want to render through a camera lens located in the same world, also with an arbitrary position and orientation, to get the coordinates of the object relative to the camera lens, we must transform the object from *object space* to *world space* (a transformation known as **model transform**), denoted by the matrix $\mathbf{M}\_{world \leftarrow object}$, and then transform the vertices of the object from *world space* to *view space* (a transformation known as **view transform**), denoted with $\mathbf{M}\_{view \leftarrow world}$.
+$$
+\begin{aligned}
+\mathbf{v}\_{\text{world}} &= \mathbf{M}\_{\text{world} \leftarrow \text{object}} \mathbf{v}\_{\text{object}} \\\\
+\mathbf{v}\_{\text{view}} &= \mathbf{M}\_{\text{view} \leftarrow \text{world}} \mathbf{v}\_{\text{world}} \\\\
+&= \mathbf{M}\_{\text{view} \leftarrow \text{world}} \mathbf{M}\_{\text{world} \leftarrow \text{object}} \mathbf{v}\_{\text{object}}
+\end{aligned}
+$$
 
-<div>$$
-\begin{align*}
-\mathbf{v}_{world} &= \mathbf{M}_{world \leftarrow object} \mathbf{v}_{object} \\
-\mathbf{v}_{view} &= \mathbf{M}_{view \leftarrow world} \mathbf{v}_{world} \\
-&= \mathbf{M}_{view \leftarrow world} \mathbf{M}_{world \leftarrow object}  \mathbf{v}_{object}
-\end{align*}
-$$</div>
+Because matrix multiplication composes transformations, the two hops combine into a single matrix, $\mathbf{M}\_{\text{view} \leftarrow \text{object}} = \mathbf{M}\_{\text{view} \leftarrow \text{world}} \mathbf{M}\_{\text{world} \leftarrow \text{object}}$, which transforms vertices directly from object space to view space:
 
+$$
+\begin{aligned}
+\mathbf{v}\_{\text{view}} &= (\mathbf{M}\_{\text{view} \leftarrow \text{world}} \mathbf{M}\_{\text{world} \leftarrow \text{object}})\mathbf{v}\_{\text{object}} \\\\
+&= \mathbf{M}\_{\text{view} \leftarrow \text{object}} \mathbf{v}\_{\text{object}}
+\end{aligned}
+$$
 
-We can associate the transformation matrices and have a single matrix to transform vertices of the object directly to *camera space*:
-
-<div>$$
-\begin{align*}
-\mathbf{v}_{view} &= (\mathbf{M}_{view \leftarrow world} \mathbf{M}_{world \leftarrow object})\mathbf{v}_{object} \\
- &= \mathbf{M}_{view \leftarrow object} \mathbf{v}_{object}
-\end{align*}
-$$</div>
-
-Now, if we have two transformation matrices $\mathbf{M}$ and $\mathbf{N}$ and they are applied to some vector $\mathbf{v}$ in that respective order, their product is:
-
-<div>$$
-\begin{align*}
-\mathbf{NM} = \begin{bmatrix}
-\mathbf{\cuv{s}} &
-\mathbf{\cuv{t}} &
-\mathbf{\cuv{u}}
-\end{bmatrix}
-\begin{bmatrix}
-\mathbf{\cuv{p}} &
-\mathbf{\cuv{q}} &
-\mathbf{\cuv{r}}
-\end{bmatrix}
-= \begin{bmatrix}
-p_x \mathbf{s} + p_y \mathbf{t} + p_z \mathbf{u} \\
-q_x \mathbf{s} + q_y \mathbf{t} + q_z \mathbf{u} \\
-r_x \mathbf{s} + r_y \mathbf{t} + r_z \mathbf{u} \\
-\end{bmatrix}^T
-\end{align*}
-$$</div>
-
-We can see that the rows of the product $\mathbf{NM}$ are the result of transforming the basis vectors of $\mathbf{M}$ by the transformation matrix $\mathbf{N}$, so matrix-matrix multiplication encodes a basis vectors transformation.
+Order matters: $\mathbf{T}\mathbf{R}$ and $\mathbf{R}\mathbf{T}$ give different results, and the rest of this article shows why. The same composition powers the [view transform](/notes/computer-graphics/viewing/view-transform/), a change between coordinate systems, covered in its own article.
 
 ## Rotation Followed by Translation
 
-Given the vector $\mathbf{v}$, let's apply a rotation and a translation transform in that order:
+Apply a rotation and then a translation to a vector $\mathbf{v}$:
 
-<div>$$
-\mathbf{v'} = \mathbf{TRv}
-$$</div>
+$$
+\mathbf{v}^\prime = \mathbf{T} \mathbf{R} \mathbf{v}
+$$
 
-Let's analyze the product $\mathbf{TR}$:
+Multiplying the two matrices gives:
 
-<div>$$
-\mathbf{TR} = \begin{bmatrix}
-I_{3 \times 3} & T_{3 \times 1} \\
-0_{1 \times 3} & 1
+$$
+\mathbf{T} \mathbf{R} = \begin{bmatrix}
+\mathbf{I}\_{3 \times 3} & \mathbf{T}\_{3 \times 1} \\\\
+\mathbf{0}\_{1 \times 3} & 1
 \end{bmatrix} \begin{bmatrix}
-R_{3 \times 3} & 0_{3 \times 1} \\
-0_{1 \times 3} & 1
+\mathbf{R}\_{3 \times 3} & \mathbf{0}\_{3 \times 1} \\\\
+\mathbf{0}\_{1 \times 3} & 1
 \end{bmatrix} = \begin{bmatrix}
-R_{3 \times 3} & T_{3 \times 1} \\
-0_{1 \times 3} & 1
+\mathbf{R}\_{3 \times 3} & \mathbf{T}\_{3 \times 1} \\\\
+\mathbf{0}\_{1 \times 3} & 1
 \end{bmatrix}
-$$</div>
+$$
 
-Which, when multiplied by $\mathbf{v}$, results in:
+Applied to $\mathbf{v}$:
 
-<div>$$
-\mathbf{v'} = \mathbf{TRv} = \begin{bmatrix}
-R_{3 \times 3} & T_{3 \times 1} \\
-0_{1 \times 3} & 1
-\end{bmatrix} \begin{bmatrix} \mathbf{v}_{3 \times 1} \\ 1 \end{bmatrix} = \begin{bmatrix} R_{3 \times 3} \mathbf{v}_{3 \times 1} + T_{3 \times 1} \\ 1 \end{bmatrix}
-$$</div>
+$$
+\mathbf{v}^\prime = \mathbf{T} \mathbf{R} \mathbf{v} = \begin{bmatrix}
+\mathbf{R}\_{3 \times 3} & \mathbf{T}\_{3 \times 1} \\\\
+\mathbf{0}\_{1 \times 3} & 1
+\end{bmatrix} \begin{bmatrix} \mathbf{v}\_{3 \times 1} \\\\ 1 \end{bmatrix} = \begin{bmatrix} \mathbf{R}\_{3 \times 3} \mathbf{v}\_{3 \times 1} + \mathbf{T}\_{3 \times 1} \\\\ 1 \end{bmatrix}
+$$
 
-$\mathbf{v'}$ will have a compact form equal to:
+In compact form:
 
-<div>$$
-\mathbf{v'} = \mathbf{TRv} = \mathbf{Rv} + T_{3 \times 1}
-$$</div>
+$$
+\mathbf{v}^\prime = \mathbf{T} \mathbf{R} \mathbf{v} = \mathbf{R} \mathbf{v} + \mathbf{T}\_{3 \times 1}
+$$
 
 ## Translation Followed by Rotation
 
-Given the vector $\mathbf{v}$, let's apply a translation and a rotation transform in that order:
+Apply a translation and then a rotation to the same vector $\mathbf{v}$:
 
-<div>$$
-\mathbf{v'} = \mathbf{RTv}
-$$</div>
+$$
+\mathbf{v}^\prime = \mathbf{R} \mathbf{T} \mathbf{v}
+$$
 
-Let's analyze the product $\mathbf{RT}$:
+Multiplying the two matrices in this order gives:
 
-<div>$$
-\mathbf{RT} = \begin{bmatrix}
-R_{3 \times 3} & 0_{3 \times 1} \\
-0_{1 \times 3} & 1
+$$
+\mathbf{R} \mathbf{T} = \begin{bmatrix}
+\mathbf{R}\_{3 \times 3} & \mathbf{0}\_{3 \times 1} \\\\
+\mathbf{0}\_{1 \times 3} & 1
 \end{bmatrix} \begin{bmatrix}
-I_{3 \times 3} & T_{3 \times 1} \\
-0_{1 \times 3} & 1
+\mathbf{I}\_{3 \times 3} & \mathbf{T}\_{3 \times 1} \\\\
+\mathbf{0}\_{1 \times 3} & 1
 \end{bmatrix} = \begin{bmatrix}
-R_{3 \times 3} & R_{3 \times 3} T_{3 \times 1} \\
-0_{1 \times 3} & 1
+\mathbf{R}\_{3 \times 3} & \mathbf{R}\_{3 \times 3} \mathbf{T}\_{3 \times 1} \\\\
+\mathbf{0}\_{1 \times 3} & 1
 \end{bmatrix}
-$$</div>
+$$
 
-Which, when multiplied by $\mathbf{v}$, results in:
+Applied to $\mathbf{v}$:
 
-<div>$$
-\mathbf{v'} = \mathbf{TRv} = \begin{bmatrix}
-R_{3 \times 3} & R_{3 \times 3} T_{3 \times 1} \\
-0_{1 \times 3} & 1
-\end{bmatrix} \begin{bmatrix} \mathbf{v}_{3 \times 1} \\ 1 \end{bmatrix} = \begin{bmatrix} R_{3 \times 3} \mathbf{v}_{3 \times 1} + R_{3 \times 3} T_{3 \times 1} \\ 1 \end{bmatrix}
-$$</div>
+$$
+\mathbf{v}^\prime = \mathbf{R} \mathbf{T} \mathbf{v} = \begin{bmatrix}
+\mathbf{R}\_{3 \times 3} & \mathbf{R}\_{3 \times 3} \mathbf{T}\_{3 \times 1} \\\\
+\mathbf{0}\_{1 \times 3} & 1
+\end{bmatrix} \begin{bmatrix} \mathbf{v}\_{3 \times 1} \\\\ 1 \end{bmatrix} = \begin{bmatrix} \mathbf{R}\_{3 \times 3} \mathbf{v}\_{3 \times 1} + \mathbf{R}\_{3 \times 3} \mathbf{T}\_{3 \times 1} \\\\ 1 \end{bmatrix}
+$$
 
-$\mathbf{v'}$ will have a compact form equal to:
+In compact form:
 
-<div>$$
-\mathbf{v'} = \mathbf{RTv} = \mathbf{Rv} + \mathbf{R}T_{3 \times 1}
-$$</div>
+$$
+\mathbf{v}^\prime = \mathbf{R} \mathbf{T} \mathbf{v} = \mathbf{R} \mathbf{v} + \mathbf{R}\mathbf{T}\_{3 \times 1}
+$$
 
-Note that both the vector $\mathbf{v}$ and the translation vector are transformed by $\mathbf{R}$.
+Note that both the vector $\mathbf{v}$ and the translation are transformed by $\mathbf{R}$.
 
-## Transformations Between Coordinate Systems
+## The Product of Two Transformations
 
-The following figure shows two coordinate systems. The one with the basis vectors $\mathbf{x}, \mathbf{y}$, and $\mathbf{z}$ is the canonical coordinate system. $\mathbf{u}, \mathbf{v}$, and $\mathbf{w}$ are the basis of a nested coordinate system expressed in terms of the canonical coordinate system.
+The two products differ because of a general property of matrix multiplication. For two transformation matrices $\mathbf{M}$ and $\mathbf{N}$ applied to a vector in that order, the product is:
 
-{{< figure src="/images/combining-transformations!coordinate-systems.jpg" title="Coordinate Systems" >}}
+$$
+\mathbf{NM} = \begin{bmatrix}
+\mathbf{\hat{s}} &
+\mathbf{\hat{t}} &
+\mathbf{\hat{u}}
+\end{bmatrix}
+\begin{bmatrix}
+\mathbf{\hat{p}} &
+\mathbf{\hat{q}} &
+\mathbf{\hat{r}}
+\end{bmatrix}
+= \begin{bmatrix}
+p\_x \mathbf{s} + p\_y \mathbf{t} + p\_z \mathbf{u} \\\\
+q\_x \mathbf{s} + q\_y \mathbf{t} + q\_z \mathbf{u} \\\\
+r\_x \mathbf{s} + r\_y \mathbf{t} + r\_z \mathbf{u}
+\end{bmatrix}^T
+$$
 
-The value of $\mathbf{p}$ expressed in the canonical coordinate system is:
+The rows of the product are the result of transforming the basis vectors of $\mathbf{M}$ by the transformation matrix $\mathbf{N}$, so matrix-matrix multiplication encodes a basis transformation. In $\mathbf{T}\mathbf{R}$ the rotation acts on the vector and leaves the translation column as $\mathbf{T}$. In $\mathbf{R}\mathbf{T}$ the rotation acts on the translation as well, producing $\mathbf{R}\mathbf{T}$. In general, $\mathbf{T}\mathbf{R} \neq \mathbf{R}\mathbf{T}$.
 
-<div>$$
-\mathbf{p} = x_p \mathbf{x} + y_p \mathbf{y} + z_p \mathbf{z}
-$$</div>
+## Interactive 3D Transformation Chain Simulator
 
-Similarly, we can express $\mathbf{p}$ with the following equation:
+Matrix composition operates identically to nested function application:
 
-<div>$$
-\mathbf{p} = \mathbf{e} + u_p \mathbf{u} + v_p \mathbf{v} + w_p \mathbf{w}
-$$</div>
+$$
+(\mathbf{T} \circ \mathbf{R} \circ \mathbf{S})(\mathbf{v}) = \mathbf{T}(\mathbf{R}(\mathbf{S}(\mathbf{v}))) = \mathbf{T}\mathbf{R}\mathbf{S}\mathbf{v}
+$$
 
-Note that both equations express $\mathbf{p}$ in terms of the canonical coordinate system. We can express the same relationship using transformation matrices as a [rotation followed by a translation](#rotation-followed-by-translation):
+Because matrix-vector multiplication is functional application, transformation chains evaluate from **right to left**: the innermost transformation $\mathbf{S}$ acts first on the vector $\mathbf{v}$, followed by $\mathbf{R}$, and finally $\mathbf{T}$. Toggling between **Standard TRS** (scaling and rotating in place at the origin, then translating) versus **Orbit RTS** (translating first, which swings the object around the origin during rotation) visualizes the non-commutativity derived above ($\mathbf{TR} \neq \mathbf{RT}$). Hovering over any matrix symbol reveals its exact 4x4 matrix formulation.
 
-<div>$$
-\begin{bmatrix} x_p \\ y_p \\ z_p \\ 1 \end{bmatrix} = \begin{bmatrix}
-1 & 0 & 0 & x_e \\
-0 & 1 & 0 & y_e \\
-0 & 0 & 1 & z_e \\
-0 & 0 & 0 & 1
-\end{bmatrix} \begin{bmatrix}
-x_u & x_v & x_w & 0 \\
-y_u & y_v & y_w & 0 \\
-z_u & z_v & z_w & 0 \\
-0 & 0 & 0 & 1
-\end{bmatrix} \begin{bmatrix} u_p \\ v_p \\ w_p \\ 1 \end{bmatrix} \\
-\begin{bmatrix} x_p \\ y_p \\ z_p \\ 1 \end{bmatrix} = \begin{bmatrix}
-x_u & x_v & x_w & x_e \\
-y_u & y_v & y_w & y_e \\
-z_u & z_v & z_w & z_e \\
-0 & 0 & 0 & 1
-\end{bmatrix} \begin{bmatrix} u_p \\ v_p \\ w_p \\ 1 \end{bmatrix}
-$$</div>
+<div id="transformation-chain-simulator"></div>
 
-We can then introduce $\mathbf{p}\_{uvw}$, which is the point $\mathbf{p}$ expressed in the nested coordinate system. Similarly, $\mathbf{p}\_{xyz}$ is the same point expressed in the canonical coordinate system.
+## Key Takeaways
 
-<div>$$
-\begin{equation} \label{frame-to-canonical}
-\mathbf{p}_{xyz} = \begin{bmatrix}
-\mathbf{u}_{3 \times 1} & \mathbf{v}_{3 \times 1} & \mathbf{w}_{3 \times 1} & \mathbf{e}_{3 \times 1} \\
-0 & 0 & 0 & 1
-\end{bmatrix} \mathbf{p}_{uvw}
-\end{equation}
-$$</div>
+| Concept | Formula | Takeaway |
+| :--- | :--- | :--- |
+| **Composition** | $\mathbf{v}' = \mathbf{N}\mathbf{M}\mathbf{v}$ | Matrices apply right to left, so a chain of transformations collapses into a single matrix. |
+| **Order matters** | $\mathbf{TR} \neq \mathbf{RT}$ | Rotating after translating differs from translating after rotating. |
+| **Rotation then translation** | $\mathbf{v}' = \mathbf{R}\mathbf{v} + \mathbf{T}$ | The rotation applies first, then the translation, and the translation is never rotated. |
+| **Translation then rotation** | $\mathbf{v}' = \mathbf{R}\mathbf{v} + \mathbf{R}\mathbf{T}$ | The rotation applies last and rotates the translation along with the vector. |
 
-This is the **frame-to-canonical** transformation matrix for the $(u,v,w)$ coordinate space.
-
-The inverse transformation is given by a [translation followed by a rotation](#translation-followed-by-rotation):
-
-<div>$$
-\begin{bmatrix} u_p \\ v_p \\ w_p \\ 1 \end{bmatrix} = \begin{bmatrix}
-x_u & y_u & z_u & 0 \\
-x_v & y_v & z_v & 0 \\
-x_w & y_w & z_w & 0 \\
-0 & 0 & 0 & 1
-\end{bmatrix} \begin{bmatrix}
-1 & 0 & 0 & -x_e \\
-0 & 1 & 0 & -y_e \\
-0 & 0 & 1 & -z_e \\
-0 & 0 & 0 & 1
-\end{bmatrix} \begin{bmatrix} x_p \\ y_p \\ z_p \\ 1 \end{bmatrix}
-$$</div>
-
-Which is the same as finding the value of $\mathbf{p}_{uvw}$ in \eqref{frame-to-canonical}:
-
-<div>$$
-\mathbf{p}_{uvw} = \begin{bmatrix}
-\mathbf{u}_{3 \times 1} & \mathbf{v}_{3 \times 1} & \mathbf{w}_{3 \times 1} & \mathbf{e}_{3 \times 1} \\
-0 & 0 & 0 & 1
-\end{bmatrix}^{-1} \mathbf{p}_{xyz}
-$$</div>
-
-This is the **canonical-to-frame** transformation matrix for the $(u,v,w)$ coordinate space.
+<script type="module" src="/js/computer-graphics/combining-transformations-explorer.js"></script>
