@@ -19,6 +19,8 @@ pipeline_stage: "transforms"
 
 As seen in [projective geometry](notes/mathematics/geometry/projective-space/), the perspective phenomenon is where an object appears to be smaller the further away it is from the point of view.
 
+The rendering pipeline's perspective matrix, which maps the view frustum into the canonical cube, is derived in [The Projection Transform](/notes/computer-graphics/projection-transform/).
+
 We can again use some concepts of projective geometry to understand perspective projection, particularly the fact that any object in our 3D world is represented in the 4D projective hyperplane by the homogeneous coordinate $(x, y, z, 1)$. Now, any finite point with $w
 ot = 1$ can be projected to the 4D hyperplane $w = 1$ by dividing each coordinate by $w$, i.e., $(\tfrac{x}{w}, \tfrac{y}{w}, \tfrac{z}{w})$. A key observation in the values of $w$ is that *the higher the value of $w$, the smaller the object will be when it gets projected to the $w=1$ hyperplane*.
 

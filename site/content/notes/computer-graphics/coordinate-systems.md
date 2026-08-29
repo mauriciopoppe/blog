@@ -20,6 +20,8 @@ series: "computer-graphics-pipeline"
 pipeline_stage: "transforms"
 ---
 
+The camera's view transform applies the same machinery from the camera's point of view; see [The View Transform](/notes/computer-graphics/view-transform/).
+
 ## World space[^space], upright space, object space
 
 > Why bother having multiple spaces?

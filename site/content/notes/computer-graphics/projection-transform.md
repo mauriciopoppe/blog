@@ -32,6 +32,8 @@ $$
 
 For an orthographic projection the $w$-coordinate stays $1$ and the division is a no-op. For a perspective projection the division by $-z$ is what makes distant objects appear smaller, and the $w$-coordinate carries that division. The two cases are derived in the next sections.
 
+The basic projection primitives, projecting a point onto an axis or plane and the perspective divide, are covered in [Orthographic Projection](/notes/computer-graphics/orthographic-projection/) and [Perspective Projection](/notes/computer-graphics/perspective-projection/).
+
 ## Orthographic Projection
 
 An orthographic projection matrix is built with six parameters:

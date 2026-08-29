@@ -67,7 +67,7 @@ $$
 
 ## Computing the View Matrix
 
-The view transform is a change between coordinate systems, so the first step is to express the same point in both systems.
+The view transform is a change between coordinate systems, so the first step is to express the same point in both systems. The general space hierarchy, object space, upright space, and world space, is covered in [Coordinate Systems](/notes/computer-graphics/coordinate-systems/).
 
 Consider two coordinate systems in 3D space: the **canonical world coordinate system** with basis vectors $\mathbf{x}, \mathbf{y}, \mathbf{z}$ anchored at origin $(0,0,0)$, and a **nested coordinate system** (the camera frame built above, or any local object frame) with basis vectors $\mathbf{u}, \mathbf{v}, \mathbf{w}$ located at eye origin $\mathbf{e} = (x_e, y_e, z_e)$. The same point $\mathbf{p}$ is written $\mathbf{p}\_{\text{xyz}} = (x\_p, y\_p, z\_p)$ in the canonical system and $\mathbf{p}\_{\text{uvw}} = (u\_p, v\_p, w\_p)$ in the nested system.
 

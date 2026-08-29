@@ -2,10 +2,7 @@
 title: "Orthographic Projection"
 date: 2016-02-05 23:15:00
 summary: |
-  Orthographic projection is a fundamental projection technique that transforms objects in a higher dimension to a lower dimension. This transformation is usually used for objects in a 3D world to be rendered into a screen (a 2D surface) and in the process keeps parallel lines parallel in the lower dimension.
-  <br />
-  <br />
-  This article covers the math behind it and how to generate the transformation matrix to achieve the transformation.
+  Orthographic projection is a dimension-reducing operation: a point is projected onto an axis in 2D or a plane in 3D by zeroing the coordinate along the perpendicular direction, which keeps parallel lines parallel. This article derives the projection matrices for cardinal axes and planes, and then for an arbitrary axis or plane.
 image: https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Axonometric_projection.svg/800px-Axonometric_projection.svg.png
 tags: ["computer graphics", "orthographic projection"]
 bibliography:
@@ -20,6 +17,8 @@ pipeline_stage: "transforms"
 ## Orthographic Projection
 
 A projection is a *dimension-reducing* operation. If we apply a scale operation with $k = 0$, all the points are projected onto the perpendicular axis in 2D or the perpendicular plane in 3D of $\unit{n}$. This type of projection is called *orthographic projection*.
+
+Projecting a point onto an axis or plane is the geometric primitive behind the rendering pipeline's orthographic projection. [The Projection Transform](/notes/computer-graphics/projection-transform/) derives the matrix that maps the whole view volume into the canonical cube.
 
 ### Projection on a Cardinal Axis/Plane
 
