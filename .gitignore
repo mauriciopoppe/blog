@@ -2,6 +2,7 @@
 
 # ignore output
 /dist
+/site/public
 
 # compiled from ./src/util
 /site/layouts/_partials/*auto*

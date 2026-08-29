@@ -9,9 +9,10 @@
 <meta name="twitter:title" content="{{ . | truncate 70 }}" />
 {{- end }}
 {{- with .Params.description | default .Summary }}
-<meta name="description" content="{{ . }}">
-<meta property="og:description" content="{{ . }}">
-<meta name="twitter:description" content="{{ . | truncate 200 }}">
+{{- $cleanDesc := . | plainify | htmlUnescape | strings.TrimSpace }}
+<meta name="description" content="{{ $cleanDesc }}">
+<meta property="og:description" content="{{ $cleanDesc }}">
+<meta name="twitter:description" content="{{ $cleanDesc | truncate 200 }}">
 {{- end }}
 <meta name="author" content="{{ .Site.Params.Author.name }}"/>
 {{- with .Site.Params.favicon }}
@@ -19,11 +20,16 @@
 {{- end -}}
 
 <!-- Social Media Tags -->
-{{- with .Params.share_img | default .Params.image | default .Site.Params.logo }}
+{{- $socialImg := .Params.share_img | default .Params.image | default .Site.Params.logo }}
+{{- with $socialImg }}
 <meta property="og:image" content="{{ . | absURL }}" />
 <meta name="twitter:image" content="{{ . | absURL }}" />
 {{- end }}
+{{- if or .Params.share_img .Params.image }}
+<meta name="twitter:card" content="summary_large_image" />
+{{- else }}
 <meta name="twitter:card" content="summary" />
+{{- end }}
 {{- with .Site.Params.Author.twitter }}
 <meta name="twitter:site" content="@{{ . }}" />
 <meta name="twitter:creator" content="@{{ . }}" />
@@ -51,7 +57,7 @@
         "name": "{{ .Title | safeJS }}",
         "headline": "{{ .Title | safeJS }}",
         "alternativeHeadline": "{{ .Params.lead }}",
-        "description": {{ .Params.description | default .Summary }},
+        "description": {{ .Params.description | default .Summary | plainify | htmlUnescape | strings.TrimSpace }},
         "inLanguage": {{ .Site.LanguageCode | default "en-us" }},
         "isFamilyFriendly": "true",
         "mainEntityOfPage": {
@@ -136,8 +142,10 @@ The following is an optimization from lighthouse to inline the css in production
         <style>{{ .Content | safeCSS }}</style>
     {{ end }}
 {{ else }}
-    {{ with $stylesheet.css }}
-        <link href="{{ relURL . }}" rel="stylesheet">
+    {{ with resources.Get $stylesheet.css }}
+        <link href="{{ .RelPermalink }}" rel="stylesheet">
+    {{ else }}
+        <link href="{{ relURL $stylesheet.css }}" rel="stylesheet">
     {{ end }}
 {{ end }}
 
@@ -257,4 +265,3 @@ The following is an optimization from lighthouse to inline the css in production
     {{ if eq . "doodle" }} {{ partial "lib/doodle.html" . }} {{ end }}
   {{ end }}
 {{ end }}
-

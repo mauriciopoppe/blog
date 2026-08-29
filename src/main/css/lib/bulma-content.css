@@ -179,6 +179,13 @@
   font-size: 75%;
 }
 
+.content strong,
+.content b {
+  /* EB Garamond is only loaded at 400 and 600, so bold at 700 renders as
+   * synthesized faux bold. Use the loaded 600 weight for crisp emphasis. */
+  font-weight: 600;
+}
+
 .table-container {
   display: block;
   width: 100%;
@@ -186,61 +193,70 @@
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   contain: layout;
-  margin: 1.5rem 0;
+  margin: 2rem 0;
+  border: 1px solid var(--grey-dark);
+  border-radius: 12px;
+  background-color: var(--grey-darker);
+  font-family: var(--family-sans, system-ui, sans-serif);
+}
+
+html[data-theme=dark] .table-container {
+  border-color: var(--grey-dark);
+}
+
+html[data-theme=light] .table-container {
+  border-color: var(--grey-dark);
 }
 
 .content table {
   display: table;
   width: 100%;
-  border-collapse: separate;
+  border-collapse: collapse;
   border-spacing: 0;
   border: 1px solid var(--grey-dark);
-  border-radius: 8px;
+  border-radius: 12px;
+  overflow: hidden;
   margin: 0;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   line-height: 1.5;
+  background-color: var(--grey-darker);
+  font-family: var(--family-serif);
+}
+
+.table-container > table {
+  border: none;
+  border-radius: 0;
+  background: transparent;
 }
 
 html[data-theme=dark] .content table {
-  border-color: rgba(255, 255, 255, 0.12);
-  background-color: var(--grey-darker);
+  border-color: var(--grey-dark);
 }
 
 html[data-theme=light] .content table {
-  border-color: rgba(0, 0, 0, 0.1);
-  background-color: var(--grey-darker);
+  border-color: var(--grey-dark);
 }
 
 /* Header styling */
 .content table thead {
-  background-color: rgba(var(--primary), 0.14);
+  background-color: rgba(var(--primary), 0.12);
 }
 
 html[data-theme=light] .content table thead {
-  background-color: rgba(var(--primary), 0.12);
+  background-color: rgba(var(--primary), 0.10);
 }
 
 .content table thead th,
 .content table thead td {
   font-family: var(--family-sans);
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   letter-spacing: 0.03em;
   color: var(--grey-lighter);
-  padding: 0.55rem 0.85rem;
-  border-bottom: 2px solid rgba(var(--primary), 0.35);
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  vertical-align: middle;
-}
-
-html[data-theme=light] .content table thead th,
-html[data-theme=light] .content table thead td {
-  border-right: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.content table thead th:last-child,
-.content table thead td:last-child {
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1.5px solid rgba(var(--primary), 0.35);
   border-right: none;
+  vertical-align: middle;
 }
 
 .content table th:not([align]) {
@@ -250,35 +266,30 @@ html[data-theme=light] .content table thead td {
 /* Body cell styling */
 .content table td,
 .content table tbody th {
-  padding: 0.55rem 0.85rem;
-  vertical-align: top;
+  padding: 0.45rem 0.75rem;
+  vertical-align: middle;
   color: var(--grey-light);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  border-right: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-right: none;
 }
 
 html[data-theme=light] .content table td,
 html[data-theme=light] .content table tbody th {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  border-right: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.content table td:last-child,
-.content table tbody th:last-child {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   border-right: none;
 }
 
 /* Zebra striping and hover effect */
 .content table tbody tr:nth-child(even) {
-  background-color: rgba(var(--grey-dark), 0.35);
+  background-color: rgba(255, 255, 255, 0.02);
 }
 
 html[data-theme=light] .content table tbody tr:nth-child(even) {
-  background-color: rgba(var(--grey-dark), 0.45);
+  background-color: rgba(0, 0, 0, 0.02);
 }
 
 .content table tbody tr:hover {
-  background-color: rgba(var(--primary), 0.08);
+  background-color: rgba(var(--primary), 0.06);
   transition: background-color 0.15s ease;
 }
 
