@@ -11,7 +11,6 @@ tags: ["camera", "first-person", "pov", "euler angles", "linear algebra"]
 libraries: ["math"]
 aliases:
   - /notes/computer-graphics/viewing/camera/first-person-shot/
-series: "computer-graphics-pipeline"
 ---
 
 A first-person camera captures objects from the viewpoint of a player's character. The camera has the following characteristics:

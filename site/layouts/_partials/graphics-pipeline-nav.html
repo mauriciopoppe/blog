@@ -116,48 +116,111 @@
       Stage 1 Deep-Dive: Transformation Matrices
     </div>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px;">
-      {{ $p1 := in $currentUrl "coordinate-systems" }}
-      <a href="/notes/computer-graphics/coordinate-systems/" class="graphics-substage-link" style="background: {{ if $p1 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p1 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
-        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/combining-transformations!coordinate-systems.jpg'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      {{ $p1 := in $currentUrl "transformation-matrix" }}
+      <a href="/notes/computer-graphics/transformation-matrix/" class="graphics-substage-link" style="background: {{ if $p1 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p1 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
         <div style="position: relative; z-index: 1;">
           <div style="font-size: 11px; font-weight: 700; color: {{ if $p1 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 1</div>
-          <div style="font-size: 13px; font-weight: 600; color: {{ if $p1 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Coordinate Frames</div>
+          <div style="font-size: 13px; font-weight: 600; color: {{ if $p1 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Transformation Matrix</div>
         </div>
       </a>
 
-      {{ $p2 := in $currentUrl "/scale/" }}
-      <a href="/notes/computer-graphics/scale/" class="graphics-substage-link" style="background: {{ if $p2 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p2 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
-        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scale!arbitrary-axis.png'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      {{ $p2 := in $currentUrl "coordinate-systems" }}
+      <a href="/notes/computer-graphics/coordinate-systems/" class="graphics-substage-link" style="background: {{ if $p2 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p2 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/combining-transformations!coordinate-systems.jpg'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
         <div style="position: relative; z-index: 1;">
           <div style="font-size: 11px; font-weight: 700; color: {{ if $p2 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 2</div>
-          <div style="font-size: 13px; font-weight: 600; color: {{ if $p2 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Scaling $\mathbf{S}$</div>
+          <div style="font-size: 13px; font-weight: 600; color: {{ if $p2 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Coordinate Frames</div>
         </div>
       </a>
 
-      {{ $p3 := in $currentUrl "shearing" }}
-      <a href="/notes/computer-graphics/shearing/" class="graphics-substage-link" style="background: {{ if $p3 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p3 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
-        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/normals!transformation.jpg'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      {{ $p3 := in $currentUrl "/scale/" }}
+      <a href="/notes/computer-graphics/scale/" class="graphics-substage-link" style="background: {{ if $p3 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p3 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scale!arbitrary-axis.png'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
         <div style="position: relative; z-index: 1;">
           <div style="font-size: 11px; font-weight: 700; color: {{ if $p3 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 3</div>
-          <div style="font-size: 13px; font-weight: 600; color: {{ if $p3 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Shearing $\mathbf{H}$</div>
+          <div style="font-size: 13px; font-weight: 600; color: {{ if $p3 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Scaling $\mathbf{S}$</div>
         </div>
       </a>
 
-      {{ $p4 := in $currentUrl "translation" }}
-      <a href="/notes/computer-graphics/translation/" class="graphics-substage-link" style="background: {{ if $p4 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p4 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
-        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/affine-space!translation.jpg'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      {{ $p4 := in $currentUrl "shearing" }}
+      <a href="/notes/computer-graphics/shearing/" class="graphics-substage-link" style="background: {{ if $p4 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p4 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/normals!transformation.jpg'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
         <div style="position: relative; z-index: 1;">
           <div style="font-size: 11px; font-weight: 700; color: {{ if $p4 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 4</div>
-          <div style="font-size: 13px; font-weight: 600; color: {{ if $p4 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Translation $\mathbf{T}$</div>
+          <div style="font-size: 13px; font-weight: 600; color: {{ if $p4 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Shearing $\mathbf{H}$</div>
         </div>
       </a>
 
-      {{ $p5 := in $currentUrl "combining-transformations" }}
-      <a href="/notes/computer-graphics/combining-transformations/" class="graphics-substage-link" style="background: {{ if $p5 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p5 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
-        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      {{ $p5 := in $currentUrl "translation" }}
+      <a href="/notes/computer-graphics/translation/" class="graphics-substage-link" style="background: {{ if $p5 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p5 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/affine-space!translation.jpg'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
         <div style="position: relative; z-index: 1;">
           <div style="font-size: 11px; font-weight: 700; color: {{ if $p5 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 5</div>
-          <div style="font-size: 13px; font-weight: 600; color: {{ if $p5 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Combining $\mathbf{TRS}$</div>
+          <div style="font-size: 13px; font-weight: 600; color: {{ if $p5 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Translation $\mathbf{T}$</div>
+        </div>
+      </a>
+
+      {{ $p6 := in $currentUrl "rotation" }}
+      <a href="/notes/computer-graphics/rotation/" class="graphics-substage-link" style="background: {{ if $p6 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p6 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div style="position: relative; z-index: 1;">
+          <div style="font-size: 11px; font-weight: 700; color: {{ if $p6 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 6</div>
+          <div style="font-size: 13px; font-weight: 600; color: {{ if $p6 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Rotation $\mathbf{R}$</div>
+        </div>
+      </a>
+
+      {{ $p7 := in $currentUrl "euler-angles" }}
+      <a href="/notes/computer-graphics/euler-angles/" class="graphics-substage-link" style="background: {{ if $p7 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p7 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div style="position: relative; z-index: 1;">
+          <div style="font-size: 11px; font-weight: 700; color: {{ if $p7 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 7</div>
+          <div style="font-size: 13px; font-weight: 600; color: {{ if $p7 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Euler Angles</div>
+        </div>
+      </a>
+
+      {{ $p8 := in $currentUrl "quaternions" }}
+      <a href="/notes/computer-graphics/quaternions/" class="graphics-substage-link" style="background: {{ if $p8 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p8 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div style="position: relative; z-index: 1;">
+          <div style="font-size: 11px; font-weight: 700; color: {{ if $p8 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 8</div>
+          <div style="font-size: 13px; font-weight: 600; color: {{ if $p8 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Quaternions</div>
+        </div>
+      </a>
+
+      {{ $p9 := in $currentUrl "normals" }}
+      <a href="/notes/computer-graphics/normals/" class="graphics-substage-link" style="background: {{ if $p9 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p9 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/normals!transformation.jpg'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div style="position: relative; z-index: 1;">
+          <div style="font-size: 11px; font-weight: 700; color: {{ if $p9 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 9</div>
+          <div style="font-size: 13px; font-weight: 600; color: {{ if $p9 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Normals</div>
+        </div>
+      </a>
+
+      {{ $p10 := in $currentUrl "combining-transformations" }}
+      <a href="/notes/computer-graphics/combining-transformations/" class="graphics-substage-link" style="background: {{ if $p10 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p10 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div style="position: relative; z-index: 1;">
+          <div style="font-size: 11px; font-weight: 700; color: {{ if $p10 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 10</div>
+          <div style="font-size: 13px; font-weight: 600; color: {{ if $p10 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Combining $\mathbf{TRS}$</div>
+        </div>
+      </a>
+
+      {{ $p11 := in $currentUrl "orthographic-projection" }}
+      <a href="/notes/computer-graphics/orthographic-projection/" class="graphics-substage-link" style="background: {{ if $p11 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p11 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/projection-matrix!orthographic.png'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div style="position: relative; z-index: 1;">
+          <div style="font-size: 11px; font-weight: 700; color: {{ if $p11 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 11</div>
+          <div style="font-size: 13px; font-weight: 600; color: {{ if $p11 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Orthographic Projection</div>
+        </div>
+      </a>
+
+      {{ $p12 := in $currentUrl "perspective-projection" }}
+      <a href="/notes/computer-graphics/perspective-projection/" class="graphics-substage-link" style="background: {{ if $p12 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p12 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/projection-matrix!perspective.png'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div style="position: relative; z-index: 1;">
+          <div style="font-size: 11px; font-weight: 700; color: {{ if $p12 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 12</div>
+          <div style="font-size: 13px; font-weight: 600; color: {{ if $p12 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Perspective Projection</div>
         </div>
       </a>
     </div>
