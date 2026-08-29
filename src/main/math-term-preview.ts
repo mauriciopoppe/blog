@@ -26,6 +26,11 @@ export function formatMathSnippet(tex: string): string {
   return `<code>${tex}</code>`
 }
 
+export function renderTextWithMath(str: string): string {
+  if (!str) return ''
+  return str.replace(/\$([^$]+)\$/g, (_, math) => formatMathSnippet(math))
+}
+
 export function buildPopoverHTML(term: MathTermDefinition): string {
   const renderedSymbol = formatMathSnippet(term.symbol)
   const unitBadge = term.unit
@@ -44,7 +49,7 @@ export function buildPopoverHTML(term: MathTermDefinition): string {
     : ''
 
   const insightSection = term.insight
-    ? `<div class="math-popover-insight"><strong class="math-popover-insight-tag">Insight</strong> ${term.insight}</div>`
+    ? `<div class="math-popover-insight"><strong class="math-popover-insight-tag">Insight</strong> ${renderTextWithMath(term.insight)}</div>`
     : ''
 
   return `
@@ -58,7 +63,7 @@ export function buildPopoverHTML(term: MathTermDefinition): string {
         ${unitBadge}
       </div>
     </div>
-    <div class="math-popover-summary">${term.summary}</div>
+    <div class="math-popover-summary">${renderTextWithMath(term.summary)}</div>
     ${formulasSection}
     ${insightSection}
   `
@@ -85,7 +90,7 @@ export function initMathTermPreview(containerSelector = 'article[role=main]') {
           activeCategories = 'all'
         }
       } catch {
-        if (rawMathTerms.includes('queuing') || rawMathTerms.includes('systems') || rawMathTerms.includes('llm')) {
+        if (rawMathTerms.includes('queuing') || rawMathTerms.includes('systems') || rawMathTerms.includes('llm') || rawMathTerms.includes('graphics') || rawMathTerms.includes('calculus')) {
           activeCategories = rawMathTerms.split(',').map(s => s.trim()) as TermCategory[]
         }
       }
@@ -189,7 +194,7 @@ export function initMathTermPreview(containerSelector = 'article[role=main]') {
     const htmlContainer = katexEl.querySelector('.katex-html')
     if (!htmlContainer) return
 
-    // 1. First pass: identify composite subscript pairs (e.g. W_q, L_q, C_v)
+    // 1. First pass: identify composite subscript pairs (e.g. W_q, L_q, C_v, R_y, R_z, M_proj, etc.)
     const supsubElements = htmlContainer.querySelectorAll<HTMLElement>('.msupsub')
     supsubElements.forEach(subEl => {
       const prevEl = subEl.previousElementSibling as HTMLElement | null
@@ -205,6 +210,18 @@ export function initMathTermPreview(containerSelector = 'article[role=main]') {
         compositeKey = 'L_q'
       } else if (baseText === 'C' && subText.includes('v')) {
         compositeKey = 'Cv'
+      } else if (baseText === 'R' && (subText.includes('y') || subText.includes('z') || subText.includes('x') || subText.includes('3'))) {
+        compositeKey = 'R'
+      } else if (baseText === 'T' && (subText.includes('3') || subText.includes('1') || subText.includes('cam'))) {
+        compositeKey = 'T'
+      } else if (baseText === 'S' && subText.includes('3')) {
+        compositeKey = 'S'
+      } else if (baseText === 'M' && subText.includes('proj')) {
+        compositeKey = 'M_proj'
+      } else if (baseText === 'M' && (subText.includes('view') || (subText.includes('view') && subText.includes('world')))) {
+        compositeKey = 'M_view'
+      } else if (baseText === 'M' && (subText.includes('model') || (subText.includes('world') && subText.includes('object')))) {
+        compositeKey = 'M_model'
       }
 
       if (compositeKey && activeTerms[compositeKey]) {
@@ -232,10 +249,10 @@ export function initMathTermPreview(containerSelector = 'article[role=main]') {
   }
 
   function scanTerms() {
-    // 1. Scan explicit [data-term] elements
-    const explicitTerms = container.querySelectorAll<HTMLElement>('[data-term]')
+    // 1. Scan explicit [data-term] / [data-math-term] elements
+    const explicitTerms = container.querySelectorAll<HTMLElement>('[data-term], [data-math-term]')
     explicitTerms.forEach(el => {
-      const raw = el.getAttribute('data-term') || ''
+      const raw = el.getAttribute('data-term') || el.getAttribute('data-math-term') || ''
       const key = normalizeTermKey(raw, activeTerms)
       if (key) {
         bindElement(el, key)

@@ -10,6 +10,8 @@ import {
   SYSTEMS_TERMS,
   QUEUING_TERMS,
   LLM_TERMS,
+  GRAPHICS_TERMS,
+  CALCULUS_TERMS,
   getTermsForCategories,
   normalizeTermKey
 } from './math-terms.js'
@@ -20,9 +22,11 @@ describe('Math & Systems Term Dictionary', () => {
     expect(Object.keys(SYSTEMS_TERMS).length).toBeGreaterThan(5)
     expect(Object.keys(QUEUING_TERMS).length).toBeGreaterThan(5)
     expect(Object.keys(LLM_TERMS).length).toBeGreaterThan(3)
+    expect(Object.keys(GRAPHICS_TERMS).length).toBeGreaterThan(3)
+    expect(Object.keys(CALCULUS_TERMS).length).toBeGreaterThan(2)
 
     const allTerms = getTermsForCategories('all')
-    const requiredKeys = ['lambda', 'mu', 'rho', 'W', 'W_q', 'S', 'L', 'L_q', 'c', 'Cv', 'TTFT', 'TPOT', 'TPS', 'ITL', 'NTTFT']
+    const requiredKeys = ['lambda', 'mu', 'rho', 'W', 'W_q', 'S', 'L', 'L_q', 'c', 'Cv', 'TTFT', 'TPOT', 'TPS', 'ITL', 'NTTFT', 'M_proj', 'M_view', 'M_model', 'ndc', 'quaternion', 'derivative', 'integral']
 
     for (const key of requiredKeys) {
       const term = allTerms[key]
@@ -39,10 +43,15 @@ describe('Math & Systems Term Dictionary', () => {
     const queuingOnly = getTermsForCategories(['queuing'])
     expect(queuingOnly.W_q).toBeDefined()
     expect(queuingOnly.TTFT).toBeUndefined()
+    expect(queuingOnly.M_proj).toBeUndefined()
 
-    const llmOnly = getTermsForCategories(['llm'])
-    expect(llmOnly.TTFT).toBeDefined()
-    expect(llmOnly.W_q).toBeUndefined()
+    const graphicsOnly = getTermsForCategories(['graphics'])
+    expect(graphicsOnly.M_proj).toBeDefined()
+    expect(graphicsOnly.W_q).toBeUndefined()
+
+    const calculusOnly = getTermsForCategories(['calculus'])
+    expect(calculusOnly.derivative).toBeDefined()
+    expect(calculusOnly.M_proj).toBeUndefined()
   })
 
   it('normalizes diverse LaTeX syntax and plain aliases within active term context', () => {

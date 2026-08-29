@@ -1,0 +1,26 @@
+<div class="table-container tw-w-full tw-max-w-full tw-overflow-x-auto" style="overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; contain: layout;">
+  <table>
+    <thead>
+      {{ range .THead }}
+        <tr>
+          {{ range . }}
+            <th{{ with .Alignment }} style="text-align: {{ . }}"{{ end }}>
+              {{ .Text }}
+            </th>
+          {{ end }}
+        </tr>
+      {{ end }}
+    </thead>
+    <tbody>
+      {{ range .TBody }}
+        <tr>
+          {{ range . }}
+            <td{{ with .Alignment }} style="text-align: {{ . }}"{{ end }}>
+              {{ .Text }}
+            </td>
+          {{ end }}
+        </tr>
+      {{ end }}
+    </tbody>
+  </table>
+</div>

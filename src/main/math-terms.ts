@@ -15,8 +15,6 @@ export interface MathTermDefinition {
   insight: string
 }
 
-export type TermCategory = 'queuing' | 'systems' | 'llm'
-
 export const SYSTEMS_TERMS: Record<string, MathTermDefinition> = {
   lambda: {
     symbol: '\\lambda',
@@ -206,10 +204,177 @@ export const LLM_TERMS: Record<string, MathTermDefinition> = {
   }
 }
 
+export const GRAPHICS_TERMS: Record<string, MathTermDefinition> = {
+  S: {
+    symbol: '\\mathbf{S}',
+    name: 'Scale Matrix',
+    category: 'Computer Graphics' as any,
+    summary: 'A diagonal 4×4 affine matrix scaling geometry along local coordinate axes by factors $(s_x, s_y, s_z)$ at the origin.',
+    formulas: [
+      '\\mathbf{S}(s_x, s_y, s_z) = \\begin{bmatrix} s_x & 0 & 0 & 0 \\\\ 0 & s_y & 0 & 0 \\\\ 0 & 0 & s_z & 0 \\\\ 0 & 0 & 0 & 1 \\end{bmatrix}'
+    ],
+    insight: 'Scaling must occur at the local origin before translation. If an object is translated away first, scaling expands its distance from the origin rather than resizing in place.'
+  },
+  R: {
+    symbol: '\\mathbf{R}',
+    name: 'Rotation Matrix',
+    category: 'Computer Graphics' as any,
+    summary: 'An orthonormal 4×4 matrix rotating 3D coordinates around a coordinate axis or arbitrary vector by angle $\\theta$.',
+    formulas: [
+      '\\mathbf{R}_y(\\theta) = \\begin{bmatrix} \\cos\\theta & 0 & \\sin\\theta & 0 \\\\ 0 & 1 & 0 & 0 \\\\ -\\sin\\theta & 0 & \\cos\\theta & 0 \\\\ 0 & 0 & 0 & 1 \\end{bmatrix}'
+    ],
+    insight: 'Rotation matrices are orthogonal: their inverse is simply their transpose ($\\mathbf{R}^{-1} = \\mathbf{R}^T$), preserving lengths and angles.'
+  },
+  T: {
+    symbol: '\\mathbf{T}',
+    name: 'Translation Matrix',
+    category: 'Computer Graphics' as any,
+    summary: 'An affine 4×4 matrix displacing 3D coordinates by position offset vector $(t_x, t_y, t_z)$.',
+    formulas: [
+      '\\mathbf{T}(t_x, t_y, t_z) = \\begin{bmatrix} 1 & 0 & 0 & t_x \\\\ 0 & 1 & 0 & t_y \\\\ 0 & 0 & 1 & t_z \\\\ 0 & 0 & 0 & 1 \\end{bmatrix}'
+    ],
+    insight: 'Translation requires 4D homogeneous coordinates ($w = 1$). It displaces points while leaving directional vectors ($w = 0$) invariant.'
+  },
+  TRS: {
+    symbol: '\\mathbf{T} \\mathbf{R} \\mathbf{S}',
+    name: 'Matrix Function Composition',
+    category: 'Computer Graphics' as any,
+    summary: 'Composing affine transformations acts identically to nested function application: $(\\mathbf{T} \\circ \\mathbf{R} \\circ \\mathbf{S})(\\mathbf{v}) = \\mathbf{T}(\\mathbf{R}(\\mathbf{S}(\\mathbf{v})))$.',
+    formulas: [
+      '\\mathbf{v}\' = \\mathbf{T} \\cdot \\mathbf{R} \\cdot \\mathbf{S} \\cdot \\mathbf{v} = \\mathbf{T}(\\mathbf{R}(\\mathbf{S}(\\mathbf{v})))'
+    ],
+    insight: 'Matrices evaluate right-to-left because matrix-vector multiplication is functional application: the innermost transformation applies first.'
+  },
+  TR: {
+    symbol: '\\mathbf{T} \\mathbf{R}',
+    name: 'Rotation Followed by Translation',
+    category: 'Computer Graphics' as any,
+    summary: 'Transforms a vector by rotating first in place around the origin, then displacing by translation vector $\\mathbf{T}$.',
+    formulas: [
+      '\\mathbf{T} \\mathbf{R} = \\begin{bmatrix} \\mathbf{R}_{3 \\times 3} & \\mathbf{T}_{3 \\times 1} \\\\ \\mathbf{0}_{1 \\times 3} & 1 \\end{bmatrix}',
+      '\\mathbf{v}\' = \\mathbf{T} \\mathbf{R} \\mathbf{v} = \\mathbf{R} \\mathbf{v} + \\mathbf{T}_{3 \\times 1}'
+    ],
+    insight: 'Rotates coordinates at the local origin before translating into position, keeping the rotation centered on the object.'
+  },
+  RT: {
+    symbol: '\\mathbf{R} \\mathbf{T}',
+    name: 'Translation Followed by Rotation',
+    category: 'Computer Graphics' as any,
+    summary: 'Transforms a vector by translating first, then rotating around the global origin.',
+    formulas: [
+      '\\mathbf{R} \\mathbf{T} = \\begin{bmatrix} \\mathbf{R}_{3 \\times 3} & \\mathbf{R}_{3 \\times 3} \\mathbf{T}_{3 \\times 1} \\\\ \\mathbf{0}_{1 \\times 3} & 1 \\end{bmatrix}',
+      '\\mathbf{v}\' = \\mathbf{R} \\mathbf{T} \\mathbf{v} = \\mathbf{R} \\mathbf{v} + \\mathbf{R}\\mathbf{T}_{3 \\times 1}'
+    ],
+    insight: 'Translating first displaces the object away from the origin; the subsequent rotation rotates both the geometry and its displacement vector in an orbit around $(0, 0, 0)$.'
+  },
+  M_proj: {
+    symbol: '\\mathbf{M}_{\\text{proj}}',
+    name: 'Projection Matrix',
+    category: 'Computer Graphics' as any,
+    summary: 'Transforms 3D view-space coordinates into homogeneous clip space for perspective or orthographic projection.',
+    formulas: [
+      '\\mathbf{v}_{\\text{clip}} = \\mathbf{M}_{\\text{proj}} \\mathbf{v}_{\\text{view}}',
+      '\\mathbf{v}_{\\text{ndc}} = \\mathbf{v}_{\\text{clip}} / w_{\\text{clip}}'
+    ],
+    insight: 'Maps the 3D view frustum into the canonical unit cube. For perspective projection, z-depth is stored in the w-component to enable the perspective divide.'
+  },
+  M_view: {
+    symbol: '\\mathbf{M}_{\\text{view} \\leftarrow \\text{world}}',
+    name: 'View Transform Matrix',
+    category: 'Computer Graphics' as any,
+    summary: 'Transforms world-space coordinates into camera (view/eye) space using the camera orientation and position.',
+    formulas: [
+      '\\mathbf{v}_{\\text{view}} = \\mathbf{M}_{\\text{view} \\leftarrow \\text{world}} \\mathbf{v}_{\\text{world}} = \\mathbf{R}^T \\mathbf{T}^{-1} \\mathbf{v}_{\\text{world}}'
+    ],
+    insight: 'Moving the camera forward is mathematically equivalent to translating the entire 3D world backward by the inverse camera transform matrix.'
+  },
+  M_model: {
+    symbol: '\\mathbf{M}_{\\text{world} \\leftarrow \\text{object}}',
+    name: 'Model Transform Matrix',
+    category: 'Computer Graphics' as any,
+    summary: 'Transforms coordinates from local object space into the global world coordinate frame.',
+    formulas: [
+      '\\mathbf{v}_{\\text{world}} = \\mathbf{M}_{\\text{world} \\leftarrow \\text{object}} \\mathbf{v}_{\\text{object}}',
+      '\\mathbf{M}_{\\text{world} \\leftarrow \\text{object}} = \\mathbf{T} \\mathbf{R} \\mathbf{S}'
+    ],
+    insight: 'Composed in TRS order: geometry is first scaled at the local origin, rotated in place, and finally translated into world coordinates.'
+  },
+  ndc: {
+    symbol: '\\mathbf{v}_{\\text{ndc}}',
+    name: 'Normalized Device Coordinates',
+    category: 'Computer Graphics' as any,
+    summary: 'The canonical coordinate volume spanning [-1, 1] in x, y, and z after perspective division by w.',
+    formulas: [
+      '\\mathbf{v}_{\\text{ndc}} = [x_{\\text{clip}}/w, y_{\\text{clip}}/w, z_{\\text{clip}}/w]^T'
+    ],
+    insight: 'Clipping occurs before the divide by w to avoid dividing by zero when primitives cross behind the near plane ($w \\leq 0$).'
+  },
+  quaternion: {
+    symbol: '\\mathbf{q}',
+    name: 'Unit Quaternion',
+    category: 'Computer Graphics' as any,
+    summary: 'A 4D hypercomplex number used to represent smooth 3D rotations without gimbal lock.',
+    formulas: [
+      '\\mathbf{q} = \\cos(\\theta/2) + \\mathbf{u} \\sin(\\theta/2) = [w, x, y, z]',
+      '\\mathbf{v}\' = \\mathbf{q} \\mathbf{v} \\mathbf{q}^*'
+    ],
+    insight: 'Spherical Linear Interpolation (SLERP) on unit quaternions guarantees constant angular velocity along the shortest geodesic arc on the 4D hypersphere.'
+  },
+  homogeneous: {
+    symbol: '(x, y, z, w)',
+    name: 'Homogeneous Coordinates',
+    category: 'Computer Graphics' as any,
+    summary: 'A 4-component projective coordinate system enabling affine translations via 4x4 matrix multiplication.',
+    formulas: [
+      '\\mathbf{v} = (x, y, z, 1)^T \\implies \\mathbf{T} \\mathbf{v} = (x + t_x, y + t_y, z + t_z, 1)^T'
+    ],
+    insight: 'Points have w = 1 (affected by translations), while directional vectors have w = 0 (invariant under translation).'
+  }
+}
+
+export const CALCULUS_TERMS: Record<string, MathTermDefinition> = {
+  derivative: {
+    symbol: 'f\'(x)',
+    name: 'Derivative',
+    category: 'Calculus' as any,
+    summary: 'The instantaneous rate of change of a function with respect to its independent variable.',
+    formulas: [
+      'f\'(x) = \\lim_{h \\to 0} \\frac{f(x + h) - f(x)}{h}',
+      '\\frac{df}{dx} = \\frac{d}{dx} f(x)'
+    ],
+    insight: 'Geometrically represents the slope of the tangent line to the curve at point x, indicating local velocity and gradient.'
+  },
+  integral: {
+    symbol: '\\int_a^b f(x) \\, dx',
+    name: 'Definite Integral',
+    category: 'Calculus' as any,
+    summary: 'The continuous accumulation or signed area between the curve f(x) and the x-axis from x = a to x = b.',
+    formulas: [
+      '\\int_a^b f(x) \\, dx = F(b) - F(a) \\quad \\text{(FTC)}',
+      '\\int f(x) \\, dx = F(x) + C'
+    ],
+    insight: 'Integration acts as the continuous sum of infinitely many infinitesimal slices of width dx, reversing differentiation.'
+  },
+  taylor: {
+    symbol: 'T_n(x)',
+    name: 'Taylor Polynomial',
+    category: 'Calculus' as any,
+    summary: 'An approximation of a differentiable function around a point a using a power series of its derivatives.',
+    formulas: [
+      'T_n(x) = \\sum_{k=0}^n \\frac{f^{(k)}(a)}{k!} (x - a)^k'
+    ],
+    insight: 'Provides fast, bounded polynomial approximations used in numerical physics, shader approximation, and mathematical libraries.'
+  }
+}
+
+export type TermCategory = 'queuing' | 'systems' | 'llm' | 'graphics' | 'calculus'
+
 export const CATEGORY_MAP: Record<TermCategory, Record<string, MathTermDefinition>> = {
   queuing: QUEUING_TERMS,
   systems: SYSTEMS_TERMS,
-  llm: LLM_TERMS
+  llm: LLM_TERMS,
+  graphics: GRAPHICS_TERMS,
+  calculus: CALCULUS_TERMS
 }
 
 /**
@@ -217,7 +382,7 @@ export const CATEGORY_MAP: Record<TermCategory, Record<string, MathTermDefinitio
  */
 export function getTermsForCategories(categories: TermCategory[] | 'all'): Record<string, MathTermDefinition> {
   if (categories === 'all') {
-    return { ...SYSTEMS_TERMS, ...QUEUING_TERMS, ...LLM_TERMS }
+    return { ...SYSTEMS_TERMS, ...QUEUING_TERMS, ...LLM_TERMS, ...GRAPHICS_TERMS, ...CALCULUS_TERMS }
   }
 
   const merged: Record<string, MathTermDefinition> = {}
@@ -268,12 +433,47 @@ export function normalizeTermKey(raw: string, activeTerms: Record<string, MathTe
     itl: 'ITL',
     ITL: 'ITL',
     nttft: 'NTTFT',
-    NTTFT: 'NTTFT'
+    NTTFT: 'NTTFT',
+    m_proj: 'M_proj',
+    M_proj: 'M_proj',
+    Mproj: 'M_proj',
+    m_view: 'M_view',
+    M_view: 'M_view',
+    Mview: 'M_view',
+    m_model: 'M_model',
+    M_model: 'M_model',
+    Mmodel: 'M_model',
+    ndc: 'ndc',
+    quaternion: 'quaternion',
+    q: 'quaternion',
+    homogeneous: 'homogeneous',
+    R: 'R',
+    R_y: 'R',
+    Ry: 'R',
+    R_z: 'R',
+    Rz: 'R',
+    T: 'T',
+    TRS: 'TRS',
+    trs: 'TRS',
+    TR: 'TR',
+    tr: 'TR',
+    RT: 'RT',
+    rt: 'RT',
+    derivative: 'derivative',
+    integral: 'integral',
+    taylor: 'taylor'
   }
 
   const alias = aliasMap[cleaned]
   if (alias && activeTerms[alias]) {
     return alias
+  }
+
+  if (activeTerms.M_model && cleaned.includes('world') && cleaned.includes('object')) {
+    return 'M_model'
+  }
+  if (activeTerms.M_view && cleaned.includes('view') && cleaned.includes('world')) {
+    return 'M_view'
   }
 
   return null
