@@ -1,0 +1,167 @@
+{{/*
+  Computer Graphics Pipeline Series Navigation Component
+  Renders interactive pipeline stages with animated background art and sub-stage navigator
+*/}}
+{{ $currentUrl := .RelPermalink }}
+{{ $currentStage := .Params.pipeline_stage | default "" }}
+{{ $isStep1 := eq $currentStage "transforms" }}
+{{ $isStep2 := eq $currentStage "view" }}
+{{ $isStep3 := eq $currentStage "projection" }}
+{{ $isStep4 := eq $currentStage "clipping" }}
+{{ $isStep5 := eq $currentStage "viewport" }}
+
+<style>
+  .graphics-stage-link,
+  .graphics-substage-link {
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 10px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    line-height: 1.25;
+  }
+  .graphics-stage-link {
+    padding: 16px 14px;
+  }
+  .graphics-substage-link {
+    padding: 10px 12px;
+    border-radius: 8px;
+  }
+  .graphics-stage-link:hover,
+  .graphics-substage-link:hover {
+    border-color: rgb(var(--primary)) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  }
+  .graphics-stage-link:hover .graphics-stage-bg,
+  .graphics-substage-link:hover .graphics-stage-bg {
+    transform: scale(1.18) rotate(3deg) !important;
+    opacity: 0.24 !important;
+  }
+</style>
+
+<div class="graphics-pipeline-card" style="background: var(--grey-darker); border: 1px solid var(--grey-dark); border-radius: 14px; padding: 22px; margin: 3rem 0 2rem; font-family: var(--family-sans, system-ui, sans-serif);">
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+    <div style="font-size: 14px; font-weight: 700; letter-spacing: 0.08em; color: rgb(var(--primary)); display: flex; align-items: center; gap: 8px;">
+      <span class="material-symbols-outlined" style="font-size: 20px;">3d_rotation</span>
+      Computer Graphics Rendering Pipeline Series
+    </div>
+    <div style="font-size: 13px; color: var(--grey-light); font-weight: 500;">
+      Interactive Pipeline Guide
+    </div>
+  </div>
+
+  <div style="font-size: 15px; color: var(--grey-lighter); margin-bottom: 18px; line-height: 1.55;">
+    In modern real-time rendering, 3D vertices flow through five sequential coordinate spaces from local geometry to 2D pixels:
+  </div>
+
+  {{/* Responsive 5-Stage Cards Grid */}}
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 12px;">
+    {{/* Step 1: Model Transformations */}}
+    <a href="/notes/computer-graphics/combining-transformations/" class="graphics-stage-link" style="background: {{ if $isStep1 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep1 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
+      <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      <div style="position: relative; z-index: 1;">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep1 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 1</div>
+        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep1 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Model Space</div>
+        <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">$\mathbf{M}_{\text{model}} = \mathbf{TRS}$</div>
+      </div>
+    </a>
+
+    {{/* Step 2: View Transform */}}
+    <a href="/notes/computer-graphics/view-transform/" class="graphics-stage-link" style="background: {{ if $isStep2 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep2 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
+      <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/camera-transformation!camera-space.jpg'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      <div style="position: relative; z-index: 1;">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep2 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 2</div>
+        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep2 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">View Space</div>
+        <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">$\mathbf{M}_{\text{view}} = \mathbf{R}^T \mathbf{T}^{-1}$</div>
+      </div>
+    </a>
+
+    {{/* Step 3: Projection Transform */}}
+    <a href="/notes/computer-graphics/projection-transform/" class="graphics-stage-link" style="background: {{ if $isStep3 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep3 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
+      <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/projection-matrix!perspective-all.png'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      <div style="position: relative; z-index: 1;">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep3 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 3</div>
+        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep3 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Clip Space</div>
+        <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">$\mathbf{M}_{\text{proj}}$ (Frustum)</div>
+      </div>
+    </a>
+
+    {{/* Step 4: Culling & Clipping */}}
+    <a href="/notes/computer-graphics/culling-clipping/" class="graphics-stage-link" style="background: {{ if $isStep4 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep4 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
+      <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/normals!transformation.jpg'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      <div style="position: relative; z-index: 1;">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep4 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 4</div>
+        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep4 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Clip / NDC</div>
+        <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">Divide by $w$ & Cull</div>
+      </div>
+    </a>
+
+    {{/* Step 5: Viewport Transform */}}
+    <a href="/notes/computer-graphics/screen-space/" class="graphics-stage-link" style="background: {{ if $isStep5 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep5 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
+      <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/first-person-pov.jpeg'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      <div style="position: relative; z-index: 1;">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep5 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 5</div>
+        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep5 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Screen Space</div>
+        <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">$\mathbf{M}_{\text{viewport}} \to$ Pixels</div>
+      </div>
+    </a>
+  </div>
+
+  {{/* Stage 1 Sub-Series Breakdown */}}
+  {{ if $isStep1 }}
+  <div style="border-top: 1px solid var(--grey-dark); padding-top: 16px; margin-top: 14px;">
+    <div style="font-size: 13px; font-weight: 700; color: var(--grey-light); margin-bottom: 10px; letter-spacing: 0.05em;">
+      Stage 1 Deep-Dive: Transformation Matrices
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px;">
+      {{ $p1 := in $currentUrl "coordinate-systems" }}
+      <a href="/notes/computer-graphics/coordinate-systems/" class="graphics-substage-link" style="background: {{ if $p1 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p1 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/combining-transformations!coordinate-systems.jpg'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+        <div style="position: relative; z-index: 1;">
+          <div style="font-size: 11px; font-weight: 700; color: {{ if $p1 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 1</div>
+          <div style="font-size: 13px; font-weight: 600; color: {{ if $p1 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Coordinate Frames</div>
+        </div>
+      </a>
+
+      {{ $p2 := in $currentUrl "/scale/" }}
+      <a href="/notes/computer-graphics/scale/" class="graphics-substage-link" style="background: {{ if $p2 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p2 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scale!arbitrary-axis.png'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+        <div style="position: relative; z-index: 1;">
+          <div style="font-size: 11px; font-weight: 700; color: {{ if $p2 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 2</div>
+          <div style="font-size: 13px; font-weight: 600; color: {{ if $p2 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Scaling $\mathbf{S}$</div>
+        </div>
+      </a>
+
+      {{ $p3 := in $currentUrl "shearing" }}
+      <a href="/notes/computer-graphics/shearing/" class="graphics-substage-link" style="background: {{ if $p3 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p3 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/normals!transformation.jpg'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+        <div style="position: relative; z-index: 1;">
+          <div style="font-size: 11px; font-weight: 700; color: {{ if $p3 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 3</div>
+          <div style="font-size: 13px; font-weight: 600; color: {{ if $p3 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Shearing $\mathbf{H}$</div>
+        </div>
+      </a>
+
+      {{ $p4 := in $currentUrl "translation" }}
+      <a href="/notes/computer-graphics/translation/" class="graphics-substage-link" style="background: {{ if $p4 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p4 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/affine-space!translation.jpg'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+        <div style="position: relative; z-index: 1;">
+          <div style="font-size: 11px; font-weight: 700; color: {{ if $p4 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 4</div>
+          <div style="font-size: 13px; font-weight: 600; color: {{ if $p4 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Translation $\mathbf{T}$</div>
+        </div>
+      </a>
+
+      {{ $p5 := in $currentUrl "combining-transformations" }}
+      <a href="/notes/computer-graphics/combining-transformations/" class="graphics-substage-link" style="background: {{ if $p5 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p5 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+        <div style="position: relative; z-index: 1;">
+          <div style="font-size: 11px; font-weight: 700; color: {{ if $p5 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 5</div>
+          <div style="font-size: 13px; font-weight: 600; color: {{ if $p5 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Combining $\mathbf{TRS}$</div>
+        </div>
+      </a>
+    </div>
+  </div>
+  {{ end }}
+</div>

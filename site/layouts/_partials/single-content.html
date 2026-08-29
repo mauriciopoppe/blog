@@ -26,6 +26,9 @@
       <article role="main" class="content tw-min-w-0">
         <!-- the content -->
         {{ .Content }}
+        {{ if eq .Params.series "computer-graphics-pipeline" }}
+          {{ partial "graphics-pipeline-nav.html" . }}
+        {{ end }}
       </article>
 
       <!-- the references if set in the front matter -->
