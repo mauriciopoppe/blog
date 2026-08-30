@@ -10,6 +10,25 @@
 {{ $isStep4 := eq $currentStage "clipping" }}
 {{ $isStep5 := eq $currentStage "viewport" }}
 
+{{/* Favorite lookup for stage cards and substage cards */}}
+{{ $favStage1 := false }}
+{{ with site.GetPage "/notes/computer-graphics/transformation-matrix" }}{{ $favStage1 = .Params.favorite }}{{ end }}
+{{ $favStage2 := false }}
+{{ with site.GetPage "/notes/computer-graphics/view-transform" }}{{ $favStage2 = .Params.favorite }}{{ end }}
+{{ $favStage3 := false }}
+{{ with site.GetPage "/notes/computer-graphics/projection-transform" }}{{ $favStage3 = .Params.favorite }}{{ end }}
+{{ $favStage4 := false }}
+{{ with site.GetPage "/notes/computer-graphics/culling-clipping" }}{{ $favStage4 = .Params.favorite }}{{ end }}
+{{ $favStage5 := false }}
+{{ with site.GetPage "/notes/computer-graphics/screen-space" }}{{ $favStage5 = .Params.favorite }}{{ end }}
+
+{{ $favParts := dict }}
+{{ range slice "transformation-matrix" "coordinate-systems" "scale" "shearing" "translation" "rotation" "euler-angles" "quaternions" "normals" "combining-transformations" "orthographic-projection" "perspective-projection" }}
+  {{ $isFav := false }}
+  {{ with site.GetPage (printf "/notes/computer-graphics/%s" .) }}{{ $isFav = .Params.favorite }}{{ end }}
+  {{ $favParts = merge $favParts (dict . $isFav) }}
+{{ end }}
+
 <style>
   .graphics-stage-link,
   .graphics-substage-link {
@@ -37,6 +56,7 @@
   }
   .graphics-stage-link:hover .graphics-stage-bg,
   .graphics-substage-link:hover .graphics-stage-bg {
+    transform: scale(1.18) rotate(3deg) !important;
     opacity: 0.18 !important;
   }
 </style>
@@ -59,8 +79,9 @@
   {{/* Responsive 5-Stage Cards Grid */}}
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 12px;">
     {{/* Step 1: Model Transformations */}}
-    <a href="/notes/computer-graphics/combining-transformations/" class="graphics-stage-link" style="background: {{ if $isStep1 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep1 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
+    <a href="/notes/computer-graphics/transformation-matrix/" class="graphics-stage-link" style="background: {{ if $isStep1 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep1 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
       <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      {{ if $favStage1 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep1 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 1</div>
         <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep1 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Model Space</div>
@@ -71,6 +92,7 @@
     {{/* Step 2: View Transform */}}
     <a href="/notes/computer-graphics/view-transform/" class="graphics-stage-link" style="background: {{ if $isStep2 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep2 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
       <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/camera-transformation!camera-space.jpg'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      {{ if $favStage2 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep2 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 2</div>
         <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep2 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">View Space</div>
@@ -81,6 +103,7 @@
     {{/* Step 3: Projection Transform */}}
     <a href="/notes/computer-graphics/projection-transform/" class="graphics-stage-link" style="background: {{ if $isStep3 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep3 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
       <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/projection-matrix!perspective-all.png'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      {{ if $favStage3 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep3 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 3</div>
         <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep3 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Clip Space</div>
@@ -91,6 +114,7 @@
     {{/* Step 4: Culling & Clipping */}}
     <a href="/notes/computer-graphics/culling-clipping/" class="graphics-stage-link" style="background: {{ if $isStep4 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep4 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
       <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/normals!transformation.jpg'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      {{ if $favStage4 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep4 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 4</div>
         <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep4 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Clip / NDC</div>
@@ -101,6 +125,7 @@
     {{/* Step 5: Viewport Transform */}}
     <a href="/notes/computer-graphics/screen-space/" class="graphics-stage-link" style="background: {{ if $isStep5 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep5 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
       <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/first-person-pov.jpeg'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      {{ if $favStage5 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep5 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 5</div>
         <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep5 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Screen Space</div>
@@ -118,7 +143,8 @@
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px;">
       {{ $p1 := in $currentUrl "transformation-matrix" }}
       <a href="/notes/computer-graphics/transformation-matrix/" class="graphics-substage-link" style="background: {{ if $p1 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p1 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
-        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+        {{ if index $favParts "transformation-matrix" }}<span style="position: absolute; top: 6px; right: 8px; font-size: 11px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 4px rgba(var(--primary), 0.5));">★</span>{{ end }}
         <div style="position: relative; z-index: 1;">
           <div style="font-size: 11px; font-weight: 700; color: {{ if $p1 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 1</div>
           <div style="font-size: 13px; font-weight: 600; color: {{ if $p1 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Transformation Matrix</div>
@@ -127,7 +153,8 @@
 
       {{ $p2 := in $currentUrl "coordinate-systems" }}
       <a href="/notes/computer-graphics/coordinate-systems/" class="graphics-substage-link" style="background: {{ if $p2 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p2 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
-        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/combining-transformations!coordinate-systems.jpg'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/combining-transformations!coordinate-systems.jpg'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+        {{ if index $favParts "coordinate-systems" }}<span style="position: absolute; top: 6px; right: 8px; font-size: 11px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 4px rgba(var(--primary), 0.5));">★</span>{{ end }}
         <div style="position: relative; z-index: 1;">
           <div style="font-size: 11px; font-weight: 700; color: {{ if $p2 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 2</div>
           <div style="font-size: 13px; font-weight: 600; color: {{ if $p2 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Coordinate Frames</div>
@@ -136,7 +163,8 @@
 
       {{ $p3 := in $currentUrl "/scale/" }}
       <a href="/notes/computer-graphics/scale/" class="graphics-substage-link" style="background: {{ if $p3 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p3 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
-        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scale!arbitrary-axis.png'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scale!arbitrary-axis.png'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+        {{ if index $favParts "scale" }}<span style="position: absolute; top: 6px; right: 8px; font-size: 11px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 4px rgba(var(--primary), 0.5));">★</span>{{ end }}
         <div style="position: relative; z-index: 1;">
           <div style="font-size: 11px; font-weight: 700; color: {{ if $p3 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 3</div>
           <div style="font-size: 13px; font-weight: 600; color: {{ if $p3 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Scaling $\mathbf{S}$</div>
@@ -145,7 +173,8 @@
 
       {{ $p4 := in $currentUrl "shearing" }}
       <a href="/notes/computer-graphics/shearing/" class="graphics-substage-link" style="background: {{ if $p4 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p4 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
-        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/normals!transformation.jpg'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/normals!transformation.jpg'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+        {{ if index $favParts "shearing" }}<span style="position: absolute; top: 6px; right: 8px; font-size: 11px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 4px rgba(var(--primary), 0.5));">★</span>{{ end }}
         <div style="position: relative; z-index: 1;">
           <div style="font-size: 11px; font-weight: 700; color: {{ if $p4 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 4</div>
           <div style="font-size: 13px; font-weight: 600; color: {{ if $p4 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Shearing $\mathbf{H}$</div>
@@ -154,7 +183,8 @@
 
       {{ $p5 := in $currentUrl "translation" }}
       <a href="/notes/computer-graphics/translation/" class="graphics-substage-link" style="background: {{ if $p5 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p5 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
-        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/affine-space!translation.jpg'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/affine-space!translation.jpg'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+        {{ if index $favParts "translation" }}<span style="position: absolute; top: 6px; right: 8px; font-size: 11px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 4px rgba(var(--primary), 0.5));">★</span>{{ end }}
         <div style="position: relative; z-index: 1;">
           <div style="font-size: 11px; font-weight: 700; color: {{ if $p5 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 5</div>
           <div style="font-size: 13px; font-weight: 600; color: {{ if $p5 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Translation $\mathbf{T}$</div>
@@ -163,7 +193,8 @@
 
       {{ $p6 := in $currentUrl "rotation" }}
       <a href="/notes/computer-graphics/rotation/" class="graphics-substage-link" style="background: {{ if $p6 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p6 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
-        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+        {{ if index $favParts "rotation" }}<span style="position: absolute; top: 6px; right: 8px; font-size: 11px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 4px rgba(var(--primary), 0.5));">★</span>{{ end }}
         <div style="position: relative; z-index: 1;">
           <div style="font-size: 11px; font-weight: 700; color: {{ if $p6 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 6</div>
           <div style="font-size: 13px; font-weight: 600; color: {{ if $p6 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Rotation $\mathbf{R}$</div>
@@ -172,7 +203,8 @@
 
       {{ $p7 := in $currentUrl "euler-angles" }}
       <a href="/notes/computer-graphics/euler-angles/" class="graphics-substage-link" style="background: {{ if $p7 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p7 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
-        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+        {{ if index $favParts "euler-angles" }}<span style="position: absolute; top: 6px; right: 8px; font-size: 11px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 4px rgba(var(--primary), 0.5));">★</span>{{ end }}
         <div style="position: relative; z-index: 1;">
           <div style="font-size: 11px; font-weight: 700; color: {{ if $p7 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 7</div>
           <div style="font-size: 13px; font-weight: 600; color: {{ if $p7 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Euler Angles</div>
@@ -181,7 +213,8 @@
 
       {{ $p8 := in $currentUrl "quaternions" }}
       <a href="/notes/computer-graphics/quaternions/" class="graphics-substage-link" style="background: {{ if $p8 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p8 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
-        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+        {{ if index $favParts "quaternions" }}<span style="position: absolute; top: 6px; right: 8px; font-size: 11px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 4px rgba(var(--primary), 0.5));">★</span>{{ end }}
         <div style="position: relative; z-index: 1;">
           <div style="font-size: 11px; font-weight: 700; color: {{ if $p8 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 8</div>
           <div style="font-size: 13px; font-weight: 600; color: {{ if $p8 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Quaternions</div>
@@ -190,7 +223,8 @@
 
       {{ $p9 := in $currentUrl "normals" }}
       <a href="/notes/computer-graphics/normals/" class="graphics-substage-link" style="background: {{ if $p9 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p9 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
-        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/normals!transformation.jpg'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/normals!transformation.jpg'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+        {{ if index $favParts "normals" }}<span style="position: absolute; top: 6px; right: 8px; font-size: 11px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 4px rgba(var(--primary), 0.5));">★</span>{{ end }}
         <div style="position: relative; z-index: 1;">
           <div style="font-size: 11px; font-weight: 700; color: {{ if $p9 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 9</div>
           <div style="font-size: 13px; font-weight: 600; color: {{ if $p9 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Normals</div>
@@ -199,7 +233,8 @@
 
       {{ $p10 := in $currentUrl "combining-transformations" }}
       <a href="/notes/computer-graphics/combining-transformations/" class="graphics-substage-link" style="background: {{ if $p10 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p10 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
-        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+        {{ if index $favParts "combining-transformations" }}<span style="position: absolute; top: 6px; right: 8px; font-size: 11px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 4px rgba(var(--primary), 0.5));">★</span>{{ end }}
         <div style="position: relative; z-index: 1;">
           <div style="font-size: 11px; font-weight: 700; color: {{ if $p10 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 10</div>
           <div style="font-size: 13px; font-weight: 600; color: {{ if $p10 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Combining $\mathbf{TRS}$</div>
@@ -208,7 +243,8 @@
 
       {{ $p11 := in $currentUrl "orthographic-projection" }}
       <a href="/notes/computer-graphics/orthographic-projection/" class="graphics-substage-link" style="background: {{ if $p11 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p11 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
-        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/projection-matrix!orthographic.png'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/projection-matrix!orthographic.png'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+        {{ if index $favParts "orthographic-projection" }}<span style="position: absolute; top: 6px; right: 8px; font-size: 11px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 4px rgba(var(--primary), 0.5));">★</span>{{ end }}
         <div style="position: relative; z-index: 1;">
           <div style="font-size: 11px; font-weight: 700; color: {{ if $p11 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 11</div>
           <div style="font-size: 13px; font-weight: 600; color: {{ if $p11 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Orthographic Projection</div>
@@ -217,7 +253,8 @@
 
       {{ $p12 := in $currentUrl "perspective-projection" }}
       <a href="/notes/computer-graphics/perspective-projection/" class="graphics-substage-link" style="background: {{ if $p12 }}rgba(var(--primary), 0.15){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $p12 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.2){{ end }};">
-        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/projection-matrix!perspective.png'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
+        <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/projection-matrix!perspective.png'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+        {{ if index $favParts "perspective-projection" }}<span style="position: absolute; top: 6px; right: 8px; font-size: 11px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 4px rgba(var(--primary), 0.5));">★</span>{{ end }}
         <div style="position: relative; z-index: 1;">
           <div style="font-size: 11px; font-weight: 700; color: {{ if $p12 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 12</div>
           <div style="font-size: 13px; font-weight: 600; color: {{ if $p12 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Perspective Projection</div>

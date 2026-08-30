@@ -1,4 +1,5 @@
 {{ $summary := .Params.summary | default .Summary }}
+{{ $isFavorite := .Params.favorite }}
 {{ $hasInteractive := false }}
 {{ if .Params.interactive }}
   {{ $hasInteractive = true }}
@@ -19,10 +20,15 @@
   <a href="{{ .RelPermalink }}" class="tw-block tw-no-underline">
     <!-- card -->
     <div class="tw-text-sm tw-p-4 tw-rounded-md tw-bg-[var(--grey-dark)] hover:tw-brightness-110 tw-transition-all">
-      <div class="tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-2 tw-mb-3">
+      <div class="tw-flex tw-flex-wrap tw-items-center tw-gap-2 tw-mb-3">
         <h2 class="tw-group/title tw-text-xl md:tw-text-2xl tw-leading-tight tw-m-0 tw-text-primary group-hover/related:tw-drop-shadow-[0_0_6px_rgba(var(--primary),0.35)] tw-transition-all">
           {{ .Title }}
         </h2>
+        {{ if $isFavorite }}
+          <span class="tw-inline-block tw-rounded-md tw-border tw-border-primary tw-text-primary tw-text-xs tw-px-2 tw-py-0.5" title="Favorite">
+            ★ Favorite
+          </span>
+        {{ end }}
         {{ if $hasInteractive }}
           <span class="tw-inline-block tw-rounded-md tw-border tw-border-primary tw-text-primary tw-text-xs tw-px-2 tw-py-0.5">
             ✦ Interactive
