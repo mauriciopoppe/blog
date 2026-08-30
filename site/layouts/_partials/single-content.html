@@ -29,6 +29,9 @@
         {{ if eq .Params.series "computer-graphics-pipeline" }}
           {{ partial "graphics-pipeline-nav.html" . }}
         {{ end }}
+        {{ if eq .Params.series "performance-series" }}
+          {{ partial "performance-series-nav.html" . }}
+        {{ end }}
       </article>
 
       <!-- the references if set in the front matter -->

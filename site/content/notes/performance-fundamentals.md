@@ -5,6 +5,9 @@ summary: |
 image: /images/performance-fundamentals.png
 tags: ["performance", "system design", "queuing theory", "latency", "throughput"]
 date: 2026-08-23T23:16:00Z
+favorite: true
+series: "performance-series"
+perf_stage: "metrics"
 libraries: ["katex"]
 mathTerms: ["systems", "queuing"]
 interactive: true

@@ -6,6 +6,8 @@ image: /images/neural-network.jpeg
 tags: ["machine learning", "system design", "inference serving", "pareto frontier", "optimization", "optuna", "vizier"]
 date: 2026-08-25T23:16:00Z
 draft: true
+series: "performance-series"
+perf_stage: "optimization"
 libraries: ["katex"]
 mathTerms: ["llm", "systems"]
 ---

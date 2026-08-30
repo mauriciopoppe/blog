@@ -1,0 +1,106 @@
+{{/*
+  Systems Performance Engineering Series Navigation Component
+  Renders the performance series stages with animated background art and favorite stars.
+*/}}
+{{ $currentUrl := .RelPermalink }}
+{{ $currentStage := .Params.perf_stage | default "" }}
+{{ $isStep1 := eq $currentStage "metrics" }}
+{{ $isStep2 := eq $currentStage "queuing" }}
+{{ $isStep3 := eq $currentStage "benchmarking" }}
+{{ $isStep4 := eq $currentStage "optimization" }}
+
+{{/* Favorite lookup for stage cards */}}
+{{ $favStage1 := false }}
+{{ with site.GetPage "/notes/performance-fundamentals" }}{{ $favStage1 = .Params.favorite }}{{ end }}
+{{ $favStage2 := false }}
+{{ with site.GetPage "/notes/queuing-theory-for-systems-engineers" }}{{ $favStage2 = .Params.favorite }}{{ end }}
+{{ $favStage3 := false }}
+{{ with site.GetPage "/notes/benchmarking-and-capacity-planning" }}{{ $favStage3 = .Params.favorite }}{{ end }}
+{{ $favStage4 := false }}
+{{ with site.GetPage "/notes/pareto-frontier-in-inference-serving" }}{{ $favStage4 = .Params.favorite }}{{ end }}
+
+<style>
+  .perf-stage-link {
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px 14px;
+    border-radius: 10px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    line-height: 1.25;
+  }
+  .perf-stage-link:hover {
+    border-color: rgb(var(--primary)) !important;
+    box-shadow: 0 0 8px rgba(var(--primary), 0.25);
+  }
+  .perf-stage-link:hover .perf-stage-bg {
+    transform: scale(1.18) rotate(3deg) !important;
+    opacity: 0.18 !important;
+  }
+</style>
+
+<div class="perf-series-card" style="background: var(--grey-darker); border: 1px solid var(--grey-dark); border-radius: 14px; padding: 22px; margin: 3rem 0 2rem; font-family: var(--family-sans, system-ui, sans-serif);">
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+    <div style="font-size: 14px; font-weight: 700; letter-spacing: 0.08em; color: rgb(var(--primary)); display: flex; align-items: center; gap: 8px;">
+      <span class="material-symbols-outlined" style="font-size: 20px;">speed</span>
+      Systems Performance Engineering Series
+    </div>
+    <div style="font-size: 13px; color: var(--grey-light); font-weight: 500;">
+      Interactive Performance Guide
+    </div>
+  </div>
+
+  <div style="font-size: 15px; color: var(--grey-lighter); margin-bottom: 18px; line-height: 1.55;">
+    Systems engineering for performance flows through four stages, from defining the metrics to optimizing the trade-offs:
+  </div>
+
+  {{/* Responsive 4-Stage Cards Grid */}}
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 12px;">
+    {{/* Stage 1: Metrics & Fundamentals */}}
+    <a href="/notes/performance-fundamentals/" class="perf-stage-link" style="background: {{ if $isStep1 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep1 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
+      <div class="perf-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/performance-fundamentals.png'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      {{ if $favStage1 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
+      <div style="position: relative; z-index: 1;">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep1 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 1</div>
+        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep1 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Metrics</div>
+        <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">Latency, throughput, utilization, Little's Law</div>
+      </div>
+    </a>
+
+    {{/* Stage 2: Queuing Models */}}
+    <a href="/notes/queuing-theory-for-systems-engineers/" class="perf-stage-link" style="background: {{ if $isStep2 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep2 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
+      <div class="perf-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/hockey-stick-queue-theory.png'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      {{ if $favStage2 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
+      <div style="position: relative; z-index: 1;">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep2 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 2</div>
+        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep2 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Queuing Models</div>
+        <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">M/M/1, hockey stick curve, resource pooling</div>
+      </div>
+    </a>
+
+    {{/* Stage 3: Benchmarking */}}
+    <a href="/notes/benchmarking-and-capacity-planning/" class="perf-stage-link" style="background: {{ if $isStep3 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep3 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
+      <div class="perf-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/benchmarking-and-capacity-planning.png'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      {{ if $favStage3 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
+      <div style="position: relative; z-index: 1;">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep3 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 3</div>
+        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep3 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Benchmarking</div>
+        <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">Load testing, coordinated omission, capacity</div>
+      </div>
+    </a>
+
+    {{/* Stage 4: Optimization */}}
+    <a href="/notes/pareto-frontier-in-inference-serving/" class="perf-stage-link" style="background: {{ if $isStep4 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep4 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
+      <div class="perf-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/neural-network.jpeg'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
+      {{ if $favStage4 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
+      <div style="position: relative; z-index: 1;">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep4 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 4</div>
+        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep4 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Optimization</div>
+        <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">Pareto frontier, multi-objective tuning</div>
+      </div>
+    </a>
+  </div>
+</div>

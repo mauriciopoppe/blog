@@ -5,6 +5,9 @@ summary: |
 image: /images/hockey-stick-queue-theory.png
 tags: ["system design", "performance", "queuing theory", "distributed systems", "math", "latency"]
 date: 2026-08-24T23:00:00Z
+favorite: true
+series: "performance-series"
+perf_stage: "queuing"
 libraries: ["katex"]
 mathTerms: ["queuing", "systems"]
 interactive: true

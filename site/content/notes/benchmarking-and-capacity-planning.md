@@ -5,6 +5,9 @@ summary: |
 image: /images/benchmarking-and-capacity-planning.png
 tags: ["system design", "benchmarking", "load testing", "capacity planning", "distributed systems", "performance"]
 date: 2026-08-28T22:59:04
+favorite: true
+series: "performance-series"
+perf_stage: "benchmarking"
 libraries: ["katex"]
 mathTerms: ["systems", "queuing"]
 ---
