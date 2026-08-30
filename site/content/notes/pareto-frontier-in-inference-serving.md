@@ -1,10 +1,10 @@
 ---
 title: "The Pareto Frontier in LLM Inference Serving"
 summary: |
-  A deep dive into measuring and optimizing LLM inference performance: from traditional web service metrics to LLM-native metrics (TTFT, TPOT, TPS, NTTFT), framing serving as a multi-objective optimization problem, navigating trade-offs along the Pareto frontier, and analyzing automated tuning frameworks like Optuna and Google Vizier.
+  Why a single performance number lies about LLM serving, and why you should keep the whole Pareto frontier instead. Covers why scalarization structurally cannot recover the full trade-off, how Optuna and Google Vizier actually store trial values (the frontier is derived, not persisted), and how production tools like Prism, InferenceBench, and NVIDIA Dynamo present the frontier as the reportable artifact.
 image: /images/neural-network.jpeg
-tags: ["machine learning", "system design", "inference serving", "pareto frontier", "optimization", "optuna", "vizier"]
-date: 2026-08-25T23:16:00Z
+tags: ["machine learning", "system design", "inference serving", "pareto frontier", "multi-objective optimization", "optuna", "vizier"]
+date: 2026-08-30T12:00:00Z
 draft: true
 series: "performance-series"
 perf_stage: "optimization"
@@ -12,357 +12,128 @@ libraries: ["katex"]
 mathTerms: ["llm", "systems"]
 ---
 
-Serving large language models (LLMs) and generative AI workloads introduces unique systems challenges that break traditional assumptions about service performance. Unlike typical stateless REST APIs or database queries, inference execution is stateful, iterative, heterogeneous, and memory-bandwidth bound.
+There is no best configuration for an inference server. Anyone who hands you a single number, a single "best" config, a single winner in a benchmark, is leaving out the part that matters. What you need is a set of points, each one good in a different way, and that set is called the Pareto frontier.
 
-Evaluating and optimizing LLM serving systems requires moving beyond single-variable metrics (like pure requests per second or mean latency) to **multi-objective optimization**, where performance is defined by a **Pareto frontier** of trade-offs.
+This note tells the story of that set. Why a single scalar cannot represent serving performance, why the frontier is the artifact you should measure and keep, how tuning tools actually store the values that let you recover it, and how production systems present it to you.
 
-*(For foundational queuing theory, latency breakdowns, and traditional service metrics, see [Performance Fundamentals](/notes/performance-fundamentals/).)*
+*(For foundational queuing theory, latency breakdowns, and classical service metrics, see [Performance Fundamentals](/notes/performance-fundamentals/). For how to design and run the benchmarks themselves, see [Benchmarking & Capacity Planning](/notes/benchmarking-and-capacity-planning/).)*
 
-## Why Classical Metrics Fail for LLM Inference
+## A Single Number Is a Lie
 
-The entire foundation of classical performance engineering rests on three core assumptions:
+Serving an LLM is a multi-objective problem. The moment you collapse it to one scalar, you choose which objective wins and you hide every other trade-off behind that choice.
 
-1. **Atomic Request-Response**: A client sends an input, the server computes, and returns the complete output payload in a single response packet.
-2. **Homogeneous, Deterministic Execution**: A job's computation time is proportional to input size or indexed database lookups, and execution time per unit of work remains steady.
-3. **Stateless Resource Allocation**: Once a worker finishes a request, all CPU/memory resources are immediately released back to the operating system pool.
+The relevant objectives conflict with one another. To maximize throughput you saturate the GPU with large batches, which drives up queueing delay. To minimize time to first token you keep batches small and idle compute during decode. To minimize inter-token latency you protect active decode streams, which steals cycles from prompt evaluation. Every one of these moves another number in the wrong direction.
 
-LLM inference serving fundamentally breaks all three assumptions:
+Consider what a single benchmark number cannot tell you:
 
-### Assumption 1: Atomic Responses vs. Incremental Token Streaming
+- A **throughput number** (tokens per second) says nothing about whether any individual request met its latency target. Peak throughput is achievable while every tail latency breaks your service level.
+- A **latency number** (P99 time to first token, P99 time per output token) says nothing about how many requests the system can carry while meeting it.
+- A **"best config"** is only best for the objective the tuner was told to minimize, and that choice was made before the tuning started.
 
-In LLM serving, waiting for the entire generated sequence before sending data to the client introduces unacceptable delays (often several seconds). Modern inference servers stream tokens **autoregressively** as they are generated. 
+The deeper problem is that a single number is gameable. If a benchmark is reported as one scalar, then anyone being benchmarked will tune toward that scalar, at the expense of every other objective. This is exactly the pattern seen in MLPerf and LMSYS leaderboards, and it is the reason some benchmarkers refuse to report a single headline number at all. InferenceBench puts it plainly: a single-number benchmark is a benchmark waiting to be reward-hacked, because moving up on one axis costs you another.
 
-Evaluating a streaming system with end-to-end response time ($L$) fails to measure responsiveness: a user perceives a snappy application if the first token arrives in $200\text{ ms}$, even if generating the remaining $500$ tokens takes $10\text{ seconds}$.
+The single number is a projection. It throws away the shape of the trade-off, which is the part you need to make a decision.
 
-### Assumption 2: Homogeneous Execution vs. Asymmetric Dual Phases
+<div id="scalar-tuner"></div>
 
-Unlike classical database queries, an LLM request alternates between two vastly different computational regimes:
-1. **Prefill Phase (Prompt Evaluation)**: Processes the prompt tokens all at once in parallel. This phase is heavily **compute-bound** (matrix-matrix multiplication, GEMM) and saturates GPU tensor cores.
-2. **Decode Phase (Token Generation)**: Emits output tokens one by one autoregressively. Each step loads model weights from high-bandwidth memory (HBM) to compute a single new token. This phase is strictly **memory-bandwidth-bound** (matrix-vector multiplication, GEMV).
+## Why Scalarization Cannot Recover the Frontier
 
-Because prefill and decode compete for the same GPU tensor cores and memory bus, running them together causes severe execution interference.
+The instinct when facing multiple objectives is to fold them into one. This is called scalarization, and the most common form is the weighted sum. Given objectives $f_1, f_2, \dots, f_k$, you minimize a weighted aggregate:
 
-### Assumption 3: Stateless Processing vs. Stateful Dynamic KV-Cache Allocation
+$$
+g(\mathbf{x}) = \sum_{i=1}^{k} w_i f_i(\mathbf{x}), \quad \sum_{i=1}^{k} w_i = 1
+$$
 
-During the decode phase, the model must store the Key and Value activations (the **KV cache**) of all previous tokens in GPU VRAM to avoid recomputing past context. 
+Pick weights, solve the single-objective problem, get one point. Change the weights, solve again, get another point. In theory, sweeping the weights traces out the trade-off surface.
 
-Because output token lengths cannot be predicted ahead of time, memory allocation is dynamic, stateful, and non-deterministic. If GPU memory runs out of space for KV cache allocations, incoming requests must be paused, swapped to host RAM, or prefilled again from scratch.
-
-## LLM Inference Metrics: The Paradigm Shift
-
-To capture the dual-phase, streaming nature of generative models, LLM serving systems rely on specialized latency and throughput metrics.
+In practice it does not. The weighted sum can only reach points on the **convex** part of the frontier. If the frontier curves the other way, if it is concave in objective space, then no weight vector will ever find points in that region. Those points are called unsupported or non-dominated but non-supported, and the weighted sum misses them by construction. The literature on multi-objective evolutionary algorithms is explicit about this failure mode: the weighted sum scalarization cannot approximate the entire concave Pareto front, so it loses whole regions of the trade-off regardless of how finely you sweep the weights.
 
 <div class="tex2jax_ignore" style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 840 280" width="100%" class="tex2jax_ignore" style="max-width: 840px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 15px; border: 1px solid var(--grey-dark);">
-  <!-- Timeline base axis -->
-  <line x1="40" y1="120" x2="800" y2="120" stroke="var(--grey)" stroke-width="2" />
-  <polygon points="800,115 815,120 800,125" fill="var(--grey)" />
-  <text x="815" y="145" fill="var(--grey-light)" font-size="12">Time</text>
-  <!-- Step 0: Request Arrival -->
-  <circle cx="60" cy="120" r="6" fill="var(--grey-lighter)" />
-  <line x1="60" y1="120" x2="60" y2="40" stroke="var(--grey)" stroke-width="1.5" stroke-dasharray="3 3" />
-  <text x="60" y="30" fill="var(--grey-lighter)" font-size="12" font-weight="600" text-anchor="middle">Request Arrival</text>
-  <!-- Phase 1: Queueing -->
-  <rect x="60" y="105" width="100" height="30" rx="4" fill="var(--grey-dark)" stroke="var(--grey)" stroke-width="1" />
-  <text x="110" y="125" fill="var(--grey-light)" font-size="11" text-anchor="middle">Queue Delay</text>
-  <!-- Phase 2: Prefill -->
-  <rect x="160" y="100" width="160" height="40" rx="4" fill="rgba(var(--primary), 0.25)" stroke="rgb(var(--primary))" stroke-width="1.5" />
-  <text x="240" y="120" fill="var(--grey-lighter)" font-size="12" font-weight="600" text-anchor="middle">Prefill Phase (GEMM)</text>
-  <text x="240" y="134" fill="rgb(var(--primary))" font-size="10" font-weight="500" text-anchor="middle">Prompt Evaluation</text>
-  <!-- TTFT Marker -->
-  <circle cx="320" cy="120" r="6" fill="rgb(var(--primary))" />
-  <line x1="320" y1="120" x2="320" y2="40" stroke="rgb(var(--primary))" stroke-width="1.5" stroke-dasharray="3 3" />
-  <text x="320" y="30" fill="rgb(var(--primary))" font-size="12" font-weight="600" text-anchor="middle">First Token Emitted</text>
-  <!-- TTFT Bracket -->
-  <path d="M 60 70 L 60 60 L 190 60 L 190 50 L 190 60 L 320 60 L 320 70" fill="none" stroke="rgb(var(--primary))" stroke-width="1.5" />
-  <text x="190" y="78" fill="rgb(var(--primary))" font-size="12" font-weight="600" text-anchor="middle">Time to First Token (TTFT)</text>
-  <!-- Phase 3: Decode Loop -->
-  <!-- Token 2 -->
-  <rect x="330" y="105" width="75" height="30" rx="4" fill="var(--grey-dark)" stroke="var(--grey)" stroke-width="1" />
-  <text x="367" y="124" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">Token 2</text>
-  <!-- Token 3 -->
-  <rect x="415" y="105" width="75" height="30" rx="4" fill="var(--grey-dark)" stroke="var(--grey)" stroke-width="1" />
-  <text x="452" y="124" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">Token 3</text>
-  <!-- Token 4 -->
-  <rect x="500" y="105" width="75" height="30" rx="4" fill="var(--grey-dark)" stroke="var(--grey)" stroke-width="1" />
-  <text x="537" y="124" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">Token 4</text>
-  <!-- Ellipsis -->
-  <text x="600" y="125" fill="var(--grey-light)" font-size="16" font-weight="bold" text-anchor="middle">...</text>
-  <!-- Token N -->
-  <rect x="630" y="105" width="85" height="30" rx="4" fill="var(--grey-dark)" stroke="var(--grey)" stroke-width="1" />
-  <text x="672" y="124" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">Token N (EOS)</text>
-  <!-- TPOT / ITL Indicator -->
-  <path d="M 330 155 L 330 165 L 367 165 L 367 175 L 367 165 L 405 165 L 405 155" fill="none" stroke="var(--grey)" stroke-width="1.5" />
-  <text x="367" y="195" fill="var(--grey-lighter)" font-size="11" font-weight="600" text-anchor="middle">TPOT / ITL</text>
-  <!-- E2E Latency Bracket -->
-  <path d="M 60 220 L 60 230 L 387 230 L 387 240 L 387 230 L 715 230 L 715 220" fill="none" stroke="rgb(var(--primary))" stroke-width="1.5" />
-  <text x="387" y="260" fill="rgb(var(--primary))" font-size="13" font-weight="600" text-anchor="middle">End-to-End Latency (E2E)</text>
+<svg viewBox="0 0 840 330" width="100%" class="tex2jax_ignore" style="max-width: 780px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 15px; border: 1px solid var(--grey-dark);">
+  <!-- Axes -->
+  <line x1="80" y1="270" x2="800" y2="270" stroke="var(--grey)" stroke-width="1.5" />
+  <polygon points="800,265 814,270 800,275" fill="var(--grey)" />
+  <text x="790" y="292" fill="var(--grey-light)" font-size="11" text-anchor="middle">Objective 1 (e.g. latency) &#8594; worse</text>
+  <line x1="80" y1="270" x2="80" y2="45" stroke="var(--grey)" stroke-width="1.5" />
+  <polygon points="75,45 80,31 85,45" fill="var(--grey)" />
+  <text x="38" y="160" fill="var(--grey-light)" font-size="11" transform="rotate(-90 38 160)" text-anchor="middle">Objective 2 (e.g. throughput) &#8594; worse</text>
+  <text x="90" y="286" fill="var(--grey-lighter)" font-size="11" font-weight="600" text-anchor="start">better</text>
+  <!-- Feasible region (worse side, above-right of the frontier) -->
+  <path d="M 200 245 L 200 55 L 790 55 L 790 160 L 650 160 C 580 165 505 176 430 185 C 360 194 300 210 200 245 Z" fill="rgba(var(--primary), 0.06)" stroke="none" />
+  <!-- Chord (convex hull) between supported extremes -->
+  <line x1="200" y1="245" x2="650" y2="160" stroke="rgba(255, 255, 255, 0.35)" stroke-width="1.2" stroke-dasharray="5 4" />
+  <text x="430" y="250" fill="var(--grey-light)" font-size="11" text-anchor="middle">convex hull (weighted sum reaches only the extremes)</text>
+  <!-- Concave Pareto frontier -->
+  <path d="M 200 245 C 300 210 360 194 430 185 C 505 176 580 165 650 160" fill="none" stroke="rgb(var(--primary))" stroke-width="2.5" />
+  <!-- Supported point B -->
+  <circle cx="200" cy="245" r="6" fill="var(--grey-lighter)" stroke="rgb(var(--primary))" stroke-width="1.5" />
+  <text x="190" y="228" fill="var(--grey-lighter)" font-size="12" font-weight="bold" text-anchor="end">B (supported)</text>
+  <!-- Supported point A -->
+  <circle cx="650" cy="160" r="6" fill="var(--grey-lighter)" stroke="rgb(var(--primary))" stroke-width="1.5" />
+  <text x="662" y="176" fill="var(--grey-lighter)" font-size="12" font-weight="bold" text-anchor="start">A (supported)</text>
+  <!-- Unsupported concave region point C -->
+  <circle cx="430" cy="185" r="6" fill="var(--grey-darker)" stroke="rgb(var(--primary))" stroke-width="2" />
+  <text x="442" y="176" fill="rgb(var(--primary))" font-size="12" font-weight="bold" text-anchor="start">C (missed)</text>
+  <!-- Annotation on the missed region -->
+  <text x="442" y="120" fill="var(--grey-light)" font-size="11" text-anchor="start">Concave region. No weighted sum can reach C, even though it is a better trade-off than the extremes.</text>
 </svg>
 </div>
 
-### Time to First Token (TTFT)
-The elapsed time between request arrival and the generation of the first output token:
+This is the structural reason a single scalar cannot describe serving performance. The scalar is a lossy projection. Two very different operating points can produce the same weighted value for one set of weights, and the concave regions that hold the interesting balanced solutions are unreachable through weighted aggregation.
 
-$$\text{TTFT} = t_{\text{first\_token}} - t_{\text{arrival}} = t_{\text{queue}} + t_{\text{prefill}}$$
+Other scalarizations exist, such as Tchebycheff or $\varepsilon$-constraint methods, and they can reach points the weighted sum cannot. But they share the same fundamental limitation: each solve produces a single point. To get the full picture you must solve repeatedly, and you have no way to know whether the point you landed on is the right one without seeing the rest of the set.
 
-- **Perceptual Impact**: Determines user-perceived responsiveness (e.g., when a chatbot UI starts streaming text).
-- **System Driver**: The **prefill phase**, which computes attention over the entire prompt context in parallel. Prefill operations are compute-bound matrix multiplications (GEMM) and scale with prompt length ($I$).
+The frontier is the minimal object that contains the information needed to make a serving decision. A scalar discards it.
 
-### Time Per Output Token (TPOT) / Inter-Token Latency (ITL)
-The time required to generate each subsequent token during the autoregressive phase:
+## The Frontier Is the Artifact
 
-$$\text{TPOT} = \frac{t_{\text{end}} - t_{\text{first\_token}}}{O - 1}$$
+Formally, a configuration $\mathbf{x}$ maps to an objective vector $F(\mathbf{x}) = [f_1(\mathbf{x}), f_2(\mathbf{x}), \dots, f_k(\mathbf{x})]$ over the configuration space $\mathcal{X}$.
 
-where $O$ is the total number of generated output tokens.
-
-- **Perceptual Impact**: Dictates streaming smoothness. Human reading speed is approximately 5 to 10 tokens per second ($100\text{–}200\text{ ms/token}$).
-- **System Driver**: The **decode phase**, which generates one token per iteration. Each step must load the entire model weight matrix from high-bandwidth memory (HBM) to compute just one token, making decode heavily memory-bandwidth bound (GEMV).
-
-### Tokens Per Second (TPS) / Generation Throughput
-The system-wide aggregate token production rate:
+A configuration $\mathbf{x}_A$ **dominates** $\mathbf{x}_B$ ($\mathbf{x}_A \succ \mathbf{x}_B$) if it is no worse in every objective and strictly better in at least one:
 
 $$
-\text{TPS}_{\text{system}} = \frac{\sum_{i=1}^{N} O_i}{\Delta t}
+\mathbf{x}_A \succ \mathbf{x}_B \iff \forall i, f_i(\mathbf{x}_A) \le f_i(\mathbf{x}_B) \;\text{and}\; \exists j, f_j(\mathbf{x}_A) < f_j(\mathbf{x}_B)
 $$
 
+The **Pareto frontier** $\mathcal{P}^*$ is the set of all configurations that no other configuration dominates:
+
 $$
-\text{TPS}_{\text{per\_user}} = \frac{1}{\text{TPOT}}
+\mathcal{P}^* = \{ \mathbf{x} \in \mathcal{X} \mid \nexists \mathbf{x}' \in \mathcal{X} : \mathbf{x}' \succ \mathbf{x} \}
 $$
 
-- **System Driver**: Reflects overall GPU utilization and cluster operational cost efficiency (cost per million tokens).
+Every point on the frontier is a legitimate answer. The frontier is the reportable artifact, and no point on it outranks another. The point you pick depends on the workload, which is exactly why the set, not the point, is what you keep.
 
-### Normalized Time to First Token (NTTFT)
-Because raw TTFT scales with prompt length, long prompts naturally yield higher TTFT. NTTFT normalizes TTFT against prompt token count:
+### The 2D Trade-off: Throughput vs. Tail Latency
 
-$$\text{NTTFT} = \frac{\text{TTFT}}{\text{Input Token Count}}$$
+In the plane that matters most for serving, system throughput (TPS) is traded against tail latency (P99 TTFT / TPOT):
 
-This isolates scheduling overhead and compute efficiency from variable prompt lengths.
+- **Point A (Strict SLA / Voice)**: Minimal batch and aggressive priority scheduling. TTFT stays tiny, but compute idles during decode and aggregate throughput drops.
+- **Point B (Balanced Chat / Copilot)**: Tuned continuous batching and chunked prefill. The practical trade-off for human reading speed.
+- **Point C (Max Throughput / Batch ETL)**: Maximum batch and KV-cache saturation. Throughput approaches the hardware roofline, queueing delay rises.
+- **Point D (Dominated)**: Inefficient configuration. Some other point is better in every objective, so it is off the frontier entirely.
 
-### End-to-End Latency ($E2E$)
-The total request lifetime:
-
-$$E2E = \text{TTFT} + (O - 1) \times \text{TPOT}$$
-
-## The 2D Pareto Frontier in Inference Serving
-
-When configuring an inference engine (e.g., vLLM, TensorRT-LLM, SGLang, or TGI), objectives directly conflict. Increasing batch size boosts aggregate throughput (TPS) by amortizing weight loading across multiple streams, but increases iteration delays and queuing times for individual requests (worsening TTFT and TPOT).
-
-### Formalizing Pareto Dominance
-
-Consider an objective vector $F(\mathbf{x}) = [f_1(\mathbf{x}), f_2(\mathbf{x}), \dots, f_k(\mathbf{x})]$ parameterized by serving configuration $\mathbf{x} \in \mathcal{X}$.
-
-A configuration $\mathbf{x}_A$ **dominates** configuration $\mathbf{x}_B$ ($\mathbf{x}_A \succ \mathbf{x}_B$) if and only if:
-1. $\mathbf{x}_A$ is no worse than $\mathbf{x}_B$ in all objectives: $\forall i \in \{1,\dots,k\}, f_i(\mathbf{x}_A) \le f_i(\mathbf{x}_B)$ (for minimization).
-2. $\mathbf{x}_A$ is strictly better than $\mathbf{x}_B$ in at least one objective: $\exists j \in \{1,\dots,k\}, f_j(\mathbf{x}_A) < f_j(\mathbf{x}_B)$.
-
-The **Pareto Frontier** (or Pareto front) $\mathcal{P}^*$ consists of all non-dominated points:
-
-$$\mathcal{P}^* = \{ \mathbf{x}^* \in \mathcal{X} \mid \nexists \mathbf{x} \in \mathcal{X} \text{ such that } \mathbf{x} \succ \mathbf{x}^* \}$$
-
-### 2D Trade-off: Throughput (TPS) vs. Tail Latency ($P_{99}$ TTFT / TPOT)
-
-In LLM serving, the Pareto frontier forms a curve in the 2D plane comparing **System Throughput (TPS)** against **Tail Latency ($P_{99}$ TTFT / TPOT)**.
-
-- **Point A (Strict SLA / Interactive Voice)**: Minimal batch size and aggressive priority scheduling. TTFT is tiny (<80ms), but GPU compute units idle during autoregressive decode, yielding lower aggregate TPS.
-- **Point B (Balanced Copilot / Chat)**: Tuned continuous batching and chunked prefill settings. Provides the optimal trade-off for human reading speed.
-- **Point C (Max Throughput / Batch Document ETL)**: Maximum batch size and high KV cache saturation. Throughput approaches hardware memory-bandwidth and compute rooflines, but queue delays increase latency.
-- **Point D (Dominated / Sub-optimal)**: Inefficient configurations (e.g. poor tensor-parallel all-reduce splits, memory fragmentation, or unchunked prefill pauses). Point B achieves **both higher throughput and lower latency** than Point D.
+The interactive playground below lets you move a configuration around this plane and watch which points survive as non-dominated.
 
 <div id="interactive-pareto-playground" style="margin: 2rem 0;"></div>
 
-## Multi-Objective Optimization in Serving Engines
+### Why You Keep the Whole Set
 
-The position of an inference cluster on the Pareto curve is governed by internal engine hyperparameters:
+Keeping the frontier means keeping a collection of trials or configurations, each with its full vector of objective values. It means resisting the pressure to pick one and discard the rest. The reason is practical: the right operating point changes with the workload, and you do not know the workload in advance. A batch ETL job and a real-time voice agent face the same hardware but want opposite corners of this plane. The frontier preserves both choices.
 
-| Serving Hyperparameter | Primary Impact on Metrics | Engineering Trade-off |
-| :--- | :--- | :--- |
-| **Max Batched Tokens** (`max_num_batched_tokens`) | Higher $\to$ $\uparrow$ System TPS, $\uparrow$ TPOT | Controls iteration computation density vs. decode iteration latency. |
-| **Max Running Sequences** (`max_num_seqs`) | Higher $\to$ $\uparrow$ Concurrency, $\uparrow$ KV Cache Pressure | Amortizes weight loading, but risks KV cache preemption and swapping. |
-| **Chunked Prefill Size** (`max_num_seqs_per_chunk`) | Larger $\to$ $\downarrow$ TTFT, $\uparrow$ TPOT jitter | Slices large prompt prefills to prevent starvation of active decode streams. |
-| **Parallelism Strategy** ($TP$ vs. $PP$ vs. $DP$) | $TP$ $\to$ $\downarrow$ Latency, $\uparrow$ All-Reduce overhead | Tensor parallelism lowers per-request latency, while Data parallelism scales total TPS. |
-| **Prefill-Decode Disaggregation** (PD Split) | Shifts the entire Pareto curve outward | Decouples compute-bound prefill from memory-bound decode over RDMA, eliminating TPOT jitter. |
-| **Speculative Decoding** (Draft Length $K$) | Larger $K$ $\to$ $\downarrow$ TPOT (if accepted) | Accelerates memory-bound decode, but wastes compute if acceptance rate drops. |
+InferenceBench makes the same point as a design rule: every result is a tuple of throughput, latency, cost, energy, and quality, and comparison is done on the frontier across those axes. The frontier itself is the reportable artifact. A vendor showing you one point off the frontier is showing you the wrong thing, and a vendor showing you one point on it is still hiding the shape of the trade-off.
 
-### The Prefill-Decode Interference Problem
+## Tools Find the Frontier, but They Only Store Trials
 
-In traditional continuous batching systems, prefill and decode iterations share the same GPU resources:
+Now the practical question: if the frontier is what matters, how do automated tuning tools represent it? The answer is more subtle than the marketing suggests. Neither Optuna nor Google Vizier stores a frontier object. They store every trial with its full vector of objective values, and the frontier is **derived on demand** by a dominance filter every time you ask for it.
 
-<div class="tex2jax_ignore" style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 760 210" width="100%" class="tex2jax_ignore" style="max-width: 760px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 15px; border: 1px solid var(--grey-dark);">
-  <!-- Iteration Step T -->
-  <text x="20" y="30" fill="var(--grey-lighter)" font-size="14" font-weight="bold">Iteration Step T (Shared Engine Batch)</text>
-  <!-- Container Box -->
-  <rect x="20" y="45" width="720" height="135" rx="8" fill="var(--grey-dark)" stroke="var(--grey)" stroke-width="1" />
-  <!-- Prefill Job (Large Box) -->
-  <rect x="40" y="60" width="340" height="105" rx="6" fill="rgba(var(--primary), 0.2)" stroke="rgb(var(--primary))" stroke-width="1.5" />
-  <text x="210" y="95" fill="var(--grey-lighter)" font-size="14" font-weight="bold" text-anchor="middle">Prefill: Request 4 (1024 tokens)</text>
-  <text x="210" y="120" fill="var(--grey-light)" font-size="12" text-anchor="middle">Heavy Compute (GEMM Matrix Multiplication)</text>
-  <text x="210" y="145" fill="rgb(var(--primary))" font-size="11" font-weight="600" text-anchor="middle">Execution Time: ~80ms</text>
-  <!-- Decode Jobs (Small Boxes) -->
-  <g transform="translate(400, 60)">
-    <rect x="0" y="0" width="95" height="105" rx="6" fill="var(--grey-dark)" stroke="var(--grey)" stroke-width="1" />
-    <text x="47" y="45" fill="var(--grey-lighter)" font-size="12" font-weight="bold" text-anchor="middle">Decode 1</text>
-    <text x="47" y="68" fill="var(--grey-light)" font-size="10" text-anchor="middle">Token 42</text>
-    <text x="47" y="92" fill="rgb(var(--primary))" font-size="10" font-weight="bold" text-anchor="middle">Stalled!</text>
-  </g>
-  <g transform="translate(505, 60)">
-    <rect x="0" y="0" width="95" height="105" rx="6" fill="var(--grey-dark)" stroke="var(--grey)" stroke-width="1" />
-    <text x="47" y="45" fill="var(--grey-lighter)" font-size="12" font-weight="bold" text-anchor="middle">Decode 2</text>
-    <text x="47" y="68" fill="var(--grey-light)" font-size="10" text-anchor="middle">Token 88</text>
-    <text x="47" y="92" fill="rgb(var(--primary))" font-size="10" font-weight="bold" text-anchor="middle">Stalled!</text>
-  </g>
-  <g transform="translate(610, 60)">
-    <rect x="0" y="0" width="110" height="105" rx="6" fill="var(--grey-dark)" stroke="var(--grey)" stroke-width="1" />
-    <text x="55" y="45" fill="var(--grey-lighter)" font-size="12" font-weight="bold" text-anchor="middle">Decode 3</text>
-    <text x="55" y="68" fill="var(--grey-light)" font-size="10" text-anchor="middle">Token 12</text>
-    <text x="55" y="92" fill="rgb(var(--primary))" font-size="10" font-weight="bold" text-anchor="middle">Stalled!</text>
-  </g>
-</svg>
-</div>
+### What Optuna Actually Stores
 
-When a large prefill is scheduled into an active batch, decode iterations for existing streams stall while waiting for the prefill's heavy GEMM kernels to finish. This manifests as severe **inter-token latency spikes** ($P_{99}$ TPOT).
-
-Engines employ **chunked prefill** (breaking prompt computation into token chunks of size $C$) to control this trade-off:
-- Small chunk size $C$: Active streams experience minimal jitter (low TPOT), but prefill takes multiple steps (higher TTFT).
-- Large chunk size $C$: TTFT decreases, but active decode streams stall.
-
-<div id="interactive-chunking-demo"></div>
-
-### Shifting the Frontier: Prefill-Decode (PD) Disaggregation
-
-Chunked prefill is a single-GPU mitigation that trades TTFT for TPOT along a static curve. 
-
-To **shift the Pareto frontier outward** (achieving low TTFT and low TPOT simultaneously without throughput loss), distributed orchestration frameworks like [`llm-d`](https://llm-d.ai/) implement **Prefill-Decode (PD) Disaggregation**:
-
-1. **Dedicated Prefill Nodes**: Compute-dense GPU workers evaluate input prompts at maximum tensor core utilization without decode overhead.
-2. **Dedicated Decode Nodes**: High-bandwidth memory GPU workers execute autoregressive generation loops with zero prefill interruption ($C_v \approx 0$), eliminating TPOT tail jitter.
-3. **Direct KV Transfer**: Once the prefill phase finishes, the engine transfers the KV cache blocks across high-speed RDMA / NIXL networks directly to a decode worker.
-4. **Prefix-Cache-Aware Routing**: The Gateway router hashes prompt prefixes to send requests to nodes holding pre-cached KV blocks, skipping prompt evaluation entirely for shared system prompts.
-
-By decoupling the single heterogeneous queue into two specialized homogeneous queues, distributed orchestration expands the reachable Pareto envelope.
-
-### Mathematical Formulation of Serving Multi-Objective Optimization
-
-The engineering optimization problem can be formulated as:
-
-$$
-\min_{\mathbf{x} \in \mathcal{X}} \; \begin{bmatrix} f_{\text{TTFT\_P99}}(\mathbf{x}) \\ f_{\text{TPOT\_P99}}(\mathbf{x}) \\ -f_{\text{TPS}}(\mathbf{x}) \\ f_{\text{Cost}}(\mathbf{x}) \end{bmatrix}
-$$
-
-$$
-\text{subject to } \begin{cases}
-f_{\text{TTFT\_P99}}(\mathbf{x}) \le \text{SLA}_{\text{TTFT}} \\
-f_{\text{TPOT\_P99}}(\mathbf{x}) \le \text{SLA}_{\text{TPOT}} \\
-\text{VRAM}(\mathbf{x}) \le \text{GPU\_Memory}_{\text{available}}
-\end{cases}
-$$
-
-## Navigating the Frontier: No Single Best Value
-
-Because the Pareto frontier represents a set of non-dominated trade-offs, there is no single universally "optimal" configuration. The appropriate operating point depends on application requirements.
-
-<div class="tex2jax_ignore" style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 760 220" width="100%" class="tex2jax_ignore" style="max-width: 760px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 15px; border: 1px solid var(--grey-dark);">
-  <!-- Persona Spectrum Container -->
-  <text x="380" y="30" fill="var(--grey-lighter)" font-size="14" font-weight="bold" text-anchor="middle">Pareto Operating Spectrum by Application Persona</text>
-  <!-- Slider Bar -->
-  <rect x="60" y="60" width="640" height="12" rx="6" fill="var(--grey-dark)" />
-  <rect x="60" y="60" width="200" height="12" rx="6" fill="var(--grey)" opacity="0.6" />
-  <rect x="260" y="60" width="240" height="12" fill="rgb(var(--primary))" opacity="0.7" />
-  <rect x="500" y="60" width="200" height="12" rx="6" fill="var(--grey)" opacity="0.6" />
-  <!-- Persona 1: Voice -->
-  <circle cx="120" cy="66" r="10" fill="var(--grey)" stroke="var(--grey-lighter)" stroke-width="2" />
-  <rect x="40" y="90" width="160" height="95" rx="6" fill="var(--grey-dark)" stroke="var(--grey)" stroke-width="1.5" />
-  <text x="120" y="112" fill="var(--grey-lighter)" font-size="12" font-weight="bold" text-anchor="middle">Voice / Real-time</text>
-  <text x="120" y="132" fill="var(--grey-light)" font-size="11" text-anchor="middle">TTFT &lt; 80ms</text>
-  <text x="120" y="150" fill="var(--grey-light)" font-size="11" text-anchor="middle">TPOT &lt; 20ms</text>
-  <text x="120" y="170" fill="rgb(var(--primary))" font-size="10" font-weight="600" text-anchor="middle">Sacrifices Peak TPS</text>
-  <!-- Persona 2: Copilot / Chat -->
-  <circle cx="380" cy="66" r="10" fill="rgb(var(--primary))" stroke="var(--grey-lighter)" stroke-width="2" />
-  <rect x="300" y="90" width="160" height="95" rx="6" fill="var(--grey-dark)" stroke="rgb(var(--primary))" stroke-width="1.5" />
-  <text x="380" y="112" fill="var(--grey-lighter)" font-size="12" font-weight="bold" text-anchor="middle">Interactive Chat</text>
-  <text x="380" y="132" fill="var(--grey-light)" font-size="11" text-anchor="middle">TTFT &lt; 400ms</text>
-  <text x="380" y="150" fill="var(--grey-light)" font-size="11" text-anchor="middle">TPOT &lt; 40ms</text>
-  <text x="380" y="170" fill="rgb(var(--primary))" font-size="10" font-weight="600" text-anchor="middle">Balanced Trade-off</text>
-  <!-- Persona 3: Batch ETL -->
-  <circle cx="640" cy="66" r="10" fill="var(--grey)" stroke="var(--grey-lighter)" stroke-width="2" />
-  <rect x="560" y="90" width="160" height="95" rx="6" fill="var(--grey-dark)" stroke="var(--grey)" stroke-width="1.5" />
-  <text x="640" y="112" fill="var(--grey-lighter)" font-size="12" font-weight="bold" text-anchor="middle">Batch / Document ETL</text>
-  <text x="640" y="132" fill="var(--grey-light)" font-size="11" text-anchor="middle">TTFT: Irrelevant</text>
-  <text x="640" y="150" fill="var(--grey-light)" font-size="11" text-anchor="middle">TPOT: Irrelevant</text>
-  <text x="640" y="170" fill="var(--grey-lighter)" font-size="10" font-weight="600" text-anchor="middle">Max Tokens/$</text>
-</svg>
-</div>
-
-### Marginal Rate of Substitution (MRS)
-
-Moving along the Pareto frontier incurs an explicit trade-off defined by the **Marginal Rate of Substitution**:
-
-$$
-\text{MRS}_{\text{TPS}, \text{Latency}} = \frac{\partial f_{\text{TPS}}}{\partial f_{\text{Latency}}}
-$$
-
-Analyzing the slope reveals regions of diminishing returns:
-- **Steep slope**: Small compromises in latency yield dramatic throughput gains.
-- **Flat slope**: Accepting higher latency provides negligible throughput improvements, indicating hardware saturation or memory-bandwidth bottlenecks.
-
-## Automated Frontier Discovery: Optuna & Google Vizier
-
-Manual configuration search across multi-GPU clusters is prohibitive. Automated Black-Box Optimization (BBO) toolkits evaluate configurations systematically to construct the Pareto envelope.
-
-<div class="tex2jax_ignore" style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 780 200" width="100%" class="tex2jax_ignore" style="max-width: 780px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 15px; border: 1px solid var(--grey-dark);">
-  <defs>
-    <marker id="arrow-themed-bbo" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgb(var(--primary))" />
-    </marker>
-  </defs>
-  <!-- Optimizer Box -->
-  <rect x="30" y="45" width="200" height="110" rx="8" fill="var(--grey-dark)" stroke="rgb(var(--primary))" stroke-width="1.5" />
-  <text x="130" y="80" fill="rgb(var(--primary))" font-size="14" font-weight="bold" text-anchor="middle">BBO Optimizer</text>
-  <text x="130" y="102" fill="var(--grey-lighter)" font-size="11" text-anchor="middle">Optuna (NSGA-II / MOTPE)</text>
-  <text x="130" y="120" fill="var(--grey-light)" font-size="11" text-anchor="middle">Google Vizier (GP Bandits)</text>
-  <!-- Suggest Config Line -->
-  <path d="M 230 75 L 375 75" fill="none" stroke="rgb(var(--primary))" stroke-width="2" marker-end="url(#arrow-themed-bbo)" />
-  <text x="305" y="65" fill="rgb(var(--primary))" font-size="11" font-weight="600" text-anchor="middle">Config x</text>
-  <!-- Serving Benchmark Harness Box -->
-  <rect x="385" y="45" width="190" height="110" rx="8" fill="rgba(var(--primary), 0.15)" stroke="rgb(var(--primary))" stroke-width="1.5" />
-  <text x="480" y="80" fill="var(--grey-lighter)" font-size="14" font-weight="bold" text-anchor="middle">Serving Engine</text>
-  <text x="480" y="102" fill="rgb(var(--primary))" font-size="11" font-weight="500" text-anchor="middle">vLLM / TensorRT-LLM</text>
-  <text x="480" y="122" fill="var(--grey-light)" font-size="11" text-anchor="middle">Synthetic Load Harness</text>
-  <!-- Report Feedback Line -->
-  <path d="M 385 125 L 240 125" fill="none" stroke="var(--grey)" stroke-width="2" marker-end="url(#arrow-themed-bbo)" />
-  <text x="310" y="145" fill="var(--grey-lighter)" font-size="11" font-weight="600" text-anchor="middle">[TPS, TTFT, TPOT]</text>
-  <!-- Pareto Front Extraction Box -->
-  <rect x="600" y="45" width="150" height="110" rx="8" fill="var(--grey-dark)" stroke="var(--grey)" stroke-width="1.5" />
-  <text x="675" y="80" fill="var(--grey-lighter)" font-size="13" font-weight="bold" text-anchor="middle">Pareto Analysis</text>
-  <text x="675" y="102" fill="var(--grey-light)" font-size="11" text-anchor="middle">Non-dominated set</text>
-  <text x="675" y="122" fill="rgb(var(--primary))" font-size="11" font-weight="500" text-anchor="middle">Hypervolume Metric</text>
-  <path d="M 575 100 L 590 100" fill="none" stroke="var(--grey)" stroke-width="2" marker-end="url(#arrow-themed-bbo)" />
-</svg>
-</div>
-
-### Algorithmic Approaches
-
-1. **NSGA-II (Non-Dominated Sorting Genetic Algorithm II)**:
-   - Maintains a population of configurations.
-   - Evaluates fast non-dominated sorting to classify candidates into hierarchical Pareto tiers.
-   - Applies *crowding distance* to preserve diversity across the entire frontier.
-2. **MOTPE (Multi-Objective Tree-structured Parzen Estimator)**:
-   - Models configuration distributions using non-parametric kernel density estimators over multi-objective splits.
-3. **Bayesian Optimization via qEHVI (Expected Hypervolume Improvement)**:
-   - Fits Gaussian Processes to metric distributions.
-   - Selects configurations that maximize the expected expansion of the hypervolume bounded by the Pareto envelope.
-
-### Implementation with Optuna
-
-Optuna natively supports multi-objective optimization with directional goals and Pareto front extraction:
+In Optuna, a multi-objective study is created with a list of directions, one per objective:
 
 ```python
 import optuna
 
 def objective(trial: optuna.Trial):
-    # 1. Define hyperparameter search space for the serving engine
     max_num_batched_tokens = trial.suggest_categorical(
         "max_num_batched_tokens", [512, 1024, 2048, 4096, 8192]
     )
@@ -370,7 +141,6 @@ def objective(trial: optuna.Trial):
     gpu_memory_utilization = trial.suggest_float("gpu_memory_utilization", 0.80, 0.95, step=0.05)
     enable_chunked_prefill = trial.suggest_categorical("enable_chunked_prefill", [True, False])
 
-    # 2. Run synthetic benchmark harness against serving instance
     tps, p99_ttft, p99_tpot = run_benchmark(
         max_num_batched_tokens=max_num_batched_tokens,
         max_num_seqs=max_num_seqs,
@@ -378,53 +148,38 @@ def objective(trial: optuna.Trial):
         enable_chunked_prefill=enable_chunked_prefill,
     )
 
-    # 3. Return multi-objective evaluation tuple:
-    # Maximize TPS, Minimize TTFT P99, Minimize TPOT P99
+    # Maximize TPS, minimize TTFT P99, minimize TPOT P99
     return tps, p99_ttft, p99_tpot
 
-def run_benchmark(max_num_batched_tokens, max_num_seqs, gpu_memory_utilization, enable_chunked_prefill):
-    # Benchmark execution against vLLM server
-    return 1250.0, 180.0, 24.5
-
-# Create a multi-objective study with NSGA-II
 sampler = optuna.samplers.NSGAIISampler(population_size=50)
 study = optuna.create_study(
     directions=["maximize", "minimize", "minimize"],
     sampler=sampler
 )
-
-# Run optimization trials
 study.optimize(objective, n_trials=100)
+```
 
-# Extract Pareto-optimal trials
-pareto_trials = study.best_trials
+Each finished trial carries a full `values` tuple (here, the three metrics) alongside its `params`. That tuple is what gets persisted. There is no stored frontier. The moment you access `study.best_trials`, Optuna recomputes the non-dominated subset by comparing every trial's value vector against every other:
+
+```python
+pareto_trials = study.best_trials  # recomputed, not read from storage
 print(f"Discovered {len(pareto_trials)} Pareto-optimal configurations:")
 for trial in pareto_trials:
     print(f"Trial #{trial.number}: Values (TPS, TTFT, TPOT) = {trial.values}")
     print(f"  Params: {trial.params}")
 ```
 
-Visualizing the Pareto front:
+`plot_pareto_front` does the same thing under the hood, filtering the full trial history for non-dominated points before rendering. The frontier is a query over the population, never a persisted object. The design decision is to keep every evaluation and treat the frontier as an ephemeral filter on top of it.
 
-```python
-fig = optuna.visualization.plot_pareto_front(
-    study,
-    target_names=["Throughput (TPS)", "TTFT P99 (ms)", "TPOT P99 (ms)"]
-)
-fig.write_html("pareto_frontier.html")
-```
+### What Google Vizier Actually Stores
 
-### Implementation with Google Vizier (PyVizier)
-
-Google Vizier provides a client-server architecture built for distributed multi-objective autotuning:
+Google Vizier is the same story on the server side. A study declares a search space and a list of metrics, each with a goal:
 
 ```python
 from vizier import pyvizier as vz
 from vizier.service import clients
 
-# 1. Define Problem Statement and Search Space
 problem = vz.ProblemStatement()
-
 problem.search_space.root.add_categorical_param(
     name="max_num_batched_tokens", feasible_values=["512", "1024", "2048", "4096", "8192"]
 )
@@ -434,63 +189,92 @@ problem.search_space.root.add_categorical_param(
     name="enable_chunked_prefill", feasible_values=["true", "false"]
 )
 
-# 2. Define Multi-Objective Metrics
 problem.metric_information.extend([
     vz.MetricInformation(name="tps", goal=vz.GoalType.MAXIMIZE),
     vz.MetricInformation(name="ttft_p99", goal=vz.GoalType.MINIMIZE),
     vz.MetricInformation(name="tpot_p99", goal=vz.GoalType.MINIMIZE),
 ])
 
-# 3. Instantiate Vizier Study
 study_config = vz.StudyConfig.from_problem(problem)
 study_config.algorithm = vz.Algorithm.NSGA2
 
 study = clients.Study.from_study_config(study_config, owner="ml_infra", study_id="vllm_tuning_01")
 
-# 4. Optimization Loop
 for iteration in range(20):
     suggestions = study.suggest(count=5)
     for suggestion in suggestions:
         params = suggestion.parameters
-        
-        # Execute benchmark run
         tps, ttft_p99, tpot_p99 = run_serving_benchmark(params)
-        
-        # Report multi-metric measurement
         final_measurement = vz.Measurement(
-            metrics={
-                "tps": tps,
-                "ttft_p99": ttft_p99,
-                "tpot_p99": tpot_p99
-            }
+            metrics={"tps": tps, "ttft_p99": ttft_p99, "tpot_p99": tpot_p99}
         )
         suggestion.complete(final_measurement)
-
-# 5. Extract Optimal Pareto Trials via Hypervolume Analysis
-optimal_trials = study.optimal_trials()
-for trial in optimal_trials:
-    print(f"Optimal Trial {trial.id}: {trial.final_measurement.metrics}")
 ```
 
-### Tooling Comparison: Optuna vs. Google Vizier
+A Vizier trial stores its parameters plus a sequence of measurements, and the completed trial keeps its final measurement as a full metric dict. The service does not persist a frontier either. When you call `study.optimal_trials()`, the service computes the Pareto-optimal set at query time (the `listOptimalTrials` RPC does the dominance filtering server-side). The frontier emerges from the stored evaluations, it is never stored itself.
 
-| Dimension | Optuna | Google Vizier |
-| :--- | :--- | :--- |
-| **Architecture** | Embedded Python library or centralized SQL backend. | Distributed client-server service (gRPC/REST) for large compute clusters. |
-| **MOO Algorithms** | NSGA-II, MOTPE, BoTorch integration (`qEHVI`). | NSGA-II, Multi-Objective GP-Bandits, evolutionary algorithms. |
-| **Constraint Handling** | Sampler penalty functions and trial pruners. | First-class metric constraints (`MetricInformation.min_value`). |
-| **Frontier Extraction** | Pareto dominance ranking (`study.best_trials`). | Exact Hypervolume calculation and Pareto filtering (`optimal_trials()`). |
-| **Target Use Case** | Ad-hoc experiments, local/single-node parameter exploration. | Automated infrastructure autotuning, Kubernetes-managed fleets. |
+### The Implementation Takeaway
 
-## Summary & Key Takeaways
+Both tools assume you want the whole set. They persist every trial's full objective vector and recompute the frontier as a filter on demand. The cost of keeping the set is essentially zero, and the benefit is that any decision made later, for any workload, can query the frontier without a re-run. The tools never force the single-scalar habit. You create it by discarding the extra values.
 
-1. **Inference is inherently multi-objective**: Because generation splits into compute-heavy prefill and memory-heavy decode, no single metric or single configuration satisfies all deployment scenarios.
-2. **TTFT vs. TPOT vs. TPS defines the fundamental trade-off**:
-   - Maximizing TPS requires saturating compute and memory pipelines with large batches.
-   - Minimizing TTFT and TPOT requires small batches, minimal queue times, and fine-grained chunked prefills.
-3. **The Pareto Frontier formalizes non-dominated efficiency**: Systems engineers must aim for the frontier envelope rather than arbitrary local optima.
-4. **Automate frontier discovery**: Optimization toolkits like **Optuna** and **Google Vizier** systematically trace the Pareto frontier across high-dimensional parameter spaces without costly manual trial and error.
+## Production Systems Force You to Face the Frontier
+
+The same shift shows up in how production serving tools present benchmark data. They stopped showing a single winner and started showing a scatter of runs where the user picks which axes matter.
+
+### Prism
+
+[Prism](https://prism.llm-d.ai/) is the benchmarking dashboard for distributed inference from [llm-d](https://llm-d.ai/). It aggregates benchmark runs from disparate sources (cloud APIs, public repositories, local `llm-d-benchmark` reports) into a single scatter plot. The control that matters is the axis picker:
+
+- **X-axis** selects among NTPOT, TPOT, TTFT, ITL, and E2E latency.
+- **Y-axis** selects among output tokens, input tokens, total tokens, and QPS.
+
+There is no default "best point." The user chooses the trade-off plane, and every benchmark run lands as a point in it. The frontier is whatever survives as non-dominated on the axes you care about, and the tool's whole design is a rejection of the single scalar. Prism also lets you upload your own `benchmark_report_v0.2` YAML files and drop them into the same scatter, so your tuning runs become points in the same space as vendor-published numbers.
+
+### InferenceBench
+
+[InferenceBench](https://inferencebench.io/) is more explicit about the philosophy. It does not report single headline numbers. Every result is a tuple of throughput, latency, cost, energy, and quality, and comparison happens on the Pareto frontier across those axes. Its comparison output marks points that are on the frontier and annotates dominated points explicitly, so a point that loses on every axis is called out rather than hidden.
+
+### NVIDIA Dynamo (DynoSim)
+
+The same frontier-first logic appears in capacity planning before you even touch a cluster. NVIDIA Dynamo's DynoSim is a workload-driven discrete-event simulation that maps the throughput-latency Pareto frontier of a candidate serving stack before real-cluster validation. You sweep broadly, map the frontier, shortlist the promising candidates, and verify only those on real hardware. The frontier is the planning artifact, the single point is the afterthought.
+
+## How to Actually Keep and Use the Frontier
+
+Practical guidance falls out of all of this.
+
+**Store the tuple, not the scalar.** Persist every benchmark trial with its full vector of metrics (TTFT, TPOT, TPS, and cost where it matters). This is what Optuna and Vizier already do, so it costs you nothing. It is the only way a later decision can query a frontier without a re-run.
+
+**Prefer goodput at SLO over peak throughput.** Peak throughput is irrelevant if the tail latency that produces it blows past your service level. The throughput at which your SLO is still satisfied is the number that matters for production planning. This is the metric that respects the frontier rather than pretending one scalar settles it.
+
+**Ask for the frontier, always.** When comparing serving engines or vendors, ask to see the non-dominated set, not one highlighted point. Annotate dominated points instead of deleting them, so the comparison records what lost and why.
+
+### The Operating Spectrum by Persona
+
+Because the frontier is a set, choosing an operating point means choosing a persona:
+
+- **Voice / real-time**: TTFT under 80ms and TPOT under 20ms. Sacrifices peak throughput.
+- **Interactive chat / copilot**: TTFT under 400ms and TPOT under 40ms. The balanced trade-off for reading speed.
+- **Batch / document ETL**: latency is irrelevant, so the frontier point here maximizes tokens per dollar.
+
+### Marginal Rate of Substitution
+
+Moving along the frontier incurs an explicit cost captured by the marginal rate of substitution between the objectives:
+
+$$
+\text{MRS}_{\text{TPS}, \text{Latency}} = \frac{\partial f_{\text{TPS}}}{\partial f_{\text{Latency}}}
+$$
+
+The slope reveals diminishing returns. A steep region means small latency compromises buy large throughput gains. A flat region means accepting more latency buys almost nothing, which is the signature of hardware saturation or a memory-bandwidth bottleneck.
+
+## Summary
+
+1. **A single number lies about serving.** Serving is multi-objective, the objectives conflict, and a scalar is a lossy projection that hides the trade-off and invites reward hacking.
+2. **Scalarization cannot recover the frontier.** Weighted-sum aggregation structurally misses concave regions of the trade-off, and every scalarization produces one point instead of the set you need.
+3. **The frontier is the reportable artifact.** It is the set of non-dominated operating points, and the right point depends on the workload, so you keep the set, not the winner.
+4. **Tuning tools already store the set.** Optuna and Google Vizier persist every trial's full value vector and derive the frontier by a dominance filter on demand. The set costs nothing to keep.
+5. **Production systems present the frontier.** Prism, InferenceBench, and NVIDIA Dynamo all report the non-dominated set and let you choose the axes, because the single scalar is gone.
 
 *This note and its interactive Pareto frontier simulator were co-authored in pair programming with [Antigravity (Agy)](https://antigravity.google).*
 
-<script type="module" src="/js/ai/pareto-frontier.js"></script>
+<script type="module" src="/js/performance/pareto-frontier.js"></script>
+<script type="module" src="/js/performance/scalar-tuner.js"></script>
