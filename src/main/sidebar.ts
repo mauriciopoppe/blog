@@ -61,11 +61,13 @@ class Sidebar {
    */
   get footerLocationFromDocument() {
     const footer = document.querySelector('footer')
+    if (!footer) return Infinity
     return footer.getBoundingClientRect().top + document.documentElement.scrollTop - window.innerHeight
   }
 
   get contentLocationInPage() {
     const content = document.querySelector('article[role=main]')
+    if (!content) return Infinity
     return content.getBoundingClientRect().top + document.documentElement.scrollTop - this.articleTopMargin
   }
 
