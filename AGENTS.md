@@ -101,6 +101,14 @@ This document captures development workflows, architecture rules, system quirks,
 - **The Issue**: WebKit (Safari, Chrome on iOS) has a notorious rendering bug where HTML DOM elements inside `<foreignObject>` do not scale when the SVG's `viewBox` shrinks to fit mobile viewports. The SVG container scales down, but the `<foreignObject>` contents stay rendered at unscaled pixel coordinates, spilling outside the SVG container and overlapping article paragraphs.
 - **The Rule**: Always use **native SVG `<text>` and `<tspan>` elements** for labels and mathematical subscripts/superscripts inside SVGs (e.g. `<text x="100" y="50">W<tspan font-size="11" dy="2">q</tspan><tspan font-size="14" dy="-2"> + S</tspan></text>`). Native SVG text scales with mathematical precision across all browser engines.
 
+### SVG Diagram Design System (`doc/diagram-style-spec.md`)
+- All diagrams follow [`doc/diagram-style-spec.md`](file:///doc/diagram-style-spec.md):
+  - **Outer Frame**: `style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box; margin: 1.5rem 0;"`
+  - **Cards & Sub-panels**: `fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" rx="8"`
+  - **Color Palette**: Use canonical tokens (`rgb(var(--primary))` / `rgba(var(--primary), 0.15)`, `#ffa726` / `#fbbf24`, `#34d399` / `#22c55e`, `#ff7043` / `#ef4444`, `var(--grey-lighter)`, `var(--grey-light)`). Never use harsh neon cyans (`#38bdf8`) or bright solid borders.
+  - **Axes & Dividers**: `stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.2"`
+
+
 ---
 
 ## 4. LaTeX & Math Rendering

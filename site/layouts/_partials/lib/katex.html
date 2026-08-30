@@ -17,12 +17,16 @@
     display: inline-block !important;
     text-align: center !important;
   }
-  /* Scale math inside SVG diagrams so it matches diagram typography */
-  svg foreignObject .katex {
-    font-size: 1.08em !important;
+  /* Scale math inside SVG diagrams and interactive graph widgets so it matches diagram typography */
+  svg foreignObject .katex,
+  [id*="-explorer"] .katex,
+  [class*="-sim-wrap"] .katex {
+    font-size: 1.25em !important;
   }
-  svg foreignObject .katex-display {
-    font-size: 1.12em !important;
+  svg foreignObject .katex-display,
+  [id*="-explorer"] .katex-display,
+  [class*="-sim-wrap"] .katex-display {
+    font-size: 1.35em !important;
   }
   /* Strict clipping for KaTeX screen reader MathML subtree */
   .katex-mathml {
