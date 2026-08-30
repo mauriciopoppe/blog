@@ -142,6 +142,10 @@ async function main() {
     process.exit(1)
   }
 
+  // Fresh CI checkouts don't have a dist/ directory (it's gitignored build
+  // output), so make sure the output path exists before hugo-algolia writes.
+  fs.mkdirSync(path.dirname(OUTPUT), { recursive: true })
+
   // Build the raw index from Hugo content (no -s flag, local file only).
   execSync(`hugo-algolia -i "site/content/**" --config ${CONFIG} -o ${OUTPUT}`, { stdio: 'inherit', cwd: ROOT_DIR })
 
