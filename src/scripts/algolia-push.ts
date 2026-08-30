@@ -5,10 +5,11 @@
  * local Google Analytics export, but that file is gone for good. The
  * popularity order is now a curated, in-repo list (POPULARITY_ORDER, most
  * popular first). Each record carries a `rank` field (lower = more popular)
- * that the search overlay sorts by; notes not listed rank after all listed
- * ones. Edit POPULARITY_ORDER whenever the ranking should change.
+ * that Algolia's customRanking sorts by; notes not listed rank after all
+ * listed ones. Edit POPULARITY_ORDER whenever the ranking should change.
  *
- * Usage:
+ * This is run manually on demand (no CI). Load the write key from your local
+ * secrets (e.g. the load-secrets shell function) and run:
  *   ALGOLIA_WRITE_KEY=... bun run generate:algolia:send
  */
 
