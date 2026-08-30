@@ -7,7 +7,7 @@
   "author": "Mauricio Poppe",
   "license": "MIT",
   "scripts": {
-    "start": "bun run generate:sitemap && bun run generate:algolia && run-p start:*",
+    "start": "bun run generate:sitemap && run-p start:*",
     "start:hugo": "hugo serve -e development --buildDrafts --buildFuture --bind 0.0.0.0 -d ../dist -s site --watch --disableFastRender --disableLiveReload",
     "start:webpack": "webpack-dev-server --config webpack.config.dev.js --hot --host 0.0.0.0",
     "prebuild": "eslint 'src/**/*.{tsx,jsx,js,ts}'",
@@ -17,7 +17,8 @@
     "build:hugo": "hugo --source site --destination ../dist",
     "serve:prod": "http-server -S -C site/cert/localhost.pem -K site/cert/localhost-key.pem dist",
     "generate:sitemap": "bun run src/util/sitemap-tree-generator.ts",
-    "generate:algolia": "[ -z ${ALGOLIA_WRITE_KEY} ] && exit 1 || hugo-algolia -i \"site/content/**\" --config site/config/_default/config.yaml -o dist/sitemap.json",
+    "generate:algolia": "hugo-algolia -i \"site/content/**\" --config site/config/_default/config.yaml -o dist/sitemap.json",
+    "generate:algolia:send": "hugo-algolia -i \"site/content/**\" --config site/config/_default/config.yaml -o dist/sitemap.json -s",
     "test": "bun test site/ src/",
     "preflight": "bun run src/scripts/preflight.ts",
     "publish:note": "bun run src/scripts/publish-note.ts"
