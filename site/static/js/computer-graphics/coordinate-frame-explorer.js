@@ -31,316 +31,32 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
   const root = document.getElementById(containerId)
   if (!root) return
 
+  const PRESET_BASE = 'preset-btn tw-flex-1 tw-text-center tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-px-2.5 tw-py-1.5 tw-leading-none tw-cursor-pointer'
+  const PRESET_INACTIVE = PRESET_BASE + ' tw-bg-transparent tw-text-[var(--grey-light)]'
+  const PRESET_ACTIVE = PRESET_BASE + ' tw-bg-primary-soft tw-text-primary'
+
+  const CTRL_BTN = 'tw-flex-none tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center tw-whitespace-nowrap hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft disabled:tw-opacity-45 disabled:tw-cursor-not-allowed disabled:hover:tw-border-[var(--ring-border)] disabled:hover:tw-text-[var(--grey-light)] disabled:hover:tw-bg-[var(--grey-dark)]'
+  const PLAY_NEUTRAL = 'tw-flex-1 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center tw-gap-1 tw-whitespace-nowrap hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft'
+  const PLAY_ACTIVE = 'tw-flex-1 tw-bg-primary-soft tw-border tw-border-primary-border tw-text-primary tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-flex tw-items-center tw-justify-center tw-gap-1 tw-whitespace-nowrap hover:tw-bg-primary-soft hover:tw-border-primary'
+
+  const STEP_ROW_BASE = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1 tw-rounded-md tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-dark)] tw-transition'
+  const STEP_ROW_ACTIVE = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1 tw-rounded-md tw-border tw-border-[rgba(var(--primary),0.6)] tw-bg-[rgba(var(--primary),0.08)] tw-transition'
+  const STEP_ROW_COMPLETED = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1 tw-rounded-md tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-dark)] tw-opacity-55 tw-pointer-events-none'
+
+  const STEP_BADGE_BASE = 'tw-w-[18px] tw-h-[18px] tw-rounded-full tw-text-[10px] tw-font-bold tw-flex tw-items-center tw-justify-center tw-bg-[var(--grey-darker)] tw-text-[var(--grey-light)] tw-shrink-0'
+  const STEP_BADGE_ACTIVE = 'tw-w-[18px] tw-h-[18px] tw-rounded-full tw-text-[10px] tw-font-bold tw-flex tw-items-center tw-justify-center tw-bg-[rgb(var(--primary))] tw-text-[var(--grey-darker)] tw-shrink-0'
+  const STEP_BADGE_COMPLETED = 'tw-w-[18px] tw-h-[18px] tw-rounded-full tw-text-[10px] tw-font-bold tw-flex tw-items-center tw-justify-center tw-bg-[var(--grey)] tw-text-[var(--grey-lighter)] tw-shrink-0'
+
+  const STEP_SYMBOL = 'step-symbol tw-text-[13.5px] tw-font-bold tw-text-primary tw-bg-[var(--grey-darker)] tw-px-[7px] tw-py-[2px] tw-rounded-[4px] tw-flex tw-items-center tw-justify-center tw-min-w-[32px] tw-shrink-0'
+
   const cameraRevealNote = `
-    <div style="margin-top: 6px; font-size: 10px; color: var(--grey-light); line-height: 1.3;">
+    <div class="tw-mt-1 tw-text-[0.6875rem] tw-leading-tight tw-text-[var(--grey-light)]">
       The camera, its view (PiP), and the frustum appear once the transform completes
     </div>`
 
   // Build UI Container with Scoped Styles matching the Design System
   root.innerHTML = `
     <style>
-      .coord-sim-wrap {
-        margin: 1.75rem 0;
-        background: var(--grey-darker);
-        border: 1px solid var(--grey-dark);
-        border-radius: 12px;
-        overflow: hidden;
-        font-family: var(--family-sans, system-ui, sans-serif);
-      }
-      .coord-sim-header {
-        padding: 10px 14px;
-        background: var(--grey-dark);
-        border-bottom: 1px solid var(--grey-dark);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-      .coord-sim-title {
-        font-size: 12.5px;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        color: rgb(var(--primary));
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-      .coord-sim-badge {
-        font-size: 11px;
-        letter-spacing: 0.04em;
-        color: var(--grey-light);
-      }
-      .coord-sim-body {
-        display: grid;
-        grid-template-columns: 335px 1fr;
-        gap: 12px;
-        padding: 12px;
-      }
-      @media (max-width: 860px) {
-        .coord-sim-body {
-          grid-template-columns: 1fr;
-        }
-      }
-      .coord-sim-left {
-        display: flex;
-        flex-direction: column;
-        gap: 9px;
-      }
-      .coord-sim-presets {
-        display: flex;
-        gap: 5px;
-      }
-      .preset-btn {
-        flex: 1;
-        font-size: 11.5px;
-        font-weight: 600;
-        padding: 5px 6px;
-        border-radius: 6px;
-        border: 1px solid var(--grey-dark);
-        background: var(--grey-dark);
-        color: var(--grey-light);
-        cursor: pointer;
-        transition: all 0.2s ease;
-        text-align: center;
-        font-family: var(--family-sans, system-ui, sans-serif);
-      }
-      .preset-btn:hover {
-        color: rgb(var(--primary));
-        border-color: rgba(var(--primary), 0.5);
-        filter: drop-shadow(0px 0px 4px rgba(var(--primary), 0.35)) brightness(1.1);
-      }
-      .preset-btn.active {
-        background: rgba(var(--primary), 0.16);
-        color: rgb(var(--primary));
-        border-color: rgba(var(--primary), 0.5);
-      }
-      .coord-sim-wrap .katex {
-        font-size: 1.25em !important;
-      }
-      .coord-chip {
-        position: absolute;
-        top: 8px;
-        left: 8px;
-        background: var(--grey-dark);
-        border: 1px solid var(--grey-dark);
-        border-radius: 6px;
-        padding: 4px 8px;
-        font-size: 10px;
-        line-height: 1.3;
-        color: var(--grey-light);
-        pointer-events: none;
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-      }
-      .coord-chip-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-        white-space: nowrap;
-        font-family: var(--family-sans, system-ui, sans-serif);
-      }
-      .coord-chip-label {
-        font-weight: 700;
-        color: var(--grey-lighter);
-      }
-      .coord-chip-val {
-        font-family: monospace;
-        color: var(--grey-light);
-        display: flex;
-        align-items: baseline;
-        gap: 3px;
-      }
-      .coord-chip .katex {
-        font-size: 1.15em !important;
-      }
-      .coord-sim-desc {
-        font-size: 12px;
-        line-height: 1.5;
-        color: var(--grey-light);
-        background: var(--grey-dark);
-        padding: 7px 9px;
-        border-radius: 6px;
-        border-left: 2px solid rgb(var(--primary));
-      }
-      .step-pipeline-wrap {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-      }
-      .step-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 5px 8px;
-        border-radius: 6px;
-        background: var(--grey-dark);
-        border: 1px solid transparent;
-        transition: all 0.25s ease;
-        cursor: pointer;
-      }
-      .step-row:hover {
-        border-color: rgba(var(--primary), 0.3);
-      }
-      .step-row.active {
-        border-color: rgba(var(--primary), 0.6);
-        background: rgba(var(--primary), 0.08);
-        cursor: pointer;
-      }
-      .step-row.active:hover {
-        border-color: rgba(var(--primary), 0.85);
-        background: rgba(var(--primary), 0.13);
-      }
-      .step-row.completed {
-        opacity: 0.55;
-        pointer-events: none;
-        cursor: not-allowed;
-      }
-      .step-badge {
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        font-size: 10px;
-        font-weight: 700;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: var(--grey-darker);
-        color: var(--grey-light);
-        flex-shrink: 0;
-      }
-      .step-row.active .step-badge {
-        background: rgb(var(--primary));
-        color: var(--grey-darker);
-      }
-      .step-row.completed .step-badge {
-        background: var(--grey);
-        color: var(--grey-lighter);
-      }
-      .step-symbol {
-        font-size: 13.5px;
-        font-weight: 700;
-        color: rgb(var(--primary));
-        background: var(--grey-darker);
-        padding: 2px 7px;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 32px;
-        flex-shrink: 0;
-      }
-      .step-symbol .katex {
-        font-size: 1.25em !important;
-      }
-      .playback-bar {
-        background: var(--grey-dark);
-        border-radius: 6px;
-        padding: 4px 6px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 4px;
-      }
-      .ctrl-btn {
-        padding: 5px 8px;
-        border-radius: 5px;
-        font-size: 11.5px;
-        font-weight: 700;
-        cursor: pointer;
-        border: 1px solid var(--grey-dark);
-        background: var(--grey-darker);
-        color: var(--grey-lighter);
-        transition: all 0.2s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 3px;
-        font-family: var(--family-sans, system-ui, sans-serif);
-      }
-      .ctrl-btn:hover {
-        color: rgb(var(--primary));
-        border-color: rgba(var(--primary), 0.5);
-        filter: drop-shadow(0px 0px 4px rgba(var(--primary), 0.35)) brightness(1.1);
-      }
-      .ctrl-btn:disabled {
-        opacity: 0.45;
-        cursor: not-allowed;
-      }
-      .ctrl-btn:disabled:hover {
-        color: var(--grey-lighter);
-        border-color: var(--grey);
-        filter: none;
-      }
-      .ctrl-btn-play {
-        background: rgba(var(--primary), 0.16);
-        color: rgb(var(--primary));
-        border: 1px solid rgba(var(--primary), 0.35);
-        padding: 5px 12px;
-        flex: 1;
-      }
-      .ctrl-btn-play:hover {
-        background: rgba(var(--primary), 0.28);
-        border-color: rgb(var(--primary));
-        filter: drop-shadow(0px 0px 4px rgba(var(--primary), 0.35)) brightness(1.1);
-      }
-      .matrix-box {
-        background: var(--grey-dark);
-        border-radius: 6px;
-        padding: 6px 9px;
-      }
-      .matrix-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 2px;
-        background: var(--grey-darker);
-        padding: 4px 5px;
-        border-radius: 5px;
-        font-family: monospace;
-        font-size: 11px;
-        text-align: center;
-        border: 1px solid var(--grey-dark);
-      }
-      .matrix-val {
-        padding: 2px 0;
-        color: var(--grey-light);
-      }
-      .matrix-val.active {
-        color: rgb(var(--primary));
-        font-weight: 700;
-      }
-      .canvas-viewport {
-        position: relative;
-        min-height: 380px;
-        border-radius: 10px;
-        overflow: hidden;
-        border: 1px solid var(--grey-dark);
-        background: transparent;
-      }
-      .canvas-legend {
-        position: absolute;
-        bottom: 8px;
-        left: 8px;
-        background: var(--grey-dark);
-        border: none;
-        border-radius: 6px;
-        padding: 4px 8px;
-        font-size: 10.5px;
-        line-height: 1.2;
-        color: var(--grey-light);
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-        pointer-events: none;
-      }
-      .legend-row {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        line-height: 1.2;
-      }
       @keyframes coord-flash {
         0% { color: rgb(var(--primary)); text-shadow: 0 0 6px rgba(var(--primary), 0.55); }
         100% { color: var(--grey-light); text-shadow: none; }
@@ -348,28 +64,21 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
       .coord-flash {
         animation: coord-flash 1.2s ease-out;
       }
-      .legend-title {
-        font-weight: 700;
-        color: var(--grey-lighter);
-        margin-right: 2px;
+      #coordinate-frame-simulator .katex {
+        font-size: 0.8em !important;
       }
-      .legend-item {
-        display: flex;
-        align-items: center;
-        gap: 3px;
+      #coordinate-frame-simulator .step-symbol .katex {
+        font-size: 1.25em !important;
       }
-      .legend-dot {
-        display: inline-block;
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
+      #coordinate-frame-simulator .coord-chip .katex {
+        font-size: 1.15em !important;
       }
     </style>
 
-    <div class="coord-sim-wrap">
+    <div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden tw-font-sans">
       <!-- Header -->
-      <div class="coord-sim-header">
-        <div class="coord-sim-title">
+      <div class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
+        <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary tw-flex tw-items-center tw-gap-1.5">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
             <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
@@ -377,88 +86,81 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
           </svg>
           Coordinate Frames & Camera View Transform
         </div>
-        <div class="coord-sim-badge">Watch $\\mathbf{p}$ keep its $(u,v,w)$ coordinates as the world moves</div>
+        <div class="tw-font-serif tw-text-sm tw-text-[var(--grey-light)]">${renderTextWithMath('Watch $\\mathbf{p}$ keep its $(u,v,w)$ coordinates as the world moves')}</div>
       </div>
 
       <!-- Main Body Grid -->
-      <div class="coord-sim-body">
+      <div class="tw-grid tw-grid-cols-[335px_1fr] tw-gap-2.5 tw-p-2.5 tw-font-serif max-[860px]:tw-grid-cols-1">
         <!-- Left Panel -->
-        <div class="coord-sim-left">
+        <div class="tw-flex tw-flex-col tw-gap-1.5">
           <!-- Presets -->
-          <div class="coord-sim-presets" id="frame-preset-buttons">
-            <button data-preset="default_camera" class="preset-btn active">Default Camera</button>
-            <button data-preset="top_down" class="preset-btn">Top-Down</button>
-            <button data-preset="pure_offset" class="preset-btn">Pure Offset</button>
+          <div class="tw-flex tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-bg-[var(--grey-dark)] tw-shadow-subtle tw-overflow-hidden" id="frame-preset-buttons">
+            <button type="button" data-preset="default_camera" class="${PRESET_ACTIVE}">Default Camera</button>
+            <button type="button" data-preset="top_down" class="${PRESET_INACTIVE}">Top-Down</button>
+            <button type="button" data-preset="pure_offset" class="${PRESET_INACTIVE}">Pure Offset</button>
           </div>
 
           <!-- Description Callout -->
-          <div id="frame-desc-box" class="coord-sim-desc">
+          <div id="frame-desc-box" class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)] tw-min-h-[30px]">
             ${FRAME_PRESETS.default_camera.description}${cameraRevealNote}
           </div>
 
           <!-- Step Progression Pipeline -->
-          <div>
-            <div style="font-size: 10.5px; font-weight: 700; color: var(--grey-light); letter-spacing: 0.05em; margin-bottom: 3px; display: flex; justify-content: space-between; align-items: center;">
-              <span>View Transform Pipeline</span>
-              <span id="frame-step-badge" style="font-size: 10.5px; color: rgb(var(--primary)); font-family: monospace;">Canonical Space</span>
-            </div>
-
-            <div class="step-pipeline-wrap" id="frame-step-pipeline">
-              <!-- Rendered dynamically -->
-            </div>
+          <div id="frame-step-pipeline" class="tw-flex tw-flex-col tw-gap-1">
+            <!-- Rendered dynamically -->
           </div>
 
           <!-- Playback Controls -->
-          <div class="playback-bar">
-            <button id="btn-frame-reset" class="ctrl-btn" title="Reset to Rest State">↺</button>
-            <button id="btn-frame-back" class="ctrl-btn" title="Step Back">⏮</button>
-            <button id="btn-frame-play" class="ctrl-btn ctrl-btn-play">
-              <span id="frame-play-text">▶ Play Transform</span>
+          <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-flex tw-gap-1.5 tw-items-stretch">
+            <button type="button" id="btn-frame-reset" class="${CTRL_BTN}" title="Reset to Rest State">↺</button>
+            <button type="button" id="btn-frame-back" class="${CTRL_BTN}" title="Step Back">⏮</button>
+            <button type="button" id="btn-frame-play" class="${PLAY_NEUTRAL}">
+              <span id="frame-play-text">▶ Play</span>
             </button>
-            <button id="btn-frame-forward" class="ctrl-btn" title="Step Forward">⏭</button>
+            <button type="button" id="btn-frame-forward" class="${CTRL_BTN}" title="Step Forward">⏭</button>
           </div>
 
           <!-- Live Frame Matrix Display -->
-          <div class="matrix-box">
-            <div style="font-size: 10.5px; font-weight: 700; color: var(--grey-light); letter-spacing: 0.05em; margin-bottom: 3px; display: flex; justify-content: space-between; align-items: center;">
+          <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-1.5">
+            <div class="tw-font-sans tw-text-[0.75rem] tw-font-semibold tw-text-[var(--grey-light)] tw-tracking-[0.05em] tw-mb-1 tw-flex tw-justify-between tw-items-center tw-gap-2 tw-whitespace-nowrap">
               <span id="label-frame-mat">Frame Matrix $\mathbf{M}_{\text{frame}}$</span>
-              <span style="font-size: 9.5px; color: var(--grey-light);">4×4 Float32</span>
+              <span class="tw-font-mono tw-text-[0.625rem] tw-text-[var(--grey-light)]">4×4 Float32</span>
             </div>
-            <div id="frame-matrix-grid" class="matrix-grid"></div>
+            <div id="frame-matrix-grid" class="tw-grid tw-grid-cols-4 tw-gap-0.5 tw-bg-[var(--grey-darker)] tw-p-1 tw-rounded-[5px] tw-font-mono tw-text-[11px] tw-text-center tw-border tw-border-[var(--ring-border)]"></div>
           </div>
         </div>
 
         <!-- Right 3D Viewport -->
-        <div class="canvas-viewport">
-          <div id="frame-three-mount" style="width: 100%; height: 100%; min-height: 380px;"></div>
+        <div class="tw-relative tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[10px] tw-min-h-[320px] tw-overflow-hidden">
+          <div id="frame-three-mount" class="tw-w-full tw-h-full tw-min-h-[340px]"></div>
 
-          <div class="coord-chip">
-            <div class="coord-chip-row">
-              <span class="coord-chip-label">🌐 Canonical</span>
-              <span class="coord-chip-val"><span id="label-p-xyz">$\\mathbf{p}_{\\text{xyz}}$</span>: <span id="val-p-xyz">(0.0, 0.0, 0.0)</span></span>
+          <div class="coord-chip tw-absolute tw-top-2.5 tw-left-2.5 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-px-2 tw-py-1 tw-rounded-md tw-text-[11px] tw-text-[var(--grey-light)] tw-pointer-events-none tw-flex tw-flex-col tw-gap-0.5">
+            <div class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-whitespace-nowrap tw-leading-tight">
+              <span class="tw-font-sans tw-font-semibold tw-text-[var(--grey-lighter)]">🌐 Canonical</span>
+              <span class="tw-font-mono tw-text-[var(--grey-light)] tw-flex tw-items-baseline tw-gap-1"><span id="label-p-xyz">$\\mathbf{p}_{\\text{xyz}}$</span>: <span id="val-p-xyz">(0.0, 0.0, 0.0)</span></span>
             </div>
-            <div class="coord-chip-row">
-              <span class="coord-chip-label">📷 Nested</span>
-              <span class="coord-chip-val"><span id="label-p-uvw">$\\mathbf{p}_{\\text{uvw}}$</span>: <span id="val-p-uvw">(0.0, 0.0, 0.0)</span></span>
+            <div class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-whitespace-nowrap tw-leading-tight">
+              <span class="tw-font-sans tw-font-semibold tw-text-[var(--grey-lighter)]">📷 Nested</span>
+              <span class="tw-font-mono tw-text-[var(--grey-light)] tw-flex tw-items-baseline tw-gap-1"><span id="label-p-uvw">$\\mathbf{p}_{\\text{uvw}}$</span>: <span id="val-p-uvw">(0.0, 0.0, 0.0)</span></span>
             </div>
           </div>
 
-          <div class="canvas-legend">
-            <div class="legend-row">
-              <span class="legend-title">Canonical $(x,y,z)$:</span>
-              <span class="legend-item"><span class="legend-dot" style="background: #ef4444;"></span> +x</span>
-              <span class="legend-item"><span class="legend-dot" style="background: #22c55e;"></span> +y</span>
-              <span class="legend-item"><span class="legend-dot" style="background: #38bdf8;"></span> +z</span>
+          <div class="tw-absolute tw-bottom-2.5 tw-left-2.5 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-px-2 tw-py-1 tw-rounded-md tw-text-[11px] tw-text-[var(--grey-light)] tw-pointer-events-none tw-flex tw-flex-col tw-gap-0.5">
+            <div class="tw-flex tw-items-center tw-gap-1.5 tw-leading-tight">
+              <span class="tw-font-sans tw-font-semibold tw-text-[var(--grey-lighter)]">${renderTextWithMath('Canonical $(x,y,z)$:')}</span>
+              <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-[7px] tw-h-[7px] tw-rounded-full tw-bg-[#ef4444]"></span> +x</span>
+              <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-[7px] tw-h-[7px] tw-rounded-full tw-bg-[#22c55e]"></span> +y</span>
+              <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-[7px] tw-h-[7px] tw-rounded-full tw-bg-[#38bdf8]"></span> +z</span>
             </div>
-            <div class="legend-row">
-              <span class="legend-title">Nested $(u,v,w)$:</span>
-              <span class="legend-item"><span class="legend-dot" style="background: #f43f5e;"></span> +u</span>
-              <span class="legend-item"><span class="legend-dot" style="background: #10b981;"></span> +v</span>
-              <span class="legend-item"><span class="legend-dot" style="background: #3b82f6;"></span> +w</span>
+            <div class="tw-flex tw-items-center tw-gap-1.5 tw-leading-tight">
+              <span class="tw-font-sans tw-font-semibold tw-text-[var(--grey-lighter)]">${renderTextWithMath('Nested $(u,v,w)$:')}</span>
+              <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-[7px] tw-h-[7px] tw-rounded-full tw-bg-[#f43f5e]"></span> +u</span>
+              <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-[7px] tw-h-[7px] tw-rounded-full tw-bg-[#10b981]"></span> +v</span>
+              <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-[7px] tw-h-[7px] tw-rounded-full tw-bg-[#3b82f6]"></span> +w</span>
             </div>
-            <div class="legend-row">
-              <span class="legend-title">Target:</span>
-              <span class="legend-item"><span class="legend-dot" style="background: #fbbf24;"></span> p</span>
+            <div class="tw-flex tw-items-center tw-gap-1.5 tw-leading-tight">
+              <span class="tw-font-sans tw-font-semibold tw-text-[var(--grey-lighter)]">Target:</span>
+              <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-[7px] tw-h-[7px] tw-rounded-full tw-bg-[#fbbf24]"></span> p</span>
             </div>
           </div>
         </div>
@@ -470,7 +172,6 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
   const engine = new CoordinateFrameEngine(mountContainer)
 
   const descBox = root.querySelector('#frame-desc-box')
-  const stepBadge = root.querySelector('#frame-step-badge')
   const playText = root.querySelector('#frame-play-text')
   const matrixGrid = root.querySelector('#frame-matrix-grid')
   const valPxyz = root.querySelector('#val-p-xyz')
@@ -501,30 +202,17 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
 
   function renderStepsUI() {
     stepPipeline.innerHTML = stepsDef.map((s, idx) => `
-      <div id="frame-step-${idx}" class="step-row" data-step="${idx}">
-        <div style="display: flex; align-items: center; gap: 7px; flex: 1; min-width: 0;">
-          <div class="step-badge">${s.num}</div>
-          <div style="display: flex; align-items: baseline; gap: 6px; overflow: hidden; white-space: nowrap;">
-            <span style="font-size: 12.5px; font-weight: 700; color: var(--grey-lighter);">${renderTextWithMath(s.name)}</span>
-            <span style="font-size: 11px; color: var(--grey-light);">${renderTextWithMath(s.desc)}</span>
+      <div id="frame-step-${idx}" class="${STEP_ROW_BASE}">
+        <div class="tw-flex tw-items-center tw-gap-1.5 tw-flex-1 tw-min-w-0">
+          <div class="step-badge ${STEP_BADGE_BASE}">${s.num}</div>
+          <div class="tw-flex tw-flex-col tw-min-w-0">
+            <span class="tw-font-sans tw-text-[0.6875rem] tw-font-semibold tw-text-[var(--grey-lighter)]">${renderTextWithMath(s.name)}</span>
+            <span class="tw-font-serif tw-text-[0.75rem] tw-leading-tight tw-text-[var(--grey-light)]">${renderTextWithMath(s.desc)}</span>
           </div>
         </div>
-        <div class="step-symbol" data-math-term="${s.term}" style="cursor: pointer;" title="Hover to view Definition">${renderMath(s.symbol)}</div>
+        <div class="${STEP_SYMBOL}" data-math-term="${s.term}" title="Hover to view Definition">${renderMath(s.symbol)}</div>
       </div>
     `).join('')
-
-    // Row i clicks jump to engine step i+1
-    for (let i = 0; i < stepsDef.length; i++) {
-      const row = root.querySelector(`#frame-step-${i}`)
-      if (row) {
-        row.addEventListener('click', () => {
-          engine.targetStepIndex = stepsDef[i].engineStep
-          engine.isPlaying = false
-          if (engine.digestTimer) clearTimeout(engine.digestTimer)
-          engine.emit('state-changed', engine.getState())
-        })
-      }
-    }
   }
 
   function updateMatrixDisplay(elts) {
@@ -534,7 +222,7 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
         const val = elts[c * 4 + r]
         const isDiagonal = r === c
         const isHighlight = val !== (isDiagonal ? 1 : 0)
-        html += `<span class="matrix-val ${isHighlight ? 'active' : ''}">${formatNum(val)}</span>`
+        html += `<span class="${isHighlight ? 'tw-text-primary tw-font-bold' : 'tw-text-[var(--grey-light)]'}">${formatNum(val)}</span>`
       }
     }
     matrixGrid.innerHTML = html
@@ -543,7 +231,7 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
   function updateUI(state) {
     // Preset buttons
     root.querySelectorAll('.preset-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.preset === state.presetKey)
+      btn.className = btn.dataset.preset === state.presetKey ? PRESET_ACTIVE : PRESET_INACTIVE
     })
 
     // Preset description
@@ -568,25 +256,11 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
     const forwardBtn = root.querySelector('#btn-frame-forward')
     if (forwardBtn) forwardBtn.disabled = isDone
 
-    // Step Status Badge (shows what comes next, not what just happened)
-    if (isDone) {
-      stepBadge.textContent = 'View Space ✓'
-      stepBadge.style.color = 'rgb(var(--primary))'
-    } else if (state.currentStepIndex === 0) {
-      stepBadge.textContent = 'Next: Translate (−e)'
-      stepBadge.style.color = ''
-    } else if (state.currentStepIndex === 1) {
-      stepBadge.textContent = 'Next: Rotate (Rᵀ)'
-      stepBadge.style.color = ''
-    } else {
-      stepBadge.textContent = 'Canonical (Rest)'
-      stepBadge.style.color = ''
-    }
-
     // Step rows: 2 rows (T_{-e} and R^T), row i maps to engine step i+1.
-    // active   = currentStepIndex === i   → this is the next pending transform
-    // completed = currentStepIndex > i    → transform already applied (non-clickable)
-    // plain    = currentStepIndex < i    → future (clickable to jump ahead)
+    // Passive status cards — interaction lives on the playback buttons only.
+    // active    = currentStepIndex === i   → this is the next pending transform
+    // completed = currentStepIndex > i     → transform already applied
+    // plain     = currentStepIndex < i     → future
     for (let i = 0; i < stepsDef.length; i++) {
       const row = root.querySelector(`#frame-step-${i}`)
       const badge = row ? row.querySelector('.step-badge') : null
@@ -594,21 +268,34 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
       const engineStep = stepsDef[i].engineStep  // 1 or 2
       if (isDone || state.currentStepIndex >= engineStep) {
         // Transform already applied
-        row.className = 'step-row completed'
+        row.className = STEP_ROW_COMPLETED
+        if (badge) badge.className = `step-badge ${STEP_BADGE_COMPLETED}`
         if (badge) badge.textContent = '✓'
       } else if (state.currentStepIndex === engineStep - 1) {
         // Next pending — highlighted
-        row.className = 'step-row active'
+        row.className = STEP_ROW_ACTIVE
+        if (badge) badge.className = `step-badge ${STEP_BADGE_ACTIVE}`
         if (badge) badge.textContent = stepsDef[i].num
       } else {
         // Future (not yet reachable without applying previous step)
-        row.className = 'step-row'
+        row.className = STEP_ROW_BASE
+        if (badge) badge.className = `step-badge ${STEP_BADGE_BASE}`
         if (badge) badge.textContent = stepsDef[i].num
       }
     }
 
-    // Play text
-    playText.textContent = state.isPlaying ? '⏸ Pause' : isDone ? '↺ Play Again' : '▶ Play Transform'
+    // Play button: neutral at rest, primary while playing, label swaps
+    const playBtn = root.querySelector('#btn-frame-play')
+    if (state.isPlaying) {
+      playBtn.className = PLAY_ACTIVE
+      playText.textContent = '⏸ Pause'
+    } else if (isDone) {
+      playBtn.className = PLAY_NEUTRAL
+      playText.textContent = '↺ Replay'
+    } else {
+      playBtn.className = PLAY_NEUTRAL
+      playText.textContent = '▶ Play'
+    }
 
     // Coordinate displays (compact 1-decimal format)
     valPxyz.textContent = `(${formatCoord(state.pointWorld[0])}, ${formatCoord(state.pointWorld[1])}, ${formatCoord(state.pointWorld[2])})`
