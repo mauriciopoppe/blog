@@ -5,6 +5,7 @@ summary: |
   Rotation transforms in 2D and 3D space, cardinal axis rotation matrices, arbitrary axis rotation with Rodrigues' formula, and quaternion rotor foundations.
 image: /images/flat-shading.svg
 libraries: ["katex"]
+math_terms: ["graphics"]
 tags: ["rotation", "quaternions", "2d", "3d", "computer graphics"]
 references:
   - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
@@ -15,7 +16,7 @@ series: "computer-graphics-pipeline"
 pipeline_stage: "transforms"
 ---
 
-Rotation transforms orient geometry in 2D and 3D space about an origin or axis without altering size or shape.
+<span data-term="R" class="math-term-trigger cursor-help">Rotation</span> transforms orient geometry in 2D and 3D space about an origin or axis without altering size or shape.
 
 ## 2D Rotation
 
@@ -141,7 +142,7 @@ $$
 
 Composing multiple 3D rotations using Euler angles or full $3 \times 3$ matrices often introduces gimbal lock and matrix orthogonalization drift.
 
-Quaternions represent rotations compactly using a 4D unit rotor $q = [\cos\frac{\theta}{2}, \sin\frac{\theta}{2}\hat{\mathbf{n}}]$. The quaternion sandwich product $p^\prime = q p q^\*$ algebraically produces the exact same vector transformation as Rodrigues' formula without trigonometric evaluations per vertex:
+Quaternions represent rotations compactly using a 4D unit rotor $q = [\cos\frac{\theta}{2}, \sin\frac{\theta}{2}\hat{\mathbf{n}}]$. The quaternion sandwich product $p^\prime = q p q^\ast$ algebraically produces the exact same vector transformation as Rodrigues' formula without trigonometric evaluations per vertex:
 
 $$
 \mathbf{v}^\prime = \cos\theta \mathbf{v} + \sin\theta (\hat{\mathbf{n}} \times \mathbf{v}) + (1 - \cos\theta)(\mathbf{v} \cdot \hat{\mathbf{n}})\hat{\mathbf{n}}
@@ -150,5 +151,3 @@ $$
 For full algebraic proofs of rotor construction, sandwich product invariance, rotation composition, and spherical linear interpolation, see [Quaternions](/notes/computer-graphics/quaternions/).
 
 <script type="module" src="/js/computer-graphics/rotation.js"></script>
-
-

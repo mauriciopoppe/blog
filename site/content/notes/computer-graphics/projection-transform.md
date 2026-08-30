@@ -1,6 +1,7 @@
 ---
 title: "The Projection Transform"
 date: 2016-02-14 12:18:26
+favorite: true
 summary: |
   Objects in a 3D scene reach the screen through projection. This article derives the orthographic and perspective projection matrices that map view-space points into the canonical view volume.
 image: /images/projection-matrix!perspective-all.png
@@ -16,7 +17,7 @@ series: "computer-graphics-pipeline"
 pipeline_stage: "projection"
 ---
 
-The *canonical view volume* is a cube with corners at $[-1, -1, -1]$ and $[1, 1, 1]$. Coordinates in this cube are called *normalized device coordinates* (NDC). The projection step maps the region of the scene we want to render, the *view volume*, into this cube:
+The *canonical view volume* is a cube with corners at $[-1, -1, -1]$ and $[1, 1, 1]$. Coordinates in this cube are called <span data-term="ndc" class="math-term-trigger cursor-help">normalized device coordinates</span> (NDC). The projection step maps the region of the scene we want to render, the *view volume*, into this cube using the <span data-term="M_proj" class="math-term-trigger cursor-help">projection matrix</span>:
 
 $$
 \mathbf{v}\_{ndc} = \mathbf{M}\_{proj} \mathbf{v}\_{view}

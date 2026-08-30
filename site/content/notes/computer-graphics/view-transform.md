@@ -8,6 +8,7 @@ libraries: ["katex"]
 math_terms: ["graphics"]
 interactive: true
 date: 2016-02-13 11:59:56
+favorite: true
 references:
   - "Schaback, J. (2016). Camera Transformation and View Matrix. [online] Schabby.de. [Accessed 7 Mar. 2016]."
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
@@ -143,7 +144,7 @@ $$
 \end{bmatrix}^{-1} \mathbf{p}\_{\text{xyz}}
 $$
 
-This **canonical-to-frame** matrix is the standard **View Matrix** $\mathbf{M}\_{\text{view}} = \mathbf{R}^T \mathbf{T}\_{-\mathbf{e}}$ used across 3D rendering pipelines.
+This **canonical-to-frame** matrix is the standard <span data-term="M_view" class="math-term-trigger cursor-help">View Matrix</span> $\mathbf{M}\_{\text{view}} = \mathbf{R}^T \mathbf{T}\_{-\mathbf{e}}$ used across 3D rendering pipelines.
 
 In computer graphics, the virtual camera stays fixed at the origin looking down its negative $z$-axis. To render from a camera at eye position $\mathbf{e}$, the pipeline does not move the viewport. Instead it multiplies every vertex by the View Matrix $\mathbf{M}\_{\text{view}}$, transforming the world so the camera ends up at the origin with its axes aligned to the canonical ones. Projection, clipping, and depth testing all assume a camera at the origin looking down the negative $z$-axis, so the View Matrix is the single place where the camera's position and orientation enter the pipeline. Moving the camera changes only this matrix, and the rest of the pipeline stays the same.
 

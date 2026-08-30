@@ -1,11 +1,13 @@
 ---
 title: "Quaternions"
 date: 2016-04-26 16:39:27
+favorite: true
 summary: |
   Quaternions represent 3D orientations on a 4D hypersphere without gimbal lock. Rotor construction, sandwich product proofs, Rodrigues equivalence, SLERP, composition, and the Three.js API, with an interactive flight simulator.
 image: /images/flat-shading.svg
 tags: ["quaternions", "3d", "computer graphics", "rotation"]
 libraries: ["katex"]
+math_terms: ["graphics"]
 references:
   - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
   - "Vince, J. (2011). Quaternions for computer graphics. London: Springer."
@@ -20,7 +22,7 @@ In two dimensions, complex numbers rotate vectors effortlessly through Euler's f
 
 Euler angles (pitch, yaw, roll) suffer from **gimbal lock**, an irreversible loss of a rotational degree of freedom when two axes align. Standard $3 \times 3$ rotation matrices require 9 numbers to store 3 degrees of freedom. Over thousands of animation frames, matrix multiplications accumulate numerical precision drift that warps geometry unless restored by costly Gram-Schmidt orthonormalization.
 
-In 1843, William Rowan Hamilton realized that rotating vectors in 3D space requires a 4D algebraic system called **quaternions**.
+In 1843, William Rowan Hamilton realized that rotating vectors in 3D space requires a 4D algebraic system called <span data-term="quaternion" class="math-term-trigger cursor-help">quaternions</span>.
 
 A quaternion $q$ consists of a real scalar component $s$ and a 3D imaginary vector component $\mathbf{v}$:
 

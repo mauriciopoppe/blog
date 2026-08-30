@@ -5,7 +5,8 @@ summary: |
   We build different types of transformation matrices to scale objects along cardinal axes and arbitrary axes in 2D and 3D with matrix multiplication!
 image: /images/scale!arbitrary-axis.png
 tags: ["computer graphics", "transformation matrix", "2d", "3d", "linear algebra", "scaling"]
-libraries: ["math"]
+libraries: ["katex"]
+math_terms: ["graphics"]
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
 aliases:
@@ -20,102 +21,102 @@ Intuitively, the basis vectors should be multiplied by a scalar. Also, they are 
 
 In 2D, the basis vectors become:
 
-<div>$$
-\mathbf{p'} = k_x \mathbf{p} = k_x \begin{bmatrix} 1 \\ 0 \end{bmatrix} = \begin{bmatrix} k_x \\ 0 \end{bmatrix} \\
-\mathbf{q'} = k_y \mathbf{q} = k_y \begin{bmatrix} 0 \\ 1 \end{bmatrix} = \begin{bmatrix} 0 \\ k_y \end{bmatrix}
-$$</div>
+$$
+\mathbf{p}^\prime = k_x \mathbf{p} = k_x \begin{bmatrix} 1 \\\\ 0 \end{bmatrix} = \begin{bmatrix} k_x \\\\ 0 \end{bmatrix} \\\\
+\mathbf{q}^\prime = k_y \mathbf{q} = k_y \begin{bmatrix} 0 \\\\ 1 \end{bmatrix} = \begin{bmatrix} 0 \\\\ k_y \end{bmatrix}
+$$
 
-Constructing the 2D scale matrix $\mathbf{S}(k_x, k_y)$ from these basis vectors:
+Constructing the 2D <span data-term="S" class="math-term-trigger cursor-help">scale matrix</span> $\mathbf{S}(k_x, k_y)$ from these basis vectors:
 
-<div>$$
-\mathbf{S}(k_x, k_y) = \begin{bmatrix} k_x & 0 \\ 0 & k_y \end{bmatrix}
-$$</div>
+$$
+\mathbf{S}(k_x, k_y) = \begin{bmatrix} k_x & 0 \\\\ 0 & k_y \end{bmatrix}
+$$
 
 Similarly, the 3D scale matrix is given by:
 
-<div>$$
+$$
 \mathbf{S}(k_x, k_y, k_z) = \begin{bmatrix}
-k_x & 0 & 0 \\
-0 & k_y & 0 \\
+k_x & 0 & 0 \\\\
+0 & k_y & 0 \\\\
 0 & 0 & k_z
 \end{bmatrix}
-$$</div>
+$$
 
 ## Scaling Along an Arbitrary Axis
 
-Let $\unit{n}$ be the unit vector parallel to the direction of scale and $k$ to be the scale factor. A vector transformed by this scale operation can be represented as:
+Let $\hat{\mathbf{n}}$ be the unit vector parallel to the direction of scale and $k$ to be the scale factor. A vector transformed by this scale operation can be represented as:
 
-<div>$$
-\mathbf{v'} = \mathbf{S}(\unit{n}, k) \mathbf{v}
-$$</div>
+$$
+\mathbf{v}^\prime = \mathbf{S}(\hat{\mathbf{n}}, k) \mathbf{v}
+$$
 
 {{< figure src="/images/scale!arbitrary-axis.png" title="Scale Arbitrary Axis" >}}
 
-Separate $\mathbf{v}$ into two vectors: a vector parallel to $\unit{v}$ called $\mathbf{v_{\parallel}}$ and a vector perpendicular to $\unit{v}$ called $\mathbf{v_{\perp}}$ such that:
+Separate $\mathbf{v}$ into two vectors: a vector parallel to $\hat{\mathbf{v}}$ called $\mathbf{v_{\parallel}}$ and a vector perpendicular to $\hat{\mathbf{v}}$ called $\mathbf{v_{\perp}}$ such that:
 
-<div>$$
+$$
 \mathbf{v} = \mathbf{v_{\parallel}} + \mathbf{v_{\perp}}
-$$</div>
+$$
 
 Where:
 
-<div>$$
+$$
 \begin{align*}
-\mathbf{v_{\parallel}} &= (\mathbf{v} \cdot \unit{n}) \unit{n} \\
+\mathbf{v_{\parallel}} &= (\mathbf{v} \cdot \hat{\mathbf{n}}) \hat{\mathbf{n}} \\\\
 \mathbf{v_{\perp}} &= \mathbf{v} - \mathbf{v_{\parallel}}
 \end{align*}
-$$</div>
+$$
 
-We can also represent $\mathbf{v'}$ as a sum of two vectors parallel and perpendicular to $\unit{n}$:
+We can also represent $\mathbf{v}^\prime$ as a sum of two vectors parallel and perpendicular to $\hat{\mathbf{n}}$:
 
-<div>$$
-\mathbf{v'} = \mathbf{v_{\parallel}'} + \mathbf{v_{\perp}'}
-$$</div>
+$$
+\mathbf{v}^\prime = \mathbf{v_{\parallel}}^\prime + \mathbf{v_{\perp}}^\prime
+$$
 
-Note that any vector that lies in the 2D line or 3D plane perpendicular to $\unit{n}$ will not be affected by the scale operation, so $\mathbf{v'} = \mathbf{v_{\parallel}'} + \mathbf{v_{\perp}}$.
+Note that any vector that lies in the 2D line or 3D plane perpendicular to $\hat{\mathbf{n}}$ will not be affected by the scale operation, so $\mathbf{v}^\prime = \mathbf{v_{\parallel}}^\prime + \mathbf{v_{\perp}}$.
 
-Since $\mathbf{v_{\parallel}}$ is parallel to the direction of scale, then $\mathbf{v_{\parallel}'} = k\mathbf{v_{\parallel}}$.
+Since $\mathbf{v_{\parallel}}$ is parallel to the direction of scale, then $\mathbf{v_{\parallel}}^\prime = k\mathbf{v_{\parallel}}$.
 
 Reconstructing the solution from the observations above:
 
-<div>$$
+$$
 \begin{align*}
-\mathbf{v_{\parallel}} &= (\mathbf{v} \cdot \unit{n}) \unit{n} \\
-\mathbf{v_{\perp}'} &= \mathbf{v_{\perp}} \\
-&= \mathbf{v} - \mathbf{v_{\parallel}} \\
-&= \mathbf{v} - (\mathbf{v} \cdot \unit{n}) \unit{n} \\
-\mathbf{v_{\parallel}'} &= k\mathbf{v_{\parallel}} \\
-&= k(\mathbf{v} \cdot \unit{n}) \unit{n}  \\
-\mathbf{v'} &= \mathbf{v_{\perp}'} + \mathbf{v_{\parallel}'} \\
-&= \mathbf{v} - (\mathbf{v} \cdot \unit{n}) \unit{n} + k(\mathbf{v} \cdot \unit{n}) \unit{n} \\
-&= \mathbf{v} + (k - 1) (\mathbf{v} \cdot \unit{n}) \unit{n}
+\mathbf{v_{\parallel}} &= (\mathbf{v} \cdot \hat{\mathbf{n}}) \hat{\mathbf{n}} \\\\
+\mathbf{v_{\perp}}^\prime &= \mathbf{v_{\perp}} \\\\
+&= \mathbf{v} - \mathbf{v_{\parallel}} \\\\
+&= \mathbf{v} - (\mathbf{v} \cdot \hat{\mathbf{n}}) \hat{\mathbf{n}} \\\\
+\mathbf{v_{\parallel}}^\prime &= k\mathbf{v_{\parallel}} \\\\
+&= k(\mathbf{v} \cdot \hat{\mathbf{n}}) \hat{\mathbf{n}}  \\\\
+\mathbf{v}^\prime &= \mathbf{v_{\perp}}^\prime + \mathbf{v_{\parallel}}^\prime \\\\
+&= \mathbf{v} - (\mathbf{v} \cdot \hat{\mathbf{n}}) \hat{\mathbf{n}} + k(\mathbf{v} \cdot \hat{\mathbf{n}}) \hat{\mathbf{n}} \\\\
+&= \mathbf{v} + (k - 1) (\mathbf{v} \cdot \hat{\mathbf{n}}) \hat{\mathbf{n}}
 \end{align*}
-$$</div>
+$$
 
 We can construct a general scale matrix by computing the vectors resulting after transforming the basis vectors $\mathbf{p}$, $\mathbf{q}$, and $\mathbf{r}$. For example, let's transform $\mathbf{p} = \begin{bmatrix} 1 & 0 & 0 \end{bmatrix}^T$:
 
-<div>$$
+$$
 \begin{align*}
-\mathbf{p'} &= \mathbf{p} + (k - 1) (\mathbf{p} \cdot \unit{n}) \unit{n} \\
-&= \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix} + (k - 1) \left ( \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix} \begin{bmatrix} n_x \\ n_y \\ n_z \end{bmatrix}^T \right ) \begin{bmatrix} n_x \\ n_y \\ n_z \end{bmatrix} \\
-&= \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix} + (k - 1) n_x \begin{bmatrix} n_x \\ n_y \\ n_z \end{bmatrix} \\
+\mathbf{p}^\prime &= \mathbf{p} + (k - 1) (\mathbf{p} \cdot \hat{\mathbf{n}}) \hat{\mathbf{n}} \\\\
+&= \begin{bmatrix} 1 \\\\ 0 \\\\ 0 \end{bmatrix} + (k - 1) \left ( \begin{bmatrix} 1 \\\\ 0 \\\\ 0 \end{bmatrix} \begin{bmatrix} n_x \\\\ n_y \\\\ n_z \end{bmatrix}^T \right ) \begin{bmatrix} n_x \\\\ n_y \\\\ n_z \end{bmatrix} \\\\
+&= \begin{bmatrix} 1 \\\\ 0 \\\\ 0 \end{bmatrix} + (k - 1) n_x \begin{bmatrix} n_x \\\\ n_y \\\\ n_z \end{bmatrix} \\\\
 &= \begin{bmatrix}
-1 + (k - 1) {n_x}^2 \\
-(k - 1)n_xn_y \\
+1 + (k - 1) {n_x}^2 \\\\
+(k - 1)n_xn_y \\\\
 (k - 1)n_xn_z
 \end{bmatrix}
 \end{align*}
-$$</div>
+$$
 
-Similarly, the values of $\mathbf{q'}$ and $\mathbf{r'}$ can be found, which make the general rotation matrix equal to:
+Similarly, the values of $\mathbf{q}^\prime$ and $\mathbf{r}^\prime$ can be found, which make the general rotation matrix equal to:
 
-<div>$$
+$$
 \begin{align*}
-\mathbf{S}(\unit{n}, k) &= \begin{bmatrix} \mathbf{p'} & \mathbf{q'} & \mathbf{r'} \end{bmatrix} \nonumber \\
+\mathbf{S}(\hat{\mathbf{n}}, k) &= \begin{bmatrix} \mathbf{p}^\prime & \mathbf{q}^\prime & \mathbf{r}^\prime \end{bmatrix} \\\\
 & = \begin{bmatrix}
-1 + (k - 1) {n_x}^2 & (k - 1)n_yn_x & (k - 1)n_zn_x \\
-(k - 1)n_xn_y & 1 + (k - 1) {n_y}^2 & (k - 1)n_zn_y \\
+1 + (k - 1) {n_x}^2 & (k - 1)n_yn_x & (k - 1)n_zn_x \\\\
+(k - 1)n_xn_y & 1 + (k - 1) {n_y}^2 & (k - 1)n_zn_y \\\\
 (k - 1)n_xn_z & (k - 1)n_yn_z & 1 + (k - 1) {n_z}^2
 \end{bmatrix}
 \end{align*}
-$$</div>
+$$

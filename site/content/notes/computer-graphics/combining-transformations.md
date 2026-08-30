@@ -1,6 +1,7 @@
 ---
 title: "Combining Matrix Transformations"
 date: 2016-02-10 21:13:17
+favorite: true
 summary: |
   Taking multiple matrices, each encoding a single transformation, and combining them
   is how we transform vectors between different spaces. This article covers creating a
@@ -9,6 +10,7 @@ summary: |
 image: /images/scaling-rotation-translation.png
 tags: ["computer graphics", "transformation matrix", "linear algebra"]
 libraries: ["katex"]
+math_terms: ["graphics"]
 interactive: true
 references:
  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
@@ -39,7 +41,7 @@ $$
 \end{aligned}
 $$
 
-Order matters: $\mathbf{T}\mathbf{R}$ and $\mathbf{R}\mathbf{T}$ give different results, and the rest of this article shows why. The same composition powers the [view transform](/notes/computer-graphics/view-transform/), a change between coordinate systems, covered in its own article.
+Order matters: <span data-term="TR" class="math-term-trigger cursor-help">rotation followed by translation</span> $\mathbf{T}\mathbf{R}$ and <span data-term="RT" class="math-term-trigger cursor-help">translation followed by rotation</span> $\mathbf{R}\mathbf{T}$ give different results, and the rest of this article shows why. The same composition powers the [view transform](/notes/computer-graphics/view-transform/), a change between coordinate systems, covered in its own article.
 
 ## Rotation Followed by Translation
 
@@ -145,7 +147,7 @@ The rows of the product are the result of transforming the basis vectors of $\ma
 
 ## Interactive 3D Transformation Chain Simulator
 
-Matrix composition operates identically to nested function application:
+<span data-term="TRS" class="math-term-trigger cursor-help">Matrix composition</span> operates identically to nested function application:
 
 $$
 (\mathbf{T} \circ \mathbf{R} \circ \mathbf{S})(\mathbf{v}) = \mathbf{T}(\mathbf{R}(\mathbf{S}(\mathbf{v}))) = \mathbf{T}\mathbf{R}\mathbf{S}\mathbf{v}
