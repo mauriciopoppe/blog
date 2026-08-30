@@ -9,11 +9,15 @@ on:
   schedule:
     # Weekly drift safety net in case a push was missed
     - cron: '0 6 * * 1'
+  workflow_dispatch:
 
 jobs:
   algolia:
     name: Regenerate and push search index
     runs-on: ubuntu-latest
+    # ALGOLIA_WRITE_KEY lives in the "main" environment, so the job must opt
+    # into it or the secret resolves empty.
+    environment: main
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
