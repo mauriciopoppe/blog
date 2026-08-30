@@ -1,0 +1,11 @@
+/* Search overlay hit highlighting. Algolia wraps matches in <em> tags inside
+   _highlightResult; keep them readable on the dark cards with a primary-tinted
+   background instead of default styling. */
+.ais-Highlight em,
+.ais-Highlight mark {
+  background: rgba(var(--primary), 0.22);
+  color: rgb(var(--primary));
+  font-style: normal;
+  border-radius: 2px;
+  padding: 0 1px;
+}

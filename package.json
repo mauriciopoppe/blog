@@ -18,7 +18,7 @@
     "serve:prod": "http-server -S -C site/cert/localhost.pem -K site/cert/localhost-key.pem dist",
     "generate:sitemap": "bun run src/util/sitemap-tree-generator.ts",
     "generate:algolia": "hugo-algolia -i \"site/content/**\" --config site/config/_default/config.yaml -o dist/sitemap.json",
-    "generate:algolia:send": "hugo-algolia -i \"site/content/**\" --config site/config/_default/config.yaml -o dist/sitemap.json -s",
+    "generate:algolia:send": "bun run src/scripts/algolia-push.ts",
     "test": "bun test site/ src/",
     "preflight": "bun run src/scripts/preflight.ts",
     "publish:note": "bun run src/scripts/publish-note.ts"
