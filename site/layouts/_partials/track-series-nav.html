@@ -1,0 +1,19 @@
+{{/* Track clicks on series navigation widgets with gtag.
+   Params:
+     .card  - CSS selector for the widget container
+     .link  - CSS selector for the navigation links to track
+     .event - gtag event name */}}
+<script>
+(function () {
+  var card = document.querySelector({{ (.card | jsonify) | safeJS }})
+  if (!card || typeof window.gtag !== 'function') return
+  card.addEventListener('click', function (event) {
+    var link = event.target.closest({{ (.link | jsonify) | safeJS }})
+    if (!link) return
+    window.gtag('event', {{ (.event | jsonify) | safeJS }}, {
+      link_url: link.getAttribute('href'),
+      link_text: (link.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 60)
+    })
+  })
+})()
+</script>

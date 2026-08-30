@@ -264,3 +264,8 @@
   </div>
   {{ end }}
 </div>
+{{ partial "track-series-nav.html" (dict
+  "card" ".graphics-pipeline-card"
+  "link" "a.graphics-stage-link, a.graphics-substage-link"
+  "event" "graphics_pipeline_series"
+) }}
