@@ -592,12 +592,12 @@ export class QuaternionSlerpEngine {
 
   play() {
     this.isPlaying = true
-    this.emit('playState', true)
+    this.emitState()
   }
 
   pause() {
     this.isPlaying = false
-    this.emit('playState', false)
+    this.emitState()
   }
 
   togglePlay() {
