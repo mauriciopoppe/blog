@@ -59,13 +59,13 @@
 
   {{/* Responsive 4-Stage Cards Grid */}}
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 12px;">
-    {{/* Stage 1: Metrics & Fundamentals */}}
+    {{/* Stage 1: Fundamentals */}}
     <a href="/notes/performance-fundamentals/" class="perf-stage-link" style="background: {{ if $isStep1 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep1 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
       <div class="perf-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/performance-fundamentals.png'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
       {{ if $favStage1 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">
         <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep1 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 1</div>
-        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep1 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Metrics</div>
+        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep1 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Fundamentals</div>
         <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">Latency, throughput, utilization, Little's Law</div>
       </div>
     </a>
