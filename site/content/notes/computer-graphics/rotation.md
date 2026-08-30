@@ -2,427 +2,153 @@
 title: "Rotation"
 date: 2015-12-15 13:00:00
 summary: |
-  The basics of rotation in 2D and 3D for computer graphics, with a focus on 3D rotation about cardinal axes and 3D rotation with quaternions.
-
-  <br />
-
-  For quaternions, please also look at [https://eater.net/quaternions](https://eater.net/quaternions) for amazing animations!
+  Rotation transforms in 2D and 3D space, cardinal axis rotation matrices, arbitrary axis rotation with Rodrigues' formula, and quaternion rotor foundations.
 image: /images/flat-shading.svg
-libraries: ["math"]
+libraries: ["katex"]
 tags: ["rotation", "quaternions", "2d", "3d", "computer graphics"]
 references:
- - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
- - "Vince, J. (2011). Quaternions for computer graphics. London: Springer."
- - "Shoemake, K. (2016). Quaternions [online] Cs.ucr.edu. Available at: http://www.cs.ucr.edu/~vbz/resources/quatut.pdf [Accessed 7 Mar. 2016]."
+  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
+  - "Vince, J. (2011). Quaternions for computer graphics. London: Springer."
 aliases:
   - /notes/computer-graphics/transformation-matrices/rotation/introduction/
 series: "computer-graphics-pipeline"
 pipeline_stage: "transforms"
 ---
 
+Rotation transforms orient geometry in 2D and 3D space about an origin or axis without altering size or shape.
+
 ## 2D Rotation
 
-A 2D rotation has only one parameter, $\theta$. When the basis vectors $\unit{i} = [1, 0]$ and $\unit{j} = [0, 1]$ are rotated by an angle $\theta$:
+A 2D rotation depends on a single parameter, the angle $\theta$. Rotating the standard Cartesian basis vectors $\mathbf{i} = [1, 0]^T$ and $\mathbf{j} = [0, 1]^T$ counterclockwise by $\theta$ yields transformed basis vectors $\mathbf{p}$ and $\mathbf{q}$:
 
-<div>$$
-\mathbf{p} = \cos{\theta} \unit{i} + \sin{\theta} \unit{j} \\
-\mathbf{q} = -\sin{\theta} \unit{i} + \cos{\theta} \unit{j}
-$$</div>
+$$
+\begin{aligned}
+\mathbf{p} &= \cos\theta \mathbf{i} + \sin\theta \mathbf{j} = \begin{bmatrix} \cos\theta \\\\ \sin\theta \end{bmatrix} \\\\
+\mathbf{q} &= -\sin\theta \mathbf{i} + \cos\theta \mathbf{j} = \begin{bmatrix} -\sin\theta \\\\ \cos\theta \end{bmatrix}
+\end{aligned}
+$$
 
 <div id="two-dimensions"></div>
 
-Which builds the rotation matrix:
+Placing $\mathbf{p}$ and $\mathbf{q}$ into matrix columns forms the 2D rotation matrix:
 
-<div>$$
+$$
 \mathbf{R}(\theta) = \begin{bmatrix}
-\textbf{p} \\
-\textbf{q}
+\mathbf{p} & \mathbf{q}
 \end{bmatrix} = \begin{bmatrix}
-\cos{\theta} & \sin{\theta} \\
--\sin{\theta} & \cos{\theta}
+\cos\theta & -\sin\theta \\\\
+\sin\theta & \cos\theta
 \end{bmatrix}
-$$</div>
+$$
 
-When a vector $\mathbf{v}$ is transformed by this matrix, we know that the vector will be a *linear combination of the basis*, which are $\mathbf{p}$ and $\mathbf{q}$:
+Applying $\mathbf{R}(\theta)$ to an arbitrary vector $\mathbf{v} = [v\_x, v\_y]^T$ expresses the transformed vector $\mathbf{v}^\prime$ as a linear combination of the rotated basis:
 
-<div>$$
-\begin{align*}
-\mathbf{v'} = \mathbf{vR}(\theta) &= v_x \mathbf{p} + v_y \mathbf{q} \\
-&= v_x \begin{bmatrix}\cos{\theta} & \sin{\theta}\end{bmatrix} + v_y \begin{bmatrix}-\sin{\theta} & \cos{\theta}\end{bmatrix} \\
-&= \begin{bmatrix}
-v_x \cos{\theta} - v_y \sin{\theta} \\
-v_x \sin{\theta} + v_y \cos{\theta}
-\end{bmatrix}^T
-\end{align*}
-$$</div>
-
-Using a matrix to encode this operation:
-
-<div>$$
-\begin{align*}
-\mathbf{v'} = \mathbf{vR}(\theta) &= \begin{bmatrix}v_x & v_y\end{bmatrix} \begin{bmatrix}
-\cos{\theta} & \sin{\theta} \\
--\sin{\theta} & \cos{\theta}
-\end{bmatrix} \\
-&= \begin{bmatrix}
-v_x \cos{\theta} - v_y \sin{\theta} \\
-v_x \sin{\theta} + v_y \cos{\theta}
-\end{bmatrix}^T
-\end{align*}
-$$</div>
+$$
+\mathbf{v}^\prime = \mathbf{R}(\theta)\mathbf{v} = \begin{bmatrix}
+\cos\theta & -\sin\theta \\\\
+\sin\theta & \cos\theta
+\end{bmatrix} \begin{bmatrix}
+v\_x \\\\
+v\_y
+\end{bmatrix} = \begin{bmatrix}
+v\_x \cos\theta - v\_y \sin\theta \\\\
+v\_x \sin\theta + v\_y \cos\theta
+\end{bmatrix}
+$$
 
 See also [complex numbers](/notes/mathematics/numeral-systems/complex-numbers).
 
 ## 3D Rotation
 
-### About Cardinal Axes
+### Cardinal Axes
 
-<div>$$
-\mathbf{R_x}(\alpha) = \begin{bmatrix}
-1 & 0 & 0 \\
-0 & \cos{\alpha} & -\sin{\alpha} \\
-0 & \sin{\alpha} & \cos{\alpha}
+Rotating around the primary coordinate axes in a right-handed system produces elementary $3 \times 3$ rotation matrices:
+
+$$
+\mathbf{R}\_x(\alpha) = \begin{bmatrix}
+1 & 0 & 0 \\\\
+0 & \cos\alpha & -\sin\alpha \\\\
+0 & \sin\alpha & \cos\alpha
 \end{bmatrix}
-$$</div>
+$$
 
-<div>$$
-\mathbf{R_y}(\beta) = \begin{bmatrix}
-\cos{\beta} & 0 & \sin{\beta} \\
-0 & 1 & 0 \\
--\sin{\beta} & 0 & \cos{\beta}
+$$
+\mathbf{R}\_y(\beta) = \begin{bmatrix}
+\cos\beta & 0 & \sin\beta \\\\
+0 & 1 & 0 \\\\
+-\sin\beta & 0 & \cos\beta
 \end{bmatrix}
-$$</div>
+$$
 
-<div>$$
-\mathbf{R_z}(\gamma) = \begin{bmatrix}
-\cos{\gamma} & -\sin{\gamma} & 0 \\
-\sin{\gamma} & \cos{\gamma} & 0 \\
+$$
+\mathbf{R}\_z(\gamma) = \begin{bmatrix}
+\cos\gamma & -\sin\gamma & 0 \\\\
+\sin\gamma & \cos\gamma & 0 \\\\
 0 & 0 & 1
 \end{bmatrix}
-$$</div>
+$$
 
+### Arbitrary Axis (Rodrigues' Rotation Formula)
 
-See also:
+Given an arbitrary unit axis $\hat{\mathbf{n}}$ ($\lVert \hat{\mathbf{n}} \rVert = 1$) and a rotation angle $\theta$, we seek a transformation $\mathbf{v}^\prime = \mathbf{R}(\hat{\mathbf{n}}, \theta)\mathbf{v}$.
 
-- [3D rotation on wikipedia.org](http://www.wikiwand.com/en/Rotation_matrix#In_three_dimensions)
-- [3D rotation - siggraph.org](https://web.archive.org/web/20170725010216/https://www.siggraph.org/education/materials/HyperGraph/modeling/mod_tran/3drota.htm)
+Decompose the target vector $\mathbf{v}$ into parallel and perpendicular components relative to $\hat{\mathbf{n}}$:
 
-### About an Arbitrary Axis
+$$
+\begin{aligned}
+\mathbf{v}\_{\parallel} &= (\mathbf{v} \cdot \hat{\mathbf{n}})\hat{\mathbf{n}} \\\\
+\mathbf{v}\_{\perp} &= \mathbf{v} - \mathbf{v}\_{\parallel} = \mathbf{v} - (\mathbf{v} \cdot \hat{\mathbf{n}})\hat{\mathbf{n}}
+\end{aligned}
+$$
 
-Given an axis $\unit{n}$ and an amount of rotation around it $\theta$, our goal is to find a rotation matrix that rotates about $\unit{n}$ by the angle $\theta$:
+Under rotation about $\hat{\mathbf{n}}$, the parallel component remains unchanged ($\mathbf{v}^\prime\_{\parallel} = \mathbf{v}\_{\parallel}$). The perpendicular component $\mathbf{v}\_{\perp}$ rotates entirely within the plane orthogonal to $\hat{\mathbf{n}}$.
 
-<div>$$
-\mathbf{v'} = \mathbf{R}(\unit{n}, \theta)\mathbf{v}
-$$</div>
+Construct an in-plane perpendicular basis vector $\mathbf{w}$ using the cross product:
 
-The basic idea is to solve this problem in a plane perpendicular to $\unit{n}$, which becomes a 2D problem.
+$$
+\mathbf{w} = \hat{\mathbf{n}} \times \mathbf{v}\_{\perp} = \hat{\mathbf{n}} \times (\mathbf{v} - \mathbf{v}\_{\parallel}) = \hat{\mathbf{n}} \times \mathbf{v}
+$$
 
-Separate $\mathbf{v}$ into two vectors: a vector parallel to $\unit{v}$ called $\mathbf{v_{\parallel}}$ and a vector perpendicular to $\unit{v}$ called $\mathbf{v_{\perp}}$ such that $\mathbf{v_{\parallel}} + \mathbf{v_{\perp}} = \mathbf{v}$:
+Because $\hat{\mathbf{n}} \perp \mathbf{v}\_{\perp}$ and $\lVert \hat{\mathbf{n}} \rVert = 1$, the length $\lVert \mathbf{w} \rVert = \lVert \hat{\mathbf{n}} \rVert \lVert \mathbf{v}\_{\perp} \rVert \sin(90^\circ) = \lVert \mathbf{v}\_{\perp} \rVert$.
 
-<div>$$
-\begin{align*}
-\mathbf{v_{\parallel}} &= (\mathbf{v} \cdot \unit{n}) \unit{n} \\
-\mathbf{v_{\perp}} &= \mathbf{v} - \mathbf{v_{\parallel}}
-\end{align*}
-$$</div>
+The orthogonal vectors $\mathbf{v}\_{\perp}$ and $\mathbf{w}$ span the 2D rotation plane. Rotating $\mathbf{v}\_{\perp}$ by $\theta$ gives:
 
-After the rotation, it's obvious that the $\mathbf{v_{\parallel}}$ component will be the same, and only the vector $\mathbf{v_{\perp}}$ will be rotated.
+$$
+\mathbf{v}^\prime\_{\perp} = \cos\theta \mathbf{v}\_{\perp} + \sin\theta \mathbf{w} = \cos\theta (\mathbf{v} - (\mathbf{v} \cdot \hat{\mathbf{n}})\hat{\mathbf{n}}) + \sin\theta (\hat{\mathbf{n}} \times \mathbf{v})
+$$
 
-A plane can be defined with two vectors that lie on it. Since we have $\mathbf{v_{\perp}}$ and we also know the normal of the plane (which is $\unit{n}$), any vector perpendicular to both vectors will also lie in the plane. We can use the cross product to find this vector:
+Recombining parallel and perpendicular components gives **Rodrigues' rotation formula**:
 
-<div>$$
-\mbold{w} = \unit{n} \times \mbold{v_{\perp}}
-$$</div>
+$$
+\begin{aligned}
+\mathbf{v}^\prime &= \mathbf{v}^\prime\_{\parallel} + \mathbf{v}^\prime\_{\perp} \\\\
+&= (\mathbf{v} \cdot \hat{\mathbf{n}})\hat{\mathbf{n}} + \cos\theta (\mathbf{v} - (\mathbf{v} \cdot \hat{\mathbf{n}})\hat{\mathbf{n}}) + \sin\theta (\hat{\mathbf{n}} \times \mathbf{v}) \\\\
+&= \cos\theta \mathbf{v} + \sin\theta (\hat{\mathbf{n}} \times \mathbf{v}) + (1 - \cos\theta)(\mathbf{v} \cdot \hat{\mathbf{n}})\hat{\mathbf{n}}
+\end{aligned}
+$$
 
-The length of $\mbold{w}$ is:
+Evaluating Rodrigues' formula on each standard basis vector $\mathbf{e}\_1 = [1, 0, 0]^T$, $\mathbf{e}\_2 = [0, 1, 0]^T$, and $\mathbf{e}\_3 = [0, 0, 1]^T$ produces the column vectors of the full $3 \times 3$ matrix:
 
-<div>$$
-\begin{align*}
-\left \| \mbold{w} \right \| &= \left \| \unit{n} \right \| \left \| \mbold{v_{\perp}}\right \| \sin{\deg{90}} \\
-&= \left \| \mbold{v_{\perp}}\right \|
-\end{align*}
-$$</div>
-
-Which means that $\mbold{w}$ has the same length as $\mbold{v_{\perp}}$. Note that even though they have the same length, they don't necessarily have unit length.
-
-$\mbold{w}$ and $\mbold{v_{\perp}}$ now form a 2D coordinate space where the $x$-axis is $\mbold{v_{\perp}}$ and the $y$-axis is $\mbold{w}$.
-
-Let $\mbold{v_{\perp}'}$ be a vector that is the result of rotating $\mbold{v_{\perp}}$ by an angle $\theta$. We can find the projection of it onto the $x$-axis and the $y$-axis as follows:
-
-<div>$$
-\begin{align*}
-\mbold{v_{\perp,x}'} &= (\magnitude{ \mbold{v_{\perp}} } \cos{\theta}) \unit{v_{\perp}} = \cos{\theta} \mbold{v_{\perp}}\\
-\mbold{v_{\perp,y}'} &= (\magnitude{ \mbold{v_{\perp}} } \sin{\theta}) \unit{w} = \sin{\theta} \mbold{w}
-\end{align*}
-$$</div>
-
-- Expressing $\mbold{v_{\perp}'}$ as a linear combination of the basis:
-
-<div>$$
-\mbold{v_{\perp}'} = \cos{\theta} \mbold{v_{\perp}} + \sin{\theta} \mbold{w}
-$$</div>
-
-Reconstructing the solution from the observations above:
-
-<div>$$
-\begin{align*}
-\mbold{v_{\parallel}} &= (\mbold{v} \cdot \unit{n}) \unit{n} \\
-\mbold{v_{\perp}} &= \mbold{v} - \mbold{v_{\parallel}} \\
-&= \mbold{v} - (\mbold{v} \cdot \unit{n}) \unit{n} \\
-\mbold{w} &= \unit{n} \times \mbold{v_{\perp}} \\
-&= \unit{n} \times (\mbold{v} - \mbold{v_{\parallel}}) \\
-&= \unit{n} \times \mbold{v} - \unit{n} \times \mbold{v_{\parallel}} \\
-&= \unit{n} \times \mbold{v}
-\end{align*}
-$$</div>
-
-Finally:
-
-<div>$$
-\begin{align}
-\mbold{v'} &= \mbold{v_{\perp}'} + \mbold{v_{\parallel}'} \nonumber \\
-&= \cos{\theta} \mbold{v_{\perp}} + \sin{\theta} \mbold{w} + (\mbold{v} \cdot \unit{n}) \unit{n} \nonumber \\
-&= \cos{\theta} (\mbold{v - (\mbold{v} \cdot \unit{n}) \unit{n}}) + \sin{\theta} (\unit{n} \times \mbold{v}) + (\mbold{v} \cdot \unit{n}) \unit{n} \nonumber \\
-&= \cos{\theta} \mbold{v} - \cost (\mathbf{v} \cdot \unit{n}) \unit{n} + \sin{\theta} (\unit{n} \times \mbold{v}) + (\mbold{v} \cdot \unit{n}) \unit{n} \nonumber \\
-&= \cos{\theta} \mbold{v} + \sin{\theta} (\unit{n} \times \mbold{v}) + (1 - \cost)(\mathbf{v} \cdot \unit{n}) \unit{n} \label{3d-rotation}
-\end{align}
-$$</div>
-
-Now we can compute what the basis vectors are after the transformation above (by using each of the basis vectors as $\mbold{v}$ on \eqref{3d-rotation}) to construct a rotation matrix:
-
-<div>$$
-\begin{align*}
-\mbold{p} &= \begin{bmatrix}1 \\ 0 \\ 0\end{bmatrix} \quad \quad \quad \quad \mbold{p'} = \begin{bmatrix}
-n_x^2(1 - \cost) + \cost \\
-n_xn_y(1 - \cost) + n_z \sint \\
-n_xn_z(1 - \cost) - n_z \sint
-\end{bmatrix}\\
-\\
-\mbold{q} &= \begin{bmatrix}0 \\ 1 \\ 0\end{bmatrix} \quad \quad \quad \quad \mbold{q'} = \begin{bmatrix}
-n_yn_x(1 - \cost) - n_z \sint \\
-n_y^2(1 - \cost) + \cost \\
-n_yn_z(1 - \cost) + n_x \sint
-\end{bmatrix}\\
-\\
-\mbold{r} &= \begin{bmatrix}0 \\ 0 \\ 1\end{bmatrix} \quad \quad \quad \quad \mbold{r'} = \begin{bmatrix}
-n_zn_x(1 - \cost) + n_y \sint \\
-n_zn_y(1 - \cost) - n_x \sint \\
-n_z^2(1 - \cost) + \cost
-\end{bmatrix}\\
-\end{align*}
-$$</div>
-
-Constructing the matrix from these vectors:
-
-<div>$$
-\mathbf{R}(\unit{n}, \theta) =
-\begin{bmatrix}
-\mbold{p'} & \mbold{q'} & \mbold{r'}
+$$
+\mathbf{R}(\hat{\mathbf{n}}, \theta) = \begin{bmatrix}
+n\_x^2(1 - \cos\theta) + \cos\theta & n\_y n\_x(1 - \cos\theta) - n\_z \sin\theta & n\_z n\_x(1 - \cos\theta) + n\_y \sin\theta \\\\
+n\_x n\_y(1 - \cos\theta) + n\_z \sin\theta & n\_y^2(1 - \cos\theta) + \cos\theta & n\_z n\_y(1 - \cos\theta) - n\_x \sin\theta \\\\
+n\_x n\_z(1 - \cos\theta) - n\_y \sin\theta & n\_y n\_z(1 - \cos\theta) + n\_x \sin\theta & n\_z^2(1 - \cos\theta) + \cos\theta
 \end{bmatrix}
-$$</div>
+$$
 
-### 3D Rotations Using Quaternions
+### Connection to Quaternions
 
-A complex rotor is a unit norm complex number that rotates another complex number by the angle $\theta$ and has the form:
+Composing multiple 3D rotations using Euler angles or full $3 \times 3$ matrices often introduces gimbal lock and matrix orthogonalization drift.
 
-<div>$$
-e^{i\theta} = \cos{\theta} + i \sin{\theta}
-$$</div>
+Quaternions represent rotations compactly using a 4D unit rotor $q = [\cos\frac{\theta}{2}, \sin\frac{\theta}{2}\hat{\mathbf{n}}]$. The quaternion sandwich product $p^\prime = q p q^\*$ algebraically produces the exact same vector transformation as Rodrigues' formula without trigonometric evaluations per vertex:
 
-Hamilton had hoped that a unit-norm quaternion $q$ could be used to rotate a vector, which is stored as a pure quaternion $p$. The unit norm quaternion is given by:
+$$
+\mathbf{v}^\prime = \cos\theta \mathbf{v} + \sin\theta (\hat{\mathbf{n}} \times \mathbf{v}) + (1 - \cos\theta)(\mathbf{v} \cdot \hat{\mathbf{n}})\hat{\mathbf{n}}
+$$
 
-<div>$$
-\begin{align}
-q &= [s, \lambda \unit{n}] \quad s,\lambda \in \mathbb{R}, \unit{n} \in \mathbb{R}^3 \label{unit-norm-quaternion} \\
-\left | \unit{n} \right | &= 1 \nonumber \\
-s^2 + \lambda^2 &= 1 \nonumber
-\end{align}
-$$</div>
-
-<div>$$
-p = [0, \mbold{v}] \quad \mbold{v} \in \mathbb{R}^3
-$$</div>
-
-Let's compute the product $p' = qp$:
-
-<div>$$
-\begin{align}
-p' &= qp \nonumber \\
-&= [s, \lambda \unit{n}][0, \mathbf{v}] \nonumber \\
-&= [-\lambda \unit{n} \cdot \mathbf{v}, s \mathbf{v} + \lambda \unit{n} \times \mathbf{v}] \label{p-prime}
-\end{align}
-$$</div>
-
-#### Special Case
-
-What if $\unit{n}$ is _perpendicular_ to $\mathbf{v}$? Then the scalar quantity of \eqref{p-prime} is zero, and we are left with the pure quaternion:
-
-<div>$$
-\begin{equation} \label{p-prime-perpendicular}
-p' = [0, s \mathbf{v} + \lambda \unit{n} \times \mathbf{v}] \quad\quad \text{given that $\unit{n}$ is perpendicular to $\mathbf{v}$}
-\end{equation}
-$$</div>
-
-Let's analyze the vector part of $\eqref{p-prime-perpendicular}$ (which is now a 3D entity because it's a pure quaternion). Since $\unit{n}$ is perpendicular to $\mathbf{v}$, then the vector $\unit{n} \times \mathbf{v}$ will have a norm equal to $\magnitude{ \unit{n} \times \mathbf{v} } = \magnitude{ \unit{n} } \magnitude { \mathbf{v} } \sin{\deg{90}}$. Also, since $\unit{n}$ is a unit vector, then $\magnitude{\unit{n} \times \mathbf{v}} = \magnitude{\mathbf{v}}$, which means that we have two orthogonal vectors with the same length.
-
-To rotate the vector $\mathbf{v}$ about $\unit{n}$, let's transform $\mathbf{v}$ to the 2D space whose basis vectors are $\mathbf{v}$ and $\unit{n} \times \mathbf{v}$ and perform the rotation there, which is trivially $[\\cos{\theta}, \\sin{\theta}]$. Therefore, all we have to do in \eqref{p-prime-perpendicular} is make the scalar quantities multiplying each vector equal to the projection of the rotated vector over the basis:
-
-<div>$$
-p' = [0, \cos{\theta} \mathbf{v} + \sin{\theta} \unit{n} \times \mathbf{v}]
-$$</div>
-
-Which makes the quaternion $\mathbf{q}$ have the form:
-
-<div>$$
-\begin{align}
-q &= [\cos{\theta}, \sin{\theta}\unit{n}] \label{perp-rotor}
-\end{align}
-$$</div>
-
-And it acts as a rotor **only when $\unit{n}$ is perpendicular to $\mathbf{v}$**.
-
-Important notes/facts about orthogonal quaternions:
-
-- If $q$ is a rotor about the unit vector $\unit{n}$ by an angle $\theta$ whose vector term is perpendicular to the pure quaternion $p$:
-  - $qp$ and $pq^{-1}$ rotate $p$ by an angle $\theta$ about $\unit{n}$.
-  - $pq$ and $q^{-1}p$ rotate $p$ by an angle $-\theta$ about $\unit{n}$.
-  - Each of these products leaves $p'$ unscaled (because $q$ is a unit norm quaternion).
-
-#### General Case
-
-Let's use \eqref{unit-norm-quaternion} as the starting point. Note that this time its vector part is not necessarily perpendicular to the pure quaternion $p$. The product $qp$ yields:
-
-<div>$$
-\begin{align*}
-qp &= [s, \lambda \unit{n}][0, \mathbf{v}] \\
-&= [-\lambda \unit{n} \cdot \mathbf{v}, s \mathbf{v} + \lambda \unit{n} \times \mathbf{v}]
-\end{align*}
-$$</div>
-
-Note that the term $-\lambda \unit{n} \cdot \mathbf{v}$ does not vanish since for the general case, $\unit{n}$ and $\mathbf{v}$ are no longer perpendicular. What's more important is that the product $qp$ is no longer a pure quaternion. Multiplying a vector by a non-orthogonal quaternion has converted some of the vector information into the quaternion's scalar component.
-
-What happens if we post-multiply $qp$ by $q^{-1}$? Could it reverse the operation? (Note that since $q$ is a norm quaternion, $q^{-1} = q^*$.)
-
-<div>$$
-qpq^{-1} = [-\lambda \unit{n} \cdot \mathbf{v}, s \mathbf{v} + \lambda \unit{n} \times \mathbf{v}][s, -\lambda \unit{n}]
-$$</div>
-
-Let's first check if doing this multiplication makes the scalar component vanish:
-
-<div>$$
-\begin{align*}
-qpq^{-1} &= [-\lambda s \unit{n} \cdot \mathbf{v} - (s \mathbf{v} + \lambda \unit{n} \times \mathbf{v}) \cdot (-\lambda \unit{n}), \ldots] \\
-&= [-\lambda s \unit{n} \cdot \mathbf{v} + (s \mathbf{v}) \cdot (\lambda \unit{n}) + (\lambda \unit{n} \times \mathbf{v}) \cdot (\lambda \unit{n}), \ldots] \\
-&= [-\lambda s \unit{n} \cdot \mathbf{v} + (s \mathbf{v}) \cdot (\lambda \unit{n}) + 0, \ldots] \quad \text {since $\unit{n}$ is perpendicular to $\unit{n} \times \mathbf{v}$ } \\
-&= [-\lambda s \unit{n} \cdot \mathbf{v} + \lambda s \mathbf{v} \cdot \unit{n}), \ldots] \\
-&= [0, \ldots]
-\end{align*}
-$$</div>
-
-Indeed, it magically made the scalar component vanish! Now let's look at the vector component of $qpq^{-1}$:
-
-<div>$$
-\begin{align*}
-qpq^{-1} &= [0, s (s \mathbf{v} + \lambda \unit{n} \times \mathbf{v}) + (-\lambda \unit{n} \cdot \mathbf{v})(-\lambda \unit{n}) + (s \mathbf{v} + \lambda \unit{n} \times \mathbf{v}) \times (-\lambda \unit{n})] \\
-&= [0, s^2 \mathbf{v} + s \lambda (\unit{n} \times \mathbf{v}) + \lambda^2 (\unit{n} \cdot \mathbf{v})\unit{n} - s \lambda (\mathbf{v} \times \unit{n}) - \lambda^2 (\unit{n} \times \mathbf{v} \times \unit{n})]
-\end{align*}
-$$</div>
-
-Let's [expand the cross product](https://www.wikiwand.com/en/Triple_product#/section_Vector_triple_product):
-
-<div>$$
-(\unit{n} \times \mathbf{v}) \times \unit{n} = (\unit{n} \cdot \unit{n}) \mathbf{v} - (\mathbf{v} \cdot \unit{n}) \unit{n} = \mathbf{v} - (\mathbf{v} \cdot \unit{n}) \unit{n}
-$$</div>
-
-Therefore:
-
-<div>$$
-\begin{align*}
-qpq^{-1} &= [0, s^2 \mathbf{v} + s \lambda (\unit{n} \times \mathbf{v}) + \lambda^2 (\unit{n} \cdot \mathbf{v})\unit{n} - s \lambda (\mathbf{v} \times \unit{n}) - \lambda^2 (\mathbf{v} - (\mathbf{v} \cdot \unit{n}) \unit{n})] \\
-&= [0, s^2 \mathbf{v} + s \lambda (\unit{n} \times \mathbf{v}) + \lambda^2 (\unit{n} \cdot \mathbf{v})\unit{n} - s \lambda (\mathbf{v} \times \unit{n}) - \lambda^2 \mathbf{v} + \lambda^2 (\mathbf{v} \cdot \unit{n}) \unit{n})] \\
-&= [0, s^2 \mathbf{v} + 2 s \lambda (\unit{n} \times \mathbf{v}) + \lambda^2 (\unit{n} \cdot \mathbf{v})\unit{n} - \lambda^2 \mathbf{v} + \lambda^2 (\mathbf{v} \cdot \unit{n}) \unit{n})] \\
-&= [0, (s^2 - \lambda^2) \mathbf{v} + 2 s \lambda (\unit{n} \times \mathbf{v}) + 2 \lambda^2 (\mathbf{v} \cdot \unit{n}) \unit{n}] \\
-\end{align*}
-$$</div>
-
-Let's make $s = \cos{\theta}$ and $\lambda = \sin{\theta}$, just like in \eqref{perp-rotor} (it worked as a rotor when it was orthogonal to $p$; it might work with the general case too):
-
-<div>$$
-qpq^{-1} = [0, (\cos^2{\theta} - \sin^2{\theta}) \mathbf{v} + 2 \cos{\theta} \sin{\theta} (\unit{n} \times \mathbf{v}) + 2 \sin^2{\theta} (\mathbf{v} \cdot \unit{n}) \unit{n}]
-$$</div>
-
-Which involves double-angle terms. Replacing these terms with [double-angle identities](http://mathworld.wolfram.com/Double-AngleFormulas.html):
-
-<div>$$
-qpq^{-1} = [0, \cos{2\theta} \mathbf{v} + \sin{2\theta} (\unit{n} \times \mathbf{v}) + (1 - \cos{2\theta}) (\mathbf{v} \cdot \unit{n}) \unit{n}]
-$$</div>
-
-The product created a pure quaternion equal to $\mathbf{v}$ rotated by an angle of $2\theta$. If we want to rotate $\mathbf{v}$ by an angle of $\theta$, we must build a half-angle $\theta$ quaternion $q$ (note above that $q$ was equal to \eqref{perp-rotor}):
-
-<div>$$
-\begin{equation} \label{rotor}
-q = [\cos{\frac{1}{2}\theta}, \sin{\frac{1}{2}\theta}\unit{n}]
-\end{equation}
-$$</div>
-
-Using \eqref{rotor}, the product is:
-
-<div>$$
-qpq^{-1} = [0, \cos{\theta} \mathbf{v} + \sin{\theta} (\unit{n} \times \mathbf{v}) + (1 - \cos{\theta}) (\mathbf{v} \cdot \unit{n}) \unit{n}]
-$$</div>
-
-Note that the vector part of $qpq^{-1}$ is identical to \eqref{3d-rotation}.
-
-#### Quaternion Difference and Dot Product
-
-Let $a$ and $b$ be two *unit norm* quaternions (rotors that have the same form as \eqref{rotor}). The quaternion to rotate from $a$ to $b$ is given by $da = b$ and is known as *quaternion difference*. Finding the value of $d$ given that we know $a$ and $b$:
-
-<div>$$
-\begin{align*}
-da &= b \\
-d(aa^*) &= ba^* \quad \quad \text{since $a$ is a unit norm quaternion, its inverse is equal to its conjugate} \\
-d &= ba^*
-\end{align*}
-$$</div>
-
-Expanding the product:
-
-<div>$$
-\begin{align*}
-d &= [s_b, \mathbf{b}][s_a, -\mathbf{a}] \\
-&= [s_bs_a + \mathbf{b} \cdot \mathbf{a}, -s_b\mathbf{a} + s_a\mathbf{b} - \mathbf{b} \times \mathbf{a}]
-\end{align*}
-$$</div>
-
-Note that the scalar part of this quaternion is equal to the *inner product* (a generalization of the dot product to abstract vector spaces) between two quaternions:
-
-<div>$$
-d = [\left \langle a, b \right \rangle, -s_b\mathbf{a} + s_a\mathbf{b} - \mathbf{b} \times \mathbf{a}]
-$$</div>
-
-Remembering that a rotor is given by \eqref{rotor}, we can relate the *inner product* between **rotor quaternions** with the scalar quantity of \eqref{rotor} and interpret it geometrically, just like the dot product between two vectors in 3D/2D space, but this time noticing that the dot product gives the cosine of half the angle between the quaternions:
-
-<div>$$
-a \cdot b = \cos{\frac{\theta}{2}}
-$$</div>
-
-This means that the angle between $a$ and $b$ is equal to:
-
-<div>$$
-\theta = 2 \arccos{(a \cdot b)}
-$$</div>
-
-Or using the [half-angle formulas](http://tutorial.math.lamar.edu/pdf/Trig_Cheat_Sheet.pdf):
-
-<div>$$
-\begin{align*}
-\cos^2{\frac{\theta}{2}} &= \frac{1}{2}(1 + \cos{\theta}) \\
-(a \cdot b)^2 &= \frac{1}{2}(1 + \cos{\theta}) \\
-\cos{\theta} &= 2 (a \cdot b)^2 - 1 \\
-\theta &= \arccos(2(a \cdot b)^2 - 1)
-\end{align*}
-$$</div>
-
-The second formula works for all cases, as noted [here](http://math.stackexchange.com/questions/90081/quaternion-distance) (the first one doesn't work when $a \cdot b < 0$).
+For full algebraic proofs of rotor construction, sandwich product invariance, rotation composition, and spherical linear interpolation, see [Quaternions](/notes/computer-graphics/quaternions/).
 
 <script type="module" src="/js/computer-graphics/rotation.js"></script>
+
+

@@ -159,9 +159,10 @@ Because matrix-vector multiplication is functional application, transformation c
 
 | Concept | Formula | Takeaway |
 | :--- | :--- | :--- |
-| **Composition** | $\mathbf{v}' = \mathbf{N}\mathbf{M}\mathbf{v}$ | Matrices apply right to left, so a chain of transformations collapses into a single matrix. |
-| **Order matters** | $\mathbf{TR} \neq \mathbf{RT}$ | Rotating after translating differs from translating after rotating. |
-| **Rotation then translation** | $\mathbf{v}' = \mathbf{R}\mathbf{v} + \mathbf{T}$ | The rotation applies first, then the translation, and the translation is never rotated. |
-| **Translation then rotation** | $\mathbf{v}' = \mathbf{R}\mathbf{v} + \mathbf{R}\mathbf{T}$ | The rotation applies last and rotates the translation along with the vector. |
+| **Composition** | $\mathbf{v}^\prime = \mathbf{N}\mathbf{M}\mathbf{v}$ | Matrices apply right to left, so a chain of transformations collapses into a single matrix. |
+| **Order matters** | $\mathbf{T}\mathbf{R} \neq \mathbf{R}\mathbf{T}$ | Rotating after translating differs from translating after rotating. |
+| **Rotation then translation** | $\mathbf{v}^\prime = \mathbf{R}\mathbf{v} + \mathbf{T}$ | The rotation applies first, then the translation, and the translation is never rotated. |
+| **Translation then rotation** | $\mathbf{v}^\prime = \mathbf{R}\mathbf{v} + \mathbf{R}\mathbf{T}$ | The rotation applies last and rotates the translation along with the vector. |
+| **Scene Graph TRS** | $\mathbf{M} = \mathbf{T}\mathbf{R}(q)\mathbf{S}$ | 3D engines store rotations as quaternions $q$ for smooth [SLERP](/notes/computer-graphics/quaternions/) blending before constructing $\mathbf{R}(q)$. |
 
 <script type="module" src="/js/computer-graphics/combining-transformations-explorer.js"></script>

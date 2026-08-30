@@ -2,175 +2,144 @@
 title: "Euler Angles"
 date: 2016-02-05 13:00:00
 summary: |
-  Euler angles are a way to describe the orientation of a rigid body with three values. These values represent three angles:
-  - *Yaw* - Rotation around the vertical axis
-  - *Pitch* - Rotation around the side-to-side axis
-  - *Roll* - Rotation around the front-to-back axis
+  Euler angles describe the orientation of a rigid body with three elemental rotations: yaw, pitch, and roll. Intrinsic vs extrinsic rotations, coordinate frame conversions, gimbal lock, and quaternion rotor mapping.
 image: https://upload.wikimedia.org/wikipedia/commons/8/85/Euler2a.gif?1461803605967
-tags: ["geometry", "rotation", "computer graphics", "euler angles"]
-libraries: ["math"]
+tags: ["geometry", "rotation", "computer graphics", "euler angles", "quaternions"]
+libraries: ["katex"]
 references:
- - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
- - "Images taken from https://www.wikiwand.com/en/Euler_angles#/Rotation_matrix, Author: Lionel Brits"
+  - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
+  - "Images taken from https://www.wikiwand.com/en/Euler_angles#/Rotation_matrix, Author: Lionel Brits"
 aliases:
   - /notes/computer-graphics/transformation-matrices/rotation/euler-angles/
 series: "computer-graphics-pipeline"
 pipeline_stage: "transforms"
 ---
 
-<!-- <style> -->
-<!-- #conversions table img {
-  max-width: 100px;
-} -->
-<!-- </style> -->
-<!---->
-Euler angles are three angles used to describe the orientation of a rigid body. They are typically denoted $\alpha, \beta, \gamma$. These angles represent a **sequence of three elemental rotations** about the axes of some coordinate system.
+Euler angles describe the orientation of a rigid body using three angles, typically denoted $\alpha, \beta, \gamma$. These angles represent a **sequence of three elemental rotations** about the axes of a coordinate system.
 
 ## Intrinsic and Extrinsic Rotations
 
 ### Intrinsic Rotations
 
-A set of **intrinsic rotations** represents rotations relative to the *object space*, which changes after each rotation.
+A set of **intrinsic rotations** represents rotations relative to the *object space*, which changes orientation after each rotation.
 
- If the axes of some coordinate system are $X,Y,Z$ (note that initially, the axes are aligned with the axes of a fixed coordinate system $x,y,z$), one of the most conventional sets of *intrinsic rotations* is $z-x'-z''$. It's computed as follows:
+If the axes of the coordinate system are $X,Y,Z$ (initially aligned with a fixed system $x,y,z$), the classic $z-x^\prime-z^{\prime\prime}$ sequence operates as follows:
 
-- Perform a rotation of $\alpha$ around the $z$-axis. The resulting set of axes is $x', y', z'$ (note that $z' = z$).
-- Perform a rotation of $\beta$ around the $x'$-axis. The resulting set of axes is $x'', y'', z''$ (note that $x'' = x'$).
-- Perform a rotation of $\gamma$ around the $z''$-axis. The resulting set of axes is $x''', y''', z'''$ (note that $z''' = z''$ and that the object space $z$-axis is used twice in the overall rotation).
+- Rotate by $\alpha$ around the $z$-axis. The resulting axes are $x^\prime, y^\prime, z^\prime$ (where $z^\prime = z$).
+- Rotate by $\beta$ around the new $x^\prime$-axis. The resulting axes are $x^{\prime\prime}, y^{\prime\prime}, z^{\prime\prime}$ (where $x^{\prime\prime} = x^\prime$).
+- Rotate by $\gamma$ around the new $z^{\prime\prime}$-axis. The resulting axes are $x^{\prime\prime\prime}, y^{\prime\prime\prime}, z^{\prime\prime\prime}$ (where $z^{\prime\prime\prime} = z^{\prime\prime}$).
 
 <figure>
   <div class="figure-images">
     <img class="lazy-load" data-src="https://upload.wikimedia.org/wikipedia/commons/8/85/Euler2a.gif?1461803605967" height="240" alt="">
   </div>
-  <figcaption>
-    <span></span>
-    Intrinsic rotation \(z-x'-z''\). Note that the \(+z\)-axis points upward, the \(+x\)-axis points left, and the \(+y\)-axis points right (all shown in blue). The rotated system \(X,Y,Z\) is shown in red.</figcaption>
+  <figcaption>Intrinsic rotation $z-x^\prime-z^{\prime\prime}$. The $+z$-axis points upward, $+x$ points left, and $+y$ points right (all shown in blue). The rotated system $X,Y,Z$ is shown in red.</figcaption>
 </figure>
 
-A rotation matrix (used to pre-multiply column vectors) can be used to represent a sequence of *intrinsic rotations*. For example, the extrinsic rotations $x-y'-z''$ with angles $\alpha, \beta, \gamma$ are represented as a multiplication of the following rotation matrices:
+A sequence of intrinsic rotations is evaluated by pre-multiplying matrices in right-to-left order. For example, the intrinsic sequence $x-y^\prime-z^{\prime\prime}$ with angles $\alpha, \beta, \gamma$ corresponds to:
 
-<div>$$
+$$
 \mathbf{R} = \mathbf{X}(\alpha)\mathbf{Y}(\beta)\mathbf{Z}(\gamma)
-$$</div>
+$$
 
-Where $\mathbf{X}(\alpha)$, $\mathbf{Y}(\beta)$, and $\mathbf{Z}(\gamma)$ are rotation matrices that represent a rotation around the $x$-axis by $\alpha$, around the $y$-axis by $\beta$, and around the $z$-axis by $\gamma$, respectively.
+Where $\mathbf{X}(\alpha)$, $\mathbf{Y}(\beta)$, and $\mathbf{Z}(\gamma)$ represent rotations around the canonical $x$, $y$, and $z$ axes.
 
 ### Extrinsic Rotations
 
-A set of **extrinsic rotations** represents rotations relative to a fixed coordinate system (typically the world coordinate system). For example, the set of *extrinsic rotations* $z-x-z$ works as follows:
+A set of **extrinsic rotations** represents rotations relative to a fixed coordinate system (typically world space). For example, the extrinsic sequence $z-x-z$ operates as follows:
 
-- Perform a rotation of $\alpha$ around the $z$-axis. The resulting set of axes is $x', y', z'$ (note that $z' = z$).
-- Perform a rotation of $\beta$ around the $x$-axis. The resulting set of axes is $x'', y'', z''$.
-- Perform a rotation of $\gamma$ around the $z$-axis. The resulting set of axes is $x''', y''', z'''$.
+- Rotate by $\alpha$ around the fixed $z$-axis.
+- Rotate by $\beta$ around the fixed $x$-axis.
+- Rotate by $\gamma$ around the fixed $z$-axis.
 
-A rotation matrix (used to pre-multiply column vectors) can be used to represent a sequence of *intrinsic rotations*. For example, the extrinsic rotations $x-y-z$ with angles $\alpha, \beta, \gamma$ are represented as a multiplication of the following rotation matrices:
+The extrinsic sequence $x-y-z$ with angles $\alpha, \beta, \gamma$ corresponds to:
 
-<div>$$
+$$
 \mathbf{R} = \mathbf{Z}(\gamma)\mathbf{Y}(\beta)\mathbf{X}(\alpha)
-$$</div>
-
-Where $\mathbf{X}(\alpha)$, $\mathbf{Y}(\beta)$, and $\mathbf{Z}(\gamma)$ are rotation matrices that represent a rotation around the $x$-axis by $\alpha$, around the $y$-axis by $\beta$, and around the $z$-axis by $\gamma$, respectively.
+$$
 
 ### Conversion Between Intrinsic and Extrinsic Rotations
 
-Any intrinsic rotation is equivalent to an extrinsic rotation by the same angles but with an inverted order of rotations.
+Any intrinsic rotation sequence is equivalent to an extrinsic rotation sequence by the exact same angles with inverted order.
 
-For example, the intrinsic rotations $x-y'-z''$ by the angles $\alpha,\beta,\gamma$ are equivalent to the extrinsic rotations $z-y-x$ by the angles $\gamma,\beta,\alpha$, both represented by:
+The intrinsic rotation sequence $x-y^\prime-z^{\prime\prime}$ by angles $\alpha,\beta,\gamma$ produces the identical transformation as the extrinsic sequence $z-y-x$ by angles $\gamma,\beta,\alpha$:
 
-<div>$$
+$$
 \mathbf{R} = \mathbf{X}(\alpha)\mathbf{Y}(\beta)\mathbf{Z}(\gamma)
-$$</div>
+$$
 
 ## Proper Euler Angles
 
-A sequence of three elemental rotations is called **proper Euler angles** when the first and third rotation axes are the same.
+A sequence of three elemental rotations is called **proper Euler angles** when the first and third rotation axes are identical.
 
 <figure>
   <div class="figure-images">
     <img class="lazy-load" data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Eulerangles.svg/213px-Eulerangles.svg.png" alt="">
   </div>
-  <figcaption>
-    <p>
-      Proper Euler angles representing rotations about \(z-x'-z''\) by the angles $\alpha, \beta, \gamma$. The rotated system \(X,Y,Z\) is shown in red.
-    </p>
-  </figcaption>
+  <figcaption>Proper Euler angles representing rotations about $z-x^\prime-z^{\prime\prime}$ by angles $\alpha, \beta, \gamma$. The rotated system $X,Y,Z$ is shown in red.</figcaption>
 </figure>
 
-There are six possibilities for choosing the rotation axes for proper Euler angles, which are *intrinsic rotations*. In a similar way, there are six other possibilities for choosing the rotation axes, which are *extrinsic rotations*.
+There are six valid combinations for proper Euler angles:
 
 | Intrinsic Rotations | Extrinsic Rotations |
 | :--- | :--- |
-| $x-y'-x''$ | $x-y-x$ |
-| $x-z'-x''$ | $x-z-x$ |
-| $y-x'-y''$ | $y-x-y$ |
-| $y-z'-y''$ | $y-z-y$ |
-| $z-x'-z''$ | $z-x-z$ |
-| $z-y'-z''$ | $z-y-z$ |
+| $x-y^\prime-x^{\prime\prime}$ | $x-y-x$ |
+| $x-z^\prime-x^{\prime\prime}$ | $x-z-x$ |
+| $y-x^\prime-y^{\prime\prime}$ | $y-x-y$ |
+| $y-z^\prime-y^{\prime\prime}$ | $y-z-y$ |
+| $z-x^\prime-z^{\prime\prime}$ | $z-x-z$ |
+| $z-y^\prime-z^{\prime\prime}$ | $z-y-z$ |
 
 ## Tait-Bryan Angles
 
-A sequence of three elemental rotations is called **Tait-Bryan angles** when the angles represent rotations about three distinct axes.
-
-Just like proper Euler angles, there are six possible *intrinsic rotations* and six possible *extrinsic rotations*.
+A sequence of three elemental rotations is called **Tait-Bryan angles** when rotations occur about three distinct axes.
 
 | Intrinsic Rotations | Extrinsic Rotations |
 | :--- | :--- |
-| $x-y'-z''$ | $z-y-x$ |
-| $x-z'-y''$ | $y-z-x$ |
-| $y-x'-z''$ | $z-x-y$ |
-| $y-z'-x''$ | $x-z-y$ |
-| $z-x'-y''$ | $y-x-z$ |
-| $z-y'-x''$ | $x-y-z$ |
+| $x-y^\prime-z^{\prime\prime}$ | $z-y-x$ |
+| $x-z^\prime-y^{\prime\prime}$ | $y-z-x$ |
+| $y-x^\prime-z^{\prime\prime}$ | $z-x-y$ |
+| $y-z^\prime-x^{\prime\prime}$ | $x-z-y$ |
+| $z-x^\prime-y^{\prime\prime}$ | $y-x-z$ |
+| $z-y^\prime-x^{\prime\prime}$ | $x-y-z$ |
 
-The set of *intrinsic rotations* $z-y'-x''$ is known as *yaw*, *pitch*, and *roll*. These angles are also known as *nautical angles* because they can describe the orientation of a ship or aircraft.
+The intrinsic sequence $z-y^\prime-x^{\prime\prime}$ is widely known as **yaw, pitch, and roll** (or nautical angles), describing the attitude of aircraft and vehicles:
 
 <figure>
   <div class="figure-images">
     <img class="lazy-load" data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Taitbrianzyx.svg/245px-Taitbrianzyx.svg.png" alt="">
   </div>
-  <figcaption>Tait–Bryan angles representing the sequence \(z-y'-x''\)</figcaption>
+  <figcaption>Tait–Bryan angles representing the sequence $z-y^\prime-x^{\prime\prime}$</figcaption>
 </figure>
 
-The rotation matrix for the sequence $z-y'-x''$ (or $x-y-z$), which is known as *yaw*, *pitch*, and *roll*, is given by:
+The combined rotation matrix for the intrinsic sequence $z-y^\prime-x^{\prime\prime}$ (or extrinsic $x-y-z$) is:
 
-<div>$$
-\begin{align*}
+$$
 \mathbf{R} = \mathbf{Z}(\alpha)\mathbf{Y}(\beta)\mathbf{X}(\gamma)
-\end{align*}
-$$</div>
+$$
 
 ## Extrinsic Rotations Expressed in Upright Space
 
-An important thing to note is that the standard rotation matrices work in *upright space*. If the *object space* axes are not aligned with the *upright space* axes (different direction), then the sequence of extrinsic rotations must be done on the axes expressed in *upright space*.
-
-For example, given that world space is:
+Rotation matrices assume standard canonical axes. When object space axes are oriented differently relative to world space, extrinsic rotations must be projected onto the upright basis.
 
 <figure>
   <div class="figure-images">
     <img class="lazy-load" data-src="/images/xyz.jpg" alt="">
   </div>
-  <figcaption>Chosen world space: \(+x\) (right), \(+y\) (up), and \(+z\) (backward). Note that the choice is just personal preference.</figcaption>
+  <figcaption>Chosen world space: $+x$ (right), $+y$ (up), and $+z$ (backward).</figcaption>
 </figure>
 
-If there's an object whose *object space* axes are $+x$ (backward), $+y$ (right), and $+z$ (up), then a sequence of intrinsic rotations $z-y'-x''$ by the angles $\alpha, \beta, \gamma$ (equivalent to the extrinsic rotation $x-y-z$ by the angles $\gamma, \beta, \alpha$, which is also known as *yaw*, *pitch*, and *roll*) is equivalent to the multiplication of the following rotation matrices:
+If an object space has axes $+x$ (backward), $+y$ (right), and $+z$ (up), the intrinsic sequence $z-y^\prime-x^{\prime\prime}$ by angles $\alpha, \beta, \gamma$ expands to:
 
-<div>$$
+$$
 \mathbf{R} = \mathbf{R}(\mathbf{w}, \alpha)\mathbf{R}(\mathbf{v}, \beta)\mathbf{R}(\mathbf{u}, \gamma)
-$$</div>
+$$
 
-Where:
+Where $\mathbf{u}, \mathbf{v}, \mathbf{w}$ form the orthonormal basis columns of $\mathbf{M}\_{\text{upright} \leftarrow \text{object}}$:
 
-- $\mathbf{R}(\mathbf{s}, t)$ is the general rotation matrix used to rotate around the axis $\mathbf{s}$ by the angle $t$.
-- $\mathbf{u, v, w}$ are the columns of the transformation matrix used to transform any point $\mathbf{p}$ expressed in *object space* to *upright space*.
-
-<div>$$
-\begin{align*}
-\mathbf{p}_{upright} &= \mathbf{M}_{upright \leftarrow object} \mathbf{p}_{object} \\
-&= \begin{bmatrix} \mathbf{u}_{3 \times 1} \mathbf{v}_{3 \times 1} \mathbf{w}_{3 \times 1}\end{bmatrix} \mathbf{p}_{object}
-\end{align*}
-$$</div>
-
-The problem can be simplified when the frame is somewhat aligned with the *upright space* (the order might be different, and the axis directions might be reversed, but it's still aligned). The following diagram shows some of these simplifications:
+$$
+\mathbf{M}\_{\text{upright} \leftarrow \text{object}} = \begin{bmatrix} \mathbf{u} & \mathbf{v} & \mathbf{w} \end{bmatrix}
+$$
 
 <figure id="conversions">
   <div class="figure-table" style="overflow: auto">
@@ -186,19 +155,19 @@ The problem can be simplified when the frame is somewhat aligned with the *uprig
         <td>yaw, pitch, roll</td>
         <td>
         $$
-        \begin{align*}
-          y-x'-z'' \\
+        \begin{aligned}
+          y-x^\prime-z^{\prime\prime} \\\\
           z-x-y
-        \end{align*}
+        \end{aligned}
         $$
         </td>
         <td>
         $$
-        \begin{align*}
-          \mathbf{Y}(\alpha) \\
-          \mathbf{X}(\beta) \\
+        \begin{aligned}
+          \mathbf{Y}(\alpha) \\\\
+          \mathbf{X}(\beta) \\\\
           \mathbf{Z}(\gamma)
-        \end{align*}
+        \end{aligned}
         $$
         </td>
       </tr>
@@ -207,19 +176,19 @@ The problem can be simplified when the frame is somewhat aligned with the *uprig
         <td>yaw, pitch, roll</td>
         <td>
         $$
-        \begin{align*}
-          z-y'-x'' \\
+        \begin{aligned}
+          z-y^\prime-x^{\prime\prime} \\\\
           x-y-z
-        \end{align*}
+        \end{aligned}
         $$
         </td>
         <td>
         $$
-        \begin{align*}
-          \mathbf{Z}(\alpha) \equiv \mathbf{Y_{wld}}(\alpha) \\
-          \mathbf{Y}(\beta) \equiv \mathbf{X_{wld}}(\beta) \\
-          \mathbf{X}(\gamma) \equiv \mathbf{Z_{wld}}(\gamma)
-        \end{align*}
+        \begin{aligned}
+          \mathbf{Z}(\alpha) \equiv \mathbf{Y}\_{\text{wld}}(\alpha) \\\\
+          \mathbf{Y}(\beta) \equiv \mathbf{X}\_{\text{wld}}(\beta) \\\\
+          \mathbf{X}(\gamma) \equiv \mathbf{Z}\_{\text{wld}}(\gamma)
+        \end{aligned}
         $$
         </td>
       </tr>
@@ -228,19 +197,19 @@ The problem can be simplified when the frame is somewhat aligned with the *uprig
         <td>yaw, pitch, roll</td>
         <td>
         $$
-        \begin{align*}
-          y-x'-z'' \\
+        \begin{aligned}
+          y-x^\prime-z^{\prime\prime} \\\\
           z-x-y
-        \end{align*}
+        \end{aligned}
         $$
         </td>
         <td>
         $$
-        \begin{align*}
-          \mathbf{Y}(\alpha) \equiv \mathbf{Y_{wld}}(-\alpha) \\
-          \mathbf{X}(\beta) \equiv \mathbf{X_{wld}}(-\beta) \\
-          \mathbf{Z}(\gamma) \equiv \mathbf{Z_{wld}}(\gamma)
-        \end{align*}
+        \begin{aligned}
+          \mathbf{Y}(\alpha) \equiv \mathbf{Y}\_{\text{wld}}(-\alpha) \\\\
+          \mathbf{X}(\beta) \equiv \mathbf{X}\_{\text{wld}}(-\beta) \\\\
+          \mathbf{Z}(\gamma) \equiv \mathbf{Z}\_{\text{wld}}(\gamma)
+        \end{aligned}
         $$
         </td>
       </tr>
@@ -248,3 +217,34 @@ The problem can be simplified when the frame is somewhat aligned with the *uprig
   </div>
   <figcaption>Equivalence of common extrinsic rotations in world space</figcaption>
 </figure>
+
+## Gimbal Lock & Conversion to Quaternions
+
+When using Euler angles, rotating pitch $\beta = \pm 90^\circ$ aligns the first and third rotation axes ($x$ and $z$). This alignment causes **gimbal lock**, losing one degree of rotational freedom and causing erratic spinning during animation.
+
+To eliminate gimbal lock and permit uniform spherical interpolation, Euler angles are converted into a 4D **unit quaternion rotor**:
+
+$$
+q = q\_z(\gamma) q\_y(\beta) q\_x(\alpha)
+$$
+
+Where the individual axis rotors are:
+
+$$
+q\_x(\alpha) = \left[\cos\left(\tfrac{\alpha}{2}\right), \sin\left(\tfrac{\alpha}{2}\right)\mathbf{i}\right], \quad
+q\_y(\beta) = \left[\cos\left(\tfrac{\beta}{2}\right), \sin\left(\tfrac{\beta}{2}\right)\mathbf{j}\right], \quad
+q\_z(\gamma) = \left[\cos\left(\tfrac{\gamma}{2}\right), \sin\left(\tfrac{\gamma}{2}\right)\mathbf{k}\right]
+$$
+
+Evaluating the Hamilton product yields the composite quaternion $q = [s, x\mathbf{i} + y\mathbf{j} + z\mathbf{k}]$:
+
+$$
+\begin{aligned}
+s &= \cos\left(\tfrac{\alpha}{2}\right)\cos\left(\tfrac{\beta}{2}\right)\cos\left(\tfrac{\gamma}{2}\right) + \sin\left(\tfrac{\alpha}{2}\right)\sin\left(\tfrac{\beta}{2}\right)\sin\left(\tfrac{\gamma}{2}\right) \\\\
+x &= \sin\left(\tfrac{\alpha}{2}\right)\cos\left(\tfrac{\beta}{2}\right)\cos\left(\tfrac{\gamma}{2}\right) - \cos\left(\tfrac{\alpha}{2}\right)\sin\left(\tfrac{\beta}{2}\right)\sin\left(\tfrac{\gamma}{2}\right) \\\\
+y &= \cos\left(\tfrac{\alpha}{2}\right)\sin\left(\tfrac{\beta}{2}\right)\cos\left(\tfrac{\gamma}{2}\right) + \sin\left(\tfrac{\alpha}{2}\right)\cos\left(\tfrac{\beta}{2}\right)\sin\left(\tfrac{\gamma}{2}\right) \\\\
+z &= \cos\left(\tfrac{\alpha}{2}\right)\cos\left(\tfrac{\beta}{2}\right)\sin\left(\tfrac{\gamma}{2}\right) - \sin\left(\tfrac{\alpha}{2}\right)\sin\left(\tfrac{\beta}{2}\right)\cos\left(\tfrac{\gamma}{2}\right)
+\end{aligned}
+$$
+
+For full algebraic proofs of rotor construction, sandwich product transformation $p^\prime = q p q^\*$, and spherical linear interpolation (SLERP), see [Quaternions](/notes/computer-graphics/quaternions/).
