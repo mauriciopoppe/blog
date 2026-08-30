@@ -2,10 +2,11 @@
 title: "Transformation Matrix"
 date: 2015-10-15 13:00:00
 summary: |
-  A linear transformation can be represented with a matrix that transforms vectors from one space to another. Transformation matrices allow arbitrary transformations to be displayed in the same format. Also, matrices can be multiplied to enable composition. Row vectors vs column vectors and quaternion-to-matrix mapping.
+  A transformation matrix encodes a linear transformation as a grid of numbers. The rows or columns record where the basis vectors land, so multiplying a vector by the matrix applies the transformation. Matrices compose through multiplication, which is why the rendering pipeline stores every step as one matrix.
 image: /images/scaling-rotation-translation.png
 tags: ["computer graphics", "transformation matrix", "2d", "3d", "linear algebra", "geometry", "quaternions"]
 libraries: ["katex"]
+math_terms: ["graphics"]
 references:
   - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
@@ -15,7 +16,13 @@ series: "computer-graphics-pipeline"
 pipeline_stage: "transforms"
 ---
 
-Let standard basis vectors be $\mathbf{i} = [1, 0, 0], \; \mathbf{j} = [0, 1, 0], \; \mathbf{k} = [0, 0, 1]$. Multiplying each of these vectors by a matrix $\mathbf{M}$:
+A transformation moves geometry: translation shifts it, rotation spins it, scale resizes it. In the rendering pipeline, every vertex passes through a sequence of these transformations before it reaches the screen, and each one is stored as a matrix.
+
+A matrix is a compact encoding of a linear transformation. The key observation is that a transformation is fully determined by what it does to the basis vectors, so the matrix only needs to record those images.
+
+## The Matrix Encodes the Basis
+
+Let the standard basis vectors be $\mathbf{i} = [1, 0, 0], \; \mathbf{j} = [0, 1, 0], \; \mathbf{k} = [0, 0, 1]$. Multiplying each of these vectors by a matrix $\mathbf{M}$:
 
 $$
 \begin{aligned}
@@ -40,7 +47,9 @@ m\_{31} & m\_{32} & m\_{33}
 \end{aligned}
 $$
 
-The first row of $\mathbf{M}$ contains the result of transforming $\mathbf{i}$, the second row contains the transformed $\mathbf{j}$, and the third row contains the transformed $\mathbf{k}$.
+The first row of $\mathbf{M}$ contains the transformed $\mathbf{i}$, the second row contains the transformed $\mathbf{j}$, and the third row contains the transformed $\mathbf{k}$. To build a matrix for a transformation, apply the transformation to each basis vector and write the results as the rows.
+
+## Transforming a Vector
 
 Let $\mathbf{v}$ be a vector expressed in this coordinate space as a linear combination of basis vectors:
 
@@ -74,7 +83,9 @@ $$
 \mathbf{v}^\prime = \mathbf{vM} = v\_x \mathbf{p} + v\_y \mathbf{q} + v\_z \mathbf{r}
 $$
 
-The product $\mathbf{vM}$ is a linear combination of the rows of $\mathbf{M}$. When row vectors represent basis vectors of a coordinate system measured in an outer coordinate system, $\mathbf{M}$ encodes a coordinate space transformation:
+The product $\mathbf{vM}$ is a linear combination of the rows of $\mathbf{M}$. Because the rows are the transformed basis vectors, multiplying by $\mathbf{M}$ replaces each basis vector with its image and rebuilds $\mathbf{v}$ from those images. That is the entire mechanism of a transformation matrix in one sentence.
+
+When the row vectors are the basis vectors of a coordinate system measured in an outer coordinate system, $\mathbf{M}$ encodes a coordinate space transformation:
 
 $$
 \mathbf{v}^\prime = \mathbf{vM} = \begin{bmatrix}v\_x & v\_y & v\_z\end{bmatrix}
@@ -125,7 +136,7 @@ $$
 \mathbf{v}^\prime = \mathbf{vABC}
 $$
 
-In modern computer graphics and OpenGL/DirectX shaders, **column vectors** are the standard convention. Applying the matrix transpose:
+In modern computer graphics and OpenGL/DirectX shaders, **column vectors** are the standard convention, and Three.js follows it. Applying the matrix transpose:
 
 $$
 \begin{aligned}
@@ -149,30 +160,18 @@ $$
 \mathbf{v}\_{\text{upright}} = \mathbf{M}\_{\text{upright} \leftarrow \text{object}} \mathbf{v}\_{\text{object}}
 $$
 
-## Conversion from Quaternions to Transformation Matrices
+## Composition: Why Matrices Win
 
-While 3D scene graphs and physics engines interpolate orientations using 4D unit quaternions $q = [s, x\mathbf{i} + y\mathbf{j} + z\mathbf{k}]$ to avoid gimbal lock, GPU vertex pipelines require $4 \times 4$ matrices for hardware-accelerated vertex transformation.
+Multiplying two matrices produces a third matrix that applies both transformations in sequence. A chain of transformations therefore collapses into a single matrix, and one matrix multiply per vertex replaces a long sequence of steps. This is why the pipeline stores every stage as a matrix, and why a scene graph keeps a single <span data-term="M_model" class="math-term-trigger cursor-help">model matrix</span> per object instead of a list of operations.
 
-Expanding the quaternion sandwich product $p^\prime = q p q^\*$ into matrix form produces the equivalent $3 \times 3$ rotation matrix:
+Order matters: applying a rotation then a translation is not the same as applying the translation first. [Combining Matrix Transformations](/notes/computer-graphics/combining-transformations/) works through the order rules and the resulting composed matrices.
 
-$$
-\mathbf{R}(q) = \begin{bmatrix}
-1 - 2(y^2 + z^2) & 2(xy - sz) & 2(xz + sy) \\\\
-2(xy + sz) & 1 - 2(x^2 + z^2) & 2(yz - sx) \\\\
-2(xz - sy) & 2(yz + sx) & 1 - 2(x^2 + y^2)
-\end{bmatrix}
-$$
+## What Comes Next
 
-In 4D homogeneous coordinates:
+The rest of this stage builds each transformation matrix from the basis-vector recipe above:
 
-$$
-\mathbf{M}(q) = \begin{bmatrix}
-1 - 2(y^2 + z^2) & 2(xy - sz) & 2(xz + sy) & 0 \\\\
-2(xy + sz) & 1 - 2(x^2 + z^2) & 2(yz - sx) & 0 \\\\
-2(xz - sy) & 2(yz + sx) & 1 - 2(x^2 + y^2) & 0 \\\\
-0 & 0 & 0 & 1
-\end{bmatrix}
-$$
-
-For algebraic proofs and spherical linear interpolation, see [Quaternions](/notes/computer-graphics/quaternions/).
-
+- [Scale](/notes/computer-graphics/scale/) and [Shearing](/notes/computer-graphics/shearing/) stretch and skew the basis.
+- [Translation](/notes/computer-graphics/translation/) shifts the origin and needs homogeneous coordinates.
+- [Rotation](/notes/computer-graphics/rotation/) spins the basis, with [Euler Angles](/notes/computer-graphics/euler-angles/) and [Quaternions](/notes/computer-graphics/quaternions/) as alternative orientation representations.
+- [Coordinate Systems](/notes/computer-graphics/coordinate-systems/) defines the spaces these transformations move between.
+- [Combining Matrix Transformations](/notes/computer-graphics/combining-transformations/) composes everything into the model matrix $\mathbf{M}\_{\text{model}}$ used by the pipeline.

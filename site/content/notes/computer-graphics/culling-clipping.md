@@ -2,48 +2,48 @@
 title: "Culling & Clipping"
 date: 2016-03-16 11:03:05
 summary: |
-  The math behind culling and clipping and how it's related to the camera and what it sees.
-
-  <br>
-
-  - **Culling** is a process where geometry that’s not visible from the camera is discarded to save processing time.
-  - **Clipping** is a process that removes parts of primitives that are outside the view volume (clipping against the six faces of the view volume).
+  Before rasterization, primitives must be checked against the camera's view volume. Culling discards geometry that is not visible from the camera to save processing time, while clipping removes the parts of primitives that fall outside the view volume.
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."
 image: /images/ray-tracing!camera.jpg
 tags: ["computer graphics", "culling", "clipping", "geometry", "3d"]
-libraries: ["math"]
+libraries: ["katex"]
+math_terms: ["graphics"]
 aliases:
   - /notes/computer-graphics/pipeline/culling-clipping/
 series: "computer-graphics-pipeline"
 pipeline_stage: "clipping"
 ---
 
-There's a problem when the objects transformed to NDC need to be rasterized; some objects that are behind the eye might be rendered, leading to incorrect results.
+Before rasterization, every primitive must be tested against the view volume. A naive rasterizer would draw everything the projection produced, including geometry that should never be visible. Two mechanisms prevent that: clipping removes the parts of primitives that fall outside the view volume, and culling discards whole primitives the camera cannot see.
 
-For example, when the *perspective projection matrix* is used, all the points' $z$-coordinates will be mapped to NDC using:
+## Why Clipping Is Needed
 
-<div>$$
+The problem shows up in the perspective divide. When the *perspective projection matrix* maps a point from camera space to <span data-term="ndc" class="math-term-trigger cursor-help">normalized device coordinates</span>, its $z$-coordinate becomes:
+
+$$
 z_{ndc} = \frac{Az_{cam} + B}{-z_{cam}}
-$$</div>
+$$
 
-If $n,f$ are the locations of the near and far planes in the negative $z$-axis in camera space and:
+Where $n, f$ are the locations of the near and far planes along the negative $z$-axis in camera space, and $A, B$ are the constants that map those planes onto the NDC range:
 
-<div>$$
+$$
 \begin{align*}
-A &= -\frac{f + n}{f - n} \\
+A &= -\frac{f + n}{f - n} \\\\
 B &= \frac{-2fn}{f - n}
 \end{align*}
-$$</div>
+$$
 
-Note that the equations above assume that $n,f \geq 0, n \leq f$ because $A$ and $B$ were already mapped using $-n \mapsto -1$ and $-f \mapsto 1$. For example, when $n = 1$ and $f = 10$, the possible values can be described with the following plot:
+The mapping assumes $n, f \geq 0$ with $n \leq f$, since $A$ and $B$ were derived by sending $-n \mapsto -1$ and $-f \mapsto 1$. The plot below shows the result for $n = 1$ and $f = 10$:
 
 <div id="z"></div>
 <script type="module" src="/js/computer-graphics/culling-clipping.js"></script>
 
-We see that objects behind the camera (points with $z_{cam} > 0$) are mapped to NDC as $z_{ndc} > 1$, i.e., in NDC, points behind the camera are visible.
+The curve climbs past $z_{ndc} = 1$ as $z_{cam}$ approaches zero. A point behind the camera has $z_{cam} > 0$, and the divide by $-z_{cam}$ flips its sign, sending the coordinate past the far plane of the view volume. In NDC, a point that is actually behind the camera looks like it lies in front of it. Rasterizing that point would draw geometry that should be hidden.
 
-For this reason, there's a preceding step in the rasterization process called *clipping* that removes parts of primitives that are outside the view volume (clipping against the six faces of the view volume). A basic implementation of the clipping process is described below:
+## Clipping
+
+Clipping removes the parts of a primitive that lie outside the view volume, keeping only the portion that intersects it. The view volume is bounded by six planes, and each one is applied in turn. A basic implementation processes a triangle against every plane:
 
 ```plain
 input: triangle, 6 planes of the view volume
@@ -57,7 +57,18 @@ for (each of the six planes) do
       break the quadrilateral into two triangles
 ```
 
-Culling is a process where geometry that's not visible from the camera is discarded to save processing time.
+## Culling
 
-- *View volume culling* - Geometry outside the view volume can be culled since it won't produce fragments when rasterized. This process is especially useful when triangles are grouped into an object that has an associated bounding volume.
-- *Backface culling* - Polygons that face away from the camera can be culled before the pipeline starts.
+Culling is a cheaper test that runs before clipping. Instead of trimming a primitive, it discards whole primitives that cannot produce visible fragments, saving the work of rasterizing them.
+
+- **View volume culling**: Geometry outside the view volume can be culled as a whole, since none of it will produce fragments. The test is especially useful when triangles are grouped into an object with an associated bounding volume, so one check discards the entire object.
+- **Backface culling**: Polygons that face away from the camera can be culled before the pipeline continues, since their back is never visible.
+
+## Key Takeaways
+
+| Concept | Formula | Takeaway |
+| :--- | :--- | :--- |
+| **Perspective divide problem** | $z\_{ndc} = \frac{Az\_{cam} + B}{-z\_{cam}}$ | Points behind the camera ($z\_{cam} > 0$) map past the far plane, appearing visible in NDC. |
+| **Clipping** | Six view volume planes | Trims primitives to the portion inside the view volume before rasterization. |
+| **View volume culling** | Bounding volume test | Discards entire objects outside the view volume with one check. |
+| **Backface culling** | Facing test | Discards polygons whose back faces the camera. |

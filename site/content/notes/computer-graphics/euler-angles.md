@@ -2,10 +2,11 @@
 title: "Euler Angles"
 date: 2016-02-05 13:00:00
 summary: |
-  Euler angles describe the orientation of a rigid body with three elemental rotations: yaw, pitch, and roll. Intrinsic vs extrinsic rotations, coordinate frame conversions, gimbal lock, and quaternion rotor mapping.
+  Euler angles describe the orientation of a rigid body with three numbers: yaw, pitch, and roll. This article covers how a sequence of three rotations encodes orientation, the intrinsic vs extrinsic distinction, coordinate frame conversions, and why gimbal lock pushes real systems toward quaternions.
 image: https://upload.wikimedia.org/wikipedia/commons/8/85/Euler2a.gif?1461803605967
 tags: ["geometry", "rotation", "computer graphics", "euler angles", "quaternions"]
 libraries: ["katex"]
+math_terms: ["graphics"]
 references:
   - "Dunn, F. and Parberry, I. (2002). 3D math primer for graphics and game development. Plano, Tex.: Wordware Pub."
   - "Images taken from https://www.wikiwand.com/en/Euler_angles#/Rotation_matrix, Author: Lionel Brits"
@@ -15,7 +16,13 @@ series: "computer-graphics-pipeline"
 pipeline_stage: "transforms"
 ---
 
-Euler angles describe the orientation of a rigid body using three angles, typically denoted $\alpha, \beta, \gamma$. These angles represent a **sequence of three elemental rotations** about the axes of a coordinate system.
+Euler angles describe the orientation of a rigid body with three numbers: yaw, pitch, and roll. Each number is an angle, and the three angles applied in sequence rotate the body from a reference orientation to its current one.
+
+This encoding is compact and intuitive, which is why cameras and vehicles use it. It comes with a complication: the answer depends on which axes the rotations happen around and in what order. Those two choices split the representation into intrinsic and extrinsic rotations, and at one specific orientation the sequence collapses entirely, a failure called gimbal lock.
+
+## A Sequence of Three Rotations
+
+A sequence of three elemental rotations is written with three angles, typically $\alpha, \beta, \gamma$, and the axes they rotate about. The order matters: rotating $90^\circ$ about $x$ then $90^\circ$ about $y$ is not the same as the reverse. The two orderings below, intrinsic and extrinsic, define where the axes live during the sequence.
 
 ## Intrinsic and Extrinsic Rotations
 
@@ -39,10 +46,10 @@ If the axes of the coordinate system are $X,Y,Z$ (initially aligned with a fixed
 A sequence of intrinsic rotations is evaluated by pre-multiplying matrices in right-to-left order. For example, the intrinsic sequence $x-y^\prime-z^{\prime\prime}$ with angles $\alpha, \beta, \gamma$ corresponds to:
 
 $$
-\mathbf{R} = \mathbf{X}(\alpha)\mathbf{Y}(\beta)\mathbf{Z}(\gamma)
+\mathbf{R} = \mathbf{R}\_x(\alpha)\mathbf{R}\_y(\beta)\mathbf{R}\_z(\gamma)
 $$
 
-Where $\mathbf{X}(\alpha)$, $\mathbf{Y}(\beta)$, and $\mathbf{Z}(\gamma)$ represent rotations around the canonical $x$, $y$, and $z$ axes.
+Where $\mathbf{R}\_x(\alpha)$, $\mathbf{R}\_y(\beta)$, and $\mathbf{R}\_z(\gamma)$ represent rotations around the canonical $x$, $y$, and $z$ axes.
 
 ### Extrinsic Rotations
 
@@ -55,7 +62,7 @@ A set of **extrinsic rotations** represents rotations relative to a fixed coordi
 The extrinsic sequence $x-y-z$ with angles $\alpha, \beta, \gamma$ corresponds to:
 
 $$
-\mathbf{R} = \mathbf{Z}(\gamma)\mathbf{Y}(\beta)\mathbf{X}(\alpha)
+\mathbf{R} = \mathbf{R}\_z(\gamma)\mathbf{R}\_y(\beta)\mathbf{R}\_x(\alpha)
 $$
 
 ### Conversion Between Intrinsic and Extrinsic Rotations
@@ -65,16 +72,16 @@ Any intrinsic rotation sequence is equivalent to an extrinsic rotation sequence 
 The intrinsic rotation sequence $x-y^\prime-z^{\prime\prime}$ by angles $\alpha,\beta,\gamma$ produces the identical transformation as the extrinsic sequence $z-y-x$ by angles $\gamma,\beta,\alpha$:
 
 $$
-\mathbf{R} = \mathbf{X}(\alpha)\mathbf{Y}(\beta)\mathbf{Z}(\gamma)
+\mathbf{R} = \mathbf{R}\_x(\alpha)\mathbf{R}\_y(\beta)\mathbf{R}\_z(\gamma)
 $$
 
-## Proper Euler Angles
+## Proper Euler Angles and Tait-Bryan Angles
 
-A sequence of three elemental rotations is called **proper Euler angles** when the first and third rotation axes are identical.
+The naming of a sequence depends on which axes it uses. When the first and third rotation axes are identical, the sequence is called **proper Euler angles**:
 
 <figure>
   <div class="figure-images">
-    <img class="lazy-load" data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Eulerangles.svg/213px-Eulerangles.svg.png" alt="">
+    <img class="lazy-load" data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Eulerangles.svg/330px-Eulerangles.svg.png" alt="">
   </div>
   <figcaption>Proper Euler angles representing rotations about $z-x^\prime-z^{\prime\prime}$ by angles $\alpha, \beta, \gamma$. The rotated system $X,Y,Z$ is shown in red.</figcaption>
 </figure>
@@ -90,9 +97,7 @@ There are six valid combinations for proper Euler angles:
 | $z-x^\prime-z^{\prime\prime}$ | $z-x-z$ |
 | $z-y^\prime-z^{\prime\prime}$ | $z-y-z$ |
 
-## Tait-Bryan Angles
-
-A sequence of three elemental rotations is called **Tait-Bryan angles** when rotations occur about three distinct axes.
+When the three rotations occur about three distinct axes, the sequence is called **Tait-Bryan angles**:
 
 | Intrinsic Rotations | Extrinsic Rotations |
 | :--- | :--- |
@@ -103,24 +108,24 @@ A sequence of three elemental rotations is called **Tait-Bryan angles** when rot
 | $z-x^\prime-y^{\prime\prime}$ | $y-x-z$ |
 | $z-y^\prime-x^{\prime\prime}$ | $x-y-z$ |
 
-The intrinsic sequence $z-y^\prime-x^{\prime\prime}$ is widely known as **yaw, pitch, and roll** (or nautical angles), describing the attitude of aircraft and vehicles:
+The Tait-Bryan sequence $z-y^\prime-x^{\prime\prime}$ is widely known as **yaw, pitch, and roll** (or nautical angles), describing the attitude of aircraft and vehicles:
 
 <figure>
   <div class="figure-images">
-    <img class="lazy-load" data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Taitbrianzyx.svg/245px-Taitbrianzyx.svg.png" alt="">
+    <img class="lazy-load" data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Taitbrianzyx.svg/330px-Taitbrianzyx.svg.png" alt="">
   </div>
-  <figcaption>Tait–Bryan angles representing the sequence $z-y^\prime-x^{\prime\prime}$</figcaption>
+  <figcaption>Yaw, pitch, and roll as the Tait-Bryan sequence $z-y^\prime-x^{\prime\prime}$</figcaption>
 </figure>
 
 The combined rotation matrix for the intrinsic sequence $z-y^\prime-x^{\prime\prime}$ (or extrinsic $x-y-z$) is:
 
 $$
-\mathbf{R} = \mathbf{Z}(\alpha)\mathbf{Y}(\beta)\mathbf{X}(\gamma)
+\mathbf{R} = \mathbf{R}\_z(\alpha)\mathbf{R}\_y(\beta)\mathbf{R}\_x(\gamma)
 $$
 
-## Extrinsic Rotations Expressed in Upright Space
+## Extrinsic Rotations in Upright Space
 
-Rotation matrices assume standard canonical axes. When object space axes are oriented differently relative to world space, extrinsic rotations must be projected onto the upright basis.
+The rotation matrices built so far assume canonical axes. When an object space is oriented differently relative to world space, the same yaw, pitch, and roll sequence must be expressed against the object's own basis. The first-person camera is exactly this case: it builds its upright space from the camera's orientation.
 
 <figure>
   <div class="figure-images">
@@ -164,9 +169,9 @@ $$
         <td>
         $$
         \begin{aligned}
-          \mathbf{Y}(\alpha) \\\\
-          \mathbf{X}(\beta) \\\\
-          \mathbf{Z}(\gamma)
+          \mathbf{R}\_y(\alpha) \\\\
+          \mathbf{R}\_x(\beta) \\\\
+          \mathbf{R}\_z(\gamma)
         \end{aligned}
         $$
         </td>
@@ -185,9 +190,9 @@ $$
         <td>
         $$
         \begin{aligned}
-          \mathbf{Z}(\alpha) \equiv \mathbf{Y}\_{\text{wld}}(\alpha) \\\\
-          \mathbf{Y}(\beta) \equiv \mathbf{X}\_{\text{wld}}(\beta) \\\\
-          \mathbf{X}(\gamma) \equiv \mathbf{Z}\_{\text{wld}}(\gamma)
+          \mathbf{R}\_z(\alpha) \equiv \mathbf{R}\_{y,\text{wld}}(\alpha) \\\\
+          \mathbf{R}\_y(\beta) \equiv \mathbf{R}\_{x,\text{wld}}(\beta) \\\\
+          \mathbf{R}\_x(\gamma) \equiv \mathbf{R}\_{z,\text{wld}}(\gamma)
         \end{aligned}
         $$
         </td>
@@ -206,9 +211,9 @@ $$
         <td>
         $$
         \begin{aligned}
-          \mathbf{Y}(\alpha) \equiv \mathbf{Y}\_{\text{wld}}(-\alpha) \\\\
-          \mathbf{X}(\beta) \equiv \mathbf{X}\_{\text{wld}}(-\beta) \\\\
-          \mathbf{Z}(\gamma) \equiv \mathbf{Z}\_{\text{wld}}(\gamma)
+          \mathbf{R}\_y(\alpha) \equiv \mathbf{R}\_{y,\text{wld}}(-\alpha) \\\\
+          \mathbf{R}\_x(\beta) \equiv \mathbf{R}\_{x,\text{wld}}(-\beta) \\\\
+          \mathbf{R}\_z(\gamma) \equiv \mathbf{R}\_{z,\text{wld}}(\gamma)
         \end{aligned}
         $$
         </td>
@@ -218,33 +223,16 @@ $$
   <figcaption>Equivalence of common extrinsic rotations in world space</figcaption>
 </figure>
 
-## Gimbal Lock & Conversion to Quaternions
+## Gimbal Lock
 
-When using Euler angles, rotating pitch $\beta = \pm 90^\circ$ aligns the first and third rotation axes ($x$ and $z$). This alignment causes **gimbal lock**, losing one degree of rotational freedom and causing erratic spinning during animation.
+When using Euler angles, rotating pitch $\beta = \pm 90^\circ$ aligns the first and third rotation axes ($x$ and $z$). This alignment causes **gimbal lock**: one degree of rotational freedom is lost, and the remaining two axes produce the same motion. Animations interpolating through that orientation spin erratically.
 
-To eliminate gimbal lock and permit uniform spherical interpolation, Euler angles are converted into a 4D **unit quaternion rotor**:
+The fix is to switch representations. A <span data-term="quaternion" class="math-term-trigger cursor-help">unit quaternion</span> composes the three axis rotors into a single object with no alignment singularity:
 
 $$
 q = q\_z(\gamma) q\_y(\beta) q\_x(\alpha)
 $$
 
-Where the individual axis rotors are:
+Where the individual axis rotors are half-angle rotors, e.g. $q\_x(\alpha) = \left[\cos\left(\tfrac{\alpha}{2}\right), \sin\left(\tfrac{\alpha}{2}\right)\mathbf{i}\right]$. The Hamilton product yields the composite quaternion $q = [s, x\mathbf{i} + y\mathbf{j} + z\mathbf{k}]$ that rotates by the combined Euler angles.
 
-$$
-q\_x(\alpha) = \left[\cos\left(\tfrac{\alpha}{2}\right), \sin\left(\tfrac{\alpha}{2}\right)\mathbf{i}\right], \quad
-q\_y(\beta) = \left[\cos\left(\tfrac{\beta}{2}\right), \sin\left(\tfrac{\beta}{2}\right)\mathbf{j}\right], \quad
-q\_z(\gamma) = \left[\cos\left(\tfrac{\gamma}{2}\right), \sin\left(\tfrac{\gamma}{2}\right)\mathbf{k}\right]
-$$
-
-Evaluating the Hamilton product yields the composite quaternion $q = [s, x\mathbf{i} + y\mathbf{j} + z\mathbf{k}]$:
-
-$$
-\begin{aligned}
-s &= \cos\left(\tfrac{\alpha}{2}\right)\cos\left(\tfrac{\beta}{2}\right)\cos\left(\tfrac{\gamma}{2}\right) + \sin\left(\tfrac{\alpha}{2}\right)\sin\left(\tfrac{\beta}{2}\right)\sin\left(\tfrac{\gamma}{2}\right) \\\\
-x &= \sin\left(\tfrac{\alpha}{2}\right)\cos\left(\tfrac{\beta}{2}\right)\cos\left(\tfrac{\gamma}{2}\right) - \cos\left(\tfrac{\alpha}{2}\right)\sin\left(\tfrac{\beta}{2}\right)\sin\left(\tfrac{\gamma}{2}\right) \\\\
-y &= \cos\left(\tfrac{\alpha}{2}\right)\sin\left(\tfrac{\beta}{2}\right)\cos\left(\tfrac{\gamma}{2}\right) + \sin\left(\tfrac{\alpha}{2}\right)\cos\left(\tfrac{\beta}{2}\right)\sin\left(\tfrac{\gamma}{2}\right) \\\\
-z &= \cos\left(\tfrac{\alpha}{2}\right)\cos\left(\tfrac{\beta}{2}\right)\sin\left(\tfrac{\gamma}{2}\right) - \sin\left(\tfrac{\alpha}{2}\right)\sin\left(\tfrac{\beta}{2}\right)\cos\left(\tfrac{\gamma}{2}\right)
-\end{aligned}
-$$
-
-For full algebraic proofs of rotor construction, sandwich product transformation $p^\prime = q p q^\*$, and spherical linear interpolation (SLERP), see [Quaternions](/notes/computer-graphics/quaternions/).
+For the full derivation of rotor construction, the sandwich product $p^\prime = q p q^\ast$, and spherical linear interpolation (SLERP), see [Quaternions](/notes/computer-graphics/quaternions/).
