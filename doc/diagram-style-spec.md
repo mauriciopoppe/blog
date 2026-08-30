@@ -2,24 +2,34 @@
 
 This document defines the canonical visual design system, color palette, container metrics, and typography tokens for all inline SVG diagrams across the site.
 
+Interactive widgets and diagrams follow the interaction model in [UX Interaction Principles](/notes/ux-interaction-principles/) (affordance in the resting state, distinct interactive vs passive surfaces, and the four interaction states). This document layers the visual and typography rules on top of those principles.
+
 ---
 
 ## 1. Outer Container & Framing
 
-All diagrams are wrapped in a responsive `<svg>` element with a subtle translucent border and generous padding:
+All diagrams are wrapped in a responsive `<svg>` element with a dark canvas background and generous padding:
 
 ```html
-<svg viewBox="0 0 840 280" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box; margin: 1.5rem 0;">
+<svg viewBox="0 0 840 280" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid var(--grey-dark); box-sizing: border-box; margin: 1.5rem 0;">
   <!-- Zero blank lines inside SVG (Hugo Goldmark rule) -->
 </svg>
 ```
 
 ### Key Metrics
-- **Border**: `1px solid rgba(255, 255, 255, 0.08)` (never use bright solid borders).
+- **Border**: `1px solid var(--grey-dark)` (a theme token, never a bright translucent-white `border: <n>px solid rgba(255, 255, 255, <opacity>)`). See "Border Rule" below.
 - **Background**: `var(--grey-darker)`
 - **Border Radius**: `12px`
 - **Internal Padding**: `16px`
 - **Vertical Margin**: `1.5rem 0`
+
+### Border Rule: Prefer the Default Border
+
+Never hardcode a bright translucent-white border with the `border` shorthand (for example `border: 1px solid rgba(255, 255, 255, 0.08)`). Tailwind's preflight already sets a default border on every element, `border: 0 solid #e5e7eb`, so the border value you need already exists. A full `border` declaration overrides that default and introduces a bright edge that does not adapt between the light and dark themes.
+
+- **Default border**: The Tailwind base layer applies `*, ::before, ::after { border: 0 solid #e5e7eb; }` to all elements. Build on it. When a visible edge is genuinely required, adjust only `border-width` and `border-color` (or use theme tokens like `var(--grey)` / `var(--grey-dark)`), never a full bright `border` shorthand.
+- **Avoid**: `border: 1px solid rgba(255, 255, 255, <opacity>)` in inline styles, JS widgets, or `<svg>` style attributes. Bright white borders look harsh and do not carry over to the light theme.
+- **Inside SVG**: Use `stroke="rgba(255, 255, 255, 0.15)"` (as defined in the Color System) on `<rect>` / `<path>` shapes for subtle framing, not a CSS `border` on the container element.
 
 ---
 
@@ -65,7 +75,11 @@ Never use raw high-saturation neon primaries (avoid electric cyan `#38bdf8` or o
 
 ## 4. Typography Scale & LaTeX Sizing
 
-All text elements must explicitly declare `font-family="var(--family-sans, system-ui, sans-serif)"` (inherited from root SVG) with standard font weights:
+All text elements must explicitly declare a `font-family` (inherited from the root SVG) with standard font weights, following the site's convention that titles and content use different fonts:
+
+### Title vs. Content Font
+- **Titles & headers** (panel section headers, card titles, axis titles, widget titles): `font-family="var(--family-sans, system-ui, sans-serif)"`.
+- **Content & labels** (descriptions, data labels, axis tick values, micro annotations, and other body text): `font-family="var(--family-serif, system-ui, serif)"` to match the article's reading font.
 
 | Element | Font Size | Weight | Color |
 | :--- | :--- | :--- | :--- |
@@ -128,4 +142,4 @@ When building interactive Three.js / WebGL widgets:
   - **Dynamic Text Measurement**: Always measure text length using `ctx.measureText(text)` to dynamically size `canvas.width = Math.max(textWidth + paddingX * 2, 128)` and `canvas.height` with generous padding so strings like `n̂ (Rotation Axis)` are never cropped. Set sprite scale proportionally: `sprite.scale.set((canvasWidth / canvasHeight) * worldHeight, worldHeight, 1)`.
   - Set `depthTest: false`, `depthWrite: false`, and `renderOrder: 999` so labels billboard toward the camera and remain crisp and unoccluded.
 - **No Backgrounds on In-Canvas 3D Labels**: Labels attached to 3D geometry (vector names $\mathbf{v}$, $\mathbf{v}^\prime$, axis $\hat{\mathbf{n}}$, points) must **never have pill or box backgrounds**. Use direct color-coded typography with high-contrast shadow.
-- **Backgrounds Reserved for HUD Panels & Legends**: Translucent backgrounds (`var(--grey-dark)`) and subtle borders (`1px solid rgba(255, 255, 255, 0.08)`) are strictly reserved for HUD controls, telemetry cards, and corner/bottom legend overlays.
+- **Backgrounds Reserved for HUD Panels & Legends**: Translucent backgrounds (`var(--grey-dark)`) are reserved for HUD controls, telemetry cards, and corner/bottom legend overlays. Do not frame them with a bright translucent-white `border`; rely on the default border rule (see Section 1).

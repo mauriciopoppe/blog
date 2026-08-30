@@ -62,283 +62,99 @@ export function initQuaternionDecompExplorer(containerId = 'quaternion-decomp-ex
 
   root.innerHTML = `
     <style>
-      .decomp-sim-wrap {
-        margin: 1.75rem 0;
-        background: var(--grey-darker);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 12px;
-        overflow: hidden;
-        font-family: var(--family-sans, system-ui, sans-serif);
-      }
-      .decomp-sim-header {
-        padding: 10px 14px;
-        background: var(--grey-dark);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-      .decomp-sim-title {
-        font-size: 12.5px;
-        font-weight: 700;
-        letter-spacing: 0.06em;
-        color: rgb(var(--primary));
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-      .decomp-sim-badge {
-        font-size: 11px;
-        letter-spacing: 0.04em;
-        color: var(--grey-light);
-      }
-      .decomp-sim-body {
-        display: grid;
-        grid-template-columns: 330px 1fr;
-        gap: 12px;
-        padding: 12px;
-      }
-      @media (max-width: 860px) {
-        .decomp-sim-body {
-          grid-template-columns: 1fr;
-        }
-      }
-      .decomp-sim-left {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-      .decomp-card {
-        background: var(--grey-dark);
-        border-radius: 8px;
-        padding: 10px 12px;
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-      .decomp-card-title {
-        font-size: 11.5px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        color: var(--grey-lighter);
-        text-transform: uppercase;
-      }
-      .decomp-preset-select {
-        background: var(--grey-darker);
-        color: var(--grey-lighter);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 6px;
-        padding: 6px 10px;
-        font-size: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        width: 100%;
-      }
-      .decomp-preset-select:focus {
-        outline: none;
-        border-color: rgb(var(--primary));
-      }
-      .decomp-desc-box {
-        font-size: 12px;
-        line-height: 1.5;
-        color: var(--grey-light);
-      }
-      .decomp-controls-row {
-        display: flex;
-        gap: 6px;
-        align-items: center;
-      }
-      .decomp-btn {
-        background: var(--grey-darker);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: var(--grey-lighter);
-        padding: 6px 12px;
-        border-radius: 6px;
-        font-size: 11.5px;
-        font-weight: 600;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-      }
-      .decomp-btn:hover {
-        border-color: rgb(var(--primary));
-        color: rgb(var(--primary));
-      }
-      .decomp-btn.active {
-        background: rgb(var(--primary));
-        color: var(--grey-darker);
-        border-color: rgb(var(--primary));
-      }
-      .decomp-slider-wrap {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: var(--grey-dark);
-        padding: 6px 10px;
-        border-radius: 6px;
-      }
-      .decomp-slider-label {
-        font-size: 11.5px;
-        font-weight: 700;
-        color: #34d399;
-        min-width: 48px;
-      }
       .decomp-slider {
-        flex: 1;
-        accent-color: #34d399;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 28px;
+        background: transparent;
         cursor: pointer;
+        --range-fill: 50%;
       }
-      .decomp-data-card {
-        background: var(--grey-dark);
-        border-radius: 6px;
-        padding: 8px 10px;
-        font-size: 11.5px;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-      .decomp-data-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 8px;
-      }
-      .decomp-data-label {
-        color: var(--grey-light);
-        font-size: 11px;
-      }
-      .decomp-data-val {
-        font-family: monospace;
-        font-size: 11px;
-        color: var(--grey-lighter);
-      }
-      .decomp-canvas-wrap {
-        position: relative;
-        background: var(--grey-darker);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 10px;
-        min-height: 380px;
-        overflow: hidden;
-      }
-      .decomp-canvas-overlay {
-        position: absolute;
-        bottom: 10px;
-        left: 10px;
-        background: var(--grey-dark);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        padding: 5px 9px;
-        border-radius: 6px;
-        font-size: 10.5px;
-        color: var(--grey-light);
-        pointer-events: none;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-      .legend-item {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-      }
-      .legend-dot {
-        display: inline-block;
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-      }
-      .decomp-sim-wrap .katex {
-        font-size: 1.25em !important;
-      }
-      .decomp-sim-wrap .decomp-desc-box .katex {
-        font-size: 1.2em !important;
-      }
-      .decomp-sim-wrap .decomp-data-card .katex {
-        font-size: 1.25em !important;
-      }
-      .decomp-sim-wrap .decomp-canvas-overlay .katex {
-        font-size: 1.25em !important;
-      }
+      .decomp-slider::-webkit-slider-runnable-track { height: 8px; border-radius: 999px; background: linear-gradient(to right, rgb(var(--primary)) 0%, rgb(var(--primary)) var(--range-fill), var(--ring-border) var(--range-fill), var(--ring-border) 100%); }
+      .decomp-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: rgb(var(--primary)); border: 2px solid var(--grey); margin-top: -5px; box-shadow: var(--elevation-subtle); }
+      .decomp-slider::-moz-range-track { height: 8px; border-radius: 999px; background: var(--ring-border); }
+      .decomp-slider::-moz-range-progress { height: 8px; border-radius: 999px; background: rgb(var(--primary)); }
+      .decomp-slider::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: rgb(var(--primary)); border: 2px solid var(--grey); box-shadow: var(--elevation-subtle); }
+      .decomp-slider:hover::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(var(--primary), 0.15); }
+      .decomp-slider:hover::-moz-range-thumb { box-shadow: 0 0 0 4px rgba(var(--primary), 0.15); }
+      .decomp-slider:focus-visible { outline: 2px solid rgba(var(--primary), 0.6); outline-offset: 2px; border-radius: 999px; }
+      #quaternion-decomp-explorer .katex { font-size: 0.8em !important; }
     </style>
 
-    <div class="decomp-sim-wrap">
-      <div class="decomp-sim-header">
-        <div class="decomp-sim-title">
+    <div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden tw-font-sans">
+      <div class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
+        <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary tw-flex tw-items-center tw-gap-1.5">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
             <line x1="12" y1="2" x2="12" y2="22"></line>
             <line x1="2" y1="12" x2="22" y2="12"></line>
           </svg>
-          3D VECTOR DECOMPOSITION &amp; SANDWICH ROTATION
+          3D Vector Decomposition &amp; Sandwich Rotation
         </div>
-        <div class="decomp-sim-badge">Interactive Three.js Visualizer</div>
+        <div class="tw-font-serif tw-text-sm tw-text-[var(--grey-light)]">Interactive Three.js Visualizer</div>
       </div>
 
-      <div class="decomp-sim-body">
+      <div class="tw-grid tw-grid-cols-[330px_1fr] tw-gap-2.5 tw-p-2.5 tw-font-serif max-[860px]:tw-grid-cols-1">
         <!-- Left Column: Controls & Telemetry -->
-        <div class="decomp-sim-left">
+        <div class="tw-flex tw-flex-col tw-gap-2.5">
           <!-- Preset Card -->
-          <div class="decomp-card">
-            <div class="decomp-card-title">Vector Configuration</div>
-            <select class="decomp-preset-select" id="decomp-preset-select">
+          <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-3 tw-py-2.5 tw-flex tw-flex-col tw-gap-1.5">
+            <div class="tw-font-sans tw-text-[0.8125rem] tw-font-semibold tw-text-[var(--grey-lighter)]">Vector Configuration</div>
+            <select class="tw-w-full tw-bg-[var(--grey-darker)] tw-text-[var(--grey-lighter)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-text-xs tw-font-semibold tw-cursor-pointer focus:tw-outline-none focus:tw-border-[rgb(var(--primary))]" id="decomp-preset-select">
               <option value="perpendicular">1. Strictly Perpendicular (v ⊥ n̂)</option>
               <option value="arbitrary" selected>2. General Arbitrary 3D Vector</option>
               <option value="axial">3. Axial Vector (v ∥ n̂)</option>
             </select>
-            <div class="decomp-desc-box" id="decomp-desc"></div>
+            <div class="tw-text-xs tw-leading-relaxed tw-text-[var(--grey-light)]" id="decomp-desc"></div>
           </div>
 
           <!-- Playback Controls -->
-          <div class="decomp-card">
-            <div class="decomp-card-title">Angle Scrubbing (θ)</div>
-            <div class="decomp-controls-row">
-              <button class="decomp-btn" id="decomp-btn-play">▶ Play</button>
-              <button class="decomp-btn" id="decomp-btn-reset">Reset</button>
+          <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-3 tw-py-2.5 tw-flex tw-flex-col tw-gap-1.5">
+            <div class="tw-font-sans tw-text-[0.8125rem] tw-font-semibold tw-text-[var(--grey-lighter)]">Angle Scrubbing (θ)</div>
+            <div class="tw-flex tw-gap-1.5 tw-items-center">
+              <button type="button" class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-3 tw-py-2 tw-rounded-md tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-inline-flex tw-items-center tw-gap-1 hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft" id="decomp-btn-play">▶ Play</button>
+              <button type="button" class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-3 tw-py-2 tw-rounded-md tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-inline-flex tw-items-center tw-gap-1 hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft" id="decomp-btn-reset">Reset</button>
             </div>
-            <div class="decomp-slider-wrap">
-              <span class="decomp-slider-label" id="decomp-theta-label">θ = 0.0°</span>
-              <input type="range" class="decomp-slider" id="decomp-slider" min="0" max="6.28318" step="0.01" value="0" />
+            <div class="tw-flex tw-items-center tw-gap-2 tw-bg-[var(--grey-dark)] tw-px-2.5 tw-py-1.5 tw-rounded-md">
+              <span class="tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-text-primary tw-min-w-[48px]" id="decomp-theta-label">θ = 0.0°</span>
+              <input type="range" class="decomp-slider tw-flex-1" id="decomp-slider" min="0" max="6.28318" step="0.01" value="0" />
             </div>
           </div>
 
           <!-- Vector Telemetry Card -->
-          <div class="decomp-data-card">
-            <div class="decomp-card-title">Algebraic Decomposition</div>
-            <div class="decomp-data-row">
-              <span class="decomp-data-label">Original $\\mathbf{v}$</span>
-              <span class="decomp-data-val" id="decomp-v-orig">[ 1.20, 0.90, 0.00 ]</span>
+          <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-2 tw-text-[11.5px] tw-leading-tight tw-flex tw-flex-col tw-gap-1.5" id="decomp-data-card">
+            <div class="tw-font-sans tw-text-[0.8125rem] tw-font-semibold tw-text-[var(--grey-lighter)]">Algebraic Decomposition</div>
+            <div class="tw-flex tw-justify-between tw-items-center tw-gap-2">
+              <span class="decomp-label tw-font-serif tw-text-[0.75rem] tw-text-[var(--grey-light)]">Original $\\mathbf{v}$</span>
+              <span class="tw-font-mono tw-text-[11px] tw-text-[var(--grey-lighter)]" id="decomp-v-orig">[ 1.20, 0.90, 0.00 ]</span>
             </div>
-            <div class="decomp-data-row">
-              <span class="decomp-data-label">Dot Product $\\hat{\\mathbf{n}} \\cdot \\mathbf{v}$</span>
-              <span class="decomp-data-val" id="decomp-dot-val">0.90</span>
+            <div class="tw-flex tw-justify-between tw-items-center tw-gap-2">
+              <span class="decomp-label tw-font-serif tw-text-[0.75rem] tw-text-[var(--grey-light)]">Dot Product $\\hat{\\mathbf{n}} \\cdot \\mathbf{v}$</span>
+              <span class="tw-font-mono tw-text-[11px] tw-text-[var(--grey-lighter)]" id="decomp-dot-val">0.90</span>
             </div>
-            <div class="decomp-data-row">
-              <span class="decomp-data-label">Parallel $\\mathbf{v}_\\parallel$</span>
-              <span class="decomp-data-val" id="decomp-v-par">[ 0.00, 0.90, 0.00 ]</span>
+            <div class="tw-flex tw-justify-between tw-items-center tw-gap-2">
+              <span class="decomp-label tw-font-serif tw-text-[0.75rem] tw-text-[var(--grey-light)]">Parallel $\\mathbf{v}_\\parallel$</span>
+              <span class="tw-font-mono tw-text-[11px] tw-text-[var(--grey-lighter)]" id="decomp-v-par">[ 0.00, 0.90, 0.00 ]</span>
             </div>
-            <div class="decomp-data-row">
-              <span class="decomp-data-label">Perpendicular $\\mathbf{v}_\\perp$</span>
-              <span class="decomp-data-val" id="decomp-v-perp">[ 1.20, 0.00, 0.00 ]</span>
+            <div class="tw-flex tw-justify-between tw-items-center tw-gap-2">
+              <span class="decomp-label tw-font-serif tw-text-[0.75rem] tw-text-[var(--grey-light)]">Perpendicular $\\mathbf{v}_\\perp$</span>
+              <span class="tw-font-mono tw-text-[11px] tw-text-[var(--grey-lighter)]" id="decomp-v-perp">[ 1.20, 0.00, 0.00 ]</span>
             </div>
-            <div class="decomp-data-row">
-              <span class="decomp-data-label">Rotated $\\mathbf{v}^\\prime = q \\mathbf{v} q^*$</span>
-              <span class="decomp-data-val" style="color: #34d399; font-weight: 700;" id="decomp-v-prime">[ 1.20, 0.90, 0.00 ]</span>
+            <div class="tw-flex tw-justify-between tw-items-center tw-gap-2">
+              <span class="decomp-label tw-font-serif tw-text-[0.75rem] tw-text-[var(--grey-light)]">Rotated $\\mathbf{v}^\\prime = q \\mathbf{v} q^*$</span>
+              <span class="tw-font-mono tw-text-[11px] tw-font-bold tw-text-[#34d399]" id="decomp-v-prime">[ 1.20, 0.90, 0.00 ]</span>
             </div>
           </div>
         </div>
 
         <!-- Right Column: 3D Canvas -->
-        <div class="decomp-canvas-wrap" id="decomp-canvas-container">
-          <div class="decomp-canvas-overlay">
-            <span class="legend-item"><span class="legend-dot" style="background: rgb(var(--primary));"></span> $\\mathbf{v}$ (Original)</span>
-            <span class="legend-item"><span class="legend-dot" style="background: #fbbf24;"></span> $\\mathbf{v}_\\parallel$ (Parallel)</span>
-            <span class="legend-item"><span class="legend-dot" style="background: #dadada;"></span> $\\mathbf{v}_\\perp$ (Perp)</span>
-            <span class="legend-item"><span class="legend-dot" style="background: #34d399;"></span> $\\mathbf{v}^\\prime$ (Rotated)</span>
-            <span class="legend-item"><span class="legend-dot" style="background: #fbbf24;"></span> Axis $\\hat{\\mathbf{n}}$</span>
+        <div class="tw-relative tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[10px] tw-min-h-[380px] tw-overflow-hidden" id="decomp-canvas-container">
+          <div class="tw-absolute tw-bottom-2.5 tw-left-2.5 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-px-2 tw-py-1 tw-rounded-md tw-text-[11px] tw-text-[var(--grey-light)] tw-pointer-events-none tw-flex tw-items-center tw-gap-x-3 tw-gap-y-1 tw-flex-wrap" id="decomp-overlay">
+            <span class="tw-inline-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: rgb(var(--primary));"></span> $\\mathbf{v}$ (Original)</span>
+            <span class="tw-inline-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: #fbbf24;"></span> $\\mathbf{v}_\\parallel$ (Parallel)</span>
+            <span class="tw-inline-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: #dadada;"></span> $\\mathbf{v}_\\perp$ (Perp)</span>
+            <span class="tw-inline-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: #34d399;"></span> $\\mathbf{v}^\\prime$ (Rotated)</span>
+            <span class="tw-inline-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: #fbbf24;"></span> Axis $\\hat{\\mathbf{n}}$</span>
           </div>
         </div>
       </div>
@@ -370,6 +186,7 @@ export function initQuaternionDecompExplorer(containerId = 'quaternion-decomp-ex
   function updateUI(state) {
     thetaLabel.textContent = `θ = ${state.angleDeg.toFixed(1)}°`
     slider.value = state.angleRad
+    syncSliderFill(slider)
 
     const [vx, vy, vz] = state.vOriginal
     vOrigEl.textContent = `[ ${formatNum(vx)}, ${formatNum(vy)}, ${formatNum(vz)} ]`
@@ -408,7 +225,14 @@ export function initQuaternionDecompExplorer(containerId = 'quaternion-decomp-ex
   slider.addEventListener('input', (e) => {
     engine.pause()
     engine.setAngle(parseFloat(e.target.value))
+    syncSliderFill(slider)
   })
+
+  function syncSliderFill(sl) {
+    const pct = ((parseFloat(sl.value) - parseFloat(sl.min)) / (parseFloat(sl.max) - parseFloat(sl.min))) * 100
+    sl.style.setProperty('--range-fill', pct + '%')
+  }
+  syncSliderFill(slider)
 
   // Render KaTeX in static overlay & labels
   const labelsContainer = root.querySelector('#decomp-labels-container')
@@ -417,13 +241,13 @@ export function initQuaternionDecompExplorer(containerId = 'quaternion-decomp-ex
       el.innerHTML = renderTextWithMath(el.innerHTML)
     })
   }
-  const overlayEl = root.querySelector('.decomp-canvas-overlay')
+  const overlayEl = root.querySelector('#decomp-overlay')
   if (overlayEl) {
     overlayEl.innerHTML = renderTextWithMath(overlayEl.innerHTML)
   }
-  const dataCardEl = root.querySelector('.decomp-data-card')
+  const dataCardEl = root.querySelector('#decomp-data-card')
   if (dataCardEl) {
-    dataCardEl.querySelectorAll('.decomp-data-label').forEach((el) => {
+    dataCardEl.querySelectorAll('.decomp-label').forEach((el) => {
       el.innerHTML = renderTextWithMath(el.innerHTML)
     })
   }

@@ -201,7 +201,55 @@ function createTextSprite(text, colorHex, fontSize = 36) {
   const worldWidth = (canvasWidth / canvasHeight) * worldHeight
   sprite.scale.set(worldWidth, worldHeight, 1)
   sprite.renderOrder = 999
+  sprite.userData = { colorHex, fontSize, text }
   return sprite
+}
+
+function updateTextSprite(sprite, text) {
+  if (!sprite || !sprite.userData || sprite.userData.text === text) return
+  const { colorHex, fontSize } = sprite.userData
+  sprite.userData.text = text
+
+  const fontStyle = `bold ${fontSize}px "KaTeX_Math", "KaTeX_Main", "Times New Roman", -apple-system, system-ui, sans-serif`
+  const tempCanvas = document.createElement('canvas')
+  const tempCtx = tempCanvas.getContext('2d')
+  tempCtx.font = fontStyle
+  const metrics = tempCtx.measureText(text)
+  const textWidth = Math.ceil(metrics.width)
+  const paddingX = 24
+  const paddingY = 16
+
+  const canvasWidth = Math.max(textWidth + paddingX * 2, 128)
+  const canvasHeight = Math.max(fontSize * 2 + paddingY * 2, 64)
+
+  const canvas = document.createElement('canvas')
+  canvas.width = canvasWidth
+  canvas.height = canvasHeight
+  const ctx = canvas.getContext('2d')
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  ctx.font = fontStyle
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.95)'
+  ctx.shadowBlur = 8
+  ctx.shadowOffsetX = 0
+  ctx.shadowOffsetY = 2
+
+  ctx.fillStyle = typeof colorHex === 'number' ? '#' + colorHex.toString(16).padStart(6, '0') : colorHex
+  ctx.fillText(text, canvas.width / 2, canvas.height / 2)
+
+  const texture = new THREE.CanvasTexture(canvas)
+  texture.minFilter = THREE.LinearFilter
+  texture.generateMipmaps = false
+
+  sprite.material.map = texture
+  sprite.material.needsUpdate = true
+
+  const worldHeight = 0.26
+  const worldWidth = (canvasWidth / canvasHeight) * worldHeight
+  sprite.scale.set(worldWidth, worldHeight, 1)
 }
 
 export function quaternionDifference(q1, q2) {
@@ -534,6 +582,8 @@ export class QuaternionSlerpEngine {
     // Position current orientation label
     const pCurrent = new THREE.Vector3(0, 0.22, -1.85).applyQuaternion(qThree)
     this.labelCurrent.position.copy(pCurrent)
+    const angleDeg = ((getAxisAngle(currentQ).angle * 180) / Math.PI).toFixed(1)
+    updateTextSprite(this.labelCurrent, `q(t) · θ ${angleDeg}°`)
     this.labelCurrent.visible = this.progress > 0.05 && this.progress < 0.95
   }
 

@@ -250,7 +250,7 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
         font-size: 11.5px;
         font-weight: 700;
         cursor: pointer;
-        border: 1px solid rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--grey-dark);
         background: var(--grey-darker);
         color: var(--grey-lighter);
         transition: all 0.2s ease;
@@ -271,7 +271,7 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
       }
       .ctrl-btn:disabled:hover {
         color: var(--grey-lighter);
-        border-color: rgba(255, 255, 255, 0.06);
+        border-color: var(--grey);
         filter: none;
       }
       .ctrl-btn-play {

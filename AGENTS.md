@@ -102,8 +102,9 @@ This document captures development workflows, architecture rules, system quirks,
 - **The Rule**: Always use **native SVG `<text>` and `<tspan>` elements** for labels and mathematical subscripts/superscripts inside SVGs (e.g. `<text x="100" y="50">W<tspan font-size="11" dy="2">q</tspan><tspan font-size="14" dy="-2"> + S</tspan></text>`). Native SVG text scales with mathematical precision across all browser engines.
 
 ### SVG Diagram Design System (`doc/diagram-style-spec.md`)
+- Interactive widgets and diagrams follow the interaction model in [UX Interaction Principles](/notes/ux-interaction-principles/) (affordance in the resting state, distinct interactive vs passive surfaces, and the four interaction states).
 - All diagrams follow [`doc/diagram-style-spec.md`](file:///doc/diagram-style-spec.md):
-  - **Outer Frame**: `style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box; margin: 1.5rem 0;"`
+  - **Outer Frame**: `style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid var(--grey-dark); box-sizing: border-box; margin: 1.5rem 0;"`
   - **Cards & Sub-panels**: `fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" rx="8"`
   - **Color Palette**: Use canonical tokens (`rgb(var(--primary))` / `rgba(var(--primary), 0.15)`, `#ffa726` / `#fbbf24`, `#34d399` / `#22c55e`, `#ff7043` / `#ef4444`, `var(--grey-lighter)`, `var(--grey-light)`). Never use harsh neon cyans (`#38bdf8`) or bright solid borders.
   - **Axes & Dividers**: `stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.2"`
@@ -195,6 +196,8 @@ Always use theme CSS custom properties instead of hardcoded hex values to suppor
 
 All interactive modules are self-contained ES6 modules without global UMD library dependencies:
 
+- **Interactive 3D graph style spec**: Interactive Three.js / WebGL explorers (quaternions, coordinate frames, etc.) follow [`doc/interactive-computer-graphics-graph-spec.md`](file:///doc/interactive-computer-graphics-graph-spec.md) for the target visual language (widget frame, buttons, steps, typography, KaTeX sizing). When converting a legacy graph to the design system, follow its **Modernization Checklist** in order: widget frame (Tailwind-first) → border token → segmented groups → buttons → custom slider → typography audit → canvas overlays → layout budget → cleanup → verify against the UX principles page
+- **Widget implementation pattern**: These widgets are built as Tailwind classes in the markup plus a scoped `<style>` block injected into the mount element for what Tailwind cannot express (range-input pseudo-elements, KaTeX overrides, code-token colors). Inline `style="..."` attributes are the last resort; the first rule is Tailwind classes
 - **Script Inclusions**: Interactive scripts are loaded using `<script type="module" src="...">` or inline `<script type="module">` at the bottom of content files:
   ```html
   <script type="module" src="/js/ai/pareto-frontier.js"></script>

@@ -16,338 +16,46 @@ function renderTextWithMath(str) {
   return str.replace(/\$([^\$]+)\$/g, (_, math) => renderMath(math))
 }
 
-function formatNum(n) {
-  const val = Math.abs(n) < 0.0001 ? 0 : n
-  const str = val.toFixed(3)
-  return val >= 0 ? ` ${str}` : str
-}
-
 export function initQuaternionSlerpExplorer(containerId = 'quaternion-slerp-explorer') {
   const root = document.getElementById(containerId)
   if (!root) return
 
+  const PRESET_BASE = 'slerp-preset-btn tw-flex-1 tw-text-center tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-px-2.5 tw-py-1 tw-leading-none tw-cursor-pointer'
+  const PRESET_INACTIVE = PRESET_BASE + ' tw-bg-transparent tw-text-[var(--grey-light)]'
+  const PRESET_ACTIVE = PRESET_BASE + ' tw-bg-primary-soft tw-text-primary'
+  const MODE_BASE = 'slerp-mode-btn tw-flex-1 tw-text-center tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-px-2.5 tw-py-1 tw-leading-none tw-cursor-pointer'
+  const MODE_INACTIVE = MODE_BASE + ' tw-bg-transparent tw-text-[var(--grey-light)]'
+  const MODE_ACTIVE = MODE_BASE + ' tw-bg-primary-soft tw-text-primary'
+  const PLAY_NEUTRAL = 'tw-flex-1 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center tw-gap-1 hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft'
+  const PLAY_ACTIVE = 'tw-flex-1 tw-bg-primary-soft tw-border tw-border-primary-border tw-text-primary tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-cursor-pointer tw-flex tw-items-center tw-justify-center tw-gap-1 hover:tw-bg-primary-soft hover:tw-border-primary'
+  const BADGE_POS = 'tw-absolute tw-top-2.5 tw-right-2.5 tw-pointer-events-none'
+
   root.innerHTML = `
     <style>
-      .slerp-sim-wrap {
-        margin: 1.75rem 0;
-        background: var(--grey-darker);
-        border: 1px solid var(--grey-dark);
-        border-radius: 12px;
-        overflow: hidden;
-        font-family: var(--family-sans, system-ui, sans-serif);
-      }
-      .slerp-sim-header {
-        padding: 10px 14px;
-        background: var(--grey-dark);
-        border-bottom: 1px solid var(--grey-dark);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-      .slerp-sim-title {
-        font-size: 12.5px;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        color: rgb(var(--primary));
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-      .slerp-sim-badge {
-        font-size: 11px;
-        letter-spacing: 0.04em;
-        color: var(--grey-light);
-      }
-      .slerp-sim-body {
-        display: grid;
-        grid-template-columns: 335px 1fr;
-        gap: 10px;
-        padding: 10px 10px 0;
-      }
-      @media (max-width: 860px) {
-        .slerp-sim-body {
-          grid-template-columns: 1fr;
-        }
-      }
-      .slerp-code-row {
-        width: 100%;
-        padding: 10px;
-        box-sizing: border-box;
-      }
-      .slerp-sim-left {
-        display: flex;
-        flex-direction: column;
-        gap: 7px;
-      }
-      .slerp-sim-presets {
-        display: flex;
-        gap: 5px;
-      }
-      .slerp-preset-btn {
-        flex: 1;
-        font-size: 11px;
-        font-weight: 600;
-        padding: 5px 6px;
-        border-radius: 6px;
-        border: 1px solid var(--grey-dark);
-        background: var(--grey-dark);
-        color: var(--grey-light);
-        cursor: pointer;
-        transition: all 0.2s ease;
-        text-align: center;
-      }
-      .slerp-preset-btn:hover {
-        color: rgb(var(--primary));
-        border-color: rgba(var(--primary), 0.5);
-        filter: drop-shadow(0px 0px 4px rgba(var(--primary), 0.35)) brightness(1.1);
-      }
-      .slerp-preset-btn.active {
-        background: rgba(var(--primary), 0.16);
-        color: rgb(var(--primary));
-        border-color: rgba(var(--primary), 0.5);
-      }
-      .slerp-mode-toggle {
-        display: flex;
-        gap: 6px;
-        background: var(--grey-dark);
-        padding: 3px;
-        border-radius: 7px;
-      }
-      .slerp-mode-btn {
-        flex: 1;
-        font-size: 11.5px;
-        font-weight: 700;
-        padding: 5px 8px;
-        border-radius: 5px;
-        border: 1px solid transparent;
-        background: transparent;
-        color: var(--grey-light);
-        cursor: pointer;
-        transition: all 0.2s ease;
-        text-align: center;
-      }
-      .slerp-mode-btn:hover {
-        color: var(--grey-lighter);
-      }
-      .slerp-mode-btn.active {
-        background: var(--grey-darker);
-        color: rgb(var(--primary));
-        border-color: rgba(var(--primary), 0.4);
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-      }
-      .slerp-sim-desc {
-        font-size: 11.5px;
-        line-height: 1.45;
-        color: var(--grey-light);
-        background: var(--grey-dark);
-        padding: 7px 9px;
-        border-radius: 6px;
-        min-height: 38px;
-      }
-      .slerp-sim-controls {
-        display: flex;
-        gap: 6px;
-        align-items: center;
-      }
-      .slerp-ctrl-btn {
-        padding: 5px 8px;
-        height: 28px;
-        border-radius: 5px;
-        font-size: 11.5px;
-        font-weight: 700;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        background: var(--grey-darker);
-        color: var(--grey-lighter);
-        cursor: pointer;
-        transition: all 0.2s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .slerp-ctrl-btn:hover {
-        color: rgb(var(--primary));
-        border-color: rgba(var(--primary), 0.5);
-        filter: drop-shadow(0px 0px 4px rgba(var(--primary), 0.35)) brightness(1.1);
-      }
-      .slerp-play-btn {
-        flex: 1;
-        background: rgba(var(--primary), 0.16);
-        color: rgb(var(--primary));
-        border-color: rgba(var(--primary), 0.35);
-        gap: 5px;
-      }
-      .slerp-play-btn:hover {
-        background: rgba(var(--primary), 0.28);
-        border-color: rgb(var(--primary));
-      }
-      .slerp-slider-row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: var(--grey-dark);
-        padding: 5px 9px;
-        border-radius: 6px;
-      }
-      .slerp-slider-label {
-        font-size: 11.5px;
-        font-weight: 700;
-        color: rgb(var(--primary));
-        min-width: 32px;
-      }
-      .slerp-slider {
-        flex: 1;
-        accent-color: rgb(var(--primary));
-        cursor: pointer;
-      }
-      .slerp-data-card {
-        background: var(--grey-dark);
-        border-radius: 6px;
-        padding: 7px 9px;
-        font-size: 11.5px;
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-      }
-      .slerp-data-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .slerp-data-label {
-        color: var(--grey-light);
-        font-size: 11px;
-      }
-      .slerp-data-val {
-        font-family: monospace;
-        font-size: 11px;
-        color: var(--grey-lighter);
-      }
-      .slerp-code-card {
-        width: 100%;
-        box-sizing: border-box;
-        background: var(--grey-dark);
-        border-radius: 6px;
-        padding: 7px 9px;
-      }
-      .slerp-code-label {
-        color: var(--grey-light);
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.05em;
-        margin-bottom: 6px;
-      }
-      .slerp-sim-wrap .slerp-code-block {
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-        margin: 0;
-        padding: 6px 8px;
-        background: var(--grey-darker);
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        border-radius: 5px;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-size: 16px;
-        line-height: 1.5;
-        color: var(--grey-lighter);
-        white-space: pre-wrap;
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-        overflow-x: hidden;
-      }
-      .slerp-sim-wrap .slerp-code-block .tok-comment {
-        color: var(--grey);
-        font-style: italic;
-      }
-      .slerp-sim-wrap .slerp-code-block .tok-keyword {
-        color: rgb(var(--primary));
-      }
-      .slerp-sim-wrap .slerp-code-block .tok-number {
-        color: #fbbf24;
-      }
-      .slerp-sim-wrap .slerp-code-block .tok-class {
-        color: #38bdf8;
-      }
-      .slerp-sim-wrap .slerp-code-block .tok-fn {
-        color: #34d399;
-      }
-      .slerp-data-hint {
-        font-size: 10px;
-        line-height: 1.4;
-        color: var(--grey-light);
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
-        padding-top: 5px;
-        margin-top: 2px;
-      }
-      .slerp-badge-tag {
-        font-size: 10.5px;
-        font-weight: 700;
-        padding: 2px 6px;
-        border-radius: 4px;
-      }
-      .slerp-badge-good {
-        background: rgba(80, 200, 120, 0.15);
-        color: #50c878;
-        border: 1px solid rgba(80, 200, 120, 0.3);
-      }
-      .slerp-badge-warn {
-        background: rgba(255, 180, 60, 0.15);
-        color: #ffb43c;
-        border: 1px solid rgba(255, 180, 60, 0.3);
-      }
-      .slerp-canvas-wrap {
-        position: relative;
-        background: var(--grey-darker);
-        border: 1px solid var(--grey-dark);
-        border-radius: 10px;
-        min-height: 320px;
-        overflow: hidden;
-      }
-      .slerp-canvas-overlay {
-        position: absolute;
-        bottom: 10px;
-        left: 10px;
-        background: var(--grey-dark);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        padding: 5px 9px;
-        border-radius: 6px;
-        font-size: 10.5px;
-        color: var(--grey-light);
-        pointer-events: none;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-      .legend-item {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-      }
-      .legend-dot {
-        display: inline-block;
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-      }
-      .slerp-sim-wrap .katex {
-        font-size: 1.25em !important;
-      }
-      .slerp-sim-wrap .slerp-desc-box .katex {
-        font-size: 1.2em !important;
-      }
-      .slerp-sim-wrap .slerp-data-card .katex {
-        font-size: 1.25em !important;
-      }
-      .slerp-sim-wrap .slerp-canvas-overlay .katex {
-        font-size: 1.25em !important;
-      }
+      .slerp-slider { -webkit-appearance: none; appearance: none; height: 28px; background: transparent; cursor: pointer; --range-fill: 50%; }
+      .slerp-slider::-webkit-slider-runnable-track { height: 8px; border-radius: 999px; background: linear-gradient(to right, rgb(var(--primary)) 0%, rgb(var(--primary)) var(--range-fill), var(--ring-border) var(--range-fill), var(--ring-border) 100%); }
+      .slerp-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: rgb(var(--primary)); border: 2px solid var(--grey); margin-top: -5px; box-shadow: var(--elevation-subtle); }
+      .slerp-slider::-moz-range-track { height: 8px; border-radius: 999px; background: var(--ring-border); }
+      .slerp-slider::-moz-range-progress { height: 8px; border-radius: 999px; background: rgb(var(--primary)); }
+      .slerp-slider::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: rgb(var(--primary)); border: 2px solid var(--grey); box-shadow: var(--elevation-subtle); }
+      .slerp-slider:hover::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(var(--primary), 0.15); }
+      .slerp-slider:hover::-moz-range-thumb { box-shadow: 0 0 0 4px rgba(var(--primary), 0.15); }
+      .slerp-slider:focus-visible { outline: 2px solid rgba(var(--primary), 0.6); outline-offset: 2px; border-radius: 999px; }
+      .slerp-code-block .tok-comment { color: var(--grey); font-style: italic; }
+      .slerp-code-block .tok-keyword { color: rgb(var(--primary)); }
+      .slerp-code-block .tok-number { color: #fbbf24; }
+      .slerp-code-block .tok-class { color: #38bdf8; }
+      .slerp-code-block .tok-fn { color: #34d399; }
+      .slerp-badge-tag { font-size: 10.5px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+      .slerp-badge-good { background: rgba(80, 200, 120, 0.15); color: #50c878; border: 1px solid rgba(80, 200, 120, 0.3); }
+      .slerp-badge-warn { background: rgba(255, 180, 60, 0.15); color: #ffb43c; border: 1px solid rgba(255, 180, 60, 0.3); }
+      #quaternion-slerp-explorer .slerp-code-block { font-size: 0.625rem; }
+      #quaternion-slerp-explorer .katex { font-size: 0.8em !important; }
     </style>
 
-    <div class="slerp-sim-wrap">
-      <div class="slerp-sim-header">
-        <div class="slerp-sim-title">
+    <div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden tw-font-sans">
+      <div class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
+        <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary tw-flex tw-items-center tw-gap-1.5">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
             <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
@@ -355,89 +63,66 @@ export function initQuaternionSlerpExplorer(containerId = 'quaternion-slerp-expl
           </svg>
           Quaternion SLERP vs Euler LERP Flight Simulator
         </div>
-        <div class="slerp-sim-badge">3D Geodesic vs Decoupled Interpolation</div>
+        <div class="tw-font-serif tw-text-sm tw-text-[var(--grey-light)]">3D Geodesic vs Decoupled Interpolation</div>
       </div>
 
-      <div class="slerp-sim-body">
-        <div class="slerp-sim-left">
+      <div class="tw-grid tw-grid-cols-[335px_1fr] tw-gap-2.5 tw-p-2.5 tw-font-serif max-[860px]:tw-grid-cols-1">
+        <div class="tw-flex tw-flex-col tw-gap-2">
           <!-- Presets -->
-          <div class="slerp-sim-presets">
-            <button class="slerp-preset-btn active" data-preset="gimbal_lock">Gimbal 90°</button>
-            <button class="slerp-preset-btn" data-preset="aerobatic_flip">Aerobatic Flip</button>
-            <button class="slerp-preset-btn" data-preset="diagonal_turn">Banked Turn</button>
+          <div class="tw-flex tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-bg-[var(--grey-dark)] tw-shadow-subtle tw-overflow-hidden">
+            <button type="button" class="${PRESET_ACTIVE}" data-preset="gimbal_lock">Gimbal 90°</button>
+            <button type="button" class="${PRESET_INACTIVE}" data-preset="aerobatic_flip">Aerobatic Flip</button>
+            <button type="button" class="${PRESET_INACTIVE}" data-preset="diagonal_turn">Banked Turn</button>
           </div>
 
           <!-- Mode Toggle -->
-          <div class="slerp-mode-toggle">
-            <button class="slerp-mode-btn active" data-mode="slerp">Quaternion SLERP</button>
-            <button class="slerp-mode-btn" data-mode="euler">Euler Angle LERP</button>
+          <div class="tw-flex tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-bg-[var(--grey-dark)] tw-shadow-subtle tw-overflow-hidden">
+            <button type="button" class="${MODE_ACTIVE}" data-mode="slerp">Quaternion SLERP</button>
+            <button type="button" class="${MODE_INACTIVE}" data-mode="euler">Euler Angle LERP</button>
           </div>
 
           <!-- Preset Description -->
-          <div class="slerp-sim-desc" id="slerp-desc"></div>
+          <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-2 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)] tw-min-h-[30px]" id="slerp-desc"></div>
 
-          <!-- Playback Controls -->
-          <div class="slerp-sim-controls">
-            <button class="slerp-ctrl-btn" id="slerp-btn-prev" title="Step Back">
+          <!-- Playback Controls + Slider -->
+          <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-gap-1.5">
+            <div class="tw-flex tw-gap-1.5 tw-items-stretch">
+            <button type="button" class="tw-flex-none tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft" id="slerp-btn-prev" title="Step Back">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2.5"></line></svg>
             </button>
-            <button class="slerp-ctrl-btn" id="slerp-btn-next" title="Step Forward">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2.5"></line></svg>
-            </button>
-            <button class="slerp-ctrl-btn slerp-play-btn" id="slerp-btn-play">
+            <button type="button" class="${PLAY_NEUTRAL}" id="slerp-btn-play">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
               <span>Play Flight</span>
             </button>
+            <button type="button" class="tw-flex-none tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft" id="slerp-btn-next" title="Step Forward">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2.5"></line></svg>
+            </button>
+            </div>
+            <div class="tw-flex tw-items-center tw-gap-2">
+              <span class="tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-text-primary tw-min-w-[48px]" id="slerp-t-val">t = 0.00</span>
+              <input type="range" class="slerp-slider tw-flex-1" id="slerp-slider" min="0" max="1" step="0.01" value="0">
+            </div>
           </div>
 
-          <!-- Slider Row -->
-          <div class="slerp-slider-row">
-            <span class="slerp-slider-label" id="slerp-t-val">t = 0.00</span>
-            <input type="range" class="slerp-slider" id="slerp-slider" min="0" max="1" step="0.01" value="0">
-          </div>
-
-          <!-- Live Telemetry Card -->
-          <div class="slerp-data-card">
-            <div class="slerp-data-row">
-              <span class="slerp-data-label">Interpolation Path</span>
-              <span id="slerp-status-badge" class="slerp-badge-tag slerp-badge-good">Shortest Geodesic (S³)</span>
-            </div>
-            <div class="slerp-data-row">
-              <span class="slerp-data-label">Quaternion $q(t)$</span>
-              <span class="slerp-data-val" id="slerp-quat-val">[ 1.000, 0.000, 0.000, 0.000 ]</span>
-            </div>
-            <div class="slerp-data-row">
-              <span class="slerp-data-label">Rotation Axis $\\hat{\\mathbf{n}}$</span>
-              <span class="slerp-data-val" id="slerp-axis-val">( 1.00, 0.00, 0.00 )</span>
-            </div>
-            <div class="slerp-data-row">
-              <span class="slerp-data-label">Current Angle $\\theta(t)$</span>
-              <span class="slerp-data-val" id="slerp-angle-val">0.0°</span>
-            </div>
-            <div class="slerp-data-row">
-              <span class="slerp-data-label">Total Angular Distance</span>
-              <span class="slerp-data-val" id="slerp-total-angle-val">90.0°</span>
-            </div>
-            <div class="slerp-data-hint">SLERP keeps $\\hat{\\mathbf{n}}$ fixed and sweeps $\\theta$ linearly; Euler LERP wobbles both.</div>
-          </div>
         </div>
 
         <!-- 3D Canvas -->
-        <div class="slerp-canvas-wrap" id="slerp-canvas-container">
-          <div class="slerp-canvas-overlay">
-            <span class="legend-item"><span class="legend-dot" style="background: #ef4444;"></span> +X (Forward)</span>
-            <span class="legend-item"><span class="legend-dot" style="background: #22c55e;"></span> +Y (Up)</span>
-            <span class="legend-item"><span class="legend-dot" style="background: #3b82f6;"></span> +Z (Right)</span>
-            <span class="legend-item" id="slerp-legend-axis"><span class="legend-dot" style="background: #fbbf24;"></span> Axis $\\hat{\\mathbf{n}}$</span>
+        <div class="tw-relative tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[10px] tw-min-h-[320px] tw-overflow-hidden" id="slerp-canvas-container">
+          <div class="tw-absolute tw-bottom-2.5 tw-left-2.5 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-px-2 tw-py-1 tw-rounded-md tw-text-[11px] tw-text-[var(--grey-light)] tw-pointer-events-none tw-flex tw-items-center tw-gap-x-3 tw-gap-y-1 tw-flex-wrap" id="slerp-overlay">
+            <span class="tw-inline-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: #ef4444;"></span> +X (Forward)</span>
+            <span class="tw-inline-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: #22c55e;"></span> +Y (Up)</span>
+            <span class="tw-inline-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: #3b82f6;"></span> +Z (Right)</span>
+            <span class="tw-inline-flex tw-items-center tw-gap-1" id="slerp-legend-axis"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: #fbbf24;"></span> Axis $\\hat{\\mathbf{n}}$</span>
           </div>
+          <span id="slerp-status-badge" class="slerp-badge-tag slerp-badge-good tw-absolute tw-top-2.5 tw-right-2.5 tw-pointer-events-none">Shortest Geodesic (S³)</span>
         </div>
       </div>
 
       <!-- Three.js Code Card (full width, below the simulator) -->
-      <div class="slerp-code-row">
-        <div class="slerp-code-card">
-          <div class="slerp-code-label">Three.js Code</div>
-          <pre class="slerp-code-block" id="slerp-code">const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, 0))</pre>
+      <div class="tw-p-2.5 tw-pt-0 tw-font-serif">
+        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-2">
+          <div class="tw-font-sans tw-text-[0.75rem] tw-font-semibold tw-text-[var(--grey-lighter)] tw-mb-1">Three.js Code</div>
+          <pre class="slerp-code-block tw-m-0 tw-p-2 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded tw-font-mono tw-text-[0.6875rem] tw-leading-relaxed tw-text-[var(--grey-lighter)] tw-whitespace-pre-wrap tw-overflow-x-hidden" id="slerp-code">const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, 0))</pre>
         </div>
       </div>
     </div>
@@ -453,10 +138,6 @@ export function initQuaternionSlerpExplorer(containerId = 'quaternion-slerp-expl
   const slider = root.querySelector('#slerp-slider')
   const tValEl = root.querySelector('#slerp-t-val')
   const statusBadge = root.querySelector('#slerp-status-badge')
-  const quatValEl = root.querySelector('#slerp-quat-val')
-  const axisValEl = root.querySelector('#slerp-axis-val')
-  const angleValEl = root.querySelector('#slerp-angle-val')
-  const totalAngleValEl = root.querySelector('#slerp-total-angle-val')
   const legendAxisEl = root.querySelector('#slerp-legend-axis')
   const codeEl = root.querySelector('#slerp-code')
 
@@ -496,18 +177,7 @@ export function initQuaternionSlerpExplorer(containerId = 'quaternion-slerp-expl
 
     tValEl.textContent = `t = ${state.progress.toFixed(2)}`
     slider.value = state.progress
-
-    const [w, x, y, z] = state.quaternion
-    quatValEl.textContent = `[ ${formatNum(w)}, ${formatNum(x)}, ${formatNum(y)}, ${formatNum(z)} ]`
-
-    const [ax, ay, az] = state.axis
-    axisValEl.textContent = `( ${formatNum(ax)}, ${formatNum(ay)}, ${formatNum(az)} )`
-
-    const deg = ((state.angle * 180) / Math.PI).toFixed(1)
-    angleValEl.textContent = `${deg}°`
-
-    const totalDeg = ((state.totalAngularDistance * 180) / Math.PI).toFixed(1)
-    totalAngleValEl.textContent = `${totalDeg}°`
+    syncSliderFill(slider)
 
     if (codeEl) {
       if (state.mode === 'slerp' && preset) {
@@ -540,20 +210,22 @@ export function initQuaternionSlerpExplorer(containerId = 'quaternion-slerp-expl
     }
 
     if (state.mode === 'slerp') {
-      statusBadge.className = 'slerp-badge-tag slerp-badge-good'
+      statusBadge.className = `slerp-badge-tag slerp-badge-good ${BADGE_POS}`
       statusBadge.textContent = 'Shortest Geodesic (S³)'
     } else {
-      statusBadge.className = 'slerp-badge-tag slerp-badge-warn'
+      statusBadge.className = `slerp-badge-tag slerp-badge-warn ${BADGE_POS}`
       statusBadge.textContent = 'Euler Decoupled (Distorted)'
     }
 
     // Play button icon
     if (state.isPlaying) {
+      playBtn.className = PLAY_ACTIVE
       playBtn.innerHTML = `
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
         <span>Pause</span>
       `
     } else {
+      playBtn.className = PLAY_NEUTRAL
       playBtn.innerHTML = `
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
         <span>Play Flight</span>
@@ -566,8 +238,8 @@ export function initQuaternionSlerpExplorer(containerId = 'quaternion-slerp-expl
   // Preset Buttons
   root.querySelectorAll('.slerp-preset-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      root.querySelectorAll('.slerp-preset-btn').forEach(b => b.classList.remove('active'))
-      btn.classList.add('active')
+      root.querySelectorAll('.slerp-preset-btn').forEach(b => { b.className = PRESET_INACTIVE })
+      btn.className = PRESET_ACTIVE
       engine.applyPreset(btn.dataset.preset)
     })
   })
@@ -575,8 +247,8 @@ export function initQuaternionSlerpExplorer(containerId = 'quaternion-slerp-expl
   // Mode Toggle Buttons
   root.querySelectorAll('.slerp-mode-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      root.querySelectorAll('.slerp-mode-btn').forEach(b => b.classList.remove('active'))
-      btn.classList.add('active')
+      root.querySelectorAll('.slerp-mode-btn').forEach(b => { b.className = MODE_INACTIVE })
+      btn.className = MODE_ACTIVE
       engine.setMode(btn.dataset.mode)
     })
   })
@@ -599,21 +271,20 @@ export function initQuaternionSlerpExplorer(containerId = 'quaternion-slerp-expl
   slider.addEventListener('input', (e) => {
     engine.pause()
     engine.setProgress(parseFloat(e.target.value))
+    syncSliderFill(slider)
   })
 
+  function syncSliderFill(sl) {
+    const pct = ((parseFloat(sl.value) - parseFloat(sl.min)) / (parseFloat(sl.max) - parseFloat(sl.min))) * 100
+    sl.style.setProperty('--range-fill', pct + '%')
+  }
+  syncSliderFill(slider)
+
   // Render LaTeX in overlay
-  const overlayEl = root.querySelector('.slerp-canvas-overlay')
+  const overlayEl = root.querySelector('#slerp-overlay')
   if (overlayEl) {
     overlayEl.innerHTML = renderTextWithMath(overlayEl.innerHTML)
   }
-  // Render LaTeX in static telemetry labels
-  const dataCardEl = root.querySelector('.slerp-data-card')
-  if (dataCardEl) {
-    dataCardEl.querySelectorAll('.slerp-data-label, .slerp-data-hint').forEach((el) => {
-      el.innerHTML = renderTextWithMath(el.innerHTML)
-    })
-  }
-
   // Initialize initial state
   engine.emitState()
 

@@ -36,7 +36,7 @@ $$
 \mathbf{i}^2 = \mathbf{j}^2 = \mathbf{k}^2 = \mathbf{i}\mathbf{j}\mathbf{k} = -1
 $$
 
-<svg viewBox="0 0 800 240" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 12px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box; margin: 1.5rem 0;">
+<svg viewBox="0 0 800 240" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 12px; border: 1px solid var(--grey-dark); box-sizing: border-box; margin: 1.5rem 0;">
   <defs>
     <marker id="arrow-ham-cw" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
       <path d="M0,1 L7,4 L0,7 Z" fill="rgb(var(--primary))" />
@@ -196,7 +196,7 @@ $$
 
 Both $+q$ and $-q$ evaluate to the exact same 3D spatial rotation $\mathbf{R}(+q) \equiv \mathbf{R}(-q)$. This 2-to-1 mapping makes unit quaternions a **double cover** of 3D rotations ($\mathrm{SU}(2) \to \mathrm{SO}(3)$).
 
-<svg viewBox="0 0 800 240" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 12px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box; margin: 1.5rem 0;">
+<svg viewBox="0 0 800 240" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 12px; border: 1px solid var(--grey-dark); box-sizing: border-box; margin: 1.5rem 0;">
   <defs>
     <marker id="arrow-rotor-1" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
       <path d="M0,1 L7,4 L0,7 Z" fill="#fbbf24" />
@@ -325,7 +325,7 @@ $$
 \cos\Omega = |q\_1 \cdot q\_2|
 $$
 
-<svg viewBox="0 0 800 240" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 12px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box; margin: 1.5rem 0;">
+<svg viewBox="0 0 800 240" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 12px; border: 1px solid var(--grey-dark); box-sizing: border-box; margin: 1.5rem 0;">
   <defs>
     <marker id="arrow-slerp-arc" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
       <path d="M0,1 L7,4 L0,7 Z" fill="#34d399" />
