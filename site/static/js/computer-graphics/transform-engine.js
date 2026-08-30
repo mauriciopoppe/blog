@@ -11,6 +11,7 @@
 
 import * as THREE from 'https://esm.sh/three@0.165.0'
 import { OrbitControls } from 'https://esm.sh/three@0.165.0/examples/jsm/controls/OrbitControls.js'
+import { createSpacecraftMesh } from './spacecraft-mesh.js'
 
 /**
  * Creates a 4x4 matrix from translation
@@ -225,57 +226,8 @@ export class TransformEngine {
   }
 
   buildMeshes() {
-    // Subject geometry: Faceted geometric shuttle / spacecraft shape
-    // Combine an asymmetric geometry so scaling, rotation, and translation are unmistakable
-    const group = new THREE.Group()
-
-    // Main hull (faceted prism cone)
-    const hullGeo = new THREE.ConeGeometry(0.8, 1.8, 5)
-    hullGeo.rotateZ(-Math.PI / 2) // Point forward along +X
-    hullGeo.translate(0.4, 0.4, 0)
-
-    const hullMat = new THREE.MeshStandardMaterial({
-      color: 0xec5975, // primary accent
-      roughness: 0.3,
-      metalness: 0.2,
-      flatShading: true
-    })
-    const hullMesh = new THREE.Mesh(hullGeo, hullMat)
-    hullMesh.castShadow = true
-    group.add(hullMesh)
-
-    // Cockpit / dorsal fin (distinguishes Top +Y from Bottom -Y)
-    const finGeo = new THREE.BoxGeometry(0.7, 0.6, 0.15)
-    finGeo.translate(0.1, 0.9, 0)
-    const finMat = new THREE.MeshStandardMaterial({
-      color: 0x38bdf8, // light blue highlight
-      roughness: 0.2,
-      metalness: 0.4,
-      flatShading: true
-    })
-    const finMesh = new THREE.Mesh(finGeo, finMat)
-    group.add(finMesh)
-
-    // Wings (distinguishes Left +Z from Right -Z)
-    const wingGeo = new THREE.BoxGeometry(0.6, 0.08, 2.2)
-    wingGeo.translate(0, 0.3, 0)
-    const wingMat = new THREE.MeshStandardMaterial({
-      color: 0xf43f5e,
-      roughness: 0.4,
-      flatShading: true
-    })
-    const wingMesh = new THREE.Mesh(wingGeo, wingMat)
-    group.add(wingMesh)
-
-    // Wireframe overlay for crisp edges
-    const wireframeMat = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.25
-    })
-    const wireframeMesh = new THREE.Mesh(hullGeo, wireframeMat)
-    group.add(wireframeMesh)
+    // Subject geometry: the shared spacecraft plane so all simulators reuse the same mesh
+    const group = createSpacecraftMesh(false)
 
     // Local Axes Attached to Mesh (Red = +X Forward, Green = +Y Up, Blue = +Z Right)
     const localAxes = new THREE.AxesHelper(1.4)
@@ -288,18 +240,8 @@ export class TransformEngine {
     this.subjectMesh = group
     this.scene.add(this.subjectMesh)
 
-    // Ghost Mesh (Wireframe anchored at initial identity state)
-    const ghostGroup = new THREE.Group()
-    const ghostMat = new THREE.MeshBasicMaterial({
-      color: 0x71717a,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.3
-    })
-    const ghostHull = new THREE.Mesh(hullGeo, ghostMat)
-    const ghostFin = new THREE.Mesh(finGeo, ghostMat)
-    const ghostWing = new THREE.Mesh(wingGeo, ghostMat)
-    ghostGroup.add(ghostHull, ghostFin, ghostWing)
+    // Ghost Mesh (wireframe anchored at initial identity state)
+    const ghostGroup = createSpacecraftMesh(true)
     this.ghostMesh = ghostGroup
     this.scene.add(this.ghostMesh)
   }
