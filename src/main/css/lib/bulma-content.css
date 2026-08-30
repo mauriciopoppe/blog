@@ -239,11 +239,7 @@ html[data-theme=light] .content table {
 
 /* Header styling */
 .content table thead {
-  background-color: rgba(var(--primary), 0.12);
-}
-
-html[data-theme=light] .content table thead {
-  background-color: rgba(var(--primary), 0.10);
+  background-color: var(--grey-dark);
 }
 
 .content table thead th,
@@ -251,10 +247,9 @@ html[data-theme=light] .content table thead {
   font-family: var(--family-sans);
   font-weight: 600;
   font-size: 0.78rem;
-  letter-spacing: 0.03em;
-  color: var(--grey-lighter);
+  color: rgb(var(--primary));
   padding: 0.45rem 0.75rem;
-  border-bottom: 1.5px solid rgba(var(--primary), 0.35);
+  border-bottom: 1px solid var(--ring-border);
   border-right: none;
   vertical-align: middle;
 }
@@ -279,15 +274,7 @@ html[data-theme=light] .content table tbody th {
   border-right: none;
 }
 
-/* Zebra striping and hover effect */
-.content table tbody tr:nth-child(even) {
-  background-color: rgba(255, 255, 255, 0.02);
-}
-
-html[data-theme=light] .content table tbody tr:nth-child(even) {
-  background-color: rgba(0, 0, 0, 0.02);
-}
-
+/* Hover effect */
 .content table tbody tr:hover {
   background-color: rgba(var(--primary), 0.06);
   transition: background-color 0.15s ease;

@@ -6,5 +6,11 @@ html[data-theme=dark] {
   --grey-light: rgb(197, 197, 197);
   --grey-lighter: rgb(222, 222, 222);
   --primary: 194, 112, 131;
+  --elevation-subtle: 0 2px 6px rgba(0, 0, 0, 0.4);
+  --elevation-raised: 0 2px 6px rgba(0, 0, 0, 0.4), 0 12px 28px rgba(0, 0, 0, 0.32);
+  --elevation-deep: 0 8px 20px rgba(0, 0, 0, 0.5), 0 24px 52px rgba(0, 0, 0, 0.42);
+  --accent-border: rgb(var(--primary));
+  --link-glow: 0 0 5px rgba(var(--primary), 0.5);
+  --accent-tint: rgba(var(--primary), 0.08);
+  --ring-border: rgba(255, 255, 255, 0.1);
 }
-
