@@ -24,6 +24,11 @@
         <h2 class="tw-group/title tw-text-xl md:tw-text-2xl tw-leading-tight tw-m-0 tw-text-primary group-hover/related:tw-drop-shadow-[0_0_6px_rgba(var(--primary),0.35)] tw-transition-all">
           {{ .Title }}
         </h2>
+        {{ if .Draft }}
+          <span class="tw-inline-block tw-rounded-md tw-border tw-border-[#fbbf24]/60 tw-text-[#fbbf24] tw-text-xs tw-px-2 tw-py-0.5" title="Draft note">
+            Draft
+          </span>
+        {{ end }}
         {{ if $isFavorite }}
           <span class="tw-inline-block tw-rounded-md tw-border tw-border-primary tw-text-primary tw-text-xs tw-px-2 tw-py-0.5" title="Favorite">
             ★ Favorite

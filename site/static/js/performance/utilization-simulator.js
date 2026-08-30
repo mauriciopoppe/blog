@@ -4,93 +4,103 @@ export function initUtilizationSimulator(containerId = '#interactive-utilization
   const container = document.querySelector(containerId);
   if (!container) return;
 
+  const CTRL = 'tw-font-serif tw-text-[0.9rem] tw-font-semibold tw-leading-none tw-px-3 tw-py-2 tw-rounded-[6px] tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-dark)] tw-text-[var(--grey-light)] tw-cursor-pointer tw-shadow-subtle hover:tw-border-[var(--accent-border)] hover:tw-bg-primary-soft hover:tw-text-primary hover:tw-shadow-raised';
+  const SEG_BASE = 'tw-appearance-none tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-leading-none tw-px-3 tw-py-2 tw-cursor-pointer';
+  const SEG_INACTIVE = SEG_BASE + ' tw-bg-transparent tw-text-[var(--grey-light)]';
+  const SEG_UNDER = SEG_BASE + ' tw-bg-[rgba(76,175,80,0.16)] tw-text-[#4caf50]';
+  const SEG_KNEE = SEG_BASE + ' tw-bg-primary-soft tw-text-primary';
+  const SEG_SAT = SEG_BASE + ' tw-bg-[rgba(244,67,54,0.16)] tw-text-[#f44336]';
+
   container.innerHTML = `
-    <div style="background: var(--grey-darker); border: 1px solid var(--grey-dark); border-radius: 12px; padding: 18px; font-family: var(--family-sans, system-ui, sans-serif); color: var(--grey-lighter);">
-      
-      <!-- Top Row: Title, Presets & Actions -->
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
-        <span style="font-size: 1.05rem; font-weight: 600; color: var(--grey-lighter);">Live Queuing Simulator</span>
-        
-        <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-          <button id="preset-under" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">35% (Under)</button>
-          <button id="preset-knee" style="background: rgba(var(--primary), 0.2); border: 1px solid rgba(var(--primary), 0.6); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">75% (Knee)</button>
-          <button id="preset-sat" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">98% (Sat)</button>
-          <div style="width: 1px; height: 18px; background: rgba(255, 255, 255, 0.1); margin: 0 4px;"></div>
-          <button id="btn-play-pause" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 0; min-width: 34px; text-align: center; border-radius: 6px; font-size: 0.85rem; cursor: pointer;" title="Pause / Resume">⏸</button>
-          <button id="btn-reset" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-light); padding: 5px 0; min-width: 34px; text-align: center; border-radius: 6px; font-size: 0.85rem; cursor: pointer;" title="Reset Simulation">↺</button>
-          <button id="btn-speed" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 8px; min-width: 44px; text-align: center; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">1.0x</button>
+    <div class="tw-bg-[var(--grey-darker)] tw-rounded-[12px] tw-p-[18px] tw-font-serif tw-text-[var(--grey-lighter)]">
+      <style>
+        #interactive-utilization-simulator .lls-slider { -webkit-appearance: none; appearance: none; height: 28px; background: transparent; --range-fill: 50%; }
+        #interactive-utilization-simulator .lls-slider::-webkit-slider-runnable-track { height: 8px; border-radius: 999px; background: linear-gradient(to right, rgb(var(--primary)) 0%, rgb(var(--primary)) var(--range-fill), var(--ring-border) var(--range-fill), var(--ring-border) 100%); }
+        #interactive-utilization-simulator .lls-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: rgb(var(--primary)); border: 2px solid var(--grey); margin-top: -5px; box-shadow: var(--elevation-subtle); }
+        #interactive-utilization-simulator .lls-slider::-moz-range-track { height: 8px; border-radius: 999px; background: var(--ring-border); }
+        #interactive-utilization-simulator .lls-slider::-moz-range-progress { height: 8px; border-radius: 999px; background: rgb(var(--primary)); }
+        #interactive-utilization-simulator .lls-slider::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: rgb(var(--primary)); border: 2px solid var(--grey); box-shadow: var(--elevation-subtle); }
+        #interactive-utilization-simulator .lls-slider:hover::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(var(--primary), 0.15); }
+        #interactive-utilization-simulator .lls-slider:hover::-moz-range-thumb { box-shadow: 0 0 0 4px rgba(var(--primary), 0.15); }
+        #interactive-utilization-simulator .lls-slider:focus-visible { outline: 2px solid rgba(var(--primary), 0.6); outline-offset: 2px; border-radius: 999px; }
+      </style>
+
+      <!-- Top Row: Presets & Actions -->
+      <div class="tw-flex tw-justify-between tw-items-center tw-flex-wrap tw-gap-2.5 tw-mb-3.5">
+        <div class="tw-flex tw-items-center tw-gap-1.5 tw-flex-wrap">
+          <div class="tw-inline-flex tw-border tw-border-[var(--ring-border)] tw-rounded-[6px] tw-bg-[var(--grey-dark)] tw-shadow-subtle tw-overflow-hidden" role="radiogroup" aria-label="Preset">
+            <button type="button" id="preset-under" class="${SEG_INACTIVE}" role="radio" aria-checked="false">35% (Under)</button>
+            <button type="button" id="preset-knee" class="${SEG_KNEE}" role="radio" aria-checked="true">75% (Knee)</button>
+            <button type="button" id="preset-sat" class="${SEG_INACTIVE}" role="radio" aria-checked="false">98% (Sat)</button>
+          </div>
+          <div class="tw-w-px tw-h-[18px] tw-bg-white/15 tw-mx-1"></div>
+          <button type="button" id="btn-play-pause" class="${CTRL} tw-min-w-[34px] tw-text-center" title="Pause / Resume">⏸</button>
+          <button type="button" id="btn-reset" class="${CTRL} tw-min-w-[34px] tw-text-center" title="Reset Simulation">↺</button>
+          <button type="button" id="btn-speed" class="${CTRL} tw-min-w-[44px] tw-text-center">1.0x</button>
         </div>
       </div>
 
-      <!-- Row 2: Sliders Grid with Value below Name -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; background: var(--grey-dark); padding: 12px 16px; border-radius: 8px; margin-bottom: 14px;">
-        <!-- Slider 1: Arrival Rate -->
+      <!-- Row 2: Sliders -->
+      <div class="tw-grid tw-grid-cols-3 tw-gap-5 tw-mb-4">
         <div>
-          <div style="font-size: 0.78rem; color: var(--grey-light);">Arrival Rate (λ)</div>
-          <div id="val-lambda" style="font-size: 0.98rem; font-weight: 600; color: rgb(var(--primary)); margin: 2px 0 6px 0;">3.0 req/s</div>
-          <input type="range" id="slider-lambda" min="0.5" max="8.0" step="0.1" value="3.0" style="width: 100%; accent-color: rgb(var(--primary)); cursor: pointer;">
+          <div class="tw-flex tw-justify-between tw-items-center tw-gap-2 tw-text-[0.75rem]">
+            <span class="tw-text-[var(--grey-light)]">Arrival Rate (λ)</span>
+            <span id="val-lambda" class="tw-font-semibold tw-text-primary tw-whitespace-nowrap">3.0 req/s</span>
+          </div>
+          <input type="range" id="slider-lambda" class="lls-slider tw-w-full tw-cursor-pointer tw-mt-1" min="0.5" max="8.0" step="0.1" value="3.0">
         </div>
-
-        <!-- Slider 2: Cores -->
         <div>
-          <div style="font-size: 0.78rem; color: var(--grey-light);">Worker Cores (c)</div>
-          <div id="val-cores" style="font-size: 0.98rem; font-weight: 600; color: rgb(var(--primary)); margin: 2px 0 6px 0;">2 Cores</div>
-          <input type="range" id="slider-cores" min="1" max="4" step="1" value="2" style="width: 100%; accent-color: rgb(var(--primary)); cursor: pointer;">
+          <div class="tw-flex tw-justify-between tw-items-center tw-gap-2 tw-text-[0.75rem]">
+            <span class="tw-text-[var(--grey-light)]">Worker Cores (c)</span>
+            <span id="val-cores" class="tw-font-semibold tw-text-primary tw-whitespace-nowrap">2 Cores</span>
+          </div>
+          <input type="range" id="slider-cores" class="lls-slider tw-w-full tw-cursor-pointer tw-mt-1" min="1" max="4" step="1" value="2">
         </div>
-
-        <!-- Slider 3: Service Rate -->
         <div>
-          <div style="font-size: 0.78rem; color: var(--grey-light);">Worker Rate (μ)</div>
-          <div id="val-mu" style="font-size: 0.98rem; font-weight: 600; color: rgb(var(--primary)); margin: 2px 0 6px 0;">2.0 req/s (S = 0.50s)</div>
-          <input type="range" id="slider-mu" min="0.5" max="5.0" step="0.1" value="2.0" style="width: 100%; accent-color: rgb(var(--primary)); cursor: pointer;">
+          <div class="tw-flex tw-justify-between tw-items-center tw-gap-2 tw-text-[0.75rem]">
+            <span class="tw-text-[var(--grey-light)]">Worker Rate (μ)</span>
+            <span id="val-mu" class="tw-font-semibold tw-text-primary tw-whitespace-nowrap">2.0 req/s</span>
+          </div>
+          <input type="range" id="slider-mu" class="lls-slider tw-w-full tw-cursor-pointer tw-mt-1" min="0.5" max="5.0" step="0.1" value="2.0">
         </div>
       </div>
 
-      <!-- Row 3: Live Sweeping Gantt Canvas with Queue Buffer & Worker Lanes -->
-      <div style="position: relative; width: 100%; height: 190px; background: var(--grey-dark); border: 1px solid var(--grey-dark); border-radius: 8px; overflow: hidden; margin-bottom: 12px;">
-        <canvas id="sim-canvas" style="width: 100%; height: 100%; display: block;"></canvas>
+      <!-- Row 3: Gantt Canvas -->
+      <div class="tw-relative tw-w-full tw-h-[190px] tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-overflow-hidden tw-mb-3">
+        <canvas id="sim-canvas" class="tw-w-full tw-h-full tw-block"></canvas>
       </div>
 
-      <!-- Row 4: Tiny Metric Cards Grid (including P50 and P90) -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(115px, 1fr)); gap: 8px; margin-bottom: 8px;">
-        <!-- Card 1: Theoretical Utilization -->
-        <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--grey-dark);">
-          <div style="font-size: 0.70rem; color: var(--grey-light);">Util (theoretical)</div>
-          <div id="stat-theo-rho" style="font-size: 1.08rem; font-weight: 600; color: var(--grey-lighter); margin: 2px 0;">75.0%</div>
-          <div id="stat-theo-cap" style="font-size: 0.70rem; color: var(--grey-light);">Cap: 4.0 req/s</div>
+      <!-- Row 4: Metric Cards -->
+      <div class="tw-grid tw-grid-cols-[repeat(auto-fit,minmax(115px,1fr))] tw-gap-2 tw-mb-2">
+        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+          <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Util (theoretical)</div>
+          <div id="stat-theo-rho" class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-[var(--grey-lighter)]">75.0%</div>
+          <div id="stat-theo-cap" class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Cap: 4.0 req/s</div>
         </div>
-
-        <!-- Card 2: Live Measured Utilization -->
-        <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--grey-dark);">
-          <div style="font-size: 0.70rem; color: var(--grey-light);">Util (measured, 5s)</div>
-          <div id="stat-measured-rho" style="font-size: 1.08rem; font-weight: 600; color: rgb(var(--primary)); margin: 2px 0;">74.2%</div>
-          <div id="stat-headroom" style="font-size: 0.70rem; color: var(--grey-light);">Headroom: 25.8%</div>
+        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+          <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Util (measured)</div>
+          <div id="stat-measured-rho" class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-primary">74.2%</div>
+          <div id="stat-headroom" class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Headroom: 25.8%</div>
         </div>
-
-        <!-- Card 3: In-Flight Queue -->
-        <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--grey-dark);">
-          <div style="font-size: 0.70rem; color: var(--grey-light);">Queue Depth</div>
-          <div id="stat-queue-len" style="font-size: 1.08rem; font-weight: 600; color: var(--grey-lighter); margin: 2px 0;">0</div>
-          <div style="font-size: 0.70rem; color: var(--grey-light);">Peak: <span id="stat-queue-max">1</span> in line</div>
+        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+          <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Queue Depth</div>
+          <div id="stat-queue-len" class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-[var(--grey-lighter)]">0</div>
+          <div class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Peak: <span id="stat-queue-max">1</span></div>
         </div>
-
-        <!-- Card 4: P50 Median Latency -->
-        <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--grey-dark);">
-          <div style="font-size: 0.70rem; color: var(--grey-light);">Latency (P50)</div>
-          <div id="stat-latency-p50" style="font-size: 1.08rem; font-weight: 600; color: var(--grey-lighter); margin: 2px 0;">0.46s</div>
-          <div id="stat-latency-mean" style="font-size: 0.70rem; color: var(--grey-light);">Mean: 0.52s</div>
+        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+          <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Latency (P50)</div>
+          <div id="stat-latency-p50" class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-[var(--grey-lighter)]">0.46s</div>
+          <div id="stat-latency-mean" class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Mean: 0.52s</div>
         </div>
-
-        <!-- Card 5: P90 Tail Latency -->
-        <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--grey-dark);">
-          <div style="font-size: 0.70rem; color: var(--grey-light);">Tail Latency (P90)</div>
-          <div id="stat-latency-p90" style="font-size: 1.08rem; font-weight: 600; color: #ffb74d; margin: 2px 0;">1.12s</div>
-          <div id="stat-latency-wait" style="font-size: 0.70rem; color: var(--grey-light);">Wait: 0.12s</div>
+        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+          <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Tail Latency (P90)</div>
+          <div id="stat-latency-p90" class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-[#ffb74d]">1.12s</div>
+          <div id="stat-latency-wait" class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Wait: 0.12s</div>
         </div>
       </div>
 
       <!-- Diagnostic Status Line -->
-      <div id="diagnostic-summary" style="font-size: 0.78rem; color: var(--grey-light); text-align: center; padding: 2px 8px;">
+      <div id="diagnostic-summary" class="tw-text-[0.78rem] tw-text-[var(--grey-light)] tw-text-center tw-px-2 tw-py-0.5">
         Healthy ~25% headroom absorbing traffic bursts
       </div>
     </div>
@@ -158,36 +168,45 @@ export function initUtilizationSimulator(containerId = '#interactive-utilization
   }
 
   function updateStaticMetrics() {
+    syncSliderFill(sliderLambda);
+    syncSliderFill(sliderCores);
+    syncSliderFill(sliderMu);
+
     const metrics = engine.getMetrics();
     const avgServiceS = (1 / mu);
 
     valLambda.textContent = `${lambda.toFixed(1)} req/s`;
     valCores.textContent = `${cores} Core${cores > 1 ? 's' : ''}`;
-    valMu.textContent = `${mu.toFixed(1)} req/s (S = ${avgServiceS.toFixed(2)}s)`;
+    valMu.textContent = `${mu.toFixed(1)} req/s`;
 
     statTheoRho.textContent = `${metrics.theoreticalRho.toFixed(1)}%`;
     statTheoCap.textContent = `Cap: ${metrics.capacity.toFixed(1)} req/s`;
 
-    btnPresetUnder.style.background = 'var(--grey-dark)';
-    btnPresetUnder.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-    btnPresetKnee.style.background = 'var(--grey-dark)';
-    btnPresetKnee.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-    btnPresetSat.style.background = 'var(--grey-dark)';
-    btnPresetSat.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+    btnPresetUnder.className = SEG_INACTIVE;
+    btnPresetUnder.setAttribute('aria-checked', 'false');
+    btnPresetKnee.className = SEG_INACTIVE;
+    btnPresetKnee.setAttribute('aria-checked', 'false');
+    btnPresetSat.className = SEG_INACTIVE;
+    btnPresetSat.setAttribute('aria-checked', 'false');
 
     if (metrics.theoreticalRho < 55) {
-      btnPresetUnder.style.background = 'rgba(76, 175, 80, 0.2)';
-      btnPresetUnder.style.borderColor = 'rgba(76, 175, 80, 0.6)';
+      btnPresetUnder.className = SEG_UNDER;
+      btnPresetUnder.setAttribute('aria-checked', 'true');
       diagnosticSummary.textContent = `Near-zero queue wait (W ≈ ${avgServiceS.toFixed(2)}s); low hardware efficiency`;
     } else if (metrics.theoreticalRho <= 85) {
-      btnPresetKnee.style.background = 'rgba(var(--primary), 0.2)';
-      btnPresetKnee.style.borderColor = 'rgba(var(--primary), 0.6)';
+      btnPresetKnee.className = SEG_KNEE;
+      btnPresetKnee.setAttribute('aria-checked', 'true');
       diagnosticSummary.textContent = `Healthy ~${metrics.theoreticalHeadroom.toFixed(0)}% headroom absorbing traffic bursts`;
     } else {
-      btnPresetSat.style.background = 'rgba(244, 67, 54, 0.2)';
-      btnPresetSat.style.borderColor = 'rgba(244, 67, 54, 0.6)';
+      btnPresetSat.className = SEG_SAT;
+      btnPresetSat.setAttribute('aria-checked', 'true');
       diagnosticSummary.textContent = 'Queue exploding! Latency degrading asymptotically';
     }
+  }
+
+  function syncSliderFill(slider) {
+    const pct = ((parseFloat(slider.value) - parseFloat(slider.min)) / (parseFloat(slider.max) - parseFloat(slider.min))) * 100;
+    slider.style.setProperty('--range-fill', pct + '%');
   }
 
   btnPresetUnder.addEventListener('click', () => {

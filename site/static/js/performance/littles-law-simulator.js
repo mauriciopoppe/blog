@@ -4,66 +4,75 @@ export function initLittlesLawSimulator(containerId = '#interactive-littles-law-
   const container = document.querySelector(containerId);
   if (!container) return;
 
+  const CTRL = 'tw-font-serif tw-text-[0.9rem] tw-font-semibold tw-leading-none tw-px-3 tw-py-2 tw-rounded-[6px] tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-dark)] tw-text-[var(--grey-light)] tw-cursor-pointer tw-shadow-subtle hover:tw-border-[var(--accent-border)] hover:tw-bg-primary-soft hover:tw-text-primary hover:tw-shadow-raised';
+  const SEG_ACTIVE = 'tw-appearance-none tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-leading-none tw-px-3 tw-py-2 tw-bg-primary-soft tw-text-primary tw-cursor-pointer';
+  const SEG_INACTIVE = 'tw-appearance-none tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-leading-none tw-px-3 tw-py-2 tw-bg-transparent tw-text-[var(--grey-light)] tw-cursor-pointer hover:tw-bg-[var(--accent-tint)] hover:tw-text-primary';
+
   container.innerHTML = `
-    <div style="background: var(--grey-darker); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 18px; font-family: var(--family-sans, system-ui, sans-serif); color: var(--grey-lighter);">
-      
-      <!-- Top Bar: Header, Presets & Action Buttons -->
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
-        <div>
-          <span style="font-size: 1.05rem; font-weight: 700; color: var(--grey-lighter);">Interactive Bookstore & Lounge Simulator</span>
-          <span style="font-size: 0.82rem; color: var(--grey-light); margin-left: 8px;">Little's Law (L = λ · W)</span>
-        </div>
-        
-        <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-          <button id="coffee-preset-light" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">Quick Browse (L = 2)</button>
-          <button id="coffee-preset-steady" style="background: rgba(var(--primary), 0.2); border: 1px solid rgba(var(--primary), 0.6); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">Steady (L = 6)</button>
-          <button id="coffee-preset-rush" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">Busy Lounge (L = 15)</button>
-          <div style="width: 1px; height: 18px; background: rgba(255, 255, 255, 0.1); margin: 0 4px;"></div>
-          <button id="coffee-btn-play" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 0; min-width: 34px; text-align: center; border-radius: 6px; font-size: 0.85rem; cursor: pointer;" title="Pause / Play">⏸</button>
-          <button id="coffee-btn-reset" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-light); padding: 5px 0; min-width: 34px; text-align: center; border-radius: 6px; font-size: 0.85rem; cursor: pointer;" title="Reset Simulation">↺</button>
-          <button id="coffee-btn-speed" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 8px; min-width: 44px; text-align: center; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">1.0x</button>
+    <div class="tw-bg-[var(--grey-darker)] tw-rounded-[12px] tw-p-[18px] tw-font-serif tw-text-[var(--grey-lighter)]">
+      <style>
+        #interactive-littles-law-simulator .lls-slider { -webkit-appearance: none; appearance: none; height: 28px; background: transparent; --range-fill: 50%; }
+        #interactive-littles-law-simulator .lls-slider::-webkit-slider-runnable-track { height: 8px; border-radius: 999px; background: linear-gradient(to right, rgb(var(--primary)) 0%, rgb(var(--primary)) var(--range-fill), var(--ring-border) var(--range-fill), var(--ring-border) 100%); }
+        #interactive-littles-law-simulator .lls-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: rgb(var(--primary)); border: 2px solid var(--grey); margin-top: -5px; box-shadow: var(--elevation-subtle); }
+        #interactive-littles-law-simulator .lls-slider::-moz-range-track { height: 8px; border-radius: 999px; background: var(--ring-border); }
+        #interactive-littles-law-simulator .lls-slider::-moz-range-progress { height: 8px; border-radius: 999px; background: rgb(var(--primary)); }
+        #interactive-littles-law-simulator .lls-slider::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: rgb(var(--primary)); border: 2px solid var(--grey); box-shadow: var(--elevation-subtle); }
+        #interactive-littles-law-simulator .lls-slider:hover::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(var(--primary), 0.15); }
+        #interactive-littles-law-simulator .lls-slider:hover::-moz-range-thumb { box-shadow: 0 0 0 4px rgba(var(--primary), 0.15); }
+        #interactive-littles-law-simulator .lls-slider:focus-visible { outline: 2px solid rgba(var(--primary), 0.6); outline-offset: 2px; border-radius: 999px; }
+      </style>
+
+      <!-- Control Bar -->
+      <div class="tw-flex tw-justify-between tw-items-center tw-flex-wrap tw-gap-2.5 tw-mb-3.5">
+        <div class="tw-flex tw-items-center tw-gap-1.5 tw-flex-wrap">
+          <div class="tw-inline-flex tw-border tw-border-[var(--ring-border)] tw-rounded-[6px] tw-bg-[var(--grey-dark)] tw-shadow-subtle tw-overflow-hidden" role="radiogroup" aria-label="Preset">
+            <button type="button" id="coffee-preset-light" class="${SEG_INACTIVE}" role="radio" aria-checked="false">Quick Browse (L = 2)</button>
+            <button type="button" id="coffee-preset-steady" class="${SEG_ACTIVE}" role="radio" aria-checked="true">Steady (L = 6)</button>
+            <button type="button" id="coffee-preset-rush" class="${SEG_INACTIVE}" role="radio" aria-checked="false">Busy Lounge (L = 15)</button>
+          </div>
+          <div class="tw-w-px tw-h-[18px] tw-bg-white/15 tw-mx-1"></div>
+          <button type="button" id="coffee-btn-play" class="${CTRL} tw-min-w-[34px] tw-text-center" title="Pause / Play">⏸</button>
+          <button type="button" id="coffee-btn-reset" class="${CTRL} tw-min-w-[34px] tw-text-center" title="Reset Simulation">↺</button>
+          <button type="button" id="coffee-btn-speed" class="${CTRL} tw-min-w-[44px] tw-text-center">1.0x</button>
         </div>
       </div>
 
-      <!-- Sliders Row (Two clean columns) -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: var(--grey-dark); padding: 12px 16px; border-radius: 8px; margin-bottom: 14px; border: 1px solid rgba(255, 255, 255, 0.05);">
-        <!-- Slider 1: Arrival Rate (lambda) -->
+      <!-- Sliders Row -->
+      <div class="tw-grid tw-grid-cols-2 tw-gap-5 tw-mb-4">
         <div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.80rem; color: var(--grey-light);">
+          <div class="tw-flex tw-justify-between tw-text-[0.8rem] tw-text-[var(--grey-light)]">
             <span>Arrival Rate (λ)</span>
-            <span id="coffee-val-lambda" style="font-weight: 700; color: rgb(var(--primary));">1.5 people / sec</span>
+            <span id="coffee-val-lambda" class="tw-font-bold tw-text-primary">1.5 people / sec</span>
           </div>
-          <input type="range" id="coffee-slider-lambda" min="0.5" max="4.0" step="0.1" value="1.5" style="width: 100%; accent-color: rgb(var(--primary)); cursor: pointer; margin-top: 6px;">
+          <input type="range" id="coffee-slider-lambda" class="lls-slider tw-w-full tw-cursor-pointer tw-mt-1.5" min="0.5" max="4.0" step="0.1" value="1.5">
         </div>
-
-        <!-- Slider 2: Duration in Shop (W) -->
         <div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.80rem; color: var(--grey-light);">
+          <div class="tw-flex tw-justify-between tw-text-[0.8rem] tw-text-[var(--grey-light)]">
             <span>Duration in Lounge (W)</span>
-            <span id="coffee-val-w" style="font-weight: 700; color: #ffb74d;">4.0 seconds</span>
+            <span id="coffee-val-w" class="tw-font-bold tw-text-primary">4.0 seconds</span>
           </div>
-          <input type="range" id="coffee-slider-w" min="1.0" max="8.0" step="0.5" value="4.0" style="width: 100%; accent-color: #ffb74d; cursor: pointer; margin-top: 6px;">
+          <input type="range" id="coffee-slider-w" class="lls-slider tw-w-full tw-cursor-pointer tw-mt-1.5" min="1.0" max="8.0" step="0.5" value="4.0">
         </div>
       </div>
 
       <!-- 2D Top-View Floor Plan Canvas -->
-      <div style="position: relative; width: 100%; height: 280px; background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; overflow: hidden; margin-bottom: 12px;">
-        <canvas id="coffee-canvas" style="width: 100%; height: 100%; display: block;"></canvas>
+      <div class="tw-relative tw-w-full tw-h-[280px] tw-bg-black/25 tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-overflow-hidden tw-mb-3">
+        <canvas id="coffee-canvas" class="tw-w-full tw-h-full tw-block"></canvas>
       </div>
 
-      <!-- Single Elegant Little's Law Summary Line (Theoretical vs Practical) -->
-      <div style="background: var(--grey-dark); padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.06); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 0.90rem;">
-        <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
-          <span style="font-weight: 700; color: var(--grey-lighter);">Little's Law:</span>
-          <span style="color: var(--grey-light);">L = λ · W =</span>
-          <span id="coffee-stat-formula" style="font-weight: 700; color: var(--grey-lighter);">1.5 × 4.0s = <span id="coffee-stat-l-theo" style="color: #81c784; font-weight: 800; font-size: 1.05rem;">6.0</span></span>
-          <span style="color: var(--grey-light); font-size: 0.80rem;">(Theoretical Target)</span>
+      <!-- Little's Law Summary Line -->
+      <div class="tw-bg-[var(--grey-dark)] tw-p-3 tw-rounded-lg tw-border tw-border-[var(--ring-border)] tw-flex tw-flex-col tw-items-start tw-gap-1 tw-text-[0.9rem]">
+        <div class="tw-flex tw-items-center tw-flex-wrap tw-gap-1.5">
+          <span class="tw-font-bold tw-text-[var(--grey-lighter)]">Little's Law:</span>
+          <span class="tw-text-[var(--grey-light)]">L = λ · W =</span>
+          <span id="coffee-stat-formula" class="tw-font-bold tw-text-[var(--grey-lighter)]">1.5 × 4.0s = <span id="coffee-stat-l-theo" class="tw-text-[#81c784] tw-font-extrabold tw-text-[1rem]">6.0</span></span>
+          <span class="tw-text-[var(--grey-light)] tw-text-[0.8rem]">(Theoretical Target)</span>
         </div>
         
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="color: var(--grey-light);">Live in Store:</span>
-          <span id="coffee-stat-l-obs" style="font-size: 1.15rem; font-weight: 800; color: rgb(var(--primary));">6</span>
-          <span style="color: var(--grey-light); font-size: 0.80rem;">visitors (Observed Snapshot)</span>
+        <div class="tw-flex tw-items-center tw-gap-2 tw-leading-none">
+          <span class="tw-text-[var(--grey-light)]">Live in Store:</span>
+          <span id="coffee-stat-l-obs" class="tw-text-[1rem] tw-font-extrabold tw-text-primary">6</span>
+          <span class="tw-text-[var(--grey-light)] tw-text-[0.8rem]">visitors (Observed Snapshot)</span>
         </div>
       </div>
 
@@ -118,6 +127,7 @@ export function initLittlesLawSimulator(containerId = '#interactive-littles-law-
     const val = parseFloat(e.target.value);
     engine.setLambda(val);
     valLambda.textContent = `${val.toFixed(1)} people / sec`;
+    syncSliderFill(sliderLambda);
     clearActivePresets();
     updateMetricsUI();
   });
@@ -126,29 +136,40 @@ export function initLittlesLawSimulator(containerId = '#interactive-littles-law-
     const val = parseFloat(e.target.value);
     engine.setDurationW(val);
     valW.textContent = `${val.toFixed(1)} seconds`;
+    syncSliderFill(sliderW);
     clearActivePresets();
     updateMetricsUI();
   });
 
+  function syncSliderFill(slider) {
+    const pct = ((parseFloat(slider.value) - parseFloat(slider.min)) / (parseFloat(slider.max) - parseFloat(slider.min))) * 100;
+    slider.style.setProperty('--range-fill', pct + '%');
+  }
+
   function clearActivePresets() {
     [presetLight, presetSteady, presetRush].forEach(btn => {
-      btn.style.background = 'var(--grey-dark)';
-      btn.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+      btn.className = SEG_INACTIVE;
+      btn.setAttribute('aria-checked', 'false');
     });
   }
 
   function applyPreset(btn, lambda, wVal) {
     clearActivePresets();
-    btn.style.background = 'rgba(var(--primary), 0.2)';
-    btn.style.borderColor = 'rgba(var(--primary), 0.6)';
+    btn.className = SEG_ACTIVE;
+    btn.setAttribute('aria-checked', 'true');
     sliderLambda.value = lambda;
     sliderW.value = wVal;
+    syncSliderFill(sliderLambda);
+    syncSliderFill(sliderW);
     engine.setLambda(lambda);
     engine.setDurationW(wVal);
     valLambda.textContent = `${lambda.toFixed(1)} people / sec`;
     valW.textContent = `${wVal.toFixed(1)} seconds`;
     updateMetricsUI();
   }
+
+  syncSliderFill(sliderLambda);
+  syncSliderFill(sliderW);
 
   presetLight.addEventListener('click', () => applyPreset(presetLight, 1.0, 2.0));
   presetSteady.addEventListener('click', () => applyPreset(presetSteady, 1.5, 4.0));
@@ -177,7 +198,7 @@ export function initLittlesLawSimulator(containerId = '#interactive-littles-law-
   function updateMetricsUI() {
     const metrics = engine.getMetrics();
     const theoL = (metrics.lambda * metrics.durationW).toFixed(1);
-    statFormula.innerHTML = `${metrics.lambda.toFixed(1)} × ${metrics.durationW.toFixed(1)}s = <span id="coffee-stat-l-theo" style="color: #81c784; font-weight: 800; font-size: 1.05rem;">${theoL}</span>`;
+    statFormula.innerHTML = `${metrics.lambda.toFixed(1)} × ${metrics.durationW.toFixed(1)}s = <span id="coffee-stat-l-theo" class="tw-text-[#81c784] tw-font-extrabold tw-text-[1.05rem]">${theoL}</span>`;
     statLObs.textContent = metrics.liveCount;
   }
 

@@ -403,6 +403,20 @@ A widget frame wraps content in an outer card with a header. The header uses a d
 
 <div id="ux-demo-widget-frame"></div>
 
+### Metric Card
+
+A metric card is a compact passive surface that presents a single number with a small title above it and an optional caption below. It is used in grids to give a dashboard-style overview. The card centers its content: the title and caption use the serif content font, and the value uses the sans family so numerals stay legible at a glance. The value picks up the accent or a status color when it needs emphasis.
+
+```html
+<div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+  <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Util (theoretical)</div>
+  <div class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-[var(--grey-lighter)]">75.0%</div>
+  <div class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Cap: 4.0 req/s</div>
+</div>
+```
+
+<div id="ux-demo-metric-card"></div>
+
 ### Two Columns: Controls Left, Canvas Right
 
 The canonical two column widget applies the widget frame with a two column body. The left column holds the controls, built as a form so every input element appears in one place, and the right column holds the canvas with three overlay readouts: a top-left legend that updates with the slider, a bottom-left legend, and a bottom-right minimap. Overlay fonts sit a half-step below the form labels so they annotate the viewport rather than compete with the inputs, and the minimap is the smallest as the tertiary element. The grid collapses to one column below `860px`.

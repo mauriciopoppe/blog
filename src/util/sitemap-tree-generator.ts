@@ -139,6 +139,7 @@ function createNavBarRecursive(node: SitemapItem, depth: number) {
       <a href="/${node.fullPath.substring(0, node.fullPath.indexOf('.'))}/">
         ${content}
       </a>
+      ${node.draft ? '<span class="tw-inline-block tw-rounded-md tw-border tw-border-[#fbbf24]/60 tw-text-[#fbbf24] tw-text-xs tw-px-2 tw-py-0.5">Draft</span>' : ''}
     `
   } else {
     // identifier for non leaf children to save their expanded state

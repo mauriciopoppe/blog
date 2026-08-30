@@ -342,6 +342,21 @@ code, .content code {
   @apply tw-rounded-md;
 }
 
+/* UX Interaction Principles: focus and hover for interactive elements in content */
+.content :focus-visible {
+  outline: 2px solid rgba(var(--primary), 0.6);
+  outline-offset: 2px;
+}
+
+.content a:hover,
+.content button:hover {
+  filter: drop-shadow(0 0 4px rgba(var(--primary), 0.35));
+}
+html[data-theme=light] .content a:hover,
+html[data-theme=light] .content button:hover {
+  filter: drop-shadow(0 0 6px rgba(var(--primary), 0.35));
+}
+
 /* nice links to content outside the page */
 /* I took the idea from the lynxjs.org docs */
 /* .content a[href*="//"]:before { */

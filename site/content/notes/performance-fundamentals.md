@@ -22,7 +22,7 @@ Understanding how these metrics interact is essential for capacity planning, siz
 Latency measures the elapsed time required to process a request transaction. It is observed from two distinct system boundaries:
 
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 940 375" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box;">
+<svg viewBox="0 0 940 375" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 15px; border: 1px solid var(--grey-dark); box-sizing: border-box; margin: 1.5rem 0;">
   <defs>
     <marker id="arrow-themed-latency" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgb(var(--primary))" />
@@ -86,7 +86,7 @@ Latency measures the elapsed time required to process a request transaction. It 
 Throughput measures the rate of completed requests per unit of time ($\lambda = \frac{N_{\text{completed}}}{\Delta t}$, e.g. Requests Per Second):
 
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 880 365" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 18px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box;">
+<svg viewBox="0 0 880 365" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 18px; border: 1px solid var(--grey-dark); box-sizing: border-box; margin: 1.5rem 0;">
   <defs>
     <marker id="arrow-themed-throughput" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--grey-lighter)" />
@@ -153,7 +153,7 @@ How many people ($L$) are inside at any given snapshot?
 - Therefore, at any instant, there are **$10$ people inside**:
 
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 880 200" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box;">
+<svg viewBox="0 0 880 200" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid var(--grey-dark); box-sizing: border-box; margin: 1.5rem 0;">
   <defs>
     <marker id="arr-pipe-flow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(171, 171, 171, 0.5)" />
@@ -202,7 +202,13 @@ Little's Law holds in steady state regardless of whether traffic arrives in burs
 
 Imagine a bookstore or reading lounge: visitors enter at rate $\lambda$, spend an average duration $W$ inside browsing or reading, and then depart. Each visitor displays an individual countdown timer indicating their remaining visit time:
 
-<div id="interactive-littles-law-simulator" style="margin: 2rem 0;"></div>
+<div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
+  <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
+    <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">Bookstore &amp; Lounge Simulator</div>
+    <div class="tw-text-sm tw-text-[var(--grey-light)]">Open lounge model: arrivals λ, stay W</div>
+  </header>
+  <div id="interactive-littles-law-simulator"></div>
+</div>
 
 > **Tuning $S$ vs. $W$ in Practice**: In this open lounge model, visitors choose how long to stay ($W$). In computing systems, engineers cannot directly set total latency $W$, because $W = W_q + S$ where queue wait $W_q$ is an emergent property of traffic bursts. Instead, engineers optimize **service time $S$** (faster queries, algorithmic tuning, caching) and provision enough capacity ($c \cdot \mu$) to keep queue wait near zero ($W_q \approx 0$), bringing total latency down to its physical floor ($W \approx S$).
 
@@ -211,7 +217,7 @@ Imagine a bookstore or reading lounge: visitors enter at rate $\lambda$, spend a
 Little's Law applies to **any boundary you choose to draw**, as long as the arrival rate equals the departure rate in steady state:
 
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 880 235" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box;">
+<svg viewBox="0 0 880 235" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid var(--grey-dark); box-sizing: border-box; margin: 1.5rem 0;">
   <defs>
     <marker id="arr-littles" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(171, 171, 171, 0.5)" />
@@ -265,7 +271,7 @@ Little's Law applies to **any boundary you choose to draw**, as long as the arri
 ### Practical Systems Applications
 
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 880 240" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box;">
+<svg viewBox="0 0 880 240" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid var(--grey-dark); box-sizing: border-box; margin: 1.5rem 0;">
   <!-- Normal Operation Card -->
   <rect x="20" y="20" width="405" height="195" rx="8" fill="var(--grey-dark)" stroke="rgba(129, 199, 132, 0.4)" stroke-width="1" />
   <text x="222" y="48" fill="#81c784" font-size="14" font-weight="700" text-anchor="middle">Normal State: Fast Latency (W = 50 ms)</text>
@@ -309,7 +315,7 @@ At any single instant $t$, a worker core is in a binary state (computing or idle
 - **Utilization ($\rho = \frac{\text{Demand}}{\text{Capacity}} = \frac{\lambda}{c \cdot \mu}$)**: The proportion of capacity in use (e.g. $\frac{150\text{ req/s}}{200\text{ req/s}} = 75\%$).
 
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 880 340" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 18px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box;">
+<svg viewBox="0 0 880 340" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 18px; border: 1px solid var(--grey-dark); box-sizing: border-box; margin: 1.5rem 0;">
   <defs>
     <marker id="arrow-themed-util" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--grey-lighter)" />
@@ -374,7 +380,13 @@ The simulation below generates stochastic Poisson request arrivals ($\lambda$) a
 
 Use the presets or sliders to observe the utilization regimes in real time:
 
-<div id="interactive-utilization-simulator" style="margin: 2rem 0;"></div>
+<div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
+  <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
+    <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">Queuing &amp; Utilization Simulator</div>
+    <div class="tw-text-sm tw-text-[var(--grey-light)]">Stochastic arrivals λ, c cores, service μ</div>
+  </header>
+  <div id="interactive-utilization-simulator"></div>
+</div>
 
 ## Diurnal Traffic Cycles & Autoscaling Dynamics
 
@@ -387,7 +399,13 @@ How capacity is provisioned against this wave presents two primary strategies:
 
 The simulation below demonstrates this 24-hour diurnal wave. Toggle between **Static** and **Autoscaling** strategies or scrub through the day to observe how elasticity absorbs traffic spikes:
 
-<div id="interactive-diurnal-simulator" style="margin: 2rem 0;"></div>
+<div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
+  <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
+    <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">Diurnal Autoscaling Simulator</div>
+    <div class="tw-text-sm tw-text-[var(--grey-light)]">24h wave: Static vs Autoscaling</div>
+  </header>
+  <div id="interactive-diurnal-simulator"></div>
+</div>
 
 ## Summary
 

@@ -29,12 +29,13 @@
     justify-content: space-between;
     padding: 16px 14px;
     border-radius: 10px;
+    box-shadow: var(--elevation-raised);
     transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
     line-height: 1.25;
   }
   .perf-stage-link:hover {
     border-color: rgb(var(--primary)) !important;
-    box-shadow: 0 0 8px rgba(var(--primary), 0.25);
+    box-shadow: var(--elevation-deep);
   }
   .perf-stage-link:hover .perf-stage-bg {
     transform: scale(1.18) rotate(3deg) !important;
@@ -60,7 +61,7 @@
   {{/* Responsive 4-Stage Cards Grid */}}
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 12px;">
     {{/* Stage 1: Fundamentals */}}
-    <a href="/notes/performance-fundamentals/" class="perf-stage-link" style="background: {{ if $isStep1 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep1 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
+    <a href="/notes/performance-fundamentals/" class="perf-stage-link" style="background: {{ if $isStep1 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep1 }}rgb(var(--primary)){{ else }}var(--ring-border){{ end }};">
       <div class="perf-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/performance-fundamentals.png'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
       {{ if $favStage1 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">
@@ -71,7 +72,7 @@
     </a>
 
     {{/* Stage 2: Queuing Models */}}
-    <a href="/notes/queuing-theory-for-systems-engineers/" class="perf-stage-link" style="background: {{ if $isStep2 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep2 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
+    <a href="/notes/queuing-theory-for-systems-engineers/" class="perf-stage-link" style="background: {{ if $isStep2 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep2 }}rgb(var(--primary)){{ else }}var(--ring-border){{ end }};">
       <div class="perf-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/hockey-stick-queue-theory.png'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
       {{ if $favStage2 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">
@@ -82,7 +83,7 @@
     </a>
 
     {{/* Stage 3: Benchmarking */}}
-    <a href="/notes/benchmarking-and-capacity-planning/" class="perf-stage-link" style="background: {{ if $isStep3 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep3 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
+    <a href="/notes/benchmarking-and-capacity-planning/" class="perf-stage-link" style="background: {{ if $isStep3 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep3 }}rgb(var(--primary)){{ else }}var(--ring-border){{ end }};">
       <div class="perf-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/benchmarking-and-capacity-planning.png'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
       {{ if $favStage3 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">
@@ -93,7 +94,7 @@
     </a>
 
     {{/* Stage 4: Optimization */}}
-    <a href="/notes/pareto-frontier-in-inference-serving/" class="perf-stage-link" style="background: {{ if $isStep4 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep4 }}rgb(var(--primary)){{ else }}rgba(var(--grey), 0.25){{ end }};">
+    <a href="/notes/pareto-frontier-in-inference-serving/" class="perf-stage-link" style="background: {{ if $isStep4 }}rgba(var(--primary), 0.14){{ else }}var(--grey-dark){{ end }}; border: 1px solid {{ if $isStep4 }}rgb(var(--primary)){{ else }}var(--ring-border){{ end }};">
       <div class="perf-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/neural-network.jpeg'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
       {{ if $favStage4 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">

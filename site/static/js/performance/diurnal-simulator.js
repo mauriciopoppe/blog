@@ -4,112 +4,107 @@ export function initDiurnalSimulator() {
   const container = document.getElementById('interactive-diurnal-simulator');
   if (!container) return;
 
+  const CTRL = 'tw-font-serif tw-text-[0.9rem] tw-font-semibold tw-leading-none tw-px-3 tw-py-2 tw-rounded-[6px] tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-dark)] tw-text-[var(--grey-light)] tw-cursor-pointer tw-shadow-subtle hover:tw-border-[var(--accent-border)] hover:tw-bg-primary-soft hover:tw-text-primary hover:tw-shadow-raised';
+  const SEG_BASE = 'tw-appearance-none tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-leading-none tw-px-3 tw-py-2 tw-cursor-pointer';
+  const SEG_INACTIVE = SEG_BASE + ' tw-bg-transparent tw-text-[var(--grey-light)]';
+  const SEG_ACTIVE = SEG_BASE + ' tw-bg-primary-soft tw-text-primary';
+  const TIME_PRESET_BASE = 'js-time-preset tw-absolute tw-text-[0.72rem] tw-text-[var(--grey-light)] tw-cursor-pointer tw-text-center tw-whitespace-nowrap';
+  const TIME_PRESET_ACTIVE = TIME_PRESET_BASE + ' tw-text-primary tw-font-semibold';
+  const STAT_VALUE = 'tw-font-sans tw-text-[1rem] tw-font-semibold tw-my-1.5';
+
   // Render UI Shell
   container.innerHTML = `
-    <div style="background: var(--grey-darker); border: 1px solid var(--grey-dark); border-radius: 12px; padding: 18px; margin: 2rem 0; font-family: var(--family-sans, system-ui, sans-serif);">
-      <!-- Header Row -->
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
-        <div>
-          <span style="font-size: 1.05rem; font-weight: 600; color: var(--grey-lighter);">24-Hour Diurnal Traffic & Autoscaling</span>
-          <div style="font-size: 0.76rem; color: var(--grey-light); margin-top: 2px;">Simulating day/night traffic waves and dynamic core elasticity</div>
-        </div>
-        
-        <!-- Action Buttons -->
-        <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-          <button id="diurnal-strategy-static" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">Static (3 Cores)</button>
-          <button id="diurnal-strategy-auto" style="background: rgba(var(--primary), 0.2); border: 1px solid rgba(var(--primary), 0.6); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">Autoscaling (Target 70%)</button>
-          <div style="width: 1px; height: 18px; background: rgba(255, 255, 255, 0.1); margin: 0 4px;"></div>
-          <button id="diurnal-btn-play-pause" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 0; min-width: 34px; text-align: center; border-radius: 6px; font-size: 0.85rem; cursor: pointer;" title="Play / Pause">⏸</button>
-          <button id="diurnal-btn-reset" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-light); padding: 5px 0; min-width: 34px; text-align: center; border-radius: 6px; font-size: 0.85rem; cursor: pointer;" title="Reset to 9:00 (Morning)">↺</button>
-          <button id="diurnal-btn-speed" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 8px; min-width: 44px; text-align: center; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">1.0x</button>
+    <div class="tw-bg-[var(--grey-darker)] tw-rounded-[12px] tw-p-[18px] tw-font-serif tw-text-[var(--grey-lighter)]">
+      <style>
+        #interactive-diurnal-simulator .lls-slider { -webkit-appearance: none; appearance: none; height: 28px; background: transparent; --range-fill: 50%; }
+        #interactive-diurnal-simulator .lls-slider::-webkit-slider-runnable-track { height: 8px; border-radius: 999px; background: linear-gradient(to right, rgb(var(--primary)) 0%, rgb(var(--primary)) var(--range-fill), var(--ring-border) var(--range-fill), var(--ring-border) 100%); }
+        #interactive-diurnal-simulator .lls-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: rgb(var(--primary)); border: 2px solid var(--grey); margin-top: -5px; box-shadow: var(--elevation-subtle); }
+        #interactive-diurnal-simulator .lls-slider::-moz-range-track { height: 8px; border-radius: 999px; background: var(--ring-border); }
+        #interactive-diurnal-simulator .lls-slider::-moz-range-progress { height: 8px; border-radius: 999px; background: rgb(var(--primary)); }
+        #interactive-diurnal-simulator .lls-slider::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: rgb(var(--primary)); border: 2px solid var(--grey); box-shadow: var(--elevation-subtle); }
+        #interactive-diurnal-simulator .lls-slider:hover::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(var(--primary), 0.15); }
+        #interactive-diurnal-simulator .lls-slider:hover::-moz-range-thumb { box-shadow: 0 0 0 4px rgba(var(--primary), 0.15); }
+        #interactive-diurnal-simulator .lls-slider:focus-visible { outline: 2px solid rgba(var(--primary), 0.6); outline-offset: 2px; border-radius: 999px; }
+      </style>
+
+      <!-- Control Bar -->
+      <div class="tw-flex tw-justify-between tw-items-center tw-flex-wrap tw-gap-2.5 tw-mb-3.5">
+        <div class="tw-flex tw-items-center tw-gap-1.5 tw-flex-wrap">
+          <div class="tw-inline-flex tw-border tw-border-[var(--ring-border)] tw-rounded-[6px] tw-bg-[var(--grey-dark)] tw-shadow-subtle tw-overflow-hidden" role="radiogroup" aria-label="Strategy">
+            <button type="button" id="diurnal-strategy-static" class="${SEG_INACTIVE}" role="radio" aria-checked="false">Static (3 Cores)</button>
+            <button type="button" id="diurnal-strategy-auto" class="${SEG_ACTIVE}" role="radio" aria-checked="true">Autoscaling (Target 70%)</button>
+          </div>
+          <div class="tw-w-px tw-h-[18px] tw-bg-white/15 tw-mx-1"></div>
+          <button type="button" id="diurnal-btn-play-pause" class="${CTRL} tw-min-w-[34px] tw-text-center" title="Play / Pause">⏸</button>
+          <button type="button" id="diurnal-btn-reset" class="${CTRL} tw-min-w-[34px] tw-text-center" title="Reset to 9:00 (Morning)">↺</button>
+          <button type="button" id="diurnal-btn-speed" class="${CTRL} tw-min-w-[44px] tw-text-center">1.0x</button>
         </div>
       </div>
 
-      <!-- Time Scrubber Row with Proportional Preset Markers -->
-      <div style="background: var(--grey-dark); padding: 12px 16px; border-radius: 8px; margin-bottom: 12px;">
-        <!-- Line 1: Time of Day on its own line -->
-        <div style="margin-bottom: 12px;">
-          <div style="font-size: 0.74rem; color: var(--grey-light);">Time of Day</div>
-          <div id="diurnal-time-label" style="font-size: 1.02rem; font-weight: 600; color: rgb(var(--primary)); margin-top: 1px;">09:00 (Morning Ramp)</div>
+      <!-- Time Scrubber -->
+      <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-p-3 tw-mb-4">
+        <div class="tw-flex tw-justify-between tw-items-center tw-gap-2 tw-text-[0.75rem]">
+          <span class="tw-text-[var(--grey-light)]">Time of Day</span>
+          <span id="diurnal-time-label" class="tw-font-semibold tw-text-primary">09:00 (Morning Ramp)</span>
         </div>
 
-        <!-- Positioned Markers Container directly above corresponding points on Slider -->
-        <div style="position: relative; width: 100%; height: 30px; margin-bottom: 24px;">
-          <div class="diurnal-time-preset" data-hour="3" style="position: absolute; left: 12.5%; transform: translateX(-50%); font-size: 0.72rem; color: var(--grey-light); cursor: pointer; text-align: center; white-space: nowrap; transition: color 0.15s;">
-            03:00 (Night)<span style="font-size: 0.68rem; display: block; line-height: 1; margin-top: 1px;">↓</span>
-          </div>
-          <div class="diurnal-time-preset" data-hour="9" style="position: absolute; left: 37.5%; transform: translateX(-50%); font-size: 0.72rem; color: rgb(var(--primary)); font-weight: 600; cursor: pointer; text-align: center; white-space: nowrap; transition: color 0.15s;">
-            09:00 (Morning)<span style="font-size: 0.68rem; display: block; line-height: 1; margin-top: 1px;">↓</span>
-          </div>
-          <div class="diurnal-time-preset" data-hour="14" style="position: absolute; left: 58.33%; transform: translateX(-50%); font-size: 0.72rem; color: var(--grey-light); cursor: pointer; text-align: center; white-space: nowrap; transition: color 0.15s;">
-            14:00 (Peak)<span style="font-size: 0.68rem; display: block; line-height: 1; margin-top: 1px;">↓</span>
-          </div>
-          <div class="diurnal-time-preset" data-hour="21" style="position: absolute; left: 87.5%; transform: translateX(-50%); font-size: 0.72rem; color: var(--grey-light); cursor: pointer; text-align: center; white-space: nowrap; transition: color 0.15s;">
-            21:00 (Evening)<span style="font-size: 0.68rem; display: block; line-height: 1; margin-top: 1px;">↓</span>
-          </div>
+        <div class="tw-relative tw-w-full tw-h-[30px] tw-mt-2 tw-mb-4">
+          <div data-hour="3" class="${TIME_PRESET_BASE}" style="left: 12.5%; transform: translateX(-50%);">03:00 (Night)<span class="tw-block tw-text-[0.68rem] tw-leading-none tw-mt-0.5">↓</span></div>
+          <div data-hour="9" class="${TIME_PRESET_ACTIVE}" style="left: 37.5%; transform: translateX(-50%);">09:00 (Morning)<span class="tw-block tw-text-[0.68rem] tw-leading-none tw-mt-0.5">↓</span></div>
+          <div data-hour="14" class="${TIME_PRESET_BASE}" style="left: 58.33%; transform: translateX(-50%);">14:00 (Peak)<span class="tw-block tw-text-[0.68rem] tw-leading-none tw-mt-0.5">↓</span></div>
+          <div data-hour="21" class="${TIME_PRESET_BASE}" style="left: 87.5%; transform: translateX(-50%);">21:00 (Evening)<span class="tw-block tw-text-[0.68rem] tw-leading-none tw-mt-0.5">↓</span></div>
         </div>
 
-        <input type="range" id="diurnal-time-slider" min="0" max="24" step="0.1" value="9.0" style="width: 100%; accent-color: rgb(var(--primary)); cursor: pointer; display: block; margin: 0;">
+        <input type="range" id="diurnal-time-slider" class="lls-slider tw-w-full tw-cursor-pointer" min="0" max="24" step="0.1" value="9.0">
       </div>
 
       <!-- Canvas 1: 24-Hour Diurnal Overview Wave -->
-      <div style="position: relative; width: 100%; height: 110px; background: var(--grey-dark); border-radius: 8px; border: 1px solid var(--grey-dark); margin-bottom: 10px; overflow: hidden;">
-        <canvas id="diurnal-macro-canvas" style="width: 100%; height: 100%; display: block;"></canvas>
+      <div class="tw-relative tw-w-full tw-h-[110px] tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-overflow-hidden tw-mb-2.5">
+        <canvas id="diurnal-macro-canvas" class="tw-w-full tw-h-full tw-block"></canvas>
       </div>
 
-      <!-- Connective Micro Header -->
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; padding: 0 2px;">
-        <div style="font-size: 0.74rem; font-weight: 600; color: rgb(var(--primary)); display: flex; align-items: center; gap: 4px;">
-          <span>🔍</span> <span>Microscopic Core Activity (Sampled at Vertical Needle Above)</span>
-        </div>
-        <div style="font-size: 0.68rem; color: var(--grey-light);">5.0s Sample Slice</div>
+      <!-- Micro Header -->
+      <div class="tw-flex tw-justify-between tw-items-center tw-mb-1 tw-px-0.5">
+        <div class="tw-text-[0.74rem] tw-font-semibold tw-text-primary tw-flex tw-items-center tw-gap-1"><span>🔍</span> <span>Microscopic Core Activity (Sampled at Vertical Needle Above)</span></div>
+        <div class="tw-text-[0.68rem] tw-text-[var(--grey-light)]">5.0s Sample Slice</div>
       </div>
 
-      <!-- Canvas 2: Microscopic Active Core Tracks & Live Queue -->
-      <div style="position: relative; width: 100%; height: 165px; background: var(--grey-dark); border-radius: 8px; border: 1px solid var(--grey-dark); margin-bottom: 12px; overflow: hidden;">
-        <canvas id="diurnal-micro-canvas" style="width: 100%; height: 100%; display: block;"></canvas>
+      <!-- Canvas 2: Microscopic Active Core Tracks -->
+      <div class="tw-relative tw-w-full tw-h-[165px] tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-overflow-hidden tw-mb-3">
+        <canvas id="diurnal-micro-canvas" class="tw-w-full tw-h-full tw-block"></canvas>
       </div>
 
       <!-- Metrics Cards Grid -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(115px, 1fr)); gap: 8px; margin-bottom: 8px;">
-        <!-- Card 1: Traffic Demand -->
-        <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--grey-dark);">
-          <div style="font-size: 0.70rem; color: var(--grey-light);">Traffic Demand (λ)</div>
-          <div id="stat-diurnal-lambda" style="font-size: 1.05rem; font-weight: 600; color: var(--grey-lighter); margin: 2px 0;">7.8 req/s</div>
-          <div id="stat-diurnal-phase" style="font-size: 0.70rem; color: var(--grey-light);">Peak Hours</div>
+      <div class="tw-grid tw-grid-cols-[repeat(auto-fit,minmax(115px,1fr))] tw-gap-2 tw-mb-2">
+        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+          <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Traffic Demand (λ)</div>
+          <div id="stat-diurnal-lambda" class="${STAT_VALUE} tw-text-[var(--grey-lighter)]">7.8 req/s</div>
+          <div id="stat-diurnal-phase" class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap tw-min-h-[1.7rem] tw-flex tw-items-center">Peak Hours</div>
         </div>
-
-        <!-- Card 2: Provisioned Cores & Capacity -->
-        <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--grey-dark);">
-          <div style="font-size: 0.70rem; color: var(--grey-light);">Capacity (c · μ)</div>
-          <div id="stat-diurnal-capacity" style="font-size: 1.05rem; font-weight: 600; color: var(--grey-lighter); margin: 2px 0;">10.0 req/s</div>
-          <div id="stat-diurnal-cores" style="font-size: 0.70rem; color: var(--grey-light);">5 Cores active</div>
+        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+          <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Capacity (c · μ)</div>
+          <div id="stat-diurnal-capacity" class="${STAT_VALUE} tw-text-[var(--grey-lighter)]">10.0 req/s</div>
+          <div id="stat-diurnal-cores" class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap tw-min-h-[1.7rem] tw-flex tw-items-center">5 Cores active</div>
         </div>
-
-        <!-- Card 3: Utilization (ρ) -->
-        <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--grey-dark);">
-          <div style="font-size: 0.70rem; color: var(--grey-light);">Utilization (measured, 5s)</div>
-          <div id="stat-diurnal-rho" style="font-size: 1.05rem; font-weight: 600; color: rgb(var(--primary)); margin: 2px 0;">78.0%</div>
-          <div id="stat-diurnal-headroom" style="font-size: 0.70rem; color: var(--grey-light);">Headroom: 22.0%</div>
+        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+          <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Util (measured, 5s)</div>
+          <div id="stat-diurnal-rho" class="${STAT_VALUE} tw-text-primary">78.0%</div>
+          <div id="stat-diurnal-headroom" class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-leading-tight tw-min-h-[1.7rem] tw-flex tw-items-center">Headroom: 22.0%</div>
         </div>
-
-        <!-- Card 4: P50 Latency -->
-        <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--grey-dark);">
-          <div style="font-size: 0.70rem; color: var(--grey-light);">Latency (P50)</div>
-          <div id="stat-diurnal-p50" style="font-size: 1.05rem; font-weight: 600; color: var(--grey-lighter); margin: 2px 0;">0.48s</div>
-          <div style="font-size: 0.70rem; color: var(--grey-light);">Mean: <span id="stat-diurnal-mean">0.54s</span></div>
+        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+          <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Latency (P50)</div>
+          <div id="stat-diurnal-p50" class="${STAT_VALUE} tw-text-[var(--grey-lighter)]">0.48s</div>
+          <div class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap tw-min-h-[1.7rem] tw-flex tw-items-center">Mean: <span id="stat-diurnal-mean">0.54s</span></div>
         </div>
-
-        <!-- Card 5: P90 Tail Latency -->
-        <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--grey-dark);">
-          <div style="font-size: 0.70rem; color: var(--grey-light);">Tail Latency (P90)</div>
-          <div id="stat-diurnal-p90" style="font-size: 1.05rem; font-weight: 600; color: #ffb74d; margin: 2px 0;">1.15s</div>
-          <div id="stat-diurnal-wait" style="font-size: 0.70rem; color: var(--grey-light);">Wait: 0.15s</div>
+        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+          <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Tail Latency (P90)</div>
+          <div id="stat-diurnal-p90" class="${STAT_VALUE} tw-text-[#ffb74d]">1.15s</div>
+          <div id="stat-diurnal-wait" class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap tw-min-h-[1.7rem] tw-flex tw-items-center">Wait: 0.15s</div>
         </div>
       </div>
 
       <!-- Diagnostic Status Line -->
-      <div id="diurnal-diagnostic-summary" style="font-size: 0.78rem; color: var(--grey-light); text-align: center; padding: 2px 8px;">
+      <div id="diurnal-diagnostic-summary" class="tw-text-[0.78rem] tw-text-[var(--grey-light)] tw-text-center tw-px-2 tw-py-0.5">
         Autoscaling dynamically provisioned 5 cores to maintain safe 78% utilization during peak.
       </div>
     </div>
@@ -124,7 +119,7 @@ export function initDiurnalSimulator() {
 
   const timeSlider = container.querySelector('#diurnal-time-slider');
   const timeLabel = container.querySelector('#diurnal-time-label');
-  const timePresets = container.querySelectorAll('.diurnal-time-preset');
+  const timePresets = container.querySelectorAll('.js-time-preset');
 
   const macroCanvas = container.querySelector('#diurnal-macro-canvas');
   const microCanvas = container.querySelector('#diurnal-micro-canvas');
@@ -239,6 +234,7 @@ export function initDiurnalSimulator() {
     const hourDelta = (dt * 0.20 * speedMultiplier);
     currentHour = (currentHour + hourDelta) % 24.0;
     timeSlider.value = currentHour.toFixed(1);
+    syncSliderFill(timeSlider);
 
     const currentLam = getDiurnalLambda(currentHour);
     const activeCores = getProvisionedCores(currentHour, strategy);
@@ -516,17 +512,10 @@ export function initDiurnalSimulator() {
 
     timeLabel.textContent = `${timeStr} (${phaseStr})`;
 
-    // Dynamically highlight the active phase preset marker based on time of day
     const activePresetHour = currentHour < 6 ? 3 : currentHour < 11 ? 9 : currentHour < 18 ? 14 : 21;
     timePresets.forEach(b => {
       const h = parseFloat(b.getAttribute('data-hour'));
-      if (h === activePresetHour) {
-        b.style.color = 'rgb(var(--primary))';
-        b.style.fontWeight = '600';
-      } else {
-        b.style.color = 'var(--grey-light)';
-        b.style.fontWeight = 'normal';
-      }
+      b.className = (h === activePresetHour) ? TIME_PRESET_ACTIVE : TIME_PRESET_BASE;
     });
 
     statLambda.textContent = `${metrics.lambda.toFixed(1)} req/s`;
@@ -539,11 +528,11 @@ export function initDiurnalSimulator() {
     statHeadroom.textContent = `Headroom: ${metrics.headroom.toFixed(1)}%${overloadNote} (24h avg: ${metrics.cumulativeRho.toFixed(1)}%)`;
 
     if (metrics.measuredRho >= 95.0 || metrics.rawLoad > 100.0) {
-      statRho.style.color = '#f44336';
+      statRho.className = STAT_VALUE + ' tw-text-[#f44336]';
     } else if (metrics.measuredRho > 75.0) {
-      statRho.style.color = '#ffb74d';
+      statRho.className = STAT_VALUE + ' tw-text-[#ffb74d]';
     } else {
-      statRho.style.color = 'rgb(var(--primary))';
+      statRho.className = STAT_VALUE + ' tw-text-primary';
     }
 
     statP50.textContent = `${metrics.p50.toFixed(2)}s`;
@@ -552,11 +541,11 @@ export function initDiurnalSimulator() {
     statWait.textContent = `Wait: ${metrics.meanWait.toFixed(2)}s`;
 
     if (metrics.p90 > 2.0) {
-      statP90.style.color = '#f44336';
+      statP90.className = STAT_VALUE + ' tw-text-[#f44336]';
     } else if (metrics.p90 > 1.2) {
-      statP90.style.color = '#ffb74d';
+      statP90.className = STAT_VALUE + ' tw-text-[#ffb74d]';
     } else {
-      statP90.style.color = 'rgb(var(--primary))';
+      statP90.className = STAT_VALUE + ' tw-text-primary';
     }
 
     // Diagnostic Summary
@@ -625,10 +614,11 @@ export function initDiurnalSimulator() {
     strategy = 'static';
     currentHour = 9.0;
     timeSlider.value = 9.0;
-    strategyStatic.style.background = 'rgba(var(--primary), 0.2)';
-    strategyStatic.style.borderColor = 'rgba(var(--primary), 0.6)';
-    strategyAuto.style.background = 'var(--grey-dark)';
-    strategyAuto.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+    syncSliderFill(timeSlider);
+    strategyStatic.className = SEG_ACTIVE;
+    strategyStatic.setAttribute('aria-checked', 'true');
+    strategyAuto.className = SEG_INACTIVE;
+    strategyAuto.setAttribute('aria-checked', 'false');
     resetMicroSim(true);
   });
 
@@ -636,15 +626,17 @@ export function initDiurnalSimulator() {
     strategy = 'auto';
     currentHour = 9.0;
     timeSlider.value = 9.0;
-    strategyAuto.style.background = 'rgba(var(--primary), 0.2)';
-    strategyAuto.style.borderColor = 'rgba(var(--primary), 0.6)';
-    strategyStatic.style.background = 'var(--grey-dark)';
-    strategyStatic.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+    syncSliderFill(timeSlider);
+    strategyAuto.className = SEG_ACTIVE;
+    strategyAuto.setAttribute('aria-checked', 'true');
+    strategyStatic.className = SEG_INACTIVE;
+    strategyStatic.setAttribute('aria-checked', 'false');
     resetMicroSim(true);
   });
 
   timeSlider.addEventListener('input', (e) => {
     currentHour = parseFloat(e.target.value);
+    syncSliderFill(timeSlider);
     resetMicroSim(false);
   });
 
@@ -653,15 +645,18 @@ export function initDiurnalSimulator() {
       const h = parseFloat(btn.getAttribute('data-hour'));
       currentHour = h;
       timeSlider.value = h;
-      timePresets.forEach(b => {
-        b.style.color = 'var(--grey-light)';
-        b.style.fontWeight = 'normal';
-      });
-      btn.style.color = 'rgb(var(--primary))';
-      btn.style.fontWeight = '600';
+      syncSliderFill(timeSlider);
+      timePresets.forEach(b => { b.className = TIME_PRESET_BASE; });
+      btn.className = TIME_PRESET_ACTIVE;
       resetMicroSim(false);
     });
   });
+
+  function syncSliderFill(slider) {
+    const pct = ((parseFloat(slider.value) - parseFloat(slider.min)) / (parseFloat(slider.max) - parseFloat(slider.min))) * 100;
+    slider.style.setProperty('--range-fill', pct + '%');
+  }
+  syncSliderFill(timeSlider);
 
   btnPlayPause.addEventListener('click', () => {
     isRunning = !isRunning;
