@@ -24,7 +24,7 @@ Latency measures the elapsed time required to process a request transaction. It 
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
 <svg viewBox="0 0 940 375" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box;">
   <defs>
-    <marker id="arrow-themed-latency" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-reverse">
+    <marker id="arrow-themed-latency" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgb(var(--primary))" />
     </marker>
   </defs>
@@ -88,7 +88,7 @@ Throughput measures the rate of completed requests per unit of time ($\lambda = 
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
 <svg viewBox="0 0 880 365" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 18px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box;">
   <defs>
-    <marker id="arrow-themed-throughput" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-reverse">
+    <marker id="arrow-themed-throughput" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--grey-lighter)" />
     </marker>
   </defs>
@@ -311,7 +311,7 @@ At any single instant $t$, a worker core is in a binary state (computing or idle
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
 <svg viewBox="0 0 880 340" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 18px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box;">
   <defs>
-    <marker id="arrow-themed-util" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-reverse">
+    <marker id="arrow-themed-util" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--grey-lighter)" />
     </marker>
   </defs>

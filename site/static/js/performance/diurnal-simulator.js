@@ -20,7 +20,7 @@ export function initDiurnalSimulator() {
           <button id="diurnal-strategy-auto" style="background: rgba(var(--primary), 0.2); border: 1px solid rgba(var(--primary), 0.6); color: var(--grey-lighter); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">Autoscaling (Target 70%)</button>
           <div style="width: 1px; height: 18px; background: rgba(255, 255, 255, 0.1); margin: 0 4px;"></div>
           <button id="diurnal-btn-play-pause" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 0; min-width: 34px; text-align: center; border-radius: 6px; font-size: 0.85rem; cursor: pointer;" title="Play / Pause">⏸</button>
-          <button id="diurnal-btn-reset" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-light); padding: 5px 0; min-width: 34px; text-align: center; border-radius: 6px; font-size: 0.85rem; cursor: pointer;" title="Reset to Midnight">↺</button>
+          <button id="diurnal-btn-reset" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-light); padding: 5px 0; min-width: 34px; text-align: center; border-radius: 6px; font-size: 0.85rem; cursor: pointer;" title="Reset to 9:00 (Morning)">↺</button>
           <button id="diurnal-btn-speed" style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--grey-lighter); padding: 5px 8px; min-width: 44px; text-align: center; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">1.0x</button>
         </div>
       </div>
@@ -190,12 +190,15 @@ export function initDiurnalSimulator() {
   });
 
   function resetMicroSim(hardReset = false) {
+    const lam = getDiurnalLambda(currentHour);
+    const cores = getProvisionedCores(currentHour, strategy);
+    // Apply parameters before resetting so the engine seeds its rolling
+    // utilization with the current hour's theoretical value instead of the
+    // stale pre-reset traffic profile.
+    engine.setParameters({ lambda: lam, cores: cores, mu: MU_RATE });
     if (hardReset) {
       engine.reset();
     }
-    const lam = getDiurnalLambda(currentHour);
-    const cores = getProvisionedCores(currentHour, strategy);
-    engine.setParameters({ lambda: lam, cores: cores, mu: MU_RATE });
     drawMacroCanvas();
     drawMicroCanvas();
     updateDashboard();
@@ -532,11 +535,8 @@ export function initDiurnalSimulator() {
     statCores.textContent = `${metrics.cores} Core${metrics.cores > 1 ? 's' : ''} ${strategy === 'auto' ? '(Autoscaled)' : '(Fixed)'}`;
 
     statRho.textContent = `${metrics.measuredRho.toFixed(1)}%`;
-    if (metrics.rawLoad > 100.0 && metrics.queueLength > 3) {
-      statHeadroom.textContent = `Headroom: 0.0% (Overload)`;
-    } else {
-      statHeadroom.textContent = `Headroom: ${metrics.headroom.toFixed(1)}% (24h avg: ${metrics.cumulativeRho.toFixed(1)}%)`;
-    }
+    const overloadNote = metrics.rawLoad > 100.0 ? ' (Overload)' : '';
+    statHeadroom.textContent = `Headroom: ${metrics.headroom.toFixed(1)}%${overloadNote} (24h avg: ${metrics.cumulativeRho.toFixed(1)}%)`;
 
     if (metrics.measuredRho >= 95.0 || metrics.rawLoad > 100.0) {
       statRho.style.color = '#f44336';

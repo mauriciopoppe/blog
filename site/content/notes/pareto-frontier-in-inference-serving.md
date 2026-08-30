@@ -313,7 +313,7 @@ Manual configuration search across multi-GPU clusters is prohibitive. Automated 
 <div class="tex2jax_ignore" style="display: flex; justify-content: center; margin: 2rem 0;">
 <svg viewBox="0 0 780 200" width="100%" class="tex2jax_ignore" style="max-width: 780px; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 15px; border: 1px solid var(--grey-dark);">
   <defs>
-    <marker id="arrow-themed-bbo" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-reverse">
+    <marker id="arrow-themed-bbo" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgb(var(--primary))" />
     </marker>
   </defs>
