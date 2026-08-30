@@ -60,100 +60,33 @@ function projectionExplorer(mountSelector, cameraType) {
 
   const panelHtml = isPerspective
     ? `
-      <div class="proj-desc">
+      <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)]">
         The wireframe frustum is the perspective view volume, a truncated pyramid from the near plane to the far plane. Drag to orbit, scroll to zoom.
       </div>
-      <div class="proj-desc">
+      <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)]">
         In the minimap, the camera sees the scene with foreshortening: the division by ${renderMath('w = -z')} makes distant objects appear smaller.
       </div>
     `
     : `
-      <div class="proj-desc">
+      <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)]">
         The wireframe box is the orthographic view volume ${renderMath('[l, r] \\times [b, t] \\times [n, f]')}. Drag to orbit, scroll to zoom.
       </div>
-      <div class="proj-desc">
+      <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)]">
         In the minimap, the camera sees the scene with no perspective: parallel lines stay parallel and distance does not shrink objects, because the projection keeps ${renderMath('w = 1')}.
       </div>
     `
 
   mountEl.innerHTML = `
     <style>
-      .proj-card {
-        margin: 1.75rem 0;
-        background: var(--grey-darker);
-        border: 1px solid var(--grey-dark);
-        border-radius: 12px;
-        overflow: hidden;
-        font-family: var(--family-sans, system-ui, sans-serif);
-        color: var(--grey-lighter);
-      }
-      .proj-card .katex {
-        font-size: 1.25em !important;
-      }
-      .proj-header {
-        padding: 10px 14px;
-        background: var(--grey-dark);
-        border-bottom: 1px solid var(--grey-dark);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-      .proj-title {
-        font-size: 12.5px;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        color: rgb(var(--primary));
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-      .proj-badge {
-        font-size: 11px;
-        letter-spacing: 0.04em;
-        color: var(--grey-light);
-      }
-      .proj-body {
-        display: grid;
-        grid-template-columns: 335px 1fr;
-        gap: 12px;
-        padding: 12px;
-      }
-      @media (max-width: 860px) {
-        .proj-body {
-          grid-template-columns: 1fr;
-        }
-      }
-      .proj-panel {
-        display: flex;
-        flex-direction: column;
-        gap: 9px;
-      }
-      .proj-desc {
-        font-size: 12px;
-        line-height: 1.5;
-        color: var(--grey-light);
-        background: var(--grey-dark);
-        padding: 7px 9px;
-        border-radius: 6px;
-        border-left: 2px solid rgb(var(--primary));
-      }
-      .proj-canvas {
-        position: relative;
-        height: 50vh;
-        min-height: 380px;
-        border-radius: 10px;
-        overflow: hidden;
-        border: 1px solid var(--grey-dark);
-        background: var(--grey-darker);
+      #${cameraType}-projection-animation .katex {
+        font-size: 0.8em !important;
       }
       .proj-card .lil-gui {
         position: static;
         width: 100%;
         box-sizing: border-box;
         background: var(--grey-darker);
-        border: 1px solid var(--grey-dark);
+        border: 1px solid var(--ring-border);
         border-radius: 6px;
         font-family: var(--family-sans, system-ui, sans-serif);
       }
@@ -166,7 +99,7 @@ function projectionExplorer(mountSelector, cameraType) {
         text-transform: none;
       }
       .proj-card .lil-gui .controller {
-        border-bottom: 1px solid var(--grey-dark);
+        border-bottom: 1px solid var(--ring-border);
       }
       .proj-card .lil-gui .name {
         color: var(--grey-light);
@@ -185,9 +118,9 @@ function projectionExplorer(mountSelector, cameraType) {
       }
     </style>
 
-    <div class="proj-card">
-      <div class="proj-header">
-        <div class="proj-title">
+    <div class="proj-card tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden tw-font-sans">
+      <div class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
+        <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary tw-flex tw-items-center tw-gap-1.5">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
             <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
@@ -195,14 +128,14 @@ function projectionExplorer(mountSelector, cameraType) {
           </svg>
           ${card.title}
         </div>
-        <div class="proj-badge">${card.badge}</div>
+        <div class="tw-font-serif tw-text-sm tw-text-[var(--grey-light)]">${card.badge}</div>
       </div>
-      <div class="proj-body">
-        <div class="proj-panel">
+      <div class="tw-grid tw-grid-cols-[335px_1fr] tw-gap-2.5 tw-p-2.5 tw-font-serif max-[860px]:tw-grid-cols-1">
+        <div class="tw-flex tw-flex-col tw-gap-1.5">
           ${panelHtml}
           <div id="proj-controls-${cameraType}"></div>
         </div>
-        <div class="proj-canvas"></div>
+        <div class="proj-canvas tw-relative tw-h-[50vh] tw-min-h-[320px] tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[10px] tw-overflow-hidden"></div>
       </div>
     </div>
   `
@@ -247,6 +180,7 @@ function projectionExplorer(mountSelector, cameraType) {
   const gui = new GUI({ container: controlsMount, title: 'Parameters' })
 
   let camera
+  const defaults = { fov: 50, near: 300, far: 1000 }
   if (isPerspective) {
     camera = new THREE.PerspectiveCamera(guiParams.fov, 1, guiParams.near, guiParams.far)
     camera.rotation.y = Math.PI
@@ -259,6 +193,8 @@ function projectionExplorer(mountSelector, cameraType) {
     const frustumSize = height
     guiParams.lr = frustumSize / 2
     guiParams.tb = frustumSize / 2
+    defaults.lr = guiParams.lr
+    defaults.tb = guiParams.tb
 
     camera = new THREE.OrthographicCamera(
       guiParams.lr,
@@ -289,6 +225,27 @@ function projectionExplorer(mountSelector, cameraType) {
     camera.far = v
     camera.updateProjectionMatrix()
   })
+  gui.add({ reset: () => resetProjection() }, 'reset').name('Reset to Original')
+
+  function resetProjection() {
+    guiParams.fov = defaults.fov
+    guiParams.near = defaults.near
+    guiParams.far = defaults.far
+    if (isPerspective) {
+      camera.fov = defaults.fov
+    } else {
+      guiParams.lr = defaults.lr
+      guiParams.tb = defaults.tb
+      camera.left = defaults.lr
+      camera.right = -defaults.lr
+      camera.top = defaults.tb
+      camera.bottom = -defaults.tb
+    }
+    camera.near = defaults.near
+    camera.far = defaults.far
+    camera.updateProjectionMatrix()
+    gui.controllers.forEach((c) => c.updateDisplay())
+  }
 
   // Little camera body at the projection camera, scaled to the scene size.
   // Attached to the camera so its lens points where the camera looks.
@@ -357,11 +314,12 @@ function projectionExplorer(mountSelector, cameraType) {
     // render minimap side
     cameraHelper.visible = false
 
-    // minimap occupies 1/4 of the screen
+    // minimap occupies 1/4 of the screen, anchored to the bottom-right corner
     const square = Math.max(height, width) * 0.25
+    const margin = 10
     renderer.setClearColor(greyDark, 1)
-    renderer.setScissor(0, 0, square, square)
-    renderer.setViewport(0, 0, square, square)
+    renderer.setScissor(width - square - margin, margin, square, square)
+    renderer.setViewport(width - square - margin, margin, square, square)
     renderer.render(scene, camera)
   }
 }
