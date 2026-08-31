@@ -172,16 +172,10 @@ export function playVerse(
   const startAbsBeat = (phrase.startBar - 1) * 6 + (phrase.startBeat - 1)
 
   for (let b = 0; b < totalEighths; b++) {
-    const tickTime = startTime + b * EIGHTH_SEC
     const currentAbsBeat = startAbsBeat + b
     const currentBar = Math.floor(currentAbsBeat / 6) + 1
     const currentBeat = (currentAbsBeat % 6) + 1
     const isDownbeat = currentBeat === 1
-
-    if (isMetronomeEnabled) {
-      const clickNode = playMetronomeClick(ctx, ctx.destination, tickTime, isDownbeat)
-      activeSources.push(clickNode)
-    }
 
     const timer = window.setTimeout(() => {
       onTick(currentBar, currentBeat, isDownbeat)
@@ -297,6 +291,13 @@ function onTick(bar: number, beat: number, isDownbeat: boolean) {
   tickEls.forEach((el) => {
     el.textContent = `Bar ${bar}.${beat}`
   })
+
+  if (isMetronomeEnabled) {
+    const ctx = getAudioContext()
+    if (ctx.state !== 'suspended') {
+      playMetronomeClick(ctx, ctx.destination, ctx.currentTime, isDownbeat)
+    }
+  }
 
   if (isDownbeat && isMetronomeEnabled) {
     const avatars = document.querySelectorAll<HTMLElement>('.js-avatar-scene, .profile-avatar-scene')
@@ -780,11 +781,10 @@ export function setupAvatarMiniPlayer(avatar: HTMLElement) {
     btnMetro.addEventListener('click', (e) => {
       e.stopPropagation()
       isMetronomeEnabled = !isMetronomeEnabled
-      btnMetro.classList.toggle('is-active', isMetronomeEnabled)
-      if (isPlaying) {
-        // Re-trigger current verse with new metronome state
-        playVerse(phraseIndex, avatar)
-      }
+      const allMetroBtns = document.querySelectorAll('.js-btn-metro')
+      allMetroBtns.forEach((btn) => {
+        btn.classList.toggle('is-active', isMetronomeEnabled)
+      })
     })
   }
 
