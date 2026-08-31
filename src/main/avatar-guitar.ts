@@ -703,38 +703,57 @@ export function setupAvatarMiniPlayer(avatar: HTMLElement) {
         margin-top: 2px;
       }
       .mini-btn {
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        color: var(--grey-lighter, #e4e4e7);
+        background: var(--grey-dark, #222226);
+        border: 1px solid var(--ring-border, rgba(255, 255, 255, 0.14));
+        color: var(--grey-light, #d4d4d8);
         border-radius: 6px;
-        padding: 3px 6px;
-        font-size: 10.5px;
+        padding: 3.5px 7.5px;
+        font-size: 11px;
+        font-weight: 600;
+        font-family: var(--family-serif, inherit);
         cursor: pointer;
-        line-height: 1;
-        transition: all 0.15s ease;
+        line-height: 1.2;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 3px;
       }
       .mini-btn:hover {
-        background: rgba(var(--primary, 255 112 67), 0.2);
-        border-color: rgba(var(--primary, 255 112 67), 0.5);
+        background: rgba(var(--primary, 255 112 67), 0.15);
+        border-color: rgb(var(--primary, 255 112 67));
         color: rgb(var(--primary, 255 112 67));
-        transform: scale(1.05);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5), 0 0 8px rgba(var(--primary, 255 112 67), 0.3);
+        transform: translateY(-1px);
+      }
+      .mini-btn:active {
+        transform: translateY(0px);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
       }
       .mini-btn.mini-btn-play {
-        background: rgba(var(--primary, 255 112 67), 0.25);
-        border-color: rgba(var(--primary, 255 112 67), 0.6);
-        color: rgb(var(--primary, 255 112 67));
+        background: var(--grey-dark, #222226);
+        border-color: var(--ring-border, rgba(255, 255, 255, 0.2));
+        color: var(--grey-lighter, #f4f4f5);
         font-weight: bold;
-        padding: 3px 10px;
+        padding: 3.5px 11px;
+      }
+      .mini-btn.mini-btn-play:hover {
+        background: rgba(var(--primary, 255 112 67), 0.2);
+        border-color: rgb(var(--primary, 255 112 67));
+        color: rgb(var(--primary, 255 112 67));
+      }
+      .mini-btn.mini-btn-play.is-playing {
+        background: rgba(var(--primary, 255 112 67), 0.25);
+        border-color: rgba(var(--primary, 255 112 67), 0.85);
+        color: rgb(var(--primary, 255 112 67));
+        box-shadow: 0 0 10px rgba(var(--primary, 255 112 67), 0.4);
       }
       .mini-btn.is-active {
-        background: rgba(var(--primary, 255 112 67), 0.35);
+        background: rgba(var(--primary, 255 112 67), 0.28);
         border-color: rgb(var(--primary, 255 112 67));
-        color: #fff;
-        box-shadow: 0 0 8px rgba(var(--primary, 255 112 67), 0.5);
+        color: rgb(var(--primary, 255 112 67));
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 10px rgba(var(--primary, 255 112 67), 0.4);
       }
     `
     document.head.appendChild(style)
@@ -855,6 +874,7 @@ export function updateMiniPlayerUI() {
   btnPlays.forEach((btn) => {
     btn.textContent = isPlaying ? '⏸' : '▶'
     btn.title = isPlaying ? 'Pause (⏸)' : 'Play (▶)'
+    btn.classList.toggle('is-playing', isPlaying)
   })
 
   const players = document.querySelectorAll<HTMLElement>('.js-avatar-mini-player')
