@@ -134,10 +134,6 @@ export function playVerse(
     currentPlayback.stop()
     currentPlayback = null
   }
-  if (currentAnimationCancel) {
-    currentAnimationCancel()
-    currentAnimationCancel = null
-  }
   if (progressAnimId !== null) {
     cancelAnimationFrame(progressAnimId)
     progressAnimId = null
@@ -357,7 +353,27 @@ export function renderHarmonicRibbons(
   })
 }
 
-function startVisualAnimation(avatarEl: HTMLElement, durationSec: number) {
+interface VisualContext {
+  canvas: HTMLCanvasElement
+  ctx: CanvasRenderingContext2D
+  waves: HarmonicWave[]
+  avatarEl: HTMLElement
+  isRunning: boolean
+  colorIdx: number
+  startTime: number
+  lastTime: number
+  canvasSize: number
+}
+
+let activeVisualContext: VisualContext | null = null
+
+function startVisualAnimation(avatarEl: HTMLElement, _durationSec: number) {
+  if (activeVisualContext && activeVisualContext.isRunning) {
+    // Keep active visual context running and smoothly update avatar element reference
+    activeVisualContext.avatarEl = avatarEl
+    return
+  }
+
   const rect = avatarEl.getBoundingClientRect()
   const canvasSize = Math.max(260, rect.width * 4.0)
   const dpr = Math.min(window.devicePixelRatio || 1, 2)
@@ -388,49 +404,58 @@ function startVisualAnimation(avatarEl: HTMLElement, durationSec: number) {
     'rgba(255, 171, 0, ALPHA)' // Amber
   ]
 
-  const waves: HarmonicWave[] = []
-  let colorIdx = 0
+  const vContext: VisualContext = {
+    canvas,
+    ctx,
+    waves: [],
+    avatarEl,
+    isRunning: true,
+    colorIdx: 0,
+    startTime: performance.now(),
+    lastTime: performance.now(),
+    canvasSize
+  }
+  activeVisualContext = vContext
 
   ;(window as any).__avatarWavePush = (freq: number) => {
-    waves.push({
-      radius: rect.width / 2 - 4,
-      maxRadius: canvasSize / 2,
+    if (!activeVisualContext) return
+    const curAvatar = activeVisualContext.avatarEl
+    const curRect = curAvatar.getBoundingClientRect()
+    activeVisualContext.waves.push({
+      radius: curRect.width / 2 - 4,
+      maxRadius: activeVisualContext.canvasSize / 2,
       speed: 60 + (freq / 700) * 25,
       frequency: 3 + Math.floor((freq / 200) % 4),
       opacity: 0.95,
-      color: colors[colorIdx++ % colors.length]
+      color: colors[activeVisualContext.colorIdx++ % colors.length]
     })
   }
 
-  let isRunning = true
-  let lastTime = performance.now()
-  const startTime = lastTime
-
   function animate(now: number) {
-    if (!ctx || !isRunning) return
-    const dt = Math.min((now - lastTime) / 1000, 0.05)
-    lastTime = now
-    const elapsed = (now - startTime) / 1000
+    if (!vContext.isRunning || !vContext.ctx) return
+    const dt = Math.min((now - vContext.lastTime) / 1000, 0.05)
+    vContext.lastTime = now
+    const elapsed = (now - vContext.startTime) / 1000
 
-    const curRect = avatarEl.getBoundingClientRect()
-    canvas.style.top = `${curRect.top + curRect.height / 2 - canvasSize / 2}px`
-    canvas.style.left = `${curRect.left + curRect.width / 2 - canvasSize / 2}px`
+    const curRect = vContext.avatarEl.getBoundingClientRect()
+    vContext.canvas.style.top = `${curRect.top + curRect.height / 2 - vContext.canvasSize / 2}px`
+    vContext.canvas.style.left = `${curRect.left + curRect.width / 2 - vContext.canvasSize / 2}px`
 
-    ctx.clearRect(0, 0, canvasSize, canvasSize)
+    vContext.ctx.clearRect(0, 0, vContext.canvasSize, vContext.canvasSize)
 
-    for (let i = waves.length - 1; i >= 0; i--) {
-      const w = waves[i]
+    for (let i = vContext.waves.length - 1; i >= 0; i--) {
+      const w = vContext.waves[i]
       w.radius += w.speed * dt
-      const progress = (w.radius - rect.width / 2) / (w.maxRadius - rect.width / 2)
+      const progress = (w.radius - curRect.width / 2) / (w.maxRadius - curRect.width / 2)
       w.opacity = Math.max(0, 1.0 - Math.pow(progress, 1.4))
       if (w.opacity <= 0.01) {
-        waves.splice(i, 1)
+        vContext.waves.splice(i, 1)
       }
     }
 
-    renderHarmonicRibbons(ctx, canvasSize, canvasSize, waves, elapsed)
+    renderHarmonicRibbons(vContext.ctx, vContext.canvasSize, vContext.canvasSize, vContext.waves, elapsed)
 
-    if (isRunning && elapsed < durationSec + 1.0) {
+    if (isPlaying || vContext.waves.length > 0) {
       requestAnimationFrame(animate)
     } else {
       cleanup()
@@ -438,10 +463,13 @@ function startVisualAnimation(avatarEl: HTMLElement, durationSec: number) {
   }
 
   const cleanup = () => {
-    isRunning = false
+    vContext.isRunning = false
     delete (window as any).__avatarWavePush
-    if (canvas.parentElement) {
-      canvas.remove()
+    if (vContext.canvas.parentElement) {
+      vContext.canvas.remove()
+    }
+    if (activeVisualContext === vContext) {
+      activeVisualContext = null
     }
   }
 
