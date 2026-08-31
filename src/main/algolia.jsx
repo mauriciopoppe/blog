@@ -155,11 +155,6 @@ export function algoliaMain() {
 
   const toggleSearch = () => {
     if (root && !appInitialized) {
-      root.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-          toggleSearch()
-        }
-      })
       searchOverlay.addEventListener('click', toggleSearch)
       createRoot(root).render(<App toggleSearch={toggleSitemapSearch} />)
     }
@@ -184,6 +179,18 @@ export function algoliaMain() {
       appInitialized = true
     }
   }
+
+  // Close the overlay with the Escape key whenever it is displayed, no matter
+  // where focus is. Capture phase so it runs even if a child stops propagation.
+  document.addEventListener(
+    'keydown',
+    (event) => {
+      if (event.key === 'Escape' && !searchWrapper.classList.contains('tw-hidden')) {
+        toggleSearch()
+      }
+    },
+    true
+  )
 
   window.addEventListener('keydown', function (event) {
     if (event.metaKey && event.key === 'k') {

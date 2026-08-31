@@ -1,6 +1,6 @@
-<div class="tw-my-2">
+<div class="tw-my-4 tw-flex tw-flex-wrap tw-items-center tw-justify-center tw-gap-1.5">
   {{ range .tags }}
-    <a class="tw-inline-block tw-rounded-md tw-border tw-border-primary tw-text-primary tw-px-2 tw-m-0.5" href="/tags/{{ . | urlize }}">
+    <a class="tw-inline-block tw-rounded-full tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-shadow-subtle tw-px-3 tw-py-1 tw-font-serif tw-text-[0.72rem] tw-font-semibold tw-no-underline hover:tw-text-primary hover:tw-border-[var(--accent-border)] hover:tw-bg-[var(--accent-tint)] hover:tw-shadow-[var(--elevation-raised)] hover:tw-filter-none tw-transition" href="/tags/{{ . | urlize }}">
       #{{ . }}
     </a>
   {{ end }}

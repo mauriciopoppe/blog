@@ -27,6 +27,13 @@ h1, a, h1.tw-text-primary, span.tw-text-primary { color: rgb(var(--primary)); }
       <h2 class="md:tw-col-span-2 tw-text-xs tw-uppercase tw-tracking-widest tw-mb-2 tw-mt-4">Favorites</h2>
       {{ partial "favorites-list.html" . }}
 
+      <div class="md:tw-col-span-2 tw-pt-1.5 tw-pb-1">
+        <a href="/notes/" class="tw-inline-flex tw-items-center tw-gap-1.5 tw-font-serif tw-text-xs tw-text-primary hover:tw-underline">
+          <span class="material-symbols-outlined"> library_books </span>
+          Browse all notes &rarr;
+        </a>
+      </div>
+
       <h2 id="software" class="md:tw-col-span-2 tw-text-xs tw-uppercase tw-tracking-widest tw-mb-2 tw-mt-8">Software</h2>
       <a href="https://mauriciopoppe.github.io/function-plot/" target="_blank">
         <span class="material-symbols-outlined"> function </span>

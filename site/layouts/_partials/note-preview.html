@@ -19,26 +19,29 @@
 <div class="tw-group/related tw-my-3">
   <a href="{{ .RelPermalink }}" class="tw-block tw-no-underline">
     <!-- card -->
-    <div class="tw-text-sm tw-p-4 tw-rounded-md tw-bg-[var(--grey-dark)] hover:tw-brightness-110 tw-transition-all">
-      <div class="tw-flex tw-flex-wrap tw-items-center tw-gap-2 tw-mb-3">
-        <h2 class="tw-group/title tw-text-xl md:tw-text-2xl tw-leading-tight tw-m-0 tw-text-primary group-hover/related:tw-drop-shadow-[0_0_6px_rgba(var(--primary),0.35)] tw-transition-all">
-          {{ .Title }}
-        </h2>
-        {{ if .Draft }}
-          <span class="tw-inline-block tw-rounded-md tw-border tw-border-[#fbbf24]/60 tw-text-[#fbbf24] tw-text-xs tw-px-2 tw-py-0.5" title="Draft note">
-            Draft
-          </span>
-        {{ end }}
-        {{ if $isFavorite }}
-          <span class="tw-inline-block tw-rounded-md tw-border tw-border-primary tw-text-primary tw-text-xs tw-px-2 tw-py-0.5" title="Favorite">
-            ★ Favorite
-          </span>
-        {{ end }}
-        {{ if $hasInteractive }}
-          <span class="tw-inline-block tw-rounded-md tw-border tw-border-primary tw-text-primary tw-text-xs tw-px-2 tw-py-0.5">
-            ✦ Interactive
-          </span>
-        {{ end }}
+    <div class="tw-text-sm tw-p-4 tw-rounded-lg tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-shadow-subtle hover:tw-border-[var(--accent-border)] hover:tw-bg-[var(--accent-tint)] hover:tw-shadow-raised tw-cursor-pointer tw-transition-all">
+      <div class="tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-2 tw-mb-3">
+        <div class="tw-flex tw-flex-wrap tw-items-center tw-gap-2">
+          <h2 class="tw-group/title tw-text-xl md:tw-text-2xl tw-leading-tight tw-m-0 tw-text-primary group-hover/related:tw-drop-shadow-[0_0_6px_rgba(var(--primary),0.35)] tw-transition-all">
+            {{ .Title }}
+          </h2>
+          {{ if .Draft }}
+            <span class="tw-inline-block tw-rounded-full tw-bg-[#fbbf24]/10 tw-border tw-border-[#fbbf24]/60 tw-text-[#fbbf24] tw-text-xs tw-px-2.5 tw-py-0.5" title="Draft note">
+              Draft
+            </span>
+          {{ end }}
+          {{ if $isFavorite }}
+            <span class="tw-inline-block tw-rounded-full tw-bg-primary-soft tw-border tw-border-primary-border tw-text-primary tw-text-xs tw-px-2.5 tw-py-0.5" title="Favorite">
+              ★ Favorite
+            </span>
+          {{ end }}
+          {{ if $hasInteractive }}
+            <span class="tw-inline-block tw-rounded-full tw-bg-primary-soft tw-border tw-border-primary-border tw-text-primary tw-text-xs tw-px-2.5 tw-py-0.5">
+              ✦ Interactive
+            </span>
+          {{ end }}
+        </div>
+        <span class="tw-text-primary tw-font-serif tw-text-lg group-hover/related:tw-translate-x-1 tw-transition-transform">→</span>
       </div>
 
       <div class="tw-flex tw-flex-col tw-gap-4 md:tw-flex-row md:tw-items-start">
@@ -64,9 +67,9 @@
             </div>
 
             {{ with .Params.tags }}
-              <div class="tw-flex tw-flex-wrap tw-gap-1">
+              <div class="tw-flex tw-flex-wrap tw-gap-1.5">
                 {{ range first 4 . }}
-                  <span class="tw-inline-block tw-rounded-md tw-border tw-border-primary tw-text-primary tw-text-xs tw-px-2 tw-py-0.5">
+                  <span class="tw-inline-block tw-rounded-full tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-shadow-subtle tw-font-serif tw-font-semibold tw-text-[0.72rem] tw-px-2.5 tw-py-0.5">
                     #{{ . }}
                   </span>
                 {{ end }}

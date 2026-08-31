@@ -75,7 +75,10 @@
 
   <!-- Left column: favorite notes, same format as the index.html Favorites grid -->
   <aside id="algolia-favorites" class="tw-relative tw-z-10 tw-hidden md:tw-block tw-h-full tw-w-80 tw-shrink-0 tw-overflow-y-auto tw-border-r tw-border-white/[0.06] tw-p-4">
-    <div class="tw-text-xs tw-uppercase tw-tracking-widest tw-text-neutral-400 tw-mb-3">★ Favorites</div>
+    <div class="tw-flex tw-items-baseline tw-gap-2 tw-mb-3">
+      <div class="tw-text-xs tw-uppercase tw-tracking-widest tw-text-neutral-400">★ Favorites</div>
+      <a href="/notes" class="tw-text-xs tw-uppercase tw-tracking-widest tw-text-neutral-400">All Notes</a>
+    </div>
     <div class="tw-grid tw-gap-1 tw-text-xs tw-leading-tight md:tw-grid-cols-[10em_auto] md:[&>div]:tw-mb-0">
       {{ partial "favorites-list.html" . }}
     </div>
