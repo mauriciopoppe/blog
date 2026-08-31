@@ -83,6 +83,23 @@ export function playMetronomeClick(
   return osc
 }
 
+// Google Analytics event dispatcher for mini midi player
+export function trackMidiEvent(action: string, params: Record<string, any> = {}) {
+  if (typeof window === 'undefined') return
+  try {
+    if (typeof (window as any).gtag === 'function') {
+      (window as any).gtag('event', `midi_${action}`, {
+        event_category: 'avatar_mini_player',
+        ...params
+      })
+    } else if (typeof (window as any).ga === 'function') {
+      (window as any).ga('send', 'event', 'avatar_mini_player', action, params.label || '')
+    }
+  } catch (e) {
+    // Non-blocking analytics
+  }
+}
+
 // Global Player State
 let phraseIndex = 0
 let isPlaying = false
@@ -232,6 +249,11 @@ export function playVerse(
 
   const endTimer = window.setTimeout(() => {
     if (isPlaying) {
+      trackMidiEvent('verse_completed', {
+        verse_index: phraseIndex,
+        verse_title: phrase.title,
+        continuous: isContinuous
+      })
       if (isContinuous) {
         // Advance to next verse at exact interval boundary without any extra beat
         playVerse((phraseIndex + 1) % song.phrases.length, avatarEl)
@@ -754,6 +776,11 @@ export function setupAvatarMiniPlayer(avatar: HTMLElement) {
     btnPrev.addEventListener('click', (e) => {
       e.stopPropagation()
       const prevIdx = (phraseIndex - 1 + song.phrases.length) % song.phrases.length
+      trackMidiEvent('prev_verse', {
+        from_index: phraseIndex,
+        to_index: prevIdx,
+        verse_title: song.phrases[prevIdx].title
+      })
       playVerse(prevIdx, avatar)
     })
   }
@@ -761,6 +788,11 @@ export function setupAvatarMiniPlayer(avatar: HTMLElement) {
   if (btnPlay) {
     btnPlay.addEventListener('click', (e) => {
       e.stopPropagation()
+      trackMidiEvent('play_pause_click', {
+        action_type: isPlaying ? 'pause' : 'play',
+        verse_index: phraseIndex,
+        verse_title: song.phrases[phraseIndex].title
+      })
       if (isPlaying) {
         stopPlayback()
       } else {
@@ -773,6 +805,11 @@ export function setupAvatarMiniPlayer(avatar: HTMLElement) {
     btnNext.addEventListener('click', (e) => {
       e.stopPropagation()
       const nextIdx = (phraseIndex + 1) % song.phrases.length
+      trackMidiEvent('next_verse', {
+        from_index: phraseIndex,
+        to_index: nextIdx,
+        verse_title: song.phrases[nextIdx].title
+      })
       playVerse(nextIdx, avatar)
     })
   }
@@ -781,6 +818,10 @@ export function setupAvatarMiniPlayer(avatar: HTMLElement) {
     btnMetro.addEventListener('click', (e) => {
       e.stopPropagation()
       isMetronomeEnabled = !isMetronomeEnabled
+      trackMidiEvent('metronome_toggle', {
+        enabled: isMetronomeEnabled,
+        verse_index: phraseIndex
+      })
       const allMetroBtns = document.querySelectorAll('.js-btn-metro')
       allMetroBtns.forEach((btn) => {
         btn.classList.toggle('is-active', isMetronomeEnabled)
@@ -792,6 +833,10 @@ export function setupAvatarMiniPlayer(avatar: HTMLElement) {
     btnLoop.addEventListener('click', (e) => {
       e.stopPropagation()
       isContinuous = !isContinuous
+      trackMidiEvent('continuous_toggle', {
+        enabled: isContinuous,
+        verse_index: phraseIndex
+      })
       btnLoop.classList.toggle('is-active', isContinuous)
     })
   }
@@ -845,6 +890,11 @@ export function avatarGuitarMain() {
       avatar.addEventListener('click', (e) => {
         e.preventDefault()
         e.stopPropagation()
+        trackMidiEvent('avatar_click', {
+          action_type: isPlaying ? 'pause' : 'play',
+          verse_index: phraseIndex,
+          verse_title: getCurrentSong().phrases[phraseIndex].title
+        })
         if (isPlaying) {
           stopPlayback()
         } else {
