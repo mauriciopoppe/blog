@@ -78,7 +78,10 @@ a:hover svg {
   <!-- provides top padding to the entire content -->
   <div id="my-links-card" class="tw-max-w-96 md:tw-my-4 tw-mx-auto tw-p-4 tw-bg-zinc-900/30 tw-backdrop-blur-sm tw-rounded-lg">
     <div class="tw-mt-4">
-      <img src="{{ .Site.Params.Logo }}" class="tw-rounded-full tw-aspect-square tw-w-28 tw-border tw-border-primary tw-mx-auto tw-inline-block tw-bg-zinc-900/30" alt="profile">
+      <div class="profile-avatar-scene js-avatar-scene tw-relative tw-w-28 tw-h-28 tw-rounded-full tw-overflow-hidden tw-border tw-border-primary tw-mx-auto tw-shadow-subtle tw-bg-zinc-900/30">
+        <img src="/images/2025-guitar2-bg.webp" alt="" class="js-avatar-bg tw-absolute tw-inset-0 tw-w-full tw-h-full tw-object-cover tw-scale-110 tw-pointer-events-none" />
+        <img src="/images/2025-guitar2-cutout.webp" alt="profile" class="js-avatar-fg tw-absolute tw-inset-0 tw-w-full tw-h-full tw-object-cover tw-pointer-events-none" />
+      </div>
       <div class="tw-my-2 tw-text-primary">
         <p class="tw-text-2xl tw-font-bold">
           Mauricio Poppe
