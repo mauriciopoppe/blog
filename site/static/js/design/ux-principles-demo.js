@@ -7,14 +7,16 @@
  * to light and dark themes.
  * ========================================================================== */
 
+import { createStepPlaybackControl } from '../ui/step-playback-control.js';
+
 const DEMO_CSS = `
   .ux-demo { display: grid; gap: 16px; font-family: var(--family-serif, system-ui, serif); }
   .ux-demo-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
   .ux-card { border-radius: 10px; overflow: hidden; }
-  .ux-card-header { font-family: var(--family-sans, system-ui, sans-serif); font-size: 0.72rem; font-weight: 600; padding: 10px 14px; border-bottom: 1px solid var(--ring-border); }
+  .ux-card-header { font-family: var(--family-sans, system-ui, sans-serif); font-size: 0.72rem; font-weight: 600; line-height: 1.25; padding: 10px 14px; border-bottom: 1px solid var(--ring-border); }
   .ux-card-body { padding: 12px 14px 14px; font-size: 0.85rem; line-height: 1.5; }
-  /* Passive surface: flat, subtle border, no elevation, default cursor */
-  .ux-passive { background: var(--grey-dark); border: 1px solid var(--ring-border); cursor: default; }
+  /* Passive surface: flat, borderless, no elevation, default cursor */
+  .ux-passive { background: var(--grey-dark); cursor: default; }
   .ux-passive .ux-card-header { color: var(--grey-light); }
   .ux-passive .ux-card-body { color: var(--grey-light); }
   /* Interactive surface: primary-tinted border, layered elevation, top highlight, pointer, chevron */
@@ -41,7 +43,7 @@ const DEMO_CSS = `
   .ux-swatches { display: flex; flex-wrap: wrap; gap: 6px; }
   .ux-tokens-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .ux-swatches { flex: 1 1 auto; }
-  .ux-swatch { display: flex; align-items: center; gap: 6px; flex: 1 1 auto; white-space: nowrap; background: var(--grey-dark); border: 1px solid var(--ring-border); border-radius: 7px; padding: 5px 8px; font-family: var(--family-sans, system-ui, sans-serif); font-size: 0.62rem; color: var(--grey-lighter); }
+  .ux-swatch { display: flex; align-items: center; gap: 6px; flex: 1 1 auto; white-space: nowrap; background: var(--grey-dark); border-radius: 7px; padding: 5px 8px; font-family: var(--family-sans, system-ui, sans-serif); font-size: 0.62rem; color: var(--grey-lighter); }
   .ux-swatch-swatch { width: 16px; height: 16px; border-radius: 4px; border: 1px solid var(--ring-border); flex-shrink: 0; }
   .ux-theme-toggle { flex-shrink: 0; appearance: none; -webkit-appearance: none; font-family: var(--family-serif, system-ui, serif); font-size: 0.72rem; font-weight: 600; line-height: 1; padding: 6px 12px; border-radius: 6px; background: var(--grey-dark); border: 1px solid var(--ring-border); color: var(--grey-light); cursor: pointer; box-shadow: var(--elevation-subtle); }
   .ux-theme-toggle:hover { color: rgb(var(--primary)); border-color: var(--accent-border); background: var(--accent-tint); box-shadow: var(--elevation-raised); filter: none; }
@@ -51,8 +53,8 @@ const DEMO_CSS = `
     .ux-swatch { flex: 1 1 0; min-width: 0; }
   }
   /* Typography: sans title over serif content */
-  .ux-typo { display: grid; gap: 6px; background: var(--grey-dark); border: 1px solid var(--ring-border); border-radius: 10px; padding: 14px 16px; }
-  .ux-typo-title { font-family: var(--family-sans, system-ui, sans-serif); font-size: 1.05rem; font-weight: 700; color: var(--grey-lighter); }
+  .ux-typo { display: grid; gap: 6px; background: var(--grey-dark); border-radius: 10px; padding: 14px 16px; }
+  .ux-typo-title { font-family: var(--family-sans, system-ui, sans-serif); font-size: 1.05rem; font-weight: 700; line-height: 1.25; color: var(--grey-lighter); }
   .ux-typo-body { font-family: var(--family-serif, system-ui, serif); font-size: 0.9rem; line-height: 1.6; color: var(--grey-light); }
   /* Four interaction states */
   .ux-states { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -65,7 +67,7 @@ const DEMO_CSS = `
   /* Tags and pills */
   .ux-tags { display: flex; flex-wrap: wrap; gap: 8px; }
   .ux-tag-pill { display: inline-block; padding: 4px 12px; border-radius: 999px; font-family: var(--family-serif, system-ui, serif); font-size: 0.72rem; font-weight: 600; }
-  .ux-tag-neutral { background: var(--grey-dark); border: 1px solid var(--ring-border); color: var(--grey-light); cursor: default; }
+  .ux-tag-neutral { background: var(--grey-dark); border: 1px solid var(--grey-dark); color: var(--grey-light); cursor: default; }
   .ux-tag-primary { background: var(--grey-dark); border: 1px solid var(--ring-border); color: var(--grey-light); cursor: pointer; box-shadow: var(--elevation-subtle); }
   .ux-tag-hover { color: rgb(var(--primary)); border-color: var(--accent-border); background: var(--accent-tint); box-shadow: var(--elevation-raised); }
   .ux-tag-pill:focus-visible { outline: 2px solid rgba(var(--primary), 0.6); outline-offset: 2px; }
@@ -103,9 +105,66 @@ const DEMO_CSS = `
   .ux-input-label { font-family: var(--family-sans, system-ui, sans-serif); font-size: 0.7rem; color: var(--grey-light); }
   .ux-input { font-family: var(--family-serif, system-ui, serif); font-size: 0.85rem; line-height: 1.25; padding: 6px 12px; border-radius: 6px; background: var(--grey-dark); border: 1px solid var(--ring-border); color: var(--grey-light); box-shadow: var(--elevation-subtle); width: 100%; }
   .ux-input::placeholder { color: var(--grey-light); opacity: 0.6; }
-  .ux-input:hover, .ux-input.ux-input-hover { border-color: var(--accent-border); }
+  .ux-input:hover:not(:disabled), .ux-input.ux-input-hover { border-color: var(--accent-border); }
   .ux-input:focus-visible, .ux-input.ux-input-focus { outline: 2px solid rgba(var(--primary), 0.6); outline-offset: 2px; border-color: var(--accent-border); }
-  .ux-input:disabled, .ux-input:disabled:hover { opacity: 0.45; cursor: not-allowed; }
+  .ux-input:disabled, .ux-input:disabled:hover { opacity: 0.45; cursor: not-allowed; border-color: var(--ring-border); box-shadow: none; }
+  /* Dropdown / Select */
+  .ux-select-stack { display: grid; gap: 12px; max-width: 360px; }
+  .ux-select-item { display: grid; grid-template-columns: 96px 1fr; gap: 10px; align-items: center; }
+  .ux-select-label { font-family: var(--family-sans, system-ui, sans-serif); font-size: 0.7rem; color: var(--grey-light); }
+  .ux-select { font-family: var(--family-serif, system-ui, serif); font-size: 0.85rem; line-height: 1.25; padding: 6px 30px 6px 12px; border-radius: 6px; background: var(--grey-dark); border: 1px solid var(--ring-border); color: var(--grey-light); box-shadow: var(--elevation-subtle); width: 100%; cursor: pointer; -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; }
+  .ux-select:hover:not(:disabled), .ux-select.ux-select-hover { border-color: var(--accent-border); color: var(--grey-lighter); }
+  .ux-select:focus-visible, .ux-select.ux-select-focus { outline: 2px solid rgba(var(--primary), 0.6); outline-offset: 2px; border-color: var(--accent-border); color: var(--grey-lighter); }
+  .ux-select:disabled, .ux-select:disabled:hover { opacity: 0.45; cursor: not-allowed; border-color: var(--ring-border); color: var(--grey-light); box-shadow: none; }
+  /* Collapsible code snippets for UX Doc */
+  details.ux-code-collapse {
+    margin: 1rem 0;
+  }
+  summary.ux-code-summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--family-serif, system-ui, serif);
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.25;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: var(--grey-dark);
+    border: 1px solid var(--ring-border);
+    color: var(--grey-light);
+    box-shadow: var(--elevation-subtle);
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    transition: all 0.15s ease;
+  }
+  summary.ux-code-summary::-webkit-details-marker {
+    display: none;
+  }
+  summary.ux-code-summary::before {
+    content: "▶";
+    font-size: 0.65rem;
+    color: rgb(var(--primary));
+    transition: transform 0.15s ease;
+    display: inline-block;
+  }
+  details[open].ux-code-collapse > summary.ux-code-summary::before {
+    transform: rotate(90deg);
+  }
+  summary.ux-code-summary:hover {
+    color: rgb(var(--primary));
+    border-color: var(--accent-border);
+    background: var(--accent-tint);
+    box-shadow: var(--elevation-raised);
+  }
+  summary.ux-code-summary:focus-visible {
+    outline: 2px solid rgba(var(--primary), 0.6);
+    outline-offset: 2px;
+  }
+  details[open].ux-code-collapse > pre {
+    margin-top: 8px;
+  }
 `;
 
 function injectStyle() {
@@ -121,8 +180,35 @@ function mount(id, html) {
   if (el) el.innerHTML = html;
 }
 
+function collapseCodeBlocks() {
+  const pres = document.querySelectorAll('article pre, .article-content pre, main pre');
+  pres.forEach((pre) => {
+    if (pre.parentElement && pre.parentElement.classList.contains('ux-code-collapse')) return;
+
+    const codeEl = pre.querySelector('code');
+    let lang = '';
+    if (codeEl) {
+      const match = codeEl.className.match(/language-(\w+)/);
+      if (match) lang = match[1].toUpperCase();
+    }
+    const label = lang ? `Show ${lang} code` : 'Show code snippet';
+
+    const details = document.createElement('details');
+    details.className = 'ux-code-collapse';
+
+    const summary = document.createElement('summary');
+    summary.className = 'ux-code-summary';
+    summary.textContent = label;
+
+    pre.parentNode.insertBefore(details, pre);
+    details.appendChild(summary);
+    details.appendChild(pre);
+  });
+}
+
 export function initUxDemo() {
   injectStyle();
+  collapseCodeBlocks();
 
   mount(
     'ux-demo-tokens',
@@ -176,7 +262,7 @@ export function initUxDemo() {
         <div class="ux-demo-pair">
           <div class="ux-card ux-passive">
             <div class="ux-card-header">Passive</div>
-            <div class="ux-card-body">A static panel or metric readout. Flat, subtle border, default cursor, no elevation.</div>
+            <div class="ux-card-body">A static panel or metric readout. Flat, borderless, default cursor, no elevation.</div>
           </div>
           <div class="ux-card ux-interactive">
             <div class="ux-card-header"><span>Clickable</span><span class="ux-chevron">&#8594;</span></div>
@@ -304,15 +390,51 @@ export function initUxDemo() {
   );
 
   mount(
+    'ux-demo-select',
+    `
+      <div class="ux-demo">
+        <div class="ux-select-stack">
+          <div class="ux-select-item">
+            <label class="ux-select-label" for="ux-select-default">Default</label>
+            <select class="ux-select" id="ux-select-default" aria-label="Default select">
+              <option>Gimbal 90°</option>
+              <option>Aerobatic Flip</option>
+              <option>Banked Turn</option>
+            </select>
+          </div>
+          <div class="ux-select-item">
+            <label class="ux-select-label" for="ux-select-hover">Hover</label>
+            <select class="ux-select ux-select-hover" id="ux-select-hover" aria-label="Hover select">
+              <option>Hover state</option>
+            </select>
+          </div>
+          <div class="ux-select-item">
+            <label class="ux-select-label" for="ux-select-focus">Focus</label>
+            <select class="ux-select ux-select-focus" id="ux-select-focus" aria-label="Focus select">
+              <option>Focus state</option>
+            </select>
+          </div>
+          <div class="ux-select-item">
+            <label class="ux-select-label" for="ux-select-disabled">Disabled</label>
+            <select class="ux-select" id="ux-select-disabled" disabled aria-label="Disabled select">
+              <option>Disabled</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    `
+  );
+
+  mount(
     'ux-demo-widget-frame',
     `
       <div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
         <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
-          <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">Sample widget frame</div>
-          <div class="tw-text-sm tw-text-[var(--grey-light)]">Optional descriptor</div>
+          <div class="tw-font-sans tw-text-sm tw-font-semibold tw-leading-tight tw-text-primary">Sample widget frame</div>
+          <div class="tw-text-sm tw-leading-tight tw-text-[var(--grey-light)]">Optional descriptor</div>
         </header>
         <div class="tw-p-2.5">
-          <div class="tw-font-serif tw-text-[0.85rem] tw-leading-relaxed tw-text-[var(--grey-light)] tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-3 tw-py-2">The body is a slot. Any content, controls, or diagrams go here.</div>
+          <div class="tw-font-serif tw-text-[0.85rem] tw-leading-relaxed tw-text-[var(--grey-light)] tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-3 tw-py-2">The body is a slot. Any content, controls, or diagrams go here.</div>
         </div>
       </div>
     `
@@ -322,22 +444,22 @@ export function initUxDemo() {
     'ux-demo-metric-card',
     `
       <div class="tw-grid tw-grid-cols-[repeat(auto-fit,minmax(115px,1fr))] tw-gap-2 tw-max-w-[520px]">
-        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+        <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
           <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Util (theoretical)</div>
           <div class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-[var(--grey-lighter)]">75.0%</div>
           <div class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Cap: 4.0 req/s</div>
         </div>
-        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+        <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
           <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Util (measured)</div>
           <div class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-primary">74.2%</div>
           <div class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Headroom: 25.8%</div>
         </div>
-        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+        <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
           <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Queue Depth</div>
           <div class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-[var(--grey-lighter)]">0</div>
           <div class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Peak: 1</div>
         </div>
-        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+        <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
           <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Tail Latency</div>
           <div class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-[#ffb74d]">1.12s</div>
           <div class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Wait: 0.12s</div>
@@ -346,14 +468,47 @@ export function initUxDemo() {
     `
   );
 
-  const PRESET_BASE = 'tw-flex-1 tw-text-center tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-leading-none tw-px-[8px] tw-py-[5px] tw-cursor-pointer';
-  const PRESET_INACTIVE = PRESET_BASE + ' tw-bg-transparent tw-text-[var(--grey-light)]';
-  const PRESET_ACTIVE = PRESET_BASE + ' tw-bg-primary-soft tw-text-primary';
   const MODE_BASE = 'tw-flex-1 tw-text-center tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-leading-none tw-px-[8px] tw-py-[5px] tw-cursor-pointer';
   const MODE_INACTIVE = MODE_BASE + ' tw-bg-transparent tw-text-[var(--grey-light)]';
   const MODE_ACTIVE = MODE_BASE + ' tw-bg-primary-soft tw-text-primary';
-  const CTRL = 'tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-leading-none tw-px-[8px] tw-py-[5px] tw-rounded-[5px] tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-dark)] tw-text-[var(--grey-light)] tw-cursor-pointer tw-shadow-subtle hover:tw-border-[var(--accent-border)] hover:tw-bg-primary-soft hover:tw-text-primary hover:tw-shadow-raised hover:tw-filter-none';
-  const CTRL_ACTIVE = 'tw-flex-1 tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-leading-none tw-px-[8px] tw-py-[5px] tw-rounded-[5px] tw-border tw-border-[var(--accent-border)] tw-bg-primary-soft tw-text-primary tw-cursor-pointer tw-shadow-subtle';
+
+  mount(
+    'ux-demo-step-control',
+    `
+      <div class="ux-demo">
+        <div id="ux-demo-step-mount"></div>
+      </div>
+    `
+  );
+
+  const stepMount = document.getElementById('ux-demo-step-mount');
+  if (stepMount) {
+    let currentStep = 0;
+    const totalSteps = 4;
+    const ctrl = createStepPlaybackControl({
+      mountEl: stepMount,
+      idPrefix: 'demo-standalone-step',
+      showReset: true,
+      playLabel: 'Play Steps',
+      totalSteps,
+      currentStep,
+      onReset: () => {
+        currentStep = 0;
+        ctrl.update({ currentStep, isPlaying: false });
+      },
+      onStepBack: () => {
+        if (currentStep > 0) currentStep--;
+        ctrl.update({ currentStep, isPlaying: false });
+      },
+      onStepForward: () => {
+        if (currentStep < totalSteps - 1) currentStep++;
+        ctrl.update({ currentStep, isPlaying: false });
+      },
+      onTogglePlay: (isPlaying) => {
+        ctrl.update({ currentStep, isPlaying: !isPlaying });
+      }
+    });
+  }
 
   mount(
     'ux-demo-layout',
@@ -361,8 +516,8 @@ export function initUxDemo() {
       <div class="ux-demo">
         <div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
           <div class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
-            <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">Quaternion SLERP vs Euler LERP Flight Simulator</div>
-            <div class="tw-text-sm tw-text-[var(--grey-light)]">3D Geodesic vs Decoupled Interpolation</div>
+            <div class="tw-font-sans tw-text-sm tw-font-semibold tw-leading-tight tw-text-primary">Quaternion SLERP vs Euler LERP Flight Simulator</div>
+            <div class="tw-text-sm tw-leading-tight tw-text-[var(--grey-light)]">3D Geodesic vs Decoupled Interpolation</div>
           </div>
           <div class="tw-grid tw-grid-cols-[335px_1fr] tw-gap-2.5 tw-p-2.5 max-[860px]:tw-grid-cols-1">
             <form class="tw-flex tw-flex-col tw-gap-3">
@@ -378,12 +533,12 @@ export function initUxDemo() {
                 </div>
               </div>
               <div class="tw-flex tw-flex-col tw-gap-1">
-                <span class="tw-font-sans tw-text-[0.7rem] tw-tracking-[0.04em] tw-text-[var(--grey-light)]">Preset</span>
-                <div class="tw-flex tw-w-full tw-border tw-border-[var(--ring-border)] tw-rounded-[6px] tw-bg-[var(--grey-dark)] tw-shadow-subtle tw-overflow-hidden">
-                  <button type="button" class="js-preset ${PRESET_ACTIVE}">Gimbal 90°</button>
-                  <button type="button" class="js-preset ${PRESET_INACTIVE}">Aerobatic Flip</button>
-                  <button type="button" class="js-preset ${PRESET_INACTIVE}">Banked Turn</button>
-                </div>
+                <label class="tw-font-sans tw-text-[0.7rem] tw-tracking-[0.04em] tw-text-[var(--grey-light)]" for="widget-preset">Flight path preset</label>
+                <select class="ux-select" id="widget-preset" aria-label="Flight path preset">
+                  <option value="gimbal">Gimbal 90°</option>
+                  <option value="flip">Aerobatic Flip</option>
+                  <option value="turn">Banked Turn</option>
+                </select>
               </div>
               <div class="tw-flex tw-flex-col tw-gap-1">
                 <div class="tw-flex tw-items-center tw-justify-between">
@@ -392,26 +547,32 @@ export function initUxDemo() {
                 </div>
                 <input type="range" class="ux-range" id="widget-t" min="0" max="1" step="0.01" value="0" style="--range-fill: 0%">
               </div>
-              <div class="tw-flex tw-gap-[6px]">
-                <button class="${CTRL}" type="button">&#8249; Step back</button>
-                <button class="${CTRL_ACTIVE}" type="button">&#9654; Play Flight</button>
-                <button class="${CTRL}" type="button">Step forward &#8250;</button>
-              </div>
+              <div id="ux-layout-playback-mount"></div>
               <button class="ux-btn tw-w-full" type="button">&#9654; Launch simulation</button>
-              <div class="tw-font-serif tw-text-[0.85rem] tw-leading-relaxed tw-text-[var(--grey-light)] tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-3 tw-py-2">The preset description and current mode.</div>
+              
+              <!-- Passive card with title -->
+              <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-overflow-hidden">
+                <div class="tw-font-sans tw-text-[0.72rem] tw-font-semibold tw-tracking-[0.04em] tw-leading-tight tw-text-primary tw-px-3 tw-py-1.5 tw-border-b tw-border-[var(--ring-border)] tw-flex tw-justify-between tw-items-center">
+                  <span>Configuration Summary</span>
+                  <span class="tw-font-mono tw-text-[0.65rem] tw-text-[var(--grey-light)]" id="telemetry-badge">Geodesic S³</span>
+                </div>
+                <div class="tw-font-serif tw-text-[0.8rem] tw-leading-relaxed tw-text-[var(--grey-light)] tw-p-3" id="widget-card-desc">
+                  90° pitch rotation maintaining constant angular velocity along the geodesic arc.
+                </div>
+              </div>
             </form>
             <div class="tw-relative tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[10px] tw-min-h-[320px] tw-overflow-hidden">
-              <div class="tw-absolute tw-top-2 tw-left-2 tw-flex tw-items-center tw-gap-1.5 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-[6px] tw-px-2.5 tw-py-1.5 tw-font-sans tw-text-[11px] tw-text-[var(--grey-light)]">
-                <span class="tw-font-semibold tw-text-primary" id="canvas-mode-label">SLERP</span>
+              <div class="tw-absolute tw-top-2 tw-left-2 tw-flex tw-items-center tw-gap-1.5 tw-bg-[var(--grey-dark)] tw-rounded-[6px] tw-px-2.5 tw-py-1.5 tw-font-sans tw-text-[11px] tw-text-[var(--grey-light)]">
+                <span class="tw-font-semibold tw-text-primary" id="canvas-mode-label">Quaternion SLERP</span>
                 <span class="tw-text-[var(--grey)]">/</span>
                 <span id="canvas-t-value">t = 0.00</span>
               </div>
-              <div class="tw-absolute tw-bottom-2 tw-left-2 tw-flex tw-items-center tw-gap-3 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-[6px] tw-px-2.5 tw-py-1.5 tw-font-sans tw-text-[11px] tw-text-[var(--grey-light)]">
+              <div class="tw-absolute tw-bottom-2 tw-left-2 tw-flex tw-items-center tw-gap-3 tw-bg-[var(--grey-dark)] tw-rounded-[6px] tw-px-2.5 tw-py-1.5 tw-font-sans tw-text-[11px] tw-text-[var(--grey-light)]">
                 <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-h-2 tw-w-2 tw-rounded-full" style="background: rgb(var(--primary))"></span>Body</span>
                 <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-h-2 tw-w-2 tw-rounded-full" style="background: var(--grey-light)"></span>Path</span>
                 <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-h-2 tw-w-2 tw-rounded-full" style="background: var(--grey)"></span>Axis</span>
               </div>
-              <div class="tw-absolute tw-bottom-2 tw-right-2 tw-flex tw-h-16 tw-w-24 tw-items-center tw-justify-center tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-[6px] tw-font-sans tw-text-[10px] tw-text-[var(--grey-light)]">Minimap</div>
+              <div class="tw-absolute tw-bottom-2 tw-right-2 tw-flex tw-h-16 tw-w-24 tw-items-center tw-justify-center tw-bg-[var(--grey-dark)] tw-rounded-[6px] tw-font-sans tw-text-[10px] tw-text-[var(--grey-light)]">Minimap</div>
             </div>
           </div>
         </div>
@@ -421,13 +582,22 @@ export function initUxDemo() {
 
   const widget = document.getElementById('ux-demo-layout');
   if (widget) {
-    widget.querySelectorAll('.js-preset').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        widget.querySelectorAll('.js-preset').forEach((b) => {
-          b.className = 'js-preset ' + (b === btn ? PRESET_ACTIVE : PRESET_INACTIVE);
-        });
+    const PRESET_DESCS = {
+      gimbal: '90° pitch rotation maintaining constant angular velocity along the geodesic arc.',
+      flip: '180° pitch loop demonstrating geodesic continuity and singularity prevention.',
+      turn: 'Coordinated roll and yaw coupling smoothly interpolated on the rotation manifold.'
+    };
+
+    const presetSelect = widget.querySelector('#widget-preset');
+    const cardDesc = widget.querySelector('#widget-card-desc');
+    const telemetryBadge = widget.querySelector('#telemetry-badge');
+
+    if (presetSelect && cardDesc) {
+      presetSelect.addEventListener('change', () => {
+        cardDesc.textContent = PRESET_DESCS[presetSelect.value] || PRESET_DESCS.gimbal;
       });
-    });
+    }
+
     widget.querySelectorAll('.js-mode').forEach((btn) => {
       btn.addEventListener('click', () => {
         widget.querySelectorAll('.js-mode').forEach((b) => {
@@ -435,20 +605,99 @@ export function initUxDemo() {
         });
         const modeLabel = widget.querySelector('#canvas-mode-label');
         if (modeLabel) modeLabel.textContent = btn.textContent;
+        if (telemetryBadge) {
+          telemetryBadge.textContent = btn.textContent.includes('SLERP') ? 'Geodesic S³' : 'Euler Decoupled';
+        }
       });
     });
+
     const slider = widget.querySelector('input[type="range"]');
     const tValue = widget.querySelector('#widget-t-value');
     const canvasT = widget.querySelector('#canvas-t-value');
+
+    let animId = null;
+    let layoutCtrl = null;
+
+    const syncFill = () => {
+      const pct = (Number(slider.value) / (Number(slider.max) - Number(slider.min))) * 100;
+      slider.style.setProperty('--range-fill', pct + '%');
+      if (tValue) tValue.textContent = 't = ' + Number(slider.value).toFixed(2);
+      if (canvasT) canvasT.textContent = 't = ' + Number(slider.value).toFixed(2);
+    };
+
+    const playbackMount = widget.querySelector('#ux-layout-playback-mount');
+    if (playbackMount) {
+      layoutCtrl = createStepPlaybackControl({
+        mountEl: playbackMount,
+        idPrefix: 'ux-layout-ctrl',
+        showReset: true,
+        playLabel: 'Play Flight',
+        totalSteps: 100,
+        currentStep: 0,
+        onReset: () => {
+          if (animId) cancelAnimationFrame(animId);
+          if (slider) {
+            slider.value = 0;
+            syncFill();
+          }
+          layoutCtrl.update({ currentStep: 0, isPlaying: false });
+        },
+        onStepBack: () => {
+          if (animId) cancelAnimationFrame(animId);
+          if (slider) {
+            const nextVal = Math.max(0, Number((Number(slider.value) - 0.1).toFixed(2)));
+            slider.value = nextVal;
+            syncFill();
+            layoutCtrl.update({ currentStep: Math.round(nextVal * 100), isPlaying: false });
+          }
+        },
+        onStepForward: () => {
+          if (animId) cancelAnimationFrame(animId);
+          if (slider) {
+            const nextVal = Math.min(1, Number((Number(slider.value) + 0.1).toFixed(2)));
+            slider.value = nextVal;
+            syncFill();
+            layoutCtrl.update({ currentStep: Math.round(nextVal * 100), isPlaying: false });
+          }
+        },
+        onTogglePlay: (isPlaying) => {
+          if (isPlaying) {
+            if (animId) cancelAnimationFrame(animId);
+            layoutCtrl.update({ isPlaying: false });
+          } else {
+            if (Number(slider.value) >= 1) {
+              slider.value = 0;
+              syncFill();
+            }
+            layoutCtrl.update({ isPlaying: true });
+            const playLoop = () => {
+              let val = Number(slider.value) + 0.01;
+              if (val >= 1) {
+                val = 1;
+                slider.value = 1;
+                syncFill();
+                layoutCtrl.update({ currentStep: 100, isPlaying: false });
+                return;
+              }
+              slider.value = val;
+              syncFill();
+              layoutCtrl.update({ currentStep: Math.round(val * 100), isPlaying: true });
+              animId = requestAnimationFrame(playLoop);
+            };
+            animId = requestAnimationFrame(playLoop);
+          }
+        }
+      });
+    }
+
     if (slider) {
-      const syncFill = () => {
-        const pct = (Number(slider.value) / (Number(slider.max) - Number(slider.min))) * 100;
-        slider.style.setProperty('--range-fill', pct + '%');
-        if (tValue) tValue.textContent = 't = ' + Number(slider.value).toFixed(2);
-        if (canvasT) canvasT.textContent = 't = ' + Number(slider.value).toFixed(2);
-      };
       syncFill();
-      slider.addEventListener('input', syncFill);
+      slider.addEventListener('input', () => {
+        syncFill();
+        if (layoutCtrl) {
+          layoutCtrl.update({ currentStep: Math.round(Number(slider.value) * 100), isPlaying: false });
+        }
+      });
     }
   }
 }

@@ -3,8 +3,8 @@ title: "UX Interaction Principles"
 summary: |
   The implementation reference for building UI. Design tokens, the typography and border conventions, the four interaction states, and the canonical two column widget layout, each shown with the CSS that implements it and a live example built from the real theme tokens.
 tags: ["design", "design system", "ux"]
-date: 2026-08-30T00:00:00Z
-draft: true
+date: 2015-01-01T00:00:00Z
+weight: 9999
 ---
 
 This note is the implementation reference for building UI on this site. It covers the design tokens, the font and border conventions, the interaction states, and the canonical widget layout. Every rule is shown with the CSS that implements it and, where useful, a live example built from the real theme tokens so it adapts to light and dark themes.
@@ -17,7 +17,7 @@ All surfaces use the theme CSS custom properties. Never hardcode hex colors. The
 | :--- | :--- | :--- |
 | `var(--grey-darker)` | Deep canvas backdrop | Widget background, plot surface |
 | `var(--grey-dark)` | Cards, headers, inset panels | Widget header, card background |
-| `var(--ring-border)` | Subtle outline for surfaces at rest | Resting border on cards, controls, swatches |
+| `var(--ring-border)` | Outline that marks interactive surfaces and widget boundaries | Resting border on controls, clickable cards, widget frames; passive surfaces are borderless |
 | `var(--grey)` | Mid-tone accents, completed badges | Badges, dividers |
 | `var(--grey-light)` | Secondary text and captions | Descriptions, axis labels |
 | `var(--grey-lighter)` | Primary text | Titles, emphasized labels |
@@ -34,8 +34,13 @@ The swatches below are the tokens that matter most for surfaces. `--primary` ren
 The site builds on Tailwind. Express these rules as Tailwind utilities rather than raw CSS, so the markup stays consistent with the codebase. The raw CSS in this note describes the intent. In markup, prefer the site's custom utilities where they exist (for example `tw-text-primary` for `rgb(var(--primary))`) and arbitrary values for the rest.
 
 ```html
-<!-- interactive card, as Tailwind utilities -->
+<!-- interactive card: ring outline + resting elevation mark it as clickable -->
 <div class="tw-rounded-lg tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-cursor-pointer tw-shadow-[0_2px_6px_rgba(0,0,0,0.35)]">
+  ...
+</div>
+
+<!-- passive card: flat surface, no border, no elevation -->
+<div class="tw-rounded-lg tw-bg-[var(--grey-dark)]">
   ...
 </div>
 ```
@@ -67,17 +72,17 @@ Headers and titles use the sans family. Content, labels, and descriptions use th
 
 ## Interactive and Passive Surfaces Differ
 
-Both a clickable element and a static block start from the same neutral surface, a subtle `var(--ring-border)` outline on the `var(--grey-dark)` background. The resting state carries no primary accent. Interactive surfaces add a resting elevation, a pointer cursor, and a chevron where one makes sense. Passive surfaces stay flat with no pointer cursor. The accent arrives only on hover and active states. This is the single most important rule. When two things share a border token, the border stops carrying information, so interactivity is signalled by elevation, cursor, and the accent that appears on hover.
+A passive surface is a flat `var(--grey-dark)` block with no border. An interactive surface starts from the same background but adds a `var(--ring-border)` outline, a resting elevation, a pointer cursor, and a chevron where one makes sense. The resting state carries no primary accent. The accent arrives only on hover and active states. This is the single most important rule: the ring border is reserved for what can be clicked, so the border itself carries the information. A static block has no border, and a clickable element does, which makes the interactive surfaces pop at a glance.
 
 ```css
 .passive-panel {
   background: var(--grey-dark);
-  border: 1px solid var(--ring-border); /* neutral outline, passive */
+  border: none; /* passive surfaces are borderless */
   cursor: default;
 }
 .interactive-card {
   background: var(--grey-dark);
-  border: 1px solid var(--ring-border); /* neutral at rest, same outline as passive */
+  border: 1px solid var(--ring-border); /* the outline marks the surface as clickable */
   cursor: pointer;
   box-shadow: var(--elevation-raised); /* resting drop shadow, more elevated than passive */
 }
@@ -94,7 +99,7 @@ Both a clickable element and a static block start from the same neutral surface,
 }
 ```
 
-The live example below uses the same classes. Cards share the same shape, but each state reads differently. The passive card is inert, flat, and default-cursor. The interactive card reads as clickable through its raised shadow, pointer cursor, and chevron. The active card is the current page or selected item, marked with a solid primary border and a primary-tinted background.
+The live example below uses the same classes. Cards share the same background, but the states read differently. The passive card is inert, flat, borderless, and default-cursor. The interactive card reads as clickable through its ring outline, raised shadow, pointer cursor, and chevron. The active card is the current page or selected item, marked with a solid primary border and a primary-tinted background.
 
 <div id="ux-demo-surfaces"></div>
 
@@ -167,7 +172,7 @@ Tags are compact pills for categories, series badges, and status. They follow th
 }
 .tag-neutral {
   background: var(--grey-dark);
-  border: 1px solid var(--grey-dark);
+  border: 1px solid var(--grey-dark); /* same color as the surface, invisible; keeps pill height equal to bordered tags */
   color: var(--grey-light);
 }
 .tag-primary {
@@ -334,7 +339,7 @@ A text input follows the same surface and border rules as the other controls. Th
   color: var(--grey-light);
   opacity: 0.6;
 }
-.input-field:hover,
+.input-field:hover:not(:disabled),
 .input-field-hover {
   border-color: var(--accent-border);
 }
@@ -348,10 +353,56 @@ A text input follows the same surface and border rules as the other controls. Th
 .input-field:disabled:hover {
   opacity: 0.45;
   cursor: not-allowed;
+  border-color: var(--ring-border);
+  box-shadow: none;
 }
 ```
 
 <div id="ux-demo-input"></div>
+
+## Dropdown / Select
+
+A select dropdown lets the user choose one option from a collapsible list. Like other controls, it uses a neutral `var(--ring-border)` border on `var(--grey-dark)` at rest. Hover brightens the border, and focus displays the primary focus ring.
+
+```css
+.select-field {
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: var(--family-serif, system-ui, serif);
+  font-size: 0.85rem;
+  line-height: 1.25;
+  padding: 6px 30px 6px 12px;
+  border-radius: 6px;
+  background: var(--grey-dark);
+  border: 1px solid var(--ring-border);
+  color: var(--grey-light);
+  box-shadow: var(--elevation-subtle);
+  width: 100%;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+.select-field:hover:not(:disabled) {
+  border-color: var(--accent-border);
+  color: var(--grey-lighter);
+}
+.select-field:focus-visible {
+  outline: 2px solid rgba(var(--primary), 0.6);
+  outline-offset: 2px;
+  border-color: var(--accent-border);
+}
+.select-field:disabled,
+.select-field:disabled:hover {
+  opacity: 0.45;
+  cursor: not-allowed;
+  border-color: var(--ring-border);
+  color: var(--grey-light);
+  box-shadow: none;
+}
+```
+
+<div id="ux-demo-select"></div>
 
 ## Links
 
@@ -392,8 +443,8 @@ A widget frame wraps content in an outer card with a header. The header uses a d
 ```html
 <div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
   <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
-    <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">Widget title</div>
-    <div class="tw-text-sm tw-text-[var(--grey-light)]">Optional descriptor</div>
+    <div class="tw-font-sans tw-text-sm tw-font-semibold tw-leading-tight tw-text-primary">Widget title</div>
+    <div class="tw-text-sm tw-leading-tight tw-text-[var(--grey-light)]">Optional descriptor</div>
   </header>
   <div class="tw-grid tw-grid-cols-[335px_1fr] tw-gap-2.5 tw-p-2.5">
     ...body content...
@@ -405,10 +456,10 @@ A widget frame wraps content in an outer card with a header. The header uses a d
 
 ### Metric Card
 
-A metric card is a compact passive surface that presents a single number with a small title above it and an optional caption below. It is used in grids to give a dashboard-style overview. The card centers its content: the title and caption use the serif content font, and the value uses the sans family so numerals stay legible at a glance. The value picks up the accent or a status color when it needs emphasis.
+A metric card is a compact passive surface that presents a single number with a small title above it and an optional caption below. It is used in grids to give a dashboard-style overview. Because the card is passive, it is a flat `var(--grey-dark)` block with no border. The card centers its content: the title and caption use the serif content font, and the value uses the sans family so numerals stay legible at a glance. The value picks up the accent or a status color when it needs emphasis.
 
 ```html
-<div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+<div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
   <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Util (theoretical)</div>
   <div class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-[var(--grey-lighter)]">75.0%</div>
   <div class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Cap: 4.0 req/s</div>
@@ -417,17 +468,37 @@ A metric card is a compact passive surface that presents a single number with a 
 
 <div id="ux-demo-metric-card"></div>
 
+### Step Playback Control
+
+Step playback bars control time-series, multi-phase transformation pipelines, and animations. The control groups four actions: Reset to origin (`↺`), Step back (`⏮`), Play/Pause/Replay (`▶ Play` / `⏸ Pause` / `↺ Replay`), and Step forward (`⏭`).
+
+At the boundaries, actions that cannot execute are disabled:
+- **Step Back & Reset** are disabled when at the start / origin step.
+- **Step Forward** is disabled when at the final completed step.
+- **Disabled state** uses `opacity: 0.45`, `cursor: not-allowed`, and suppresses hover shadows and filter glows (`disabled:tw-shadow-none disabled:hover:tw-shadow-none disabled:hover:tw-filter-none`).
+
+```html
+<div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-2 tw-flex tw-gap-1.5 tw-items-stretch">
+  <button type="button" class="tw-flex-none tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft hover:tw-shadow-raised disabled:tw-opacity-45 disabled:tw-cursor-not-allowed disabled:tw-shadow-none disabled:hover:tw-shadow-none disabled:hover:tw-filter-none" title="Reset to Start" disabled>↺</button>
+  <button type="button" class="tw-flex-none tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft hover:tw-shadow-raised disabled:tw-opacity-45 disabled:tw-cursor-not-allowed disabled:tw-shadow-none disabled:hover:tw-shadow-none disabled:hover:tw-filter-none" title="Step Back" disabled>⏮</button>
+  <button type="button" class="tw-flex-1 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center tw-gap-1 hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft hover:tw-shadow-raised"><span>▶ Play</span></button>
+  <button type="button" class="tw-flex-none tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft hover:tw-shadow-raised" title="Step Forward">⏭</button>
+</div>
+```
+
+<div id="ux-demo-step-control"></div>
+
 ### Two Columns: Controls Left, Canvas Right
 
-The canonical two column widget applies the widget frame with a two column body. The left column holds the controls, built as a form so every input element appears in one place, and the right column holds the canvas with three overlay readouts: a top-left legend that updates with the slider, a bottom-left legend, and a bottom-right minimap. Overlay fonts sit a half-step below the form labels so they annotate the viewport rather than compete with the inputs, and the minimap is the smallest as the tertiary element. The grid collapses to one column below `860px`.
+The canonical two column widget applies the widget frame with a two column body. The left column holds the controls form (text input, segmented single-select mode toggle, select dropdown, progress slider, and playback controls), while the right column holds the canvas with overlay readouts (top-left mode/progress badge, bottom-left legend, and bottom-right minimap).
 
-The widget is an application of the rules above. The preset and mode pickers are single-select groups, so only the active option is styled. The playback buttons are ctrls. The title uses the sans header font, and the labels and content use the serif font. Active states are applied by swapping in the active utility set, the same way the single-select control does.
+A card with a title within the left panel presents secondary status, telemetry, or preset summaries cleanly with an inset header.
 
 ```html
 <div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
   <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
-    <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">Quaternion SLERP vs Euler LERP Flight Simulator</div>
-    <div class="tw-text-sm tw-text-[var(--grey-light)]">3D Geodesic vs Decoupled Interpolation</div>
+    <div class="tw-font-sans tw-text-sm tw-font-semibold tw-leading-tight tw-text-primary">Quaternion SLERP vs Euler LERP Flight Simulator</div>
+    <div class="tw-text-sm tw-leading-tight tw-text-[var(--grey-light)]">3D Geodesic vs Decoupled Interpolation</div>
   </header>
   <div class="tw-grid tw-grid-cols-[335px_1fr] tw-gap-2.5 tw-p-2.5 max-[860px]:tw-grid-cols-1">
     <form class="tw-flex tw-flex-col tw-gap-3">
@@ -443,12 +514,12 @@ The widget is an application of the rules above. The preset and mode pickers are
         </div>
       </div>
       <div class="tw-flex tw-flex-col tw-gap-1">
-        <span class="tw-font-sans tw-text-[0.7rem] tw-tracking-[0.04em] tw-text-[var(--grey-light)]">Preset</span>
-        <div class="tw-flex tw-w-full tw-border tw-border-[var(--ring-border)] tw-rounded-[6px] tw-bg-[var(--grey-dark)] tw-shadow-subtle tw-overflow-hidden">
-          <button type="button" class="tw-flex-1 tw-text-center tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-leading-none tw-px-[8px] tw-py-[5px] tw-cursor-pointer tw-bg-primary-soft tw-text-primary">Gimbal 90°</button>
-          <button type="button" class="tw-flex-1 tw-text-center tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-leading-none tw-px-[8px] tw-py-[5px] tw-cursor-pointer tw-bg-transparent tw-text-[var(--grey-light)]">Aerobatic Flip</button>
-          <button type="button" class="tw-flex-1 tw-text-center tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-leading-none tw-px-[8px] tw-py-[5px] tw-cursor-pointer tw-bg-transparent tw-text-[var(--grey-light)]">Banked Turn</button>
-        </div>
+        <label class="tw-font-sans tw-text-[0.7rem] tw-tracking-[0.04em] tw-text-[var(--grey-light)]" for="widget-preset">Flight path preset</label>
+        <select class="select-field" id="widget-preset">
+          <option value="gimbal">Gimbal 90°</option>
+          <option value="flip">Aerobatic Flip</option>
+          <option value="turn">Banked Turn</option>
+        </select>
       </div>
       <div class="tw-flex tw-flex-col tw-gap-1">
         <div class="tw-flex tw-items-center tw-justify-between">
@@ -457,26 +528,37 @@ The widget is an application of the rules above. The preset and mode pickers are
         </div>
         <input type="range" class="range" id="widget-t" min="0" max="1" step="0.01" value="0" style="--range-fill: 0%">
       </div>
-      <div class="tw-flex tw-gap-[6px]">
-        <button type="button" class="tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-leading-none tw-px-[8px] tw-py-[5px] tw-rounded-[5px] tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-dark)] tw-text-[var(--grey-light)] tw-cursor-pointer tw-shadow-subtle hover:tw-border-[var(--accent-border)] hover:tw-bg-primary-soft hover:tw-text-primary hover:tw-shadow-raised hover:tw-filter-none">&#8249; Step back</button>
-        <button type="button" class="tw-flex-1 tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-leading-none tw-px-[8px] tw-py-[5px] tw-rounded-[5px] tw-border tw-border-[var(--accent-border)] tw-bg-primary-soft tw-text-primary tw-cursor-pointer tw-shadow-subtle">&#9654; Play Flight</button>
-        <button type="button" class="tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-leading-none tw-px-[8px] tw-py-[5px] tw-rounded-[5px] tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-dark)] tw-text-[var(--grey-light)] tw-cursor-pointer tw-shadow-subtle hover:tw-border-[var(--accent-border)] hover:tw-bg-primary-soft hover:tw-text-primary hover:tw-shadow-raised hover:tw-filter-none">Step forward &#8250;</button>
+      <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-2 tw-flex tw-gap-1.5 tw-items-stretch">
+        <button type="button" class="ctrl-btn" title="Reset to Start" disabled>↺</button>
+        <button type="button" class="ctrl-btn" title="Step Back" disabled>⏮</button>
+        <button type="button" class="play-btn"><span>▶ Play Flight</span></button>
+        <button type="button" class="ctrl-btn" title="Step Forward">⏭</button>
       </div>
       <button type="button" class="tw-w-full tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-leading-none tw-px-[8px] tw-py-[5px] tw-rounded-[6px] tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-dark)] tw-text-[var(--grey-light)] tw-cursor-pointer tw-shadow-subtle hover:tw-border-[var(--accent-border)] hover:tw-bg-primary-soft hover:tw-text-primary hover:tw-shadow-raised hover:tw-filter-none">&#9654; Launch simulation</button>
-      <div class="tw-font-serif tw-text-[0.85rem] tw-leading-relaxed tw-text-[var(--grey-light)] tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-3 tw-py-2">The preset description and current mode.</div>
+      
+      <!-- Passive card with title -->
+      <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-overflow-hidden">
+        <div class="tw-font-sans tw-text-[0.72rem] tw-font-semibold tw-tracking-[0.04em] tw-leading-tight tw-text-primary tw-px-3 tw-py-1.5 tw-border-b tw-border-[var(--ring-border)] tw-flex tw-justify-between tw-items-center">
+          <span>Configuration Summary</span>
+          <span class="tw-font-mono tw-text-[0.65rem] tw-text-[var(--grey-light)]">Geodesic S³</span>
+        </div>
+        <div class="tw-font-serif tw-text-[0.8rem] tw-leading-relaxed tw-text-[var(--grey-light)] tw-p-3">
+          90° pitch rotation maintaining constant angular velocity along the geodesic arc.
+        </div>
+      </div>
     </form>
     <div class="tw-relative tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[10px] tw-min-h-[320px] tw-overflow-hidden">
-      <div class="tw-absolute tw-top-2 tw-left-2 tw-flex tw-items-center tw-gap-1.5 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-[6px] tw-px-2.5 tw-py-1.5 tw-font-sans tw-text-[11px] tw-text-[var(--grey-light)]">
-        <span class="tw-font-semibold tw-text-primary">SLERP</span>
+      <div class="tw-absolute tw-top-2 tw-left-2 tw-flex tw-items-center tw-gap-1.5 tw-bg-[var(--grey-dark)] tw-rounded-[6px] tw-px-2.5 tw-py-1.5 tw-font-sans tw-text-[11px] tw-text-[var(--grey-light)]">
+        <span class="tw-font-semibold tw-text-primary">Quaternion SLERP</span>
         <span class="tw-text-[var(--grey)]">/</span>
         <span>t = 0.00</span>
       </div>
-      <div class="tw-absolute tw-bottom-2 tw-left-2 tw-flex tw-items-center tw-gap-3 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-[6px] tw-px-2.5 tw-py-1.5 tw-font-sans tw-text-[11px] tw-text-[var(--grey-light)]">
+      <div class="tw-absolute tw-bottom-2 tw-left-2 tw-flex tw-items-center tw-gap-3 tw-bg-[var(--grey-dark)] tw-rounded-[6px] tw-px-2.5 tw-py-1.5 tw-font-sans tw-text-[11px] tw-text-[var(--grey-light)]">
         <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-h-2 tw-w-2 tw-rounded-full" style="background: rgb(var(--primary))"></span>Body</span>
         <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-h-2 tw-w-2 tw-rounded-full" style="background: var(--grey-light)"></span>Path</span>
         <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-h-2 tw-w-2 tw-rounded-full" style="background: var(--grey)"></span>Axis</span>
       </div>
-      <div class="tw-absolute tw-bottom-2 tw-right-2 tw-flex tw-h-16 tw-w-24 tw-items-center tw-justify-center tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-[6px] tw-font-sans tw-text-[10px] tw-text-[var(--grey-light)]">Minimap</div>
+      <div class="tw-absolute tw-bottom-2 tw-right-2 tw-flex tw-h-16 tw-w-24 tw-items-center tw-justify-center tw-bg-[var(--grey-dark)] tw-rounded-[6px] tw-font-sans tw-text-[10px] tw-text-[var(--grey-light)]">Minimap</div>
     </div>
   </div>
 </div>
