@@ -838,7 +838,7 @@ export function avatarGuitarMain() {
     )
     avatars.forEach((avatar) => {
       avatar.style.cursor = 'pointer'
-      avatar.setAttribute('title', '🥀 Click to play Sheena Ringo - Crime and Punishment (罪と罰)!')
+      avatar.setAttribute('title', '🥀 Click to play/pause Sheena Ringo - Crime and Punishment (罪と罰)!')
 
       setupAvatarMiniPlayer(avatar)
 
@@ -846,8 +846,7 @@ export function avatarGuitarMain() {
         e.preventDefault()
         e.stopPropagation()
         if (isPlaying) {
-          // If playing, advance to next verse
-          playVerse((phraseIndex + 1) % getCurrentSong().phrases.length, avatar)
+          stopPlayback()
         } else {
           playVerse(phraseIndex, avatar)
         }
