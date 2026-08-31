@@ -177,13 +177,13 @@ export function initCombiningTransformationsExplorer(mountSelector = '#transform
   const PRESET_INACTIVE = PRESET_BASE + ' tw-bg-transparent tw-text-[var(--grey-light)]'
   const PRESET_ACTIVE = PRESET_BASE + ' tw-bg-primary-soft tw-text-primary'
 
-  const CTRL_BTN = 'tw-flex-none tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center tw-whitespace-nowrap hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft disabled:tw-opacity-45 disabled:tw-cursor-not-allowed disabled:hover:tw-border-[var(--ring-border)] disabled:hover:tw-text-[var(--grey-light)] disabled:hover:tw-bg-[var(--grey-dark)]'
+  const CTRL_BTN = 'tw-flex-none tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center tw-whitespace-nowrap hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft hover:tw-shadow-raised disabled:tw-opacity-45 disabled:tw-cursor-not-allowed disabled:tw-shadow-none disabled:hover:tw-shadow-none disabled:hover:tw-border-[var(--ring-border)] disabled:hover:tw-text-[var(--grey-light)] disabled:hover:tw-bg-[var(--grey-dark)] disabled:hover:tw-filter-none'
   const PLAY_NEUTRAL = 'tw-flex-1 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center tw-gap-1 tw-whitespace-nowrap hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft'
   const PLAY_ACTIVE = 'tw-flex-1 tw-bg-primary-soft tw-border tw-border-primary-border tw-text-primary tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-flex tw-items-center tw-justify-center tw-gap-1 tw-whitespace-nowrap hover:tw-bg-primary-soft hover:tw-border-primary'
 
-  const STEP_ROW_BASE = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1.5 tw-rounded-md tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-dark)] tw-transition'
+  const STEP_ROW_BASE = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1.5 tw-rounded-md tw-border tw-border-transparent tw-bg-[var(--grey-dark)] tw-transition'
   const STEP_ROW_ACTIVE = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1.5 tw-rounded-md tw-border tw-border-[rgba(var(--primary),0.6)] tw-bg-[rgba(var(--primary),0.08)] tw-transition'
-  const STEP_ROW_COMPLETED = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1.5 tw-rounded-md tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-dark)] tw-opacity-55 tw-pointer-events-none'
+  const STEP_ROW_COMPLETED = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1.5 tw-rounded-md tw-border tw-border-transparent tw-bg-[var(--grey-dark)] tw-opacity-55 tw-pointer-events-none'
 
   const STEP_BADGE_BASE = 'tw-w-[18px] tw-h-[18px] tw-rounded-full tw-text-[10px] tw-font-bold tw-flex tw-items-center tw-justify-center tw-bg-[var(--grey-darker)] tw-text-[var(--grey-light)] tw-shrink-0'
   const STEP_BADGE_ACTIVE = 'tw-w-[18px] tw-h-[18px] tw-rounded-full tw-text-[10px] tw-font-bold tw-flex tw-items-center tw-justify-center tw-bg-[rgb(var(--primary))] tw-text-[var(--grey-darker)] tw-shrink-0'
@@ -228,7 +228,7 @@ export function initCombiningTransformationsExplorer(mountSelector = '#transform
           </div>
 
           <!-- Preset Description Callout -->
-          <div id="preset-desc-box" class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-2 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)] tw-min-h-[30px]">
+          <div id="preset-desc-box" class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-2 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)] tw-min-h-[30px]">
             ${renderTextWithMath(PRESETS.trs.description)}
           </div>
 
@@ -244,7 +244,7 @@ export function initCombiningTransformationsExplorer(mountSelector = '#transform
           </div>
 
           <!-- Playback Controls -->
-          <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-2 tw-flex tw-gap-1.5 tw-items-stretch">
+          <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-2 tw-flex tw-gap-1.5 tw-items-stretch">
             <button type="button" id="btn-reset" class="${CTRL_BTN}" title="Reset to Origin">
               ↺
             </button>
@@ -260,12 +260,12 @@ export function initCombiningTransformationsExplorer(mountSelector = '#transform
           </div>
 
           <!-- Live 4x4 Matrix Display -->
-          <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-2">
+          <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-2">
             <div class="tw-font-sans tw-text-[0.75rem] tw-font-semibold tw-text-[var(--grey-light)] tw-tracking-[0.05em] tw-mb-1 tw-flex tw-justify-between tw-items-center">
               <span>Accumulated Matrix ${renderMath('\\mathbf{M}')}</span>
               <span class="tw-font-mono tw-text-[0.625rem] tw-text-[var(--grey-light)]">4×4 Float32</span>
             </div>
-            <div id="matrix-grid-display" class="tw-grid tw-grid-cols-4 tw-gap-0.5 tw-bg-[var(--grey-darker)] tw-p-1 tw-rounded-[5px] tw-font-mono tw-text-[11px] tw-text-center tw-border tw-border-[var(--ring-border)]">
+            <div id="matrix-grid-display" class="tw-grid tw-grid-cols-4 tw-gap-0.5 tw-bg-[var(--grey-darker)] tw-p-1 tw-rounded-[5px] tw-font-mono tw-text-[11px] tw-text-center">
               <!-- Populated dynamically -->
             </div>
           </div>
@@ -275,7 +275,7 @@ export function initCombiningTransformationsExplorer(mountSelector = '#transform
         <div class="tw-relative tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[10px] tw-min-h-[320px] tw-overflow-hidden">
           <div id="three-canvas-container" class="tw-w-full tw-h-full tw-min-h-[340px]"></div>
 
-          <div class="tw-absolute tw-bottom-2.5 tw-left-2.5 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-px-2 tw-py-1 tw-rounded-md tw-text-[11px] tw-text-[var(--grey-light)] tw-pointer-events-none tw-flex tw-items-center tw-gap-x-3 tw-gap-y-1 tw-flex-wrap">
+          <div class="tw-absolute tw-bottom-2.5 tw-left-2.5 tw-bg-[var(--grey-dark)] tw-px-2 tw-py-1 tw-rounded-md tw-text-[11px] tw-text-[var(--grey-light)] tw-pointer-events-none tw-flex tw-items-center tw-gap-x-3 tw-gap-y-1 tw-flex-wrap">
             <span class="tw-inline-flex tw-items-center tw-gap-1">
               <span class="tw-inline-block tw-w-[7px] tw-h-[7px] tw-rounded-full tw-bg-[#ec5975]"></span> Model (+X/Y/Z)
             </span>
@@ -383,10 +383,15 @@ export function initCombiningTransformationsExplorer(mountSelector = '#transform
     const preset = PRESETS[currentPresetKey]
     const lastIdx = preset.steps.length - 1
     const completedCount = engine.currentStepIndex
+    const isAtStart = completedCount < 0
     const isDone = completedCount >= lastIdx
     renderStepRows(completedCount, isDone)
     const stepForwardBtn = mountEl.querySelector('#btn-step-forward')
+    const stepBackBtn = mountEl.querySelector('#btn-step-back')
+    const resetBtn = mountEl.querySelector('#btn-reset')
     if (stepForwardBtn) stepForwardBtn.disabled = isDone
+    if (stepBackBtn) stepBackBtn.disabled = isAtStart
+    if (resetBtn) resetBtn.disabled = isAtStart
   }
 
   // Engine Event Listeners

@@ -27,6 +27,7 @@ export function initQuaternionSlerpExplorer(containerId = 'quaternion-slerp-expl
   const MODE_INACTIVE = MODE_BASE + ' tw-bg-transparent tw-text-[var(--grey-light)]'
   const MODE_ACTIVE = MODE_BASE + ' tw-bg-primary-soft tw-text-primary'
   const PLAY_NEUTRAL = 'tw-flex-1 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center tw-gap-1 hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft'
+  const CTRL_BTN = 'tw-flex-none tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft hover:tw-shadow-raised disabled:tw-opacity-45 disabled:tw-cursor-not-allowed disabled:tw-shadow-none disabled:hover:tw-shadow-none disabled:hover:tw-border-[var(--ring-border)] disabled:hover:tw-text-[var(--grey-light)] disabled:hover:tw-bg-[var(--grey-dark)] disabled:hover:tw-filter-none'
   const PLAY_ACTIVE = 'tw-flex-1 tw-bg-primary-soft tw-border tw-border-primary-border tw-text-primary tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-cursor-pointer tw-flex tw-items-center tw-justify-center tw-gap-1 hover:tw-bg-primary-soft hover:tw-border-primary'
   const BADGE_POS = 'tw-absolute tw-top-2.5 tw-right-2.5 tw-pointer-events-none'
 
@@ -46,11 +47,12 @@ export function initQuaternionSlerpExplorer(containerId = 'quaternion-slerp-expl
       .slerp-code-block .tok-number { color: #fbbf24; }
       .slerp-code-block .tok-class { color: #38bdf8; }
       .slerp-code-block .tok-fn { color: #34d399; }
-      .slerp-badge-tag { font-size: 10.5px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
-      .slerp-badge-good { background: rgba(80, 200, 120, 0.15); color: #50c878; border: 1px solid rgba(80, 200, 120, 0.3); }
-      .slerp-badge-warn { background: rgba(255, 180, 60, 0.15); color: #ffb43c; border: 1px solid rgba(255, 180, 60, 0.3); }
+      .slerp-badge-tag { font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
+      .slerp-badge-good { background: rgba(80, 200, 120, 0.15); color: #50c878; }
+      .slerp-badge-warn { background: rgba(255, 180, 60, 0.15); color: #ffb43c; }
       #quaternion-slerp-explorer .slerp-code-block { font-size: 0.625rem; }
       #quaternion-slerp-explorer .katex { font-size: 0.8em !important; }
+      #quaternion-slerp-explorer #slerp-overlay .katex { font-size: 1.15em !important; }
     </style>
 
     <div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden tw-font-sans">
@@ -63,38 +65,40 @@ export function initQuaternionSlerpExplorer(containerId = 'quaternion-slerp-expl
           </svg>
           Quaternion SLERP vs Euler LERP Flight Simulator
         </div>
-        <div class="tw-font-serif tw-text-sm tw-text-[var(--grey-light)]">3D Geodesic vs Decoupled Interpolation</div>
+        <div class="tw-font-serif tw-text-sm tw-text-[var(--grey-light)]">Interactive Three.js visualizer</div>
       </div>
 
-      <div class="tw-grid tw-grid-cols-[335px_1fr] tw-gap-2.5 tw-p-2.5 tw-font-serif max-[860px]:tw-grid-cols-1">
+      <div class="tw-grid tw-grid-cols-[330px_1fr] tw-gap-2.5 tw-p-2.5 tw-font-serif max-[860px]:tw-grid-cols-1">
+        <!-- Left Panel: Controls -->
         <div class="tw-flex tw-flex-col tw-gap-2">
-          <!-- Presets -->
-          <div class="tw-flex tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-bg-[var(--grey-dark)] tw-shadow-subtle tw-overflow-hidden">
-            <button type="button" class="${PRESET_ACTIVE}" data-preset="gimbal_lock">Gimbal 90°</button>
-            <button type="button" class="${PRESET_INACTIVE}" data-preset="aerobatic_flip">Aerobatic Flip</button>
-            <button type="button" class="${PRESET_INACTIVE}" data-preset="diagonal_turn">Banked Turn</button>
+
+          <!-- Preset selector (segmented) -->
+          <div class="tw-flex tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-bg-[var(--grey-dark)] tw-shadow-subtle tw-overflow-hidden" id="slerp-preset-buttons">
+            <button type="button" data-preset="gimbal_lock" class="${PRESET_ACTIVE}">Gimbal 90°</button>
+            <button type="button" data-preset="aerobatic_flip" class="${PRESET_INACTIVE}">Aerobatic Flip</button>
+            <button type="button" data-preset="diagonal_turn" class="${PRESET_INACTIVE}">Banked Turn</button>
           </div>
 
-          <!-- Mode Toggle -->
-          <div class="tw-flex tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-bg-[var(--grey-dark)] tw-shadow-subtle tw-overflow-hidden">
-            <button type="button" class="${MODE_ACTIVE}" data-mode="slerp">Quaternion SLERP</button>
-            <button type="button" class="${MODE_INACTIVE}" data-mode="euler">Euler Angle LERP</button>
+          <!-- Interpolation Mode selector (segmented) -->
+          <div class="tw-flex tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-bg-[var(--grey-dark)] tw-shadow-subtle tw-overflow-hidden" id="slerp-mode-buttons">
+            <button type="button" data-mode="slerp" class="${MODE_ACTIVE}">Quaternion SLERP</button>
+            <button type="button" data-mode="euler" class="${MODE_INACTIVE}">Euler Angle LERP</button>
           </div>
 
           <!-- Preset Description -->
-          <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-2 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)] tw-min-h-[30px]" id="slerp-desc"></div>
+          <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-2 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)] tw-min-h-[30px]" id="slerp-desc"></div>
 
           <!-- Playback Controls + Slider -->
-          <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-gap-1.5">
+          <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-gap-1.5">
             <div class="tw-flex tw-gap-1.5 tw-items-stretch">
-            <button type="button" class="tw-flex-none tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft" id="slerp-btn-prev" title="Step Back">
+            <button type="button" class="${CTRL_BTN}" id="slerp-btn-prev" title="Step Back">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2.5"></line></svg>
             </button>
             <button type="button" class="${PLAY_NEUTRAL}" id="slerp-btn-play">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
               <span>Play Flight</span>
             </button>
-            <button type="button" class="tw-flex-none tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.85rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft" id="slerp-btn-next" title="Step Forward">
+            <button type="button" class="${CTRL_BTN}" id="slerp-btn-next" title="Step Forward">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2.5"></line></svg>
             </button>
             </div>
@@ -108,11 +112,11 @@ export function initQuaternionSlerpExplorer(containerId = 'quaternion-slerp-expl
 
         <!-- 3D Canvas -->
         <div class="tw-relative tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[10px] tw-min-h-[320px] tw-overflow-hidden" id="slerp-canvas-container">
-          <div class="tw-absolute tw-bottom-2.5 tw-left-2.5 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-px-2 tw-py-1 tw-rounded-md tw-text-[11px] tw-text-[var(--grey-light)] tw-pointer-events-none tw-flex tw-items-center tw-gap-x-3 tw-gap-y-1 tw-flex-wrap" id="slerp-overlay">
-            <span class="tw-inline-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: #ef4444;"></span> +X (Forward)</span>
-            <span class="tw-inline-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: #22c55e;"></span> +Y (Up)</span>
-            <span class="tw-inline-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: #3b82f6;"></span> +Z (Right)</span>
-            <span class="tw-inline-flex tw-items-center tw-gap-1" id="slerp-legend-axis"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: #fbbf24;"></span> Axis $\\hat{\\mathbf{n}}$</span>
+          <div class="tw-absolute tw-bottom-2.5 tw-left-2.5 tw-bg-[var(--grey-dark)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-text-xs tw-text-[var(--grey-light)] tw-pointer-events-none tw-flex tw-items-center tw-gap-x-3.5 tw-whitespace-nowrap" id="slerp-overlay">
+            <span class="tw-inline-flex tw-items-center tw-gap-1.5"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: #ef4444;"></span> +X (Forward)</span>
+            <span class="tw-inline-flex tw-items-center tw-gap-1.5"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: #22c55e;"></span> +Y (Up)</span>
+            <span class="tw-inline-flex tw-items-center tw-gap-1.5"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: #3b82f6;"></span> +Z (Right)</span>
+            <span class="tw-inline-flex tw-items-center tw-gap-1.5" id="slerp-legend-axis"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: #fbbf24;"></span> ${renderTextWithMath('Axis $\\hat{\\mathbf{n}}$')}</span>
           </div>
           <span id="slerp-status-badge" class="slerp-badge-tag slerp-badge-good tw-absolute tw-top-2.5 tw-right-2.5 tw-pointer-events-none">Shortest Geodesic (S³)</span>
         </div>
@@ -120,9 +124,9 @@ export function initQuaternionSlerpExplorer(containerId = 'quaternion-slerp-expl
 
       <!-- Three.js Code Card (full width, below the simulator) -->
       <div class="tw-p-2.5 tw-pt-0 tw-font-serif">
-        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-2">
+        <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-2">
           <div class="tw-font-sans tw-text-[0.75rem] tw-font-semibold tw-text-[var(--grey-lighter)] tw-mb-1">Three.js Code</div>
-          <pre class="slerp-code-block tw-m-0 tw-p-2 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded tw-font-mono tw-text-[0.6875rem] tw-leading-relaxed tw-text-[var(--grey-lighter)] tw-whitespace-pre-wrap tw-overflow-x-hidden" id="slerp-code">const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, 0))</pre>
+          <pre class="slerp-code-block tw-m-0 tw-p-2 tw-bg-[var(--grey-darker)] tw-rounded tw-font-mono tw-text-[0.6875rem] tw-leading-relaxed tw-text-[var(--grey-lighter)] tw-whitespace-pre-wrap tw-overflow-x-hidden" id="slerp-code">const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, 0))</pre>
         </div>
       </div>
     </div>
@@ -216,6 +220,11 @@ export function initQuaternionSlerpExplorer(containerId = 'quaternion-slerp-expl
       statusBadge.className = `slerp-badge-tag slerp-badge-warn ${BADGE_POS}`
       statusBadge.textContent = 'Euler Decoupled (Distorted)'
     }
+
+    const prevBtn = root.querySelector('#slerp-btn-prev')
+    const nextBtn = root.querySelector('#slerp-btn-next')
+    if (prevBtn) prevBtn.disabled = state.t <= 0.0001
+    if (nextBtn) nextBtn.disabled = state.t >= 0.9999
 
     // Play button icon
     if (state.isPlaying) {

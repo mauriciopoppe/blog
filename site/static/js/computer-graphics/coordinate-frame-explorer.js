@@ -35,13 +35,13 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
   const PRESET_INACTIVE = PRESET_BASE + ' tw-bg-transparent tw-text-[var(--grey-light)]'
   const PRESET_ACTIVE = PRESET_BASE + ' tw-bg-primary-soft tw-text-primary'
 
-  const CTRL_BTN = 'tw-flex-none tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center tw-whitespace-nowrap hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft disabled:tw-opacity-45 disabled:tw-cursor-not-allowed disabled:hover:tw-border-[var(--ring-border)] disabled:hover:tw-text-[var(--grey-light)] disabled:hover:tw-bg-[var(--grey-dark)]'
+  const CTRL_BTN = 'tw-flex-none tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center tw-whitespace-nowrap hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft hover:tw-shadow-raised disabled:tw-opacity-45 disabled:tw-cursor-not-allowed disabled:tw-shadow-none disabled:hover:tw-shadow-none disabled:hover:tw-border-[var(--ring-border)] disabled:hover:tw-text-[var(--grey-light)] disabled:hover:tw-bg-[var(--grey-dark)] disabled:hover:tw-filter-none'
   const PLAY_NEUTRAL = 'tw-flex-1 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center tw-gap-1 tw-whitespace-nowrap hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft'
   const PLAY_ACTIVE = 'tw-flex-1 tw-bg-primary-soft tw-border tw-border-primary-border tw-text-primary tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-flex tw-items-center tw-justify-center tw-gap-1 tw-whitespace-nowrap hover:tw-bg-primary-soft hover:tw-border-primary'
 
-  const STEP_ROW_BASE = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1 tw-rounded-md tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-dark)] tw-transition'
+  const STEP_ROW_BASE = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1 tw-rounded-md tw-border tw-border-transparent tw-bg-[var(--grey-dark)] tw-transition'
   const STEP_ROW_ACTIVE = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1 tw-rounded-md tw-border tw-border-[rgba(var(--primary),0.6)] tw-bg-[rgba(var(--primary),0.08)] tw-transition'
-  const STEP_ROW_COMPLETED = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1 tw-rounded-md tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-dark)] tw-opacity-55 tw-pointer-events-none'
+  const STEP_ROW_COMPLETED = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1 tw-rounded-md tw-border tw-border-transparent tw-bg-[var(--grey-dark)] tw-opacity-55 tw-pointer-events-none'
 
   const STEP_BADGE_BASE = 'tw-w-[18px] tw-h-[18px] tw-rounded-full tw-text-[10px] tw-font-bold tw-flex tw-items-center tw-justify-center tw-bg-[var(--grey-darker)] tw-text-[var(--grey-light)] tw-shrink-0'
   const STEP_BADGE_ACTIVE = 'tw-w-[18px] tw-h-[18px] tw-rounded-full tw-text-[10px] tw-font-bold tw-flex tw-items-center tw-justify-center tw-bg-[rgb(var(--primary))] tw-text-[var(--grey-darker)] tw-shrink-0'
@@ -65,13 +65,16 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
         animation: coord-flash 1.2s ease-out;
       }
       #coordinate-frame-simulator .katex {
-        font-size: 0.8em !important;
+        font-size: 0.85em !important;
       }
       #coordinate-frame-simulator .step-symbol .katex {
         font-size: 1.25em !important;
       }
       #coordinate-frame-simulator .coord-chip .katex {
-        font-size: 1.15em !important;
+        font-size: 0.95em !important;
+      }
+      #coordinate-frame-simulator .coord-legend .katex {
+        font-size: 0.95em !important;
       }
     </style>
 
@@ -101,7 +104,7 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
           </div>
 
           <!-- Description Callout -->
-          <div id="frame-desc-box" class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)] tw-min-h-[30px]">
+          <div id="frame-desc-box" class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)] tw-min-h-[30px]">
             ${FRAME_PRESETS.default_camera.description}${cameraRevealNote}
           </div>
 
@@ -111,7 +114,7 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
           </div>
 
           <!-- Playback Controls -->
-          <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-flex tw-gap-1.5 tw-items-stretch">
+          <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-flex tw-gap-1.5 tw-items-stretch">
             <button type="button" id="btn-frame-reset" class="${CTRL_BTN}" title="Reset to Rest State">↺</button>
             <button type="button" id="btn-frame-back" class="${CTRL_BTN}" title="Step Back">⏮</button>
             <button type="button" id="btn-frame-play" class="${PLAY_NEUTRAL}">
@@ -121,12 +124,12 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
           </div>
 
           <!-- Live Frame Matrix Display -->
-          <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-1.5">
+          <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-1.5">
             <div class="tw-font-sans tw-text-[0.75rem] tw-font-semibold tw-text-[var(--grey-light)] tw-tracking-[0.05em] tw-mb-1 tw-flex tw-justify-between tw-items-center tw-gap-2 tw-whitespace-nowrap">
               <span id="label-frame-mat">Frame Matrix $\mathbf{M}_{\text{frame}}$</span>
               <span class="tw-font-mono tw-text-[0.625rem] tw-text-[var(--grey-light)]">4×4 Float32</span>
             </div>
-            <div id="frame-matrix-grid" class="tw-grid tw-grid-cols-4 tw-gap-0.5 tw-bg-[var(--grey-darker)] tw-p-1 tw-rounded-[5px] tw-font-mono tw-text-[11px] tw-text-center tw-border tw-border-[var(--ring-border)]"></div>
+            <div id="frame-matrix-grid" class="tw-grid tw-grid-cols-4 tw-gap-0.5 tw-bg-[var(--grey-darker)] tw-p-1 tw-rounded-[5px] tw-font-mono tw-text-[11px] tw-text-center"></div>
           </div>
         </div>
 
@@ -134,18 +137,18 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
         <div class="tw-relative tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[10px] tw-min-h-[320px] tw-overflow-hidden">
           <div id="frame-three-mount" class="tw-w-full tw-h-full tw-min-h-[340px]"></div>
 
-          <div class="coord-chip tw-absolute tw-top-2.5 tw-left-2.5 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-px-2 tw-py-1 tw-rounded-md tw-text-[11px] tw-text-[var(--grey-light)] tw-pointer-events-none tw-flex tw-flex-col tw-gap-0.5">
+          <div class="coord-chip tw-absolute tw-top-2.5 tw-left-2.5 tw-bg-[var(--grey-dark)] tw-px-2 tw-py-1 tw-rounded-md tw-text-[11.5px] tw-text-[var(--grey-light)] tw-pointer-events-none tw-flex tw-flex-col tw-gap-0.5">
             <div class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-whitespace-nowrap tw-leading-tight">
               <span class="tw-font-sans tw-font-semibold tw-text-[var(--grey-lighter)]">🌐 Canonical</span>
-              <span class="tw-font-mono tw-text-[var(--grey-light)] tw-flex tw-items-baseline tw-gap-1"><span id="label-p-xyz">$\\mathbf{p}_{\\text{xyz}}$</span>: <span id="val-p-xyz">(0.0, 0.0, 0.0)</span></span>
+              <span class="tw-font-mono tw-text-[var(--grey-light)] tw-flex tw-items-baseline tw-gap-1"><span id="label-p-xyz">${renderMath('\\mathbf{p}_{\\text{xyz}}')}</span>: <span id="val-p-xyz">(0.0, 0.0, 0.0)</span></span>
             </div>
             <div class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-whitespace-nowrap tw-leading-tight">
               <span class="tw-font-sans tw-font-semibold tw-text-[var(--grey-lighter)]">📷 Nested</span>
-              <span class="tw-font-mono tw-text-[var(--grey-light)] tw-flex tw-items-baseline tw-gap-1"><span id="label-p-uvw">$\\mathbf{p}_{\\text{uvw}}$</span>: <span id="val-p-uvw">(0.0, 0.0, 0.0)</span></span>
+              <span class="tw-font-mono tw-text-[var(--grey-light)] tw-flex tw-items-baseline tw-gap-1"><span id="label-p-uvw">${renderMath('\\mathbf{p}_{\\text{uvw}}')}</span>: <span id="val-p-uvw">(0.0, 0.0, 0.0)</span></span>
             </div>
           </div>
 
-          <div class="tw-absolute tw-bottom-2.5 tw-left-2.5 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-px-2 tw-py-1 tw-rounded-md tw-text-[11px] tw-text-[var(--grey-light)] tw-pointer-events-none tw-flex tw-flex-col tw-gap-0.5">
+          <div class="coord-legend tw-absolute tw-bottom-2.5 tw-left-2.5 tw-bg-[var(--grey-dark)] tw-px-2 tw-py-1 tw-rounded-md tw-text-[11.5px] tw-text-[var(--grey-light)] tw-pointer-events-none tw-flex tw-flex-col tw-gap-0.5">
             <div class="tw-flex tw-items-center tw-gap-1.5 tw-leading-tight">
               <span class="tw-font-sans tw-font-semibold tw-text-[var(--grey-lighter)]">${renderTextWithMath('Canonical $(x,y,z)$:')}</span>
               <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-[7px] tw-h-[7px] tw-rounded-full tw-bg-[#ef4444]"></span> +x</span>
@@ -160,7 +163,7 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
             </div>
             <div class="tw-flex tw-items-center tw-gap-1.5 tw-leading-tight">
               <span class="tw-font-sans tw-font-semibold tw-text-[var(--grey-lighter)]">Target:</span>
-              <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-[7px] tw-h-[7px] tw-rounded-full tw-bg-[#fbbf24]"></span> p</span>
+              <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-[7px] tw-h-[7px] tw-rounded-full tw-bg-[#fbbf24]"></span> ${renderMath('\\mathbf{p}')}</span>
             </div>
           </div>
         </div>
@@ -247,14 +250,17 @@ export function initCoordinateFrameExplorer(containerId = 'coordinate-frame-simu
     if (labelPuvw) labelPuvw.innerHTML = renderMath('\\mathbf{p}_{\\text{uvw}}')
     const labelFrameMat = root.querySelector('#label-frame-mat')
 
-    // Completion state: all transforms applied
+    // Completion and Start states
     const isDone = state.currentStepIndex >= 2 && Math.abs(state.animationProgress - 2) < 0.01
+    const isAtStart = state.currentStepIndex === 0 && Math.abs(state.animationProgress) < 0.01
     engine.setRestReveal(isDone)
 
-    // When the chain is fully applied there is no next step, so disable
-    // stepping forward until reset or step back.
     const forwardBtn = root.querySelector('#btn-frame-forward')
+    const backBtn = root.querySelector('#btn-frame-back')
+    const resetBtn = root.querySelector('#btn-frame-reset')
     if (forwardBtn) forwardBtn.disabled = isDone
+    if (backBtn) backBtn.disabled = isAtStart
+    if (resetBtn) resetBtn.disabled = isAtStart
 
     // Step rows: 2 rows (T_{-e} and R^T), row i maps to engine step i+1.
     // Passive status cards — interaction lives on the playback buttons only.
