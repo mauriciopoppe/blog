@@ -637,7 +637,7 @@ export function initDiurnalSimulator() {
   timeSlider.addEventListener('input', (e) => {
     currentHour = parseFloat(e.target.value);
     syncSliderFill(timeSlider);
-    resetMicroSim(false);
+    resetMicroSim(true);
   });
 
   timePresets.forEach(btn => {
@@ -648,8 +648,34 @@ export function initDiurnalSimulator() {
       syncSliderFill(timeSlider);
       timePresets.forEach(b => { b.className = TIME_PRESET_BASE; });
       btn.className = TIME_PRESET_ACTIVE;
-      resetMicroSim(false);
+      resetMicroSim(true);
+      if (!isRunning) {
+        isRunning = true;
+        btnPlayPause.textContent = '⏸';
+        startAnimation();
+      }
     });
+  });
+
+  macroCanvas.style.cursor = 'pointer';
+  macroCanvas.addEventListener('click', (e) => {
+    const rect = macroCanvas.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const leftPad = 50;
+    const rightPad = 20;
+    const plotW = rect.width - leftPad - rightPad;
+    if (plotW > 0) {
+      const h = Math.max(0, Math.min(24, ((clickX - leftPad) / plotW) * 24));
+      currentHour = h;
+      timeSlider.value = h.toFixed(1);
+      syncSliderFill(timeSlider);
+      resetMicroSim(true);
+      if (!isRunning) {
+        isRunning = true;
+        btnPlayPause.textContent = '⏸';
+        startAnimation();
+      }
+    }
   });
 
   function syncSliderFill(slider) {
