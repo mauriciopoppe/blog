@@ -56,12 +56,12 @@ export function initLittlesLawSimulator(containerId = '#interactive-littles-law-
       </div>
 
       <!-- 2D Top-View Floor Plan Canvas -->
-      <div class="tw-relative tw-w-full tw-h-[280px] tw-bg-black/25 tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-overflow-hidden tw-mb-3">
+      <div class="tw-relative tw-w-full tw-h-[280px] tw-bg-black/25 tw-rounded-lg tw-overflow-hidden tw-mb-3">
         <canvas id="coffee-canvas" class="tw-w-full tw-h-full tw-block"></canvas>
       </div>
 
       <!-- Little's Law Summary Line -->
-      <div class="tw-bg-[var(--grey-dark)] tw-p-3 tw-rounded-lg tw-border tw-border-[var(--ring-border)] tw-flex tw-flex-col tw-items-start tw-gap-1 tw-text-[0.9rem]">
+      <div class="tw-bg-[var(--grey-dark)] tw-p-3 tw-rounded-lg tw-flex tw-flex-col tw-items-start tw-gap-1 tw-text-[0.9rem]">
         <div class="tw-flex tw-items-center tw-flex-wrap tw-gap-1.5">
           <span class="tw-font-bold tw-text-[var(--grey-lighter)]">Little's Law:</span>
           <span class="tw-text-[var(--grey-light)]">L = λ · W =</span>

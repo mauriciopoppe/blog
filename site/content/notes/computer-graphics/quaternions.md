@@ -43,7 +43,7 @@ $$
     </marker>
   </defs>
   <!-- Left Card: Cyclic Graph -->
-  <rect x="12" y="12" width="378" height="216" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+  <rect x="12" y="12" width="378" height="216" rx="8" fill="var(--grey-dark)" />
   <text x="201" y="36" fill="rgb(var(--primary))" font-size="12" font-weight="700" letter-spacing="0.06em" text-anchor="middle">NON-COMMUTATIVE CYCLIC GRAPH</text>
   <line x1="26" y1="46" x2="376" y2="46" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
   <!-- Node i -->
@@ -66,7 +66,7 @@ $$
   <text x="201" y="128" fill="var(--grey-light)" font-size="11" text-anchor="middle">Clockwise = (+)</text>
   <text x="201" y="144" fill="#ffa726" font-size="11" text-anchor="middle">Counter-CW = (−)</text>
   <!-- Right Card: Multiplication Rules -->
-  <rect x="402" y="12" width="386" height="216" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+  <rect x="402" y="12" width="386" height="216" rx="8" fill="var(--grey-dark)" />
   <text x="595" y="36" fill="var(--grey-lighter)" font-size="12" font-weight="700" letter-spacing="0.06em" text-anchor="middle">HAMILTON MULTIPLICATION RULES</text>
   <line x1="416" y1="46" x2="774" y2="46" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
   <text x="422" y="74" fill="var(--grey-light)" font-size="12">Fundamental Identity:</text>
@@ -209,7 +209,7 @@ Both $+q$ and $-q$ evaluate to the exact same 3D spatial rotation $\mathbf{R}(+q
     </marker>
   </defs>
   <!-- Left Card: Two-Stage Rotation in 2D Plane -->
-  <rect x="12" y="12" width="378" height="216" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+  <rect x="12" y="12" width="378" height="216" rx="8" fill="var(--grey-dark)" />
   <foreignObject x="26" y="16" width="350" height="32">
     <div xmlns="http://www.w3.org/1999/xhtml" style="color: rgb(var(--primary)); font-size: 11.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: var(--family-sans);">
       TWO-STAGE SANDWICH: $+\tfrac{\theta}{2} + \tfrac{\theta}{2} = \theta$
@@ -255,7 +255,7 @@ Both $+q$ and $-q$ evaluate to the exact same 3D spatial rotation $\mathbf{R}(+q
     </div>
   </foreignObject>
   <!-- Right Card: Antipodal Identification & Double Cover -->
-  <rect x="402" y="12" width="386" height="216" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+  <rect x="402" y="12" width="386" height="216" rx="8" fill="var(--grey-dark)" />
   <foreignObject x="416" y="16" width="358" height="32">
     <div xmlns="http://www.w3.org/1999/xhtml" style="color: var(--grey-lighter); font-size: 11.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: var(--family-sans);">
       DOUBLE COVER: $\mathrm{SU}(2) \to \mathrm{SO}(3)$
@@ -332,7 +332,7 @@ $$
     </marker>
   </defs>
   <!-- Left Card: Hypersphere S3 Arc vs Euclidean Chord -->
-  <rect x="12" y="12" width="480" height="216" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+  <rect x="12" y="12" width="480" height="216" rx="8" fill="var(--grey-dark)" />
   <text x="252" y="36" fill="rgb(var(--primary))" font-size="12" font-weight="700" letter-spacing="0.06em" text-anchor="middle">SLERP ON S³ HYPERSPHERE GEODESIC</text>
   <line x1="26" y1="46" x2="478" y2="46" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
   <!-- Hypersphere Surface Arc (S3) -->
@@ -367,7 +367,7 @@ $$
   <circle cx="252" cy="124" r="4" fill="#ff7043" />
   <text x="252" y="140" fill="#ff7043" font-size="10.5" font-weight="600" text-anchor="middle">LERP Midpoint (‖q‖ &lt; 1)</text>
   <!-- Right Card: Comparison & Metric Telemetry -->
-  <rect x="504" y="12" width="284" height="216" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+  <rect x="504" y="12" width="284" height="216" rx="8" fill="var(--grey-dark)" />
   <text x="646" y="36" fill="var(--grey-lighter)" font-size="12" font-weight="700" letter-spacing="0.06em" text-anchor="middle">TRAJECTORY COMPARISON</text>
   <line x1="518" y1="46" x2="774" y2="46" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
   <text x="524" y="74" fill="#34d399" font-size="11.5" font-weight="700">✔ SLERP (Geodesic Arc):</text>

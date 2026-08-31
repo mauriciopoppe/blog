@@ -29,6 +29,7 @@ export function initCoinFlipSimulator(containerId = '#coin-flip-simulator') {
       #coin-flip-simulator .metric-header {
         white-space: nowrap !important;
         line-height: 1.15 !important;
+        font-family: var(--family-serif, system-ui, serif) !important;
       }
       #coin-flip-simulator .metric-header .katex {
         font-size: 0.92em !important;
@@ -36,48 +37,61 @@ export function initCoinFlipSimulator(containerId = '#coin-flip-simulator') {
       #coin-flip-simulator .table-footer-math .katex {
         font-size: 1.08em !important;
       }
+      #coin-flip-simulator .coin-slider { -webkit-appearance: none; appearance: none; height: 28px; background: transparent; --range-fill: 50%; }
+      #coin-flip-simulator .coin-slider::-webkit-slider-runnable-track { height: 8px; border-radius: 999px; background: linear-gradient(to right, rgb(var(--primary)) 0%, rgb(var(--primary)) var(--range-fill), var(--ring-border) var(--range-fill), var(--ring-border) 100%); }
+      #coin-flip-simulator .coin-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: rgb(var(--primary)); border: 2px solid var(--grey); margin-top: -5px; box-shadow: var(--elevation-subtle); }
+      #coin-flip-simulator .coin-slider::-moz-range-track { height: 8px; border-radius: 999px; background: var(--ring-border); }
+      #coin-flip-simulator .coin-slider::-moz-range-progress { height: 8px; border-radius: 999px; background: rgb(var(--primary)); }
+      #coin-flip-simulator .coin-slider::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: rgb(var(--primary)); border: 2px solid var(--grey); box-shadow: var(--elevation-subtle); }
+      #coin-flip-simulator .coin-slider:hover::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(var(--primary), 0.15); }
+      #coin-flip-simulator .coin-slider:hover::-moz-range-thumb { box-shadow: 0 0 0 4px rgba(var(--primary), 0.15); }
+      #coin-flip-simulator .coin-slider:focus-visible { outline: 2px solid rgba(var(--primary), 0.6); outline-offset: 2px; border-radius: 999px; }
+      #coin-flip-simulator .coin-seg-group { display: inline-flex; border: 1px solid var(--ring-border); border-radius: 6px; background: var(--grey-dark); box-shadow: var(--elevation-subtle); overflow: hidden; }
+      #coin-flip-simulator .coin-seg { appearance: none; font-family: var(--family-serif, system-ui, serif); font-size: 0.85rem; font-weight: 600; line-height: 1; padding: 8px 12px; background: transparent; color: var(--grey-light); cursor: pointer; }
+      #coin-flip-simulator .coin-seg:hover { color: rgb(var(--primary)); background: var(--accent-tint); }
+      #coin-flip-simulator .coin-seg-active { background: rgba(var(--primary), 0.16); color: rgb(var(--primary)); }
+      #coin-flip-simulator .coin-ctrl { font-family: var(--family-serif, system-ui, serif); font-size: 0.82rem; font-weight: 600; line-height: 1; padding: 6px 12px; border-radius: 6px; background: var(--grey-dark); border: 1px solid var(--ring-border); color: var(--grey-light); cursor: pointer; box-shadow: var(--elevation-subtle); transition: background-color .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease; }
+      #coin-flip-simulator .coin-ctrl:hover { border-color: var(--accent-border); background: var(--accent-tint); color: rgb(var(--primary)); box-shadow: var(--elevation-raised); }
     </style>
-    <div style="background: var(--grey-darker); border: 1px solid var(--grey-dark); border-radius: 12px; padding: 18px; font-family: var(--family-sans, system-ui, sans-serif); margin: 1.5rem 0;">
-      <!-- Title & Header -->
-      <div style="margin-bottom: 16px;">
-        <h4 style="margin: 0; font-size: 1.15rem; color: var(--grey-lighter);">Interactive Arrival & Queue Depth Simulator</h4>
-        <p style="margin: 4px 0 0 0; font-size: 0.85rem; color: var(--grey-light);">
-          Each request finds <strong style="color: var(--grey-lighter);">${renderKaTeX('k', '<i>k</i>')}</strong> existing jobs ahead with probability <strong style="color: rgb(var(--primary));">${renderKaTeX('P(N = k) = (1 - \\rho)\\rho^k', '<i>P</i>(<i>N</i> = <i>k</i>) = (1 − <i>ρ</i>)<i>ρ</i><sup><i>k</i></sup>')}</strong>.
-        </p>
-      </div>
-
-      <!-- PANEL 1: Theoretical Model & State Table -->
-      <div style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 10px; padding: 14px 16px; margin-bottom: 16px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 10px;">
-          <div style="font-size: 0.88rem; font-weight: 700; color: var(--grey-lighter); display: flex; align-items: center; gap: 6px;">
-            <span>1. Theoretical State Probabilities & Wait Times</span>
-          </div>
-          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-            <button class="preset-btn" data-rho="0.5" style="background: var(--grey-darker); color: var(--grey-lighter); border: 1px solid var(--grey); border-radius: 6px; padding: 3px 8px; font-size: 0.78rem; cursor: pointer;">50% (1.0x)</button>
-            <button class="preset-btn" data-rho="0.75" style="background: var(--grey-darker); color: var(--grey-lighter); border: 1px solid var(--grey); border-radius: 6px; padding: 3px 8px; font-size: 0.78rem; cursor: pointer;">75% (3.0x)</button>
-            <button class="preset-btn" data-rho="0.90" style="background: var(--grey-darker); color: var(--grey-lighter); border: 1px solid var(--grey); border-radius: 6px; padding: 3px 8px; font-size: 0.78rem; cursor: pointer;">90% (9.0x)</button>
-          </div>
-        </div>
+      <!-- Widget 1: Theoretical State Probabilities & Wait Times -->
+      <div class="tw-my-4 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
+        <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
+          <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">Theoretical State Probabilities &amp; Wait Times</div>
+        </header>
+        <div class="tw-p-2.5">
 
         <!-- Unified 1-Line Slider Control Strip (Utilization ρ and Service Time S) -->
         <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 14px; background: var(--grey-darker); padding: 8px 12px; border-radius: 8px; flex-wrap: wrap;">
-          <!-- Utilization Slider -->
-          <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 190px;">
-            <span style="font-size: 0.82rem; color: var(--grey-light); white-space: nowrap;">
-              Load (${renderKaTeX('\\rho', '<i>ρ</i>')}): <strong id="sim-rho-val" style="color: var(--grey-lighter); font-variant-numeric: tabular-nums; display: inline-block; width: 34px; text-align: right;">50%</strong>
-            </span>
-            <input type="range" id="sim-rho-slider" min="0.10" max="0.95" step="0.05" value="0.50" style="flex: 1; min-width: 70px; accent-color: rgb(var(--primary));">
+          <!-- Preset -->
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 0.82rem; color: var(--grey-light); white-space: nowrap;">Preset:</span>
+            <div class="coin-seg-group">
+              <button type="button" class="preset-btn coin-seg coin-seg-active" data-rho="0.5">50% (1.0x)</button>
+              <button type="button" class="preset-btn coin-seg" data-rho="0.75">75% (3.0x)</button>
+              <button type="button" class="preset-btn coin-seg" data-rho="0.90">90% (9.0x)</button>
+            </div>
           </div>
 
-          <!-- Subtle Vertical Separator -->
-          <div style="width: 1px; height: 18px; background: rgba(255, 255, 255, 0.12);"></div>
+          <!-- Two sliders grouped together -->
+          <div style="display: flex; align-items: center; gap: 14px; flex: 1; min-width: 340px; flex-wrap: wrap;">
+            <!-- Utilization Slider -->
+            <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 160px;">
+              <span style="font-size: 0.82rem; color: var(--grey-light); white-space: nowrap;">
+                Load (${renderKaTeX('\\rho', '<i>ρ</i>')}): <strong id="sim-rho-val" style="color: var(--grey-lighter); font-variant-numeric: tabular-nums; display: inline-block; width: 34px; text-align: right;">50%</strong>
+              </span>
+              <input type="range" id="sim-rho-slider" class="coin-slider" min="0.10" max="0.95" step="0.05" value="0.50" style="flex: 1; min-width: 60px; --range-fill: 47%;">
+            </div>
 
-          <!-- Service Time S Slider -->
-          <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 190px;">
-            <span style="font-size: 0.82rem; color: var(--grey-light); white-space: nowrap;">
-              Service (${renderKaTeX('S', '<i>S</i>')}): <strong id="sim-s-val" style="color: var(--grey-lighter); font-variant-numeric: tabular-nums; display: inline-block; width: 48px; text-align: right;">10 ms</strong>
-            </span>
-            <input type="range" id="sim-s-slider" min="5" max="100" step="5" value="10" style="flex: 1; min-width: 70px; accent-color: #ffb74d;">
+            <!-- Subtle Vertical Separator -->
+            <div style="width: 1px; height: 18px; background: rgba(255, 255, 255, 0.12);"></div>
+
+            <!-- Service Time S Slider -->
+            <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 160px;">
+              <span style="font-size: 0.82rem; color: var(--grey-light); white-space: nowrap;">
+                Service (${renderKaTeX('S', '<i>S</i>')}): <strong id="sim-s-val" style="color: var(--grey-lighter); font-variant-numeric: tabular-nums; display: inline-block; width: 48px; text-align: right;">10 ms</strong>
+              </span>
+              <input type="range" id="sim-s-slider" class="coin-slider" min="5" max="100" step="5" value="10" style="flex: 1; min-width: 60px; --range-fill: 5%;">
+            </div>
           </div>
         </div>
 
@@ -99,22 +113,22 @@ export function initCoinFlipSimulator(containerId = '#coin-flip-simulator') {
         </div>
 
         <!-- Panel 1 Theoretical Metrics (λ, L, Wq, W) -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 10px;">
-          <div style="background: var(--grey-darker); padding: 8px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; padding-top: 10px;">
+          <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
             <div>
               <div class="metric-header" style="font-size: 0.75rem; font-weight: 600; color: var(--grey-light); letter-spacing: 0.01em;">Arrival Rate (${renderKaTeX('\\lambda', '<i>\\lambda</i>')})</div>
               <div id="metric-lambda-calc" class="metric-calc" style="font-size: 0.82rem; color: var(--grey-lighter); margin: 4px 0 1px 0; min-height: 32px; display: flex; align-items: center; justify-content: center;"></div>
             </div>
-            <div id="metric-lambda" style="font-size: 1.15rem; font-weight: 700; color: var(--grey-lighter); margin-top: 2px;">50.0 req/s</div>
+            <div id="metric-lambda" style="font-size: 1.15rem; font-weight: 700; font-family: var(--family-sans, system-ui, sans-serif); color: var(--grey-lighter); margin-top: 2px;">50.0 req/s</div>
           </div>
-          <div style="background: var(--grey-darker); padding: 8px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
+          <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
             <div>
               <div class="metric-header" style="font-size: 0.75rem; font-weight: 600; color: var(--grey-light); letter-spacing: 0.01em;">Expected Backlog (${renderKaTeX('L', '<i>L</i>')})</div>
               <div id="metric-theory-calc" class="metric-calc" style="font-size: 0.82rem; color: var(--grey-lighter); margin: 4px 0 1px 0; min-height: 32px; display: flex; align-items: center; justify-content: center;"></div>
             </div>
-            <div id="metric-theory" style="font-size: 1.15rem; font-weight: 700; color: rgb(var(--primary)); margin-top: 2px;">1.00 jobs</div>
+            <div id="metric-theory" style="font-size: 1.15rem; font-weight: 700; font-family: var(--family-sans, system-ui, sans-serif); color: rgb(var(--primary)); margin-top: 2px;">1.00 jobs</div>
           </div>
-          <div style="background: var(--grey-darker); padding: 8px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
+          <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
             <div>
               <div class="metric-header" style="font-size: 0.75rem; font-weight: 600; color: var(--grey-light); letter-spacing: 0.01em;">Queue Wait (${renderKaTeX('W_q', '<i>W</i><sub>q</sub>')})</div>
               <div class="metric-calc" style="font-size: 0.82rem; color: var(--grey-lighter); margin: 4px 0 1px 0; min-height: 32px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; line-height: 1.15;">
@@ -122,9 +136,9 @@ export function initCoinFlipSimulator(containerId = '#coin-flip-simulator') {
                 <div id="metric-wait-calc" style="color: rgba(255, 255, 255, 0.75); font-size: 0.78rem; line-height: 1.15;"></div>
               </div>
             </div>
-            <div id="metric-wait" style="font-size: 1.15rem; font-weight: 700; color: #ffb74d; margin-top: 2px;">10.0 ms</div>
+            <div id="metric-wait" style="font-size: 1.15rem; font-weight: 700; font-family: var(--family-sans, system-ui, sans-serif); color: #ffb74d; margin-top: 2px;">10.0 ms</div>
           </div>
-          <div style="background: var(--grey-darker); padding: 8px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
+          <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
             <div>
               <div class="metric-header" style="font-size: 0.75rem; font-weight: 600; color: var(--grey-light); letter-spacing: 0.01em;">Total Latency (${renderKaTeX('W', '<i>W</i>')})</div>
               <div class="metric-calc" style="font-size: 0.82rem; color: var(--grey-lighter); margin: 4px 0 1px 0; min-height: 32px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; line-height: 1.15;">
@@ -132,35 +146,29 @@ export function initCoinFlipSimulator(containerId = '#coin-flip-simulator') {
                 <div id="metric-total-w-calc" style="color: rgba(255, 255, 255, 0.75); font-size: 0.78rem; line-height: 1.15;"></div>
               </div>
             </div>
-            <div id="metric-total-w" style="font-size: 1.15rem; font-weight: 700; color: #81c784; margin-top: 2px;">20.0 ms</div>
+            <div id="metric-total-w" style="font-size: 1.15rem; font-weight: 700; font-family: var(--family-sans, system-ui, sans-serif); color: #81c784; margin-top: 2px;">20.0 ms</div>
           </div>
+        </div>
         </div>
       </div>
 
-      <!-- PANEL 2: Empirical Simulator & Distribution -->
-      <div style="background: var(--grey-dark); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 10px; padding: 14px 16px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 10px;">
-          <div style="font-size: 0.88rem; font-weight: 700; color: var(--grey-lighter);">
-            2. Monte Carlo Arrival Simulator
-          </div>
-          <span id="sim-count" style="font-size: 0.78rem; color: var(--grey-light);">0 arrivals simulated</span>
-        </div>
+      <!-- Widget 2: Monte Carlo Arrival Simulator -->
+      <div class="tw-my-4 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
+        <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
+          <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">Monte Carlo Arrival Simulator</div>
+          <div class="tw-text-sm tw-text-[var(--grey-light)]" id="sim-count">0 arrivals simulated</div>
+        </header>
+        <div class="tw-p-2.5">
 
         <!-- Action Buttons -->
         <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; align-items: center;">
-          <button id="btn-flip-one" style="background: rgb(var(--primary)); color: #fff; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.82rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-            🎲 Simulate 1 Arrival
-          </button>
-          <button id="btn-run-batch" style="background: var(--grey-darker); color: var(--grey-lighter); border: 1px solid var(--grey); border-radius: 6px; padding: 6px 12px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">
-            ⚡ Simulate 500 Arrivals
-          </button>
-          <button id="btn-reset" style="background: transparent; color: var(--grey-light); border: 1px solid var(--grey-darker); border-radius: 6px; padding: 6px 10px; font-size: 0.82rem; cursor: pointer;">
-            ↺ Reset
-          </button>
+          <button type="button" id="btn-flip-one" class="coin-ctrl">🎲 Simulate 1 Arrival</button>
+          <button type="button" id="btn-run-batch" class="coin-ctrl">⚡ Simulate 500 Arrivals</button>
+          <button type="button" id="btn-reset" class="coin-ctrl">↺ Reset</button>
         </div>
 
         <!-- Live Step-by-Step Coin Flip Log -->
-        <div id="flip-step-log" style="min-height: 34px; background: var(--grey-darker); border-radius: 6px; padding: 8px 12px; margin-bottom: 14px; font-size: 0.82rem; color: var(--grey-light); display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
+        <div id="flip-step-log" style="min-height: 34px; background: var(--grey-dark); border-radius: 6px; padding: 8px 12px; margin-bottom: 14px; font-size: 0.82rem; color: var(--grey-light); display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
           <span style="color: var(--grey-lighter);">Click <strong>Simulate 1 Arrival</strong> to watch coin flips determine queue state.</span>
         </div>
 
@@ -177,18 +185,18 @@ export function initCoinFlipSimulator(containerId = '#coin-flip-simulator') {
         </div>
 
         <!-- Panel 2 Empirical Metrics -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 10px;">
-          <div style="background: var(--grey-darker); padding: 8px 10px; border-radius: 6px; text-align: center;">
-            <div style="font-size: 0.76rem; font-weight: 600; color: var(--grey-light); letter-spacing: 0.02em;">Arrival Load (${renderKaTeX('\\rho', '<i>ρ</i>')})</div>
-            <div id="metric-rho" style="font-size: 1.15rem; font-weight: 700; color: var(--grey-lighter); margin-top: 2px;">50.0%</div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; padding-top: 10px;">
+          <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <div style="font-family: var(--family-serif, system-ui, serif); font-size: 0.75rem; font-weight: 600; color: var(--grey-light);">Arrival Load (${renderKaTeX('\\rho', '<i>ρ</i>')})</div>
+            <div id="metric-rho" style="font-size: 1.15rem; font-weight: 700; font-family: var(--family-sans, system-ui, sans-serif); color: var(--grey-lighter); margin-top: 2px;">50.0%</div>
           </div>
-          <div style="background: var(--grey-darker); padding: 8px 10px; border-radius: 6px; text-align: center;">
-            <div style="font-size: 0.76rem; font-weight: 600; color: var(--grey-light); letter-spacing: 0.02em;">Simulated Mean (${renderKaTeX('L_{\\text{sim}}', '<i>L</i><sub>sim</sub>')})</div>
-            <div id="metric-sim-mean" style="font-size: 1.15rem; font-weight: 700; color: #81c784; margin-top: 2px;">—</div>
+          <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <div style="font-family: var(--family-serif, system-ui, serif); font-size: 0.75rem; font-weight: 600; color: var(--grey-light);">Simulated Mean (${renderKaTeX('L_{\\text{sim}}', '<i>L</i><sub>sim</sub>')})</div>
+            <div id="metric-sim-mean" style="font-size: 1.15rem; font-weight: 700; font-family: var(--family-sans, system-ui, sans-serif); color: #81c784; margin-top: 2px;">—</div>
           </div>
         </div>
+        </div>
       </div>
-    </div>
   `;
 
   const rhoSlider = container.querySelector('#sim-rho-slider');
@@ -281,7 +289,7 @@ export function initCoinFlipSimulator(containerId = '#coin-flip-simulator') {
         : `(1 − ${rhoStr}) × ${rhoStr}<sup>${k}</sup>`;
 
       rowsHtml += `
-        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+        <tr style="border-bottom: 1px solid var(--grey);">
           <td style="padding: 4px 6px; color: var(--grey-lighter);">${stateLabel}</td>
           <td style="padding: 4px 6px; color: var(--grey-light);">${waitStr}</td>
           <td style="padding: 4px 6px; color: var(--grey-light);">
@@ -508,25 +516,39 @@ export function initCoinFlipSimulator(containerId = '#coin-flip-simulator') {
     renderChart();
   }
 
+  function syncSliderFill(slider) {
+    const pct = ((parseFloat(slider.value) - parseFloat(slider.min)) / (parseFloat(slider.max) - parseFloat(slider.min))) * 100;
+    slider.style.setProperty('--range-fill', pct + '%');
+  }
+
   rhoSlider.addEventListener('input', (e) => {
     rho = parseFloat(e.target.value);
+    syncSliderFill(rhoSlider);
     handleReset();
   });
 
   sSlider.addEventListener('input', (e) => {
     serviceTimeMs = parseFloat(e.target.value);
+    syncSliderFill(sSlider);
     updateMetrics();
   });
 
   presetBtns.forEach(btn => {
     btn.addEventListener('click', () => {
+      presetBtns.forEach(b => { b.classList.add('coin-seg'); b.classList.remove('coin-seg-active'); });
+      btn.classList.remove('coin-seg'); btn.classList.add('coin-seg-active');
       rho = parseFloat(btn.getAttribute('data-rho'));
       rhoSlider.value = rho;
+      syncSliderFill(rhoSlider);
       serviceTimeMs = 10;
       sSlider.value = 10;
+      syncSliderFill(sSlider);
       handleReset();
     });
   });
+
+  syncSliderFill(rhoSlider);
+  syncSliderFill(sSlider);
 
   btnFlipOne.addEventListener('click', handleSingleFlip);
   btnRunBatch.addEventListener('click', () => handleBatchRun(500));

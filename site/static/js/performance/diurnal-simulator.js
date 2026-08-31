@@ -42,7 +42,7 @@ export function initDiurnalSimulator() {
       </div>
 
       <!-- Time Scrubber -->
-      <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-p-3 tw-mb-4">
+      <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-p-3 tw-mb-4">
         <div class="tw-flex tw-justify-between tw-items-center tw-gap-2 tw-text-[0.75rem]">
           <span class="tw-text-[var(--grey-light)]">Time of Day</span>
           <span id="diurnal-time-label" class="tw-font-semibold tw-text-primary">09:00 (Morning Ramp)</span>
@@ -59,7 +59,7 @@ export function initDiurnalSimulator() {
       </div>
 
       <!-- Canvas 1: 24-Hour Diurnal Overview Wave -->
-      <div class="tw-relative tw-w-full tw-h-[110px] tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-overflow-hidden tw-mb-2.5">
+      <div class="tw-relative tw-w-full tw-h-[110px] tw-bg-[var(--grey-dark)] tw-rounded-lg tw-overflow-hidden tw-mb-2.5">
         <canvas id="diurnal-macro-canvas" class="tw-w-full tw-h-full tw-block"></canvas>
       </div>
 
@@ -70,33 +70,33 @@ export function initDiurnalSimulator() {
       </div>
 
       <!-- Canvas 2: Microscopic Active Core Tracks -->
-      <div class="tw-relative tw-w-full tw-h-[165px] tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-overflow-hidden tw-mb-3">
+      <div class="tw-relative tw-w-full tw-h-[165px] tw-bg-[var(--grey-dark)] tw-rounded-lg tw-overflow-hidden tw-mb-3">
         <canvas id="diurnal-micro-canvas" class="tw-w-full tw-h-full tw-block"></canvas>
       </div>
 
       <!-- Metrics Cards Grid -->
       <div class="tw-grid tw-grid-cols-[repeat(auto-fit,minmax(115px,1fr))] tw-gap-2 tw-mb-2">
-        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+        <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
           <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Traffic Demand (λ)</div>
           <div id="stat-diurnal-lambda" class="${STAT_VALUE} tw-text-[var(--grey-lighter)]">7.8 req/s</div>
           <div id="stat-diurnal-phase" class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap tw-min-h-[1.7rem] tw-flex tw-items-center">Peak Hours</div>
         </div>
-        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+        <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
           <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Capacity (c · μ)</div>
           <div id="stat-diurnal-capacity" class="${STAT_VALUE} tw-text-[var(--grey-lighter)]">10.0 req/s</div>
           <div id="stat-diurnal-cores" class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap tw-min-h-[1.7rem] tw-flex tw-items-center">5 Cores active</div>
         </div>
-        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+        <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
           <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Util (measured, 5s)</div>
           <div id="stat-diurnal-rho" class="${STAT_VALUE} tw-text-primary">78.0%</div>
           <div id="stat-diurnal-headroom" class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-leading-tight tw-min-h-[1.7rem] tw-flex tw-items-center">Headroom: 22.0%</div>
         </div>
-        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+        <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
           <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Latency (P50)</div>
           <div id="stat-diurnal-p50" class="${STAT_VALUE} tw-text-[var(--grey-lighter)]">0.48s</div>
           <div class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap tw-min-h-[1.7rem] tw-flex tw-items-center">Mean: <span id="stat-diurnal-mean">0.54s</span></div>
         </div>
-        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+        <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
           <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Tail Latency (P90)</div>
           <div id="stat-diurnal-p90" class="${STAT_VALUE} tw-text-[#ffb74d]">1.15s</div>
           <div id="stat-diurnal-wait" class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap tw-min-h-[1.7rem] tw-flex tw-items-center">Wait: 0.15s</div>

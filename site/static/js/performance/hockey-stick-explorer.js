@@ -33,22 +33,33 @@ export function initHockeyStickExplorer(containerId = '#hockey-stick-explorer') 
   let currentRho = 0.75; // 75% default
 
   container.innerHTML = `
-    <div style="width: 100%; box-sizing: border-box; background: var(--grey-darker); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 14px; font-family: var(--family-sans, system-ui, sans-serif);">
-      <!-- Single Minimal Header Slider -->
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
-        <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 200px; max-width: 100%;">
+    <style>
+      #hockey-stick-explorer .hs-slider { -webkit-appearance: none; appearance: none; height: 28px; background: transparent; --range-fill: 50%; }
+      #hockey-stick-explorer .hs-slider::-webkit-slider-runnable-track { height: 8px; border-radius: 999px; background: linear-gradient(to right, rgb(var(--primary)) 0%, rgb(var(--primary)) var(--range-fill), var(--ring-border) var(--range-fill), var(--ring-border) 100%); }
+      #hockey-stick-explorer .hs-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: rgb(var(--primary)); border: 2px solid var(--grey); margin-top: -5px; box-shadow: var(--elevation-subtle); }
+      #hockey-stick-explorer .hs-slider::-moz-range-track { height: 8px; border-radius: 999px; background: var(--ring-border); }
+      #hockey-stick-explorer .hs-slider::-moz-range-progress { height: 8px; border-radius: 999px; background: rgb(var(--primary)); }
+      #hockey-stick-explorer .hs-slider::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: rgb(var(--primary)); border: 2px solid var(--grey); box-shadow: var(--elevation-subtle); }
+      #hockey-stick-explorer .hs-slider:hover::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(var(--primary), 0.15); }
+      #hockey-stick-explorer .hs-slider:hover::-moz-range-thumb { box-shadow: 0 0 0 4px rgba(var(--primary), 0.15); }
+      #hockey-stick-explorer .hs-slider:focus-visible { outline: 2px solid rgba(var(--primary), 0.6); outline-offset: 2px; border-radius: 999px; }
+    </style>
+    <div class="tw-my-4 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
+      <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
+        <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">Hockey Stick Latency Curve</div>
+        <div class="tw-text-sm tw-text-[var(--grey-light)]">✦ Hover or drag across the graph to inspect any load point</div>
+      </header>
+      <div class="tw-p-2.5">
+        <!-- Service Time Slider -->
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
           <span style="font-size: 0.82rem; font-weight: 600; color: var(--grey-lighter); white-space: nowrap;">Service Time ($S$):</span>
-          <input type="range" id="slider-service-time" min="2" max="50" step="1" value="10" style="flex: 1; min-width: 60px; accent-color: rgb(var(--primary)); cursor: pointer;">
+          <input type="range" id="slider-service-time" class="hs-slider" min="2" max="50" step="1" value="10" style="flex: 1; min-width: 60px;">
           <strong id="label-service-time" style="color: rgb(var(--primary)); font-size: 0.9rem; min-width: 42px; text-align: right;">10 ms</strong>
         </div>
-        <div style="font-size: 0.75rem; color: var(--grey-light);">
-          <span>✦ Hover or drag across graph to inspect any load point</span>
-        </div>
-      </div>
 
       <!-- Interactive SVG Curve Canvas -->
       <div id="curve-svg-wrapper" style="width: 100%; position: relative; cursor: crosshair; touch-action: none;">
-        <svg id="hockey-svg" viewBox="0 0 880 390" width="100%" style="width: 100%; height: auto; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-dark); border-radius: 8px; padding: 12px 16px; border: 1px solid rgba(255, 255, 255, 0.05); box-sizing: border-box;">
+        <svg id="hockey-svg" viewBox="0 0 880 390" width="100%" style="width: 100%; height: auto; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-dark); border-radius: 8px; padding: 12px 16px; box-sizing: border-box;">
           <defs>
             <linearGradient id="exp-curve-grad" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stop-color="#81c784" />
@@ -151,6 +162,7 @@ export function initHockeyStickExplorer(containerId = '#hockey-stick-explorer') 
           </g>
         </svg>
       </div>
+      </div>
     </div>
   `;
 
@@ -233,8 +245,15 @@ export function initHockeyStickExplorer(containerId = '#hockey-stick-explorer') 
 
   sliderS.addEventListener('input', (e) => {
     serviceTime = parseFloat(e.target.value);
+    syncSliderFill(sliderS);
     update();
   });
+
+  function syncSliderFill(slider) {
+    const pct = ((parseFloat(slider.value) - parseFloat(slider.min)) / (parseFloat(slider.max) - parseFloat(slider.min))) * 100;
+    slider.style.setProperty('--range-fill', pct + '%');
+  }
+  syncSliderFill(sliderS);
 
   update();
 }

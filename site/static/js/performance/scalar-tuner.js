@@ -210,7 +210,7 @@ export function initScalarTuner(containerId = '#scalar-tuner') {
     const plotsWrap = container.querySelector('#st-plots');
     plotsWrap.innerHTML = PLOTS[choice].map((p) => {
       const svg = buildPlot(p, defaultPts, tunedPts, sim, baselineSim);
-      return `<div class="st-plot-cell tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-[8px] tw-p-1.5">
+      return `<div class="st-plot-cell tw-bg-[var(--grey-dark)] tw-rounded-[8px] tw-p-1.5">
         <div class="tw-text-[0.72rem] tw-leading-snug tw-text-[var(--grey-light)] tw-mb-0.5">${p.yl} vs ${p.xl}</div>
         ${svg}
       </div>`;
@@ -289,7 +289,7 @@ export function initScalarTuner(containerId = '#scalar-tuner') {
           `).join('')}
         </div>
 
-        <div class="tw-flex tw-gap-4 tw-flex-wrap tw-items-start">
+        <div class="tw-flex tw-gap-2.5 tw-flex-wrap tw-items-start">
           <div class="tw-flex-none tw-w-[260px] tw-min-w-[200px]">
             <div class="tw-flex tw-justify-between tw-items-center tw-mb-2 tw-h-6">
               <span class="tw-font-sans tw-text-[0.75rem] tw-font-semibold tw-text-[var(--grey-light)]">Feature levers</span>
@@ -314,7 +314,7 @@ export function initScalarTuner(containerId = '#scalar-tuner') {
 
         <div class="tw-grid tw-grid-cols-[repeat(auto-fit,minmax(120px,1fr))] tw-gap-2 tw-mt-2">
           ${Object.keys(METRIC_LABEL).map((metric) => `
-            <div class="st-metric tw-flex tw-flex-col tw-items-center tw-text-center tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-[8px] tw-p-1.5" data-metric="${metric}">
+            <div class="st-metric tw-flex tw-flex-col tw-items-center tw-text-center tw-bg-[var(--grey-dark)] tw-rounded-[8px] tw-p-1.5" data-metric="${metric}">
               <span class="tw-font-sans tw-text-[0.625rem] tw-leading-snug tw-text-[var(--grey-light)] tw-tracking-[0.4px]">${METRIC_LABEL[metric]}</span>
               <span class="st-value tw-text-[0.98rem] tw-leading-snug tw-font-bold tw-text-[var(--grey-lighter)] tw-my-0.5"></span>
               <span class="st-trend tw-flex tw-items-center tw-gap-0.5 tw-text-[0.68rem] tw-leading-snug tw-whitespace-nowrap">

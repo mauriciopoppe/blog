@@ -66,33 +66,33 @@ export function initUtilizationSimulator(containerId = '#interactive-utilization
       </div>
 
       <!-- Row 3: Gantt Canvas -->
-      <div class="tw-relative tw-w-full tw-h-[190px] tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-overflow-hidden tw-mb-3">
+      <div class="tw-relative tw-w-full tw-h-[190px] tw-bg-[var(--grey-dark)] tw-rounded-lg tw-overflow-hidden tw-mb-3">
         <canvas id="sim-canvas" class="tw-w-full tw-h-full tw-block"></canvas>
       </div>
 
       <!-- Row 4: Metric Cards -->
       <div class="tw-grid tw-grid-cols-[repeat(auto-fit,minmax(115px,1fr))] tw-gap-2 tw-mb-2">
-        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+        <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
           <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Util (theoretical)</div>
           <div id="stat-theo-rho" class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-[var(--grey-lighter)]">75.0%</div>
           <div id="stat-theo-cap" class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Cap: 4.0 req/s</div>
         </div>
-        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+        <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
           <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Util (measured)</div>
           <div id="stat-measured-rho" class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-primary">74.2%</div>
           <div id="stat-headroom" class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Headroom: 25.8%</div>
         </div>
-        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+        <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
           <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Queue Depth</div>
           <div id="stat-queue-len" class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-[var(--grey-lighter)]">0</div>
           <div class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Peak: <span id="stat-queue-max">1</span></div>
         </div>
-        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+        <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
           <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Latency (P50)</div>
           <div id="stat-latency-p50" class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-[var(--grey-lighter)]">0.46s</div>
           <div id="stat-latency-mean" class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Mean: 0.52s</div>
         </div>
-        <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+        <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
           <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Tail Latency (P90)</div>
           <div id="stat-latency-p90" class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-[#ffb74d]">1.12s</div>
           <div id="stat-latency-wait" class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Wait: 0.12s</div>

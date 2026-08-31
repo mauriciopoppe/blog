@@ -66,7 +66,7 @@ Hover: primary glow like playback buttons. Focus and active states follow the sh
 
 ## Steps
 
-- Row: `padding: 5px 8px`, `border-radius: 6px`, `background: var(--grey-dark)`, `border: 1px solid var(--ring-border)`. Step rows are passive status cards: no pointer cursor, no hover affordance, default cursor. Interaction with the pipeline happens through the playback buttons, not the rows themselves
+- Row: `padding: 5px 8px`, `border-radius: 6px`, `background: var(--grey-dark)`. Step rows are passive status cards: borderless, no pointer cursor, no hover affordance, default cursor. Interaction with the pipeline happens through the playback buttons, not the rows themselves
 - Row content stacks in two lines: the step name (`0.6875rem` semibold sans) on top, the step description (`0.75rem` serif, `leading-tight`) below. Do not force name and description onto one line
 - Next pending step (active): `border-color: rgba(var(--primary), 0.6)`, `background: rgba(var(--primary), 0.08)`. No hover strengthening because the row is not interactive
 - Completed step: `opacity: 0.55`, `pointer-events: none`, with a check mark in the badge
@@ -183,13 +183,13 @@ Tailwind cannot style `<input type="range">` internals, so a scoped `<style>` bl
 
 - When removing a card or element, also remove its `querySelector` refs, the `updateUI` writes, and any KaTeX render loops that targeted it, plus now-unused helpers
 - When `updateUI` reassigns `className` wholesale, keep positional Tailwind classes in a shared constant (for example `BADGE_POS`) and append it to every swapped class string, or they get dropped on the first state change
-- Step rows are passive cards: ring border (`tw-border-[var(--ring-border)]`), no pointer cursor, no hover affordance. Do not wire row clicks (the reference explorer used to jump rows to engine steps; interaction belongs on the playback buttons)
+- Step rows are passive cards: borderless (`tw-bg-[var(--grey-dark)]`), no pointer cursor, no hover affordance. Do not wire row clicks (the reference explorer used to jump rows to engine steps; interaction belongs on the playback buttons)
 
 ### 10. Verify against the UX principles page
 
 Before calling the migration done, compare the widget side-by-side with the reference demo ("Two Columns: Controls Left, Canvas Right" in [UX Interaction Principles](/notes/ux-interaction-principles/)) and check every detail, not just the frame:
 
-- Border colors and styles match across every nested component (ring border on interactive surfaces, subtle `grey-dark` on passive cards, no stray hardcoded hex borders)
+- Border colors and styles match across every nested component (ring border on interactive surfaces, borderless on passive cards, no stray hardcoded hex borders)
 - Hover states on control buttons behave identically (primary tint + glow) and resting states stay neutral
 - Font family and size of every label, value, title, and legend match the demo
 - Button and radio-group heights line up horizontally
@@ -205,14 +205,14 @@ Applying the checklist to a second widget surfaced corrections to the values the
 - **Short, non-wrapping button labels.** "Play Chain" wrapped to two lines in the `335px` column; "Play" plus `tw-whitespace-nowrap` keeps one line
 - **Step descriptions need `0.75rem` (12px).** `11px` captions were too small to read; the name label sits at `0.6875rem` and the description carries the reading weight
 - **Section labels follow the header family.** "Sequence (Right → Left)" and "Accumulated Matrix" use sans at `0.75rem` semibold, a step below the `text-sm` header, rather than a `10.5px` bold with tracking
-- **Passive rows keep the card border.** Display-only step rows carry the ring border like other cards; do not give them a hover affordance
+- **Passive rows are borderless.** Display-only step rows are flat `var(--grey-dark)` blocks like other passive cards; only the active step receives an accent border
 
 ## Lessons Learned (third application: Coordinate Frames & Camera View Transform)
 
 The reference explorer was the last legacy widget and its own conventions disagreed with the checklist, so this pass produced the biggest corrections:
 
 - **Step rows are passive, never clickable.** The reference wired row clicks to jump the pipeline, with pointer cursors and hover borders. Removed: interaction belongs on the playback buttons, and rows are status cards with the default cursor. This reverses the earlier "clickable rows get a `--grey` border" guidance
-- **Step rows use the ring border, not `--grey`.** The brighter `--grey` border stood out against every other card; a passive row gets the same `--ring-border` as any card
+- **Passive surfaces are borderless.** Inset cards, HUD telemetry, and passive step rows stay borderless against the deep backdrop, reserving `--ring-border` solely for interactive controls
 - **Step cards stack title over description.** Two lines (name on top, `0.75rem` description with `leading-tight` below) is the accepted layout, not name and description crammed on one line
 - **Budget the control column against the viewport.** Two-line step rows grew the widget past the fold; trimming `gap-1.5`, `py-1` rows, and removing matrix cell padding recovered the height without touching fonts
 - **Dense math overlays each need their own KaTeX size.** The coordinate chip embeds `p_xyz` / `p_uvw` labels and needed a `1.15em` scoped override on top of the widget-wide `0.8em`. Render widget math explicitly; the page auto-render may have already run

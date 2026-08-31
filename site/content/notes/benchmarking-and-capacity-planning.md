@@ -278,7 +278,7 @@ During steady-state measurement, a single arithmetic average (mean) collapses th
 <svg viewBox="0 0 840 300" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box; margin: 1.5rem 0;">
   <!-- Left Panel: Frequency Histogram -->
   <g transform="translate(20, 15)">
-    <rect x="0" y="0" width="390" height="270" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+    <rect x="0" y="0" width="390" height="270" rx="8" fill="var(--grey-dark)" />
     <text x="20" y="28" fill="var(--grey-lighter)" font-size="14" font-weight="700">LATENCY DENSITY (HDR BUCKETS)</text>
     <text x="20" y="46" fill="var(--grey-light)" font-size="12">Bimodal Latency Distribution</text>
     <!-- Axes -->
@@ -295,7 +295,7 @@ During steady-state measurement, a single arithmetic average (mean) collapses th
     <rect x="196" y="202" width="20" height="8" rx="3" fill="rgba(255, 255, 255, 0.08)" />
     <!-- Long tail / Secondary peak -->
     <rect x="256" y="182" width="20" height="28" rx="3" fill="#ffa726" fill-opacity="0.5" />
-    <rect x="280" y="170" width="20" height="40" rx="3" fill="#ffa726" fill-opacity="0.75)" />
+    <rect x="280" y="170" width="20" height="40" rx="3" fill="#ffa726" fill-opacity="0.75" />
     <rect x="304" y="184" width="20" height="26" rx="3" fill="#ffa726" fill-opacity="0.5" />
     <rect x="336" y="200" width="20" height="10" rx="3" fill="#ffa726" fill-opacity="0.3" />
     <!-- P50 Marker -->
@@ -317,7 +317,7 @@ During steady-state measurement, a single arithmetic average (mean) collapses th
   </g>
   <!-- Right Panel: Cumulative Percentile Curve (inference-perf / wrk2 output) -->
   <g transform="translate(430, 15)">
-    <rect x="0" y="0" width="390" height="270" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+    <rect x="0" y="0" width="390" height="270" rx="8" fill="var(--grey-dark)" />
     <text x="20" y="28" fill="var(--grey-lighter)" font-size="14" font-weight="700">CUMULATIVE PERCENTILES (CDF)</text>
     <text x="20" y="46" fill="var(--grey-light)" font-size="12">Quantile Curve (HDR Histogram)</text>
     <!-- Axes -->

@@ -60,18 +60,18 @@ function projectionExplorer(mountSelector, cameraType) {
 
   const panelHtml = isPerspective
     ? `
-      <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)]">
+      <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)]">
         The wireframe frustum is the perspective view volume, a truncated pyramid from the near plane to the far plane. Drag to orbit, scroll to zoom.
       </div>
-      <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)]">
+      <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)]">
         In the minimap, the camera sees the scene with foreshortening: the division by ${renderMath('w = -z')} makes distant objects appear smaller.
       </div>
     `
     : `
-      <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)]">
+      <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)]">
         The wireframe box is the orthographic view volume ${renderMath('[l, r] \\times [b, t] \\times [n, f]')}. Drag to orbit, scroll to zoom.
       </div>
-      <div class="tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)]">
+      <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-1.5 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)]">
         In the minimap, the camera sees the scene with no perspective: parallel lines stay parallel and distance does not shrink objects, because the projection keeps ${renderMath('w = 1')}.
       </div>
     `

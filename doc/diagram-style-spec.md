@@ -35,11 +35,14 @@ Never hardcode a bright translucent-white border with the `border` shorthand (fo
 
 ## 2. Inset Panels & Layout Grid
 
-Nested cards, sub-panels, and comparison columns use `var(--grey-dark)` with identical subtle border treatment:
+Nested cards, sub-panels, and comparison columns are passive surfaces, so they use a flat `var(--grey-dark)` fill with no stroke. The fill contrast against the `var(--grey-darker)` canvas separates them from the frame, following the passive-surfaces-are-borderless rule in [UX Interaction Principles](/notes/ux-interaction-principles/). Only interactive or active cards carry a stroke:
 
 ```html
-<!-- Standard Inset Card -->
-<rect x="12" y="12" width="378" height="216" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+<!-- Standard Inset Card (passive, borderless) -->
+<rect x="12" y="12" width="378" height="216" rx="8" fill="var(--grey-dark)" />
+
+<!-- Interactive Inset Card (clickable, subtle ring stroke) -->
+<rect x="12" y="12" width="378" height="216" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1" cursor="pointer" />
 
 <!-- Highlighted / Active Card (Primary Tint) -->
 <rect x="402" y="12" width="386" height="216" rx="8" fill="rgba(var(--primary), 0.08)" stroke="rgba(var(--primary), 0.45)" stroke-width="1.2" />
@@ -47,7 +50,7 @@ Nested cards, sub-panels, and comparison columns use `var(--grey-dark)` with ide
 
 ### Full-Width Space Utilization & Framing
 - **No Floating/Dead Margins**: The visual content must fully occupy the available canvas area edge-to-edge inside the outer frame padding (`12px` to `16px`).
-- **Multi-Column Panels**: Side-by-side comparisons or graph + table layouts should wrap each column in a structured inset card (`fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" rx="8"`), separated by a uniform `12px` gap.
+- **Multi-Column Panels**: Side-by-side comparisons or graph + table layouts should wrap each column in a structured inset card (`fill="var(--grey-dark)" rx="8"`, no stroke), separated by a uniform `12px` gap. Interactive columns that must read as clickable use the subtle ring stroke above.
 
 ### Badge / Pill Chips
 - **Primary Pill**: `<rect fill="rgba(var(--primary), 0.15)" rx="4" />` with text `fill="rgb(var(--primary))" font-size="11" font-weight="700"`
@@ -142,4 +145,4 @@ When building interactive Three.js / WebGL widgets:
   - **Dynamic Text Measurement**: Always measure text length using `ctx.measureText(text)` to dynamically size `canvas.width = Math.max(textWidth + paddingX * 2, 128)` and `canvas.height` with generous padding so strings like `n̂ (Rotation Axis)` are never cropped. Set sprite scale proportionally: `sprite.scale.set((canvasWidth / canvasHeight) * worldHeight, worldHeight, 1)`.
   - Set `depthTest: false`, `depthWrite: false`, and `renderOrder: 999` so labels billboard toward the camera and remain crisp and unoccluded.
 - **No Backgrounds on In-Canvas 3D Labels**: Labels attached to 3D geometry (vector names $\mathbf{v}$, $\mathbf{v}^\prime$, axis $\hat{\mathbf{n}}$, points) must **never have pill or box backgrounds**. Use direct color-coded typography with high-contrast shadow.
-- **Backgrounds Reserved for HUD Panels & Legends**: Translucent backgrounds (`var(--grey-dark)`) are reserved for HUD controls, telemetry cards, and corner/bottom legend overlays. Do not frame them with a bright translucent-white `border`; rely on the default border rule (see Section 1).
+- **Backgrounds Reserved for HUD Panels & Legends**: Translucent backgrounds (`var(--grey-dark)`) are reserved for HUD controls, telemetry cards, and corner/bottom legend overlays. These are passive surfaces, so they are borderless: no `border`, no `stroke` (see the passive-surfaces rule in Section 2). Only an interactive HUD element, one the user can click, gets the subtle ring stroke.
