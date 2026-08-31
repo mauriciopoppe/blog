@@ -65,7 +65,7 @@ export function initDiurnalSimulator() {
 
       <!-- Micro Header -->
       <div class="tw-flex tw-justify-between tw-items-center tw-mb-1 tw-px-0.5">
-        <div class="tw-text-[0.74rem] tw-font-semibold tw-text-primary tw-flex tw-items-center tw-gap-1"><span>🔍</span> <span>Microscopic Core Activity (Sampled at Vertical Needle Above)</span></div>
+        <div class="tw-text-[0.74rem] tw-font-semibold tw-text-primary tw-flex tw-items-center tw-gap-1 tw-font-sans"><span>🔍</span> <span>Microscopic Core Activity (Sampled at Vertical Needle Above)</span></div>
         <div class="tw-text-[0.68rem] tw-text-[var(--grey-light)]">5.0s Sample Slice</div>
       </div>
 
