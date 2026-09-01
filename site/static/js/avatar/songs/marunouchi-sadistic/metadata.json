@@ -1,0 +1,115 @@
+{
+  "id": "marunouchi-sadistic",
+  "name": "Marunouchi Sadistic (丸の内サディスティック)",
+  "artist": "Sheena Ringo",
+  "icon": "🍸",
+  "bpm": 100,
+  "totalPhrases": 9,
+  "notesFile": "notes.csv",
+  "phrases": [
+    {
+      "title": "Intro [1.1 - 9.3)",
+      "phraseIndex": 1,
+      "startBar": 1,
+      "startBeat": 1,
+      "endBar": 9,
+      "endBeat": 3,
+      "duration": 20.4,
+      "startRow": 0,
+      "rowCount": 190
+    },
+    {
+      "title": "Verse 1A [9.3 - 17.4)",
+      "phraseIndex": 2,
+      "startBar": 9,
+      "startBeat": 3,
+      "endBar": 17,
+      "endBeat": 4,
+      "duration": 19.8,
+      "startRow": 190,
+      "rowCount": 181
+    },
+    {
+      "title": "Verse 1B [17.4 - 25.4)",
+      "phraseIndex": 3,
+      "startBar": 17,
+      "startBeat": 4,
+      "endBar": 25,
+      "endBeat": 4,
+      "duration": 19.2,
+      "startRow": 371,
+      "rowCount": 220
+    },
+    {
+      "title": "Chorus 1 [25.4 - 33.3)",
+      "phraseIndex": 4,
+      "startBar": 25,
+      "startBeat": 4,
+      "endBar": 33,
+      "endBeat": 3,
+      "duration": 18.6,
+      "startRow": 591,
+      "rowCount": 176
+    },
+    {
+      "title": "Interlude [33.3 - 40.4)",
+      "phraseIndex": 5,
+      "startBar": 33,
+      "startBeat": 3,
+      "endBar": 40,
+      "endBeat": 4,
+      "duration": 17.4,
+      "startRow": 767,
+      "rowCount": 157
+    },
+    {
+      "title": "Verse 2 [40.4 - 45.2)",
+      "phraseIndex": 6,
+      "startBar": 40,
+      "startBeat": 4,
+      "endBar": 45,
+      "endBeat": 2,
+      "duration": 10.8,
+      "startRow": 924,
+      "rowCount": 71
+    },
+    {
+      "title": "Chorus 2 [45.2 - 53.1)",
+      "phraseIndex": 7,
+      "startBar": 45,
+      "startBeat": 2,
+      "endBar": 53,
+      "endBeat": 1,
+      "duration": 18.6,
+      "startRow": 995,
+      "rowCount": 160
+    },
+    {
+      "title": "Bridge / Solo [53.1 - 61.1)",
+      "phraseIndex": 8,
+      "startBar": 53,
+      "startBeat": 1,
+      "endBar": 61,
+      "endBeat": 1,
+      "duration": 19.2,
+      "startRow": 1155,
+      "rowCount": 217
+    },
+    {
+      "title": "Outro [61.1 - 74.1)",
+      "phraseIndex": 9,
+      "startBar": 61,
+      "startBeat": 1,
+      "endBar": 74,
+      "endBeat": 1,
+      "duration": 31.2,
+      "startRow": 1372,
+      "rowCount": 277
+    }
+  ],
+  "timeSignature": "4/4",
+  "beatsPerBar": 4,
+  "accents": [
+    1
+  ]
+}

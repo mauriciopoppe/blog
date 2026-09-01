@@ -1,0 +1,14 @@
+[
+  {
+    "id": "crime-and-punishment",
+    "name": "Crime and Punishment (罪と罰)",
+    "artist": "Sheena Ringo",
+    "icon": "🥀",
+    "bpm": 119,
+    "timeSignature": "6/8",
+    "beatsPerBar": 6,
+    "key": "Bmin",
+    "accents": [1, 4],
+    "dir": "/js/avatar/songs/crime-and-punishment/"
+  }
+]

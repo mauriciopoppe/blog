@@ -1,0 +1,249 @@
+{
+  "id": "crime-and-punishment",
+  "name": "Crime and Punishment (罪と罰)",
+  "artist": "Sheena Ringo",
+  "icon": "🥀",
+  "bpm": 119,
+  "totalPhrases": 21,
+  "notesFile": "notes.csv",
+  "phrases": [
+    {
+      "title": "Intro",
+      "phraseIndex": 1,
+      "startBar": 1,
+      "startBeat": 1,
+      "endBar": 9,
+      "endBeat": 1,
+      "duration": 12.101,
+      "startRow": 0,
+      "rowCount": 49
+    },
+    {
+      "title": "Verse 1A",
+      "phraseIndex": 2,
+      "startBar": 9,
+      "startBeat": 1,
+      "endBar": 17,
+      "endBeat": 6,
+      "duration": 13.361,
+      "startRow": 49,
+      "rowCount": 59
+    },
+    {
+      "title": "Verse 1B",
+      "phraseIndex": 3,
+      "startBar": 17,
+      "startBeat": 6,
+      "endBar": 25,
+      "endBeat": 6,
+      "duration": 12.101,
+      "startRow": 108,
+      "rowCount": 67
+    },
+    {
+      "title": "Chorus 1A",
+      "phraseIndex": 4,
+      "startBar": 25,
+      "startBeat": 6,
+      "endBar": 33,
+      "endBeat": 6,
+      "duration": 12.101,
+      "startRow": 175,
+      "rowCount": 67
+    },
+    {
+      "title": "Chorus 1B",
+      "phraseIndex": 5,
+      "startBar": 33,
+      "startBeat": 6,
+      "endBar": 41,
+      "endBeat": 4,
+      "duration": 11.597,
+      "startRow": 242,
+      "rowCount": 79
+    },
+    {
+      "title": "Interlude",
+      "phraseIndex": 6,
+      "startBar": 41,
+      "startBeat": 4,
+      "endBar": 49,
+      "endBeat": 4,
+      "duration": 12.101,
+      "startRow": 321,
+      "rowCount": 56
+    },
+    {
+      "title": "Verse 2A",
+      "phraseIndex": 7,
+      "startBar": 49,
+      "startBeat": 4,
+      "endBar": 57,
+      "endBeat": 6,
+      "duration": 12.605,
+      "startRow": 377,
+      "rowCount": 54
+    },
+    {
+      "title": "Verse 2B",
+      "phraseIndex": 8,
+      "startBar": 57,
+      "startBeat": 6,
+      "endBar": 65,
+      "endBeat": 6,
+      "duration": 12.101,
+      "startRow": 431,
+      "rowCount": 67
+    },
+    {
+      "title": "Chorus 2A",
+      "phraseIndex": 9,
+      "startBar": 65,
+      "startBeat": 6,
+      "endBar": 75,
+      "endBeat": 6,
+      "duration": 15.126,
+      "startRow": 498,
+      "rowCount": 93
+    },
+    {
+      "title": "Chorus 2B",
+      "phraseIndex": 10,
+      "startBar": 75,
+      "startBeat": 6,
+      "endBar": 84,
+      "endBeat": 1,
+      "duration": 12.353,
+      "startRow": 591,
+      "rowCount": 76
+    },
+    {
+      "title": "Guitar Solo 1",
+      "phraseIndex": 11,
+      "startBar": 84,
+      "startBeat": 1,
+      "endBar": 93,
+      "endBeat": 1,
+      "duration": 13.613,
+      "startRow": 667,
+      "rowCount": 55
+    },
+    {
+      "title": "Guitar Solo 2",
+      "phraseIndex": 12,
+      "startBar": 93,
+      "startBeat": 1,
+      "endBar": 100,
+      "endBeat": 1,
+      "duration": 10.588,
+      "startRow": 722,
+      "rowCount": 39
+    },
+    {
+      "title": "Guitar Solo 3",
+      "phraseIndex": 13,
+      "startBar": 100,
+      "startBeat": 1,
+      "endBar": 107,
+      "endBeat": 6,
+      "duration": 11.849,
+      "startRow": 761,
+      "rowCount": 69
+    },
+    {
+      "title": "Solo Climax",
+      "phraseIndex": 14,
+      "startBar": 107,
+      "startBeat": 6,
+      "endBar": 115,
+      "endBeat": 6,
+      "duration": 12.101,
+      "startRow": 830,
+      "rowCount": 160
+    },
+    {
+      "title": "Bridge",
+      "phraseIndex": 15,
+      "startBar": 115,
+      "startBeat": 6,
+      "endBar": 123,
+      "endBeat": 6,
+      "duration": 12.101,
+      "startRow": 990,
+      "rowCount": 157
+    },
+    {
+      "title": "Build-up",
+      "phraseIndex": 16,
+      "startBar": 123,
+      "startBeat": 6,
+      "endBar": 131,
+      "endBeat": 6,
+      "duration": 12.101,
+      "startRow": 1147,
+      "rowCount": 158
+    },
+    {
+      "title": "Final Chorus 1",
+      "phraseIndex": 17,
+      "startBar": 131,
+      "startBeat": 6,
+      "endBar": 140,
+      "endBeat": 1,
+      "duration": 12.353,
+      "startRow": 1305,
+      "rowCount": 158
+    },
+    {
+      "title": "Final Chorus 2",
+      "phraseIndex": 18,
+      "startBar": 140,
+      "startBeat": 1,
+      "endBar": 147,
+      "endBeat": 6,
+      "duration": 11.849,
+      "startRow": 1463,
+      "rowCount": 109
+    },
+    {
+      "title": "Outro 1",
+      "phraseIndex": 19,
+      "startBar": 147,
+      "startBeat": 6,
+      "endBar": 155,
+      "endBeat": 6,
+      "duration": 12.101,
+      "startRow": 1572,
+      "rowCount": 57
+    },
+    {
+      "title": "Outro 2",
+      "phraseIndex": 20,
+      "startBar": 155,
+      "startBeat": 6,
+      "endBar": 162,
+      "endBeat": 6,
+      "duration": 10.588,
+      "startRow": 1629,
+      "rowCount": 44
+    },
+    {
+      "title": "Ending Cadence",
+      "phraseIndex": 21,
+      "startBar": 162,
+      "startBeat": 6,
+      "endBar": 178,
+      "endBeat": 1,
+      "duration": 22.941,
+      "startRow": 1673,
+      "rowCount": 371
+    }
+  ],
+  "beatsPerBar": 6,
+  "timeSignature": "6/8",
+  "accents": [
+    1,
+    4
+  ],
+  "key": "Bmin"
+}

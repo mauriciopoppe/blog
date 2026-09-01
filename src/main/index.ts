@@ -8,8 +8,6 @@ import { lazyLoadMain } from './lazy-load.js'
 import { equationPreviewMain } from './equation-preview.js'
 import { footnotesPreviewMain } from './footnotes-preview.js'
 import { mathTermPreviewMain } from './math-term-preview.js'
-import { avatarTiltMain } from './avatar-tilt.js'
-import { avatarGuitarMain } from './avatar-guitar.js'
 
 declare global {
   interface Window {
@@ -25,5 +23,3 @@ lazyLoadMain()
 equationPreviewMain()
 footnotesPreviewMain()
 mathTermPreviewMain()
-avatarTiltMain()
-avatarGuitarMain()

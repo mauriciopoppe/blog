@@ -3,28 +3,21 @@
  *
  * Computes pointer offset relative to avatar center and applies
  * spring-damped 3D rotation, translation, and reactive drop shadow.
+ *
+ * Copyright (c) 2026 Mauricio Poppe
+ * Licensed under the MIT license.
  */
 
-export interface TiltCoordinates {
-  rotX: number
-  rotY: number
-  transX: number
-  transY: number
-  shadowX: number
-  shadowY: number
-  shadowIntensity: number
-}
-
 export function computeTilt(
-  cursorX: number,
-  cursorY: number,
-  centerX: number,
-  centerY: number,
-  viewportWidth: number,
-  viewportHeight: number,
+  cursorX,
+  cursorY,
+  centerX,
+  centerY,
+  viewportWidth,
+  viewportHeight,
   maxTilt = 3.0,
   maxTranslate = 1.8
-): TiltCoordinates {
+) {
   const halfW = Math.max(1, viewportWidth / 2)
   const halfH = Math.max(1, viewportHeight / 2)
 
@@ -54,7 +47,7 @@ export function computeTilt(
   }
 }
 
-export function lerpVal(curr: number, target: number, factor = 0.06): number {
+export function lerpVal(curr, target, factor = 0.06) {
   return curr + (target - curr) * factor
 }
 
@@ -65,32 +58,13 @@ export function avatarTiltMain() {
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
   if (window.matchMedia && !window.matchMedia('(pointer: fine)').matches) return
 
-  const scenes = document.querySelectorAll<HTMLElement>('.js-avatar-scene, .profile-avatar-scene')
-  const singleAvatars = document.querySelectorAll<HTMLElement>('.js-avatar-tilt')
+  const scenes = document.querySelectorAll('.js-avatar-scene, .profile-avatar-scene')
+  const singleAvatars = document.querySelectorAll('.js-avatar-tilt')
 
-  interface LayeredState {
-    container: HTMLElement
-    bg: HTMLElement | null
-    fg: HTMLElement | null
-    isVisible: boolean
-    currRotX: number
-    currRotY: number
-    currTransX: number
-    currTransY: number
-    currShadowX: number
-    currShadowY: number
-    targetRotX: number
-    targetRotY: number
-    targetTransX: number
-    targetTransY: number
-    targetShadowX: number
-    targetShadowY: number
-  }
-
-  const layeredStates: LayeredState[] = Array.from(scenes).map((container) => {
+  const layeredStates = Array.from(scenes).map((container) => {
     container.style.perspective = '600px'
-    const bg = container.querySelector<HTMLElement>('.js-avatar-bg')
-    const fg = container.querySelector<HTMLElement>('.js-avatar-fg')
+    const bg = container.querySelector('.js-avatar-bg')
+    const fg = container.querySelector('.js-avatar-fg')
 
     if (bg) {
       bg.style.willChange = 'transform'
@@ -122,24 +96,7 @@ export function avatarTiltMain() {
   })
 
   // Single avatar states for backwards compatibility
-  interface SingleState {
-    el: HTMLElement
-    isVisible: boolean
-    currRotX: number
-    currRotY: number
-    currTransX: number
-    currTransY: number
-    currShadowX: number
-    currShadowY: number
-    targetRotX: number
-    targetRotY: number
-    targetTransX: number
-    targetTransY: number
-    targetShadowX: number
-    targetShadowY: number
-  }
-
-  const singleStates: SingleState[] = Array.from(singleAvatars).map((el) => {
+  const singleStates = Array.from(singleAvatars).map((el) => {
     const parent = el.parentElement
     if (parent && !parent.style.perspective) {
       parent.style.perspective = '600px'
@@ -271,7 +228,7 @@ export function avatarTiltMain() {
     }
   }
 
-  const onMouseMove = (e: MouseEvent) => {
+  const onMouseMove = (e) => {
     const hasVisible = layeredStates.some((s) => s.isVisible) || singleStates.some((s) => s.isVisible)
     if (!hasVisible) return
 
