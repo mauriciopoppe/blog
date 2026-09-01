@@ -3,7 +3,7 @@ const { createThemes } = require('tw-colors')
 
 module.exports = {
   prefix: 'tw-',
-  content: ['src/**/*.{tsx,jsx}', 'site/content/**/*.md', 'site/layouts/**/*.html', 'site/static/**/*.js'],
+  content: ['src/**/*.{tsx,jsx,ts,js}', 'site/content/**/*.md', 'site/layouts/**/*.html', 'site/static/**/*.js'],
   theme: {
     extend: {
       colors: {

@@ -131,8 +131,9 @@ When converting an existing graph (for example the Quaternion SLERP vs Euler LER
 
 ### 3. Segmented control groups (presets, modes, radio groups)
 
-- One flex row with `tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-bg-[var(--grey-dark)] tw-shadow-subtle tw-overflow-hidden`
-- Toggle state via a class-string swap. Define `*_BASE`, `*_ACTIVE`, `*_INACTIVE` constants and reassign `btn.className` on click (also reset siblings to `INACTIVE`). Active: `tw-bg-primary-soft tw-text-primary`; inactive: `tw-bg-transparent tw-text-[var(--grey-light)]`
+- Import `UI` from `../ui/tokens.js` and reuse `UI.segmented.group`, `UI.segmented.itemActive`, and `UI.segmented.itemInactive`
+- Outer container: `tw-flex tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-bg-[var(--grey-dark)] tw-shadow-subtle tw-overflow-hidden`
+- Toggle state via a class-string swap: `UI.segmented.itemActive` (`tw-bg-primary-soft tw-text-primary`) and `UI.segmented.itemInactive` (`tw-bg-transparent tw-text-[var(--grey-light)] hover:tw-bg-primary-soft hover:tw-text-primary`)
 - Rows stay compact: `tw-px-2.5 tw-py-1 tw-leading-none`, `tw-text-[0.8rem]`, `tw-font-semibold`
 - Verify the row height against the surrounding controls: a segmented row should be about as tall as the buttons next to it, not taller. If it renders too tall, the culprit is usually line-height, not padding
 
