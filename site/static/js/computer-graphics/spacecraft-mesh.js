@@ -54,13 +54,14 @@ export function createSpacecraftMesh(isGhost = false) {
     group.add(new THREE.Mesh(wingGeo, ghostMat))
 
     const finShape = new THREE.Shape()
-    finShape.moveTo(-0.09, 0.24)
-    finShape.lineTo(0.09, 0.24)
-    finShape.lineTo(0.07, 0.6)
-    finShape.lineTo(-0.07, 0.6)
+    finShape.moveTo(0.18, 0.20)
+    finShape.lineTo(0.65, 0.20)
+    finShape.lineTo(0.60, 0.58)
+    finShape.lineTo(0.42, 0.58)
     finShape.closePath()
     const finGeo = new THREE.ExtrudeGeometry(finShape, { depth: 0.03, bevelEnabled: false })
-    finGeo.translate(0, 0, 0.42)
+    finGeo.rotateY(-Math.PI / 2)
+    finGeo.translate(0.015, 0, 0)
     group.add(new THREE.Mesh(finGeo, ghostMat))
 
     const tailShape = new THREE.Shape()
@@ -78,39 +79,37 @@ export function createSpacecraftMesh(isGhost = false) {
     return group
   }
 
-  // Active Craft Materials (dim palette: site accent greens, blues, yellows)
+  // Active Craft Materials (dim, muted aesthetic matching theme palette)
   const fuselageMat = new THREE.MeshStandardMaterial({
-    color: 0x2f6db3, // dim blue (site blue #3b82f6 family)
-    roughness: 0.55,
-    metalness: 0.3
+    color: 0x7a4452, // Muted, dim rose-slate (subtle primary tone)
+    roughness: 0.6,
+    metalness: 0.2
   })
 
   const wingMat = new THREE.MeshStandardMaterial({
-    color: 0x1e9e50, // dim green (site green #22c55e family)
-    roughness: 0.5,
-    metalness: 0.35
+    color: 0x27282b, // Dim dark slate
+    roughness: 0.55,
+    metalness: 0.25
   })
 
   const finMat = new THREE.MeshStandardMaterial({
-    color: 0xd39b2f, // dim amber (site yellow #fbbf24 family)
-    roughness: 0.5,
-    metalness: 0.3
+    color: 0x9c762b, // Dimmed warm brass / muted gold
+    roughness: 0.55,
+    metalness: 0.25
   })
 
   const cockpitMat = new THREE.MeshStandardMaterial({
-    color: 0x2d7bb8, // lighter blue glass
-    roughness: 0.1,
-    metalness: 0.5,
-    emissive: 0x38bdf8,
-    emissiveIntensity: 0.35,
+    color: 0x18191c, // Neutral smoked dark glass (zero red)
+    roughness: 0.2,
+    metalness: 0.7,
     transparent: true,
-    opacity: 0.85
+    opacity: 0.75
   })
 
   const edgeMat = new THREE.LineBasicMaterial({
-    color: 0x94a3b8, // neutral slate edge so the body colors lead
+    color: 0x52525b, // Subtle neutral edge wireframe
     transparent: true,
-    opacity: 0.5
+    opacity: 0.35
   })
 
   // 1. Fuselage
@@ -148,14 +147,15 @@ export function createSpacecraftMesh(isGhost = false) {
 
   // 4. Vertical Tail Fin (swept, centered on the fuselage)
   const finShape = new THREE.Shape()
-  finShape.moveTo(-0.09, 0.24)
-  finShape.lineTo(0.09, 0.24)
-  finShape.lineTo(0.07, 0.6)
-  finShape.lineTo(-0.07, 0.6)
+  finShape.moveTo(0.18, 0.20)
+  finShape.lineTo(0.65, 0.20)
+  finShape.lineTo(0.60, 0.58)
+  finShape.lineTo(0.42, 0.58)
   finShape.closePath()
 
   const finGeo = new THREE.ExtrudeGeometry(finShape, { depth: 0.03, bevelEnabled: false })
-  finGeo.translate(0, 0, 0.42)
+  finGeo.rotateY(-Math.PI / 2)
+  finGeo.translate(0.015, 0, 0)
   const fin = new THREE.Mesh(finGeo, finMat)
   const finEdges = new THREE.LineSegments(new THREE.EdgesGeometry(finGeo), edgeMat)
   group.add(fin)

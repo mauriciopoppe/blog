@@ -507,6 +507,10 @@ export class QuaternionSlerpEngine {
     this.setProgress(0)
   }
 
+  setPreset(key) {
+    this.applyPreset(key)
+  }
+
   setMode(mode) {
     if (mode !== 'slerp' && mode !== 'euler') return
     this.mode = mode

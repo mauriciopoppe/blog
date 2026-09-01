@@ -96,7 +96,7 @@ export function QuaternionSlerpExplorer() {
   const handlePresetChange = (newPreset) => {
     setPresetKey(newPreset)
     if (engineRef.current) {
-      engineRef.current.setPreset(newPreset)
+      engineRef.current.applyPreset(newPreset)
     }
   }
 

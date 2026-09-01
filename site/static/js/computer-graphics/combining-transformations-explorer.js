@@ -42,9 +42,9 @@ const PRESETS = {
     shortTitle: 'Standard TRS',
     description: 'Function composition: $(\\mathbf{T} \\circ \\mathbf{R} \\circ \\mathbf{S})(\\mathbf{v}) = \\mathbf{T}(\\mathbf{R}(\\mathbf{S}(\\mathbf{v})))$. Scale at origin, Rotate in place, Translate.',
     steps: [
-      { type: 'scale', name: 'Scale S', latexSymbol: '\\mathbf{S}', mathTerm: 'S', badgeName: 'Scale', desc: 'Scale geometry at origin', x: 1.4, y: 0.7, z: 1.2 },
+      { type: 'scale', name: 'Scale S', latexSymbol: '\\mathbf{S}', mathTerm: 'S', badgeName: 'Scale', desc: 'Uniform scale ($1.15\\times$) at origin', x: 1.15, y: 1.15, z: 1.15 },
       { type: 'rotate', name: 'Rotate R_y(45°)', latexSymbol: '\\mathbf{R}_y', mathTerm: 'R', badgeName: 'Rotate Y', desc: 'Yaw $45^\\circ$ on local Y axis', axis: 'y', angleDeg: 45 },
-      { type: 'translate', name: 'Translate T', latexSymbol: '\\mathbf{T}', mathTerm: 'T', badgeName: 'Translate', desc: 'Displace to $(2.5, 1.2, 0)$', x: 2.5, y: 1.2, z: 0 }
+      { type: 'translate', name: 'Translate T', latexSymbol: '\\mathbf{T}', mathTerm: 'T', badgeName: 'Translate', desc: 'Displace to $(-2.0, 1.0, -2.0)$', x: -2.0, y: 1.0, z: -2.0 }
     ]
   },
   rts: {
@@ -53,9 +53,9 @@ const PRESETS = {
     shortTitle: 'Orbit RTS',
     description: 'Swapped composition: $(\\mathbf{S} \\circ \\mathbf{R} \\circ \\mathbf{T})(\\mathbf{v}) = \\mathbf{S}(\\mathbf{R}(\\mathbf{T}(\\mathbf{v})))$. Translating first shifts pivot, so rotation orbits around $(0,0,0)$!',
     steps: [
-      { type: 'translate', name: 'Translate T', latexSymbol: '\\mathbf{T}', mathTerm: 'T', badgeName: 'Translate', desc: 'Displace $+3$ along +X axis', x: 3.0, y: 0.5, z: 0 },
-      { type: 'rotate', name: 'Rotate R_y(90°)', latexSymbol: '\\mathbf{R}_y', mathTerm: 'R', badgeName: 'Rotate Y', desc: 'Yaw $90^\\circ$ around origin $(0,0,0)$', axis: 'y', angleDeg: 90 },
-      { type: 'scale', name: 'Scale S', latexSymbol: '\\mathbf{S}', mathTerm: 'S', badgeName: 'Scale', desc: 'Scale post-rotation along orbit', x: 1.5, y: 0.5, z: 1.0 }
+      { type: 'translate', name: 'Translate T', latexSymbol: '\\mathbf{T}', mathTerm: 'T', badgeName: 'Translate', desc: 'Displace to $(-2.0, 1.0, -2.0)$', x: -2.0, y: 1.0, z: -2.0 },
+      { type: 'rotate', name: 'Rotate R_y(45°)', latexSymbol: '\\mathbf{R}_y', mathTerm: 'R', badgeName: 'Rotate Y', desc: 'Yaw $45^\\circ$ orbiting around origin $(0,0,0)$', axis: 'y', angleDeg: 45 },
+      { type: 'scale', name: 'Scale S', latexSymbol: '\\mathbf{S}', mathTerm: 'S', badgeName: 'Scale', desc: 'Uniform scale ($1.15\\times$) post-rotation', x: 1.15, y: 1.15, z: 1.15 }
     ]
   },
   multi_rot: {
@@ -66,7 +66,7 @@ const PRESETS = {
     steps: [
       { type: 'rotate', name: 'Roll R_z(45°)', latexSymbol: '\\mathbf{R}_z', mathTerm: 'R', badgeName: 'Roll Z', desc: 'Roll $45^\\circ$ around Z axis', axis: 'z', angleDeg: 45 },
       { type: 'rotate', name: 'Yaw R_y(45°)', latexSymbol: '\\mathbf{R}_y', mathTerm: 'R', badgeName: 'Yaw Y', desc: 'Yaw $45^\\circ$ around Y axis', axis: 'y', angleDeg: 45 },
-      { type: 'translate', name: 'Translate T', latexSymbol: '\\mathbf{T}', mathTerm: 'T', badgeName: 'Translate', desc: 'Displace along new orientation', x: 1.5, y: 1.0, z: -1.0 }
+      { type: 'translate', name: 'Translate T', latexSymbol: '\\mathbf{T}', mathTerm: 'T', badgeName: 'Translate', desc: 'Displace to $(-1.8, 1.0, -1.8)$', x: -1.8, y: 1.0, z: -1.8 }
     ]
   }
 }

@@ -171,7 +171,8 @@ export function QuaternionDecompExplorer() {
         </div>
 
         <!-- Right Column: 3D Canvas -->
-        <div class="tw-relative tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[10px] tw-min-h-[380px] tw-overflow-hidden" ref=${canvasContainerRef}>
+        <div class="tw-relative tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[10px] tw-min-h-[380px] tw-overflow-hidden">
+          <div class="tw-w-full tw-h-full tw-min-h-[380px]" ref=${canvasContainerRef}></div>
           <div class="tw-absolute tw-bottom-2.5 tw-left-2.5 tw-bg-[var(--grey-dark)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-text-xs tw-text-[var(--grey-light)] tw-pointer-events-none tw-flex tw-flex-col tw-gap-1 [&_.katex]:!tw-text-[1.05em]">
             <div class="tw-flex tw-items-center tw-gap-x-3.5 tw-leading-tight">
               <span class="tw-inline-flex tw-items-center tw-gap-1.5">
@@ -195,10 +196,6 @@ export function QuaternionDecompExplorer() {
               <span class="tw-inline-flex tw-items-center tw-gap-1.5">
                 <span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: #fbbf24;"></span>
                 <span dangerouslySetInnerHTML=${{ __html: renderTextWithMath('Axis $\\hat{\\mathbf{n}}$') }} />
-              </span>
-              <span class="tw-inline-flex tw-items-center tw-gap-1.5">
-                <span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full" style="background: #fbbf24;"></span>
-                <span class="tw-font-mono tw-text-xs tw-font-semibold tw-text-[#fbbf24]" dangerouslySetInnerHTML=${{ __html: renderTextWithMath(`$\\theta = ${angleDeg.toFixed(1)}^\\circ$`) }} />
               </span>
             </div>
           </div>

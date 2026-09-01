@@ -31,29 +31,16 @@ function getCssColor(varName, fallbackHex) {
   return fallbackHex
 }
 
-function createTextSprite(text, colorHex, fontSize = 40) {
+function createTextSprite(text, colorHex, fontSize = 40, canvasWidth = 256, canvasHeight = 128) {
   if (typeof document === 'undefined') return new THREE.Object3D()
-
-  // First pass: accurately measure text width with matching typography
-  const tempCanvas = document.createElement('canvas')
-  const tempCtx = tempCanvas.getContext('2d')
-  const fontStyle = `bold ${fontSize}px "KaTeX_Math", "KaTeX_Main", "Times New Roman", -apple-system, system-ui, sans-serif`
-  tempCtx.font = fontStyle
-
-  const metrics = tempCtx.measureText(text)
-  const textWidth = Math.ceil(metrics.width)
-  const paddingX = 24
-  const paddingY = 16
-
-  const canvasWidth = Math.max(textWidth + paddingX * 2, 128)
-  const canvasHeight = Math.max(fontSize * 2 + paddingY * 2, 64)
 
   const canvas = document.createElement('canvas')
   canvas.width = canvasWidth
   canvas.height = canvasHeight
   const ctx = canvas.getContext('2d')
+  if (!ctx) return new THREE.Object3D()
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  const fontStyle = `bold ${fontSize}px "KaTeX_Math", "KaTeX_Main", "Times New Roman", -apple-system, system-ui, sans-serif`
   ctx.font = fontStyle
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
@@ -92,21 +79,9 @@ function updateTextSprite(sprite, text, colorHex, fontSize = 40) {
   const canvas = texture.image
   if (!canvas) return
   const ctx = canvas.getContext('2d')
+  if (!ctx) return
+
   const fontStyle = `bold ${fontSize}px "KaTeX_Math", "KaTeX_Main", "Times New Roman", -apple-system, system-ui, sans-serif`
-
-  ctx.font = fontStyle
-  const metrics = ctx.measureText(text)
-  const textWidth = Math.ceil(metrics.width)
-  const paddingX = 24
-  const paddingY = 16
-  const targetWidth = Math.max(textWidth + paddingX * 2, 128)
-  const targetHeight = Math.max(fontSize * 2 + paddingY * 2, 64)
-
-  if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
-    canvas.width = targetWidth
-    canvas.height = targetHeight
-  }
-
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   ctx.font = fontStyle
   ctx.textAlign = 'center'
@@ -118,9 +93,6 @@ function updateTextSprite(sprite, text, colorHex, fontSize = 40) {
   ctx.fillStyle = typeof colorHex === 'number' ? '#' + colorHex.toString(16).padStart(6, '0') : colorHex
   ctx.fillText(text, canvas.width / 2, canvas.height / 2)
 
-  const worldHeight = 0.22
-  const worldWidth = (canvas.width / canvas.height) * worldHeight
-  sprite.scale.set(worldWidth, worldHeight, 1)
   texture.needsUpdate = true
 }
 
@@ -509,9 +481,8 @@ export class QuaternionDecompEngine {
       this.thetaArcLine.visible = true
 
       // Midpoint of arc for label theta
-      const degText = `${((this.angleRad * 180) / Math.PI).toFixed(1)}°`
       const amberHex = 0xfbbf24
-      updateTextSprite(this.labelTheta, `θ = ${degText}`, amberHex, 40)
+      updateTextSprite(this.labelTheta, 'θ', amberHex, 44)
 
       const midAngle = this.angleRad / 2
       const midRot = rotateVectorByAxisAngle(v, n, midAngle)
