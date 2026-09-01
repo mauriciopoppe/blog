@@ -202,13 +202,7 @@ Little's Law holds in steady state regardless of whether traffic arrives in burs
 
 Imagine a bookstore or reading lounge: visitors enter at rate $\lambda$, spend an average duration $W$ inside browsing or reading, and then depart. Each visitor displays an individual countdown timer indicating their remaining visit time:
 
-<div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
-  <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
-    <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">Bookstore &amp; Lounge Simulator</div>
-    <div class="tw-text-sm tw-text-[var(--grey-light)]">Open lounge model: arrivals λ, stay W</div>
-  </header>
-  <div id="interactive-littles-law-simulator"></div>
-</div>
+<div id="interactive-littles-law-simulator"></div>
 
 > **Tuning $S$ vs. $W$ in Practice**: In this open lounge model, visitors choose how long to stay ($W$). In computing systems, engineers cannot directly set total latency $W$, because $W = W_q + S$ where queue wait $W_q$ is an emergent property of traffic bursts. Instead, engineers optimize **service time $S$** (faster queries, algorithmic tuning, caching) and provision enough capacity ($c \cdot \mu$) to keep queue wait near zero ($W_q \approx 0$), bringing total latency down to its physical floor ($W \approx S$).
 
@@ -379,33 +373,21 @@ At any single instant $t$, a worker core is in a binary state (computing or idle
 The simulation below generates stochastic Poisson request arrivals ($\lambda$) and processes them across $c$ parallel worker cores with exponential service times ($\mu$).
 
 Use the presets or sliders to observe the utilization regimes in real time:
-
-<div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
-  <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
-    <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">Queuing &amp; Utilization Simulator</div>
-    <div class="tw-text-sm tw-text-[var(--grey-light)]">Stochastic arrivals λ, c cores, service μ</div>
-  </header>
-  <div id="interactive-utilization-simulator"></div>
-</div>
-
+ 
+<div id="interactive-utilization-simulator"></div>
+ 
 ## Diurnal Traffic Cycles & Autoscaling Dynamics
-
+ 
 In production systems, arrival rate $\lambda(t)$ varies across a 24-hour diurnal cycle, with low traffic at night and higher traffic during business hours.
-
+ 
 How capacity is provisioned against this wave presents two primary strategies:
-
+ 
 - **Static Provisioning (Fixed Cores)**: A fixed worker pool leaves machines idle at night ($\rho \approx 15\%$) while peak afternoon traffic can overwhelm capacity ($>100\%$ load), triggering queue buildup and tail latency ($P_{90}$) degradation.
 - **Reactive Autoscaling (Elastic Capacity)**: An autoscaler dynamically scales out worker instances during morning ramps and scales in during late-night periods to maintain utilization near a target ($\rho \approx 70\%$).
-
+ 
 The simulation below demonstrates this 24-hour diurnal wave. Toggle between **Static** and **Autoscaling** strategies or scrub through the day to observe how elasticity absorbs traffic spikes:
-
-<div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
-  <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
-    <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">Diurnal Autoscaling Simulator</div>
-    <div class="tw-text-sm tw-text-[var(--grey-light)]">24h wave: Static vs Autoscaling</div>
-  </header>
-  <div id="interactive-diurnal-simulator"></div>
-</div>
+ 
+<div id="interactive-diurnal-simulator"></div>
 
 ## Summary
 
