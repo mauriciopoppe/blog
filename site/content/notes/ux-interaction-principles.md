@@ -29,26 +29,75 @@ The swatches below are the tokens that matter most for surfaces. `--primary` ren
 
 <div id="ux-demo-tokens"></div>
 
-## Implementing With Tailwind
+## Implementation Methods Across the Codebase
 
-The site builds on Tailwind. Express these rules as Tailwind utilities rather than raw CSS, so the markup stays consistent with the codebase. The raw CSS in this note describes the intent. In markup, prefer the site's custom utilities where they exist (for example `tw-text-primary` for `rgb(var(--primary))`) and arbitrary values for the rest.
+The site applies design tokens through three distinct methods, depending on whether the element lives in static HTML templates, dynamic ES6 scripts, or raw SVG diagrams.
+
+### Direct Tailwind in HTML & Hugo Templates
+
+In static markdown, HTML, and Hugo layouts (`site/layouts/_partials/`), express these rules as Tailwind utilities rather than raw CSS. Use custom utilities where available (`tw-text-primary` for `rgb(var(--primary))`) and theme custom property arbitrary values for borders, backgrounds, and shadows (`tw-border-[var(--ring-border)]`, `tw-bg-[var(--grey-dark)]`, `tw-shadow-subtle`).
 
 ```html
-<!-- interactive card: ring outline + resting elevation mark it as clickable -->
-<div class="tw-rounded-lg tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-cursor-pointer tw-shadow-[0_2px_6px_rgba(0,0,0,0.35)]">
+<!-- Interactive card: ring outline + resting elevation mark it as clickable -->
+<div class="tw-rounded-lg tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-cursor-pointer tw-shadow-raised hover:tw-border-primary hover:tw-bg-primary-soft hover:tw-shadow-deep tw-transition-all">
   ...
 </div>
 
-<!-- passive card: flat surface, no border, no elevation -->
+<!-- Passive card: flat surface, borderless, default cursor -->
 <div class="tw-rounded-lg tw-bg-[var(--grey-dark)]">
   ...
 </div>
 ```
 
-Where Tailwind utilities do not apply, write the rules inline on the node. This is most common for SVG. Presentation and layout that Tailwind does not cover go directly on the SVG element or its children, as presentation attributes or a `style` attribute.
+### Shared UI Tokens & Preact Components for ES6 Scripts (`/js/ui/tokens.js`, `/js/ui/preact.js`)
+
+Interactive visualizers, 3D WebGL explorers, and performance simulators build DOM interfaces dynamically in JavaScript. Instead of repeating long utility strings and manually juggling DOM elements, modules import declarative UI tokens from `/js/ui/tokens.js` and lightweight Preact components via `/js/ui/preact.js` (using `htm` tagged templates, requiring zero build steps).
+
+```javascript
+import { html, render, useState } from '../ui/preact.js'
+import { UI } from '../ui/tokens.js'
+
+function FlightSimulator() {
+  const [mode, setMode] = useState('slerp')
+
+  return html`
+    <div class=${UI.card.widgetFrame}>
+      <header class=${UI.card.header}>
+        <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">Flight Simulator</div>
+      </header>
+      <div class="tw-p-3">
+        <div class=${UI.segmented.group}>
+          <button
+            class=${mode === 'slerp' ? UI.segmented.itemActive : UI.segmented.itemInactive}
+            onClick=${() => setMode('slerp')}>
+            Quaternion SLERP
+          </button>
+          <button
+            class=${mode === 'euler' ? UI.segmented.itemActive : UI.segmented.itemInactive}
+            onClick=${() => setMode('euler')}>
+            Euler Angle LERP
+          </button>
+        </div>
+      </div>
+    </div>
+  `
+}
+
+render(html`<${FlightSimulator} />`, document.getElementById('widget-mount'))
+```
+
+The `UI` token object groups tokens into four categories:
+- `UI.btn` (`base`, `ctrl`, `playNeutral`, `playActive`, `mini`) for clickable action buttons
+- `UI.segmented` (`group`, `itemBase`, `itemInactive`, `itemActive`) for radio groups with background hover
+- `UI.card` (`widgetFrame`, `header`, `interactive`, `passive`, `inset`) for surface containers
+- `UI.pill` (`neutral`, `interactive`, `active`) for tags and filter badges
+
+### Inline Styling for SVG Graphics
+
+Where Tailwind utilities do not apply (such as native SVG elements), presentation rules go directly on the SVG element or its children as attributes or inline styles using theme CSS variables.
 
 ```html
-<svg style="border: 1px solid var(--grey-dark); font-family: var(--family-sans, system-ui, sans-serif);">
+<svg style="width: 100%; height: auto; background: var(--grey-darker); border-radius: 12px; border: 1px solid var(--grey-dark); font-family: var(--family-sans, system-ui, sans-serif);">
   <line stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.2" />
   <text fill="var(--grey-light)" font-family="var(--family-serif, system-ui, serif)">label</text>
 </svg>
@@ -436,34 +485,33 @@ Clickable elements must be focusable and operable with the keyboard. Provide a v
 
 Widgets combine the rules above into a reusable component. A widget is a wrapper for content: an outer card with a header strip and a body slot. Every example follows the interaction, typography, and border conventions already defined in this note. As more widgets are built, add their patterns here.
 
-### Widget Frame
-
-A widget frame wraps content in an outer card with a header. The header uses a distinct surface (`var(--grey-dark)`) so it reads as a title bar against the deeper body surface (`var(--grey-darker)`), and the title text uses the primary accent. The title sits on the left and an optional descriptor on the right. The body is a slot that takes any content.
-
-```html
-<div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
-  <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
-    <div class="tw-font-sans tw-text-sm tw-font-semibold tw-leading-tight tw-text-primary">Widget title</div>
-    <div class="tw-text-sm tw-leading-tight tw-text-[var(--grey-light)]">Optional descriptor</div>
-  </header>
-  <div class="tw-grid tw-grid-cols-[335px_1fr] tw-gap-2.5 tw-p-2.5">
-    ...body content...
-  </div>
-</div>
-```
-
-<div id="ux-demo-widget-frame"></div>
-
 ### Metric Card
 
 A metric card is a compact passive surface that presents a single number with a small title above it and an optional caption below. It is used in grids to give a dashboard-style overview. Because the card is passive, it is a flat `var(--grey-dark)` block with no border. The card centers its content: the title and caption use the serif content font, and the value uses the sans family so numerals stay legible at a glance. The value picks up the accent or a status color when it needs emphasis.
 
+**HTML Template**:
 ```html
 <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
   <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Util (theoretical)</div>
   <div class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-[var(--grey-lighter)]">75.0%</div>
   <div class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Cap: 4.0 req/s</div>
 </div>
+```
+
+**JavaScript (Preact + UI Tokens)**:
+```javascript
+import { html } from '../ui/preact.js'
+import { UI } from '../ui/tokens.js'
+
+function MetricCard({ label, value, caption, valueColor }) {
+  return html`
+    <div class="${UI.card.passive} tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
+      <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">${label}</div>
+      <div class="tw-font-sans tw-text-[1rem] tw-font-semibold ${valueColor || 'tw-text-[var(--grey-lighter)]'}">${value}</div>
+      <div class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">${caption}</div>
+    </div>
+  `
+}
 ```
 
 <div id="ux-demo-metric-card"></div>
@@ -477,6 +525,7 @@ At the boundaries, actions that cannot execute are disabled:
 - **Step Forward** is disabled when at the final completed step.
 - **Disabled state** uses `opacity: 0.45`, `cursor: not-allowed`, and suppresses hover shadows and filter glows (`disabled:tw-shadow-none disabled:hover:tw-shadow-none disabled:hover:tw-filter-none`).
 
+**HTML Template**:
 ```html
 <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-2 tw-flex tw-gap-1.5 tw-items-stretch">
   <button type="button" class="tw-flex-none tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft hover:tw-shadow-raised disabled:tw-opacity-45 disabled:tw-cursor-not-allowed disabled:tw-shadow-none disabled:hover:tw-shadow-none disabled:hover:tw-filter-none" title="Reset to Start" disabled>↺</button>
@@ -486,7 +535,91 @@ At the boundaries, actions that cannot execute are disabled:
 </div>
 ```
 
+**JavaScript (Preact + UI Tokens)**:
+```javascript
+import { html, useState } from '../ui/preact.js'
+import { UI } from '../ui/tokens.js'
+
+function StepPlayback({ currentStep = 0, totalSteps = 4, onStepChange }) {
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  return html`
+    <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-2 tw-flex tw-gap-1.5 tw-items-stretch">
+      <button
+        type="button"
+        class=${UI.btn.ctrl}
+        title="Reset to Start"
+        disabled=${currentStep <= 0}
+        onClick=${() => { onStepChange(0); setIsPlaying(false); }}>
+        ↺
+      </button>
+      <button
+        type="button"
+        class=${UI.btn.ctrl}
+        title="Step Back"
+        disabled=${currentStep <= 0}
+        onClick=${() => { onStepChange(Math.max(0, currentStep - 1)); setIsPlaying(false); }}>
+        ⏮
+      </button>
+      <button
+        type="button"
+        class=${isPlaying ? UI.btn.playActive : UI.btn.playNeutral}
+        onClick=${() => setIsPlaying(!isPlaying)}>
+        <span>${isPlaying ? '⏸ Pause' : (currentStep >= totalSteps - 1 ? '↺ Replay' : '▶ Play Steps')}</span>
+      </button>
+      <button
+        type="button"
+        class=${UI.btn.ctrl}
+        title="Step Forward"
+        disabled=${currentStep >= totalSteps - 1}
+        onClick=${() => { onStepChange(Math.min(totalSteps - 1, currentStep + 1)); setIsPlaying(false); }}>
+        ⏭
+      </button>
+    </div>
+  `
+}
+```
+
 <div id="ux-demo-step-control"></div>
+
+### Widget Frame
+
+A widget frame wraps content in an outer card with a header. The header uses a distinct surface (`var(--grey-dark)`) so it reads as a title bar against the deeper body surface (`var(--grey-darker)`), and the title text uses the primary accent. The title sits on the left and an optional descriptor on the right. The body is a slot that takes any content.
+
+**HTML Template**:
+```html
+<div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
+  <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
+    <div class="tw-font-sans tw-text-sm tw-font-semibold tw-leading-tight tw-text-primary">Widget title</div>
+    <div class="tw-text-sm tw-leading-tight tw-text-[var(--grey-light)]">Optional descriptor</div>
+  </header>
+  <div class="tw-grid tw-grid-cols-[335px_1fr] tw-gap-2.5 tw-p-2.5">
+    ...body content...
+  </div>
+</div>
+```
+
+**JavaScript (Preact + UI Tokens)**:
+```javascript
+import { html } from '../ui/preact.js'
+import { UI } from '../ui/tokens.js'
+
+function WidgetFrame({ title, descriptor, children }) {
+  return html`
+    <div class=${UI.card.widgetFrame}>
+      <header class=${UI.card.header}>
+        <div class="tw-font-sans tw-text-sm tw-font-semibold tw-leading-tight tw-text-primary">${title}</div>
+        ${descriptor && html`<div class="tw-text-sm tw-leading-tight tw-text-[var(--grey-light)]">${descriptor}</div>`}
+      </header>
+      <div class="tw-grid tw-grid-cols-[335px_1fr] tw-gap-2.5 tw-p-2.5 max-[860px]:tw-grid-cols-1">
+        ${children}
+      </div>
+    </div>
+  `
+}
+```
+
+<div id="ux-demo-widget-frame"></div>
 
 ### Two Columns: Controls Left, Canvas Right
 
@@ -494,6 +627,7 @@ The canonical two column widget applies the widget frame with a two column body.
 
 A card with a title within the left panel presents secondary status, telemetry, or preset summaries cleanly with an inset header.
 
+**HTML Template**:
 ```html
 <div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
   <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
@@ -510,7 +644,7 @@ A card with a title within the left panel presents secondary status, telemetry, 
         <span class="tw-font-sans tw-text-[0.7rem] tw-tracking-[0.04em] tw-text-[var(--grey-light)]">Interpolation</span>
         <div class="tw-flex tw-w-full tw-border tw-border-[var(--ring-border)] tw-rounded-[6px] tw-bg-[var(--grey-dark)] tw-shadow-subtle tw-overflow-hidden">
           <button type="button" class="tw-flex-1 tw-text-center tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-leading-none tw-px-[8px] tw-py-[5px] tw-cursor-pointer tw-bg-primary-soft tw-text-primary">Quaternion SLERP</button>
-          <button type="button" class="tw-flex-1 tw-text-center tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-leading-none tw-px-[8px] tw-py-[5px] tw-cursor-pointer tw-bg-transparent tw-text-[var(--grey-light)]">Euler Angle LERP</button>
+          <button type="button" class="tw-flex-1 tw-text-center tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-leading-none tw-px-[8px] tw-py-[5px] tw-cursor-pointer tw-bg-transparent tw-text-[var(--grey-light)] hover:tw-bg-primary-soft hover:tw-text-primary">Euler Angle LERP</button>
         </div>
       </div>
       <div class="tw-flex tw-flex-col tw-gap-1">
@@ -562,6 +696,91 @@ A card with a title within the left panel presents secondary status, telemetry, 
     </div>
   </div>
 </div>
+```
+
+**JavaScript (Preact + UI Tokens)**:
+```javascript
+import { html, render, useState, useEffect, useRef } from '../ui/preact.js'
+import { UI } from '../ui/tokens.js'
+
+export function FlightSimulatorWidget() {
+  const [mode, setMode] = useState('slerp')
+  const [preset, setPreset] = useState('gimbal')
+  const [t, setT] = useState(0)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const canvasMountRef = useRef(null)
+
+  return html`
+    <div class=${UI.card.widgetFrame}>
+      <header class=${UI.card.header}>
+        <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">Quaternion SLERP vs Euler LERP Flight Simulator</div>
+        <div class="tw-text-sm tw-text-[var(--grey-light)]">3D Geodesic vs Decoupled Interpolation</div>
+      </header>
+      <div class="tw-grid tw-grid-cols-[335px_1fr] tw-gap-2.5 tw-p-2.5 max-[860px]:tw-grid-cols-1">
+        <form class="tw-flex tw-flex-col tw-gap-3" onSubmit=${(e) => e.preventDefault()}>
+          <div class=${UI.segmented.group}>
+            <button
+              type="button"
+              class=${mode === 'slerp' ? UI.segmented.itemActive : UI.segmented.itemInactive}
+              onClick=${() => setMode('slerp')}>
+              Quaternion SLERP
+            </button>
+            <button
+              type="button"
+              class=${mode === 'euler' ? UI.segmented.itemActive : UI.segmented.itemInactive}
+              onClick=${() => setMode('euler')}>
+              Euler Angle LERP
+            </button>
+          </div>
+
+          <div class="tw-flex tw-flex-col tw-gap-1">
+            <div class="tw-flex tw-items-center tw-justify-between">
+              <label class="tw-font-sans tw-text-[0.7rem] tw-text-[var(--grey-light)]">Progress</label>
+              <span class="tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-text-primary">t = ${t.toFixed(2)}</span>
+            </div>
+            <input
+              type="range"
+              class="ux-range"
+              min="0"
+              max="1"
+              step="0.01"
+              value=${t}
+              style=${{ '--range-fill': `${(t * 100).toFixed(0)}%` }}
+              onInput=${(e) => { setT(Number(e.target.value)); setIsPlaying(false); }} />
+          </div>
+
+          <!-- Step Playback Bar -->
+          <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-2 tw-flex tw-gap-1.5 tw-items-stretch">
+            <button type="button" class=${UI.btn.ctrl} title="Reset" disabled=${t <= 0} onClick=${() => { setT(0); setIsPlaying(false); }}>↺</button>
+            <button type="button" class=${UI.btn.ctrl} title="Step Back" disabled=${t <= 0} onClick=${() => { setT((v) => Math.max(0, Number((v - 0.1).toFixed(2)))); setIsPlaying(false); }}>⏮</button>
+            <button type="button" class=${isPlaying ? UI.btn.playActive : UI.btn.playNeutral} onClick=${() => { if (t >= 1) setT(0); setIsPlaying(!isPlaying); }}>
+              <span>${isPlaying ? '⏸ Pause' : (t >= 1 ? '↺ Replay' : '▶ Play Flight')}</span>
+            </button>
+            <button type="button" class=${UI.btn.ctrl} title="Step Forward" disabled=${t >= 1} onClick=${() => { setT((v) => Math.min(1, Number((v + 0.1).toFixed(2)))); setIsPlaying(false); }}>⏭</button>
+          </div>
+
+          <!-- Inset Summary Card -->
+          <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-p-3">
+            <div class="tw-font-sans tw-text-xs tw-font-semibold tw-text-primary">Configuration Summary</div>
+            <div class="tw-font-serif tw-text-xs tw-text-[var(--grey-light)] tw-mt-1">
+              ${mode === 'slerp' ? 'Geodesic shortest path on S³ manifold.' : 'Decoupled Euler pitch and roll interpolation.'}
+            </div>
+          </div>
+        </form>
+
+        <div class="tw-relative tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[10px] tw-min-h-[320px]" ref=${canvasMountRef}>
+          <div class="tw-absolute tw-top-2 tw-left-2 tw-flex tw-items-center tw-gap-1.5 tw-bg-[var(--grey-dark)] tw-rounded-[6px] tw-px-2.5 tw-py-1.5 tw-font-sans tw-text-[11px] tw-text-[var(--grey-light)]">
+            <span class="tw-font-semibold tw-text-primary">${mode === 'slerp' ? 'Quaternion SLERP' : 'Euler Angle LERP'}</span>
+            <span class="tw-text-[var(--grey)]">/</span>
+            <span>t = ${t.toFixed(2)}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  `
+}
+
+render(html`<${FlightSimulatorWidget} />`, document.getElementById('flight-simulator-mount'))
 ```
 
 <div id="ux-demo-layout"></div>

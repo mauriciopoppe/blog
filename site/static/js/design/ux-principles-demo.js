@@ -8,6 +8,13 @@
  * ========================================================================== */
 
 import { createStepPlaybackControl } from '../ui/step-playback-control.js';
+import { UI } from '../ui/tokens.js';
+import { html, render, useState, useEffect, useRef } from '../ui/preact.js';
+import { WidgetFrame } from '../ui/WidgetFrame.js';
+import { StepPlayback } from '../ui/StepPlayback.js';
+import { SegmentedGroup } from '../ui/SegmentedGroup.js';
+import { RangeSlider } from '../ui/RangeSlider.js';
+import { MetricCard } from '../ui/MetricCard.js';
 
 const DEMO_CSS = `
   .ux-demo { display: grid; gap: 16px; font-family: var(--family-serif, system-ui, serif); }
@@ -425,281 +432,230 @@ export function initUxDemo() {
     `
   );
 
-  mount(
-    'ux-demo-widget-frame',
-    `
-      <div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
-        <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
-          <div class="tw-font-sans tw-text-sm tw-font-semibold tw-leading-tight tw-text-primary">Sample widget frame</div>
-          <div class="tw-text-sm tw-leading-tight tw-text-[var(--grey-light)]">Optional descriptor</div>
-        </header>
+  // Preact Widget Components & Mounts
+
+  function DemoWidgetFrame() {
+    return html`
+      <${WidgetFrame} title="Sample widget frame" descriptor="Optional descriptor">
         <div class="tw-p-2.5">
-          <div class="tw-font-serif tw-text-[0.85rem] tw-leading-relaxed tw-text-[var(--grey-light)] tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-3 tw-py-2">The body is a slot. Any content, controls, or diagrams go here.</div>
+          <div class="tw-font-serif tw-text-[0.85rem] tw-leading-relaxed tw-text-[var(--grey-light)] tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-3 tw-py-2">
+            The body is a slot. Any content, controls, or diagrams go here.
+          </div>
         </div>
-      </div>
-    `
-  );
-
-  mount(
-    'ux-demo-metric-card',
-    `
-      <div class="tw-grid tw-grid-cols-[repeat(auto-fit,minmax(115px,1fr))] tw-gap-2 tw-max-w-[520px]">
-        <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
-          <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Util (theoretical)</div>
-          <div class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-[var(--grey-lighter)]">75.0%</div>
-          <div class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Cap: 4.0 req/s</div>
-        </div>
-        <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
-          <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Util (measured)</div>
-          <div class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-primary">74.2%</div>
-          <div class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Headroom: 25.8%</div>
-        </div>
-        <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
-          <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Queue Depth</div>
-          <div class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-[var(--grey-lighter)]">0</div>
-          <div class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Peak: 1</div>
-        </div>
-        <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
-          <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Tail Latency</div>
-          <div class="tw-font-sans tw-text-[1rem] tw-font-semibold tw-text-[#ffb74d]">1.12s</div>
-          <div class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Wait: 0.12s</div>
-        </div>
-      </div>
-    `
-  );
-
-  const MODE_BASE = 'tw-flex-1 tw-text-center tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-leading-none tw-px-[8px] tw-py-[5px] tw-cursor-pointer';
-  const MODE_INACTIVE = MODE_BASE + ' tw-bg-transparent tw-text-[var(--grey-light)]';
-  const MODE_ACTIVE = MODE_BASE + ' tw-bg-primary-soft tw-text-primary';
-
-  mount(
-    'ux-demo-step-control',
-    `
-      <div class="ux-demo">
-        <div id="ux-demo-step-mount"></div>
-      </div>
-    `
-  );
-
-  const stepMount = document.getElementById('ux-demo-step-mount');
-  if (stepMount) {
-    let currentStep = 0;
-    const totalSteps = 4;
-    const ctrl = createStepPlaybackControl({
-      mountEl: stepMount,
-      idPrefix: 'demo-standalone-step',
-      showReset: true,
-      playLabel: 'Play Steps',
-      totalSteps,
-      currentStep,
-      onReset: () => {
-        currentStep = 0;
-        ctrl.update({ currentStep, isPlaying: false });
-      },
-      onStepBack: () => {
-        if (currentStep > 0) currentStep--;
-        ctrl.update({ currentStep, isPlaying: false });
-      },
-      onStepForward: () => {
-        if (currentStep < totalSteps - 1) currentStep++;
-        ctrl.update({ currentStep, isPlaying: false });
-      },
-      onTogglePlay: (isPlaying) => {
-        ctrl.update({ currentStep, isPlaying: !isPlaying });
-      }
-    });
+      <//>
+    `;
   }
 
-  mount(
-    'ux-demo-layout',
-    `
-      <div class="ux-demo">
-        <div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
-          <div class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
-            <div class="tw-font-sans tw-text-sm tw-font-semibold tw-leading-tight tw-text-primary">Quaternion SLERP vs Euler LERP Flight Simulator</div>
-            <div class="tw-text-sm tw-leading-tight tw-text-[var(--grey-light)]">3D Geodesic vs Decoupled Interpolation</div>
-          </div>
-          <div class="tw-grid tw-grid-cols-[335px_1fr] tw-gap-2.5 tw-p-2.5 max-[860px]:tw-grid-cols-1">
-            <form class="tw-flex tw-flex-col tw-gap-3">
-              <div class="tw-flex tw-flex-col tw-gap-1">
-                <label class="tw-font-sans tw-text-[0.7rem] tw-tracking-[0.04em] tw-text-[var(--grey-light)]" for="widget-name">Simulation name</label>
-                <input class="ux-input" id="widget-name" type="text" placeholder="e.g. quaternion slerp" aria-label="Simulation name">
-              </div>
-              <div class="tw-flex tw-flex-col tw-gap-1">
-                <span class="tw-font-sans tw-text-[0.7rem] tw-tracking-[0.04em] tw-text-[var(--grey-light)]">Interpolation</span>
-                <div class="tw-flex tw-w-full tw-border tw-border-[var(--ring-border)] tw-rounded-[6px] tw-bg-[var(--grey-dark)] tw-shadow-subtle tw-overflow-hidden">
-                  <button type="button" class="js-mode ${MODE_ACTIVE}">Quaternion SLERP</button>
-                  <button type="button" class="js-mode ${MODE_INACTIVE}">Euler Angle LERP</button>
-                </div>
-              </div>
-              <div class="tw-flex tw-flex-col tw-gap-1">
-                <label class="tw-font-sans tw-text-[0.7rem] tw-tracking-[0.04em] tw-text-[var(--grey-light)]" for="widget-preset">Flight path preset</label>
-                <select class="ux-select" id="widget-preset" aria-label="Flight path preset">
-                  <option value="gimbal">Gimbal 90°</option>
-                  <option value="flip">Aerobatic Flip</option>
-                  <option value="turn">Banked Turn</option>
-                </select>
-              </div>
-              <div class="tw-flex tw-flex-col tw-gap-1">
-                <div class="tw-flex tw-items-center tw-justify-between">
-                  <label class="tw-font-sans tw-text-[0.7rem] tw-tracking-[0.04em] tw-text-[var(--grey-light)]" for="widget-t">Progress</label>
-                  <span class="tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-text-primary" id="widget-t-value">t = 0.00</span>
-                </div>
-                <input type="range" class="ux-range" id="widget-t" min="0" max="1" step="0.01" value="0" style="--range-fill: 0%">
-              </div>
-              <div id="ux-layout-playback-mount"></div>
-              <button class="ux-btn tw-w-full" type="button">&#9654; Launch simulation</button>
-              
-              <!-- Passive card with title -->
-              <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-overflow-hidden">
-                <div class="tw-font-sans tw-text-[0.72rem] tw-font-semibold tw-tracking-[0.04em] tw-leading-tight tw-text-primary tw-px-3 tw-py-1.5 tw-border-b tw-border-[var(--ring-border)] tw-flex tw-justify-between tw-items-center">
-                  <span>Configuration Summary</span>
-                  <span class="tw-font-mono tw-text-[0.65rem] tw-text-[var(--grey-light)]" id="telemetry-badge">Geodesic S³</span>
-                </div>
-                <div class="tw-font-serif tw-text-[0.8rem] tw-leading-relaxed tw-text-[var(--grey-light)] tw-p-3" id="widget-card-desc">
-                  90° pitch rotation maintaining constant angular velocity along the geodesic arc.
-                </div>
-              </div>
-            </form>
-            <div class="tw-relative tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[10px] tw-min-h-[320px] tw-overflow-hidden">
-              <div class="tw-absolute tw-top-2 tw-left-2 tw-flex tw-items-center tw-gap-1.5 tw-bg-[var(--grey-dark)] tw-rounded-[6px] tw-px-2.5 tw-py-1.5 tw-font-sans tw-text-[11px] tw-text-[var(--grey-light)]">
-                <span class="tw-font-semibold tw-text-primary" id="canvas-mode-label">Quaternion SLERP</span>
-                <span class="tw-text-[var(--grey)]">/</span>
-                <span id="canvas-t-value">t = 0.00</span>
-              </div>
-              <div class="tw-absolute tw-bottom-2 tw-left-2 tw-flex tw-items-center tw-gap-3 tw-bg-[var(--grey-dark)] tw-rounded-[6px] tw-px-2.5 tw-py-1.5 tw-font-sans tw-text-[11px] tw-text-[var(--grey-light)]">
-                <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-h-2 tw-w-2 tw-rounded-full" style="background: rgb(var(--primary))"></span>Body</span>
-                <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-h-2 tw-w-2 tw-rounded-full" style="background: var(--grey-light)"></span>Path</span>
-                <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-h-2 tw-w-2 tw-rounded-full" style="background: var(--grey)"></span>Axis</span>
-              </div>
-              <div class="tw-absolute tw-bottom-2 tw-right-2 tw-flex tw-h-16 tw-w-24 tw-items-center tw-justify-center tw-bg-[var(--grey-dark)] tw-rounded-[6px] tw-font-sans tw-text-[10px] tw-text-[var(--grey-light)]">Minimap</div>
-            </div>
-          </div>
-        </div>
+  function DemoMetricCards() {
+    return html`
+      <div class="tw-grid tw-grid-cols-[repeat(auto-fit,minmax(115px,1fr))] tw-gap-2 tw-max-w-[520px]">
+        <${MetricCard} label="Util (theoretical)" value="75.0%" caption="Cap: 4.0 req/s" />
+        <${MetricCard} label="Util (measured)" value="74.2%" caption="Headroom: 25.8%" valueColor="tw-text-primary" />
+        <${MetricCard} label="Queue Depth" value="0" caption="Peak: 1" />
+        <${MetricCard} label="Tail Latency" value="1.12s" caption="Wait: 0.12s" valueColor="tw-text-[#ffb74d]" />
       </div>
-    `
-  );
+    `;
+  }
 
-  const widget = document.getElementById('ux-demo-layout');
-  if (widget) {
+  function DemoStepControl() {
+    const [step, setStep] = useState(0);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const totalSteps = 4;
+
+    useEffect(() => {
+      if (!isPlaying) return;
+      const timer = setInterval(() => {
+        setStep((s) => {
+          if (s >= totalSteps - 1) {
+            setIsPlaying(false);
+            return totalSteps - 1;
+          }
+          return s + 1;
+        });
+      }, 700);
+      return () => clearInterval(timer);
+    }, [isPlaying]);
+
+    return html`
+      <div class="ux-demo">
+        <${StepPlayback}
+          currentStep=${step}
+          totalSteps=${totalSteps}
+          isPlaying=${isPlaying}
+          playLabel="Play Steps"
+          onReset=${() => { setStep(0); setIsPlaying(false); }}
+          onStepBack=${() => { setStep((s) => Math.max(0, s - 1)); setIsPlaying(false); }}
+          onStepForward=${() => { setStep((s) => Math.min(totalSteps - 1, s + 1)); setIsPlaying(false); }}
+          onTogglePlay=${() => {
+            if (step >= totalSteps - 1) {
+              setStep(0);
+              setIsPlaying(true);
+            } else {
+              setIsPlaying(!isPlaying);
+            }
+          }} />
+      </div>
+    `;
+  }
+
+  function DemoTwoColumnWidget() {
+    const [name, setName] = useState('');
+    const [mode, setMode] = useState('slerp');
+    const [preset, setPreset] = useState('gimbal');
+    const [t, setT] = useState(0);
+    const [isPlaying, setIsPlaying] = useState(false);
+
     const PRESET_DESCS = {
       gimbal: '90° pitch rotation maintaining constant angular velocity along the geodesic arc.',
       flip: '180° pitch loop demonstrating geodesic continuity and singularity prevention.',
       turn: 'Coordinated roll and yaw coupling smoothly interpolated on the rotation manifold.'
     };
 
-    const presetSelect = widget.querySelector('#widget-preset');
-    const cardDesc = widget.querySelector('#widget-card-desc');
-    const telemetryBadge = widget.querySelector('#telemetry-badge');
+    const MODES = [
+      { label: 'Quaternion SLERP', value: 'slerp' },
+      { label: 'Euler Angle LERP', value: 'euler' }
+    ];
 
-    if (presetSelect && cardDesc) {
-      presetSelect.addEventListener('change', () => {
-        cardDesc.textContent = PRESET_DESCS[presetSelect.value] || PRESET_DESCS.gimbal;
-      });
-    }
-
-    widget.querySelectorAll('.js-mode').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        widget.querySelectorAll('.js-mode').forEach((b) => {
-          b.className = 'js-mode ' + (b === btn ? MODE_ACTIVE : MODE_INACTIVE);
+    useEffect(() => {
+      if (!isPlaying) return;
+      let animId;
+      const loop = () => {
+        setT((prev) => {
+          const next = Number((prev + 0.01).toFixed(2));
+          if (next >= 1) {
+            setIsPlaying(false);
+            return 1;
+          }
+          return next;
         });
-        const modeLabel = widget.querySelector('#canvas-mode-label');
-        if (modeLabel) modeLabel.textContent = btn.textContent;
-        if (telemetryBadge) {
-          telemetryBadge.textContent = btn.textContent.includes('SLERP') ? 'Geodesic S³' : 'Euler Decoupled';
-        }
-      });
-    });
+        animId = requestAnimationFrame(loop);
+      };
+      animId = requestAnimationFrame(loop);
+      return () => cancelAnimationFrame(animId);
+    }, [isPlaying]);
 
-    const slider = widget.querySelector('input[type="range"]');
-    const tValue = widget.querySelector('#widget-t-value');
-    const canvasT = widget.querySelector('#canvas-t-value');
+    return html`
+      <div class="ux-demo">
+        <${WidgetFrame}
+          title="Quaternion SLERP vs Euler LERP Flight Simulator"
+          descriptor="3D Geodesic vs Decoupled Interpolation">
+          <div class="tw-grid tw-grid-cols-[335px_1fr] tw-gap-2.5 tw-p-2.5 max-[860px]:tw-grid-cols-1">
+            <form class="tw-flex tw-flex-col tw-gap-3" onSubmit=${(e) => e.preventDefault()}>
+              <div class="tw-flex tw-flex-col tw-gap-1">
+                <label class="tw-font-sans tw-text-[0.7rem] tw-tracking-[0.04em] tw-text-[var(--grey-light)]" for="widget-name-preact">Simulation name</label>
+                <input
+                  class="ux-input"
+                  id="widget-name-preact"
+                  type="text"
+                  value=${name}
+                  onInput=${(e) => setName(e.target.value)}
+                  placeholder="e.g. quaternion slerp"
+                  aria-label="Simulation name" />
+              </div>
+              
+              <div class="tw-flex tw-flex-col tw-gap-1">
+                <span class="tw-font-sans tw-text-[0.7rem] tw-tracking-[0.04em] tw-text-[var(--grey-light)]">Interpolation</span>
+                <${SegmentedGroup}
+                  options=${MODES}
+                  value=${mode}
+                  onChange=${(val) => setMode(val)} />
+              </div>
 
-    let animId = null;
-    let layoutCtrl = null;
+              <div class="tw-flex tw-flex-col tw-gap-1">
+                <label class="tw-font-sans tw-text-[0.7rem] tw-tracking-[0.04em] tw-text-[var(--grey-light)]" for="widget-preset-preact">Flight path preset</label>
+                <select
+                  class="ux-select"
+                  id="widget-preset-preact"
+                  value=${preset}
+                  onChange=${(e) => setPreset(e.target.value)}
+                  aria-label="Flight path preset">
+                  <option value="gimbal">Gimbal 90°</option>
+                  <option value="flip">Aerobatic Flip</option>
+                  <option value="turn">Banked Turn</option>
+                </select>
+              </div>
 
-    const syncFill = () => {
-      const pct = (Number(slider.value) / (Number(slider.max) - Number(slider.min))) * 100;
-      slider.style.setProperty('--range-fill', pct + '%');
-      if (tValue) tValue.textContent = 't = ' + Number(slider.value).toFixed(2);
-      if (canvasT) canvasT.textContent = 't = ' + Number(slider.value).toFixed(2);
-    };
+              <${RangeSlider}
+                id="widget-t-preact"
+                label="Progress"
+                valueText="t = ${t.toFixed(2)}"
+                min=${0}
+                max=${1}
+                step=${0.01}
+                value=${t}
+                onChange=${(val) => {
+                  setT(val);
+                  setIsPlaying(false);
+                }} />
 
-    const playbackMount = widget.querySelector('#ux-layout-playback-mount');
-    if (playbackMount) {
-      layoutCtrl = createStepPlaybackControl({
-        mountEl: playbackMount,
-        idPrefix: 'ux-layout-ctrl',
-        showReset: true,
-        playLabel: 'Play Flight',
-        totalSteps: 100,
-        currentStep: 0,
-        onReset: () => {
-          if (animId) cancelAnimationFrame(animId);
-          if (slider) {
-            slider.value = 0;
-            syncFill();
-          }
-          layoutCtrl.update({ currentStep: 0, isPlaying: false });
-        },
-        onStepBack: () => {
-          if (animId) cancelAnimationFrame(animId);
-          if (slider) {
-            const nextVal = Math.max(0, Number((Number(slider.value) - 0.1).toFixed(2)));
-            slider.value = nextVal;
-            syncFill();
-            layoutCtrl.update({ currentStep: Math.round(nextVal * 100), isPlaying: false });
-          }
-        },
-        onStepForward: () => {
-          if (animId) cancelAnimationFrame(animId);
-          if (slider) {
-            const nextVal = Math.min(1, Number((Number(slider.value) + 0.1).toFixed(2)));
-            slider.value = nextVal;
-            syncFill();
-            layoutCtrl.update({ currentStep: Math.round(nextVal * 100), isPlaying: false });
-          }
-        },
-        onTogglePlay: (isPlaying) => {
-          if (isPlaying) {
-            if (animId) cancelAnimationFrame(animId);
-            layoutCtrl.update({ isPlaying: false });
-          } else {
-            if (Number(slider.value) >= 1) {
-              slider.value = 0;
-              syncFill();
-            }
-            layoutCtrl.update({ isPlaying: true });
-            const playLoop = () => {
-              let val = Number(slider.value) + 0.01;
-              if (val >= 1) {
-                val = 1;
-                slider.value = 1;
-                syncFill();
-                layoutCtrl.update({ currentStep: 100, isPlaying: false });
-                return;
-              }
-              slider.value = val;
-              syncFill();
-              layoutCtrl.update({ currentStep: Math.round(val * 100), isPlaying: true });
-              animId = requestAnimationFrame(playLoop);
-            };
-            animId = requestAnimationFrame(playLoop);
-          }
-        }
-      });
-    }
+              <${StepPlayback}
+                currentStep=${Math.round(t * 100)}
+                totalSteps=${101}
+                isPlaying=${isPlaying}
+                playLabel="Play Flight"
+                onReset=${() => { setT(0); setIsPlaying(false); }}
+                onStepBack=${() => { setT((v) => Math.max(0, Number((v - 0.1).toFixed(2)))); setIsPlaying(false); }}
+                onStepForward=${() => { setT((v) => Math.min(1, Number((v + 0.1).toFixed(2)))); setIsPlaying(false); }}
+                onTogglePlay=${() => {
+                  if (t >= 1) setT(0);
+                  setIsPlaying(!isPlaying);
+                }} />
 
-    if (slider) {
-      syncFill();
-      slider.addEventListener('input', () => {
-        syncFill();
-        if (layoutCtrl) {
-          layoutCtrl.update({ currentStep: Math.round(Number(slider.value) * 100), isPlaying: false });
-        }
-      });
-    }
+              <button
+                class="ux-btn tw-w-full"
+                type="button"
+                onClick=${() => { setT(0); setIsPlaying(true); }}>
+                ▶ Launch simulation
+              </button>
+              
+              <!-- Inset telemetry summary card -->
+              <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-overflow-hidden">
+                <div class="tw-font-sans tw-text-[0.72rem] tw-font-semibold tw-tracking-[0.04em] tw-leading-tight tw-text-primary tw-px-3 tw-py-1.5 tw-border-b tw-border-[var(--ring-border)] tw-flex tw-justify-between tw-items-center">
+                  <span>Configuration Summary</span>
+                  <span class="tw-font-mono tw-text-[0.65rem] tw-text-[var(--grey-light)]">
+                    ${mode === 'slerp' ? 'Geodesic S³' : 'Euler Decoupled'}
+                  </span>
+                </div>
+                <div class="tw-font-serif tw-text-[0.8rem] tw-leading-relaxed tw-text-[var(--grey-light)] tw-p-3">
+                  ${PRESET_DESCS[preset] || PRESET_DESCS.gimbal}
+                </div>
+              </div>
+            </form>
+
+            <!-- Canvas output preview with reactive overlays -->
+            <div class="tw-relative tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[10px] tw-min-h-[320px] tw-overflow-hidden">
+              <div class="tw-absolute tw-top-2 tw-left-2 tw-flex tw-items-center tw-gap-1.5 tw-bg-[var(--grey-dark)] tw-rounded-[6px] tw-px-2.5 tw-py-1.5 tw-font-sans tw-text-[11px] tw-text-[var(--grey-light)]">
+                <span class="tw-font-semibold tw-text-primary">${mode === 'slerp' ? 'Quaternion SLERP' : 'Euler Angle LERP'}</span>
+                <span class="tw-text-[var(--grey)]">/</span>
+                <span>t = ${t.toFixed(2)}</span>
+              </div>
+              <div class="tw-absolute tw-bottom-2 tw-left-2 tw-flex tw-items-center tw-gap-3 tw-bg-[var(--grey-dark)] tw-rounded-[6px] tw-px-2.5 tw-py-1.5 tw-font-sans tw-text-[11px] tw-text-[var(--grey-light)]">
+                <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-h-2 tw-w-2 tw-rounded-full" style="background: rgb(var(--primary))"></span>Body</span>
+                <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-h-2 tw-w-2 tw-rounded-full" style="background: var(--grey-light)"></span>Path</span>
+                <span class="tw-flex tw-items-center tw-gap-1"><span class="tw-h-2 tw-w-2 tw-rounded-full" style="background: var(--grey)"></span>Axis</span>
+              </div>
+              <div class="tw-absolute tw-bottom-2 tw-right-2 tw-flex tw-h-16 tw-w-24 tw-items-center tw-justify-center tw-bg-[var(--grey-dark)] tw-rounded-[6px] tw-font-sans tw-text-[10px] tw-text-[var(--grey-light)]">
+                Minimap
+              </div>
+            </div>
+          </div>
+        <//>
+      </div>
+    `;
   }
+
+  // Mount Preact Widgets
+  const frameMount = document.getElementById('ux-demo-widget-frame');
+  if (frameMount) render(html`<${DemoWidgetFrame} />`, frameMount);
+
+  const metricMount = document.getElementById('ux-demo-metric-card');
+  if (metricMount) render(html`<${DemoMetricCards} />`, metricMount);
+
+  const stepMount = document.getElementById('ux-demo-step-control');
+  if (stepMount) render(html`<${DemoStepControl} />`, stepMount);
+
+  const layoutMount = document.getElementById('ux-demo-layout');
+  if (layoutMount) render(html`<${DemoTwoColumnWidget} />`, layoutMount);
 }
 
 if (typeof window !== 'undefined') {
