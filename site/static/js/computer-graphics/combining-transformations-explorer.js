@@ -13,6 +13,11 @@
 
 import { TransformEngine } from './transform-engine.js'
 import { getStepRowState } from './combining-transformations-state.js'
+import { html, render, useState, useEffect, useRef } from '../ui/preact.js'
+import { WidgetFrame } from '../ui/WidgetFrame.js'
+import { SegmentedGroup } from '../ui/SegmentedGroup.js'
+import { StepPlayback } from '../ui/StepPlayback.js'
+import { StepRow } from '../ui/StepRow.js'
 
 function renderMath(tex, isDisplay = false) {
   if (typeof window !== 'undefined' && window.katex && typeof window.katex.renderToString === 'function') {
@@ -35,202 +40,159 @@ const PRESETS = {
     id: 'trs',
     title: 'Standard TRS (Model to World)',
     shortTitle: 'Standard TRS',
-    get description() {
-      return `Function composition: ${renderMath('(\\mathbf{T} \\circ \\mathbf{R} \\circ \\mathbf{S})(\\mathbf{v}) = \\mathbf{T}(\\mathbf{R}(\\mathbf{S}(\\mathbf{v})))')}. Scale at origin, Rotate in place, Translate.`
-    },
+    description: 'Function composition: $(\\mathbf{T} \\circ \\mathbf{R} \\circ \\mathbf{S})(\\mathbf{v}) = \\mathbf{T}(\\mathbf{R}(\\mathbf{S}(\\mathbf{v})))$. Scale at origin, Rotate in place, Translate.',
     steps: [
-      {
-        type: 'scale',
-        name: 'Scale S',
-        latexSymbol: '\\mathbf{S}',
-        mathTerm: 'S',
-        badgeName: 'Scale',
-        desc: 'Scale geometry at origin',
-        x: 1.4,
-        y: 0.7,
-        z: 1.2
-      },
-      {
-        type: 'rotate',
-        name: 'Rotate R_y(45°)',
-        latexSymbol: '\\mathbf{R}_y',
-        mathTerm: 'R',
-        badgeName: 'Rotate Y',
-        desc: 'Yaw $45^\\circ$ on local Y axis',
-        axis: 'y',
-        angleDeg: 45
-      },
-      {
-        type: 'translate',
-        name: 'Translate T',
-        latexSymbol: '\\mathbf{T}',
-        mathTerm: 'T',
-        badgeName: 'Translate',
-        desc: 'Displace to $(2.5, 1.2, 0)$',
-        x: 2.5,
-        y: 1.2,
-        z: 0
-      }
+      { type: 'scale', name: 'Scale S', latexSymbol: '\\mathbf{S}', mathTerm: 'S', badgeName: 'Scale', desc: 'Scale geometry at origin', x: 1.4, y: 0.7, z: 1.2 },
+      { type: 'rotate', name: 'Rotate R_y(45°)', latexSymbol: '\\mathbf{R}_y', mathTerm: 'R', badgeName: 'Rotate Y', desc: 'Yaw $45^\\circ$ on local Y axis', axis: 'y', angleDeg: 45 },
+      { type: 'translate', name: 'Translate T', latexSymbol: '\\mathbf{T}', mathTerm: 'T', badgeName: 'Translate', desc: 'Displace to $(2.5, 1.2, 0)$', x: 2.5, y: 1.2, z: 0 }
     ]
   },
   rts: {
     id: 'rts',
     title: 'Swapped: RTS (Orbiting)',
     shortTitle: 'Orbit RTS',
-    get description() {
-      return `Swapped composition: ${renderMath('(\\mathbf{S} \\circ \\mathbf{R} \\circ \\mathbf{T})(\\mathbf{v}) = \\mathbf{S}(\\mathbf{R}(\\mathbf{T}(\\mathbf{v})))')}. Translating first shifts pivot, so rotation orbits around $(0,0,0)$!`
-    },
+    description: 'Swapped composition: $(\\mathbf{S} \\circ \\mathbf{R} \\circ \\mathbf{T})(\\mathbf{v}) = \\mathbf{S}(\\mathbf{R}(\\mathbf{T}(\\mathbf{v})))$. Translating first shifts pivot, so rotation orbits around $(0,0,0)$!',
     steps: [
-      {
-        type: 'translate',
-        name: 'Translate T',
-        latexSymbol: '\\mathbf{T}',
-        mathTerm: 'T',
-        badgeName: 'Translate',
-        desc: 'Displace $+3$ along +X axis',
-        x: 3.0,
-        y: 0.5,
-        z: 0
-      },
-      {
-        type: 'rotate',
-        name: 'Rotate R_y(90°)',
-        latexSymbol: '\\mathbf{R}_y',
-        mathTerm: 'R',
-        badgeName: 'Rotate Y',
-        desc: 'Rotate $90^\\circ$ around origin',
-        axis: 'y',
-        angleDeg: 90
-      },
-      {
-        type: 'scale',
-        name: 'Scale S',
-        latexSymbol: '\\mathbf{S}',
-        mathTerm: 'S',
-        badgeName: 'Scale',
-        desc: 'Scale displaced mesh',
-        x: 1.3,
-        y: 1.3,
-        z: 1.3
-      }
+      { type: 'translate', name: 'Translate T', latexSymbol: '\\mathbf{T}', mathTerm: 'T', badgeName: 'Translate', desc: 'Displace $+3$ along +X axis', x: 3.0, y: 0.5, z: 0 },
+      { type: 'rotate', name: 'Rotate R_y(90°)', latexSymbol: '\\mathbf{R}_y', mathTerm: 'R', badgeName: 'Rotate Y', desc: 'Yaw $90^\\circ$ around origin $(0,0,0)$', axis: 'y', angleDeg: 90 },
+      { type: 'scale', name: 'Scale S', latexSymbol: '\\mathbf{S}', mathTerm: 'S', badgeName: 'Scale', desc: 'Scale post-rotation along orbit', x: 1.5, y: 0.5, z: 1.0 }
     ]
   },
   multi_rot: {
     id: 'multi_rot',
-    title: 'Multi-Axis (TR_y R_z S)',
+    title: 'Compound Rotation: R_z then R_y',
     shortTitle: 'Roll & Yaw',
-    get description() {
-      return `Multi-axis composition: ${renderMath('(\\mathbf{T} \\circ \\mathbf{R}_y \\circ \\mathbf{R}_z \\circ \\mathbf{S})(\\mathbf{v})')}. Scale, Roll on Z, Yaw on Y, then Translate.`
-    },
+    description: 'Rotation order matters: $\\mathbf{R}_y \\mathbf{R}_z \\neq \\mathbf{R}_z \\mathbf{R}_y$. Rolling first changes where subsequent yawing points!',
     steps: [
-      {
-        type: 'scale',
-        name: 'Scale S',
-        latexSymbol: '\\mathbf{S}',
-        mathTerm: 'S',
-        badgeName: 'Scale',
-        desc: 'Elongate forward along X',
-        x: 1.5,
-        y: 0.9,
-        z: 1.0
-      },
-      {
-        type: 'rotate',
-        name: 'Roll R_z(35°)',
-        latexSymbol: '\\mathbf{R}_z',
-        mathTerm: 'R',
-        badgeName: 'Roll Z',
-        desc: 'Bank $35^\\circ$ on local Z axis',
-        axis: 'z',
-        angleDeg: 35
-      },
-      {
-        type: 'rotate',
-        name: 'Yaw R_y(60°)',
-        latexSymbol: '\\mathbf{R}_y',
-        mathTerm: 'R',
-        badgeName: 'Yaw Y',
-        desc: 'Turn $60^\\circ$ on local Y axis',
-        axis: 'y',
-        angleDeg: 60
-      },
-      {
-        type: 'translate',
-        name: 'Translate T',
-        latexSymbol: '\\mathbf{T}',
-        mathTerm: 'T',
-        badgeName: 'Translate',
-        desc: 'Displace to $(1.8, 1.5, -1.2)$',
-        x: 1.8,
-        y: 1.5,
-        z: -1.2
-      }
+      { type: 'rotate', name: 'Roll R_z(45°)', latexSymbol: '\\mathbf{R}_z', mathTerm: 'R', badgeName: 'Roll Z', desc: 'Roll $45^\\circ$ around Z axis', axis: 'z', angleDeg: 45 },
+      { type: 'rotate', name: 'Yaw R_y(45°)', latexSymbol: '\\mathbf{R}_y', mathTerm: 'R', badgeName: 'Yaw Y', desc: 'Yaw $45^\\circ$ around Y axis', axis: 'y', angleDeg: 45 },
+      { type: 'translate', name: 'Translate T', latexSymbol: '\\mathbf{T}', mathTerm: 'T', badgeName: 'Translate', desc: 'Displace along new orientation', x: 1.5, y: 1.0, z: -1.0 }
     ]
   }
 }
 
-export function initCombiningTransformationsExplorer(mountSelector = '#transformation-chain-simulator') {
-  const mountEl = typeof mountSelector === 'string' ? document.querySelector(mountSelector) : mountSelector
-  if (!mountEl) return
+const PRESET_OPTIONS = [
+  { label: 'Standard TRS', value: 'trs' },
+  { label: 'Orbit RTS', value: 'rts' },
+  { label: 'Roll & Yaw', value: 'multi_rot' }
+]
 
-  const PRESET_BASE = 'preset-btn tw-flex-1 tw-text-center tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-px-2.5 tw-py-1.5 tw-leading-none tw-cursor-pointer'
-  const PRESET_INACTIVE = PRESET_BASE + ' tw-bg-transparent tw-text-[var(--grey-light)]'
-  const PRESET_ACTIVE = PRESET_BASE + ' tw-bg-primary-soft tw-text-primary'
+export function CombiningTransformationsExplorer() {
+  const canvasRef = useRef(null)
+  const engineRef = useRef(null)
 
-  const CTRL_BTN = 'tw-flex-none tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center tw-whitespace-nowrap hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft hover:tw-shadow-raised disabled:tw-opacity-45 disabled:tw-cursor-not-allowed disabled:tw-shadow-none disabled:hover:tw-shadow-none disabled:hover:tw-border-[var(--ring-border)] disabled:hover:tw-text-[var(--grey-light)] disabled:hover:tw-bg-[var(--grey-dark)] disabled:hover:tw-filter-none'
-  const PLAY_NEUTRAL = 'tw-flex-1 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center tw-gap-1 tw-whitespace-nowrap hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft'
-  const PLAY_ACTIVE = 'tw-flex-1 tw-bg-primary-soft tw-border tw-border-primary-border tw-text-primary tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-flex tw-items-center tw-justify-center tw-gap-1 tw-whitespace-nowrap hover:tw-bg-primary-soft hover:tw-border-primary'
+  const [presetKey, setPresetKey] = useState('trs')
+  const [completedCount, setCompletedCount] = useState(-1)
+  const [isDone, setIsDone] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [matrixElements, setMatrixElements] = useState([
+    1, 0, 0, 0,
+    0, 1, 0, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 1
+  ])
 
-  const STEP_ROW_BASE = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1.5 tw-rounded-md tw-border tw-border-transparent tw-bg-[var(--grey-dark)] tw-transition'
-  const STEP_ROW_ACTIVE = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1.5 tw-rounded-md tw-border tw-border-[rgba(var(--primary),0.6)] tw-bg-[rgba(var(--primary),0.08)] tw-transition'
-  const STEP_ROW_COMPLETED = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1.5 tw-rounded-md tw-border tw-border-transparent tw-bg-[var(--grey-dark)] tw-opacity-55 tw-pointer-events-none'
+  const preset = PRESETS[presetKey]
+  const presetRef = useRef(preset)
+  presetRef.current = preset
 
-  const STEP_BADGE_BASE = 'tw-w-[18px] tw-h-[18px] tw-rounded-full tw-text-[10px] tw-font-bold tw-flex tw-items-center tw-justify-center tw-bg-[var(--grey-darker)] tw-text-[var(--grey-light)] tw-shrink-0'
-  const STEP_BADGE_ACTIVE = 'tw-w-[18px] tw-h-[18px] tw-rounded-full tw-text-[10px] tw-font-bold tw-flex tw-items-center tw-justify-center tw-bg-[rgb(var(--primary))] tw-text-[var(--grey-darker)] tw-shrink-0'
-  const STEP_BADGE_COMPLETED = 'tw-w-[18px] tw-h-[18px] tw-rounded-full tw-text-[10px] tw-font-bold tw-flex tw-items-center tw-justify-center tw-bg-[var(--grey)] tw-text-[var(--grey-lighter)] tw-shrink-0'
+  useEffect(() => {
+    if (!canvasRef.current) return
+    const engine = new TransformEngine({ container: canvasRef.current })
+    engineRef.current = engine
 
-  const STEP_SYMBOL = 'step-symbol tw-text-[13.5px] tw-font-bold tw-text-primary tw-bg-[var(--grey-darker)] tw-px-[7px] tw-py-[2px] tw-rounded-[4px] tw-flex tw-items-center tw-justify-center tw-min-w-[32px] tw-shrink-0 tw-cursor-pointer'
+    engine.on('stepChange', (stepIndex) => {
+      const count = typeof stepIndex === 'number' ? stepIndex : -1
+      setCompletedCount(count)
+      const currentPreset = presetRef.current
+      setIsDone(count >= currentPreset.steps.length - 1)
+    })
 
-  mountEl.innerHTML = `
+    engine.on('complete', () => {
+      setIsDone(true)
+    })
+
+    engine.on('matrixUpdate', (matrix) => {
+      if (matrix && matrix.elements) {
+        setMatrixElements([...matrix.elements])
+      }
+    })
+
+    engine.on('stateChange', (state) => {
+      const active = state === 'playing' || state === 'animating_step' || state === 'digest_pause'
+      setIsPlaying(active)
+    })
+
+    engine.setChain(preset.steps)
+
+    return () => {
+      engine.dispose?.()
+      engineRef.current = null
+    }
+  }, [])
+
+  const handlePresetChange = (newKey) => {
+    setPresetKey(newKey)
+    setCompletedCount(-1)
+    setIsDone(false)
+    if (engineRef.current) {
+      engineRef.current.setChain(PRESETS[newKey].steps)
+    }
+  }
+
+  const handleTogglePlay = () => {
+    if (!engineRef.current) return
+    if (isPlaying) {
+      engineRef.current.pause()
+    } else {
+      if (isDone) {
+        engineRef.current.reset()
+        setCompletedCount(-1)
+        setIsDone(false)
+      }
+      engineRef.current.play()
+    }
+  }
+
+  const handleReset = () => {
+    if (engineRef.current) engineRef.current.reset()
+    setCompletedCount(-1)
+    setIsDone(false)
+  }
+
+  const handleStepBack = () => {
+    if (engineRef.current) engineRef.current.stepBackward()
+  }
+
+  const handleStepForward = () => {
+    if (engineRef.current) engineRef.current.stepForward()
+  }
+
+  const totalSteps = preset.steps.length
+  const currentStep = completedCount
+
+  return html`
     <style>
-      #transformation-chain-simulator .katex {
-        font-size: 0.8em !important;
-      }
-      #transformation-chain-simulator .step-symbol .katex {
-        font-size: 1.25em !important;
-      }
+      #matrix-grid-display span { transition: color 0.15s ease; }
+      #combining-transformations-explorer .katex { font-size: 0.88em !important; }
     </style>
 
-    <div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden tw-font-sans">
-      <!-- Header -->
-      <div class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
-        <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary tw-flex tw-items-center tw-gap-1.5">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-            <line x1="12" y1="22.08" x2="12" y2="12"></line>
-          </svg>
-          Interactive 3D Transformation Chain Simulator
-        </div>
-        <div class="tw-font-serif tw-text-sm tw-text-[var(--grey-light)]">Right-to-left evaluation & ghost reference frame</div>
-      </div>
-
-      <!-- Main Body Grid -->
+    <${WidgetFrame}
+      title="Interactive 3D Transformation Chain Simulator"
+      descriptor="Right-to-left evaluation & ghost reference frame">
       <div class="tw-grid tw-grid-cols-[335px_1fr] tw-gap-2.5 tw-p-2.5 tw-font-serif max-[860px]:tw-grid-cols-1">
-
         <!-- Left Controls & Step Pipeline -->
         <div class="tw-flex tw-flex-col tw-gap-2">
-          <!-- Preset Selectors (Left Panel) -->
-          <div class="tw-flex tw-border tw-border-[var(--ring-border)] tw-rounded-md tw-bg-[var(--grey-dark)] tw-shadow-subtle tw-overflow-hidden" id="preset-buttons">
-            <button type="button" data-preset="trs" class="${PRESET_ACTIVE}">Standard TRS</button>
-            <button type="button" data-preset="rts" class="${PRESET_INACTIVE}">Orbit RTS</button>
-            <button type="button" data-preset="multi_rot" class="${PRESET_INACTIVE}">Roll & Yaw</button>
-          </div>
+          <!-- Preset Selectors -->
+          <${SegmentedGroup}
+            options=${PRESET_OPTIONS}
+            value=${presetKey}
+            onChange=${handlePresetChange} />
 
           <!-- Preset Description Callout -->
-          <div id="preset-desc-box" class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-2 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)] tw-min-h-[30px]">
-            ${renderTextWithMath(PRESETS.trs.description)}
-          </div>
+          <div
+            class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-2 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)] tw-min-h-[30px]"
+            dangerouslySetInnerHTML=${{ __html: renderTextWithMath(preset.description) }} />
 
           <!-- Step Pipeline -->
           <div>
@@ -238,42 +200,67 @@ export function initCombiningTransformationsExplorer(mountSelector = '#transform
               <span>Sequence (Right → Left)</span>
             </div>
 
-            <div id="step-pipeline-list" class="tw-flex tw-flex-col tw-gap-1">
-              <!-- Populated dynamically -->
+            <div class="tw-flex tw-flex-col tw-gap-1">
+              ${preset.steps.map((step, idx) => {
+                const rowState = getStepRowState(completedCount, isDone, idx)
+                const isCompleted = rowState === 'completed'
+                const isActive = rowState === 'active'
+
+                return html`
+                  <${StepRow}
+                    key=${idx}
+                    stepNumber=${idx + 1}
+                    title=${step.badgeName}
+                    description=${step.desc}
+                    symbol=${step.latexSymbol}
+                    isCompleted=${isCompleted}
+                    isActive=${isActive}
+                    isAnimating=${isPlaying} />
+                `
+              })}
             </div>
           </div>
 
           <!-- Playback Controls -->
-          <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-2 tw-flex tw-gap-1.5 tw-items-stretch">
-            <button type="button" id="btn-reset" class="${CTRL_BTN}" title="Reset to Origin">
-              ↺
-            </button>
-            <button type="button" id="btn-step-back" class="${CTRL_BTN}" title="Step Back">
-              ⏮
-            </button>
-            <button type="button" id="btn-play-pause" class="${PLAY_NEUTRAL}">
-              <span id="play-text">▶ Play</span>
-            </button>
-            <button type="button" id="btn-step-forward" class="${CTRL_BTN}" title="Step Forward">
-              ⏭
-            </button>
-          </div>
+          <${StepPlayback}
+            currentStep=${currentStep}
+            totalSteps=${totalSteps}
+            zeroIsOrigin=${true}
+            isPlaying=${isPlaying}
+            playLabel="Play"
+            showReset=${true}
+            onReset=${handleReset}
+            onStepBack=${handleStepBack}
+            onStepForward=${handleStepForward}
+            onTogglePlay=${handleTogglePlay} />
 
           <!-- Live 4x4 Matrix Display -->
           <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-2">
             <div class="tw-font-sans tw-text-[0.75rem] tw-font-semibold tw-text-[var(--grey-light)] tw-tracking-[0.05em] tw-mb-1 tw-flex tw-justify-between tw-items-center">
-              <span>Accumulated Matrix ${renderMath('\\mathbf{M}')}</span>
+              <span>Accumulated Matrix <span dangerouslySetInnerHTML=${{ __html: renderMath('\\mathbf{M}') }} /></span>
               <span class="tw-font-mono tw-text-[0.625rem] tw-text-[var(--grey-light)]">4×4 Float32</span>
             </div>
-            <div id="matrix-grid-display" class="tw-grid tw-grid-cols-4 tw-gap-0.5 tw-bg-[var(--grey-darker)] tw-p-1 tw-rounded-[5px] tw-font-mono tw-text-[11px] tw-text-center">
-              <!-- Populated dynamically -->
+            <div class="tw-grid tw-grid-cols-4 tw-gap-0.5 tw-bg-[var(--grey-darker)] tw-p-1 tw-rounded-[5px] tw-font-mono tw-text-[11px] tw-text-center">
+              ${[0, 1, 2, 3].map((r) =>
+                [0, 1, 2, 3].map((c) => {
+                  const val = matrixElements[c * 4 + r]
+                  const formatted = Math.abs(val) < 0.001 ? '0.00' : val.toFixed(2)
+                  const isDiagonal = r === c
+                  const isChanged = Math.abs(val - (isDiagonal ? 1 : 0)) > 0.001
+                  return html`
+                    <span key="${r}-${c}" class="tw-py-0.5 ${isChanged ? 'tw-text-primary tw-font-bold' : 'tw-text-[var(--grey-light)]'}">
+                      ${formatted}
+                    </span>
+                  `
+                })
+              )}
             </div>
           </div>
         </div>
 
-        <!-- Right 3D Canvas Viewport (Matches matrix background color) -->
+        <!-- Right 3D Canvas Viewport -->
         <div class="tw-relative tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[10px] tw-min-h-[320px] tw-overflow-hidden">
-          <div id="three-canvas-container" class="tw-w-full tw-h-full tw-min-h-[340px]"></div>
+          <div class="tw-w-full tw-h-full tw-min-h-[340px]" ref=${canvasRef}></div>
 
           <div class="tw-absolute tw-bottom-2.5 tw-left-2.5 tw-bg-[var(--grey-dark)] tw-px-2 tw-py-1 tw-rounded-md tw-text-[11px] tw-text-[var(--grey-light)] tw-pointer-events-none tw-flex tw-items-center tw-gap-x-3 tw-gap-y-1 tw-flex-wrap">
             <span class="tw-inline-flex tw-items-center tw-gap-1">
@@ -285,183 +272,17 @@ export function initCombiningTransformationsExplorer(mountSelector = '#transform
             <span>Drag to Orbit · Scroll to Zoom</span>
           </div>
         </div>
-
       </div>
-    </div>
+    <//>
   `
-
-  const canvasContainer = mountEl.querySelector('#three-canvas-container')
-  const engine = new TransformEngine({ container: canvasContainer })
-
-  let currentPresetKey = 'trs'
-
-  function renderStepsUI(preset) {
-    const listEl = mountEl.querySelector('#step-pipeline-list')
-    const descBox = mountEl.querySelector('#preset-desc-box')
-    descBox.innerHTML = renderTextWithMath(preset.description)
-
-    listEl.innerHTML = preset.steps.map((step, idx) => `
-      <div id="step-row-${idx}" class="${STEP_ROW_BASE}">
-        <div class="tw-flex tw-items-center tw-gap-1.5 tw-flex-1 tw-min-w-0">
-          <div class="step-badge ${STEP_BADGE_BASE}">${idx + 1}</div>
-          <div class="tw-flex tw-items-baseline tw-gap-1.5 tw-overflow-hidden tw-whitespace-nowrap">
-            <span class="tw-font-sans tw-text-[0.6875rem] tw-font-semibold tw-text-[var(--grey-lighter)]">${renderTextWithMath(step.badgeName)}</span>
-            <span class="tw-font-serif tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-truncate">${renderTextWithMath(step.desc)}</span>
-          </div>
-        </div>
-        <div class="${STEP_SYMBOL}" data-math-term="${step.mathTerm || ''}" title="Hover to view 4×4 Matrix Definition">${renderMath(step.latexSymbol)}</div>
-      </div>
-    `).join('')
-  }
-
-  function updateMatrixDisplay(matrix) {
-    const gridEl = mountEl.querySelector('#matrix-grid-display')
-    if (!gridEl) return
-    const elts = matrix.elements // column-major in Three.js
-
-    let html = ''
-    for (let r = 0; r < 4; r++) {
-      for (let c = 0; c < 4; c++) {
-        const val = elts[c * 4 + r]
-        const formatted = Math.abs(val) < 0.001 ? '0.00' : val.toFixed(2)
-        const isDiagonal = r === c
-        const isChanged = val !== (isDiagonal ? 1 : 0)
-        html += `<span class="tw-py-0.5 ${isChanged ? 'tw-text-primary tw-font-bold' : 'tw-text-[var(--grey-light)]'}">${formatted}</span>`
-      }
-    }
-    gridEl.innerHTML = html
-  }
-
-  function setPreset(key) {
-    currentPresetKey = key
-    const preset = PRESETS[key]
-
-    mountEl.querySelectorAll('.preset-btn').forEach(btn => {
-      btn.className = btn.dataset.preset === key ? PRESET_ACTIVE : PRESET_INACTIVE
-    })
-
-    renderStepsUI(preset)
-    engine.setChain(preset.steps)
-  }
-
-  // Reflect the chain state on the step rows, matching the coordinate-frame
-  // explorer: applied steps are disabled (pointer-events none) and show a tick,
-  // the next pending step is highlighted. When the chain is done there is no
-  // next step, so no row is highlighted.
-  //
-  // completedCount is the number of fully applied steps (-1 before any), so the
-  // next pending step is completedCount + 1.
-  function renderStepRows(completedCount, isDone) {
-    const preset = PRESETS[currentPresetKey]
-
-    preset.steps.forEach((_, idx) => {
-      const row = mountEl.querySelector(`#step-row-${idx}`)
-      if (!row) return
-      const badge = row.querySelector('.step-badge')
-      const state = getStepRowState(completedCount, isDone, idx)
-
-      if (state === 'completed') {
-        row.className = STEP_ROW_COMPLETED
-        if (badge) badge.className = `step-badge ${STEP_BADGE_COMPLETED}`
-        if (badge) badge.textContent = '✓'
-      } else if (state === 'active') {
-        row.className = STEP_ROW_ACTIVE
-        if (badge) badge.className = `step-badge ${STEP_BADGE_ACTIVE}`
-        if (badge) badge.textContent = String(idx + 1)
-      } else {
-        row.className = STEP_ROW_BASE
-        if (badge) badge.className = `step-badge ${STEP_BADGE_BASE}`
-        if (badge) badge.textContent = String(idx + 1)
-      }
-    })
-  }
-
-  // Derive the row states from the engine's applied count. Called on every
-  // event that can change the chain state (animation start, animation finish,
-  // step back, reset, completion).
-  function syncStepRows() {
-    const preset = PRESETS[currentPresetKey]
-    const lastIdx = preset.steps.length - 1
-    const completedCount = engine.currentStepIndex
-    const isAtStart = completedCount < 0
-    const isDone = completedCount >= lastIdx
-    renderStepRows(completedCount, isDone)
-    const stepForwardBtn = mountEl.querySelector('#btn-step-forward')
-    const stepBackBtn = mountEl.querySelector('#btn-step-back')
-    const resetBtn = mountEl.querySelector('#btn-reset')
-    if (stepForwardBtn) stepForwardBtn.disabled = isDone
-    if (stepBackBtn) stepBackBtn.disabled = isAtStart
-    if (resetBtn) resetBtn.disabled = isAtStart
-  }
-
-  // Engine Event Listeners
-  engine.on('stepChange', () => {
-    syncStepRows()
-  })
-
-  // Playback reaching the final step fires the complete event.
-  engine.on('complete', () => {
-    syncStepRows()
-  })
-
-  engine.on('matrixUpdate', (currentMatrix) => {
-    updateMatrixDisplay(currentMatrix)
-  })
-
-  engine.on('stateChange', (state) => {
-    const playBtn = mountEl.querySelector('#btn-play-pause')
-    const playText = mountEl.querySelector('#play-text')
-    if (state === 'playing' || state === 'animating_step' || state === 'digest_pause') {
-      playBtn.className = PLAY_ACTIVE
-      playText.textContent = '⏸ Pause'
-    } else {
-      playBtn.className = PLAY_NEUTRAL
-      playText.textContent = '▶ Play'
-    }
-
-    // Any state transition can move the applied count (animation finished,
-    // stepped back, reset, all steps applied), so re-derive the row states.
-    syncStepRows()
-  })
-
-  // Button Hooks
-  mountEl.querySelector('#preset-buttons').addEventListener('click', (e) => {
-    const btn = e.target.closest('.preset-btn')
-    if (btn && btn.dataset.preset) {
-      setPreset(btn.dataset.preset)
-    }
-  })
-
-  mountEl.querySelector('#btn-play-pause').addEventListener('click', () => {
-    if (engine.state === 'playing' || engine.state === 'animating_step' || engine.state === 'digest_pause') {
-      engine.pause()
-    } else {
-      engine.play()
-    }
-  })
-
-  mountEl.querySelector('#btn-reset').addEventListener('click', () => {
-    engine.reset()
-  })
-
-  mountEl.querySelector('#btn-step-forward').addEventListener('click', () => {
-    engine.stepForward()
-  })
-
-  mountEl.querySelector('#btn-step-back').addEventListener('click', () => {
-    engine.stepBackward()
-  })
-
-  // Initial Load (wait for katex if needed)
-  if (typeof window !== 'undefined' && !window.katex) {
-    window.addEventListener('load', () => setPreset('trs'), { once: true })
-  }
-  setPreset('trs')
-
-  return engine
 }
 
-// Auto-mount if element exists on page load
+export function initCombiningTransformationsExplorer(containerId = 'transformation-chain-simulator') {
+  const mountEl = document.getElementById(containerId) || document.getElementById('combining-transformations-explorer')
+  if (!mountEl) return
+  render(html`<${CombiningTransformationsExplorer} />`, mountEl)
+}
+
 if (typeof window !== 'undefined') {
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => initCombiningTransformationsExplorer())

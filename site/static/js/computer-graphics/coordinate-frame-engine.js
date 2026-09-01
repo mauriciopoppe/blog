@@ -88,7 +88,6 @@ export class CoordinateFrameEngine {
 
     this.initScene()
     this.applyPreset(this.activePresetKey, false)
-    this.positionPip()
     this.startLoop()
   }
 
@@ -131,33 +130,51 @@ export class CoordinateFrameEngine {
     this.renderer.setClearColor(0x000000, 0)
     this.container.appendChild(this.renderer.domElement)
 
-    // Picture-in-Picture caption for the nested camera viewport. The PiP square
-    // itself is drawn into the same canvas via scissor test (matching the
-    // projection-transform minimap); this label is an HTML overlay aligned to it.
+    // Picture-in-Picture container for the nested camera viewport.
+    this.pipContainer = document.createElement('div')
+    this.pipContainer.className = 'coord-pip-container tw-absolute tw-bottom-2.5 tw-right-2.5 tw-rounded-md tw-overflow-hidden tw-bg-[var(--grey-dark)] tw-pointer-events-none tw-z-[3]'
+    this.pipContainer.style.cssText = `
+      width: 100px;
+      height: 100px;
+      opacity: 0;
+      display: none;
+    `
+
+    this.pipCanvas = document.createElement('canvas')
+    this.pipCanvas.style.cssText = 'width: 100%; height: 100%; display: block;'
+    this.pipContainer.appendChild(this.pipCanvas)
+
+    this.pipRenderer = new THREE.WebGLRenderer({
+      canvas: this.pipCanvas,
+      antialias: true,
+      alpha: false
+    })
+    this.pipRenderer.setSize(100, 100, false)
+    this.pipRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
+    this.pipRenderer.setClearColor(this.getCssColor('--grey-dark', 0x0d0d10), 1)
+
     this.pipLabel = document.createElement('div')
     this.pipLabel.className = 'coord-pip-label'
     this.pipLabel.style.cssText = `
       position: absolute;
-      box-sizing: border-box;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      bottom: 2px;
+      left: 0;
+      right: 0;
       text-align: center;
       font-family: var(--family-sans, system-ui, sans-serif);
-      font-size: 9.5px;
+      font-size: 9px;
       font-weight: 700;
       letter-spacing: 0.04em;
       color: rgb(var(--primary));
-      background: none;
-      border: none;
-      padding: 2px 6px;
       pointer-events: none;
-      z-index: 3;
+      z-index: 4;
       white-space: nowrap;
       line-height: 1.1;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.85);
     `
-    this.pipLabel.textContent = 'Nested (u, v, w) view'
-    this.container.appendChild(this.pipLabel)
+    this.pipLabel.textContent = 'Nested (u,v,w) view'
+    this.pipContainer.appendChild(this.pipLabel)
+    this.container.appendChild(this.pipContainer)
 
     // Orbit Controls
     this.controls = new OrbitControls(this.orbitCamera, this.renderer.domElement)
@@ -600,6 +617,7 @@ export class CoordinateFrameEngine {
       targetStepIndex: this.targetStepIndex,
       animationProgress: this.animationProgress,
       isPlaying: this.isPlaying,
+      isAnimating: this.isPlaying || Math.abs(this.animationProgress - this.targetStepIndex) > 0.001,
       viewMode: this.viewMode,
       eye: [this.eye.x, this.eye.y, this.eye.z],
       u: [this.u.x, this.u.y, this.u.z],
@@ -641,38 +659,25 @@ export class CoordinateFrameEngine {
     this.inSceneCamera.updateProjectionMatrix()
 
     this.renderer.setSize(width, height)
-    this.positionPip()
   }
 
-  // Lays out the nested-camera PiP caption over the bottom-right corner so it
-  // aligns with the scissor-rendered minimap region.
-  positionPip() {
-    if (!this.pipLabel) return
-    const w = this.container.clientWidth || 640
-    const h = this.container.clientHeight || 420
-    const size = Math.round(Math.min(w, h) * 0.30)
-    const margin = 10
-    const x = w - size - margin
-    const y = h - size - margin
-    // A compact caption pinned to the bottom edge of the PiP square, leaving the
-    // scissor-rendered minimap fully visible above it.
-    this.pipLabel.style.left = `${x + 4}px`
-    this.pipLabel.style.top = `${y + size - 20}px`
-    this.pipLabel.style.maxWidth = `${size - 8}px`
-  }
-
-  // Renders the nested camera viewport into a square PiP in the bottom-right
-  // corner of the main canvas, using scissor test (same technique as the
-  // projection-transform minimap). The main view always stays in third person,
-  // so animating through the steps never kicks the user out of canonical space.
+  // Renders the nested camera viewport into the rounded PiP canvas in the
+  // bottom-right corner. The main view stays in third person, so animating
+  // through the steps never kicks the user out of canonical space.
   renderNestedCameraPip(width, height) {
-    if (!this.inSceneCamera || !this.renderer) return
-    this.positionPip()
-    const size = Math.round(Math.min(width, height) * 0.30)
-    const margin = 10
-    const x = width - size - margin
-    // setViewport/setScissor measure y from the bottom (OpenGL convention).
-    const y = margin
+    if (!this.inSceneCamera || !this.pipRenderer || !this.pipContainer) return
+
+    const size = Math.round(Math.min(width, height) * 0.28)
+    if (size > 0 && (parseInt(this.pipContainer.style.width, 10) !== size)) {
+      this.pipContainer.style.width = `${size}px`
+      this.pipContainer.style.height = `${size}px`
+      this.pipRenderer.setSize(size, size, false)
+    }
+
+    this.pipContainer.style.opacity = `${this.restReveal}`
+    this.pipContainer.style.display = this.restReveal < 0.01 ? 'none' : 'block'
+
+    if (this.restReveal < 0.01) return
 
     // Objects attached to the nested frame sit at the camera's own position, so
     // hide them while rendering from the camera's POV to keep the PiP clean.
@@ -695,15 +700,8 @@ export class CoordinateFrameEngine {
     this.inSceneCamera.aspect = 1
     this.inSceneCamera.updateProjectionMatrix()
 
-    this.renderer.setScissorTest(true)
-    this.renderer.setClearColor(this.getCssColor('--grey-dark', 0x0d0d10), 1)
-    this.renderer.setScissor(x, y, size, size)
-    this.renderer.setViewport(x, y, size, size)
-    this.renderer.render(this.scene, this.inSceneCamera)
-    // Restore main-view state.
-    this.renderer.setScissorTest(false)
-    this.renderer.setViewport(0, 0, width, height)
-    this.renderer.setClearColor(0x000000, 0)
+    this.pipRenderer.render(this.scene, this.inSceneCamera)
+
     this.inSceneCamera.aspect = savedAspect
     this.inSceneCamera.updateProjectionMatrix()
     saved.forEach(([o, vis]) => { o.visible = vis })
@@ -822,6 +820,13 @@ export class CoordinateFrameEngine {
     this.resizeRaf = null
     if (this.resizeObserver) this.resizeObserver.disconnect()
     if (this.controls) this.controls.dispose()
+    if (this.pipRenderer) {
+      this.pipRenderer.dispose()
+      this.pipRenderer = null
+    }
+    if (this.pipContainer && this.pipContainer.parentNode) {
+      this.pipContainer.parentNode.removeChild(this.pipContainer)
+    }
     if (this.renderer && this.renderer.domElement) {
       this.container.removeChild(this.renderer.domElement)
       this.renderer.dispose()

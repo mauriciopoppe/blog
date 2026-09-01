@@ -557,30 +557,34 @@ export function setupAvatarMiniPlayer(avatar: HTMLElement) {
   const song = getCurrentSong()
   const phrase = song.phrases[phraseIndex]
   const player = document.createElement('div')
-  player.className = 'js-avatar-mini-player avatar-mini-player'
+
+  const MINI_BTN_CLASS = 'tw-bg-[var(--grey-dark)]/80 tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-rounded-md tw-px-1.5 tw-py-0.5 tw-font-semibold tw-cursor-pointer tw-leading-none tw-shadow-subtle hover:tw-bg-primary-soft hover:tw-border-primary hover:tw-text-primary hover:tw-shadow-raised tw-transition-all tw-flex tw-items-center tw-justify-center tw-gap-0.5'
+  const MINI_BTN_PLAY_CLASS = 'tw-bg-[var(--grey-dark)]/80 tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-lighter)] tw-rounded-md tw-px-2 tw-py-0.5 tw-font-bold tw-cursor-pointer tw-leading-none tw-shadow-subtle hover:tw-bg-primary-soft hover:tw-border-primary hover:tw-text-primary hover:tw-shadow-raised tw-transition-all tw-flex tw-items-center tw-justify-center tw-gap-0.5'
+
+  player.className = 'js-avatar-mini-player avatar-mini-player tw-text-xs tw-absolute tw-bottom-[calc(100%+8px)] tw-left-1/2 -tw-translate-x-1/2 tw-translate-y-2 tw-scale-[0.96] tw-opacity-0 tw-pointer-events-none tw-z-50 tw-backdrop-blur-md tw-border tw-border-primary tw-rounded-xl tw-shadow-deep tw-p-2 tw-w-max tw-max-w-[calc(100vw-32px)] tw-box-border tw-select-none tw-transition-all tw-duration-200'
+  player.style.background = 'color-mix(in srgb, var(--grey-darker) 85%, transparent)'
   player.innerHTML = `
-    <div class="mini-player-track">
-      <div class="mini-player-progress-bar js-mini-player-progress"></div>
-    </div>
-    <div class="mini-player-body">
-      <div class="mini-player-header">
-        <span class="mini-player-icon">${song.icon}</span>
-        <div class="mini-player-meta">
-          <span class="mini-player-artist">${song.artist}</span>
-          <span class="mini-player-bullet">•</span>
-          <span class="mini-player-song-name">${song.name}</span>
+    <div class="mini-player-body tw-flex tw-flex-col tw-gap-1">
+      <div class="mini-player-header tw-flex tw-items-center tw-justify-between tw-gap-2 tw-border-b tw-border-white/10 tw-pb-1">
+        <span class="mini-player-icon tw-text-sm tw-leading-none tw-shrink-0">${song.icon}</span>
+        <div class="mini-player-meta tw-flex tw-flex-col tw-items-end tw-text-right tw-min-w-0 tw-leading-tight">
+          <span class="mini-player-song-name tw-text-[var(--grey-lighter)] tw-font-bold tw-truncate">${song.name}</span>
+          <span class="mini-player-artist tw-text-primary tw-font-medium tw-text-[0.68rem] tw-truncate">${song.artist}</span>
         </div>
       </div>
-      <div class="mini-player-verse-row">
-        <span class="mini-player-verse-title js-mini-player-title">${phrase.title}</span>
-        <span class="mini-player-ticker js-mini-player-ticker">119 BPM</span>
+      <div class="mini-player-track tw-w-full tw-h-[2.5px] tw-bg-white/20 tw-rounded-full tw-overflow-hidden tw-my-0.5 tw-relative">
+        <div class="mini-player-progress-bar js-mini-player-progress tw-w-0 tw-h-full tw-bg-primary tw-shadow-[0_0_10px_rgba(var(--primary),0.9)] tw-rounded-full"></div>
       </div>
-      <div class="mini-player-controls">
-        <button class="mini-btn js-btn-prev" title="Previous verse (⏮)">⏮</button>
-        <button class="mini-btn mini-btn-play js-btn-play" title="Play (▶)">▶</button>
-        <button class="mini-btn js-btn-next" title="Next verse (⏭)">⏭</button>
-        <button class="mini-btn js-btn-metro ${isMetronomeEnabled ? 'is-active' : ''}" title="Toggle Metronome (⏱)">⏱ Metro</button>
-        <button class="mini-btn js-btn-loop ${isContinuous ? 'is-active' : ''}" title="Continuous Playback (🔁)">🔁 Auto</button>
+      <div class="mini-player-verse-row tw-flex tw-justify-between tw-items-center tw-gap-1.5 tw-leading-tight">
+        <span class="mini-player-verse-title js-mini-player-title tw-text-[var(--grey-light)] tw-font-medium tw-truncate tw-max-w-[170px]">${phrase.title}</span>
+        <span class="mini-player-ticker js-mini-player-ticker tw-text-primary tw-font-bold tw-whitespace-nowrap tw-bg-primary-soft tw-px-1 tw-py-[1px] tw-rounded tw-border tw-border-primary/25 tw-text-[0.65rem] tw-leading-none">119 BPM</span>
+      </div>
+      <div class="mini-player-controls tw-flex tw-items-center tw-justify-center tw-gap-1 tw-mt-0.5">
+        <button type="button" class="mini-btn js-btn-metro ${MINI_BTN_CLASS} ${isMetronomeEnabled ? 'is-active' : ''}" title="Toggle Metronome (⏱)">⏱ Metro</button>
+        <button type="button" class="mini-btn js-btn-prev ${MINI_BTN_CLASS}" title="Previous verse (⏮)">⏮</button>
+        <button type="button" class="mini-btn mini-btn-play js-btn-play ${MINI_BTN_PLAY_CLASS}" title="Play (▶)">▶</button>
+        <button type="button" class="mini-btn js-btn-next ${MINI_BTN_CLASS}" title="Next verse (⏭)">⏭</button>
+        <button type="button" class="mini-btn js-btn-loop ${MINI_BTN_CLASS} ${isContinuous ? 'is-active' : ''}" title="Continuous Playback (🔁)">🔁 Auto</button>
       </div>
     </div>
   `
@@ -589,171 +593,22 @@ export function setupAvatarMiniPlayer(avatar: HTMLElement) {
     const style = document.createElement('style')
     style.id = 'avatar-mini-player-style'
     style.textContent = `
-      .avatar-mini-player {
-        position: absolute;
-        bottom: calc(100% + 12px);
-        left: 50%;
-        transform: translateX(-50%) translateY(8px) scale(0.96);
-        opacity: 0;
-        pointer-events: none;
-        z-index: 50;
-        background: var(--grey-dark, #18181b);
-        border: 1px solid rgba(var(--primary, 255 112 67), 0.35);
-        border-radius: 12px;
-        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.65), 0 0 16px rgba(var(--primary, 255 112 67), 0.2);
-        padding: 8px 12px;
-        width: 275px;
-        box-sizing: border-box;
-        font-family: var(--family-sans, system-ui, sans-serif);
-        user-select: none;
-        transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease, border-color 0.2s ease;
-      }
       .avatar-mini-player.is-hovered,
       .avatar-mini-player:hover {
-        opacity: 1;
-        pointer-events: auto;
-        transform: translateX(-50%) translateY(0px) scale(1);
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        transform: translateX(-50%) translateY(0px) scale(1) !important;
       }
-      .mini-player-track {
-        width: 100%;
-        height: 5px;
-        background: rgba(255, 255, 255, 0.18);
-        border-radius: 9999px;
-        overflow: hidden;
-        margin-bottom: 7px;
-        position: relative;
+      .mini-btn.is-active,
+      .mini-btn.is-playing {
+        background: rgba(var(--primary), 0.25) !important;
+        border-color: rgb(var(--primary)) !important;
+        color: rgb(var(--primary)) !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 10px rgba(var(--primary), 0.4) !important;
       }
-      .mini-player-progress-bar {
-        width: 0%;
-        height: 100%;
-        background: rgb(var(--primary, 255 112 67));
-        box-shadow: 0 0 12px rgba(var(--primary, 255 112 67), 0.9);
-        border-radius: 9999px;
-      }
-      .mini-player-body {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-      }
-      .mini-player-header {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        padding-bottom: 4px;
-      }
-      .mini-player-icon {
-        font-size: 13px;
-        line-height: 1;
-      }
-      .mini-player-meta {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        font-size: 11px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .mini-player-artist {
-        color: rgb(var(--primary, 255 112 67));
-        font-weight: 700;
-      }
-      .mini-player-bullet {
-        color: var(--grey-light, #a1a1aa);
-        font-size: 10px;
-      }
-      .mini-player-song-name {
-        color: var(--grey-lighter, #f4f4f5);
-        font-weight: 600;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .mini-player-verse-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 6px;
-        font-size: 10.5px;
-        line-height: 1.2;
-      }
-      .mini-player-verse-title {
-        color: var(--grey-light, #d4d4d8);
-        font-weight: 500;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 190px;
-      }
-      .mini-player-ticker {
-        color: rgb(var(--primary, 255 112 67));
-        font-size: 9.5px;
-        font-weight: bold;
-        white-space: nowrap;
-        background: rgba(var(--primary, 255 112 67), 0.12);
-        padding: 1px 5px;
-        border-radius: 4px;
-        border: 1px solid rgba(var(--primary, 255 112 67), 0.25);
-      }
-      .mini-player-controls {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 4px;
-        margin-top: 2px;
-      }
-      .mini-btn {
-        background: var(--grey-dark, #222226);
-        border: 1px solid var(--ring-border, rgba(255, 255, 255, 0.14));
-        color: var(--grey-light, #d4d4d8);
-        border-radius: 6px;
-        padding: 3.5px 7.5px;
-        font-size: 11px;
-        font-weight: 600;
-        font-family: var(--family-serif, inherit);
-        cursor: pointer;
-        line-height: 1.2;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-        transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 3px;
-      }
-      .mini-btn:hover {
-        background: rgba(var(--primary, 255 112 67), 0.15);
-        border-color: rgb(var(--primary, 255 112 67));
-        color: rgb(var(--primary, 255 112 67));
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5), 0 0 8px rgba(var(--primary, 255 112 67), 0.3);
-        transform: translateY(-1px);
-      }
-      .mini-btn:active {
-        transform: translateY(0px);
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-      }
-      .mini-btn.mini-btn-play {
-        background: var(--grey-dark, #222226);
-        border-color: var(--ring-border, rgba(255, 255, 255, 0.2));
-        color: var(--grey-lighter, #f4f4f5);
-        font-weight: bold;
-        padding: 3.5px 11px;
-      }
-      .mini-btn.mini-btn-play:hover {
-        background: rgba(var(--primary, 255 112 67), 0.2);
-        border-color: rgb(var(--primary, 255 112 67));
-        color: rgb(var(--primary, 255 112 67));
-      }
-      .mini-btn.mini-btn-play.is-playing {
-        background: rgba(var(--primary, 255 112 67), 0.25);
-        border-color: rgba(var(--primary, 255 112 67), 0.85);
-        color: rgb(var(--primary, 255 112 67));
-        box-shadow: 0 0 10px rgba(var(--primary, 255 112 67), 0.4);
-      }
-      .mini-btn.is-active {
-        background: rgba(var(--primary, 255 112 67), 0.28);
-        border-color: rgb(var(--primary, 255 112 67));
-        color: rgb(var(--primary, 255 112 67));
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 10px rgba(var(--primary, 255 112 67), 0.4);
+      .js-avatar-scene.is-playing {
+        border-color: rgb(var(--primary)) !important;
+        box-shadow: 0 0 14px rgba(var(--primary), 0.5), var(--elevation-raised) !important;
       }
     `
     document.head.appendChild(style)
@@ -880,6 +735,11 @@ export function updateMiniPlayerUI() {
   const players = document.querySelectorAll<HTMLElement>('.js-avatar-mini-player')
   players.forEach((p) => {
     p.classList.toggle('is-playing', isPlaying)
+  })
+
+  const avatars = document.querySelectorAll<HTMLElement>('.js-avatar-scene')
+  avatars.forEach((a) => {
+    a.classList.toggle('is-playing', isPlaying)
   })
 
   if (!isPlaying) {

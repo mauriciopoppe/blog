@@ -86,6 +86,44 @@ function createTextSprite(text, colorHex, fontSize = 40) {
   return sprite
 }
 
+function updateTextSprite(sprite, text, colorHex, fontSize = 40) {
+  if (!sprite || !sprite.material || !sprite.material.map) return
+  const texture = sprite.material.map
+  const canvas = texture.image
+  if (!canvas) return
+  const ctx = canvas.getContext('2d')
+  const fontStyle = `bold ${fontSize}px "KaTeX_Math", "KaTeX_Main", "Times New Roman", -apple-system, system-ui, sans-serif`
+
+  ctx.font = fontStyle
+  const metrics = ctx.measureText(text)
+  const textWidth = Math.ceil(metrics.width)
+  const paddingX = 24
+  const paddingY = 16
+  const targetWidth = Math.max(textWidth + paddingX * 2, 128)
+  const targetHeight = Math.max(fontSize * 2 + paddingY * 2, 64)
+
+  if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
+    canvas.width = targetWidth
+    canvas.height = targetHeight
+  }
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  ctx.font = fontStyle
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.95)'
+  ctx.shadowBlur = 8
+  ctx.shadowOffsetX = 0
+  ctx.shadowOffsetY = 2
+  ctx.fillStyle = typeof colorHex === 'number' ? '#' + colorHex.toString(16).padStart(6, '0') : colorHex
+  ctx.fillText(text, canvas.width / 2, canvas.height / 2)
+
+  const worldHeight = 0.22
+  const worldWidth = (canvas.width / canvas.height) * worldHeight
+  sprite.scale.set(worldWidth, worldHeight, 1)
+  texture.needsUpdate = true
+}
+
 export function decomposeVector(v, nHat) {
   const nLen = Math.hypot(nHat[0], nHat[1], nHat[2]) || 1
   const nx = nHat[0] / nLen
@@ -311,9 +349,18 @@ export class QuaternionDecompEngine {
     this.arcLine = new THREE.Line(this.arcGeo, this.arcMat)
     this.group.add(this.arcLine)
 
+    // 10b. Angle theta rotation arc on plane
+    this.thetaArcGeo = new THREE.BufferGeometry()
+    this.thetaArcMat = new THREE.LineBasicMaterial({ color: amberHex, transparent: true, opacity: 0.95 })
+    this.thetaArcLine = new THREE.Line(this.thetaArcGeo, this.thetaArcMat)
+    this.group.add(this.thetaArcLine)
+
     // 11. 3D Text Mesh Sprites (Native WebGL)
     this.labelN = createTextSprite('n̂', amberHex)
     this.group.add(this.labelN)
+
+    this.labelTheta = createTextSprite('θ', amberHex, 44)
+    this.group.add(this.labelTheta)
 
     this.labelV = createTextSprite('v', primaryHex)
     this.group.add(this.labelV)
@@ -445,6 +492,36 @@ export class QuaternionDecompEngine {
       this.arcLine.visible = true
     } else {
       this.arcLine.visible = false
+    }
+
+    // Update theta rotation angle arc & label
+    if (perpLen > 0.05 && this.angleRad > 0.04) {
+      const thetaArcRadius = Math.min(0.48, perpLen * 0.45)
+      const thetaArcPts = []
+      const thetaSteps = Math.max(8, Math.floor(this.angleRad * 24))
+      for (let i = 0; i <= thetaSteps; i++) {
+        const a = (i / thetaSteps) * this.angleRad
+        const rot = rotateVectorByAxisAngle(v, n, a)
+        const dir = new THREE.Vector3(...rot.vPerpPrime).normalize()
+        thetaArcPts.push(new THREE.Vector3(dir.x * thetaArcRadius, 0.015, dir.z * thetaArcRadius))
+      }
+      this.thetaArcGeo.setFromPoints(thetaArcPts)
+      this.thetaArcLine.visible = true
+
+      // Midpoint of arc for label theta
+      const degText = `${((this.angleRad * 180) / Math.PI).toFixed(1)}°`
+      const amberHex = 0xfbbf24
+      updateTextSprite(this.labelTheta, `θ = ${degText}`, amberHex, 40)
+
+      const midAngle = this.angleRad / 2
+      const midRot = rotateVectorByAxisAngle(v, n, midAngle)
+      const midDir = new THREE.Vector3(...midRot.vPerpPrime).normalize()
+      const labelRadius = thetaArcRadius + 0.22
+      this.labelTheta.position.set(midDir.x * labelRadius, 0.06, midDir.z * labelRadius)
+      this.labelTheta.visible = true
+    } else {
+      this.thetaArcLine.visible = false
+      this.labelTheta.visible = false
     }
 
     // 12. Update 3D Text Mesh Sprites with collision prevention

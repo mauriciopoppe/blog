@@ -412,9 +412,6 @@ export class TransformEngine {
     this.targetStepIndex = targetIdx
     this.animatingStartTime = performance.now()
     this.onStepAnimationFinish = onFinish
-
-    const activeStep = this.chain[targetIdx]
-    this.emit('stepChange', targetIdx, activeStep, this.chain.length)
   }
 
   applyMatrixToMesh(matrix) {
@@ -461,6 +458,8 @@ export class TransformEngine {
         this.currentStepIndex = this.targetStepIndex
         this.currentMatrix.copy(this.stepEndMatrix)
         this.applyMatrixToMesh(this.currentMatrix)
+        const curStep = this.chain[this.currentStepIndex]
+        this.emit('stepChange', this.currentStepIndex, curStep, this.chain.length)
         if (this.onStepAnimationFinish) {
           const cb = this.onStepAnimationFinish
           this.onStepAnimationFinish = null
