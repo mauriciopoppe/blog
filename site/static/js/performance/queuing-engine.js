@@ -9,6 +9,7 @@ export class QueuingEngine {
     this.cores = typeof options.cores === 'number' ? options.cores : 2;
     this.mu = typeof options.mu === 'number' ? options.mu : 2.0;
     this.windowDuration = typeof options.windowDuration === 'number' ? options.windowDuration : 5.0;
+    this.isRunning = options.isRunning ?? true;
     this.rng = options.rng || Math.random;
 
     this.reset();

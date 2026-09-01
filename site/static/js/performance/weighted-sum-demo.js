@@ -9,6 +9,9 @@
  * Licensed under the MIT license.
  */
 
+import { html, render as preactRender } from '../ui/preact.js'
+import { StepRow } from '../ui/StepRow.js'
+
 function renderMath(tex) {
   if (typeof window !== 'undefined' && window.katex && typeof window.katex.renderToString === 'function') {
     try {
@@ -28,28 +31,25 @@ export function initWeightedSumDemo(containerId = '#weighted-sum-demo') {
   const PLAY_NEUTRAL = 'tw-flex-1 tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center tw-gap-1 tw-whitespace-nowrap hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft'
   const PLAY_ACTIVE = 'tw-flex-1 tw-bg-primary-soft tw-border tw-border-primary-border tw-text-primary tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-flex tw-items-center tw-justify-center tw-gap-1 tw-whitespace-nowrap hover:tw-bg-primary-soft hover:tw-border-primary'
 
-  const STEP_ROW_BASE = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1 tw-rounded-md tw-bg-[var(--grey-dark)] tw-transition'
-  const STEP_ROW_ACTIVE = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1 tw-rounded-md tw-border tw-border-[rgba(var(--primary),0.6)] tw-bg-[rgba(var(--primary),0.08)] tw-transition'
-  const STEP_ROW_COMPLETED = 'step-row tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1 tw-rounded-md tw-bg-[var(--grey-dark)] tw-opacity-55 tw-pointer-events-none'
-  const STEP_BADGE_BASE = 'tw-w-[18px] tw-h-[18px] tw-rounded-full tw-text-[10px] tw-font-bold tw-flex tw-items-center tw-justify-center tw-bg-[var(--grey-darker)] tw-text-[var(--grey-light)] tw-shrink-0'
-  const STEP_BADGE_ACTIVE = 'tw-w-[18px] tw-h-[18px] tw-rounded-full tw-text-[10px] tw-font-bold tw-flex tw-items-center tw-justify-center tw-bg-[rgb(var(--primary))] tw-text-[var(--grey-darker)] tw-shrink-0'
-  const STEP_BADGE_COMPLETED = 'tw-w-[18px] tw-h-[18px] tw-rounded-full tw-text-[10px] tw-font-bold tw-flex tw-items-center tw-justify-center tw-bg-[var(--grey)] tw-text-[var(--grey-lighter)] tw-shrink-0'
-
   const STEPS = [
     {
       name: 'Setup',
+      shortDesc: 'Initial measured set & active frontier',
       desc: 'Gray dots are the configurations already measured. The ringed points are the kept, non-dominated ones. They already trace the frontier.'
     },
     {
       name: 'Step 1 · dominated',
+      shortDesc: 'Sample beaten on throughput (discard)',
       desc: 'Only the amber dot is being evaluated. The highlighted ringed point sits at the same latency and beats it on throughput, so the amber sample is discarded.'
     },
     {
       name: 'Step 2 · supported (B)',
+      shortDesc: 'Beats nearest frontier point (keep)',
       desc: 'B is evaluated against the nearest frontier point: g = 121.5 beats g = 168.5, and no measured point beats B on both objectives. Keep it. It joins the frontier.'
     },
     {
       name: 'Step 3 · unsupported (C)',
+      shortDesc: 'Non-dominated, missed by linear weights',
       desc: 'C is on the frontier: no measured point beats it on both objectives, so it stays in the kept set just like (300, 86). The weighted sum is a different lens: under these weights g(C) = 208 ranks below g = 193, so a single-number optimizer would pass over C even though the frontier keeps it.'
     }
   ]
@@ -248,14 +248,23 @@ export function initWeightedSumDemo(containerId = '#weighted-sum-demo') {
   let timer = null
 
   function renderStepRows() {
-    stepPipeline.innerHTML = STEPS.map((s, i) => `
-      <div id="ws-step-${i}" class="${i < currentStep ? STEP_ROW_COMPLETED : i === currentStep ? STEP_ROW_ACTIVE : STEP_ROW_BASE}">
-        <div class="tw-flex tw-items-center tw-gap-1.5 tw-min-w-0">
-          <div class="step-badge ${i < currentStep ? STEP_BADGE_COMPLETED : i === currentStep ? STEP_BADGE_ACTIVE : STEP_BADGE_BASE}">${i < currentStep ? '✓' : i === 0 ? 'S' : i}</div>
-          <span class="tw-font-sans tw-text-[0.6875rem] tw-font-semibold tw-text-[var(--grey-lighter)] tw-truncate">${s.name}</span>
+    preactRender(
+      html`
+        <div class="tw-flex tw-flex-col tw-gap-1">
+          ${STEPS.map((s, i) => html`
+            <${StepRow}
+              key=${i}
+              stepNumber=${i === 0 ? 'S' : i}
+              title=${s.name}
+              description=${s.shortDesc}
+              isCompleted=${i < currentStep}
+              isActive=${i === currentStep}
+              isAnimating=${isPlaying && i === currentStep} />
+          `)}
         </div>
-      </div>
-    `).join('')
+      `,
+      stepPipeline
+    )
   }
 
   function renderTable() {

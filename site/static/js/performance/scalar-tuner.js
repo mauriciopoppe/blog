@@ -10,6 +10,7 @@
  * ========================================================================== */
 
 import { simulateServing } from './serving-simulator.js';
+import { UI } from '../ui/tokens.js';
 
 const CHOICES = {
   tps:  { label: 'Throughput (TPS)',      good: 'higher' },
@@ -143,8 +144,8 @@ export function initScalarTuner(containerId = '#scalar-tuner') {
   const container = document.querySelector(containerId);
   if (!container) return;
 
-  const SEG_ACTIVE = 'tw-appearance-none tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-leading-none tw-px-2.5 tw-py-1.5 tw-bg-primary-soft tw-text-primary tw-cursor-pointer';
-  const SEG_INACTIVE = 'tw-appearance-none tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-leading-none tw-px-2.5 tw-py-1.5 tw-bg-transparent tw-text-[var(--grey-light)] tw-cursor-pointer hover:tw-bg-primary-soft hover:tw-text-primary';
+  const SEG_ACTIVE = UI.segmented.itemActive;
+  const SEG_INACTIVE = UI.segmented.itemInactive;
 
   let choice = 'tps';
   const on = {};
@@ -283,7 +284,7 @@ export function initScalarTuner(containerId = '#scalar-tuner') {
       </header>
 
       <div class="tw-p-2.5 tw-font-serif tw-text-[var(--grey-lighter)]">
-        <div class="tw-inline-flex tw-border tw-border-[var(--ring-border)] tw-rounded-[6px] tw-bg-[var(--grey-dark)] tw-shadow-subtle tw-overflow-hidden tw-mb-2.5" role="radiogroup" aria-label="Metric to tune">
+        <div class="${UI.segmented.group} tw-inline-flex tw-mb-2.5" role="radiogroup" aria-label="Metric to tune">
           ${Object.entries(CHOICES).map(([key, cfg]) => `
             <button type="button" class="st-choice ${key === 'tps' ? SEG_ACTIVE : SEG_INACTIVE}" data-choice="${key}" role="radio" aria-checked="${key === 'tps'}">${cfg.label}</button>
           `).join('')}

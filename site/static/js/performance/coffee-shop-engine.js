@@ -27,6 +27,8 @@ export class CoffeeShopEngine {
   constructor(options = {}) {
     this.lambda = options.lambda ?? 1.5;         // arrivals per second
     this.durationW = options.durationW ?? 4.0;   // seconds stay per visitor
+    this.running = options.running ?? true;
+    this.speedMultiplier = options.speedMultiplier ?? 1.0;
     this.seed = options.seed ?? null;
     this.seedState = this.seed ?? 12345;
 

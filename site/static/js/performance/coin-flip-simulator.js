@@ -1,4 +1,10 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
+import { html, render, useState, useEffect, useRef } from '../ui/preact.js';
+import { WidgetFrame } from '../ui/WidgetFrame.js';
+import { SegmentedGroup } from '../ui/SegmentedGroup.js';
+import { RangeSlider } from '../ui/RangeSlider.js';
+import { MetricCard } from '../ui/MetricCard.js';
+import { UI } from '../ui/tokens.js';
 
 function renderKaTeX(tex, fallbackHtml) {
   if (typeof window !== 'undefined' && window.katex && typeof window.katex.renderToString === 'function') {
@@ -11,240 +17,28 @@ function renderKaTeX(tex, fallbackHtml) {
   return fallbackHtml || tex;
 }
 
-export function initCoinFlipSimulator(containerId = '#coin-flip-simulator') {
-  const container = document.querySelector(containerId);
-  if (!container) return;
+const PRESET_OPTIONS = [
+  { label: '50% (1.0x)', value: '0.50', rho: 0.5 },
+  { label: '75% (3.0x)', value: '0.75', rho: 0.75 },
+  { label: '90% (9.0x)', value: '0.90', rho: 0.90 }
+];
 
-  container.innerHTML = `
-    <style>
-      #coin-flip-simulator .metric-calc {
-        white-space: nowrap !important;
-        line-height: 1.15 !important;
-      }
-      #coin-flip-simulator .metric-calc .katex {
-        white-space: nowrap !important;
-        font-size: 0.80em !important;
-        line-height: 1.15 !important;
-      }
-      #coin-flip-simulator .metric-header {
-        white-space: nowrap !important;
-        line-height: 1.15 !important;
-        font-family: var(--family-serif, system-ui, serif) !important;
-      }
-      #coin-flip-simulator .metric-header .katex {
-        font-size: 0.92em !important;
-      }
-      #coin-flip-simulator .table-footer-math .katex {
-        font-size: 1.08em !important;
-      }
-      #coin-flip-simulator .coin-slider { -webkit-appearance: none; appearance: none; height: 28px; background: transparent; --range-fill: 50%; }
-      #coin-flip-simulator .coin-slider::-webkit-slider-runnable-track { height: 8px; border-radius: 999px; background: linear-gradient(to right, rgb(var(--primary)) 0%, rgb(var(--primary)) var(--range-fill), var(--ring-border) var(--range-fill), var(--ring-border) 100%); }
-      #coin-flip-simulator .coin-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: rgb(var(--primary)); border: 2px solid var(--grey); margin-top: -5px; box-shadow: var(--elevation-subtle); }
-      #coin-flip-simulator .coin-slider::-moz-range-track { height: 8px; border-radius: 999px; background: var(--ring-border); }
-      #coin-flip-simulator .coin-slider::-moz-range-progress { height: 8px; border-radius: 999px; background: rgb(var(--primary)); }
-      #coin-flip-simulator .coin-slider::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: rgb(var(--primary)); border: 2px solid var(--grey); box-shadow: var(--elevation-subtle); }
-      #coin-flip-simulator .coin-slider:hover::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(var(--primary), 0.15); }
-      #coin-flip-simulator .coin-slider:hover::-moz-range-thumb { box-shadow: 0 0 0 4px rgba(var(--primary), 0.15); }
-      #coin-flip-simulator .coin-slider:focus-visible { outline: 2px solid rgba(var(--primary), 0.6); outline-offset: 2px; border-radius: 999px; }
-      #coin-flip-simulator .coin-seg-group { display: inline-flex; border: 1px solid var(--ring-border); border-radius: 6px; background: var(--grey-dark); box-shadow: var(--elevation-subtle); overflow: hidden; }
-      #coin-flip-simulator .coin-seg { appearance: none; font-family: var(--family-serif, system-ui, serif); font-size: 0.85rem; font-weight: 600; line-height: 1; padding: 8px 12px; background: transparent; color: var(--grey-light); cursor: pointer; }
-      #coin-flip-simulator .coin-seg:hover { color: rgb(var(--primary)); background: var(--accent-tint); }
-      #coin-flip-simulator .coin-seg-active { background: rgba(var(--primary), 0.16); color: rgb(var(--primary)); }
-      #coin-flip-simulator .coin-ctrl { font-family: var(--family-serif, system-ui, serif); font-size: 0.82rem; font-weight: 600; line-height: 1; padding: 6px 12px; border-radius: 6px; background: var(--grey-dark); border: 1px solid var(--ring-border); color: var(--grey-light); cursor: pointer; box-shadow: var(--elevation-subtle); transition: background-color .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease; }
-      #coin-flip-simulator .coin-ctrl:hover { border-color: var(--accent-border); background: var(--accent-tint); color: rgb(var(--primary)); box-shadow: var(--elevation-raised); }
-    </style>
-      <!-- Widget 1: Theoretical State Probabilities & Wait Times -->
-      <div class="tw-my-4 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
-        <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
-          <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">Theoretical State Probabilities &amp; Wait Times</div>
-        </header>
-        <div class="tw-p-2.5">
+export function CoinFlipSimulator() {
+  const chartRef = useRef(null);
 
-        <!-- Unified 1-Line Slider Control Strip (Utilization ρ and Service Time S) -->
-        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 14px; background: var(--grey-darker); padding: 8px 12px; border-radius: 8px; flex-wrap: wrap;">
-          <!-- Preset -->
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 0.82rem; color: var(--grey-light); white-space: nowrap;">Preset:</span>
-            <div class="coin-seg-group">
-              <button type="button" class="preset-btn coin-seg coin-seg-active" data-rho="0.5">50% (1.0x)</button>
-              <button type="button" class="preset-btn coin-seg" data-rho="0.75">75% (3.0x)</button>
-              <button type="button" class="preset-btn coin-seg" data-rho="0.90">90% (9.0x)</button>
-            </div>
-          </div>
+  const [preset, setPreset] = useState('0.50');
+  const [rho, setRho] = useState(0.50);
+  const [serviceTimeMs, setServiceTimeMs] = useState(10);
+  const [simulatedCounts, setSimulatedCounts] = useState({});
+  const [totalSimulated, setTotalSimulated] = useState(0);
+  const [totalJobsSum, setTotalJobsSum] = useState(0);
+  const [logHtml, setLogHtml] = useState(
+    'Click <strong>Simulate 1 Arrival</strong> or <strong>Simulate 500 Arrivals</strong> to generate traffic.'
+  );
 
-          <!-- Two sliders grouped together -->
-          <div style="display: flex; align-items: center; gap: 14px; flex: 1; min-width: 340px; flex-wrap: wrap;">
-            <!-- Utilization Slider -->
-            <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 160px;">
-              <span style="font-size: 0.82rem; color: var(--grey-light); white-space: nowrap;">
-                Load (${renderKaTeX('\\rho', '<i>ρ</i>')}): <strong id="sim-rho-val" style="color: var(--grey-lighter); font-variant-numeric: tabular-nums; display: inline-block; width: 34px; text-align: right;">50%</strong>
-              </span>
-              <input type="range" id="sim-rho-slider" class="coin-slider" min="0.10" max="0.95" step="0.05" value="0.50" style="flex: 1; min-width: 60px; --range-fill: 47%;">
-            </div>
+  const getTheoreticalProb = (k, currentRho) => (1 - currentRho) * Math.pow(currentRho, k);
 
-            <!-- Subtle Vertical Separator -->
-            <div style="width: 1px; height: 18px; background: rgba(255, 255, 255, 0.12);"></div>
-
-            <!-- Service Time S Slider -->
-            <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 160px;">
-              <span style="font-size: 0.82rem; color: var(--grey-light); white-space: nowrap;">
-                Service (${renderKaTeX('S', '<i>S</i>')}): <strong id="sim-s-val" style="color: var(--grey-lighter); font-variant-numeric: tabular-nums; display: inline-block; width: 48px; text-align: right;">10 ms</strong>
-              </span>
-              <input type="range" id="sim-s-slider" class="coin-slider" min="5" max="100" step="5" value="10" style="flex: 1; min-width: 60px; --range-fill: 5%;">
-            </div>
-          </div>
-        </div>
-
-        <!-- Dynamic State Table -->
-        <div style="overflow-x: auto; margin-bottom: 12px;">
-          <table id="dynamic-state-table" style="width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: left;">
-            <thead>
-              <tr style="border-bottom: 1px solid var(--grey); color: var(--grey-light);">
-                <th style="padding: 6px 8px; font-weight: 600;">State (${renderKaTeX('k', '<i>k</i>')})</th>
-                <th style="padding: 6px 8px; font-weight: 600;">Wait (${renderKaTeX('k \\times S', '<i>k</i> × <i>S</i>')})</th>
-                <th style="padding: 6px 8px; font-weight: 600;">Probability ${renderKaTeX('P(N = k)', '<i>P</i>(<i>N</i> = <i>k</i>)')}</th>
-                <th style="padding: 6px 8px; font-weight: 600; text-align: right;">Weighted (${renderKaTeX('\\text{Wait} \\times P', 'Wait × <i>P</i>')})</th>
-              </tr>
-            </thead>
-            <tbody id="table-body">
-              <!-- Dynamically rendered rows -->
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Panel 1 Theoretical Metrics (λ, L, Wq, W) -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; padding-top: 10px;">
-          <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            <div>
-              <div class="metric-header" style="font-size: 0.75rem; font-weight: 600; color: var(--grey-light); letter-spacing: 0.01em;">Arrival Rate (${renderKaTeX('\\lambda', '<i>\\lambda</i>')})</div>
-              <div id="metric-lambda-calc" class="metric-calc" style="font-size: 0.82rem; color: var(--grey-lighter); margin: 4px 0 1px 0; min-height: 32px; display: flex; align-items: center; justify-content: center;"></div>
-            </div>
-            <div id="metric-lambda" style="font-size: 1.15rem; font-weight: 700; font-family: var(--family-sans, system-ui, sans-serif); color: var(--grey-lighter); margin-top: 2px;">50.0 req/s</div>
-          </div>
-          <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            <div>
-              <div class="metric-header" style="font-size: 0.75rem; font-weight: 600; color: var(--grey-light); letter-spacing: 0.01em;">Expected Backlog (${renderKaTeX('L', '<i>L</i>')})</div>
-              <div id="metric-theory-calc" class="metric-calc" style="font-size: 0.82rem; color: var(--grey-lighter); margin: 4px 0 1px 0; min-height: 32px; display: flex; align-items: center; justify-content: center;"></div>
-            </div>
-            <div id="metric-theory" style="font-size: 1.15rem; font-weight: 700; font-family: var(--family-sans, system-ui, sans-serif); color: rgb(var(--primary)); margin-top: 2px;">1.00 jobs</div>
-          </div>
-          <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            <div>
-              <div class="metric-header" style="font-size: 0.75rem; font-weight: 600; color: var(--grey-light); letter-spacing: 0.01em;">Queue Wait (${renderKaTeX('W_q', '<i>W</i><sub>q</sub>')})</div>
-              <div class="metric-calc" style="font-size: 0.82rem; color: var(--grey-lighter); margin: 4px 0 1px 0; min-height: 32px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; line-height: 1.15;">
-                <div style="line-height: 1.15;">${renderKaTeX('W_q = L \\cdot S', '<i>W</i><sub>q</sub> = <i>L</i> · <i>S</i>')}</div>
-                <div id="metric-wait-calc" style="color: rgba(255, 255, 255, 0.75); font-size: 0.78rem; line-height: 1.15;"></div>
-              </div>
-            </div>
-            <div id="metric-wait" style="font-size: 1.15rem; font-weight: 700; font-family: var(--family-sans, system-ui, sans-serif); color: #ffb74d; margin-top: 2px;">10.0 ms</div>
-          </div>
-          <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            <div>
-              <div class="metric-header" style="font-size: 0.75rem; font-weight: 600; color: var(--grey-light); letter-spacing: 0.01em;">Total Latency (${renderKaTeX('W', '<i>W</i>')})</div>
-              <div class="metric-calc" style="font-size: 0.82rem; color: var(--grey-lighter); margin: 4px 0 1px 0; min-height: 32px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; line-height: 1.15;">
-                <div style="line-height: 1.15;">${renderKaTeX('W = W_q + S', '<i>W</i> = <i>W</i><sub>q</sub> + <i>S</i>')}</div>
-                <div id="metric-total-w-calc" style="color: rgba(255, 255, 255, 0.75); font-size: 0.78rem; line-height: 1.15;"></div>
-              </div>
-            </div>
-            <div id="metric-total-w" style="font-size: 1.15rem; font-weight: 700; font-family: var(--family-sans, system-ui, sans-serif); color: #81c784; margin-top: 2px;">20.0 ms</div>
-          </div>
-        </div>
-        </div>
-      </div>
-
-      <!-- Widget 2: Monte Carlo Arrival Simulator -->
-      <div class="tw-my-4 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
-        <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
-          <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">Monte Carlo Arrival Simulator</div>
-          <div class="tw-text-sm tw-text-[var(--grey-light)]" id="sim-count">0 arrivals simulated</div>
-        </header>
-        <div class="tw-p-2.5">
-
-        <!-- Action Buttons -->
-        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; align-items: center;">
-          <button type="button" id="btn-flip-one" class="coin-ctrl">🎲 Simulate 1 Arrival</button>
-          <button type="button" id="btn-run-batch" class="coin-ctrl">⚡ Simulate 500 Arrivals</button>
-          <button type="button" id="btn-reset" class="coin-ctrl">↺ Reset</button>
-        </div>
-
-        <!-- Live Step-by-Step Coin Flip Log -->
-        <div id="flip-step-log" style="min-height: 34px; background: var(--grey-dark); border-radius: 6px; padding: 8px 12px; margin-bottom: 14px; font-size: 0.82rem; color: var(--grey-light); display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
-          <span style="color: var(--grey-lighter);">Click <strong>Simulate 1 Arrival</strong> to watch coin flips determine queue state.</span>
-        </div>
-
-        <!-- Distribution Chart -->
-        <div style="margin-bottom: 12px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
-            <span style="font-size: 0.8rem; color: var(--grey-light); font-weight: 600;">Distribution ${renderKaTeX('P(N = k)', '<i>P</i>(<i>N</i> = <i>k</i>)')}:</span>
-            <div style="display: flex; gap: 12px; font-size: 0.75rem;">
-              <span style="display: flex; align-items: center; gap: 4px; color: rgb(var(--primary));"><span style="display: inline-block; width: 9px; height: 9px; background: rgba(var(--primary), 0.5); border: 1px solid rgb(var(--primary)); border-radius: 2px;"></span> Theoretical</span>
-              <span style="display: flex; align-items: center; gap: 4px; color: #81c784;"><span style="display: inline-block; width: 9px; height: 9px; background: rgba(129, 199, 132, 0.7); border-radius: 2px;"></span> Simulated</span>
-            </div>
-          </div>
-          <div id="coin-dist-chart" style="width: 100%; height: 200px; position: relative;"></div>
-        </div>
-
-        <!-- Panel 2 Empirical Metrics -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; padding-top: 10px;">
-          <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            <div style="font-family: var(--family-serif, system-ui, serif); font-size: 0.75rem; font-weight: 600; color: var(--grey-light);">Arrival Load (${renderKaTeX('\\rho', '<i>ρ</i>')})</div>
-            <div id="metric-rho" style="font-size: 1.15rem; font-weight: 700; font-family: var(--family-sans, system-ui, sans-serif); color: var(--grey-lighter); margin-top: 2px;">50.0%</div>
-          </div>
-          <div style="background: var(--grey-dark); padding: 8px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            <div style="font-family: var(--family-serif, system-ui, serif); font-size: 0.75rem; font-weight: 600; color: var(--grey-light);">Simulated Mean (${renderKaTeX('L_{\\text{sim}}', '<i>L</i><sub>sim</sub>')})</div>
-            <div id="metric-sim-mean" style="font-size: 1.15rem; font-weight: 700; font-family: var(--family-sans, system-ui, sans-serif); color: #81c784; margin-top: 2px;">—</div>
-          </div>
-        </div>
-        </div>
-      </div>
-  `;
-
-  const rhoSlider = container.querySelector('#sim-rho-slider');
-  const rhoVal = container.querySelector('#sim-rho-val');
-  const sSlider = container.querySelector('#sim-s-slider');
-  const sVal = container.querySelector('#sim-s-val');
-  const metricLambda = container.querySelector('#metric-lambda');
-  const metricLambdaCalc = container.querySelector('#metric-lambda-calc');
-  const metricTotalW = container.querySelector('#metric-total-w');
-  const metricTotalWCalc = container.querySelector('#metric-total-w-calc');
-  const metricRho = container.querySelector('#metric-rho');
-  const metricTheory = container.querySelector('#metric-theory');
-  const metricTheoryCalc = container.querySelector('#metric-theory-calc');
-  const metricSimMean = container.querySelector('#metric-sim-mean');
-  const metricWait = container.querySelector('#metric-wait');
-  const metricWaitCalc = container.querySelector('#metric-wait-calc');
-  const btnFlipOne = container.querySelector('#btn-flip-one');
-  const btnRunBatch = container.querySelector('#btn-run-batch');
-  const btnReset = container.querySelector('#btn-reset');
-  const simCountEl = container.querySelector('#sim-count');
-  const flipStepLog = container.querySelector('#flip-step-log');
-  const tableBody = container.querySelector('#table-body');
-  const chartEl = container.querySelector('#coin-dist-chart');
-  const presetBtns = container.querySelectorAll('.preset-btn');
-
-  let rho = 0.50;
-  let serviceTimeMs = 10;
-  let simulatedCounts = {};
-  let totalSimulated = 0;
-  let totalJobsSum = 0;
-
-  const margin = { top: 15, right: 12, bottom: 30, left: 40 };
-  const svg = d3.select(chartEl)
-    .append('svg')
-    .attr('class', 'tex2jax_ignore')
-    .attr('width', '100%')
-    .attr('height', '100%');
-
-  const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
-  const xAxisGroup = g.append('g').attr('class', 'x-axis');
-  const yAxisGroup = g.append('g').attr('class', 'y-axis');
-  const barsGroup = g.append('g').attr('class', 'bars');
-
-  function getTheoreticalProb(k, currentRho) {
-    return (1 - currentRho) * Math.pow(currentRho, k);
-  }
-
-  function simulateOneArrival(currentRho) {
+  const simulateOneArrival = (currentRho) => {
     let jobs = 0;
     const flips = [];
     while (true) {
@@ -259,318 +53,375 @@ export function initCoinFlipSimulator(containerId = '#coin-flip-simulator') {
       }
     }
     return { jobs, flips };
-  }
+  };
 
-  function renderTable() {
-    let rowsHtml = '';
-    const maxTableRow = 4;
-    let accumulatedProb = 0;
-    let accumulatedWait = 0;
+  const handlePresetChange = (newVal) => {
+    setPreset(newVal);
+    const p = PRESET_OPTIONS.find((opt) => opt.value === newVal);
+    if (!p) return;
+    setRho(p.rho);
+    setServiceTimeMs(10);
+    setSimulatedCounts({});
+    setTotalSimulated(0);
+    setTotalJobsSum(0);
+    setLogHtml('Simulator reset. Click <strong>Simulate 1 Arrival</strong> to generate traffic.');
+  };
 
-    const oneMinusRhoStr = (1 - rho).toFixed(2);
-    const rhoStr = rho.toFixed(2);
+  const handleRhoChange = (val) => {
+    setRho(val);
+    setPreset('');
+    setSimulatedCounts({});
+    setTotalSimulated(0);
+    setTotalJobsSum(0);
+  };
 
-    for (let k = 0; k <= maxTableRow; k++) {
-      const p = getTheoreticalProb(k, rho);
-      accumulatedProb += p;
-      const wait = k * serviceTimeMs;
-      const weighted = p * wait;
-      accumulatedWait += weighted;
+  const handleServiceChange = (val) => {
+    setServiceTimeMs(val);
+  };
 
-      const stateLabel = k === 0 
-        ? '<strong style="color: #81c784;">k = 0 (Idle)</strong>' 
-        : `k = ${k} jobs`;
-      const pPct = (p * 100).toFixed(1) + '%';
-      const waitStr = `${wait} ms`;
-      const weightedStr = `${weighted.toFixed(2)} ms`;
+  const handleSingleFlip = () => {
+    const { jobs, flips } = simulateOneArrival(rho);
+    const newCounts = { ...simulatedCounts, [jobs]: (simulatedCounts[jobs] || 0) + 1 };
+    setSimulatedCounts(newCounts);
+    setTotalSimulated((prev) => prev + 1);
+    setTotalJobsSum((prev) => prev + jobs);
 
-      const formulaStr = k === 0 
-        ? `(1 − ${rhoStr})` 
-        : `(1 − ${rhoStr}) × ${rhoStr}<sup>${k}</sup>`;
-
-      rowsHtml += `
-        <tr style="border-bottom: 1px solid var(--grey);">
-          <td style="padding: 4px 6px; color: var(--grey-lighter);">${stateLabel}</td>
-          <td style="padding: 4px 6px; color: var(--grey-light);">${waitStr}</td>
-          <td style="padding: 4px 6px; color: var(--grey-light);">
-            <span style="font-size: 0.72rem; color: var(--grey); margin-right: 4px;">${formulaStr} =</span>
-            <span style="color: var(--grey-lighter);">${pPct}</span>
-          </td>
-          <td style="padding: 4px 6px; color: rgb(var(--primary)); text-align: right; font-weight: 600;">
-            <span style="font-size: 0.72rem; color: var(--grey); font-weight: 400; margin-right: 4px;">${wait} × ${(p).toFixed(3)} =</span>
-            ${weightedStr}
-          </td>
-        </tr>
-      `;
-    }
-
-    // Tail row (k >= 5)
-    const tailProb = Math.pow(rho, maxTableRow + 1);
-    const theoryTotalWait = (rho * serviceTimeMs) / (1 - rho);
-    const tailWeighted = Math.max(0, theoryTotalWait - accumulatedWait);
-
-    rowsHtml += `
-      <tr style="border-bottom: 1px solid var(--grey); color: var(--grey-light);">
-        <td style="padding: 4px 6px;">k ≥ 5 jobs (tail)</td>
-        <td style="padding: 4px 6px;">50+ ms</td>
-        <td style="padding: 4px 6px;">
-          <span style="font-size: 0.72rem; color: var(--grey); margin-right: 4px;">${rhoStr}<sup>5</sup> =</span>
-          <span style="color: var(--grey-lighter);">${(tailProb * 100).toFixed(1)}%</span>
-        </td>
-        <td style="padding: 4px 6px; color: rgb(var(--primary)); text-align: right; font-weight: 600;">
-          <span style="font-size: 0.72rem; color: var(--grey); font-weight: 400; margin-right: 4px;">tail sum =</span>
-          ${tailWeighted.toFixed(2)} ms
-        </td>
-      </tr>
-      <tr style="font-weight: 700; color: var(--grey-lighter); background: rgba(255, 255, 255, 0.03);">
-        <td style="padding: 6px 6px;">Total Average</td>
-        <td style="padding: 6px 6px; color: var(--grey-light);">—</td>
-        <td class="table-footer-math" style="padding: 6px 6px; color: var(--grey-light); font-size: 0.90rem;">${renderKaTeX('\\sum P = 100\\%', 'Σ P = 100%')}</td>
-        <td class="table-footer-math" style="padding: 6px 6px; color: rgb(var(--primary)); text-align: right; font-weight: 700; font-size: 0.95rem;">${renderKaTeX(`W_q = ${theoryTotalWait.toFixed(1)}\\text{ ms}`, `<i>W</i><sub>q</sub> = ${theoryTotalWait.toFixed(1)} ms`)}</td>
-      </tr>
-    `;
-
-    tableBody.innerHTML = rowsHtml;
-  }
-
-  function updateMetrics() {
-    rhoVal.textContent = `${Math.round(rho * 100)}%`;
-    sVal.textContent = `${serviceTimeMs} ms`;
-    metricRho.textContent = `${(rho * 100).toFixed(1)}%`;
-    const lambda = rho / (serviceTimeMs / 1000);
-    const theoryBacklog = rho / (1 - rho);
-    const theoryWait = (rho * serviceTimeMs) / (1 - rho);
-    const totalW = theoryWait + serviceTimeMs;
-
-    metricLambda.textContent = `${lambda.toFixed(1)} req/s`;
-    metricLambdaCalc.innerHTML = renderKaTeX(`\\lambda = \\frac{\\rho}{S} = \\frac{${rho.toFixed(2)}}{${(serviceTimeMs / 1000).toFixed(3)}\\text{s}}`, `<i>λ</i> = <i>ρ</i> / <i>S</i> = ${rho.toFixed(2)} / ${(serviceTimeMs / 1000).toFixed(3)}s`);
-
-    metricTheory.textContent = `${theoryBacklog.toFixed(2)} jobs`;
-    metricTheoryCalc.innerHTML = renderKaTeX(`L = \\frac{\\rho}{1 - \\rho} = \\frac{${rho.toFixed(2)}}{${(1 - rho).toFixed(2)}}`, `<i>L</i> = <i>ρ</i> / (1 − <i>ρ</i>) = ${rho.toFixed(2)} / ${(1 - rho).toFixed(2)}`);
-
-    metricWait.textContent = `${theoryWait.toFixed(1)} ms`;
-    metricWaitCalc.innerHTML = renderKaTeX(`${theoryBacklog.toFixed(2)} \\times ${serviceTimeMs}\\text{ms}`, `${theoryBacklog.toFixed(2)} × ${serviceTimeMs}ms`);
-
-    metricTotalW.textContent = `${totalW.toFixed(1)} ms`;
-    metricTotalWCalc.innerHTML = renderKaTeX(`${theoryWait.toFixed(1)}\\text{ms} + ${serviceTimeMs}\\text{ms}`, `${theoryWait.toFixed(1)}ms + ${serviceTimeMs}ms`);
-
-    if (totalSimulated > 0) {
-      const empMean = totalJobsSum / totalSimulated;
-      metricSimMean.textContent = `${empMean.toFixed(2)} jobs`;
-      simCountEl.textContent = `${totalSimulated.toLocaleString()} arrivals simulated`;
+    let htmlLog = '';
+    if (jobs === 0) {
+      htmlLog = `<span style="background: rgba(129, 199, 132, 0.2); color: #81c784; padding: 2px 6px; border-radius: 4px; font-weight: 700;">Worker Idle (k=0)</span> → <span style="color: var(--grey-lighter);">Executes immediately with <strong>0 ms queue wait</strong></span>`;
     } else {
-      metricSimMean.textContent = '—';
-      simCountEl.textContent = '0 arrivals simulated';
+      htmlLog = `<span style="background: rgba(var(--primary), 0.2); color: rgb(var(--primary)); padding: 2px 6px; border-radius: 4px; font-weight: 700;">Worker Busy</span>`;
+      flips.forEach((f, idx) => {
+        const rollPct = (f.roll * 100).toFixed(0);
+        const targetPct = (rho * 100).toFixed(0);
+        if (f.success) {
+          htmlLog += ` → <span style="background: rgba(var(--primary), 0.15); color: rgb(var(--primary)); padding: 2px 6px; border-radius: 4px;">🪙 Flip ${idx + 1}: ${rollPct}% < ${targetPct}% (+1 job)</span>`;
+        } else {
+          htmlLog += ` → <span style="background: rgba(255, 167, 38, 0.2); color: #ffa726; padding: 2px 6px; border-radius: 4px;">🪙 Stop</span>`;
+        }
+      });
+      const waitTime = jobs * serviceTimeMs;
+      htmlLog += ` ⇒ <strong style="color: var(--grey-lighter); margin-left: 4px;">k = ${jobs} jobs ahead</strong> (<span style="color: #ffb74d;">${waitTime}ms queue wait</span>)`;
     }
+    setLogHtml(htmlLog);
+  };
 
-    renderTable();
-  }
+  const handleBatchRun = (count = 500) => {
+    const newCounts = { ...simulatedCounts };
+    let newJobs = 0;
+    for (let i = 0; i < count; i++) {
+      const { jobs } = simulateOneArrival(rho);
+      newCounts[jobs] = (newCounts[jobs] || 0) + 1;
+      newJobs += jobs;
+    }
+    const newTotal = totalSimulated + count;
+    const newSum = totalJobsSum + newJobs;
+    setSimulatedCounts(newCounts);
+    setTotalSimulated(newTotal);
+    setTotalJobsSum(newSum);
 
-  function renderChart() {
+    const empMean = (newSum / newTotal).toFixed(2);
+    const theoryMean = (rho / (1 - rho)).toFixed(2);
+    const empWait = ((newSum / newTotal) * serviceTimeMs).toFixed(1);
+    setLogHtml(`
+      <span style="color: #81c784; font-weight: 600;">✓ Simulated ${count} arrivals.</span>
+      <span style="color: var(--grey-lighter); margin-left: 8px;">Sample mean backlog: <strong>${empMean} jobs</strong> (vs. Theoretical <strong>${theoryMean} jobs</strong>) ⇒ Average wait: <strong>${empWait} ms</strong></span>
+    `);
+  };
+
+  const handleReset = () => {
+    setSimulatedCounts({});
+    setTotalSimulated(0);
+    setTotalJobsSum(0);
+    setLogHtml('Simulator reset. Click <strong>Simulate 1 Arrival</strong> or <strong>Simulate 500 Arrivals</strong> to generate traffic.');
+  };
+
+  useEffect(() => {
+    const chartEl = chartRef.current;
+    if (!chartEl) return;
+    d3.select(chartEl).selectAll('*').remove();
+
+    const margin = { top: 15, right: 12, bottom: 30, left: 40 };
     const rect = chartEl.getBoundingClientRect();
-    const width = (rect.width > 0 ? rect.width : 280) - margin.left - margin.right;
-    const height = 200 - margin.top - margin.bottom;
+    const width = rect.width - margin.left - margin.right;
+    const height = rect.height - margin.top - margin.bottom;
 
-    svg.attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
+    if (width <= 0 || height <= 0) return;
 
-    let maxK = 5;
-    if (rho >= 0.75) maxK = 7;
-    if (rho >= 0.90) maxK = 10;
+    const svg = d3.select(chartEl)
+      .append('svg')
+      .attr('class', 'tex2jax_ignore')
+      .attr('width', '100%')
+      .attr('height', '100%');
 
+    const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+    const xAxisGroup = g.append('g').attr('class', 'x-axis').attr('transform', `translate(0,${height})`);
+    const yAxisGroup = g.append('g').attr('class', 'y-axis');
+    const barsGroup = g.append('g').attr('class', 'bars');
+
+    const maxK = 7;
     const data = [];
     for (let k = 0; k <= maxK; k++) {
       const theory = getTheoreticalProb(k, rho);
-      const observedCount = simulatedCounts[k] || 0;
-      const observedFreq = totalSimulated > 0 ? observedCount / totalSimulated : 0;
-      data.push({ k, theory, observed: observedFreq, count: observedCount });
+      const obsCount = simulatedCounts[k] || 0;
+      const observed = totalSimulated > 0 ? obsCount / totalSimulated : 0;
+      data.push({ k, theory, observed });
     }
 
-    const maxProb = Math.max(d3.max(data, d => Math.max(d.theory, d.observed)) || 0.5, 0.4);
-
     const xScale = d3.scaleBand()
-      .domain(data.map(d => `${d.k}`))
+      .domain(data.map((d) => `${d.k}`))
       .range([0, width])
-      .padding(0.24);
+      .padding(0.2);
 
+    const maxProb = Math.max(d3.max(data, (d) => Math.max(d.theory, d.observed)) || 0.5, 0.4);
     const yScale = d3.scaleLinear()
-      .domain([0, maxProb * 1.1])
+      .domain([0, Math.min(1.0, maxProb * 1.15)])
       .range([height, 0]);
 
-    xAxisGroup.attr('transform', `translate(0,${height})`)
-      .call(d3.axisBottom(xScale).tickFormat(d => d === '0' ? 'k=0' : `k=${d}`))
-      .call(g => g.selectAll('text').attr('fill', 'var(--grey-light)').attr('font-size', '9px'))
-      .call(g => g.selectAll('line').attr('stroke', 'var(--grey)'))
-      .call(g => g.select('.domain').attr('stroke', 'var(--grey)'));
+    xAxisGroup
+      .call(d3.axisBottom(xScale).tickFormat((d) => (d === '0' ? 'k=0' : `k=${d}`)))
+      .call((g) => g.selectAll('text').attr('fill', 'var(--grey-light)').attr('font-size', '9px'))
+      .call((g) => g.selectAll('line').attr('stroke', 'var(--grey)'))
+      .call((g) => g.select('.domain').attr('stroke', 'var(--grey)'));
 
     yAxisGroup
       .call(d3.axisLeft(yScale).ticks(4).tickFormat(d3.format('.0%')))
-      .call(g => g.selectAll('text').attr('fill', 'var(--grey-light)').attr('font-size', '9px'))
-      .call(g => g.selectAll('line').attr('stroke', 'var(--grey)'))
-      .call(g => g.select('.domain').attr('stroke', 'var(--grey)'));
+      .call((g) => g.selectAll('text').attr('fill', 'var(--grey-light)').attr('font-size', '9px'))
+      .call((g) => g.selectAll('line').attr('stroke', 'var(--grey)'))
+      .call((g) => g.select('.domain').attr('stroke', 'var(--grey)'));
 
     const subBandWidth = xScale.bandwidth() / 2;
 
     const barGroups = barsGroup.selectAll('.bar-group')
-      .data(data, d => d.k);
-
-    barGroups.exit().remove();
-
-    const barGroupsEnter = barGroups.enter()
+      .data(data, (d) => d.k)
+      .enter()
       .append('g')
       .attr('class', 'bar-group')
-      .attr('transform', d => `translate(${xScale(`${d.k}`)},0)`);
+      .attr('transform', (d) => `translate(${xScale(`${d.k}`)},0)`);
 
-    barGroupsEnter.append('rect').attr('class', 'theory-bar');
-    barGroupsEnter.append('rect').attr('class', 'observed-bar');
-    barGroupsEnter.append('text').attr('class', 'theory-label');
-
-    const barGroupsUpdate = barGroupsEnter.merge(barGroups)
-      .attr('transform', d => `translate(${xScale(`${d.k}`)},0)`);
-
-    barGroupsUpdate.select('.theory-bar')
+    barGroups.append('rect')
+      .attr('class', 'theory-bar')
       .attr('x', 0)
-      .attr('y', d => yScale(d.theory))
+      .attr('y', (d) => yScale(d.theory))
       .attr('width', subBandWidth - 1)
-      .attr('height', d => height - yScale(d.theory))
+      .attr('height', (d) => height - yScale(d.theory))
       .attr('fill', 'rgba(var(--primary), 0.35)')
       .attr('stroke', 'rgb(var(--primary))')
       .attr('stroke-width', 1)
       .attr('rx', 2);
 
-    barGroupsUpdate.select('.observed-bar')
+    barGroups.append('rect')
+      .attr('class', 'observed-bar')
       .attr('x', subBandWidth)
-      .attr('y', d => yScale(d.observed))
+      .attr('y', (d) => yScale(d.observed))
       .attr('width', subBandWidth - 1)
-      .attr('height', d => height - yScale(d.observed))
+      .attr('height', (d) => height - yScale(d.observed))
       .attr('fill', totalSimulated > 0 ? 'rgba(129, 199, 132, 0.75)' : 'transparent')
       .attr('stroke', totalSimulated > 0 ? '#81c784' : 'transparent')
       .attr('stroke-width', 1)
       .attr('rx', 2);
 
-    barGroupsUpdate.select('.theory-label')
+    barGroups.append('text')
+      .attr('class', 'theory-label')
       .attr('x', subBandWidth / 2)
-      .attr('y', d => Math.max(yScale(d.theory) - 3, 9))
+      .attr('y', (d) => Math.max(yScale(d.theory) - 3, 9))
       .attr('text-anchor', 'middle')
       .attr('fill', 'var(--grey-lighter)')
       .attr('font-size', '8.5px')
-      .text(d => `${(d.theory * 100).toFixed(0)}%`);
-  }
+      .text((d) => `${(d.theory * 100).toFixed(0)}%`);
+  }, [rho, simulatedCounts, totalSimulated]);
 
-  function handleSingleFlip() {
-    const { jobs, flips } = simulateOneArrival(rho);
+  const lambda = rho / (serviceTimeMs / 1000);
+  const theoryBacklog = rho / (1 - rho);
+  const theoryWait = (rho * serviceTimeMs) / (1 - rho);
+  const totalW = theoryWait + serviceTimeMs;
+  const simMean = totalSimulated > 0 ? (totalJobsSum / totalSimulated).toFixed(2) : '—';
 
-    simulatedCounts[jobs] = (simulatedCounts[jobs] || 0) + 1;
-    totalSimulated += 1;
-    totalJobsSum += jobs;
+  return html`
+    <style>
+      #coin-flip-simulator .metric-calc { white-space: nowrap !important; line-height: 1.15 !important; }
+      #coin-flip-simulator .metric-calc .katex { white-space: nowrap !important; font-size: 0.80em !important; line-height: 1.15 !important; }
+      #coin-flip-simulator .metric-header { white-space: nowrap !important; line-height: 1.15 !important; }
+      #coin-flip-simulator .metric-header .katex { font-size: 0.92em !important; }
+      #coin-flip-simulator .table-footer-math .katex { font-size: 1.08em !important; }
+    </style>
 
-    let logHtml = '';
-    if (jobs === 0) {
-      logHtml = `<span style="background: rgba(129, 199, 132, 0.2); color: #81c784; padding: 2px 6px; border-radius: 4px; font-weight: 700;">Worker Idle (k=0)</span> → <span style="color: var(--grey-lighter);">Executes immediately with <strong>0 ms queue wait</strong></span>`;
-    } else {
-      logHtml = `<span style="background: rgba(var(--primary), 0.2); color: rgb(var(--primary)); padding: 2px 6px; border-radius: 4px; font-weight: 700;">Worker Busy</span>`;
-      flips.forEach((f, idx) => {
-        const rollPct = (f.roll * 100).toFixed(0);
-        const targetPct = (rho * 100).toFixed(0);
-        if (f.success) {
-          logHtml += ` → <span style="background: rgba(var(--primary), 0.15); color: rgb(var(--primary)); padding: 2px 6px; border-radius: 4px;">🪙 Flip ${idx + 1}: ${rollPct}% < ${targetPct}% (+1 job)</span>`;
-        } else {
-          logHtml += ` → <span style="background: rgba(255, 167, 38, 0.2); color: #ffa726; padding: 2px 6px; border-radius: 4px;">🪙 Stop</span>`;
-        }
-      });
-      const waitTime = jobs * serviceTimeMs;
-      logHtml += ` ⇒ <strong style="color: var(--grey-lighter); margin-left: 4px;">k = ${jobs} jobs ahead</strong> (<span style="color: #ffb74d;">${waitTime}ms queue wait</span>)`;
-    }
+    <${WidgetFrame}
+      title="Theoretical State Probabilities & Wait Times"
+      descriptor="Markov queue state probabilities and weighted wait times">
+      <div class="tw-p-3.5">
+        <div class="tw-flex tw-items-center tw-gap-3.5 tw-mb-4 tw-flex-wrap">
+          <div class="tw-flex-none">
+            <${SegmentedGroup}
+              options=${PRESET_OPTIONS}
+              value=${preset}
+              onChange=${handlePresetChange} />
+          </div>
+          <div class="tw-flex tw-items-center tw-gap-3.5 tw-flex-1 tw-min-w-[340px] tw-flex-wrap max-[640px]:tw-min-w-full">
+            <div class="tw-flex-1 tw-min-w-[150px]">
+              <${RangeSlider}
+                id="sim-rho-slider"
+                label="Load (ρ)"
+                valueText="${Math.round(rho * 100)}%"
+                min=${0.10}
+                max=${0.95}
+                step=${0.05}
+                value=${rho}
+                onChange=${handleRhoChange} />
+            </div>
+            <div class="tw-w-px tw-h-[22px] tw-bg-white/15"></div>
+            <div class="tw-flex-1 tw-min-w-[150px]">
+              <${RangeSlider}
+                id="sim-s-slider"
+                label="Service (S)"
+                valueText="${serviceTimeMs} ms"
+                min=${5}
+                max=${100}
+                step=${5}
+                value=${serviceTimeMs}
+                onChange=${handleServiceChange} />
+            </div>
+          </div>
+        </div>
 
-    flipStepLog.innerHTML = logHtml;
+        <div class="tw-overflow-x-auto tw-mb-3">
+          <table class="tw-w-full tw-border-collapse tw-text-[0.8rem] tw-text-left">
+            <thead>
+              <tr class="tw-border-b tw-border-[var(--grey)] tw-text-[var(--grey-light)]">
+                <th class="tw-p-1.5 tw-font-semibold">State (k)</th>
+                <th class="tw-p-1.5 tw-font-semibold">Wait (k × S)</th>
+                <th class="tw-p-1.5 tw-font-semibold">Probability P(N = k)</th>
+                <th class="tw-p-1.5 tw-font-semibold tw-text-right">Weighted (Wait × P)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${[0, 1, 2, 3, 4].map((k) => {
+                const p = getTheoreticalProb(k, rho);
+                const wait = k * serviceTimeMs;
+                const weighted = p * wait;
+                const rhoStr = rho.toFixed(2);
+                const formulaStr = k === 0 ? `(1 − ${rhoStr})` : `(1 − ${rhoStr}) × ${rhoStr}<sup>${k}</sup>`;
 
-    updateMetrics();
-    renderChart();
-  }
+                return html`
+                  <tr key=${k} class="tw-border-b tw-border-[var(--grey)]">
+                    <td class="tw-p-1 tw-text-[var(--grey-lighter)]">
+                      ${k === 0
+                        ? html`<strong class="tw-text-[#81c784]">k = 0 (Idle)</strong>`
+                        : `k = ${k} jobs`}
+                    </td>
+                    <td class="tw-p-1 tw-text-[var(--grey-light)]">${wait} ms</td>
+                    <td class="tw-p-1 tw-text-[var(--grey-light)]">
+                      <span class="tw-text-[0.72rem] tw-text-[var(--grey)] tw-mr-1" dangerouslySetInnerHTML=${{ __html: formulaStr + ' =' }} />
+                      <span class="tw-text-[var(--grey-lighter)]">${(p * 100).toFixed(1)}%</span>
+                    </td>
+                    <td class="tw-p-1 tw-text-primary tw-text-right tw-font-semibold">
+                      <span class="tw-text-[0.72rem] tw-text-[var(--grey)] tw-font-normal tw-mr-1">${wait} × ${p.toFixed(3)} =</span>
+                      ${weighted.toFixed(2)} ms
+                    </td>
+                  </tr>
+                `;
+              })}
+              <tr class="tw-border-b tw-border-[var(--grey)] tw-text-[var(--grey-light)]">
+                <td class="tw-p-1">k ≥ 5 jobs (tail)</td>
+                <td class="tw-p-1">50+ ms</td>
+                <td class="tw-p-1">
+                  <span class="tw-text-[0.72rem] tw-text-[var(--grey)] tw-mr-1">${rho.toFixed(2)}<sup>5</sup> =</span>
+                  <span class="tw-text-[var(--grey-lighter)]">${(Math.pow(rho, 5) * 100).toFixed(1)}%</span>
+                </td>
+                <td class="tw-p-1 tw-text-primary tw-text-right tw-font-semibold">
+                  <span class="tw-text-[0.72rem] tw-text-[var(--grey)] tw-font-normal tw-mr-1">tail sum =</span>
+                  ${Math.max(0, theoryWait - [0, 1, 2, 3, 4].reduce((acc, k) => acc + getTheoreticalProb(k, rho) * (k * serviceTimeMs), 0)).toFixed(2)} ms
+                </td>
+              </tr>
+              <tr class="tw-font-bold tw-text-[var(--grey-lighter)] tw-bg-white/[0.03]">
+                <td class="tw-p-1.5">Total Average</td>
+                <td class="tw-p-1.5 tw-text-[var(--grey-light)]">—</td>
+                <td class="table-footer-math tw-p-1.5 tw-text-[var(--grey-light)]">
+                  <span dangerouslySetInnerHTML=${{ __html: renderKaTeX('\\sum P = 100\\%', 'Σ P = 100%') }} />
+                </td>
+                <td class="table-footer-math tw-p-1.5 tw-text-primary tw-text-right">
+                  <span dangerouslySetInnerHTML=${{ __html: renderKaTeX(`W_q = ${theoryWait.toFixed(1)}\\text{ ms}`, `W_q = ${theoryWait.toFixed(1)} ms`) }} />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-  function handleBatchRun(count = 500) {
-    for (let i = 0; i < count; i++) {
-      const { jobs } = simulateOneArrival(rho);
-      simulatedCounts[jobs] = (simulatedCounts[jobs] || 0) + 1;
-      totalSimulated += 1;
-      totalJobsSum += jobs;
-    }
+        <div class="tw-grid tw-grid-cols-[repeat(auto-fit,minmax(140px,1fr))] tw-gap-2">
+          <${MetricCard}
+            label="Arrival Rate (λ)"
+            value="${lambda.toFixed(1)} req/s"
+            caption="ρ / S" />
+          <${MetricCard}
+            label="Expected Backlog (L)"
+            value="${theoryBacklog.toFixed(2)} jobs"
+            caption="ρ / (1 − ρ)"
+            valueColor="tw-text-primary" />
+          <${MetricCard}
+            label="Queue Wait (Wq)"
+            value="${theoryWait.toFixed(1)} ms"
+            caption="L · S"
+            valueColor="tw-text-[#ffb74d]" />
+          <${MetricCard}
+            label="Total Latency (W)"
+            value="${totalW.toFixed(1)} ms"
+            caption="Wq + S"
+            valueColor="tw-text-[#81c784]" />
+        </div>
+      </div>
+    <//>
 
-    const empMean = (totalJobsSum / totalSimulated).toFixed(2);
-    const theoryMean = (rho / (1 - rho)).toFixed(2);
-    const empWait = ((totalJobsSum / totalSimulated) * serviceTimeMs).toFixed(1);
-    flipStepLog.innerHTML = `
-      <span style="color: #81c784; font-weight: 600;">✓ Simulated ${count} arrivals.</span>
-      <span style="color: var(--grey-lighter); margin-left: 8px;">Sample mean backlog: <strong>${empMean} jobs</strong> (vs. Theoretical <strong>${theoryMean} jobs</strong>) ⇒ Average wait: <strong>${empWait} ms</strong></span>
-    `;
+    <${WidgetFrame}
+      title="Monte Carlo Arrival Simulator"
+      descriptor="${totalSimulated} arrivals simulated">
+      <div class="tw-p-2.5">
+        <div class="tw-flex tw-gap-2 tw-flex-wrap tw-mb-2.5 tw-items-center">
+          <button type="button" class=${UI.btn.ctrl} onClick=${handleSingleFlip}>🎲 Simulate 1 Arrival</button>
+          <button type="button" class=${UI.btn.ctrl} onClick=${() => handleBatchRun(500)}>⚡ Simulate 500 Arrivals</button>
+          <button type="button" class=${UI.btn.ctrl} onClick=${handleReset}>↺ Reset</button>
+        </div>
 
-    updateMetrics();
-    renderChart();
-  }
+        <div
+          class="tw-min-h-[34px] tw-bg-[var(--grey-dark)] tw-rounded-md tw-p-2.5 tw-mb-3.5 tw-text-[0.82rem] tw-text-[var(--grey-light)] tw-flex tw-items-center tw-flex-wrap tw-gap-1.5"
+          dangerouslySetInnerHTML=${{ __html: logHtml }} />
 
-  function handleReset() {
-    simulatedCounts = {};
-    totalSimulated = 0;
-    totalJobsSum = 0;
-    flipStepLog.innerHTML = `<span style="color: var(--grey-lighter);">Simulator reset. Click <strong>Simulate 1 Arrival</strong> or <strong>Simulate 500 Arrivals</strong> to generate traffic.</span>`;
-    updateMetrics();
-    renderChart();
-  }
+        <div class="tw-mb-3">
+          <div class="tw-flex tw-justify-between tw-items-center tw-mb-1.5 tw-flex-wrap tw-gap-1.5">
+            <span class="tw-text-[0.8rem] tw-text-[var(--grey-light)] tw-font-semibold">
+              Distribution <span dangerouslySetInnerHTML=${{ __html: renderKaTeX('P(N = k)', 'P(N = k)') }} />:
+            </span>
+            <div class="tw-flex tw-gap-3 tw-text-[0.75rem]">
+              <span class="tw-flex tw-items-center tw-gap-1 tw-text-primary">
+                <span class="tw-inline-block tw-w-2.5 tw-h-2.5 tw-bg-primary/50 tw-border tw-border-primary tw-rounded-[2px]"></span> Theoretical
+              </span>
+              <span class="tw-flex tw-items-center tw-gap-1 tw-text-[#81c784]">
+                <span class="tw-inline-block tw-w-2.5 tw-h-2.5 tw-bg-[#81c784]/70 tw-rounded-[2px]"></span> Simulated
+              </span>
+            </div>
+          </div>
+          <div ref=${chartRef} class="tw-w-full tw-h-[200px] tw-relative"></div>
+        </div>
 
-  function syncSliderFill(slider) {
-    const pct = ((parseFloat(slider.value) - parseFloat(slider.min)) / (parseFloat(slider.max) - parseFloat(slider.min))) * 100;
-    slider.style.setProperty('--range-fill', pct + '%');
-  }
+        <div class="tw-grid tw-grid-cols-2 tw-gap-2">
+          <${MetricCard}
+            label="Arrival Load (ρ)"
+            value="${(rho * 100).toFixed(1)}%"
+            caption="Theoretical" />
+          <${MetricCard}
+            label="Simulated Mean (L_sim)"
+            value="${simMean} jobs"
+            caption="${totalSimulated} samples"
+            valueColor="tw-text-[#81c784]" />
+        </div>
+      </div>
+    <//>
+  `;
+}
 
-  rhoSlider.addEventListener('input', (e) => {
-    rho = parseFloat(e.target.value);
-    syncSliderFill(rhoSlider);
-    handleReset();
-  });
-
-  sSlider.addEventListener('input', (e) => {
-    serviceTimeMs = parseFloat(e.target.value);
-    syncSliderFill(sSlider);
-    updateMetrics();
-  });
-
-  presetBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      presetBtns.forEach(b => { b.classList.add('coin-seg'); b.classList.remove('coin-seg-active'); });
-      btn.classList.remove('coin-seg'); btn.classList.add('coin-seg-active');
-      rho = parseFloat(btn.getAttribute('data-rho'));
-      rhoSlider.value = rho;
-      syncSliderFill(rhoSlider);
-      serviceTimeMs = 10;
-      sSlider.value = 10;
-      syncSliderFill(sSlider);
-      handleReset();
-    });
-  });
-
-  syncSliderFill(rhoSlider);
-  syncSliderFill(sSlider);
-
-  btnFlipOne.addEventListener('click', handleSingleFlip);
-  btnRunBatch.addEventListener('click', () => handleBatchRun(500));
-  btnReset.addEventListener('click', handleReset);
-
-  window.addEventListener('resize', () => {
-    renderChart();
-  });
-
-  updateMetrics();
-  renderChart();
-
-  // If KaTeX runtime finishes loading after initial DOM execution, re-render once ready
-  if (typeof window !== 'undefined' && !window.katex) {
-    const katexCheckTimer = setInterval(() => {
-      if (window.katex) {
-        clearInterval(katexCheckTimer);
-        updateMetrics();
-      }
-    }, 100);
-    setTimeout(() => clearInterval(katexCheckTimer), 4000);
-  }
+export function initCoinFlipSimulator(containerId = '#coin-flip-simulator') {
+  const container = document.querySelector(containerId);
+  if (!container) return;
+  render(html`<${CoinFlipSimulator} />`, container);
 }
 
 if (typeof window !== 'undefined') {
