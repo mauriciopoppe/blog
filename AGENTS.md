@@ -233,17 +233,11 @@ All interactive modules are self-contained ES6 modules without global UMD librar
 
 ---
 
-## 7. Note Preview Cards & Related Articles Architecture
+## 7. Topic Constellation Graph & Navigation Architecture
 
-- **Single Source of Truth**: [`site/layouts/_partials/note-preview.html`](file:///site/layouts/_partials/note-preview.html) is the single shared partial for rendering note cards across note lists, taxonomy pages, and the related notes block in [`site/layouts/_partials/single-related.html`](file:///site/layouts/_partials/single-related.html).
-- **Card Styling Tokens**:
-  - Container: `tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-shadow-subtle hover:tw-border-[var(--accent-border)] hover:tw-bg-[var(--accent-tint)] hover:tw-shadow-md tw-rounded-lg tw-p-4 tw-cursor-pointer`
-  - Thumbnail: Fixed size `tw-w-28 tw-h-28 tw-object-cover tw-rounded-md`, aligned to top on desktop (`md:tw-items-start`, `tw-self-start`).
-  - Title: Always `tw-text-primary` with subtle hover glow.
-  - Summary: Tighter line-height (`tw-leading-normal`).
-  - Tags: Rendered as `#tag` pills following UX principles (`tw-rounded-full tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-shadow-subtle tw-font-serif tw-font-semibold tw-text-[0.72rem]`).
-- **Interactive Badging (`✦ Interactive`)**:
-  - Automatically detected via multi-signal check in `note-preview.html`:
-    1. Frontmatter `interactive: true`
-    2. Tags (`"interactive"`, `"simulator"`)
-    3. Content inspection (`<script type="module"`, `interactive-`, `-simulator`).
+- **Interactive Constellation Graph**: Notes on `/notes/` and tag queries (`/notes/?tag=<tag>`) are rendered via an interactive topic constellation graph implemented in Preact + HTM (`site/static/js/notes/`).
+- **Decoupled Architecture**:
+  - `notes-graph-math.js`: Pure geometry, clustering, and filtering logic.
+  - `NotesGraphEngine.js`: D3 force physics, 4-pass canvas rendering, and camera control.
+  - `components/`: Preact components (`TopFilterBar.js`, `NoteTooltip.js`, `BottomBar.js`) for UI chrome.
+- **Dynamic Tag Routing**: Article tag pills and taxonomy term pages route directly into the constellation graph with auto-framing and `#tag ✕` filter pills.
