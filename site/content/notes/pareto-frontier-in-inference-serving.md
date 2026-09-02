@@ -2,37 +2,38 @@
 title: "The Pareto Frontier in LLM Inference Serving"
 summary: |
   Why a single performance number tells only part of the story in LLM serving, and when you need the whole Pareto frontier instead. Covers the limits of scalarization on concave trade-offs, how Optuna and Google Vizier actually store trial values (the frontier is derived, not persisted), and how production tools like Prism, InferenceBench, and NVIDIA Dynamo present the frontier as the reportable artifact.
-image: /images/neural-network.jpeg
-tags: ["machine learning", "system design", "inference serving", "pareto frontier", "multi-objective optimization", "optuna", "vizier"]
-date: 2026-08-30T12:00:00Z
-draft: true
+image: /images/pareto-frontier-in-inference-serving.png
+tags: ["performance", "system design", "inference serving", "benchmarking", "pareto frontier", "multi-objective optimization", "optuna", "vizier"]
+favorite: true
+date: 2026-09-01T21:58:37
 series: "performance-series"
 perf_stage: "optimization"
 libraries: ["katex"]
 mathTerms: ["llm", "systems"]
+interactive: true
 ---
 
-There is no best configuration for an inference server in general. A single number, a single "best" config, a single winner in a benchmark, is convenient and sometimes exactly what you want when the workload is fixed and known. The trouble starts when one scalar is asked to stand in for every workload at once. It leaves out the trade-off: for a given pair of objectives, there is usually a set of points, each good in a different way, and that set is called the Pareto frontier.
+There is no single best configuration for an LLM inference server. A single scalar is a lossy projection: collapsing competing objectives into one number hides the underlying trade-offs across different workloads.
 
-This note tells the story of that set. When a single scalar is enough and when it is not, why the frontier is often the artifact you should measure and keep, how tuning tools actually store the values that let you recover it, and how production systems present it to you.
-
-*(For foundational queuing theory, latency breakdowns, and classical service metrics, see [Performance Fundamentals](/notes/performance-fundamentals/). For how to design and run the benchmarks themselves, see [Benchmarking & Capacity Planning](/notes/benchmarking-and-capacity-planning/).)*
+*(For foundational queuing theory, latency breakdowns, and classical service metrics, see [Performance Fundamentals](/notes/performance-fundamentals/). For benchmark design, see [Benchmarking & Capacity Planning](/notes/benchmarking-and-capacity-planning/).)*
 
 ## The Limits of a Single Number
 
-Serving an LLM is a multi-objective problem. A single scalar is a lossy projection: collapsing the objectives to one number chooses, implicitly, which objective dominates the score, and the other trade-offs are hidden behind that choice. That is not a bug by itself. A scalar is the right tool when the workload is fixed and the objective is known, for example a batch pipeline that only cares about tokens per dollar. The limitations show up when one number is expected to represent configurations that serve very different workloads.
+Serving an LLM is an inherently multi-objective problem with conflicting physical constraints:
+- **Maximizing throughput** requires saturating the GPU with large batches, which increases queueing delay.
+- **Minimizing Time to First Token ($\text{TTFT}$)** requires small batches and idling compute during decode.
+- **Minimizing Inter-Token Latency ($\text{ITL}$)** requires protecting active decode streams, which steals cycles from prompt prefill.
 
-The relevant objectives conflict with one another. To maximize throughput you saturate the GPU with large batches, which drives up queueing delay. To minimize time to first token you keep batches small and idle compute during decode. To minimize inter-token latency you protect active decode streams, which steals cycles from prompt evaluation. Every one of these moves another number in the wrong direction.
+In practice, benchmarks and leaderboards reduce performance to a single number in two common ways:
+1. **Reporting an isolated headline metric**: Ranking engines purely by **Peak Throughput ($\text{TPS}$)**, ignoring that peak throughput drives latency past interactive service level objectives (SLOs).
+2. **Collapsing metrics into a composite score**: Minimizing a single synthetic aggregate (for example, $0.5 \cdot \text{TTFT} + 0.5 \cdot \text{TPOT}$) using arbitrary preset weights.
 
-Consider what a single benchmark number cannot tell you by itself:
+Both approaches hide the underlying trade-offs:
+- **Peak throughput alone** says nothing about tail latency (P99 $\text{TTFT}$ / $\text{TPOT}$) under concurrency.
+- **Isolated latency numbers** (such as low median $\text{TTFT}$ at concurrency 1) say nothing about throughput capacity.
+- **A composite score winner** is only optimal for the specific weight ratio picked before tuning began, while creating incentives to overfit toward that single benchmark score.
 
-- A **throughput number** (tokens per second) says nothing about whether any individual request met its latency target. Peak throughput is achievable while every tail latency breaks your service level.
-- A **latency number** (P99 time to first token, P99 time per output token) says nothing about how many requests the system can carry while meeting it.
-- A **"best config"** is only best for the objective the tuner was told to minimize, and that choice was made before the tuning started.
-
-There is also an incentive problem worth naming: a benchmark reported as one scalar invites tuning toward that scalar, at the expense of every other objective. This is a known failure mode in leaderboard-style comparisons, and it is part of why some benchmarkers refuse to report a single headline number. The concern is real, and how strongly it applies depends on the benchmark. Many leaderboards are careful about it. The point is that the pressure exists whenever the score is a single number.
-
-The scalar keeps the ranking you optimized for and drops the shape of the trade-off. When the next workload has different constraints, that dropped shape is exactly the part you need.
+When a workload changes, the dropped trade-off shape is precisely what you need.
 
 <div id="scalar-tuner"></div>
 
@@ -50,11 +51,13 @@ In practice it does not always. The weighted sum can only reach points on the **
 
 <div id="weighted-sum-demo"></div>
 
-This is a structural reason why a single scalar gives an incomplete picture of serving performance. Two very different operating points can produce the same weighted value for one set of weights, and some balanced solutions can be unreachable through weighted aggregation. Note the boundaries of the claim: it applies to the weighted sum, and the practical impact depends on how concave the real frontier is. If the frontier is mostly convex, or if one objective clearly dominates your decision, a weighted sum can be a fine approximation.
+Two very different operating points can produce the identical weighted score, while balanced solutions in concave regions remain unreachable through linear weighting.
 
-Other scalarizations exist, such as [Tchebycheff (Chebyshev) scalarization](https://en.wikipedia.org/wiki/Multi-objective_optimization#Chebyshev_scalarization) and [$\varepsilon$-constraint methods](https://en.wikipedia.org/wiki/Multi-objective_optimization#%CE%B5-constraint_method), which can reach non-convex regions that the weighted sum cannot. But they share a common trait: each solve produces a single point, so the full picture requires solving repeatedly, and each solve bakes in the weights or constraints you chose.
+Other scalarizations exist, such as [Tchebycheff (Chebyshev) scalarization](https://en.wikipedia.org/wiki/Multi-objective_optimization#Chebyshev_scalarization) and [$\varepsilon$-constraint methods](https://en.wikipedia.org/wiki/Multi-objective_optimization#%CE%B5-constraint_method). Unlike linear weighted sums, $\varepsilon$-constraint methods (optimizing one primary metric such as throughput while constraining others like $\text{TTFT}_{P99} \le 1.2\text{s}$) can reach non-convex regions of the frontier. 
 
-The frontier is the minimal object that contains the information needed to make a serving decision. A scalar discards it.
+Industrial serving platforms often pair both approaches: exploring the full multi-objective frontier during offline benchmarking, and applying $\varepsilon$-constrained rules at deploy time when an automated Continuous Delivery (CD) pipeline must commit a single concrete configuration to a Kubernetes cluster.
+
+The frontier remains the minimal object that contains the complete trade-off surface. A single scalar solve collapses it into a single decision.
 
 ## The Frontier Is the Artifact
 
@@ -63,7 +66,7 @@ Formally, a configuration $\mathbf{x}$ maps to an objective vector $F(\mathbf{x}
 A configuration $\mathbf{x}_A$ **dominates** $\mathbf{x}_B$ ($\mathbf{x}_A \succ \mathbf{x}_B$) if it is no worse in every objective and strictly better in at least one:
 
 $$
-\mathbf{x}_A \succ \mathbf{x}_B \iff \forall i, f_i(\mathbf{x}_A) \le f_i(\mathbf{x}_B) \;\text{and}\; \exists j, f_j(\mathbf{x}_A) < f_j(\mathbf{x}_B)
+\mathbf{x}_A \succ \mathbf{x}_B \iff \forall i, \quad f_i(\mathbf{x}_A) \le f_i(\mathbf{x}_B) \quad \text{and} \quad \exists j, \quad f_j(\mathbf{x}_A) < f_j(\mathbf{x}_B)
 $$
 
 The **Pareto frontier** $\mathcal{P}^*$ is the set of all configurations that no other configuration dominates:
@@ -78,7 +81,9 @@ Keeping the frontier means keeping a collection of trials or configurations, eac
 
 ## The Frontier Is Derived, Not Stored
 
-Now the practical question: if the frontier is what matters, how do automated tuning tools represent it? The answer is more subtle than the marketing suggests. Neither [Optuna](https://github.com/optuna/optuna) nor [Google Vizier](https://github.com/google/vizier) stores a frontier object. They store every trial with its full vector of objective values, and the frontier is **derived on demand** by a dominance filter every time you ask for it.
+Manually tuning serving parameters (such as batch sizes, sequence concurrency, memory limits, and chunked prefill) across a combinatorial grid is intractable when every benchmark trial consumes real GPU time. Hyperparameter optimization (HPO) frameworks automate this black-box search: multi-objective algorithms (like [NSGA-II](https://doi.org/10.1109/4235.996017), the Non-dominated Sorting Genetic Algorithm II by Deb et al., 2002) iteratively suggest candidate configurations to navigate competing trade-offs without requiring an explicit analytical model of the GPU execution engine. (While mechanistic profiling like roofline analysis and trace profiling identifies whether bottlenecks are compute- or memory-bound, black-box HPO automates search across the resulting parameter interactions.)
+
+How do these frameworks represent the resulting trade-off surface? Tools like [Optuna](https://github.com/optuna/optuna) and [Google Vizier](https://github.com/google/vizier) do not store a static Pareto frontier in their database schemas. Instead, both persist every trial as a raw objective vector, and the frontier is **derived on demand** via a dominance filter whenever queried.
 
 ### What Optuna Actually Stores
 
@@ -125,127 +130,40 @@ for trial in pareto_trials:
 
 [`plot_pareto_front`](https://github.com/optuna/optuna/blob/027f3b1fde2ecce4ae7f06993dc6e902addd71fa/optuna/visualization/_pareto_front.py#L40) does the same thing under the hood, filtering the full trial history for non-dominated points before rendering. The frontier is a query over the population, never a persisted object. The design decision is to keep every evaluation and treat the frontier as an ephemeral filter on top of it.
 
-### What Google Vizier Actually Stores
+Google Vizier follows the identical architectural model. Completed Vizier trials persist full `Measurement` metric dictionaries. The service does not store a static frontier object; calling `study.optimal_trials()` triggers the `listOptimalTrials` RPC to compute non-dominated points on demand.
 
-Google Vizier is the same story on the server side. A study declares a search space and a list of metrics, each with a goal:
-
-```python
-from vizier import pyvizier as vz
-from vizier.service import clients
-
-problem = vz.ProblemStatement()
-problem.search_space.root.add_categorical_param(
-    name="max_num_batched_tokens", feasible_values=["512", "1024", "2048", "4096", "8192"]
-)
-problem.search_space.root.add_int_param(name="max_num_seqs", min_value=16, max_value=256)
-problem.search_space.root.add_float_param(name="gpu_memory_utilization", min_value=0.80, max_value=0.95)
-problem.search_space.root.add_categorical_param(
-    name="enable_chunked_prefill", feasible_values=["true", "false"]
-)
-
-problem.metric_information.extend([
-    vz.MetricInformation(name="tps", goal=vz.GoalType.MAXIMIZE),
-    vz.MetricInformation(name="ttft_p99", goal=vz.GoalType.MINIMIZE),
-    vz.MetricInformation(name="tpot_p99", goal=vz.GoalType.MINIMIZE),
-])
-
-study_config = vz.StudyConfig.from_problem(problem)
-study_config.algorithm = vz.Algorithm.NSGA2
-
-study = clients.Study.from_study_config(study_config, owner="ml_infra", study_id="vllm_tuning_01")
-
-for iteration in range(20):
-    suggestions = study.suggest(count=5)
-    for suggestion in suggestions:
-        params = suggestion.parameters
-        tps, ttft_p99, tpot_p99 = run_serving_benchmark(params)
-        final_measurement = vz.Measurement(
-            metrics={"tps": tps, "ttft_p99": ttft_p99, "tpot_p99": tpot_p99}
-        )
-        suggestion.complete(final_measurement)
-```
-
-A Vizier trial stores its parameters plus a sequence of measurements, and the completed trial keeps its final measurement as a full metric dict. The service does not persist a frontier either. When you call `study.optimal_trials()`, the service computes the Pareto-optimal set at query time (the `listOptimalTrials` RPC does the dominance filtering server-side). The frontier emerges from the stored evaluations, it is never stored itself.
-
-### The Implementation Takeaway
-
-Both tools assume you want the whole set. They persist every trial's full objective vector and recompute the frontier as a filter on demand. The cost of keeping the set is essentially zero, and the benefit is that any decision made later, for any workload, can query the frontier without a re-run. The tools never force the single-scalar habit. You create it by discarding the extra values.
+Both tools treat the frontier as an ephemeral query over complete historical trials. The cost of persisting the raw metric vectors is negligible, ensuring any future workload requirement can derive a fresh Pareto frontier without re-running benchmarks.
 
 ## Benchmarks Are Noisy: Building a Noise-Aware Evaluator
 
 The tools above treat every trial measurement as ground truth. In practice, infrastructure benchmarks are not deterministic, and applying raw Pareto dominance to noisy numbers produces a polluted frontier.
 
-### Practical Frontier Filtering: Noise Bands and Minimum Improvement Thresholds
+### Noise Bands and Minimum Improvement Thresholds
 
-Standard multi-objective optimization algorithms (such as NSGA-II) operate on clean, deterministic mathematical numbers. In production infrastructure, benchmarks are noisy. Network jitter, noisy neighbors on shared host hardware, variable prompt lengths, and GPU thermal throttling mean that two identical benchmark trials rarely report identical metrics.
+Standard multi-objective optimization algorithms (such as NSGA-II) operate on clean, deterministic numbers. In production infrastructure, benchmarks are noisy. Network jitter, noisy neighbors on shared hosts, variable prompt lengths, and GPU thermal throttling mean that two identical benchmark trials rarely report identical metrics.
 
 As discussed in [Benchmarking & Capacity Planning for Systems Engineers](/notes/benchmarking-and-capacity-planning/), the first line of defense is running multiple trials per configuration and taking medians to dampen measurement variance.
 
-When evaluating production candidates at scale, raw Pareto dominance tests need practical bounds. Consider a configuration where throughput is effectively unchanged, but TTFT improves by 0.5%:
+When evaluating production candidates at scale, raw Pareto dominance tests need practical bounds. Consider a configuration where throughput is effectively unchanged, but $\text{TTFT}$ improves by 0.5%:
 - If 0.5% is within normal run-to-run jitter, treating it as a new Pareto point pollutes the frontier with measurement noise.
-- Conversely, if TTFT improves by 6% while throughput fluctuates by a negligible 0.3%, the configuration represents a genuine engineering improvement and belongs on the frontier.
+- Conversely, if $\text{TTFT}$ improves by 6% while throughput fluctuates by a negligible 0.3%, the configuration represents a real engineering improvement and belongs on the frontier.
 
 To separate true frontier advances from environmental noise, real-world evaluation pipelines layer two complementary parameters on top of the dominance query:
 
-1. **A Noise Band ($\sigma\_{\text{noise}}$)**: Defines the equivalence threshold for environmental jitter. If two configurations differ on an objective by less than $\sigma\_{\text{noise}}$ (for example, $\pm 1\%$), they are treated as statistically tied on that metric rather than one strictly beating the other.
-2. **A Minimum Percentage Improvement ($\delta\_{\text{min}}$)**: Defines the bar for a meaningful win. A candidate only claims a new spot on the frontier if it outperforms existing points by at least $\delta\_{\text{min}}$ (for example, $\ge 3\%$) on at least one objective while remaining within the noise band or better across all other objectives.
+1. **A Noise Band Vector ($\vec{\sigma}\_{\text{noise}}$)**: Defines the equivalence threshold for environmental jitter per metric. Because tail metrics (like $\text{TTFT}_{P99}$) exhibit higher variance ($C_v$ of 10%–20%) than mean throughput or deterministic memory usage ($C_v$ of 1%–2%), noise thresholds are naturally configured per-objective rather than as a single global scalar.
+2. **A Minimum Percentage Improvement Vector ($\vec{\delta}\_{\text{min}}$)**: Defines the bar for a meaningful win on each objective. A candidate only claims a spot on the frontier if it outperforms an existing point by at least $\delta_{\text{min}, j}$ on at least one objective while remaining within the noise band or better across all other objectives.
 
-Formally, a candidate $\mathbf{x}\_A$ dominates $\mathbf{x}\_B$ under practical $(\sigma, \delta)$-filtering when:
+Formally, a candidate $\mathbf{x}\_A$ dominates $\mathbf{x}\_B$ under practical $(\vec{\sigma}, \vec{\delta})$-filtering when:
 
 $$
-\forall i, \quad f_i(\mathbf{x}\_A) \le f_i(\mathbf{x}\_B) \cdot (1 + \sigma\_{\text{noise}}) \quad \text{and} \quad \exists j, \quad f_j(\mathbf{x}\_A) \le f_j(\mathbf{x}\_B) \cdot (1 - \delta\_{\text{min}})
+\forall i, \quad f_i(\mathbf{x}\_A) \le f_i(\mathbf{x}\_B) \cdot (1 + \sigma_{\text{noise}, i}) \quad \text{and} \quad \exists j, \quad f_j(\mathbf{x}\_A) \le f_j(\mathbf{x}\_B) \cdot (1 - \delta_{\text{min}, j})
 $$
 
 (for minimization objectives).
 
-Wrapping standard HPO trial stores with a deterministic evaluator that enforces noise equivalence and minimum improvement thresholds keeps the resulting Pareto frontier sparse, robust, and actionable for engineering decisions.
+Wrapping standard HPO trial stores with a deterministic evaluator that enforces noise equivalence and minimum improvement thresholds keeps the resulting Pareto frontier sparse, robust, and actionable for engineering decisions.[^academic-dominance]
 
-The underlying ideas map to established work in noisy multi-objective optimization. The noise band corresponds to **$\varepsilon$-dominance** (Laumanns et al., 2002, cited above), which relaxes strict dominance with a fixed tolerance to prevent noise-driven false advances. The minimum improvement threshold is a practical variant of **$\alpha$-degree dominance** (surveyed in Batista et al., [*A comparison of dominance criteria in many-objective optimization problems*](https://doi.org/10.1109/CEC.2011.5949909), IEEE CEC 2011), where a candidate must exceed a margin to qualify as dominant. The academic formulations typically assume a known noise distribution and derive thresholds statistically. This is achievable in practice. As described in [Benchmarking & Capacity Planning for Systems Engineers](/notes/benchmarking-and-capacity-planning/), running $N \ge 3$ independent trials per configuration and computing the coefficient of variation ($C_v = \sigma / \mu$) per metric gives a data-driven noise band ($\sigma\_{\text{noise}} \approx C\_v$) and a principled lower bound for $\delta\_{\text{min}}$: any claimed improvement must exceed the measured $C\_v$ to be distinguishable from run-to-run variance. When that characterization is not available, a fixed operational percentage derived from knowledge of the environment is a reasonable starting point.
-
-**Implementing this on top of Optuna or Vizier.** Neither [`study.best_trials`](https://github.com/optuna/optuna/blob/027f3b1fde2ecce4ae7f06993dc6e902addd71fa/optuna/study/study.py#L170) nor Vizier's `listOptimalTrials` RPC applies a noise band or minimum improvement threshold. Both use strict mathematical dominance, so a 0.1% improvement is enough to admit a new frontier member. To get noise-aware filtering, skip the built-in frontier query and apply your own dominance function over the raw completed trial list:
-
-```python
-import optuna
-
-def noise_aware_dominates(a_values, b_values, baseline_values, sigma_noise, delta_min):
-    """Return True if a dominates b under (sigma, delta)-filtering (minimization)."""
-    # a must not be worse than b beyond the noise band on every objective
-    no_worse = all(
-        a <= b * (1 + sigma_noise)
-        for a, b in zip(a_values, b_values)
-    )
-    # a must beat the baseline by at least delta_min on at least one objective
-    meaningful_win = any(
-        a <= base * (1 - delta_min)
-        for a, base in zip(a_values, baseline_values)
-    )
-    return no_worse and meaningful_win
-
-def noise_aware_pareto(trials, baseline_values, sigma_noise, delta_min):
-    dominated = set()
-    for i, t_a in enumerate(trials):
-        for j, t_b in enumerate(trials):
-            if i != j and noise_aware_dominates(
-                t_a.values, t_b.values, baseline_values, sigma_noise, delta_min
-            ):
-                dominated.add(j)
-    return [t for i, t in enumerate(trials) if i not in dominated]
-
-# Query all completed trials and apply custom filter
-all_trials = [t for t in study.trials if t.state == optuna.trial.TrialState.COMPLETE]
-baseline_values = (baseline_tps, baseline_ttft_p99, baseline_tpot_p99)
-frontier = noise_aware_pareto(all_trials, baseline_values, sigma_noise=0.01, delta_min=0.03)
-```
-
-The tools keep doing their job (suggesting configurations via NSGA-II, persisting every trial's full metric vector). The only replacement is the frontier-query step: `study.trials` instead of `study.best_trials`, then your own dominance filter on top.
-
-**When this is worth the complexity.** Not every benchmarking workflow needs the full apparatus. A practical priority order:
-
-1. **Multi-run medians first.** Running $N \ge 3$ independent trials per configuration and taking medians handles most of the noise problem before any dominance logic is involved. This is non-optional regardless of what comes next.
-2. **Baseline grounding second.** Anchoring deltas to a fixed production baseline prevents cumulative drift and makes frontier results reportable as concrete percentages. This is worth doing even when noise bands are not.
-3. **Noise band and minimum improvement threshold last.** These matter most when configurations are close (improvements in the 2–5% range), when the frontier is used for automated promotion decisions, or when the study runs for a long time with many trials. If a human reviews the frontier and discards obvious marginal points by eye, the custom filter is over-engineering.
-
-**The agentic case changes the calculus.** A human reviewing a frontier once a week will naturally ignore 0.5% improvements as noise. An autonomous agent running a performance optimization loop **does not have that intuition**. Agentic systems that generate hypotheses (try a different batching strategy, adjust memory utilization, enable chunked prefill) and evaluate metrics programmatically can run **dozens of trials per hour**. The evaluation step is **deterministic** (given a configuration and a workload, the benchmarking harness produces a metric vector), but **the measurements themselves are noisy**. Without a noise-aware dominance check, the agent will **promote marginal improvements as genuine frontier advances**, waste exploration budget chasing false positives, and produce a cluttered frontier that is hard to act on. The noise-aware evaluator described above is the right interface between the agent's hypothesis loop and the Pareto frontier: it gives the agent a **clean, sparse set of genuinely better configurations** to report and branch from, rather than a noisy accumulation of marginal wins.
+[^academic-dominance]: The noise band maps to $\varepsilon$-dominance (Laumanns et al., 2002), and the minimum improvement threshold maps to $\alpha$-degree dominance (Batista et al., 2011). In practice, setting $\sigma_{\text{noise}, i} \approx C_{v, i}$ (the coefficient of variation across repeat runs for objective $i$) provides data-driven thresholds.
 
 ### Grounding Improvements Against a Fixed Baseline
 
@@ -253,8 +171,8 @@ A subtle failure mode in relative comparison rules is **accumulated drift** (cau
 
 Consider what happens if candidate evaluation only compares points pairwise and sequentially against the latest admitted candidate:
 1. Candidate $A$ is admitted as the best initial point.
-2. Candidate $B$ is measured. It is within the noise tolerance of $A$ ($B \approx A - \varepsilon$), so it is also admitted.
-3. Candidate $C$ is measured. It is within the noise tolerance of $B$ ($C \approx B - \varepsilon$), so it is admitted.
+2. Candidate $B$ is measured. It sits within the noise tolerance band of $A$ (differing by less than $\sigma_{\text{noise}}$), so it is admitted as an equivalent peer.
+3. Candidate $C$ is measured. It sits within the noise tolerance band of $B$ (differing by less than $\sigma_{\text{noise}}$), so it is also admitted.
 
 Chaining sequential relative comparisons creates a random walk. Over dozens of iterations, the frontier can drift toward configurations that are noticeably worse than $A$, because each step passed a small, relative tolerance check ($A \approx B$ and $B \approx C$, but $A \not\approx C$).
 
@@ -264,72 +182,155 @@ $$
 \Delta_i(\mathbf{x}) = \frac{f_i(\mathbf{x}) - f_i(\mathbf{x}\_0)}{f_i(\mathbf{x}\_0)}
 $$
 
-Grounding deltas to an unmoving anchor $\mathbf{x}\_0$ provides three practical guarantees:
+Grounding deltas to an unmoving anchor $\mathbf{x}\_0$ provides three practical guarantees:[^drift-paper]
 1. **No cumulative drift**: The improvement threshold is anchored to a static reference, preventing the scale from degrading across sequential trials.
-2. **Stable scale across iterations**: A 5% TTFT reduction in trial 50 represents the exact same physical latency improvement as a 5% reduction in trial 1.
-3. **Clear production reporting**: Every point on the final Pareto frontier can state its exact delta relative to the baseline (e.g. `+35% TPS, -15% TTFT, +2GB VRAM vs default`).
+2. **Stable scale across iterations**: A 5% $\text{TTFT}$ reduction in trial 50 represents the exact same physical latency improvement as a 5% reduction in trial 1.
+3. **Clear production reporting**: Every point on the final Pareto frontier can state its exact delta relative to the baseline (e.g. `+35%` $\text{TPS}$, `-15%` $\text{TTFT}$, `+2GB` VRAM vs. default).
 
-The intransitivity failure described above is not unique to benchmarking. Laumanns et al. (2002) identified the same problem in evolutionary multi-objective optimization and formalized $\varepsilon$-dominance as a grid-anchored relaxation of strict Pareto dominance, where the grid itself (not the current best candidate) acts as the fixed reference. See [Combining Convergence and Diversity in Evolutionary Multiobjective Optimization](https://doi.org/10.1162/106365602760234108), *Evolutionary Computation*, Vol. 10, No. 3, pp. 263–282.
+[^drift-paper]: Laumanns et al. (2002) formalized $\varepsilon$-dominance to address this intransitivity in multi-objective optimization by anchoring comparisons against a static grid rather than moving candidates.
+
+#### The Moving Baseline in Continuous Integration
+
+In production infrastructure, runtime components evolve: engine releases (such as upgrading vLLM or SGLang), CUDA updates, and new FlashAttention kernels improve performance over time.
+
+If $\mathbf{x}_0$ is frozen from an older software release, a framework upgrade can cause an unoptimized configuration to register a false 10% tuning win. Conversely, if $\mathbf{x}_0$ is updated on every commit, historical frontier points become difficult to compare across git history.
+
+Production tuning pipelines address this with two conventions:
+1. **In-Study Re-Benchmarking**: The baseline configuration $\mathbf{x}_0$ is re-benchmarked within the active CI run on the exact same cluster nodes, ensuring all candidate comparisons reflect the current software and hardware state.
+2. **Version-Scoped Metadata**: Every frontier artifact is tagged with environmental metadata (`engine_version`, `cuda_version`, `gpu_driver`). Comparisons across versions compare the new baseline $\mathbf{x}_0^{(v+1)}$ against the prior baseline $\mathbf{x}_0^{(v)}$ before evaluating parameter changes.
+
+The walkthrough below traces how raw mathematical dominance compares against a noise-aware $(\sigma, \delta)$-filter grounded to baseline $\mathbf{x}_0$ across four candidate evaluation scenarios:
+
+<div id="noise-filter-demo"></div>
+
+### Filtering in Practice: Custom Dominance on Optuna and Vizier
+
+Neither [`study.best_trials`](https://github.com/optuna/optuna/blob/027f3b1fde2ecce4ae7f06993dc6e902addd71fa/optuna/study/study.py#L170) nor Vizier's `listOptimalTrials` RPC applies a noise band or minimum improvement threshold. Both use strict mathematical dominance, so a 0.1% improvement is enough to admit a new frontier member.
+
+To get noise-aware filtering, skip the built-in frontier query and apply your own dominance function over the raw completed trial list:
+
+```python
+import optuna
+
+def noise_aware_dominates(a_values, b_values, sigmas, deltas):
+    """Return True if candidate a pairwise dominates candidate b under (sigma, delta)-filtering."""
+    # a must not be worse than b beyond metric noise tolerance on any objective
+    no_worse = all(
+        a <= b * (1 + s)
+        for a, b, s in zip(a_values, b_values, sigmas)
+    )
+    # a must achieve a meaningful win over b on at least one objective
+    meaningful_win = any(
+        a <= b * (1 - d)
+        for a, b, d in zip(a_values, b_values, deltas)
+    )
+    return no_worse and meaningful_win
+
+def noise_aware_pareto(trials, sigmas, deltas, slo_bounds=None):
+    """Derive the non-dominated Pareto frontier enforcing SLOs and (sigma, delta)-filtering."""
+    # 1. Hard SLO feasibility filter (feasibility precedes dominance)
+    viable_trials = []
+    for t in trials:
+        if slo_bounds:
+            meets_slos = all(
+                bound is None or val <= bound
+                for val, bound in zip(t.values, slo_bounds)
+            )
+            if not meets_slos:
+                continue
+        viable_trials.append(t)
+
+    # 2. Pairwise (sigma, delta)-dominance pruning
+    dominated = set()
+    for i, t_a in enumerate(viable_trials):
+        for j, t_b in enumerate(viable_trials):
+            if i != j and noise_aware_dominates(t_a.values, t_b.values, sigmas, deltas):
+                dominated.add(j)
+    return [t for i, t in enumerate(viable_trials) if i not in dominated]
+
+# Query all completed trials and apply custom filter
+# Objectives: [-TPS (minimize), TTFT_P99 (ms), TPOT_P99 (ms)]
+all_trials = [t for t in study.trials if t.state == optuna.trial.TrialState.COMPLETE]
+
+# Tail latency (TTFT P99) has higher noise (15%) than throughput (2%)
+sigmas = (0.02, 0.15, 0.10)
+deltas = (0.03, 0.05, 0.03)
+slo_bounds = (None, 2000.0, 50.0)  # TTFT <= 2000ms, TPOT <= 50ms
+
+frontier = noise_aware_pareto(all_trials, sigmas, deltas, slo_bounds=slo_bounds)
+```
+
+The tools keep doing their job (suggesting configurations via NSGA-II, persisting every trial's full metric vector). The only replacement is the frontier-query step: `study.trials` instead of `study.best_trials`, then your own dominance filter on top.
+
+**When this is worth the complexity.** Not every benchmarking workflow needs the full apparatus:
+
+1. **Multi-run medians first**: Running $N \ge 3$ independent trials per configuration and taking medians handles most of the noise problem before any dominance logic is involved.
+2. **Baseline grounding second**: Anchoring deltas to a fixed production baseline prevents cumulative drift and makes frontier results reportable as concrete percentages.
+3. **Noise band and minimum improvement threshold last**: These matter most when configurations are close (improvements in the 2–5% range), when the frontier drives automated promotion decisions, or when running high-frequency studies.
+
+## The Agentic Case: Autonomous Workload Optimization
+
+Autonomous optimization systems (such as Andrej Karpathy's [autoresearch](https://github.com/karpathy/autoresearch) workflow, DeepMind's [FunSearch](https://www.nature.com/articles/s41586-023-06924-6) by Romera-Paredes et al., 2024, and Sakana AI's [The AI Scientist](https://arxiv.org/abs/2408.06292) by Lu et al., 2024) pair an LLM exploring the search space with an automated verification harness.
+
+These systems converge on a **hybrid architecture** that separates hypothesis generation from evaluation:
+
+1. **The LLM acts as the generator**: It inspects profiling traces, reasons about serving mechanics (for example, identifying that long decode phases cause memory bandwidth bottlenecks), generates candidate configurations, and edits configuration code.
+2. **Deterministic code acts as the verification gate**: An automated execution harness runs the candidate, computes medians across repeat trials, and executes a formal acceptance check.
+
+In single-objective autoresearch (such as minimizing validation loss), the keep/discard condition is a scalar inequality (`if new_loss < best_loss: commit() else: reset()`).
+
+In multi-objective inference serving, there is no single scalar to compare. Asking an LLM to inspect raw metric tables and subjectively decide when to promote a candidate triggers three distinct failure modes in LLM evaluation.
+
+### Self-Enhancement Bias: The Proposer-Judge Trap
+
+When an LLM acts as both the hypothesis generator and the judge, it exhibits systematic confirmation bias toward its own proposed changes (Zheng et al., [Judging LLM-as-a-Judge with MT-Bench](https://arxiv.org/abs/2306.05685), NeurIPS 2023).
+
+Consider an agent that hypothesizes chunked prefill will reduce $\text{TTFT}$. If the benchmark reports a marginal -1.5% $\text{TTFT}$ win alongside a +0.8% $\text{TPOT}$ regression and +1.2 GB VRAM fragmentation, an LLM judge rationalizes the trade-off: it frames the 0.8% slowdown as acceptable and claims the 1.5% drop validates its theory. If an external baseline produced the identical numbers, the agent would reject it as noise. A deterministic gatekeeper evaluates numbers without reasoning bias: if -1.5% fails the $\delta_{\text{min}}$ threshold of 3%, the change is reverted.
+
+### Tabular Arithmetic and Tolerance Inconsistency
+
+Evaluating multi-objective dominance requires simultaneous multi-column arithmetic: verifying that all objectives remain within $\pm \sigma_{\text{noise}}$ while at least one beats $\delta_{\text{min}}$.
+
+LLMs struggle with structured table reasoning, relying on heuristic pattern matching rather than formal calculation (Zhang et al., [A Survey of Table Reasoning with Large Language Models](https://arxiv.org/abs/2402.08259), 2024). When comparing four-dimensional vectors ($\text{TPS}$, $\text{TTFT}$, $\text{TPOT}$, VRAM), models frequently miscalculate percentage deltas or apply shifting tolerances across trials, admitting dominated points that mathematical filters reject.
+
+### Context Drift Across Long-Horizon Sweeps
+
+Autonomous optimization loops run dozens of trials per hour. As multi-turn conversation logs expand, attention degradation across long context windows causes evaluation criteria to drift over time (Liu et al., [Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172), TACL 2024).
+
+In early iterations, the model may enforce strict acceptance standards. By trial 40, accumulated logs dilute the system prompt's instructions, causing the agent to accept marginal or inconsistent configurations. An external evaluator guarantees an unmoving, deterministic standard from trial 1 to trial 1000.
+
+### The Closed-Loop Contract
+
+Connecting the LLM hypothesis generator to a deterministic Pareto evaluator creates a robust optimization loop:
+- If a candidate is non-dominated under $(\sigma, \delta)$-filtering relative to the baseline, the harness **commits** the run to the persistent frontier archive.
+- If the candidate is dominated or within environmental noise, the harness **reverts** the change and returns structured metric deltas to the LLM as negative feedback for its next hypothesis.
+
+This separation gives the agent freedom to explore non-linear parameter spaces while arithmetic guards the frontier against hallucinated wins and measurement noise.
+
+To prevent the agent from gaming the harness (for example, tuning bucket sizes to overfit a static prompt length distribution or picking aggressive memory limits that pass short 60-second trials but cause out-of-memory errors under prolonged KV-cache fragmentation), production harnesses evaluate candidates across randomized prompt distributions and mandate sustained steady-state load tests.
 
 ## The Frontier in Production Tools
 
-Production benchmarking tools do not report a single winner by default. They report a scatter of runs across multiple objectives and let the operator choose the axes that match the workload.
+Production benchmarking tools report multi-objective trade-off scatters rather than single headline winners:
 
-### Prism
-
-[Prism](https://prism.llm-d.ai/) is the benchmarking dashboard for distributed inference from [llm-d](https://llm-d.ai/). It aggregates benchmark runs from disparate sources (cloud APIs, public repositories, local `llm-d-benchmark` reports) into a single scatter plot. The control that matters is the axis picker:
-
-- **X-axis** selects among NTPOT, TPOT, TTFT, ITL, and E2E latency.
-- **Y-axis** selects among output tokens, input tokens, total tokens, and QPS.
-
-There is no default "best point." The user chooses the trade-off plane, and every benchmark run lands as a point in it. The frontier is whatever survives as non-dominated on the axes you care about. The design permits a single scalar, but it keeps the full tuple by default, leaving the choice of axis and point to the user. Prism also lets you upload your own `benchmark_report_v0.2` YAML files and drop them into the same scatter, so your tuning runs become points in the same space as vendor-published numbers.
-
-### InferenceBench
-
-[InferenceBench](https://inferencebench.io/) is more explicit about the philosophy. It does not report single headline numbers. Every result is a tuple of throughput, latency, cost, energy, and quality, and comparison happens on the Pareto frontier across those axes. Its comparison output marks points that are on the frontier and annotates dominated points explicitly, so a point that loses on every axis is called out rather than hidden.
-
-### NVIDIA Dynamo (DynoSim)
-
-The same frontier-first logic appears in capacity planning before you even touch a cluster. NVIDIA Dynamo's DynoSim is a workload-driven discrete-event simulation that maps the throughput-latency Pareto frontier of a candidate serving stack before real-cluster validation. You sweep broadly, map the frontier, shortlist the promising candidates, and verify only those on real hardware. The frontier is the planning artifact, and the final operating point is chosen from it once the workload is known.
-
-## How to Actually Keep and Use the Frontier
-
-Practical guidance falls out of all of this.
-
-**Store the tuple, and choose the scalar when you need it.** Persist every benchmark trial with its full vector of metrics (TTFT, TPOT, TPS, and cost where it matters). This is what Optuna and Vizier already do, so it costs you nothing, and it leaves the scalar decision for later: you can always collapse the stored tuple into a single number when the workload is fixed, and you can still recover the frontier if it is not. Storing only the scalar forecloses that second option.
-
-**Prefer goodput at SLO over peak throughput.** Peak throughput is irrelevant if the tail latency that produces it blows past your service level. The throughput at which your SLO is still satisfied is the number that matters for production planning. This is the metric that respects the frontier rather than pretending one scalar settles it.
-
-**Ask for the frontier when the workload is uncertain.** When comparing serving engines or vendors across workloads you cannot fully predict, ask to see the non-dominated set, not one highlighted point. Annotate dominated points instead of deleting them, so the comparison records what lost and why.
-
-### The Operating Spectrum by Persona
-
-Because the frontier is a set, choosing an operating point means choosing a persona:
-
-- **Voice / real-time**: TTFT under 80ms and TPOT under 20ms. Sacrifices peak throughput.
-- **Interactive chat / copilot**: TTFT under 400ms and TPOT under 40ms. The balanced trade-off for reading speed.
-- **Batch / document ETL**: latency is irrelevant, so the frontier point here maximizes tokens per dollar.
-
-### Marginal Rate of Substitution
-
-Moving along the frontier incurs an explicit cost captured by the marginal rate of substitution between the objectives:
-
-$$
-\text{MRS}_{\text{TPS}, \text{Latency}} = \frac{\partial f_{\text{TPS}}}{\partial f_{\text{Latency}}}
-$$
-
-The slope reveals diminishing returns. A steep region means small latency compromises buy large throughput gains. A flat region means accepting more latency buys almost nothing, which is the signature of hardware saturation or a memory-bandwidth bottleneck.
+- **[Prism](https://prism.llm-d.ai/)**: Lets operators configure trade-off axes dynamically (e.g. $\text{TTFT}$ vs. QPS or $\text{TPOT}$ vs. Output Tokens) across aggregated cloud and local benchmark runs. The non-dominated set updates to match whatever criteria the operator selects.
+- **[InferenceBench](https://inferencebench.io/)**: Evaluates multi-dimensional tuples (throughput, latency, cost, energy, quality) and explicitly tags dominated configurations in comparison charts rather than hiding them.
+- **[NVIDIA Dynamo](https://github.com/ai-dynamo/dynamo)**: Maps the throughput-latency Pareto frontier across candidate serving configurations before physical cluster deployment.
 
 ## Summary
 
-1. **A single number tells part of the story.** It is the right tool when the workload and objective are fixed, but it is a lossy projection that hides the trade-off and creates an incentive to tune toward the scalar itself.
-2. **Scalarization has blind spots.** Weighted-sum aggregation can miss concave regions of the trade-off, and any scalarization produces one point per solve, so recovering the set takes repeated solves.
-3. **The frontier is the reportable artifact.** It is the set of non-dominated operating points, and the right point depends on the workload, so you keep the set, not the winner.
-4. **The frontier is derived, not stored.** Optuna and Google Vizier persist every trial's full value vector and derive the frontier by a dominance filter on demand. The set costs nothing to keep.
-5. **Infrastructure benchmarks are noisy; raw dominance is not enough.** A noise band defines measurement equivalence, a minimum improvement threshold defines a meaningful win, and both must be grounded against a fixed baseline to prevent cumulative drift across trials.
-6. **Production tools report the frontier.** Prism, InferenceBench, and NVIDIA Dynamo all report the non-dominated set and let you choose the axes, because the single scalar is gone.
+| Concept | Core Mechanism | Practical Engineering Rule |
+| :--- | :--- | :--- |
+| **Scalarization Limits** | Linear weighted sums miss non-convex/concave trade-off regions. | Preserve the full metric vector; single numbers hide trade-off geometry. |
+| **Frontier as Artifact** | The non-dominated set $\mathcal{P}^*$ retains optimal points for all workload types. | The set, not an arbitrary single winner, is the reportable benchmark result. |
+| **On-Demand Derivation** | Optuna and Vizier store raw trial tuples; the frontier is derived at query time. | Persisting complete trial histories costs nothing and allows ad-hoc filtering. |
+| **Noise-Aware Filtering** | Measurement jitter pollutes raw Pareto dominance with false wins. | Layer noise bands ($\sigma\_{\text{noise}} \approx C\_v$) and minimum thresholds ($\delta\_{\text{min}}$). |
+| **Baseline Grounding** | Sequential relative checks drift over time due to intransitivity. | Anchor all percentage improvements against a static baseline $\mathbf{x}\_0$. |
+| **Agentic Optimization** | LLM prompts suffer from confirmation bias and stochastic drift. | Use LLMs for hypothesis generation; use deterministic code for the evaluation gate. |
+| **Production Tooling** | Multi-axis scatters (Prism, InferenceBench, NVIDIA Dynamo) expose the frontier directly. | Let operators pick trade-off axes that match current workload SLOs. |
 
 *This note and its interactive Pareto frontier simulator were co-authored in pair programming with [Antigravity (Agy)](https://antigravity.google).*
 
 <script type="module" src="/js/performance/scalar-tuner.js"></script>
 <script type="module" src="/js/performance/weighted-sum-demo.js"></script>
+<script type="module" src="/js/performance/noise-filter-demo.js"></script>
