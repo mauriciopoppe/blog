@@ -11,7 +11,6 @@
 import { DEFAULT_SONG, SONGS_MANIFEST } from './songs-manifest.js'
 import {
   triggerAcousticImpulse,
-  spawnAcousticRefractionLens,
   detachDistortionFilters
 } from './distortion-filter.js'
 
@@ -500,6 +499,7 @@ class PlayerStore {
     }
 
     const activeAvatar = avatarEl || document.querySelector('.js-avatar-scene, .profile-avatar-scene')
+    const enableDistortionEffects = !window.matchMedia('(pointer: coarse)').matches
     if (activeAvatar) {
       activeAvatar.classList.add('is-playing')
       startVisualAnimation(activeAvatar)
@@ -612,10 +612,11 @@ class PlayerStore {
 
             spawnFloatingMusicParticle(activeAvatar, note.name.replace(/[0-9]/g, ''))
 
-            // Acoustic DOM distortion shader & expanding caustic refraction lens
-            const parent = activeAvatar.parentElement || activeAvatar
-            triggerAcousticImpulse(intensity, note.freq, activeAvatar)
-            spawnAcousticRefractionLens(parent, activeAvatar, intensity, note.freq)
+            // Acoustic DOM distortion shader
+            // This effect is disabled on touch devices, while motion and particles remain active.
+            if (enableDistortionEffects) {
+              triggerAcousticImpulse(intensity, note.freq, activeAvatar)
+            }
           }
           if (window.__avatarWavePush) {
             window.__avatarWavePush(note.freq)

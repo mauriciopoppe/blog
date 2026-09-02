@@ -51,6 +51,68 @@ export function calculateTierScale(tier, baseScale) {
 let activeAnimId = null
 let currentScale = 0
 let activeRegions = []
+let activeFragments = []
+
+function wrapArticleText(root) {
+  if (!root || root.dataset.avatarDistortionPrepared === 'true') return
+
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT)
+  const textNodes = []
+  let node
+  while ((node = walker.nextNode())) {
+    const parent = node.parentElement
+    if (!parent || parent.closest('script, style, pre, code, textarea, [data-avatar-distortion-fragment]')) continue
+    if (node.nodeValue && /\S/.test(node.nodeValue)) textNodes.push(node)
+  }
+
+  textNodes.forEach((textNode) => {
+    const parts = textNode.nodeValue.split(/(\s+)/)
+    const fragment = document.createDocumentFragment()
+    parts.forEach((part) => {
+      if (/\S/.test(part)) {
+        const span = document.createElement('span')
+        span.dataset.avatarDistortionFragment = 'true'
+        span.textContent = part
+        fragment.appendChild(span)
+      } else {
+        fragment.appendChild(document.createTextNode(part))
+      }
+    })
+    textNode.parentNode.replaceChild(fragment, textNode)
+  })
+
+  root.dataset.avatarDistortionPrepared = 'true'
+}
+
+function tierForDistance(distance, avatarRect) {
+  const unit = Math.max(80, avatarRect.width * 1.25)
+  if (distance <= unit * 1.5) return 1
+  if (distance <= unit * 3) return 2
+  if (distance <= unit * 5) return 3
+  return 0
+}
+
+function attachArticleFragments(avatarEl) {
+  const article = document.querySelector('article[role="main"]')
+  if (!article || !avatarEl) return
+
+  wrapArticleText(article)
+  const avatarRect = avatarEl.getBoundingClientRect()
+  const avatarX = avatarRect.left + avatarRect.width / 2
+  const avatarY = avatarRect.top + avatarRect.height / 2
+  const fragments = Array.from(article.querySelectorAll('[data-avatar-distortion-fragment], img, video, canvas, svg, pre, table'))
+
+  fragments.forEach((el) => {
+    const rect = el.getBoundingClientRect()
+    if (!rect.width || !rect.height) return
+    const centerX = rect.left + rect.width / 2
+    const centerY = rect.top + rect.height / 2
+    const tier = tierForDistance(Math.hypot(centerX - avatarX, centerY - avatarY), avatarRect)
+    if (!tier) return
+    el.style.filter = `url(#${FILTER_ID}-${tier})`
+    activeFragments.push(el)
+  })
+}
 
 export function ensureDistortionFilter() {
   if (typeof document === 'undefined') return null
@@ -158,6 +220,7 @@ export function attachDistortionFilters(avatarEl) {
   regions.forEach(({ el, tier }) => {
     el.style.filter = `url(#${FILTER_ID}-${tier})`
   })
+  attachArticleFragments(avatarEl)
 }
 
 export function detachDistortionFilters() {
@@ -165,7 +228,11 @@ export function detachDistortionFilters() {
   activeRegions.forEach(({ el }) => {
     if (el) el.style.filter = ''
   })
+  activeFragments.forEach((el) => {
+    if (el) el.style.filter = ''
+  })
   activeRegions = []
+  activeFragments = []
   const disps = document.querySelectorAll('.avatar-disp-node')
   disps.forEach((d) => d.setAttribute('scale', '0'))
 }
@@ -189,8 +256,8 @@ export function triggerAcousticImpulse(intensity = 0.8, freq = 300, avatarEl = n
     t.setAttribute('baseFrequency', `${baseFreq} ${baseFreq}`)
   })
 
-  // Strum scale: 22px to 44px
-  const initialScale = Math.min(44, Math.max(22, 32 * intensity))
+  // Strum scale: 12px to 24px
+  const initialScale = Math.min(24, Math.max(12, 18 * intensity))
   currentScale = Math.max(currentScale, initialScale)
 
   const durationMs = 210
@@ -252,10 +319,10 @@ export function spawnAcousticRefractionLens(parent, avatarEl, intensity = 0.8, f
   lens.style.zIndex = '0'
 
   // Refraction caustic ripple and hardware backdrop distortion
-  lens.style.background = 'radial-gradient(circle, transparent 55%, rgba(var(--primary), 0.15) 80%, rgba(255, 255, 255, 0.28) 94%, transparent 100%)'
+  lens.style.background = 'radial-gradient(circle, transparent 55%, rgba(var(--primary), 0.15) 80%, rgba(var(--primary), 0.28) 94%, transparent 100%)'
   lens.style.backdropFilter = `url(#${FILTER_ID}-2) contrast(135%) brightness(115%) blur(0.3px)`
   lens.style.webkitBackdropFilter = `url(#${FILTER_ID}-2) contrast(135%) brightness(115%) blur(0.3px)`
-  lens.style.boxShadow = 'inset 0 0 14px rgba(var(--primary), 0.5), 0 0 20px rgba(255, 255, 255, 0.35)'
+  lens.style.boxShadow = 'inset 0 0 14px rgba(var(--primary), 0.5)'
   lens.style.border = '1.5px solid rgba(var(--primary), 0.45)'
 
   parent.appendChild(lens)
