@@ -1,45 +1,52 @@
 {{/*
-  layout for content/notes/_index.md
-
-  Before I used to have the following but it got broken :(
-  Now I have to duplicate the contents of term.html
-
-    {{ .Render "term" }}
+  layout for content/notes/_index.md: Fullscreen Topic Constellation Graph
 */}}
 
 {{ define "head" }}
   {{ partial "head.html" . }}
+  {{ partial "lib/katex.html" . }}
 {{ end }}
 
 {{ define "header" }}
-<header class="tw-container tw-mx-auto tw-p-3">
-  {{ partial "header-navigation.html" . }}
-
-  <div class="tw-group/note-preview">
-    <h2 class="tw-group/title md:tw-w-4/5 tw-mx-auto tw-text-center tw-text-4xl md:tw-text-6xl tw-m-5 tw-font-[Ultra] tw-text-primary">
-      {{ .Title }}
-    </h2>
-
-    <div class="md:tw-w-3/5 tw-mx-auto tw-text-center tw-flex tw-flex-col tw-gap-5">
-      <div class="tw-text-neutral-400">
-        A collection of {{ len .RegularPagesRecursive }} notes, essays, and interactive guides.
-      </div>
-    </div>
-
-  </div>
-</header>
 {{ end }}
 
 {{ define "main" }}
-<main class="tw-container tw-mx-auto tw-px-4 tw-pb-16">
-  <div class="md:tw-w-3/5 tw-mx-auto tw-flex tw-flex-col">
-    {{ range .RegularPagesRecursive.ByDate.Reverse }}
-      {{ partial "note-preview.html" . }}
+{{ $favUrls := slice }}
+{{ range site.Data.favorites }}
+  {{ $favUrlNorm := strings.TrimRight "/" .url }}
+  {{ $favUrls = $favUrls | append $favUrlNorm }}
+  {{ $favUrls = $favUrls | append (printf "%s/" $favUrlNorm) }}
+{{ end }}
+{{ $popMap := site.Data.popularity | default dict }}
+{{ $notesData := slice }}
+{{ range .RegularPagesRecursive.ByDate.Reverse }}
+  {{ $url := .RelPermalink }}
+  {{ $urlNorm := strings.TrimRight "/" $url }}
+  {{ $urlSlash := printf "%s/" $urlNorm }}
+  {{ $isFav := or (in $favUrls $urlNorm) (in $favUrls $urlSlash) (eq .Params.favorite true) (in .Params.tags "favorite") }}
+  {{ $pop := index $popMap $urlSlash | default (index $popMap $urlNorm) | default 40 }}
+  {{ $isInteractive := or .Params.interactive (in .Params.tags "interactive") (in .Params.tags "simulator") }}
+  {{ if not $isInteractive }}
+    {{ if or (strings.Contains .RawContent "<script") (strings.Contains .RawContent "interactive-") (strings.Contains .RawContent "-simulator") }}
+      {{ if not (and (strings.Contains .RawContent "asciinema.org") (not (strings.Contains .RawContent "/js/"))) }}
+        {{ $isInteractive = true }}
+      {{ end }}
     {{ end }}
-  </div>
-</main>
+  {{ end }}
+  {{ $tags := .Params.tags | default slice }}
+  {{ $summary := (.Params.summary | default .Summary) | markdownify }}
+  {{ $image := .Params.image | default "" }}
+  {{ $item := dict "id" $url "url" $url "title" .Title "summary" $summary "date" (.Date.Format "Jan 2, 2006") "tags" $tags "readingTime" .ReadingTime "isFavorite" $isFav "interactive" $isInteractive "popularity" $pop "image" $image }}
+  {{ $notesData = $notesData | append $item }}
+{{ end }}
+
+<script id="notes-graph-data" type="application/json">
+{{ $notesData | jsonify | safeJS }}
+</script>
+
+<div id="notes-graph-container" class="tw-fixed tw-inset-0 tw-w-screen tw-h-screen tw-overflow-hidden tw-bg-[var(--grey-darker)]"></div>
+<script type="module" src="/js/notes/notes-graph.js?v={{ now.Unix }}"></script>
 {{ end }}
 
 {{ define "footer" }}
-  {{ partial "single-footer.html" . }}
 {{ end }}
