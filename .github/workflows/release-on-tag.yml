@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  discussions: write
 
 jobs:
   release:
@@ -69,4 +70,5 @@ jobs:
           gh release create "${{ github.ref_name }}" \
             --title "${{ env.RELEASE_TITLE }}" \
             --notes-file release_body.md \
+            --discussion-category "Announcements" \
             --verify-tag

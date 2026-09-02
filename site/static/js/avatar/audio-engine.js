@@ -194,21 +194,28 @@ export function startVisualAnimation(avatarEl) {
     return
   }
 
-  const rect = avatarEl.getBoundingClientRect()
-  const canvasSize = Math.max(260, rect.width * 4.0)
+  const parent = avatarEl.parentElement || avatarEl
+  parent.classList.add('tw-relative')
+
+  const avatarWidth = avatarEl.offsetWidth || 75
+  const avatarHeight = avatarEl.offsetHeight || 75
+  const avatarRadius = avatarWidth / 2
+  const canvasSize = Math.max(260, avatarWidth * 4.0)
   const dpr = Math.min(window.devicePixelRatio || 1, 2)
 
   const canvas = document.createElement('canvas')
+  canvas.className = 'avatar-waves-canvas'
   canvas.width = canvasSize * dpr
   canvas.height = canvasSize * dpr
-  canvas.style.position = 'fixed'
-  canvas.style.top = `${rect.top + rect.height / 2 - canvasSize / 2}px`
-  canvas.style.left = `${rect.left + rect.width / 2 - canvasSize / 2}px`
+  canvas.style.position = 'absolute'
+  canvas.style.top = `${avatarEl.offsetTop + avatarHeight / 2}px`
+  canvas.style.left = `${avatarEl.offsetLeft + avatarWidth / 2}px`
+  canvas.style.transform = 'translate(-50%, -50%)'
   canvas.style.width = `${canvasSize}px`
   canvas.style.height = `${canvasSize}px`
-  canvas.style.zIndex = '99999'
+  canvas.style.zIndex = '5'
   canvas.style.pointerEvents = 'none'
-  document.body.appendChild(canvas)
+  parent.appendChild(canvas)
 
   const ctx = canvas.getContext('2d')
   if (!ctx) {
@@ -229,6 +236,7 @@ export function startVisualAnimation(avatarEl) {
     ctx,
     waves: [],
     avatarEl,
+    avatarRadius,
     isRunning: true,
     colorIdx: 0,
     startTime: performance.now(),
@@ -237,12 +245,21 @@ export function startVisualAnimation(avatarEl) {
   }
   activeVisualContext = vContext
 
+  const updatePosition = () => {
+    if (!vContext.isRunning || !vContext.canvas.parentElement) return
+    const curAvatar = vContext.avatarEl
+    const aW = curAvatar.offsetWidth || 75
+    const aH = curAvatar.offsetHeight || 75
+    vContext.avatarRadius = aW / 2
+    vContext.canvas.style.top = `${curAvatar.offsetTop + aH / 2}px`
+    vContext.canvas.style.left = `${curAvatar.offsetLeft + aW / 2}px`
+  }
+  window.addEventListener('resize', updatePosition)
+
   window.__avatarWavePush = (freq) => {
     if (!activeVisualContext) return
-    const curAvatar = activeVisualContext.avatarEl
-    const curRect = curAvatar.getBoundingClientRect()
     activeVisualContext.waves.push({
-      radius: curRect.width / 2 - 4,
+      radius: activeVisualContext.avatarRadius - 4,
       maxRadius: activeVisualContext.canvasSize / 2,
       speed: 60 + (freq / 700) * 25,
       frequency: 3 + Math.floor((freq / 200) % 4),
@@ -257,16 +274,12 @@ export function startVisualAnimation(avatarEl) {
     vContext.lastTime = now
     const elapsed = (now - vContext.startTime) / 1000
 
-    const curRect = vContext.avatarEl.getBoundingClientRect()
-    vContext.canvas.style.top = `${curRect.top + curRect.height / 2 - vContext.canvasSize / 2}px`
-    vContext.canvas.style.left = `${curRect.left + curRect.width / 2 - vContext.canvasSize / 2}px`
-
     vContext.ctx.clearRect(0, 0, vContext.canvasSize, vContext.canvasSize)
 
     for (let i = vContext.waves.length - 1; i >= 0; i--) {
       const w = vContext.waves[i]
       w.radius += w.speed * dt
-      const progress = (w.radius - curRect.width / 2) / (w.maxRadius - curRect.width / 2)
+      const progress = (w.radius - vContext.avatarRadius) / (w.maxRadius - vContext.avatarRadius)
       w.opacity = Math.max(0, 1.0 - Math.pow(progress, 1.4))
       if (w.opacity <= 0.01) {
         vContext.waves.splice(i, 1)
@@ -284,6 +297,7 @@ export function startVisualAnimation(avatarEl) {
 
   const cleanup = () => {
     vContext.isRunning = false
+    window.removeEventListener('resize', updatePosition)
     delete window.__avatarWavePush
     if (vContext.canvas.parentElement) {
       vContext.canvas.remove()
@@ -298,22 +312,25 @@ export function startVisualAnimation(avatarEl) {
 
 // Spawns floating musical note particles
 export function spawnFloatingMusicParticle(originEl, text, isTick) {
-  if (typeof document === 'undefined') return
+  if (typeof document === 'undefined' || !originEl) return
 
-  const rect = originEl.getBoundingClientRect()
-  const scrollX = window.scrollX || window.pageXOffset || 0
-  const scrollY = window.scrollY || window.pageYOffset || 0
+  const parent = originEl.parentElement || originEl
+  parent.classList.add('tw-relative')
+
+  const originWidth = originEl.offsetWidth || 75
+  const originHeight = originEl.offsetHeight || 75
+  const startX = originEl.offsetLeft + originWidth * (0.2 + Math.random() * 0.6)
+  const startY = originEl.offsetTop + originHeight * 0.1
+
   const particle = document.createElement('div')
   const defaultGlyphs = ['🥀', '♪', '♫', '✨']
   const displayText = text || defaultGlyphs[Math.floor(Math.random() * defaultGlyphs.length)]
-  const startX = rect.left + scrollX + rect.width * (0.2 + Math.random() * 0.6)
-  const startY = rect.top + scrollY + rect.height * 0.1
 
   particle.textContent = displayText
   particle.style.position = 'absolute'
   particle.style.left = `${startX}px`
   particle.style.top = `${startY}px`
-  particle.style.zIndex = '999999'
+  particle.style.zIndex = '9999'
   particle.style.pointerEvents = 'none'
   particle.style.fontSize = isTick ? '13px' : (text ? '15px' : `${15 + Math.random() * 10}px`)
   particle.style.color = isTick ? '#38bdf8' : (Math.random() > 0.4 ? 'rgb(var(--primary))' : '#fbbf24')
@@ -324,7 +341,7 @@ export function spawnFloatingMusicParticle(originEl, text, isTick) {
   particle.style.transform = 'translateY(0px) scale(0.6) rotate(0deg)'
   particle.style.opacity = '1'
 
-  document.body.appendChild(particle)
+  parent.appendChild(particle)
 
   requestAnimationFrame(() => {
     const deltaX = (Math.random() - 0.5) * 60
@@ -539,19 +556,52 @@ class PlayerStore {
           this.activeTimeouts.delete(timeoutId)
           if (!this.state.isPlaying) return
           if (activeAvatar) {
-            // Subtle acoustic strum bounce
-            activeAvatar.style.transition = 'transform 0.06s ease-out'
-            const rot = (Math.random() - 0.5) * 4.5
-            const scale = note.freq > 500 ? 1.07 : 1.035
-            activeAvatar.style.transform = `scale(${scale}) rotate(${rot.toFixed(2)}deg)`
+            // Cutout and background elements for layered 3D bounce
+            const fg = activeAvatar.querySelector('.js-avatar-fg')
+            const bg = activeAvatar.querySelector('.js-avatar-bg')
+
+            // Velocity & pitch dynamic response
+            const intensity = Math.min(1.0, Math.max(0.4, (note.vel || 0.7) * 1.3))
+            const isHigh = note.freq > 450
+            const bounceScale = 1.05 + intensity * 0.05
+            const rot = (Math.random() - 0.5) * (isHigh ? 6.0 : 4.0)
+
+            // 1. Avatar container bounce (punchy spring)
+            activeAvatar.style.transition = 'transform 0.07s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+            activeAvatar.style.transform = `scale(${bounceScale.toFixed(3)}) rotate(${rot.toFixed(2)}deg)`
+
+            // 2. Cutout foreground bounce (subtle head/guitar bob)
+            if (fg) {
+              const fgBobY = -1.2 * intensity
+              const fgScale = 1.02 + intensity * 0.025
+              const fgRot = -rot * 0.3
+              fg.style.transition = 'transform 0.07s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+              fg.style.transform = `translateY(${fgBobY.toFixed(1)}px) scale(${fgScale.toFixed(3)}) rotate(${fgRot.toFixed(2)}deg)`
+            }
+
+            // 3. Subtle background pulse
+            if (bg) {
+              const bgScale = 1.03 + intensity * 0.02
+              bg.style.transition = 'transform 0.07s ease-out'
+              bg.style.transform = `scale(${bgScale.toFixed(3)})`
+            }
 
             const resetId = setTimeout(() => {
               this.activeTimeouts.delete(resetId)
               if (activeAvatar) {
-                activeAvatar.style.transition = 'transform 0.12s ease-out'
-                activeAvatar.style.transform = 'none'
+                activeAvatar.style.transition = 'transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                activeAvatar.style.transform = ''
+
+                if (fg) {
+                  fg.style.transition = 'transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                  fg.style.transform = ''
+                }
+                if (bg) {
+                  bg.style.transition = 'transform 0.18s ease-out'
+                  bg.style.transform = ''
+                }
               }
-            }, 75)
+            }, 85)
             this.activeTimeouts.add(resetId)
 
             spawnFloatingMusicParticle(activeAvatar, note.name.replace(/[0-9]/g, ''))

@@ -44,8 +44,8 @@ This document captures development workflows, architecture rules, system quirks,
   4. Creating the annotated git tag `vYYYY-MM-DD-<slug>` (e.g. `v2026-08-28-benchmarking-and-capacity-planning`).
   5. Deploying and triggering automated GitHub Releases via `git push origin main --tags`.
 
-- **Automated GitHub Releases**:
-  - The workflow [`.github/workflows/release-on-tag.yml`](file:///.github/workflows/release-on-tag.yml) automatically triggers upon pushing `v*` tags, extracting the article's title, summary, tags, and publishing a rich GitHub Release linking directly to `https://mauriciopoppe.com/notes/<slug>`.
+- **Automated GitHub Releases & Discussions**:
+  - The workflow [`.github/workflows/release-on-tag.yml`](file:///.github/workflows/release-on-tag.yml) automatically triggers upon pushing `v*` tags, extracting the article's title, summary, tags, publishing a rich GitHub Release linking directly to `https://mauriciopoppe.com/notes/<slug>`, and automatically creating a linked Discussion thread under the `Announcements` category.
 
 ---
 
