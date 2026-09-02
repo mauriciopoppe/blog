@@ -3,6 +3,11 @@
 {{ define "head" }}
   {{ partial "head.html" . }}
   {{ partial "lib/katex.html" . }}
+  <script>
+    if (typeof window !== 'undefined' && window.location && !window.location.search.includes('static=true')) {
+      window.location.replace('/notes/?tag={{ .Data.Term | urlize }}');
+    }
+  </script>
 {{ end }}
 
 {{ define "header" }}
@@ -14,9 +19,14 @@
       {{ .Title }}
     </h2>
 
-    <div class="md:tw-w-3/5 tw-mx-auto tw-text-center tw-flex tw-flex-col tw-gap-5">
+    <div class="md:tw-w-3/5 tw-mx-auto tw-text-center tw-flex tw-flex-col tw-gap-3">
       <div>
         There's a total of {{ len .Data.Pages }} notes tagged with "{{ .Title }}".
+      </div>
+      <div>
+        <a href="/notes/?tag={{ .Data.Term | urlize }}" class="tw-inline-flex tw-items-center tw-gap-2 tw-px-4 tw-py-2 tw-rounded-full tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-primary tw-font-serif tw-text-sm tw-shadow-subtle hover:tw-border-[var(--accent-border)] hover:tw-shadow-raised">
+          <span>✦ Explore #{{ .Title }} in Topic Constellation Graph &rarr;</span>
+        </a>
       </div>
     </div>
 
