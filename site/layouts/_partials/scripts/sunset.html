@@ -1,2 +1,2 @@
 {{- /* Check "Bundled scripts" in the README.md to see how it works. */ -}}
-{{ partial "webpack-script" (dict "ctx" . "id" "sunset" "defer" "true") }}
+<script type="module" src="{{ relURL "/js/sunset/loader.js" }}"></script>
