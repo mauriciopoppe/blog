@@ -3,7 +3,7 @@ import './css/math-popover.css'
 
 import { sidebarsMain } from './sidebar.js'
 import { sitemapMain } from './sitemap.js'
-import { algoliaMain } from './algolia.jsx'
+import { searchShortcutMain } from './search-shortcut.js'
 import { lazyLoadMain } from './lazy-load.js'
 import { equationPreviewMain } from './equation-preview.js'
 import { footnotesPreviewMain } from './footnotes-preview.js'
@@ -17,7 +17,7 @@ declare global {
 }
 
 sidebarsMain()
-algoliaMain()
+searchShortcutMain()
 sitemapMain()
 lazyLoadMain()
 equationPreviewMain()

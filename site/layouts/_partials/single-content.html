@@ -64,22 +64,3 @@
     </aside>
   </div>
 </section>
-
-<!-- algolia-search as overlay -->
-<div id="algolia-search-wrapper" class="tw-hidden tw-bg-black/90 tw-h-screen tw-w-screen tw-fixed tw-top-0 tw-z-50 tw-flex tw-overflow-hidden">
-  <div id="algolia-search-overlay" class="tw-absolute tw-top-0 tw-left-0 tw-right-0 tw-bottom-0"></div>
-
-  <!-- Left column: favorite notes, same format as the index.html Favorites grid -->
-  <aside id="algolia-favorites" class="tw-relative tw-z-10 tw-hidden md:tw-block tw-h-full tw-w-80 tw-shrink-0 tw-overflow-y-auto tw-border-r tw-border-white/[0.06] tw-p-4">
-    <div class="tw-flex tw-items-baseline tw-gap-2 tw-mb-3">
-      <div class="tw-text-xs tw-uppercase tw-tracking-widest tw-text-neutral-400">★ Favorites</div>
-      <a href="/notes" class="tw-text-xs tw-uppercase tw-tracking-widest tw-text-neutral-400">All Notes</a>
-    </div>
-    <div class="tw-grid tw-gap-1 tw-text-xs tw-leading-tight md:tw-grid-cols-[10em_auto] md:[&>div]:tw-mb-0">
-      {{ partial "favorites-list.html" . }}
-    </div>
-  </aside>
-
-  <!-- Right column: pinned search input + scrollable results, mounted by algolia.jsx -->
-  <div id="algolia-search" class="tw-relative tw-z-10 tw-flex-1 tw-h-full tw-flex tw-flex-col tw-overflow-hidden"></div>
-</div>

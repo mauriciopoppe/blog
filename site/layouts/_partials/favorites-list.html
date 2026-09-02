@@ -1,7 +1,6 @@
-{{/* Shared favorites list (icon + title, description) rendered by index.html
-    and by the algolia search overlay. Items come from site/data/favorites.yaml
-    so both places stay in sync. Must be placed inside a grid container that
-    provides the column layout (see index.html). */}}
+{{/* Shared favorites list (icon + title, description) rendered by index.html.
+    Items come from site/data/favorites.yaml. Must be placed inside a grid
+    container that provides the column layout (see index.html). */}}
 {{ range site.Data.favorites }}
   <a href="{{ .url }}">
     <span class="material-symbols-outlined">{{ .icon }}</span>

@@ -1,6 +1,4 @@
-# Curated favorites shown on the homepage and in the search overlay.
-# Both index.html and the algolia overlay render this list via
-# layouts/_partials/favorites-list.html, so icons stay in sync.
+# Curated favorites shown on the homepage via layouts/_partials/favorites-list.html
 - title: "Computer Graphics Pipeline"
   url: "/notes/computer-graphics/transformation-matrix/"
   icon: "3d_rotation"

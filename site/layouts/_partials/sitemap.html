@@ -17,10 +17,15 @@
   <!-- scripts use the id and the class, don't change it Mauricio! -->
   <div id="sitemap" class="my-sitemap tw-opacity-1 tw-p-3 tw-rounded-md tw-bg-[var(--grey-dark)] md:tw-text-sm md:tw-relative md:tw-opacity-20">
 
-      {{/* sitemap-search-trigger is referenced from algolia.jsx */}}
-      <div id="sitemap-search-trigger" class="tw-cursor-pointer tw-border-2 tw-border-primary tw-p-2 tw-rounded">
-        <span class="material-symbols-outlined"> search </span> Press ⌘K to search
-      </div>
+      {{/* sitemap-search-trigger redirects to unified constellation search on /notes/?search=true */}}
+      <a
+        id="sitemap-search-trigger"
+        href="/notes/?search=true"
+        class="tw-flex tw-items-center tw-gap-2 tw-text-inherit tw-no-underline hover:tw-text-[rgb(var(--primary))] tw-transition-colors tw-border tw-border-[var(--grey)] hover:tw-border-[rgb(var(--primary))] tw-p-2 tw-rounded-md tw-mb-3"
+      >
+        <span class="material-symbols-outlined tw-text-lg">search</span>
+        <span class="tw-text-xs tw-font-medium">Search Notes (⌘K)</span>
+      </a>
 
       <nav id="sitemap-tree" aria-label="Sitemap" class="sitemap-content">
         {{ partial "sitemap-tree.auto.html" . }}

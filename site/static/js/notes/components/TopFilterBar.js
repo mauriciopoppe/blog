@@ -35,8 +35,12 @@ export function TopFilterBar({
   const searchInputRef = useRef(null)
 
   useEffect(() => {
-    if (isSearchOpen && searchInputRef.current) {
-      searchInputRef.current.focus()
+    if (isSearchOpen) {
+      setTimeout(() => {
+        if (searchInputRef.current) {
+          searchInputRef.current.focus()
+        }
+      }, 50)
     }
   }, [isSearchOpen])
 

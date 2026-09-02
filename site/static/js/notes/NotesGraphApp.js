@@ -25,6 +25,10 @@ export function NotesGraphApp({ fullGraph, d3 }) {
   const [activeFilter, setActiveFilter] = useState(() => {
     if (typeof window === 'undefined') return 'all'
     const urlParams = new URLSearchParams(window.location.search)
+    const initialQ = urlParams.get('q')
+    if (initialQ && initialQ.trim()) {
+      return `search:${initialQ.trim()}`
+    }
     const initialTag = urlParams.get('tag')
     const initialFilter = urlParams.get('filter')
 
@@ -41,8 +45,16 @@ export function NotesGraphApp({ fullGraph, d3 }) {
   const [hoveredNode, setHoveredNode] = useState(null)
   const [tooltipPos, setTooltipPos] = useState(null)
   const [isReady, setIsReady] = useState(false)
-  const [isSearchOpen, setIsSearchOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
+  const [isSearchOpen, setIsSearchOpen] = useState(() => {
+    if (typeof window === 'undefined') return false
+    const urlParams = new URLSearchParams(window.location.search)
+    return urlParams.get('search') === 'true' || urlParams.has('q')
+  })
+  const [searchQuery, setSearchQuery] = useState(() => {
+    if (typeof window === 'undefined') return ''
+    const urlParams = new URLSearchParams(window.location.search)
+    return urlParams.get('q') || ''
+  })
 
   // Matching node count calculation
   const matchingCount = useMemo(() => {
