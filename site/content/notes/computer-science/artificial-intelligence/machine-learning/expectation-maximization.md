@@ -5,7 +5,7 @@ summary: |
   The method alternates between making an expectation (E) step based on the current estimate of
   the parameters and a maximization (M) step, which computes new parameters.
 image: /images/covariance-matrix.jpeg
-tags: ["machine learning", "expectation maximization", "k-means clustering", "gaussian distribution", "multivariate gaussian distribution"]
+tags: ["machine learning", "expectation maximization", "k-means clustering", "gaussian distribution", "multivariate gaussian distribution", "probability"]
 libraries: ["math"]
 date: 2020-03-16 21:21:00
 references:

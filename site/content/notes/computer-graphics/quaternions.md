@@ -14,6 +14,7 @@ references:
   - "Shoemake, K. (1985). Animating rotation with quaternion curves. ACM SIGGRAPH Computer Graphics, 19(3), pp.245-254."
 aliases:
   - /notes/computer-graphics/transformation-matrices/rotation/quaternions/
+  - /notes/mathematics/numeral-systems/quaternions/
 series: "computer-graphics-pipeline"
 pipeline_stage: "transforms"
 interactive: true
