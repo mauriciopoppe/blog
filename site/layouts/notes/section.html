@@ -44,7 +44,7 @@
 {{ $notesData | jsonify | safeJS }}
 </script>
 
-<div id="notes-graph-container" class="tw-fixed tw-inset-0 tw-w-screen tw-h-screen tw-overflow-hidden tw-bg-[var(--grey-darker)]"></div>
+<div id="notes-graph-container" class="tw-fixed tw-inset-0 tw-w-full tw-h-[100dvh] tw-overflow-hidden tw-bg-[var(--grey-darker)]"></div>
 <script type="module" src="/js/notes/notes-graph.js?v={{ now.Unix }}"></script>
 {{ end }}
 

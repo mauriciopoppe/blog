@@ -29,7 +29,9 @@ export function MiniPlayer({ avatarEl }) {
   const [storeState, setStoreState] = useState(playerStore.getState())
   const [isHovered, setIsHovered] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 640 : false)
+  const usesMobilePlayer = () => typeof window !== 'undefined' &&
+    (window.innerWidth < 640 || (avatarEl?.dataset.mobilePlayer === 'true' && window.matchMedia('(pointer: coarse)').matches))
+  const [isMobile, setIsMobile] = useState(usesMobilePlayer)
   const [isAvatarDetached, setIsAvatarDetached] = useState(avatarEl?.dataset.avatarDetached === 'true')
   const hoverTimeoutRef = useRef(null)
 
@@ -44,7 +46,7 @@ export function MiniPlayer({ avatarEl }) {
   // Viewport resize tracking
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 640)
+      setIsMobile(usesMobilePlayer())
     }
     window.addEventListener('resize', handleResize, { passive: true })
     return () => window.removeEventListener('resize', handleResize)
@@ -57,7 +59,7 @@ export function MiniPlayer({ avatarEl }) {
     const handlePositionChange = () => setIsAvatarDetached(avatarEl.dataset.avatarDetached === 'true')
 
     const handleAvatarEnter = () => {
-      if (window.innerWidth >= 640) {
+      if (!usesMobilePlayer()) {
         if (hoverTimeoutRef.current) {
           clearTimeout(hoverTimeoutRef.current)
           hoverTimeoutRef.current = null
@@ -67,7 +69,7 @@ export function MiniPlayer({ avatarEl }) {
     }
 
     const handleAvatarLeave = () => {
-      if (window.innerWidth >= 640) {
+      if (!usesMobilePlayer()) {
         if (hoverTimeoutRef.current) {
           clearTimeout(hoverTimeoutRef.current)
         }
@@ -83,7 +85,7 @@ export function MiniPlayer({ avatarEl }) {
         delete avatarEl.dataset.avatarDragged
         return
       }
-      if (window.innerWidth < 640) {
+      if (usesMobilePlayer()) {
         setIsMobileOpen(true)
       }
       playerStore.togglePlay(avatarEl)
@@ -347,13 +349,22 @@ export function mountMiniPlayer(avatarEl) {
 
   // Ensure avatar parent container is relatively positioned
   const parent = avatarEl.parentElement || avatarEl
-  parent.classList.add('tw-relative')
+  const useMobilePortal = avatarEl.dataset.mobilePlayer === 'true' &&
+    window.matchMedia('(pointer: coarse)').matches
+  if (!useMobilePortal) parent.classList.add('tw-relative')
 
-  let mountContainer = parent.querySelector('.avatar-mini-player-mount')
+  let mountContainer = useMobilePortal
+    ? document.querySelector('.avatar-mini-player-mount[data-mobile-portal="true"]')
+    : parent.querySelector('.avatar-mini-player-mount')
   if (!mountContainer) {
     mountContainer = document.createElement('div')
     mountContainer.className = 'avatar-mini-player-mount'
-    parent.appendChild(mountContainer)
+    if (useMobilePortal) {
+      mountContainer.dataset.mobilePortal = 'true'
+      document.body.appendChild(mountContainer)
+    } else {
+      parent.appendChild(mountContainer)
+    }
   }
 
   render(html`<${MiniPlayer} avatarEl=${avatarEl} />`, mountContainer)
