@@ -131,7 +131,8 @@ export async function publishNote(filePathInput: string, options: { dryRun?: boo
   try {
     execSync(`git add "${filePath}"`, { cwd: ROOT_DIR })
     if (attrs.image) {
-      const imagePath = path.resolve(ROOT_DIR, 'site/static/images', attrs.image)
+      const cleanImg = attrs.image.replace(/^\/images\//, '').replace(/^\//, '')
+      const imagePath = path.resolve(ROOT_DIR, 'site/static/images', cleanImg)
       if (fs.existsSync(imagePath)) {
         execSync(`git add "${imagePath}"`, { cwd: ROOT_DIR })
       }
