@@ -172,6 +172,8 @@
   padding: 1.25em 1.5em;
   white-space: pre;
   word-wrap: normal;
+  font-size: 0.62em;
+  line-height: 1.4;
 }
 
 .content sup,
@@ -333,9 +335,17 @@ html[data-theme=light] .content table tbody th {
 pre, .content pre {
   padding: 0.75em 1em;
   /* redefined because padding is set for pre but overridden by bulma for .content pre */
-  border-radius: 5px;
+  border-radius: 8px;
   background-color: var(--grey-dark);
-  font-size: 0.7em;
+  font-size: 0.62em;
+  line-height: 1.4;
+}
+
+pre code, .content pre code {
+  font-size: 1em;
+  line-height: inherit;
+  padding: 0;
+  background-color: transparent;
 }
 
 code, .content code {

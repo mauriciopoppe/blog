@@ -81,7 +81,8 @@ hr {
 }
 
 pre {
-  @apply tw-leading-4;
+  font-size: 0.62em;
+  line-height: 1.4;
   code {
     background-color: transparent;
     color: currentColor;
@@ -90,7 +91,7 @@ pre {
   }
 }
 
-code {
+:not(pre) > code {
   background-color: var(--grey-dark);
   color: rgb(var(--primary));
   font-size: 0.7em;

@@ -201,6 +201,30 @@ export const LLM_TERMS: Record<string, MathTermDefinition> = {
       '\\text{NTTFT} = \\frac{\\text{TTFT}}{\\text{Input Sequence Length (ISL)}}'
     ],
     insight: 'Allows fair performance comparisons between short queries (e.g. 50 tokens) and long-context document summarization (e.g. 8,000 tokens).'
+  },
+  sigma_noise: {
+    symbol: '\\vec{\\sigma}_{\\text{noise}}',
+    name: 'Noise Tolerance Band Vector',
+    category: 'LLM Inference',
+    unit: '% per objective',
+    summary: 'A vector of measurement noise thresholds defining the statistical indifference corridor for each serving objective.',
+    formulas: [
+      '\\forall i, \\quad f_i(\\mathbf{x}_A) \\le f_i(\\mathbf{x}_B) \\cdot (1 + \\sigma_{\\text{noise}, i})',
+      '\\sigma_{\\text{noise}, i} \\approx C_{v, i} \\quad \\text{(Empirical Benchmark Variance)}'
+    ],
+    insight: 'In production GPU serving, benchmark noise (thermal throttling, network jitter, variable prompt lengths) creates false Pareto wins. Fluctuations within ±σ_noise are treated as statistical ties rather than meaningful improvements.'
+  },
+  delta_min: {
+    symbol: '\\vec{\\delta}_{\\text{min}}',
+    name: 'Minimum Improvement Threshold Vector',
+    category: 'LLM Inference',
+    unit: '% per objective',
+    summary: 'A vector of minimum percentage improvements required in at least one objective to claim genuine engineering dominance.',
+    formulas: [
+      '\\exists j, \\quad f_j(\\mathbf{x}_A) \\le f_j(\\mathbf{x}_B) \\cdot (1 - \\delta_{\\text{min}, j})',
+      '\\Delta f_j = \\frac{f_j(\\mathbf{x}) - f_j(\\mathbf{x}_0)}{f_j(\\mathbf{x}_0)} \\ge \\delta_{\\text{min}, j}'
+    ],
+    insight: 'Enforces a practical significance hurdle (e.g. ≥ 3% latency reduction or +5% throughput gain). Prevents micro-optimizations from polluting the frontier when they pass raw mathematical dominance without delivering real-world value.'
   }
 }
 
@@ -400,9 +424,11 @@ export function getTermsForCategories(categories: TermCategory[] | 'all'): Recor
  */
 export function normalizeTermKey(raw: string, activeTerms: Record<string, MathTermDefinition>): string | null {
   if (!raw) return null
-  const cleaned = raw.trim().replace(/^\\text\{|\}$/g, '').replace(/[${\\}\s]/g, '')
+  const cleaned = raw.trim().replace(/\\text\{([^}]+)\}/g, '$1').replace(/[${\\}\s]/g, '')
+  const noUnderscore = cleaned.replace(/_/g, '')
 
   if (activeTerms[cleaned]) return cleaned
+  if (activeTerms[noUnderscore]) return noUnderscore
 
   const aliasMap: Record<string, string> = {
     λ: 'lambda',
@@ -434,6 +460,26 @@ export function normalizeTermKey(raw: string, activeTerms: Record<string, MathTe
     ITL: 'ITL',
     nttft: 'NTTFT',
     NTTFT: 'NTTFT',
+    sigma_noise: 'sigma_noise',
+    sigmanoise: 'sigma_noise',
+    sigmatextnoise: 'sigma_noise',
+    vecsigma: 'sigma_noise',
+    vecsigmanoise: 'sigma_noise',
+    vecsigmatextnoise: 'sigma_noise',
+    sigma: 'sigma_noise',
+    σ: 'sigma_noise',
+    σ_noise: 'sigma_noise',
+    'vec(σ)': 'sigma_noise',
+    delta_min: 'delta_min',
+    deltamin: 'delta_min',
+    deltatextmin: 'delta_min',
+    vecdelta: 'delta_min',
+    vecdeltamin: 'delta_min',
+    vecdeltatextmin: 'delta_min',
+    delta: 'delta_min',
+    δ: 'delta_min',
+    δ_min: 'delta_min',
+    'vec(δ)': 'delta_min',
     m_proj: 'M_proj',
     M_proj: 'M_proj',
     Mproj: 'M_proj',
@@ -464,7 +510,7 @@ export function normalizeTermKey(raw: string, activeTerms: Record<string, MathTe
     taylor: 'taylor'
   }
 
-  const alias = aliasMap[cleaned]
+  const alias = aliasMap[cleaned] || aliasMap[noUnderscore]
   if (alias && activeTerms[alias]) {
     return alias
   }

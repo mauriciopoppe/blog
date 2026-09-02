@@ -167,6 +167,17 @@ $$
 ### No `<div>` Wrappers Around Display Math
 - Do not wrap display math in raw `<div>$$ ... $$</div>` containers. Goldmark may treat the block as raw HTML and bypass Markdown parsing, or interfere with KaTeX delimiters. Always place `$$` on its own separate line directly in Markdown.
 
+### Math Spacing & Text Connectors (`\quad \text{...} \quad`)
+- Avoid using raw LaTeX escaped semicolon spacing like `\;` (thick space) around text connectors in math expressions, which looks like literal punctuation in source and rendered prose.
+- Always use `\quad \text{and} \quad`, `\quad \text{or} \quad`, or standard text spacing for readable conditions:
+
+```latex
+<!-- Correct: readable math spacing and text connectors -->
+$$
+\mathbf{x}_A \succ \mathbf{x}_B \iff \forall i, \quad f_i(\mathbf{x}_A) \le f_i(\mathbf{x}_B) \quad \text{and} \quad \exists j, \quad f_j(\mathbf{x}_A) < f_j(\mathbf{x}_B)
+$$
+```
+
 ### LaTeX in Note Summaries & Index Pages
 - Note summaries rendered in preview cards use `markdownify` so inline LaTeX formulas (`$...$`) render automatically on the `/notes/` index and taxonomy pages.
 - Section indexes and taxonomy templates (`site/layouts/term.html`, `site/content/notes/_index.md`) include KaTeX via `libraries: ["katex"]` or direct partial inclusion.

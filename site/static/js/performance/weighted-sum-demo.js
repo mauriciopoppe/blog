@@ -1,9 +1,11 @@
 /**
- * Weighted Sum Demo: what a scalarized objective can and cannot reach
+ * Weighted Sum Demo: What a Scalarized Objective Can and Cannot Reach
  *
- * One widget, one SVG, four animated states: Setup, Step 1 (dominated sample),
- * Step 2 (supported B), Step 3 (unsupported C). The SVG cross-fades layers
- * per step; the playback bar advances through the states.
+ * One widget, one SVG, four animated states:
+ * - Setup: Initial 4-point non-dominated Pareto frontier
+ * - Step 1: Dominated Sample (High latency, lower throughput -> Discarded by both)
+ * - Step 2: Supported Point B (Extreme breakthrough -> Admitted by both)
+ * - Step 3: Unsupported Point C (Concave Pareto-optimal point -> Kept by Pareto, missed by linear weights)
  *
  * Copyright (c) 2026 Mauricio Poppe
  * Licensed under the MIT license.
@@ -12,15 +14,20 @@
 import { html, render as preactRender } from '../ui/preact.js'
 import { StepRow } from '../ui/StepRow.js'
 
-function renderMath(tex) {
+function renderMath(tex, isDisplay = false) {
   if (typeof window !== 'undefined' && window.katex && typeof window.katex.renderToString === 'function') {
     try {
-      return window.katex.renderToString(tex, { displayMode: true, throwOnError: false })
+      return window.katex.renderToString(tex, { displayMode: isDisplay, throwOnError: false })
     } catch {
       return tex
     }
   }
   return tex
+}
+
+function renderTextWithMath(str) {
+  if (!str) return ''
+  return str.replace(/\$([^\$]+)\$/g, (_, math) => renderMath(math))
 }
 
 export function initWeightedSumDemo(containerId = '#weighted-sum-demo') {
@@ -35,56 +42,87 @@ export function initWeightedSumDemo(containerId = '#weighted-sum-demo') {
     {
       name: 'Setup',
       shortDesc: 'Initial measured set & active frontier',
-      desc: 'Gray dots are the configurations already measured. The ringed points are the kept, non-dominated ones. They already trace the frontier.'
+      desc: 'Gray dots represent configurations measured during exploration. The coral ringed points trace the current non-dominated frontier $\\mathcal{P}^*$. Both objectives are formulated as minimization ($f_1 = \\text{TTFT}$, $f_2 = 170 - \\text{TPS}$).'
     },
     {
-      name: 'Step 1 · dominated',
-      shortDesc: 'Sample beaten on throughput (discard)',
-      desc: 'Only the amber dot is being evaluated. The highlighted ringed point sits at the same latency and beats it on throughput, so the amber sample is discarded.'
+      name: 'Step 1 · Dominated Point',
+      shortDesc: 'Beaten on throughput (discarded)',
+      desc: 'The amber sample sits at the identical latency ($f_1 = 480$) but achieves lower throughput ($f_2 = 95$ vs. $f_2 = 33$). Its weighted score $g = 287.5$ loses to $g = 256.5$. Both the Pareto filter and weighted sum discard it.'
     },
     {
-      name: 'Step 2 · supported (B)',
-      shortDesc: 'Beats nearest frontier point (keep)',
-      desc: 'B is evaluated against the nearest frontier point: g = 121.5 beats g = 168.5, and no measured point beats B on both objectives. Keep it. It joins the frontier.'
+      name: 'Step 2 · Supported Point B',
+      shortDesc: 'Extends frontier knee (admitted)',
+      desc: 'Candidate $B$ ($140\\text{ms}$, $67\\text{ inv-tps}$) improves latency significantly with $g(B) = 121.5$, beating nearest point ($g = 168.5$). Because it sits on the convex hull, a single-scalar optimizer and Pareto filter both eagerly accept it.'
     },
     {
-      name: 'Step 3 · unsupported (C)',
-      shortDesc: 'Non-dominated, missed by linear weights',
-      desc: 'C is on the frontier: no measured point beats it on both objectives, so it stays in the kept set just like (300, 86). The weighted sum is a different lens: under these weights g(C) = 208 ranks below g = 193, so a single-number optimizer would pass over C even though the frontier keeps it.'
+      name: 'Step 3 · Unsupported Point C',
+      shortDesc: 'Pareto optimal, missed by scalar sum',
+      desc: 'Candidate $C$ is strictly Pareto optimal: no configuration beats it on both metrics. But because it sits inside a concave region, the linear weighted sum hyperplane ($g = 193$) touches $(300, 86)$ first, scoring $C$ worse ($g = 208$). A linear scalar optimizer is blind to $C$.'
     }
   ]
 
-  // The evaluation: f₁ = latency = x, f₂ = inverse throughput = 170 − y,
-  // g = 0.5·f₁ + 0.5·f₂ minimized. Lower g is better. The frontier points are
-  // always listed; each step tests one candidate against one frontier point.
+  // The 4 base frontier points (540, 18 removed to prevent canvas clipping)
   const FRONTIER_POINTS = [
     { point: '(240, 97)', f1: 240, f2: 97, g: 168.5 },
-    { point: '(300, 86)', f1: 300, f2: 86, g: 193 },
-    { point: '(420, 54)', f1: 420, f2: 54, g: 237 },
+    { point: '(300, 86)', f1: 300, f2: 86, g: 193.0 },
+    { point: '(420, 54)', f1: 420, f2: 54, g: 237.0 },
     { point: '(480, 33)', f1: 480, f2: 33, g: 256.5 },
-    { point: '(540, 18)', f1: 540, f2: 18, g: 279 },
-    { point: 'B (140, 103)', f1: 140, f2: 103, g: 121.5, since: 3 }
+    { point: 'B (140, 103)', f1: 140, f2: 103, g: 121.5, since: 2 }
   ]
-  // Each candidate is tested at its step against a frontier point by its (f1, f2).
+
+  // Candidates tested at each step
   const CANDIDATES = [
-    { step: 1, point: 'sample', f1: 480, f2: 95, g: 287.5, comparedF1: 480, comparedF2: 33, decision: 'discard' },
-    { step: 2, point: 'B', f1: 140, f2: 103, g: 121.5, comparedF1: 240, comparedF2: 97, decision: 'keep' },
-    { step: 3, point: 'C', f1: 340, f2: 76, g: 208, comparedF1: 300, comparedF2: 86, decision: 'missed' }
+    {
+      step: 1,
+      point: 'Sample (480, 95)',
+      f1: 480,
+      f2: 95,
+      g: 287.5,
+      comparedF1: 480,
+      comparedF2: 33,
+      comparedG: 256.5,
+      decision: 'discard',
+      decisionClass: 'tw-text-rose-400'
+    },
+    {
+      step: 2,
+      point: 'Candidate B',
+      f1: 140,
+      f2: 103,
+      g: 121.5,
+      comparedF1: 240,
+      comparedF2: 97,
+      comparedG: 168.5,
+      decision: 'keep',
+      decisionClass: 'tw-text-emerald-400'
+    },
+    {
+      step: 3,
+      point: 'Candidate C',
+      f1: 340,
+      f2: 76,
+      g: 208.0,
+      comparedF1: 300,
+      comparedF2: 86,
+      comparedG: 193.0,
+      decision: 'missed by scalar',
+      decisionClass: 'tw-text-amber-400'
+    }
   ]
 
   root.innerHTML = `
     <style>
-      #weighted-sum-demo .ws-layer { transition: opacity 0.35s ease; }
-      #weighted-sum-demo .ws-layer.ws-hidden { opacity: 0; }
-      #weighted-sum-demo .katex-display { font-size: 0.8em !important; margin: 0.35em 0 !important; }
-      #weighted-sum-demo table { font-size: 0.65rem; font-family: var(--family-serif, system-ui, serif); line-height: 1.4; }
+      #weighted-sum-demo .ws-layer { transition: opacity 0.35s ease, transform 0.35s ease; }
+      #weighted-sum-demo .ws-layer.ws-hidden { opacity: 0; pointer-events: none; }
+      #weighted-sum-demo .katex-display { font-size: 0.85em !important; margin: 0.35em 0 !important; }
+      #weighted-sum-demo table { font-size: 0.72rem; font-family: var(--family-serif, system-ui, serif); line-height: 1.5; }
       #weighted-sum-demo table th,
       #weighted-sum-demo table td {
         font-size: inherit;
         font-family: inherit;
         font-weight: inherit;
         line-height: inherit;
-        padding: 2px 6px;
+        padding: 3px 8px;
         vertical-align: middle;
       }
       #weighted-sum-demo table thead th {
@@ -95,8 +133,8 @@ export function initWeightedSumDemo(containerId = '#weighted-sum-demo') {
 
     <div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
       <div class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
-        <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">What a weighted sum can and cannot reach</div>
-        <div class="tw-font-serif tw-text-sm tw-text-[var(--grey-light)]">Setup + three sample decisions</div>
+        <div class="tw-font-sans tw-text-sm tw-font-semibold tw-text-primary">What a Weighted Sum Can and Cannot Reach</div>
+        <div class="tw-font-serif tw-text-sm tw-text-[var(--grey-light)]">Setup + 3 evaluation steps</div>
       </div>
 
       <div class="tw-grid tw-grid-cols-[335px_1fr] tw-gap-2.5 tw-p-2.5 tw-font-serif tw-text-[var(--grey-lighter)] max-[860px]:tw-grid-cols-1">
@@ -111,113 +149,137 @@ export function initWeightedSumDemo(containerId = '#weighted-sum-demo') {
             <button type="button" id="ws-btn-forward" class="${CTRL_BTN}" title="Step Forward">⏭</button>
           </div>
 
-          <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-2 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)] tw-min-h-[76px]" id="ws-desc"></div>
+          <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-2 tw-text-[0.8125rem] tw-leading-snug tw-text-[var(--grey-light)] tw-min-h-[85px]" id="ws-desc"></div>
         </div>
 
-        <!-- Right: the single animated SVG -->
-        <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-p-2">
-          <div class="tw-flex tw-items-center tw-gap-x-3 tw-gap-y-1 tw-flex-wrap tw-text-[0.75rem] tw-leading-snug tw-text-[var(--grey-light)] tw-mb-1">
-            <span class="tw-inline-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full tw-bg-[var(--grey)] tw-opacity-50"></span> already measured</span>
-            <span class="tw-inline-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full tw-bg-[#fbbf24] tw-border tw-border-[var(--grey-darker)]"></span> the sample this step decides on</span>
-            <span class="tw-inline-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full tw-bg-[var(--grey-darker)] tw-border tw-border-[rgb(var(--primary))]"></span> non-dominated (kept)</span>
+        <!-- Right: the animated SVG canvas -->
+        <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-p-2.5 tw-flex tw-flex-col tw-gap-2">
+          <div class="tw-flex tw-items-center tw-gap-x-3.5 tw-gap-y-1.5 tw-flex-wrap tw-text-[0.78rem] tw-leading-snug tw-text-[var(--grey-light)]">
+            <span class="tw-inline-flex tw-items-center tw-gap-1.5"><span class="tw-inline-block tw-w-2.5 tw-h-2.5 tw-rounded-full tw-bg-[var(--grey-darker)] tw-border-[1.8px] tw-border-[rgb(var(--primary))]"></span> Non-dominated frontier</span>
+            <span class="tw-inline-flex tw-items-center tw-gap-1.5"><span class="tw-inline-block tw-w-2.5 tw-h-2.5 tw-rounded-full tw-bg-[#fbbf24]"></span> Evaluated candidate</span>
+            <span class="tw-inline-flex tw-items-center tw-gap-1.5"><span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full tw-bg-[var(--grey)] tw-opacity-45"></span> Measured point</span>
           </div>
 
-          <svg viewBox="0 0 560 200" class="tw-w-full tw-h-auto tw-font-sans">
-            <!-- Base: axes + better corner -->
-            <line x1="70" y1="170" x2="540" y2="170" stroke="var(--grey)" stroke-width="1.5" />
-            <polygon points="540,165 552,170 540,175" fill="var(--grey)" />
-            <text x="305" y="190" fill="var(--grey-light)" font-size="11" text-anchor="middle">Latency &#8594; worse</text>
-            <line x1="70" y1="170" x2="70" y2="30" stroke="var(--grey)" stroke-width="1.5" />
-            <polygon points="65,30 70,18 75,30" fill="var(--grey)" />
-            <text x="55" y="100" fill="var(--grey-light)" font-size="11" transform="rotate(-90 55 100)" text-anchor="middle">Throughput &#8594; worse</text>
-            <text x="90" y="189" fill="#22c55e" font-size="11" font-weight="600" text-anchor="start">better</text>
-            <line x1="122" y1="185" x2="100" y2="195" stroke="#22c55e" stroke-width="1.5" />
-            <polygon points="100,195 96,187 106,190" fill="#22c55e" />
+          <svg viewBox="0 0 560 235" class="tw-w-full tw-h-auto tw-font-sans">
+            <!-- Grid Lines & Axes -->
+            <line x1="45" y1="200" x2="520" y2="200" stroke="var(--grey)" stroke-width="1.2" />
+            <polygon points="520,196 532,200 520,204" fill="var(--grey)" />
+            <text x="280" y="224" fill="var(--grey-light)" font-size="13.5" font-weight="600" text-anchor="middle">f₁: Latency / TTFT (ms) &#8594; (lower is better)</text>
+            <text x="500" y="192" fill="var(--grey-light)" font-size="11.5" text-anchor="end">worse &#8594;</text>
+            <text x="58" y="192" fill="#22c55e" font-size="11.5" font-weight="600" text-anchor="start">&#8592; better</text>
 
-            <!-- Gray scatter: already measured (all steps) -->
-            <g class="ws-layer">
-              <circle cx="176" cy="50" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="186" cy="38" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="197" cy="66" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="210" cy="36" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="216" cy="66" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="235" cy="36" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="261" cy="44" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="262" cy="63" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="276" cy="67" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="280" cy="54" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="295" cy="77" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="317" cy="41" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="340" cy="73" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="360" cy="75" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="387" cy="71" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="387" cy="53" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="413" cy="97" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="417" cy="73" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="434" cy="100" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="444" cy="74" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="463" cy="78" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="474" cy="91" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="475" cy="117" r="4" fill="var(--grey)" opacity="0.45" />
-              <circle cx="499" cy="110" r="4" fill="var(--grey)" opacity="0.45" />
+            <line x1="45" y1="200" x2="45" y2="20" stroke="var(--grey)" stroke-width="1.2" />
+            <polygon points="41,20 45,8 49,20" fill="var(--grey)" />
+            <text x="22" y="105" fill="var(--grey-light)" font-size="13.5" font-weight="600" transform="rotate(-90 22 105)" text-anchor="middle">f₂: Inverse TPS &#8594; (lower is better)</text>
+
+            <!-- Gray Measured Scatter (Background) -->
+            <g opacity="0.40">
+              <circle cx="176" cy="70" r="3.5" fill="var(--grey)" />
+              <circle cx="186" cy="58" r="3.5" fill="var(--grey)" />
+              <circle cx="197" cy="86" r="3.5" fill="var(--grey)" />
+              <circle cx="210" cy="56" r="3.5" fill="var(--grey)" />
+              <circle cx="216" cy="86" r="3.5" fill="var(--grey)" />
+              <circle cx="235" cy="56" r="3.5" fill="var(--grey)" />
+              <circle cx="261" cy="64" r="3.5" fill="var(--grey)" />
+              <circle cx="262" cy="83" r="3.5" fill="var(--grey)" />
+              <circle cx="276" cy="87" r="3.5" fill="var(--grey)" />
+              <circle cx="280" cy="74" r="3.5" fill="var(--grey)" />
+              <circle cx="295" cy="97" r="3.5" fill="var(--grey)" />
+              <circle cx="317" cy="61" r="3.5" fill="var(--grey)" />
+              <circle cx="360" cy="95" r="3.5" fill="var(--grey)" />
+              <circle cx="387" cy="91" r="3.5" fill="var(--grey)" />
+              <circle cx="387" cy="73" r="3.5" fill="var(--grey)" />
+              <circle cx="413" cy="117" r="3.5" fill="var(--grey)" />
+              <circle cx="417" cy="93" r="3.5" fill="var(--grey)" />
+              <circle cx="434" cy="120" r="3.5" fill="var(--grey)" />
+              <circle cx="444" cy="94" r="3.5" fill="var(--grey)" />
+              <circle cx="463" cy="98" r="3.5" fill="var(--grey)" />
+              <circle cx="474" cy="111" r="3.5" fill="var(--grey)" />
             </g>
 
-            <!-- Frontier: kept non-dominated points so far. B and C are
-                 introduced as samples in their own steps, so they are not
-                 part of the base frontier. -->
-            <g class="ws-layer">
-              <circle cx="240" cy="73" r="5" fill="var(--grey-darker)" stroke="rgb(var(--primary))" stroke-width="1.5" />
-              <circle cx="300" cy="84" r="5" fill="var(--grey-darker)" stroke="rgb(var(--primary))" stroke-width="1.5" />
-              <circle cx="420" cy="116" r="5" fill="var(--grey-darker)" stroke="rgb(var(--primary))" stroke-width="1.5" />
-              <circle cx="480" cy="137" r="5" fill="var(--grey-darker)" stroke="rgb(var(--primary))" stroke-width="1.5" />
-              <circle cx="540" cy="152" r="5" fill="var(--grey-darker)" stroke="rgb(var(--primary))" stroke-width="1.5" />
+            <!-- Base Frontier Line (4 points) -->
+            <path id="ws-base-frontier" class="ws-layer" d="M 240 93 L 300 104 L 420 136 L 480 157" fill="none" stroke="rgba(var(--primary), 0.35)" stroke-width="1.6" stroke-dasharray="4 3" />
+            <!-- Updated Frontier with B added in Step 2/3 -->
+            <path id="ws-updated-frontier" class="ws-layer ws-hidden" d="M 140 87 L 240 93 L 300 104 L 420 136 L 480 157" fill="none" stroke="rgba(var(--primary), 0.5)" stroke-width="2" stroke-dasharray="4 3" />
+
+            <!-- Base Frontier 4 Points -->
+            <g id="ws-frontier-points">
+              <circle cx="240" cy="93" r="5.5" fill="var(--grey-darker)" stroke="rgb(var(--primary))" stroke-width="2" />
+              <text x="240" y="80" fill="var(--grey-light)" font-size="11.5" font-weight="600" text-anchor="middle">(240, 97)</text>
+
+              <circle cx="300" cy="104" r="5.5" fill="var(--grey-darker)" stroke="rgb(var(--primary))" stroke-width="2" id="ws-pt-300" />
+              <text x="300" y="92" fill="var(--grey-light)" font-size="11.5" font-weight="600" text-anchor="middle">(300, 86)</text>
+
+              <circle cx="420" cy="136" r="5.5" fill="var(--grey-darker)" stroke="rgb(var(--primary))" stroke-width="2" />
+              <text x="420" y="124" fill="var(--grey-light)" font-size="11.5" font-weight="600" text-anchor="middle">(420, 54)</text>
+
+              <circle cx="480" cy="157" r="5.5" fill="var(--grey-darker)" stroke="rgb(var(--primary))" stroke-width="2" id="ws-pt-480" />
+              <text x="480" y="174" fill="var(--grey-light)" font-size="11.5" font-weight="600" text-anchor="middle">(480, 33)</text>
             </g>
 
-            <!-- Step 1: dominated sample -->
+            <!-- Step 1: Dominated Sample Point -->
             <g class="ws-layer ws-hidden" id="ws-layer-s1">
-              <circle cx="480" cy="75" r="6" fill="#fbbf24" stroke="var(--grey-darker)" stroke-width="1.5" />
-              <line x1="480" y1="75" x2="480" y2="137" stroke="var(--grey)" stroke-width="1" stroke-dasharray="3 3" />
-              <circle cx="480" cy="137" r="6" fill="var(--grey-darker)" stroke="rgb(var(--primary))" stroke-width="2" />
-              <text x="486" y="68" fill="var(--grey-lighter)" font-size="11" text-anchor="start">g = 287.5</text>
-              <text x="486" y="150" fill="var(--grey-light)" font-size="11" text-anchor="start">g = 256.5</text>
+              <line x1="480" y1="95" x2="480" y2="157" stroke="#ef4444" stroke-width="1.6" stroke-dasharray="3 3" />
+              <circle cx="480" cy="95" r="6" fill="#fbbf24" stroke="var(--grey-darker)" stroke-width="1.6" />
+              <text x="468" y="92" fill="#fbbf24" font-size="13" font-weight="700" text-anchor="end">Sample (480, 95)</text>
+              <rect x="290" y="24" width="225" height="58" rx="6" fill="var(--grey-darker)" stroke="#ef4444" stroke-width="1.2" />
+              <text x="300" y="44" fill="#ef4444" font-size="12.5" font-weight="700">Dominated by (480, 33)</text>
+              <text x="300" y="62" fill="var(--grey-lighter)" font-size="11.5">g(sample) = 287.5 > g = 256.5</text>
+              <text x="300" y="76" fill="var(--grey-light)" font-size="10.5">Identical latency, -62 tok/s tput</text>
             </g>
 
-            <!-- Step 2: supported B -->
+            <!-- Step 2: Supported Point B -->
             <g class="ws-layer ws-hidden" id="ws-layer-s2">
-              <circle cx="140" cy="67" r="6" fill="#fbbf24" stroke="var(--grey-darker)" stroke-width="1.5" />
-              <text x="150" y="54" fill="var(--grey-lighter)" font-size="12" font-weight="bold" text-anchor="start">B</text>
-              <line x1="140" y1="67" x2="240" y2="73" stroke="var(--grey)" stroke-width="1" stroke-dasharray="3 3" />
-              <circle cx="240" cy="73" r="6" fill="var(--grey-darker)" stroke="rgb(var(--primary))" stroke-width="2" />
-              <text x="150" y="92" fill="var(--grey-lighter)" font-size="11" text-anchor="start">g = 121.5</text>
-              <text x="250" y="92" fill="var(--grey-light)" font-size="11" text-anchor="start">g = 168.5</text>
+              <line x1="140" y1="87" x2="240" y2="93" stroke="#22c55e" stroke-width="1.6" stroke-dasharray="3 3" />
+              <circle cx="140" cy="87" r="6.5" fill="#22c55e" stroke="var(--grey-darker)" stroke-width="2" />
+              <text x="140" y="74" fill="#22c55e" font-size="13.5" font-weight="700" text-anchor="middle">Cand. B (140, 103)</text>
+              <rect x="54" y="24" width="215" height="58" rx="6" fill="var(--grey-darker)" stroke="#22c55e" stroke-width="1.2" />
+              <text x="64" y="44" fill="#22c55e" font-size="12.5" font-weight="700">Supported Breakthrough</text>
+              <text x="64" y="62" fill="var(--grey-lighter)" font-size="11.5">g(B) = 121.5 (beats nearest 168.5)</text>
+              <text x="64" y="76" fill="var(--grey-light)" font-size="10.5">Convex point: reachable by scalar sum</text>
             </g>
 
-            <!-- Step 3: unsupported C (a legitimate frontier trade-off the weighted sum ranks lower) -->
+            <!-- Step 3: Unsupported Point C in Concave Pocket (Compared directly with (300, 86)) -->
             <g class="ws-layer ws-hidden" id="ws-layer-s3">
-              <circle cx="140" cy="67" r="5" fill="var(--grey-darker)" stroke="rgb(var(--primary))" stroke-width="1.5" />
-              <circle cx="340" cy="94" r="6" fill="#fbbf24" stroke="var(--grey-darker)" stroke-width="1.5" />
-              <text x="350" y="112" fill="rgb(var(--primary))" font-size="12" font-weight="bold" text-anchor="start">C</text>
-              <text x="350" y="126" fill="var(--grey-lighter)" font-size="11" text-anchor="start">g = 208</text>
-              <line x1="340" y1="94" x2="300" y2="84" stroke="var(--grey)" stroke-width="1" stroke-dasharray="3 3" />
-              <circle cx="300" cy="84" r="6" fill="var(--grey-darker)" stroke="rgb(var(--primary))" stroke-width="2" />
-              <text x="292" y="74" fill="var(--grey-lighter)" font-size="11" text-anchor="end">g = 193</text>
+              <!-- Point B remains part of frontier -->
+              <circle cx="140" cy="87" r="5" fill="var(--grey-darker)" stroke="rgb(var(--primary))" stroke-width="1.8" />
+              
+              <!-- Direct comparison connector to (300, 86) -->
+              <line x1="340" y1="114" x2="300" y2="104" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="3 3" />
+              <circle cx="300" cy="104" r="6.5" fill="var(--grey-darker)" stroke="rgb(var(--primary))" stroke-width="2.2" />
+              <text x="292" y="76" fill="var(--grey-lighter)" font-size="12" font-weight="700" text-anchor="end">g = 193.0</text>
+
+              <!-- Candidate C inside concave bend with label directly below -->
+              <circle cx="340" cy="114" r="6.5" fill="#fbbf24" stroke="var(--grey-darker)" stroke-width="2" />
+              <text x="340" y="136" fill="#fbbf24" font-size="13" font-weight="700" text-anchor="middle">Cand. C (340, 76)</text>
+              <text x="352" y="152" fill="#fbbf24" font-size="12" font-weight="600" text-anchor="start">g = 208.0</text>
+
+              <!-- Callout Box -->
+              <rect x="54" y="24" width="225" height="66" rx="6" fill="var(--grey-darker)" stroke="#f59e0b" stroke-width="1.2" />
+              <text x="64" y="44" fill="#f59e0b" font-size="12.5" font-weight="700">Non-Convex / Concave Region</text>
+              <text x="64" y="62" fill="#22c55e" font-size="11.5">Pareto: Optimal (no point beats C)</text>
+              <text x="64" y="79" fill="var(--grey-light)" font-size="11">Weighted Sum: g(C)=208 > 193 (missed!)</text>
             </g>
           </svg>
 
-          <div class="tw-mt-2 tw-flex tw-flex-col tw-items-center tw-gap-0.5">
+          <!-- Mathematical Formula -->
+          <div class="tw-flex tw-flex-col tw-items-center tw-gap-0.5 tw-mt-0.5">
             <div class="ws-formula tw-text-[var(--grey-lighter)]"></div>
-              <div class="tw-text-[0.7rem] tw-leading-snug tw-text-[var(--grey-light)]"><strong class="tw-text-[var(--grey-lighter)]">lower is better</strong> &#183; 170 = best throughput on the axis</div>
+            <div class="tw-text-[0.72rem] tw-leading-snug tw-text-[var(--grey-light)]">
+              <strong class="tw-text-[var(--grey-lighter)]">lower is better</strong> &#183; 170 = best throughput on axis
             </div>
+          </div>
 
-          <table class="tw-mt-1 tw-w-full tw-border-collapse tw-text-[0.65rem] tw-leading-snug" id="ws-table">
+          <!-- Complete Comparison Table showing active frontier & candidate evaluations -->
+          <table class="tw-w-full tw-border-collapse tw-mt-1" id="ws-table">
             <thead>
-              <tr class="tw-font-sans tw-text-[var(--grey-light)]">
-                <th class="tw-text-left tw-font-semibold tw-px-1.5 tw-py-0.5 tw-border-b tw-border-[var(--ring-border)]">Point</th>
-                <th class="tw-text-right tw-font-semibold tw-px-1.5 tw-py-0.5 tw-border-b tw-border-[var(--ring-border)]">f&#8321;</th>
-                <th class="tw-text-right tw-font-semibold tw-px-1.5 tw-py-0.5 tw-border-b tw-border-[var(--ring-border)]">f&#8322; (&#8722;tput)</th>
-                <th class="tw-text-right tw-font-semibold tw-px-1.5 tw-py-0.5 tw-border-b tw-border-[var(--ring-border)]">g</th>
-                <th class="tw-text-right tw-font-semibold tw-px-1.5 tw-py-0.5 tw-border-b tw-border-[var(--ring-border)]">vs g</th>
-                <th class="tw-text-left tw-font-semibold tw-px-1.5 tw-py-0.5 tw-border-b tw-border-[var(--ring-border)]">decision</th>
+              <tr class="tw-font-sans tw-text-[var(--grey-light)] tw-border-b tw-border-[var(--ring-border)]">
+                <th class="tw-text-left tw-font-semibold">Point</th>
+                <th class="tw-text-right tw-font-semibold">f₁ (TTFT)</th>
+                <th class="tw-text-right tw-font-semibold">f₂ (Inv. TPS)</th>
+                <th class="tw-text-right tw-font-semibold">g(x)</th>
+                <th class="tw-text-right tw-font-semibold">vs. g</th>
+                <th class="tw-text-left tw-font-semibold">Decision</th>
               </tr>
             </thead>
             <tbody id="ws-table-body" class="tw-text-[var(--grey-light)]"></tbody>
@@ -230,17 +292,19 @@ export function initWeightedSumDemo(containerId = '#weighted-sum-demo') {
   const stepPipeline = root.querySelector('#ws-step-pipeline')
   const descEl = root.querySelector('#ws-desc')
   const tableBody = root.querySelector('#ws-table-body')
-  const tableEl = root.querySelector('#ws-table')
   const formulaEl = root.querySelector('.ws-formula')
   const playBtn = root.querySelector('#ws-btn-play')
   const playText = root.querySelector('#ws-play-text')
   const backBtn = root.querySelector('#ws-btn-back')
   const forwardBtn = root.querySelector('#ws-btn-forward')
   const resetBtn = root.querySelector('#ws-btn-reset')
+
   const layers = {
     s1: root.querySelector('#ws-layer-s1'),
     s2: root.querySelector('#ws-layer-s2'),
-    s3: root.querySelector('#ws-layer-s3')
+    s3: root.querySelector('#ws-layer-s3'),
+    baseFrontier: root.querySelector('#ws-base-frontier'),
+    updatedFrontier: root.querySelector('#ws-updated-frontier')
   }
 
   let currentStep = 0
@@ -251,66 +315,95 @@ export function initWeightedSumDemo(containerId = '#weighted-sum-demo') {
     preactRender(
       html`
         <div class="tw-flex tw-flex-col tw-gap-1">
-          ${STEPS.map((s, i) => html`
-            <${StepRow}
-              key=${i}
-              stepNumber=${i === 0 ? 'S' : i}
-              title=${s.name}
-              description=${s.shortDesc}
-              isCompleted=${i < currentStep}
-              isActive=${i === currentStep}
-              isAnimating=${isPlaying && i === currentStep} />
-          `)}
+          ${STEPS.map(
+            (s, idx) => html`
+              <${StepRow}
+                key=${idx}
+                stepNumber=${idx === 0 ? 'S' : idx}
+                title=${s.name}
+                description=${s.shortDesc}
+                isActive=${currentStep === idx}
+                isCompleted=${idx < currentStep}
+                isAnimating=${isPlaying && idx === currentStep}
+              />
+            `
+          )}
         </div>
       `,
       stepPipeline
     )
   }
 
-  function renderTable() {
-    // The frontier is always listed; the current step's candidate row sits below.
+  function updateTable() {
     const candidate = CANDIDATES.find((c) => c.step === currentStep)
-    tableEl.style.display = 'none'
+    const activeFrontier = FRONTIER_POINTS.filter(
+      (f) => f.since === undefined || currentStep >= f.since
+    )
+
     const rows = []
-    FRONTIER_POINTS.filter((f) => (f.since === undefined ? true : currentStep >= f.since)).forEach((f, i) => {
-      const compared = candidate && candidate.comparedF1 === f.f1 && candidate.comparedF2 === f.f2
+
+    // 1. Render all active frontier points
+    activeFrontier.forEach((f) => {
+      const isCompared =
+        candidate && candidate.comparedF1 === f.f1 && candidate.comparedF2 === f.f2
       rows.push(`
-        <tr class="${compared ? 'tw-bg-primary-soft tw-text-[var(--grey-lighter)]' : 'tw-text-[var(--grey-light)]'}">
-          <td class="tw-px-1.5 tw-py-1 tw-border-b tw-border-[var(--ring-border)] tw-font-mono">${f.point}</td>
-          <td class="tw-px-1.5 tw-py-1 tw-border-b tw-border-[var(--ring-border)] tw-text-right tw-font-mono">${f.f1}</td>
-          <td class="tw-px-1.5 tw-py-1 tw-border-b tw-border-[var(--ring-border)] tw-text-right tw-font-mono">${f.f2}</td>
-          <td class="tw-px-1.5 tw-py-1 tw-border-b tw-border-[var(--ring-border)] tw-text-right tw-font-mono">${f.g}</td>
-          <td class="tw-px-1.5 tw-py-1 tw-border-b tw-border-[var(--ring-border)]"></td>
-          <td class="tw-px-1.5 tw-py-1 tw-border-b tw-border-[var(--ring-border)] tw-font-semibold tw-text-[var(--grey-light)]">frontier</td>
+        <tr class="tw-border-b tw-border-[var(--ring-border)]/50 ${
+          isCompared ? 'tw-bg-primary-soft tw-text-[var(--grey-lighter)]' : ''
+        }">
+          <td class="tw-font-mono tw-font-semibold tw-text-[var(--grey-lighter)]">${f.point}</td>
+          <td class="tw-text-right tw-font-mono">${f.f1}</td>
+          <td class="tw-text-right tw-font-mono">${f.f2}</td>
+          <td class="tw-text-right tw-font-mono tw-font-bold tw-text-primary">${f.g.toFixed(1)}</td>
+          <td class="tw-text-right tw-font-mono tw-text-[var(--grey-light)]">—</td>
+          <td class="tw-font-semibold tw-text-[var(--grey-light)]">frontier</td>
         </tr>
       `)
     })
+
+    // 2. Render candidate being evaluated in current step
     if (candidate) {
       rows.push(`
-        <tr class="tw-bg-primary-soft tw-text-[var(--grey-lighter)]">
-          <td class="tw-px-1.5 tw-py-1 tw-border-b tw-border-[var(--ring-border)] tw-font-mono">${candidate.point}</td>
-          <td class="tw-px-1.5 tw-py-1 tw-border-b tw-border-[var(--ring-border)] tw-text-right tw-font-mono">${candidate.f1}</td>
-          <td class="tw-px-1.5 tw-py-1 tw-border-b tw-border-[var(--ring-border)] tw-text-right tw-font-mono">${candidate.f2}</td>
-          <td class="tw-px-1.5 tw-py-1 tw-border-b tw-border-[var(--ring-border)] tw-text-right tw-font-mono">${candidate.g}</td>
-          <td class="tw-px-1.5 tw-py-1 tw-border-b tw-border-[var(--ring-border)] tw-text-right tw-font-mono">${FRONTIER_POINTS.find((f) => f.f1 === candidate.comparedF1 && f.f2 === candidate.comparedF2).g}</td>
-          <td class="tw-px-1.5 tw-py-1 tw-border-b tw-border-[var(--ring-border)] ${candidate.decision === 'keep' ? 'tw-text-[#22c55e]' : candidate.decision === 'discard' ? 'tw-text-[#ef4444]' : 'tw-text-primary'} tw-font-semibold">${candidate.decision}</td>
+        <tr class="tw-border-b tw-border-[var(--ring-border)]/50 tw-bg-amber-500/15 tw-text-[var(--grey-lighter)]">
+          <td class="tw-font-mono tw-font-bold tw-text-amber-400">${candidate.point}</td>
+          <td class="tw-text-right tw-font-mono">${candidate.f1}</td>
+          <td class="tw-text-right tw-font-mono">${candidate.f2}</td>
+          <td class="tw-text-right tw-font-mono tw-font-bold tw-text-amber-400">${candidate.g.toFixed(1)}</td>
+          <td class="tw-text-right tw-font-mono tw-text-[var(--grey-lighter)]">${candidate.comparedG.toFixed(1)}</td>
+          <td class="tw-font-bold ${candidate.decisionClass}">${candidate.decision}</td>
         </tr>
       `)
     }
-    tableEl.style.display = ''
+
     tableBody.innerHTML = rows.join('')
   }
 
   function render() {
     renderStepRows()
-    descEl.textContent = STEPS[currentStep].desc
-    renderTable()
-    if (formulaEl) formulaEl.innerHTML = renderMath('\\begin{aligned} g(x) &= 0.5\\, f_1(x) + 0.5\\, f_2(x) \\\\ f_1(x) &= x = \\text{latency} \\\\ f_2(x) &= 170 - y = \\text{inverse throughput} \\end{aligned}')
+    descEl.innerHTML = renderTextWithMath(STEPS[currentStep].desc)
+    updateTable()
 
+    if (formulaEl) {
+      formulaEl.innerHTML = renderMath(
+        'g(x) = 0.5\\, f_1(x) + 0.5\\, f_2(x)'
+      )
+    }
+
+    // Control layer visibility
     layers.s1.classList.toggle('ws-hidden', currentStep !== 1)
     layers.s2.classList.toggle('ws-hidden', currentStep !== 2)
     layers.s3.classList.toggle('ws-hidden', currentStep !== 3)
 
+    if (layers.updatedFrontier && layers.baseFrontier) {
+      if (currentStep >= 2) {
+        layers.baseFrontier.classList.add('ws-hidden')
+        layers.updatedFrontier.classList.remove('ws-hidden')
+      } else {
+        layers.baseFrontier.classList.remove('ws-hidden')
+        layers.updatedFrontier.classList.add('ws-hidden')
+      }
+    }
+
+    // Button state
     backBtn.disabled = currentStep === 0
     resetBtn.disabled = currentStep === 0
     forwardBtn.disabled = currentStep === STEPS.length - 1
@@ -341,6 +434,7 @@ export function initWeightedSumDemo(containerId = '#weighted-sum-demo') {
     }
     isPlaying = true
     render()
+
     const advance = () => {
       timer = setTimeout(() => {
         if (!isPlaying) return
@@ -351,7 +445,7 @@ export function initWeightedSumDemo(containerId = '#weighted-sum-demo') {
         } else {
           stop()
         }
-      }, 1800)
+      }, 2200)
     }
     advance()
   }

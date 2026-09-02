@@ -117,7 +117,7 @@ export function playMetronomeClick(
   osc.frequency.setValueAtTime(isAccent ? 1350 : 850, time)
   osc.frequency.exponentialRampToValueAtTime(isAccent ? 600 : 400, time + 0.025)
 
-  gain.gain.setValueAtTime(isAccent ? 0.65 : 0.40, time)
+  gain.gain.setValueAtTime(isAccent ? 0.35 : 0.20, time)
   gain.gain.exponentialRampToValueAtTime(0.001, time + 0.035)
 
   osc.connect(gain)
@@ -505,10 +505,10 @@ class PlayerStore {
     const activeNodes = []
 
     const masterGain = ctx.createGain()
-    masterGain.gain.setValueAtTime(0.85, startTime)
+    masterGain.gain.setValueAtTime(0.35, startTime)
     if (!this.state.isContinuous) {
       const fadeStart = startTime + Math.max(0, phrase.duration - 0.2)
-      masterGain.gain.setValueAtTime(0.85, fadeStart)
+      masterGain.gain.setValueAtTime(0.35, fadeStart)
       masterGain.gain.linearRampToValueAtTime(0.001, startTime + phrase.duration + 0.4)
     }
     masterGain.connect(ctx.destination)

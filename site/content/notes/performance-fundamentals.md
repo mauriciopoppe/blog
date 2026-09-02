@@ -21,8 +21,8 @@ Understanding how these metrics interact is essential for capacity planning, siz
 
 Latency measures the elapsed time required to process a request transaction. It is observed from two distinct system boundaries:
 
-<div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 940 375" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 15px; border: 1px solid var(--grey-dark); box-sizing: border-box; margin: 1.5rem 0;">
+<div style="display: flex; justify-content: center; margin: 1.5rem 0;">
+<svg viewBox="0 0 940 375" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 15px; border: 1px solid var(--grey-dark); box-sizing: border-box;">
   <defs>
     <marker id="arrow-themed-latency" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgb(var(--primary))" />
@@ -85,8 +85,8 @@ Latency measures the elapsed time required to process a request transaction. It 
 
 Throughput measures the rate of completed requests per unit of time ($\lambda = \frac{N_{\text{completed}}}{\Delta t}$, e.g. Requests Per Second):
 
-<div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 880 365" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 18px; border: 1px solid var(--grey-dark); box-sizing: border-box; margin: 1.5rem 0;">
+<div style="display: flex; justify-content: center; margin: 1.5rem 0;">
+<svg viewBox="0 0 880 365" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 18px; border: 1px solid var(--grey-dark); box-sizing: border-box;">
   <defs>
     <marker id="arrow-themed-throughput" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--grey-lighter)" />
@@ -152,8 +152,8 @@ How many people ($L$) are inside at any given snapshot?
 - Anyone who entered earlier than 5 minutes ago has already exited.
 - Therefore, at any instant, there are **$10$ people inside**:
 
-<div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 880 200" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid var(--grey-dark); box-sizing: border-box; margin: 1.5rem 0;">
+<div style="display: flex; justify-content: center; margin: 1.5rem 0;">
+<svg viewBox="0 0 880 200" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid var(--grey-dark); box-sizing: border-box;">
   <defs>
     <marker id="arr-pipe-flow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(171, 171, 171, 0.5)" />
@@ -210,8 +210,8 @@ Imagine a bookstore or reading lounge: visitors enter at rate $\lambda$, spend a
 
 Little's Law applies to **any boundary you choose to draw**, as long as the arrival rate equals the departure rate in steady state:
 
-<div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 880 235" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid var(--grey-dark); box-sizing: border-box; margin: 1.5rem 0;">
+<div style="display: flex; justify-content: center; margin: 1.5rem 0;">
+<svg viewBox="0 0 880 235" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid var(--grey-dark); box-sizing: border-box;">
   <defs>
     <marker id="arr-littles" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(171, 171, 171, 0.5)" />
@@ -264,8 +264,8 @@ Little's Law applies to **any boundary you choose to draw**, as long as the arri
 
 ### Practical Systems Applications
 
-<div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 880 240" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid var(--grey-dark); box-sizing: border-box; margin: 1.5rem 0;">
+<div style="display: flex; justify-content: center; margin: 1.5rem 0;">
+<svg viewBox="0 0 880 240" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid var(--grey-dark); box-sizing: border-box;">
   <!-- Normal Operation Card -->
   <rect x="20" y="20" width="405" height="195" rx="8" fill="var(--grey-dark)" stroke="rgba(129, 199, 132, 0.4)" stroke-width="1" />
   <text x="222" y="48" fill="#81c784" font-size="14" font-weight="700" text-anchor="middle">Normal State: Fast Latency (W = 50 ms)</text>
@@ -308,8 +308,8 @@ At any single instant $t$, a worker core is in a binary state (computing or idle
 - **Total Cluster Capacity ($c \cdot \mu$)**: The maximum throughput achievable across all $c$ parallel worker cores (e.g. $c = 2\text{ cores} \times 100\text{ req/s} = 200\text{ req/s}$).
 - **Utilization ($\rho = \frac{\text{Demand}}{\text{Capacity}} = \frac{\lambda}{c \cdot \mu}$)**: The proportion of capacity in use (e.g. $\frac{150\text{ req/s}}{200\text{ req/s}} = 75\%$).
 
-<div style="display: flex; justify-content: center; margin: 2rem 0;">
-<svg viewBox="0 0 880 340" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 18px; border: 1px solid var(--grey-dark); box-sizing: border-box; margin: 1.5rem 0;">
+<div style="display: flex; justify-content: center; margin: 1.5rem 0;">
+<svg viewBox="0 0 880 340" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 18px; border: 1px solid var(--grey-dark); box-sizing: border-box;">
   <defs>
     <marker id="arrow-themed-util" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--grey-lighter)" />
@@ -319,7 +319,7 @@ At any single instant $t$, a worker core is in a binary state (computing or idle
   <text x="30" y="64" fill="var(--grey-lighter)" font-size="15" font-weight="normal">Worker 1</text>
   <rect x="140" y="45" width="200" height="28" rx="5" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="240" y="64" fill="var(--grey-lighter)" font-size="13" font-weight="normal" text-anchor="middle">Busy (4.0s)</text>
-  <rect x="340" y="45" width="100" height="28" rx="5" fill="rgba(var(--grey-dark))" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" stroke-dasharray="3 2" />
+  <rect x="340" y="45" width="100" height="28" rx="5" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1" stroke-dasharray="4 3" />
   <text x="390" y="64" fill="var(--grey-light)" font-size="13" font-weight="normal" text-anchor="middle">Idle (2.0s)</text>
   <rect x="440" y="45" width="200" height="28" rx="5" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="540" y="64" fill="var(--grey-lighter)" font-size="13" font-weight="normal" text-anchor="middle">Busy (4.0s)</text>
@@ -328,7 +328,7 @@ At any single instant $t$, a worker core is in a binary state (computing or idle
   <text x="30" y="114" fill="var(--grey-lighter)" font-size="15" font-weight="normal">Worker 2</text>
   <rect x="140" y="95" width="120" height="28" rx="5" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="200" y="114" fill="var(--grey-lighter)" font-size="13" font-weight="normal" text-anchor="middle">Busy (2.4s)</text>
-  <rect x="260" y="95" width="130" height="28" rx="5" fill="rgba(var(--grey-dark))" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" stroke-dasharray="3 2" />
+  <rect x="260" y="95" width="130" height="28" rx="5" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1" stroke-dasharray="4 3" />
   <text x="325" y="114" fill="var(--grey-light)" font-size="13" font-weight="normal" text-anchor="middle">Idle (2.6s)</text>
   <rect x="390" y="95" width="250" height="28" rx="5" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="515" y="114" fill="var(--grey-lighter)" font-size="13" font-weight="normal" text-anchor="middle">Busy (5.0s)</text>
@@ -337,7 +337,7 @@ At any single instant $t$, a worker core is in a binary state (computing or idle
   <text x="30" y="164" fill="var(--grey-lighter)" font-size="15" font-weight="normal">Worker 3</text>
   <rect x="140" y="145" width="250" height="28" rx="5" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="265" y="164" fill="var(--grey-lighter)" font-size="13" font-weight="normal" text-anchor="middle">Busy (5.0s)</text>
-  <rect x="390" y="145" width="100" height="28" rx="5" fill="rgba(var(--grey-dark))" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" stroke-dasharray="3 2" />
+  <rect x="390" y="145" width="100" height="28" rx="5" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1" stroke-dasharray="4 3" />
   <text x="440" y="164" fill="var(--grey-light)" font-size="13" font-weight="normal" text-anchor="middle">Idle (2.0s)</text>
   <rect x="490" y="145" width="150" height="28" rx="5" fill="rgba(var(--primary), 0.35)" stroke="rgb(var(--primary))" stroke-width="1.5" />
   <text x="565" y="164" fill="var(--grey-lighter)" font-size="13" font-weight="normal" text-anchor="middle">Busy (3.0s)</text>

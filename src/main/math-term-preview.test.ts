@@ -82,6 +82,14 @@ describe('Math & Systems Term Dictionary', () => {
     expect(normalizeTermKey('\\text{TPOT}', allTerms)).toBe('TPOT')
     expect(normalizeTermKey('tps', allTerms)).toBe('TPS')
 
+    expect(normalizeTermKey('\\vec{\\sigma}_{\\text{noise}}', allTerms)).toBe('sigma_noise')
+    expect(normalizeTermKey('\\sigma_{\\text{noise}}', allTerms)).toBe('sigma_noise')
+    expect(normalizeTermKey('sigma_noise', allTerms)).toBe('sigma_noise')
+
+    expect(normalizeTermKey('\\vec{\\delta}_{\\text{min}}', allTerms)).toBe('delta_min')
+    expect(normalizeTermKey('\\delta_{\\text{min}}', allTerms)).toBe('delta_min')
+    expect(normalizeTermKey('delta_min', allTerms)).toBe('delta_min')
+
     // Case-sensitive single-letter symbols: units like 's' (seconds) must NOT match 'S' (Service Time)
     expect(normalizeTermKey('S', allTerms)).toBe('S')
     expect(normalizeTermKey('s', allTerms)).toBeNull()

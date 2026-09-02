@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 490" width="860" height="490" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <!-- Main Background Canvas -->
+  <rect x="0" y="0" width="860" height="490" fill="#18181b" rx="12" stroke="#27272a" stroke-width="1.5" />
+
+  <!-- Top Legend & Header Bar -->
+  <g transform="translate(24, 28)">
+    <text x="0" y="0" fill="#f4f4f5" font-size="14" font-weight="700">Trade-Off Plane &amp; Noise-Aware Pareto Frontier</text>
+    
+    <!-- Legend Badges -->
+    <g transform="translate(420, -5)">
+      <!-- Frontier point -->
+      <circle cx="0" cy="0" r="5" fill="#18181b" stroke="#f43f5e" stroke-width="2" />
+      <text x="12" y="4" fill="#a1a1aa" font-size="12">Frontier point</text>
+
+      <!-- Baseline x0 -->
+      <g transform="translate(110, 0)">
+        <polygon points="0,-5 5,0 0,5 -5,0" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
+        <text x="12" y="4" fill="#a1a1aa" font-size="12">Baseline x₀</text>
+      </g>
+
+      <!-- Noise Band -->
+      <g transform="translate(210, 0)">
+        <rect x="-6" y="-5" width="12" height="10" rx="2" fill="rgba(244, 63, 94, 0.2)" stroke="rgba(244, 63, 94, 0.6)" stroke-width="1" />
+        <text x="12" y="4" fill="#a1a1aa" font-size="12">±1% noise band</text>
+      </g>
+
+      <!-- Candidate -->
+      <g transform="translate(330, 0)">
+        <circle cx="0" cy="0" r="5" fill="#fbbf24" stroke="#18181b" stroke-width="1" />
+        <text x="12" y="4" fill="#a1a1aa" font-size="12">Candidate</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Divider Line -->
+  <line x1="24" y1="44" x2="836" y2="44" stroke="#27272a" stroke-width="1" />
+
+  <!-- Coordinate Axes -->
+  <line x1="80" y1="425" x2="810" y2="425" stroke="#52525b" stroke-width="1.6" />
+  <polygon points="810,419 826,425 810,431" fill="#52525b" />
+  <text x="445" y="465" fill="#a1a1aa" font-size="15" font-weight="700" text-anchor="middle">TTFT Latency &#8594; (lower is better)</text>
+  <text x="790" y="415" fill="#a1a1aa" font-size="13" font-weight="600" text-anchor="end">worse &#8594;</text>
+  <text x="95" y="415" fill="#22c55e" font-size="13" font-weight="700" text-anchor="start">&#8592; better</text>
+
+  <line x1="80" y1="425" x2="80" y2="70" stroke="#52525b" stroke-width="1.6" />
+  <polygon points="74,70 80,54 86,70" fill="#52525b" />
+  <text x="38" y="245" fill="#a1a1aa" font-size="15" font-weight="700" transform="rotate(-90 38 245)" text-anchor="middle">Throughput / TPS &#8594; (higher is better)</text>
+  <text x="95" y="82" fill="#22c55e" font-size="13" font-weight="700">&#8593; better</text>
+
+  <!-- Background Suboptimal Runs -->
+  <g opacity="0.25">
+    <circle cx="180" cy="375" r="4.5" fill="#71717a" />
+    <circle cx="260" cy="385" r="4.5" fill="#71717a" />
+    <circle cx="340" cy="345" r="4.5" fill="#71717a" />
+    <circle cx="430" cy="305" r="4.5" fill="#71717a" />
+    <circle cx="520" cy="265" r="4.5" fill="#71717a" />
+    <circle cx="610" cy="215" r="4.5" fill="#71717a" />
+    <circle cx="690" cy="165" r="4.5" fill="#71717a" />
+    <circle cx="400" cy="385" r="4.5" fill="#71717a" />
+    <circle cx="550" cy="335" r="4.5" fill="#71717a" />
+  </g>
+
+  <!-- Baseline Grounding Rays (Anchored to x0) -->
+  <line x1="560" y1="325" x2="160" y2="355" stroke="#38bdf8" stroke-width="1.4" stroke-dasharray="4 3" opacity="0.7" />
+  <line x1="560" y1="325" x2="720" y2="115" stroke="#38bdf8" stroke-width="1.4" stroke-dasharray="4 3" opacity="0.7" />
+
+  <!-- Non-Dominated Pareto Frontier Curve (P*) -->
+  <path d="M 160 355 L 280 280 L 430 220 L 580 165 L 720 115" fill="none" stroke="#f43f5e" stroke-width="3" />
+
+  <!-- Noise Tolerance Corridor (Prominently Highlighted around P2) -->
+  <rect x="245" y="257" width="70" height="46" rx="6" fill="rgba(244, 63, 94, 0.18)" stroke="rgba(244, 63, 94, 0.55)" stroke-width="1.4" />
+  <text x="280" y="247" fill="#f43f5e" font-size="12" font-weight="700" text-anchor="middle">&#177;1% noise band (&#963;)</text>
+
+  <!-- Single Candidate inside Noise Band (Demonstrating Jitter Discard) -->
+  <circle cx="295" cy="271" r="6.5" fill="#fbbf24" stroke="#18181b" stroke-width="2" />
+  <text x="320" y="270" fill="#fbbf24" font-size="13.5" font-weight="700">Candidate (Jitter)</text>
+  <text x="320" y="287" fill="#a1a1aa" font-size="12">Inside noise band &#8594; discarded</text>
+
+  <!-- Production Baseline x0 (Blue Diamond) -->
+  <g transform="translate(560, 325)">
+    <polygon points="0,-10 10,0 0,10 -10,0" fill="#0284c7" stroke="#38bdf8" stroke-width="2" />
+    <text x="16" y="5" fill="#38bdf8" font-size="14.5" font-weight="700">Baseline x₀ (Default Config)</text>
+    <text x="16" y="22" fill="#a1a1aa" font-size="12">Static anchor for all comparisons</text>
+  </g>
+
+  <!-- Base Frontier Points -->
+  <!-- P1: Voice / Realtime -->
+  <circle cx="160" cy="355" r="7" fill="#18181b" stroke="#f43f5e" stroke-width="2.5" />
+  <text x="160" y="387" fill="#f4f4f5" font-size="14" font-weight="700" text-anchor="middle">P₁: Voice / Real-Time</text>
+  <text x="160" y="405" fill="#a1a1aa" font-size="12" text-anchor="middle">Lowest latency</text>
+
+  <!-- P2: Copilot / Interactive -->
+  <circle cx="280" cy="280" r="7" fill="#18181b" stroke="#f43f5e" stroke-width="2.5" />
+  <text x="240" y="315" fill="#f4f4f5" font-size="14" font-weight="700" text-anchor="end">P₂: Copilot</text>
+
+  <!-- P3: Balanced Serving -->
+  <circle cx="430" cy="220" r="7" fill="#18181b" stroke="#f43f5e" stroke-width="2.5" />
+  <text x="420" y="197" fill="#f4f4f5" font-size="14" font-weight="700" text-anchor="end">P₃: Balanced</text>
+
+  <!-- P4: Max Batch ETL -->
+  <circle cx="720" cy="115" r="7" fill="#18181b" stroke="#f43f5e" stroke-width="2.5" />
+  <text x="720" y="91" fill="#f4f4f5" font-size="14" font-weight="700" text-anchor="middle">P₄: Batch ETL</text>
+  <text x="720" y="109" fill="#a1a1aa" font-size="12" text-anchor="middle">Maximum throughput</text>
+</svg>

@@ -214,8 +214,8 @@ export function UtilizationSimulator() {
             const sW = Math.max(2, ((blockEnd - blockStart) / WINDOW_DURATION) * timelineWidth);
             const isTail = (block.duration || (1.0 / mu)) > (1.5 / mu);
 
-            ctx.fillStyle = isTail ? 'rgba(255, 152, 0, 0.28)' : 'rgba(235, 87, 87, 0.25)';
-            ctx.strokeStyle = isTail ? 'rgba(255, 152, 0, 0.85)' : 'rgba(235, 87, 87, 0.75)';
+            ctx.fillStyle = isTail ? 'rgba(245, 158, 11, 0.32)' : 'rgba(16, 185, 129, 0.28)';
+            ctx.strokeStyle = isTail ? 'rgba(245, 158, 11, 0.90)' : 'rgba(16, 185, 129, 0.85)';
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.roundRect(sX, laneY + 2, sW, laneHeight - 4, 3);
@@ -223,7 +223,7 @@ export function UtilizationSimulator() {
             ctx.stroke();
 
             if (sW > 28) {
-              ctx.fillStyle = isTail ? '#ffe0b2' : 'rgba(255, 255, 255, 0.9)';
+              ctx.fillStyle = isTail ? '#fef3c7' : '#d1fae5';
               ctx.font = '10px sans-serif';
               ctx.textAlign = 'center';
               const durText = block.duration ? `${block.duration.toFixed(2)}s` : `${(1.0 / mu).toFixed(2)}s`;
@@ -233,8 +233,8 @@ export function UtilizationSimulator() {
         });
       });
 
-      ctx.strokeStyle = 'rgb(var(--primary))';
-      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.85)';
+      ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.moveTo(sweepX, topMargin);
       ctx.lineTo(sweepX, topMargin + timelineHeight);
@@ -304,7 +304,19 @@ export function UtilizationSimulator() {
   };
 
   const handleReset = () => {
-    if (engineRef.current) engineRef.current.reset();
+    const baseline = PRESET_OPTIONS.find((opt) => opt.value === 'knee') || PRESET_OPTIONS[1];
+    setPreset('knee');
+    setLambda(baseline.lambda);
+    setCores(baseline.cores);
+    setMu(baseline.mu);
+    setIsPlaying(true);
+    setSpeedIndex(0);
+    if (engineRef.current) {
+      engineRef.current.setParameters({ lambda: baseline.lambda, cores: baseline.cores, mu: baseline.mu });
+      engineRef.current.isRunning = true;
+      engineRef.current.reset();
+      setMetrics({ ...engineRef.current.getMetrics() });
+    }
   };
 
   const handleSpeedToggle = () => {

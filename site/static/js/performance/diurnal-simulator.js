@@ -360,8 +360,8 @@ export function DiurnalSimulator() {
             const bw = Math.max(2, x2 - x1);
 
             const isTail = (b.duration || 0.5) > 0.75;
-            microCtx.fillStyle = isTail ? 'rgba(255, 152, 0, 0.25)' : 'rgba(235, 87, 87, 0.22)';
-            microCtx.strokeStyle = isTail ? 'rgba(255, 152, 0, 0.85)' : 'rgba(235, 87, 87, 0.75)';
+            microCtx.fillStyle = isTail ? 'rgba(245, 158, 11, 0.30)' : 'rgba(16, 185, 129, 0.26)';
+            microCtx.strokeStyle = isTail ? 'rgba(245, 158, 11, 0.90)' : 'rgba(16, 185, 129, 0.85)';
             microCtx.lineWidth = 1;
             microCtx.beginPath();
             microCtx.roundRect(x1, lY + 2, bw, laneH - 4, 3);
@@ -369,7 +369,7 @@ export function DiurnalSimulator() {
             microCtx.stroke();
 
             if (bw > 26) {
-              microCtx.fillStyle = isTail ? '#ffe0b2' : 'rgba(255, 255, 255, 0.9)';
+              microCtx.fillStyle = isTail ? '#fef3c7' : '#d1fae5';
               microCtx.font = '9px sans-serif';
               microCtx.textAlign = 'center';
               const durText = b.duration ? `${b.duration.toFixed(2)}s` : '0.50s';
@@ -380,7 +380,7 @@ export function DiurnalSimulator() {
       });
 
       const sweepX = leftPad + (engine.sweepTime / WINDOW_DURATION) * plotW;
-      microCtx.strokeStyle = 'rgba(235, 87, 87, 0.75)';
+      microCtx.strokeStyle = 'rgba(255, 255, 255, 0.85)';
       microCtx.lineWidth = 1.5;
       microCtx.beginPath();
       microCtx.moveTo(sweepX, topPad - 3);

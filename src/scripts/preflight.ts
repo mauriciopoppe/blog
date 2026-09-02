@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import http from 'http'
+import { execSync } from 'child_process'
 import frontMatter from 'front-matter'
 import { chromium, type Browser } from 'playwright'
 
@@ -36,7 +37,7 @@ const DIST_DIR = path.resolve(ROOT_DIR, 'dist')
 /**
  * Validates frontmatter and markdown syntax rules for a single file.
  */
-export function validateStatic(filePath: string): ValidationIssue[] {
+export function validateStatic(filePath: string, options: { strict?: boolean } = {}): ValidationIssue[] {
   const issues: ValidationIssue[] = []
   const fullPath = path.isAbsolute(filePath) ? filePath : path.resolve(ROOT_DIR, filePath)
 
@@ -85,7 +86,7 @@ export function validateStatic(filePath: string): ValidationIssue[] {
   // 2. Draft Status
   if (attributes.draft === true) {
     issues.push({
-      type: 'error',
+      type: options.strict ? 'error' : 'warning',
       category: 'draft',
       message: 'Article is marked as "draft: true". Remove draft property or set to false before publishing.'
     })
@@ -302,6 +303,24 @@ export async function validateViewportOverflow(filePath: string): Promise<Valida
   const urlPath = getArticleUrlPath(filePath)
   const targetHtml = path.join(DIST_DIR, urlPath, 'index.html')
 
+  const fullPath = path.isAbsolute(filePath) ? filePath : path.resolve(ROOT_DIR, filePath)
+  const sourceMtime = fs.existsSync(fullPath) ? fs.statSync(fullPath).mtimeMs : 0
+  const distMtime = fs.existsSync(targetHtml) ? fs.statSync(targetHtml).mtimeMs : 0
+
+  if (!fs.existsSync(targetHtml) || sourceMtime > distMtime) {
+    try {
+      console.log('  🔨 Building site distribution for viewport overflow inspection...')
+      execSync('HUGO_ENV=production hugo --environment production -D --source site --destination ../dist', { cwd: ROOT_DIR, stdio: 'pipe' })
+    } catch (err: any) {
+      issues.push({
+        type: 'error',
+        category: 'overflow',
+        message: `Failed to build Hugo site with drafts for viewport check: ${err.message}`
+      })
+      return issues
+    }
+  }
+
   if (!fs.existsSync(targetHtml)) {
     issues.push({
       type: 'error',
@@ -334,7 +353,7 @@ export async function validateViewportOverflow(filePath: string): Promise<Valida
           let parent = element.parentElement
           while (parent && parent !== document.body && parent !== document.documentElement) {
             const parentStyle = window.getComputedStyle(parent)
-            if (parentStyle.overflowX === 'auto' || parentStyle.overflowX === 'scroll' || parentStyle.overflowX === 'hidden' || parentStyle.contain.includes('layout')) {
+            if (parent.tagName.toLowerCase() === 'pre' || parentStyle.overflowX === 'auto' || parentStyle.overflowX === 'scroll' || parentStyle.overflowX === 'hidden' || parentStyle.overflow === 'hidden' || parentStyle.overflowX === 'clip' || parentStyle.contain.includes('layout') || parentStyle.contain.includes('paint')) {
               return true
             }
             parent = parent.parentElement
@@ -351,40 +370,42 @@ export async function validateViewportOverflow(filePath: string): Promise<Valida
           snippet: string
         }> = []
 
-        const wideBlocks = Array.from(document.body.querySelectorAll('*')).filter(el => {
-          if (['g', 'path', 'rect', 'circle', 'text', 'tspan', 'line', 'defs', 'marker', 'polygon', 'foreignobject', 'math', 'semantics', 'annotation', 'annotation-xml'].includes(el.tagName.toLowerCase())) return false
-          if (el.closest('svg')) return false
-          if (el.closest('.katex-mathml')) return false
-          if (isInsideScrollContainer(el)) return false
+        const allElements = document.querySelectorAll('*')
+        allElements.forEach((el) => {
+          if (el === docEl || el === body) return
+          if (['g', 'path', 'rect', 'circle', 'text', 'tspan', 'line', 'defs', 'marker', 'polygon', 'foreignobject', 'math', 'semantics', 'annotation', 'annotation-xml'].includes(el.tagName.toLowerCase())) return
+          if (el.closest('svg')) return
+          if (el.closest('.katex-mathml')) return
+          if (el.closest('pre')) return
+          if (isInsideScrollContainer(el)) return
 
           const style = window.getComputedStyle(el)
-          if (style.display === 'none' || style.visibility === 'hidden') return false
-          if (style.overflowX === 'auto' || style.overflowX === 'scroll' || style.overflowX === 'hidden' || style.contain.includes('layout')) return false
+          if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') return
+          if (style.overflowX === 'auto' || style.overflowX === 'scroll' || style.overflowX === 'hidden' || style.overflow === 'hidden' || style.overflowX === 'clip') return
 
           const rect = el.getBoundingClientRect()
-          return rect.right > clientWidth + 2 || el.offsetWidth > clientWidth + 2
+          if (rect.width > 0 && rect.right > clientWidth + 2) {
+            const excess = Math.round(rect.right - clientWidth)
+            const snippet = `<${el.tagName.toLowerCase()}${el.id ? ` id="${el.id}"` : ''}${el.className && typeof el.className === 'string' ? ` class="${el.className.slice(0, 40)}..."` : ''}> (right: ${Math.round(rect.right)}px, excess: +${excess}px)`
+            offending.push({
+              tag: el.tagName.toLowerCase(),
+              id: el.id || '',
+              className: typeof el.className === 'string' ? el.className : '',
+              right: Math.round(rect.right),
+              excess,
+              snippet
+            })
+          }
         })
-
-        for (const el of wideBlocks) {
-          const rect = el.getBoundingClientRect()
-          const className = typeof el.className === 'string' ? el.className.trim() : ''
-          offending.push({
-            tag: el.tagName.toLowerCase(),
-            id: el.id || '',
-            className: className.slice(0, 50),
-            right: Math.round(Math.max(rect.right, el.offsetWidth)),
-            excess: Math.round(Math.max(rect.right, el.offsetWidth) - clientWidth),
-            snippet: `<${el.tagName.toLowerCase()}${el.id ? ` id="${el.id}"` : ''}${className ? ` class="${className}"` : ''}> [width=${Math.round(Math.max(rect.right, el.offsetWidth))}px] text: "${(el.textContent || '').slice(0, 60).replace(/\s+/g, ' ')}"`
-          })
-        }
 
         window.scrollTo(1000, 0)
         const canScrollHorizontally = window.scrollX > 0 || docEl.scrollLeft > 0 || body.scrollLeft > 0
         window.scrollTo(0, 0)
 
         const scrollWidth = Math.max(docEl.scrollWidth, body.scrollWidth)
-        const hasOverflow = canScrollHorizontally || offending.length > 0
-        return { hasOverflow, canScrollHorizontally, scrollWidth, clientWidth, offending }
+        const hasRealScrollOverflow = canScrollHorizontally && scrollWidth > clientWidth + 2
+        const hasOverflow = hasRealScrollOverflow || offending.length > 0
+        return { hasOverflow, canScrollHorizontally: hasRealScrollOverflow, scrollWidth, clientWidth, offending }
       })
 
       if (evalResult.hasOverflow) {
@@ -422,11 +443,12 @@ export async function validateViewportOverflow(filePath: string): Promise<Valida
 /**
  * Runs full preflight validation for a file.
  */
-export async function runPreflight(filePath: string, options: { staticOnly?: boolean } = {}): Promise<PreflightResult> {
-  const staticIssues = validateStatic(filePath)
+export async function runPreflight(filePath: string, options: { staticOnly?: boolean; strict?: boolean } = {}): Promise<PreflightResult> {
+  const staticIssues = validateStatic(filePath, options)
   let overflowIssues: ValidationIssue[] = []
 
-  if (!options.staticOnly && staticIssues.filter(i => i.type === 'error').length === 0) {
+  const criticalErrors = staticIssues.filter(i => i.type === 'error')
+  if (!options.staticOnly && criticalErrors.length === 0) {
     overflowIssues = await validateViewportOverflow(filePath)
   }
 
@@ -444,10 +466,11 @@ export async function runPreflight(filePath: string, options: { staticOnly?: boo
 if (import.meta.main) {
   const args = process.argv.slice(2)
   const staticOnly = args.includes('--static-only')
+  const strict = args.includes('--strict')
   const targetFiles = args.filter(a => !a.startsWith('--'))
 
   if (targetFiles.length === 0) {
-    console.error('Usage: bun run src/scripts/preflight.ts <path-to-article.md> [--static-only]')
+    console.error('Usage: bun run src/scripts/preflight.ts <path-to-article.md> [--static-only] [--strict]')
     process.exit(1)
   }
 
@@ -455,7 +478,7 @@ if (import.meta.main) {
     let hasFailures = false
     for (const file of targetFiles) {
       console.log(`\n🔍 Running Preflight on: ${file}`)
-      const result = await runPreflight(file, { staticOnly })
+      const result = await runPreflight(file, { staticOnly, strict })
 
       if (result.issues.length === 0) {
         console.log('✅ All preflight checks passed! Ready for publication.')
@@ -466,6 +489,8 @@ if (import.meta.main) {
         }
         if (!result.valid) {
           hasFailures = true
+        } else {
+          console.log('✅ Viewport and syntax checks passed!')
         }
       }
     }

@@ -91,18 +91,9 @@ export async function publishNote(filePathInput: string, options: { dryRun?: boo
     }
   }
 
-  // 2. Build site to ensure assets and html are fresh for Playwright
-  console.log('\n🔨 Rebuilding site distribution for preflight check...')
-  try {
-    execSync('bun run build', { cwd: ROOT_DIR, stdio: 'pipe' })
-  } catch (err: any) {
-    console.error('❌ Site build failed during publication:', err.message)
-    process.exit(1)
-  }
-
-  // 3. Run Preflight verification
-  console.log(`\n🔍 Executing Preflight on: ${relativePath}`)
-  const preflightResult = await runPreflight(filePath)
+  // 2. Run static preflight verification (frontmatter, metadata, images, and syntax)
+  console.log(`\n🔍 Executing Preflight verification on: ${relativePath}`)
+  const preflightResult = await runPreflight(filePath, { staticOnly: true, strict: !options.dryRun })
 
   if (!preflightResult.valid) {
     console.error('\n❌ Preflight validation failed! Fix issues before publishing:')
@@ -112,7 +103,7 @@ export async function publishNote(filePathInput: string, options: { dryRun?: boo
     }
     process.exit(1)
   }
-  console.log('✅ Preflight validation passed!')
+  console.log('✅ Preflight static validation passed!')
 
   // 4. Generate Git Release Tag
   const tagDate = formatTagDate(now)

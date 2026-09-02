@@ -222,6 +222,10 @@ export function initMathTermPreview(containerSelector = 'article[role=main]') {
         compositeKey = 'M_view'
       } else if (baseText === 'M' && (subText.includes('model') || (subText.includes('world') && subText.includes('object')))) {
         compositeKey = 'M_model'
+      } else if ((baseText.includes('σ') || baseText.includes('sigma')) && (subText.includes('noise') || subText.includes('tol'))) {
+        compositeKey = 'sigma_noise'
+      } else if ((baseText.includes('δ') || baseText.includes('delta')) && (subText.includes('min') || subText.includes('req'))) {
+        compositeKey = 'delta_min'
       }
 
       if (compositeKey && activeTerms[compositeKey]) {
