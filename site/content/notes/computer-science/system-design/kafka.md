@@ -6,7 +6,7 @@ summary: |
   <br />
   This article covers key designs in Kafka, such as how messages for a topic are shared into partitions assigned to brokers. Then, we see some
   guarantees about producers, consumers, and consumer groups.
-tags: ["distributed systems", "producer consumer", "message broker", "data streams", "partitioning"]
+tags: ["system design", "distributed systems", "producer consumer", "message broker", "data streams", "partitioning"]
 image: https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Apache_kafka_wordtype.svg/1200px-Apache_kafka_wordtype.svg.png
 date: 2020-02-29T15:36:00Z
 references:

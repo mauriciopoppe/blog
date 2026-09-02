@@ -10,6 +10,7 @@ summary: |
 image: /images/eulerian-graph.png
 tags: ["graph theory", "eulerian graph", "eulerian trail"]
 libraries: ["math"]
+interactive: true
 ---
 
 A circuit $C$ in a graph $G$ is called an **Eulerian circuit** if $C$ contains every edge of $G$ (remember that a circuit is a closed trail, i.e., a walk in which no edge is traversed more than once and that begins and ends at the same vertex).

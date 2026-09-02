@@ -5,7 +5,7 @@ summary: |
   In an affine space, any point can be represented by the sum of an origin point plus a set
   of scaled vectors. This article covers defining all the points in a triangle within an affine space.
 image: /images/triangle!barycentric.jpg
-tags: ["geometry", "triangle", "affine spaces", "affine geometry"]
+tags: ["math", "mathematics", "geometry", "triangle", "affine spaces", "affine geometry"]
 libraries: ["math"]
 references:
   - "Shirley, P. and Ashikhmin, M. (2005). Fundamentals of computer graphics. Wellesley, Mass.: AK Peters."

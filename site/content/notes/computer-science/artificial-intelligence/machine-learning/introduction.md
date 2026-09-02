@@ -5,7 +5,7 @@ summary: |
   can be applied, along with some example applications.
 order: 1
 image: /images/machine-learning.jpeg
-tags: ["machine learning"]
+tags: ["ai", "machine learning", "artificial intelligence"]
 date: 2020-06-25 23:05:30
 references:
 - Aurélien Géron. "Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow."

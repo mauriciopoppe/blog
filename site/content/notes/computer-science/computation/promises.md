@@ -10,6 +10,7 @@ summary: |
 image: /images/promises.png
 tags: ["Promises", "JavaScript", "Futures", "Software Engineering"]
 date: 2017-09-16T21:05:42Z
+favorite: true
 ---
 
 My objective is to write a Promises/A+ conformant implementation similar to [`then/promise`](https://github.com/then/promise/blob/master/src/core.js). Also, I'll do it the TDD way, where I'll write some tests first and then implement what's needed to make the tests pass (tests will be written on the [Jest](https://jestjs.io/) platform).

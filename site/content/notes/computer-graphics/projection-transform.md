@@ -15,6 +15,7 @@ aliases:
   - /notes/computer-graphics/viewing/projection-transform/
 series: "computer-graphics-pipeline"
 pipeline_stage: "projection"
+interactive: true
 ---
 
 The *canonical view volume* is a cube with corners at $[-1, -1, -1]$ and $[1, 1, 1]$. Coordinates in this cube are called <span data-term="ndc" class="math-term-trigger cursor-help">normalized device coordinates</span> (NDC). The projection step maps the region of the scene we want to render, the *view volume*, into this cube using the <span data-term="M_proj" class="math-term-trigger cursor-help">projection matrix</span>:

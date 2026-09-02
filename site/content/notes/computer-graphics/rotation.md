@@ -14,6 +14,7 @@ aliases:
   - /notes/computer-graphics/transformation-matrices/rotation/introduction/
 series: "computer-graphics-pipeline"
 pipeline_stage: "transforms"
+interactive: true
 ---
 
 <span data-term="R" class="math-term-trigger cursor-help">Rotation</span> transforms orient geometry in 2D and 3D space about an origin or axis without altering size or shape.

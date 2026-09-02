@@ -12,6 +12,7 @@ tags: ["graph theory", "cut vertices", "articulation points", "biconnected compo
 image: /images/articulation-points.png
 date: 2015-06-24 15:00:00
 libraries: ["math"]
+interactive: true
 ---
 
 All the facts/properties below are considered for an undirected, connected graph $G$.

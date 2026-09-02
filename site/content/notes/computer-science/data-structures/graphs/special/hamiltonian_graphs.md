@@ -4,6 +4,7 @@ summary: "Hamiltonian graphs and Hamiltonian cycles."
 tags: ["graph theory", "hamiltonian graph", "hamiltonian cycle"]
 date: 2015-07-07 19:30:51
 libraries: ["math"]
+interactive: true
 ---
 
 A cycle that contains every vertex of a graph $G$ is called a **Hamiltonian cycle**. A Hamiltonian cycle is a spanning cycle of $G$. A **Hamiltonian graph** is a graph that contains a Hamiltonian cycle.

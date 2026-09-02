@@ -5,7 +5,7 @@ summary: |
   It had some things I liked for a terminal multiplexer, but a few
   things that I didn't like eventually sent me back to my reliable Tmux setup.
 image: /images/zellij-switch-session.gif
-tags: ['tmux', 'zellij', 'terminal']
+tags: ['tmux', 'zellij', 'terminal', 'productivity']
 date: 2025-06-21 14:00:00
 references:
   - Phaazon. (2024, May 19). *Zellij, the modern tmux?*. strongly-typed-thoughts.net. https://phaazon.net/blog/zellij-2024

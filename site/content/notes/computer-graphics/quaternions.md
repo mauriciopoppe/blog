@@ -16,6 +16,7 @@ aliases:
   - /notes/computer-graphics/transformation-matrices/rotation/quaternions/
 series: "computer-graphics-pipeline"
 pipeline_stage: "transforms"
+interactive: true
 ---
 
 In two dimensions, complex numbers rotate vectors effortlessly through Euler's formula $e^{i\theta} = \cos\theta + i\sin\theta$. In three dimensions, rotation has historically been fraught with numerical and geometric pitfalls.

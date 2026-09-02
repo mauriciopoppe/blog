@@ -6,7 +6,7 @@ summary: |
 
   <br />
 
-tags: ["distributed systems", "container orchestration", "scaling", "user namespace"]
+tags: ["system design", "distributed systems", "container orchestration", "scaling", "user namespace"]
 date: 2023-04-30T18:27:00Z
 ---
 

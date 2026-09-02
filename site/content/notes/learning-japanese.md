@@ -6,6 +6,7 @@ summary: |
 tags: ['learning', 'languages', 'japanese', 'life']
 libraries: ['doodle']
 date: 2026-01-19 14:00:00
+favorite: true
 ---
 
 ## My Goals

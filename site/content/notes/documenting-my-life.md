@@ -4,12 +4,13 @@ summary: |
   Ordinary moments may not seem valuable now, but they will become more so over time.
   We might think that mundane things will stay the same forever, but they don't.
   I decided to document my life by journaling, printing pictures, and making vlogs.
-tags: ['life']
+tags: ['life', 'productivity', 'habits', 'journaling']
 image: /images/documenting-my-life.jpg
 imageAlt: |
   [Photo by Annushka Ahuja](https://www.pexels.com/photo/a-person-holding-a-camera-8114300/)
 date: 2024-11-10 16:28:00
 libraries: ['doodle']
+favorite: true
 ---
 
 ## Why?

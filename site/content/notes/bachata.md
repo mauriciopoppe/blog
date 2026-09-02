@@ -5,6 +5,7 @@ summary: |
 tags: ['life', 'dancing', 'bachata', 'singing', 'open mic', 'guitar', 'music']
 image: /images/bachata.jpg
 date: 2024-11-17 14:00:00
+favorite: true
 ---
 
 ## Learning to Dance

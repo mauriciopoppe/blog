@@ -11,6 +11,8 @@ summary: |
 image: /images/graph-theory.png
 tags: ["graph theory", "directed graph", "undirected graph", "complete graph", "dense graph", "sparse graph", "complement graph", "bipartite graph", "k-partite graph", "biconnected graph", "multigraphs", "pseudographs", "weighted graph", "digraphs", "degree"]
 libraries: ["katex"]
+interactive: true
+favorite: true
 ---
 
 A graph is a pair $G = (V, E)$. It consists of a finite set $V$ of objects called *vertices* (or nodes or points) and a set $E$ of 2-element subsets of $V$ called *edges*. Another way to denote the vertex set/edges of a graph $G$ is by using $V(G)$ (the vertex set of $G$) and $E(G)$ (the edge set of $G$).

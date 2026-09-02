@@ -5,6 +5,7 @@ summary: |
 tags: ["design", "design system", "ux"]
 date: 2015-01-01T00:00:00Z
 weight: 9999
+interactive: true
 ---
 
 This note is the implementation reference for building UI on this site. It covers the design tokens, the font and border conventions, the interaction states, and the canonical widget layout. Every rule is shown with the CSS that implements it and, where useful, a live example built from the real theme tokens so it adapts to light and dark themes.

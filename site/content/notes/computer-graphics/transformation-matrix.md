@@ -14,6 +14,7 @@ aliases:
   - /notes/computer-graphics/transformation-matrices/transformation-matrix/
 series: "computer-graphics-pipeline"
 pipeline_stage: "transforms"
+favorite: true
 ---
 
 A transformation moves geometry: translation shifts it, rotation spins it, scale resizes it. In the rendering pipeline, every vertex passes through a sequence of these transformations before it reaches the screen, and each one is stored as a matrix.

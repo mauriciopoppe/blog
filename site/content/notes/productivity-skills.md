@@ -6,6 +6,7 @@ tags: ['life', 'software engineer', 'task management', 'time management', 'produ
 image: /images/productivity-skills.jpeg
 date: 2022-05-11 21:16:00
 lastmod: 2026-05-23 18:11:00
+favorite: true
 ---
 
 ## Getting Used to Multitasking

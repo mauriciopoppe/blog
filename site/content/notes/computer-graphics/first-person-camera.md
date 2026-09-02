@@ -4,7 +4,7 @@ date: 2016-04-29 22:10:40
 summary: |
   A first-person camera captures objects from the viewpoint of a player character. Orbiting with mouse pitch and yaw, coordinate space transformations, pitch clamping, and 6-DOF quaternion camera comparison.
 image: /images/first-person-pov.jpeg
-tags: ["camera", "first-person", "pov", "euler angles", "linear algebra", "quaternions"]
+tags: ["computer graphics", "camera", "first-person", "pov", "euler angles", "linear algebra", "quaternions"]
 libraries: ["katex"]
 aliases:
   - /notes/computer-graphics/viewing/camera/first-person-shot/

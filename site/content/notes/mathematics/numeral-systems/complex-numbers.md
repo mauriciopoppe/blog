@@ -12,6 +12,7 @@ image: /images/math-generic.jpeg
 tags: ["math", "numeral systems", "complex numbers", "imaginary numbers"]
 libraries: ["math"]
 date: 2015-09-08 13:30:00
+interactive: true
 ---
 
 ## Imaginary Numbers

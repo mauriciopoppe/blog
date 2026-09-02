@@ -9,6 +9,8 @@ image: https://wordsmithofbengal.files.wordpress.com/2021/08/calculus_score-shee
 date: 2015-03-31 15:35:06
 tags: ["math", "calculus", "function"]
 libraries: ["math"]
+interactive: true
+favorite: true
 ---
 
 ### Why?

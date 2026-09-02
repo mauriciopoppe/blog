@@ -8,6 +8,7 @@ date: 2015-04-02 10:00:00
 image: https://content.wolfram.com/uploads/sites/39/2021/08/algebraic-integrals-hero.png
 tags: ["math", "calculus", "integral", "maxima minima"]
 libraries: ["math"]
+interactive: true
 ---
 
 <style>

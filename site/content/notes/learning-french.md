@@ -8,6 +8,7 @@ summary: |
 tags: ['learning', 'languages', 'french', 'life']
 libraries: ['doodle']
 date: 2025-10-13 00:00:00
+favorite: true
 ---
 
 ## My goals

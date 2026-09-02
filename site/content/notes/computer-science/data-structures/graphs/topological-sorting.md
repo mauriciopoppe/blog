@@ -12,6 +12,7 @@ image: https://i.imgur.com/Q3MA6dZ.png
 tags: ["graph theory", "topological sorting", "dag", "graph cycles"]
 date: 2015-06-24 11:30:00
 libraries: ["math"]
+interactive: true
 ---
 
 Let $G$ be a digraph. The **topological sorting** algorithm is a linear ordering of the vertices of $G$ such that for every directed edge $u \rightarrow v$, where $u,v \in V(G)$, $u$ comes before $v$ in the ordering. The ordering is possible only if the graph *has no directed cycles*.

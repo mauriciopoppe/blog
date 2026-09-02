@@ -13,6 +13,7 @@ aliases:
   - /notes/computer-graphics/pipeline/culling-clipping/
 series: "computer-graphics-pipeline"
 pipeline_stage: "clipping"
+interactive: true
 ---
 
 Before rasterization, every primitive must be tested against the view volume. A naive rasterizer would draw everything the projection produced, including geometry that should never be visible. Two mechanisms prevent that: clipping removes the parts of primitives that fall outside the view volume, and culling discards whole primitives the camera cannot see.

@@ -12,6 +12,7 @@ tags: ["math", "calculus", "derivative", "maxima minima"]
 image: /images/derivative.jpg
 date: 2015-04-02 10:00:00
 libraries: ["math"]
+interactive: true
 ---
 
 ## Physical Interpretation of the Derivative

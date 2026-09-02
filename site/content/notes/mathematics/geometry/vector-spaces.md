@@ -6,7 +6,7 @@ summary: |
   <br />
   This article covers some examples of vector spaces, bases of vector spaces, and linear maps.
 image: /images/xyz-z-up.jpg
-tags: ["vector spaces", "geometry", "computer graphics"]
+tags: ["math", "mathematics", "vector spaces", "geometry", "computer graphics", "linear algebra"]
 libraries: ["math"]
 date: 2016-03-14 17:07:51
 references:

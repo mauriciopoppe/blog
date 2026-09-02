@@ -8,6 +8,7 @@ date: 2016-03-15 12:19:52
 libraries: ["math"]
 references:
   - "Bærentzen, J. A., Gravesen, J., Anton François, & Aanæs, H. (2012). Guide to computational geometry processing: foundations, algorithms, and methods. London: Springer."
+interactive: true
 ---
 
 Imagine a vector space where two points $P$ and $P'$ exist. Then, there's a *unique translation of the plane* that maps $P$ to $P'$. This means that the space of *translations* in the plane can be identified with a set of vectors that exist in the plane. The composition of translations corresponds to the addition of vectors, e.g., $\v{PP''} = \v{PP'} + \v{P'P''}$.

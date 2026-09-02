@@ -14,6 +14,7 @@ summary: |
 image: /images/minimum-spanning-tree.png
 tags: ["minimum spanning tree", "prim", "kruskal", "graph theory", "disjoint set", "union find"]
 libraries: ["math"]
+interactive: true
 ---
 
 If a connected graph $G$ of order $n$ has no cycles, then, of course, $G$ is a tree. Let's suppose that $G$ contains cycles. Let $e_1$ be an edge lying on a cycle of $G$. We know that since $e_1$ is part of a cycle, it's not a bridge, which means that $G - e_1$ is connected. If $G - e_1$ contains cycles, then let $e_2$ be an edge lying on a cycle of $G - e_1$. $e_2$ is not a bridge, and therefore $G - e_1 - e_2$ is still connected. Eventually, we arrive at the set $X = {e_1, e_2, \ldots, e_k}$ of edges such that $G - X$ doesn't contain cycles (i.e., it's a tree) and has the same vertex set as $G$ ($V(G) = V(G - X)$).

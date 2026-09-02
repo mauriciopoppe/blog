@@ -10,6 +10,7 @@ summary: |
 tags: ["graph theory", "cut edges", "bridges", "depth first search"]
 image: /images/cut-edges-bridges.png
 libraries: ["math"]
+interactive: true
 ---
 
 ## Undirected graph

@@ -4,6 +4,7 @@ date: 2015-06-30 15:00:00
 summary: "An introduction to trees in graph theory."
 tags: ["graph theory", "tree"]
 libraries: ["math"]
+interactive: true
 ---
 
 A graph $G$ is called **acyclic** if it has no cycles. A **tree** is an acyclic connected graph.
