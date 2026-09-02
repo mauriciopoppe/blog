@@ -1,37 +1,57 @@
-<!-- if this is the index page then start uncollapsed -->
-{{ if .IsHome }}
-  {{ .Scratch.Set "collapsed" "" }}
-  {{ .Scratch.Set "sidebar-hide" "" }}
-  {{ .Scratch.Set "sidebar-style" "border: none" }}
-{{ else }}
-  {{ .Scratch.Set "collapsed" "list-is-collapsed" }}
-  {{ .Scratch.Set "sidebar-hide" "hide" }}
-  {{ .Scratch.Set "sidebar-style" "" }}
-{{ end }}
-
 {{ if (ne .Params.toc "false") }}
+  {{ $current := . }}
+  {{ $notes := where .Site.RegularPages "Section" "notes" }}
+  {{ $recent := $notes.ByDate.Reverse }}
+  {{ $currentTags := .Params.tags | default (slice) }}
+  {{ $related := slice }}
+  {{ range $notes }}
+    {{ if ne .RelPermalink $current.RelPermalink }}
+      {{ $sharedTags := intersect $currentTags (.Params.tags | default (slice)) }}
+      {{ if gt (len $sharedTags) 0 }}
+        {{ $related = $related | append (dict "page" . "score" (len $sharedTags)) }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+  {{ $related = sort $related "score" "desc" }}
+  {{ if eq (len $related) 0 }}
+    {{ range first 5 $recent }}
+      {{ if ne .RelPermalink $current.RelPermalink }}
+        {{ $related = $related | append (dict "page" . "score" 0) }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
 
-<!-- sitemap wrapper, used only for positioning -->
 <div class="my-sitemap-wrapper tw-transition-all tw-opacity-1" style="opacity: 0">
-
-  <!-- scripts use the id and the class, don't change it Mauricio! -->
   <div id="sitemap" class="my-sitemap tw-opacity-1 tw-p-3 tw-rounded-md tw-bg-[var(--grey-dark)] md:tw-text-sm md:tw-relative md:tw-opacity-20">
-
       {{/* sitemap-search-trigger redirects to unified constellation search on /notes/?search=true */}}
       <a
         id="sitemap-search-trigger"
         href="/notes/?search=true"
-        class="tw-flex tw-items-center tw-gap-2 tw-text-inherit tw-no-underline hover:tw-text-[rgb(var(--primary))] tw-transition-colors tw-border tw-border-[var(--grey)] hover:tw-border-[rgb(var(--primary))] tw-p-2 tw-rounded-md tw-mb-3"
+        class="tw-flex tw-items-center tw-gap-2 tw-text-inherit tw-no-underline hover:tw-text-[rgb(var(--primary))] tw-transition-colors tw-border tw-border-[var(--grey)] hover:tw-border-[rgb(var(--primary))] tw-p-2 tw-rounded-md tw-mb-2"
       >
         <span class="material-symbols-outlined tw-text-lg">search</span>
         <span class="tw-text-xs tw-font-medium">Search Notes (⌘K)</span>
       </a>
-
-      <nav id="sitemap-tree" aria-label="Sitemap" class="sitemap-content">
-        {{ partial "sitemap-tree.auto.html" . }}
-      </nav>
+      <a href="/notes/" class="tw-block tw-text-xs tw-mb-4 tw-text-[var(--grey-light)] hover:tw-text-[rgb(var(--primary))]">Browse all →</a>
+      <section aria-labelledby="related-articles-heading" class="sitemap-section tw-mb-5">
+        <h2 id="related-articles-heading" class="tw-text-xs tw-font-semibold tw-uppercase tw-tracking-wide tw-text-[var(--grey-light)] tw-mb-2">Related Articles</h2>
+        <ul class="tw-m-0 tw-p-0 tw-list-none">
+          {{ range first 5 $related }}
+            {{ $page := .page }}
+            <li class="tw-mb-2"><a href="{{ $page.RelPermalink }}" class="tw-block tw-text-inherit tw-no-underline hover:tw-text-[rgb(var(--primary))]">{{ $page.Title }}</a><span class="tw-text-xs tw-text-[var(--grey-light)]">{{ $page.Date.Format "Jan 2" }}</span></li>
+          {{ end }}
+        </ul>
+      </section>
+      <section aria-labelledby="recent-notes-heading" class="sitemap-section">
+        <h2 id="recent-notes-heading" class="tw-text-xs tw-font-semibold tw-uppercase tw-tracking-wide tw-text-[var(--grey-light)] tw-mb-2">Recent Notes</h2>
+        <nav id="sitemap-tree" aria-label="Recent notes" class="sitemap-content">
+          <ul class="tw-m-0 tw-p-0 tw-list-none">
+            {{ range $recent }}
+              <li class="tw-mb-2{{ if eq .RelPermalink $current.RelPermalink }} is-active{{ end }}"><a href="{{ .RelPermalink }}" class="tw-block tw-text-inherit tw-no-underline hover:tw-text-[rgb(var(--primary))]">{{ .Title }}</a><span class="tw-text-xs tw-text-[var(--grey-light)]">{{ .Date.Format "Jan 2" }}</span></li>
+            {{ end }}
+          </ul>
+        </nav>
+      </section>
   </div>
-
 </div>
 {{ end }}
-

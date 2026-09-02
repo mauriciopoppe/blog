@@ -3,9 +3,7 @@ import path from 'path'
 import fg from 'tiny-glob'
 import fm from 'front-matter'
 import fs from 'fs-extra'
-import { titleCase } from 'title-case'
 import { toDate } from 'date-fns'
-import defined from 'defined'
 
 const isProduction = process.env.NODE_ENV === 'production'
 
@@ -122,64 +120,11 @@ function dfs(cwd: string) {
     .then(sortBy(byOrderAndDate))
 }
 
-function createNavBarRecursive(node: SitemapItem, depth: number) {
-  let target = ''
-  let content = titleCase(defined(node.title, node.path))
-  content = content.replace(/-/g, ' ')
-  if (node.isLeaf) {
-    // eslint-disable-next-line
-    target = `
-      data-url-target="${node.fullPath}"
-      ${node.date ? `data-url-date="${node.date}"` : ''}
-      ${node.draft ? 'data-draft="true"' : ''}
-    `
-
-    // eslint-disable-next-line
-    content = `
-      <a href="/${node.fullPath.substring(0, node.fullPath.indexOf('.'))}/">
-        ${content}
-      </a>
-      ${node.draft ? '<span class="tw-inline-block tw-rounded-md tw-border tw-border-[#fbbf24]/60 tw-text-[#fbbf24] tw-text-xs tw-px-2 tw-py-0.5">Draft</span>' : ''}
-    `
-  } else {
-    // identifier for non leaf children to save their expanded state
-    target = `
-      data-full-path="${node.fullPath}"
-    `
-    content = `
-      <span data-toggle-text>${content}</span>
-    `
-  }
-
-  const childrenToggle = node.children.length ? '<i class="children-toggle"></i>' : ''
-
-  return `
-    <li ${target}>
-      <div>
-        ${childrenToggle}
-        ${content}
-      </div>
-      ${!node.isLeaf ? createNavBar(node, depth + 1) : ''}
-    </li>
-  `
-}
-
-function createNavBar(node: SitemapItem, depth = 0) {
-  return `
-    <ul class="list-is-collapsible ${depth > 0 ? '{{ .Scratch.Get "collapsed" }}' : ''}">
-      ${node.children.map((node) => createNavBarRecursive(node, depth)).join('\n')}
-    </ul>
-  `
-}
-
 async function main() {
   const hugo = path.join(__dirname, '../../site')
   const sitemapJson = await dfs(path.join(hugo, '/content/'))
   await fs.ensureDir(path.join(hugo, '/data/metadata/'))
   await fs.writeJson(path.join(hugo, '/data/metadata/render-tree.json'), sitemapJson, { spaces: 2 })
-  const navbar = createNavBar(sitemapJson.children.filter((node) => node.path === 'notes')[0])
-  await fs.ensureDir(path.join(hugo, '/layouts/_partials/'))
-  await fs.writeFile(path.join(hugo, '/layouts/_partials/sitemap-tree.auto.html'), navbar)
 }
 
 main()
