@@ -88,6 +88,102 @@ export function getIndicatorColors(cluster = 'systems') {
   }
 }
 
+/**
+ * Mulberry32 PRNG (Pseudo-Random Number Generator)
+ * Produces deterministic, reproducible floating-point numbers in [0, 1) across all runs.
+ */
+export function createSeededRandom(seed = 42) {
+  let s = seed >>> 0
+  return function () {
+    s = (s + 0x6d2b79f5) >>> 0
+    let t = Math.imul(s ^ (s >>> 15), 1 | s)
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+
+/**
+ * Strips HTML tags from markdown-rendered summary string for clean plain-text search.
+ */
+function stripHtml(htmlStr = '') {
+  return String(htmlStr).replace(/<[^>]*>/g, ' ')
+}
+
+/**
+ * Calculates relevance score of a note against search tokens.
+ * All tokens must match somewhere across title, tags, or summary (AND match).
+ * Higher score = more relevant. Returns 0 if not matching.
+ */
+export function scoreNoteMatch(node, query = '') {
+  if (!node) return 0
+  const cleanQuery = String(query).trim().toLowerCase()
+  if (!cleanQuery) return 0
+
+  const tokens = cleanQuery.split(/\s+/).filter(Boolean)
+  if (tokens.length === 0) return 0
+
+  const title = (node.title || '').toLowerCase()
+  const tags = Array.isArray(node.tags) ? node.tags.map((t) => String(t).toLowerCase()) : []
+  const summary = stripHtml(node.summary || '').toLowerCase()
+
+  let totalScore = 0
+
+  for (const token of tokens) {
+    let tokenMatched = false
+    let tokenScore = 0
+
+    // 1. Title match (highest weight: 5 for exact start, 3 for substring)
+    if (title.includes(token)) {
+      tokenMatched = true
+      tokenScore += title.startsWith(token) ? 5 : 3
+    }
+
+    // 2. Tag match (weight: 2.5)
+    for (const tag of tags) {
+      if (tag.includes(token)) {
+        tokenMatched = true
+        tokenScore += tag === token ? 3 : 2
+        break
+      }
+    }
+
+    // 3. Summary match (weight: 1)
+    if (summary.includes(token)) {
+      tokenMatched = true
+      tokenScore += 1
+    }
+
+    // All tokens must match
+    if (!tokenMatched) {
+      return 0
+    }
+
+    totalScore += tokenScore
+  }
+
+  // Slight boost for favorite or interactive notes to break ties nicely
+  if (node.isFavorite) totalScore += 0.5
+  if (node.interactive) totalScore += 0.25
+
+  return totalScore
+}
+
+/**
+ * Searches and ranks notes by relevance score descending.
+ */
+export function searchNotes(notes = [], query = '') {
+  if (!query || !query.trim()) return notes
+  const scored = []
+  for (const n of notes) {
+    const score = scoreNoteMatch(n, query)
+    if (score > 0) {
+      scored.push({ node: n, score })
+    }
+  }
+  scored.sort((a, b) => b.score - a.score)
+  return scored.map((item) => item.node)
+}
+
 export function normalizeTag(str = '') {
   return String(str)
     .toLowerCase()
@@ -98,6 +194,10 @@ export function normalizeTag(str = '') {
 
 export function isNodeInFilter(node, filterKey = 'all') {
   if (!filterKey || filterKey === 'all') return true
+  if (filterKey.startsWith('search:')) {
+    const q = filterKey.slice(7)
+    return scoreNoteMatch(node, q) > 0
+  }
   if (filterKey === 'interactive') return Boolean(node.interactive)
   if (filterKey === 'favorites' || filterKey === 'favorite') return Boolean(node.isFavorite)
   if (filterKey === 'performance' || filterKey === 'systems') return node.cluster === 'systems'
@@ -246,6 +346,9 @@ export function filterGraphData(fullGraph, filterKey = 'all') {
 export function shouldShowNodeLabel(node, zoomK = 1.0, isHovered = false, isNeighbor = false, isFiltered = false) {
   // Always show on hover (for the hovered node and its direct neighbors)
   if (isHovered || isNeighbor) return true
+
+  // If a search or specific filter is active, reveal labels for matching visible nodes
+  if (isFiltered) return true
 
   // Level 1: Resting / overview zoom (k < 1.25) - Show strictly curated favorites
   if (zoomK < 1.25) {

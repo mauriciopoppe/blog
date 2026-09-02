@@ -24,6 +24,24 @@ describe('Topic Constellation Graph Preact Components', () => {
       />`
       expect(vnode.props.activeFilter).toBe('tag:productivity')
     })
+
+    it('accepts and passes search state and callbacks', () => {
+      let queryVal = ''
+      let closeCalled = false
+      const vnode = html`<${TopFilterBar}
+        activeFilter="all"
+        onSelectFilter=${() => {}}
+        searchQuery="quaternion"
+        onSearchChange=${(q) => { queryVal = q }}
+        onSearchClose=${() => { closeCalled = true }}
+        isSearchOpen=${true}
+        setIsSearchOpen=${() => {}}
+      />`
+      expect(vnode.props.searchQuery).toBe('quaternion')
+      expect(vnode.props.isSearchOpen).toBe(true)
+      expect(typeof vnode.props.onSearchChange).toBe('function')
+      expect(typeof vnode.props.onSearchClose).toBe('function')
+    })
   })
 
   describe('NoteTooltip', () => {

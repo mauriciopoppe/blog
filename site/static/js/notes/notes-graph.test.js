@@ -9,7 +9,10 @@ import {
   buildGraphData,
   calculateEdgeWeight,
   filterGraphData,
-  shouldShowNodeLabel
+  shouldShowNodeLabel,
+  scoreNoteMatch,
+  searchNotes,
+  createSeededRandom
 } from './notes-graph.js'
 
 describe('Notes Knowledge Graph Logic', () => {
@@ -159,6 +162,102 @@ describe('Notes Knowledge Graph Logic', () => {
       expect(isNodeInFilter(frenchNote, 'tag:life')).toBe(true)
       expect(isNodeInFilter(mathNote, 'tag:life')).toBe(false)
     })
+
+    it('matches search query via search: prefix', () => {
+      const note = {
+        title: 'Transformation Matrix',
+        tags: ['computer graphics', 'matrices'],
+        summary: 'Linear algebra coordinate transforms'
+      }
+      expect(isNodeInFilter(note, 'search:matrix')).toBe(true)
+      expect(isNodeInFilter(note, 'search:linear algebra')).toBe(true)
+      expect(isNodeInFilter(note, 'search:queuing')).toBe(false)
+    })
+  })
+
+  describe('scoreNoteMatch & searchNotes (Client-Side Fuzzy Search)', () => {
+    const note1 = {
+      id: '1',
+      title: 'Quaternions and Rotations',
+      tags: ['computer graphics', 'quaternions', '3d'],
+      summary: '<p>Representing 3D rotations on a 4D hypersphere without gimbal lock.</p>',
+      isFavorite: true,
+      interactive: true
+    }
+    const note2 = {
+      id: '2',
+      title: 'Queuing Theory and Interactive Simulators',
+      tags: ['system design', 'queuing theory', 'latency'],
+      summary: '<p>M/M/1 queues, arrival rate lambda, and response times.</p>',
+      isFavorite: false,
+      interactive: true
+    }
+    const note3 = {
+      id: '3',
+      title: 'Learning French Pronunciation',
+      tags: ['languages', 'french', 'learning'],
+      summary: '<p>Daily habits and vocabulary for mastering French.</p>',
+      isFavorite: false,
+      interactive: false
+    }
+
+    const testNotes = [note1, note2, note3]
+
+    it('returns 0 for empty or whitespace query', () => {
+      expect(scoreNoteMatch(note1, '')).toBe(0)
+      expect(scoreNoteMatch(note1, '   ')).toBe(0)
+      expect(searchNotes(testNotes, '')).toEqual(testNotes)
+    })
+
+    it('matches by title keywords', () => {
+      expect(scoreNoteMatch(note1, 'quaternions')).toBeGreaterThan(0)
+      expect(scoreNoteMatch(note2, 'quaternions')).toBe(0)
+      const results = searchNotes(testNotes, 'quaternion')
+      expect(results).toHaveLength(1)
+      expect(results[0].id).toBe('1')
+    })
+
+    it('matches by tags', () => {
+      expect(scoreNoteMatch(note1, 'computer graphics')).toBeGreaterThan(0)
+      expect(scoreNoteMatch(note2, 'latency')).toBeGreaterThan(0)
+      const results = searchNotes(testNotes, 'latency')
+      expect(results).toHaveLength(1)
+      expect(results[0].id).toBe('2')
+    })
+
+    it('matches words in HTML summary while stripping tags', () => {
+      expect(scoreNoteMatch(note1, 'gimbal lock')).toBeGreaterThan(0)
+      expect(scoreNoteMatch(note2, 'arrival rate')).toBeGreaterThan(0)
+      expect(scoreNoteMatch(note3, 'vocabulary')).toBeGreaterThan(0)
+    })
+
+    it('matches multi-word tokens across different fields (AND matching)', () => {
+      expect(scoreNoteMatch(note1, 'quaternion 4D')).toBeGreaterThan(0)
+      expect(scoreNoteMatch(note3, 'french habits')).toBeGreaterThan(0)
+      expect(scoreNoteMatch(note3, 'french queuing')).toBe(0)
+    })
+
+    it('ranks title matches higher than summary matches', () => {
+      const titleMatchNote = {
+        id: 'a',
+        title: 'Throughput and Capacity Planning',
+        tags: ['systems'],
+        summary: 'Measuring service time.'
+      }
+      const summaryMatchNote = {
+        id: 'b',
+        title: 'Kafka Architecture',
+        tags: ['systems'],
+        summary: 'Maximizing network throughput across partitioned topics.'
+      }
+      const scoreA = scoreNoteMatch(titleMatchNote, 'throughput')
+      const scoreB = scoreNoteMatch(summaryMatchNote, 'throughput')
+      expect(scoreA).toBeGreaterThan(scoreB)
+
+      const ranked = searchNotes([summaryMatchNote, titleMatchNote], 'throughput')
+      expect(ranked[0].id).toBe('a')
+      expect(ranked[1].id).toBe('b')
+    })
   })
 
   describe('normalizeTag', () => {
@@ -176,6 +275,10 @@ describe('Notes Knowledge Graph Logic', () => {
     const midNode = { id: '3', isFavorite: false, popularity: 65, interactive: false }
     const minorNode = { id: '4', isFavorite: false, popularity: 40, interactive: false }
     const interactiveNode = { id: '5', isFavorite: false, popularity: 40, interactive: true }
+
+    it('shows labels for matching nodes when isFiltered is true', () => {
+      expect(shouldShowNodeLabel(minorNode, 1.0, false, false, true)).toBe(true)
+    })
 
     it('level 1: resting overview (k < 1.25): shows labels strictly for favorite notes', () => {
       expect(shouldShowNodeLabel(favoriteNode, 1.0)).toBe(true)
@@ -354,6 +457,34 @@ describe('Notes Knowledge Graph Logic', () => {
       const filtered = filterGraphData(fullGraph, 'all')
 
       expect(filtered.nodes.length).toBe(3)
+    })
+  })
+
+  describe('createSeededRandom (Deterministic PRNG)', () => {
+    it('produces identical sequences for identical seeds', () => {
+      const rng1 = createSeededRandom(42)
+      const rng2 = createSeededRandom(42)
+
+      const seq1 = [rng1(), rng1(), rng1(), rng1(), rng1()]
+      const seq2 = [rng2(), rng2(), rng2(), rng2(), rng2()]
+
+      expect(seq1).toEqual(seq2)
+    })
+
+    it('produces different sequences for different seeds', () => {
+      const rng1 = createSeededRandom(42)
+      const rng2 = createSeededRandom(1337)
+
+      expect(rng1()).not.toBe(rng2())
+    })
+
+    it('returns values bounded in [0, 1)', () => {
+      const rng = createSeededRandom(999)
+      for (let i = 0; i < 50; i++) {
+        const val = rng()
+        expect(val).toBeGreaterThanOrEqual(0)
+        expect(val).toBeLessThan(1)
+      }
     })
   })
 })

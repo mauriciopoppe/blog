@@ -12,7 +12,8 @@
 import {
   isNodeInFilter,
   getIndicatorColors,
-  shouldShowNodeLabel
+  shouldShowNodeLabel,
+  createSeededRandom
 } from './notes-graph-math.js'
 
 export class NotesGraphEngine {
@@ -148,16 +149,26 @@ export class NotesGraphEngine {
   }
 
   setupSimulation() {
+    // Deterministic pseudo-random number generators for 100% reproducible layout across refreshes
+    const jitterRng = createSeededRandom(42)
+    const simRng = createSeededRandom(1337)
+
     // 1. Pre-seed coordinates near cluster target anchors so nodes relax organically from center
     this.fullGraph.nodes.forEach((n) => {
       const targetX = this.getClusterTargetX(n)
       const targetY = this.getClusterTargetY(n)
-      n.x = targetX + (Math.random() - 0.5) * 60
-      n.y = targetY + (Math.random() - 0.5) * 60
+      n.x = targetX + (jitterRng() - 0.5) * 60
+      n.y = targetY + (jitterRng() - 0.5) * 60
     })
 
     this.simulation = this.d3
       .forceSimulation(this.fullGraph.nodes)
+
+    if (typeof this.simulation.randomSource === 'function') {
+      this.simulation.randomSource(simRng)
+    }
+
+    this.simulation
       .force(
         'link',
         this.d3
@@ -177,9 +188,11 @@ export class NotesGraphEngine {
       .alphaDecay(0.02)
 
     // 2. Pre-warm simulation invisibly in memory
-    for (let i = 0; i < 120; i++) {
+    // 2. Pre-warm simulation invisibly in memory and freeze positions permanently
+    for (let i = 0; i < 150; i++) {
       this.simulation.tick()
     }
+    this.simulation.stop()
 
     // 3. Render settled constellation
     this.render()
@@ -188,9 +201,6 @@ export class NotesGraphEngine {
     requestAnimationFrame(() => {
       this.onReady()
     })
-
-    // 5. Connect live tick listener for any ongoing physics/interactions
-    this.simulation.on('tick', () => this.render())
   }
 
   setupAnimationStep() {
@@ -285,9 +295,7 @@ export class NotesGraphEngine {
   bindEvents() {
     this.handleResize = () => {
       this.resizeCanvas()
-      this.simulation.force('clusterX', this.d3.forceX((d) => this.getClusterTargetX(d)).strength(0.18))
-      this.simulation.force('clusterY', this.d3.forceY((d) => this.getClusterTargetY(d)).strength(0.18))
-      this.simulation.alpha(0.3).restart()
+      this.render()
     }
     window.addEventListener('resize', this.handleResize)
 
@@ -395,11 +403,16 @@ export class NotesGraphEngine {
     this.startAnimation()
   }
 
-  resetZoom() {
-    this.d3Canvas.transition().duration(600).call(this.zoom.transform, this.d3.zoomIdentity)
+  resetZoom(duration = 800) {
+    const easeFn = this.d3.easeCubicOut || ((t) => --t * t * t + 1)
+    this.d3Canvas
+      .transition()
+      .duration(duration)
+      .ease(easeFn)
+      .call(this.zoom.transform, this.d3.zoomIdentity)
   }
 
-  frameMatchingNodes(filterKey) {
+  frameMatchingNodes(filterKey, duration = 1000) {
     const matching = this.fullGraph.nodes.filter(
       (n) => isNodeInFilter(n, filterKey) && typeof n.x === 'number' && typeof n.y === 'number'
     )
@@ -407,19 +420,41 @@ export class NotesGraphEngine {
 
     let sumX = 0
     let sumY = 0
+    let minX = Infinity
+    let maxX = -Infinity
+    let minY = Infinity
+    let maxY = -Infinity
+
     matching.forEach((n) => {
       sumX += n.x
       sumY += n.y
+      if (n.x < minX) minX = n.x
+      if (n.x > maxX) maxX = n.x
+      if (n.y < minY) minY = n.y
+      if (n.y > maxY) maxY = n.y
     })
+
     const centerX = sumX / matching.length
     const centerY = sumY / matching.length
 
-    const targetK = matching.length <= 3 ? 1.4 : matching.length <= 8 ? 1.2 : 0.95
+    // Bounding box framing: calculate ideal zoom to comfortably frame matches with 25% margin
+    const spanX = Math.max(160, maxX - minX + 140)
+    const spanY = Math.max(160, maxY - minY + 140)
+    const scaleX = (this.width * 0.75) / spanX
+    const scaleY = (this.height * 0.75) / spanY
+    const idealK = Math.min(scaleX, scaleY)
+    const targetK = Math.min(1.8, Math.max(0.85, idealK))
+
     const targetTransform = this.d3.zoomIdentity
       .translate(this.width / 2 - centerX * targetK, this.height / 2 - centerY * targetK)
       .scale(targetK)
 
-    this.d3Canvas.transition().duration(800).call(this.zoom.transform, targetTransform)
+    const easeFn = this.d3.easeCubicOut || ((t) => --t * t * t + 1)
+    this.d3Canvas
+      .transition()
+      .duration(duration)
+      .ease(easeFn)
+      .call(this.zoom.transform, targetTransform)
   }
 
   render() {

@@ -8,7 +8,7 @@
  * Licensed under the MIT license.
  */
 
-import { html } from '../../ui/preact.js'
+import { html, useRef, useEffect } from '../../ui/preact.js'
 
 const PRESET_FILTERS = [
   { key: 'all', label: 'All', dot: null, className: '' },
@@ -20,9 +20,36 @@ const PRESET_FILTERS = [
   { key: 'favorites', label: '★ Favorites', dot: null, className: 'tw-text-amber-400' }
 ]
 
-export function TopFilterBar({ activeFilter, onSelectFilter }) {
+export function TopFilterBar({
+  activeFilter,
+  onSelectFilter,
+  searchQuery = '',
+  onSearchChange,
+  onSearchSubmit,
+  onSearchClose,
+  isSearchOpen = false,
+  setIsSearchOpen
+}) {
   const isDynamicTag = activeFilter && activeFilter.startsWith('tag:')
   const dynamicTagLabel = isDynamicTag ? activeFilter.slice(4) : ''
+  const searchInputRef = useRef(null)
+
+  useEffect(() => {
+    if (isSearchOpen && searchInputRef.current) {
+      searchInputRef.current.focus()
+    }
+  }, [isSearchOpen])
+
+  const handleSearchKeyDown = (e) => {
+    if (e.key === 'Escape') {
+      e.preventDefault()
+      e.stopPropagation()
+      if (onSearchClose) onSearchClose()
+    } else if (e.key === 'Enter') {
+      e.preventDefault()
+      if (onSearchSubmit) onSearchSubmit()
+    }
+  }
 
   const toggleTheme = (nextTheme) => {
     document.documentElement.setAttribute('data-theme', nextTheme)
@@ -124,6 +151,59 @@ export function TopFilterBar({ activeFilter, onSelectFilter }) {
               </button>
             `
           : null}
+
+        <!-- Divider before Search -->
+        <div class="tw-w-[1px] tw-h-3.5 tw-bg-white/15 tw-mx-0.5 tw-shrink-0"></div>
+
+        <!-- Search Pill or Expanded Input -->
+        ${isSearchOpen
+          ? html`
+              <div
+                class="tw-flex tw-flex-nowrap tw-items-center tw-gap-1.5 tw-bg-white/10 tw-border tw-border-primary/40 tw-rounded-full tw-px-2.5 tw-py-0.5 tw-transition-all tw-duration-200 tw-shrink-0"
+              >
+                <span class="material-symbols-outlined tw-text-primary tw-shrink-0" style="font-size: 13.5px">search</span>
+                <input
+                  ref=${searchInputRef}
+                  id="notes-search-input"
+                  type="text"
+                  value=${searchQuery || ''}
+                  onInput=${(e) => onSearchChange(e.target.value)}
+                  onKeyDown=${handleSearchKeyDown}
+                  placeholder="Search title, tag, or summary..."
+                  class="tw-bg-transparent tw-border-none tw-outline-none tw-text-xs tw-text-[var(--grey-lighter)] placeholder:tw-text-[var(--grey-light)]/50 tw-w-36 sm:tw-w-52 md:tw-w-60 tw-font-sans"
+                />
+                ${searchQuery
+                  ? html`
+                      <button
+                        onClick=${() => onSearchChange('')}
+                        class="tw-text-[var(--grey-light)] hover:tw-text-white tw-text-xs tw-p-0.5 tw-cursor-pointer"
+                        title="Clear input"
+                      >
+                        ✕
+                      </button>
+                    `
+                  : null}
+                <button
+                  onClick=${onSearchClose}
+                  class="tw-text-[10px] tw-text-[var(--grey-light)] hover:tw-text-primary tw-border tw-border-white/10 tw-rounded tw-px-1 tw-font-mono tw-opacity-80 tw-cursor-pointer"
+                  title="Close search (Esc)"
+                >
+                  Esc
+                </button>
+              </div>
+            `
+          : html`
+              <button
+                id="graph-search-btn"
+                onClick=${() => setIsSearchOpen(true)}
+                class="graph-pill-btn tw-text-[var(--grey-light)] hover:tw-text-primary tw-gap-1.5"
+                title="Search notes (⌘K or /)"
+              >
+                <span class="material-symbols-outlined" style="font-size: 13.5px">search</span>
+                <span>Search</span>
+                <kbd class="tw-hidden sm:tw-inline-block tw-text-[10px] tw-px-1 tw-py-0.2 tw-rounded tw-bg-white/10 tw-border tw-border-white/10 tw-font-mono tw-opacity-70">⌘K</kbd>
+              </button>
+            `}
       </div>
 
       <!-- Right: Theme Toggle -->

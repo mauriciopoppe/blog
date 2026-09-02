@@ -26,7 +26,10 @@ export {
   buildGraphData,
   calculateEdgeWeight,
   filterGraphData,
-  shouldShowNodeLabel
+  shouldShowNodeLabel,
+  scoreNoteMatch,
+  searchNotes,
+  createSeededRandom
 } from './notes-graph-math.js'
 
 export async function initNotesGraph(containerId = 'notes-graph-container') {
