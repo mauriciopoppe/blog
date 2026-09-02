@@ -24,6 +24,7 @@ export {
   normalizeTag,
   isNodeInFilter,
   buildGraphData,
+  calculateEdgeWeight,
   filterGraphData,
   shouldShowNodeLabel
 } from './notes-graph-math.js'

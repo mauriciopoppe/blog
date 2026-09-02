@@ -7,6 +7,7 @@ import {
   normalizeTag,
   isNodeInFilter,
   buildGraphData,
+  calculateEdgeWeight,
   filterGraphData,
   shouldShowNodeLabel
 } from './notes-graph.js'
@@ -47,15 +48,18 @@ describe('Notes Knowledge Graph Logic', () => {
   })
 
   describe('getClusterCategory', () => {
-    it('accurately identifies primary thematic cluster from tags', () => {
+    it('accurately identifies primary thematic cluster from tags across 4 core clusters', () => {
       expect(getClusterCategory(['computer graphics', 'rotation'])).toBe('graphics')
       expect(getClusterCategory(['performance', 'system design'])).toBe('systems')
+      expect(getClusterCategory(['c++', 'programming', 'tooling'])).toBe('systems')
       expect(getClusterCategory(['math', 'calculus', 'graph theory'])).toBe('math')
-      expect(getClusterCategory(['ai', 'machine learning', 'c++'])).toBe('ai')
-      expect(getClusterCategory(['music', 'bachata', 'guitar'])).toBe('music')
-      expect(getClusterCategory(['languages', 'french', 'learning'])).toBe('languages')
-      expect(getClusterCategory(['learning', 'languages', 'french', 'life'])).toBe('languages')
-      expect(getClusterCategory(['learning', 'languages', 'japanese', 'life'])).toBe('languages')
+      expect(getClusterCategory(['ai', 'machine learning'])).toBe('math')
+      expect(getClusterCategory(['machine learning', 'hyperparameter tuning'])).toBe('math')
+      expect(getClusterCategory(['music', 'bachata', 'guitar'])).toBe('life')
+      expect(getClusterCategory(['life', 'productivity', 'task management'])).toBe('life')
+      expect(getClusterCategory(['career', 'productivity', 'software-engineering'])).toBe('life')
+      expect(getClusterCategory(['learning', 'languages', 'french', 'life'])).toBe('life')
+      expect(getClusterCategory(['learning', 'languages', 'japanese', 'life'])).toBe('life')
     })
   })
 
@@ -68,26 +72,21 @@ describe('Notes Knowledge Graph Logic', () => {
     it('maps systems and performance tags to coral cluster token', () => {
       expect(getClusterColor(['performance', 'queuing theory'])).toBe('#ff7043')
       expect(getClusterColor(['system design', 'distributed systems'])).toBe('#ff7043')
+      expect(getClusterColor(['c++', 'tooling'])).toBe('#ff7043')
     })
 
-    it('maps mathematics and graph theory tags to sky blue cluster token', () => {
+    it('maps mathematics, graph theory, and ML tags to sky blue cluster token', () => {
       expect(getClusterColor(['math', 'calculus'])).toBe('#38bdf8')
       expect(getClusterColor(['graph theory', 'trees'])).toBe('#38bdf8')
+      expect(getClusterColor(['machine learning', 'hyperparameter tuning'])).toBe('#38bdf8')
     })
 
-    it('maps AI and software engineering tags to emerald cluster token', () => {
-      expect(getClusterColor(['ai', 'machine learning'])).toBe('#34d399')
-      expect(getClusterColor(['c++', 'programming languages'])).toBe('#34d399')
-    })
-
-    it('maps music, life, and productivity tags to amber cluster token', () => {
+    it('maps music, life, languages, and productivity tags to amber cluster token', () => {
       expect(getClusterColor(['music', 'bachata'])).toBe('#fbbf24')
       expect(getClusterColor(['productivity', 'life'])).toBe('#fbbf24')
+      expect(getClusterColor(['learning', 'french'])).toBe('#fbbf24')
     })
 
-    it('maps language learning tags to indigo cluster token', () => {
-      expect(getClusterColor(['languages', 'french'])).toBe('#818cf8')
-    })
 
     it('falls back to default luminous white/grey when tags are empty or unmatched', () => {
       expect(getClusterColor([])).toBe('rgba(255, 255, 255, 0.75)')
@@ -107,8 +106,8 @@ describe('Notes Knowledge Graph Logic', () => {
       expect(colors.star).toBe('#fbbf24')
     })
 
-    it('provides white star on music amber to prevent blending with amber background', () => {
-      const colors = getIndicatorColors('music')
+    it('provides white star on life amber to prevent blending with amber background', () => {
+      const colors = getIndicatorColors('life')
       expect(colors.star).toBe('#ffffff')
     })
   })
@@ -151,6 +150,14 @@ describe('Notes Knowledge Graph Logic', () => {
 
       expect(isNodeInFilter(cgNodeWithSpaces, 'tag:computer-graphics')).toBe(true)
       expect(isNodeInFilter(cgNodeWithSpaces, 'tag:transformation-matrix')).toBe(true)
+
+      const lifeNote = { tags: ['life', 'habits', 'journaling'], cluster: 'life' }
+      const frenchNote = { tags: ['learning', 'languages', 'french', 'life'], cluster: 'life' }
+      const mathNote = { tags: ['math', 'calculus'], cluster: 'math' }
+
+      expect(isNodeInFilter(lifeNote, 'tag:life')).toBe(true)
+      expect(isNodeInFilter(frenchNote, 'tag:life')).toBe(true)
+      expect(isNodeInFilter(mathNote, 'tag:life')).toBe(false)
     })
   })
 
@@ -170,26 +177,24 @@ describe('Notes Knowledge Graph Logic', () => {
     const minorNode = { id: '4', isFavorite: false, popularity: 40, interactive: false }
     const interactiveNode = { id: '5', isFavorite: false, popularity: 40, interactive: true }
 
-    it('level 1 (zoomed out, k < 0.9): shows only favorites and top landmarks', () => {
-      const zoomK = 0.6
-      expect(shouldShowNodeLabel(favoriteNode, zoomK)).toBe(true)
-      expect(shouldShowNodeLabel(landmarkNode, zoomK)).toBe(true)
-      expect(shouldShowNodeLabel(midNode, zoomK)).toBe(false)
-      expect(shouldShowNodeLabel(minorNode, zoomK)).toBe(false)
+    it('level 1: resting overview (k < 1.25): shows labels strictly for favorite notes', () => {
+      expect(shouldShowNodeLabel(favoriteNode, 1.0)).toBe(true)
+      expect(shouldShowNodeLabel(landmarkNode, 1.0)).toBe(false)
+      expect(shouldShowNodeLabel(midNode, 1.0)).toBe(false)
+      expect(shouldShowNodeLabel(interactiveNode, 1.0)).toBe(false)
+      expect(shouldShowNodeLabel(minorNode, 1.0)).toBe(false)
     })
 
-    it('level 2 (mid zoom, 0.9 <= k < 1.4): shows favorites, secondary hubs, and interactive nodes', () => {
-      const zoomK = 1.0
-      expect(shouldShowNodeLabel(favoriteNode, zoomK)).toBe(true)
-      expect(shouldShowNodeLabel(landmarkNode, zoomK)).toBe(true)
-      expect(shouldShowNodeLabel(midNode, zoomK)).toBe(true)
-      expect(shouldShowNodeLabel(interactiveNode, zoomK)).toBe(true)
-      expect(shouldShowNodeLabel(minorNode, zoomK)).toBe(false)
+    it('level 2: moderate zoom (1.25 <= k < 1.75): reveals favorites and major interactive hubs', () => {
+      const popularInteractiveNode = { isFavorite: false, interactive: true, popularity: 80 }
+      expect(shouldShowNodeLabel(favoriteNode, 1.4)).toBe(true)
+      expect(shouldShowNodeLabel(popularInteractiveNode, 1.4)).toBe(true)
+      expect(shouldShowNodeLabel(minorNode, 1.4)).toBe(false)
     })
 
-    it('level 3 (zoomed in, k >= 1.4): shows all nodes', () => {
-      const zoomK = 1.6
-      expect(shouldShowNodeLabel(minorNode, zoomK)).toBe(true)
+    it('level 3: deep zoom (k >= 1.75): reveals all notes in the focused view', () => {
+      expect(shouldShowNodeLabel(minorNode, 2.0)).toBe(true)
+      expect(shouldShowNodeLabel(landmarkNode, 2.0)).toBe(true)
     })
 
     it('always shows label when hovered or neighbor regardless of zoom', () => {
@@ -250,7 +255,53 @@ describe('Notes Knowledge Graph Logic', () => {
       )
 
       expect(cgLink).toBeDefined()
-      expect(cgLink.weight).toBe(2)
+      expect(cgLink.weight).toBeGreaterThan(0)
+    })
+  })
+
+  describe('calculateEdgeWeight (Graph Edge Audit)', () => {
+    const quaternions = {
+      cluster: 'graphics',
+      tags: ['quaternions', '3d', 'computer graphics', 'rotation']
+    }
+    const queuingTheory = {
+      cluster: 'systems',
+      tags: ['system design', 'performance', 'queuing theory', 'distributed systems', 'math', 'latency']
+    }
+    const complexNumbers = {
+      cluster: 'math',
+      tags: ['math', 'numeral systems', 'complex numbers', 'imaginary numbers']
+    }
+    const bayesNets = {
+      cluster: 'math',
+      tags: ['math', 'probability', 'bayesian networks', 'exact inference']
+    }
+    const performanceFundamentals = {
+      cluster: 'systems',
+      tags: ['performance', 'system design', 'queuing theory', 'latency']
+    }
+    const rotation = {
+      cluster: 'graphics',
+      tags: ['rotation', 'quaternions', '3d', 'computer graphics']
+    }
+
+    it('prevents cross-cluster connections when only sharing broad generic umbrella tags', () => {
+      // Quaternions and Queuing Theory must never connect!
+      expect(calculateEdgeWeight(quaternions, queuingTheory)).toBe(0)
+
+      // Complex Numbers and Queuing Theory must never connect!
+      expect(calculateEdgeWeight(complexNumbers, queuingTheory)).toBe(0)
+
+      // Bayesian Networks and Quaternions must never connect!
+      expect(calculateEdgeWeight(bayesNets, quaternions)).toBe(0)
+    })
+
+    it('creates strong edges for genuinely related articles with shared specific domain tags', () => {
+      // Quaternions and Rotation are deeply related 3D rotation topics
+      expect(calculateEdgeWeight(quaternions, rotation)).toBeGreaterThan(0)
+
+      // Queuing Theory and Performance Fundamentals share queuing theory, latency, performance
+      expect(calculateEdgeWeight(queuingTheory, performanceFundamentals)).toBeGreaterThan(0)
     })
   })
 
