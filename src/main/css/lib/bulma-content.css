@@ -195,7 +195,7 @@
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   contain: layout;
-  margin: 2rem 0;
+  margin: 1.25rem 0;
   border: 1px solid var(--grey-dark);
   border-radius: 12px;
   background-color: var(--grey-darker);
@@ -219,8 +219,8 @@ html[data-theme=light] .table-container {
   border-radius: 12px;
   overflow: hidden;
   margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.5;
+  font-size: 0.85rem;
+  line-height: 1.35;
   background-color: var(--grey-darker);
   font-family: var(--family-serif);
 }
@@ -250,7 +250,7 @@ html[data-theme=light] .content table {
   font-weight: 600;
   font-size: 0.78rem;
   color: rgb(var(--primary));
-  padding: 0.45rem 0.75rem;
+  padding: 0.5rem 0.55rem;
   border-bottom: 1px solid var(--ring-border);
   border-right: none;
   vertical-align: middle;
@@ -263,7 +263,7 @@ html[data-theme=light] .content table {
 /* Body cell styling */
 .content table td,
 .content table tbody th {
-  padding: 0.45rem 0.75rem;
+  padding: 0.3rem 0.55rem;
   vertical-align: middle;
   color: var(--grey-light);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
@@ -311,9 +311,30 @@ html[data-theme=light] .content table tbody th {
 .content table tfoot td,
 .content table tfoot th {
   border-top: 2px solid rgba(var(--primary), 0.35);
-  padding: 0.65rem 0.85rem;
+  padding: 0.45rem 0.65rem;
   color: var(--grey-light);
   font-family: var(--family-sans);
+}
+
+@media (max-width: 640px) {
+  .table-container {
+    margin: 1rem 0;
+  }
+
+  .content table {
+    font-size: 0.78rem;
+    line-height: 1.3;
+  }
+
+  .content table thead th,
+  .content table thead td {
+    padding: 0.4rem 0.4rem;
+  }
+
+  .content table td,
+  .content table tbody th {
+    padding: 0.25rem 0.4rem;
+  }
 }
 
 .content .tabs li + li {

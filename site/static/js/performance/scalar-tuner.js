@@ -290,8 +290,8 @@ export function initScalarTuner(containerId = '#scalar-tuner') {
           `).join('')}
         </div>
 
-        <div class="tw-flex tw-gap-2.5 tw-flex-wrap tw-items-start">
-          <div class="tw-flex-none tw-w-[260px] tw-min-w-[200px]">
+        <div class="tw-flex tw-gap-2.5 tw-flex-wrap tw-items-start max-[860px]:tw-flex-col">
+          <div class="tw-flex-none tw-w-[260px] tw-min-w-[200px] max-[860px]:tw-w-full max-[860px]:tw-min-w-0">
             <div class="tw-flex tw-justify-between tw-items-center tw-mb-2 tw-h-6">
               <span class="tw-font-sans tw-text-[0.75rem] tw-font-semibold tw-text-[var(--grey-light)]">Feature levers</span>
               <strong id="st-value-readout" class="tw-font-bold tw-text-[0.75rem] tw-text-[var(--grey-lighter)]"></strong>
@@ -299,7 +299,7 @@ export function initScalarTuner(containerId = '#scalar-tuner') {
             <div id="st-features" class="tw-flex tw-flex-col tw-gap-1.5"></div>
           </div>
           <div class="tw-hidden md:tw-block tw-w-px tw-self-stretch tw-bg-[var(--ring-border)]"></div>
-          <div class="tw-flex-1 tw-min-w-[320px]">
+          <div class="tw-flex-1 tw-min-w-[320px] max-[860px]:tw-w-full max-[860px]:tw-min-w-0">
             <div class="tw-mb-2 tw-h-6 tw-flex tw-items-center tw-justify-start tw-gap-x-3 tw-gap-y-1 tw-flex-wrap tw-text-[0.75rem] tw-leading-snug tw-text-[var(--grey-light)]">
               <span class="tw-font-sans tw-text-[0.75rem] tw-font-semibold tw-text-[var(--grey-light)] tw-mr-2">Legend</span>
               <span class="tw-inline-flex tw-items-center tw-gap-1"><span class="tw-inline-block tw-w-4 tw-h-0.5 tw-rounded-full tw-bg-[var(--grey)]"></span> untuned</span>

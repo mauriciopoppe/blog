@@ -126,6 +126,8 @@ export function initNoiseFilterDemo(containerId = '#noise-filter-demo') {
         font-family: var(--family-sans, system-ui, sans-serif);
         font-weight: 600;
       }
+      #noise-filter-demo .nf-table-scroll { -webkit-overflow-scrolling: touch; }
+      #noise-filter-demo .nf-table-scroll table { width: max-content; min-width: 100%; }
     </style>
 
     <div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
@@ -276,18 +278,20 @@ export function initNoiseFilterDemo(containerId = '#noise-filter-demo') {
           </svg>
 
           <!-- Side-by-side comparison table -->
-          <table class="tw-w-full tw-border-collapse" id="nf-table">
-            <thead>
-              <tr class="tw-font-sans tw-text-[var(--grey-light)] tw-border-b tw-border-[var(--ring-border)]">
-                <th class="tw-text-left tw-font-semibold">Method / Mode</th>
-                <th class="tw-text-left tw-font-semibold">Decision</th>
-                <th class="tw-text-right tw-font-semibold">Δ TTFT</th>
-                <th class="tw-text-right tw-font-semibold">Δ TPS</th>
-                <th class="tw-text-left tw-font-semibold">Mechanism / Notes</th>
-              </tr>
-            </thead>
-            <tbody id="nf-table-body" class="tw-text-[var(--grey-light)]"></tbody>
-          </table>
+          <div class="nf-table-scroll tw-max-w-full tw-overflow-x-auto" tabindex="0" aria-label="Noise-aware filtering comparison table">
+            <table class="tw-w-max tw-min-w-full tw-border-collapse" id="nf-table">
+              <thead>
+                <tr class="tw-font-sans tw-text-[var(--grey-light)] tw-border-b tw-border-[var(--ring-border)]">
+                  <th class="tw-text-left tw-font-semibold">Method / Mode</th>
+                  <th class="tw-text-left tw-font-semibold">Decision</th>
+                  <th class="tw-text-right tw-font-semibold">Δ TTFT</th>
+                  <th class="tw-text-right tw-font-semibold">Δ TPS</th>
+                  <th class="tw-text-left tw-font-semibold">Mechanism / Notes</th>
+                </tr>
+              </thead>
+              <tbody id="nf-table-body" class="tw-text-[var(--grey-light)]"></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

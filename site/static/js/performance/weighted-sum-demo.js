@@ -129,6 +129,8 @@ export function initWeightedSumDemo(containerId = '#weighted-sum-demo') {
         font-family: var(--family-sans, system-ui, sans-serif);
         font-weight: 600;
       }
+      #weighted-sum-demo .ws-table-scroll { -webkit-overflow-scrolling: touch; }
+      #weighted-sum-demo .ws-table-scroll table { width: max-content; min-width: 100%; }
     </style>
 
     <div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
@@ -271,19 +273,21 @@ export function initWeightedSumDemo(containerId = '#weighted-sum-demo') {
           </div>
 
           <!-- Complete Comparison Table showing active frontier & candidate evaluations -->
-          <table class="tw-w-full tw-border-collapse tw-mt-1" id="ws-table">
-            <thead>
-              <tr class="tw-font-sans tw-text-[var(--grey-light)] tw-border-b tw-border-[var(--ring-border)]">
-                <th class="tw-text-left tw-font-semibold">Point</th>
-                <th class="tw-text-right tw-font-semibold">f₁ (TTFT)</th>
-                <th class="tw-text-right tw-font-semibold">f₂ (Inv. TPS)</th>
-                <th class="tw-text-right tw-font-semibold">g(x)</th>
-                <th class="tw-text-right tw-font-semibold">vs. g</th>
-                <th class="tw-text-left tw-font-semibold">Decision</th>
-              </tr>
-            </thead>
-            <tbody id="ws-table-body" class="tw-text-[var(--grey-light)]"></tbody>
-          </table>
+          <div class="ws-table-scroll tw-max-w-full tw-overflow-x-auto" tabindex="0" aria-label="Weighted sum comparison table">
+            <table class="tw-w-max tw-min-w-full tw-border-collapse tw-mt-1" id="ws-table">
+              <thead>
+                <tr class="tw-font-sans tw-text-[var(--grey-light)] tw-border-b tw-border-[var(--ring-border)]">
+                  <th class="tw-text-left tw-font-semibold">Point</th>
+                  <th class="tw-text-right tw-font-semibold">f₁ (TTFT)</th>
+                  <th class="tw-text-right tw-font-semibold">f₂ (Inv. TPS)</th>
+                  <th class="tw-text-right tw-font-semibold">g(x)</th>
+                  <th class="tw-text-right tw-font-semibold">vs. g</th>
+                  <th class="tw-text-left tw-font-semibold">Decision</th>
+                </tr>
+              </thead>
+              <tbody id="ws-table-body" class="tw-text-[var(--grey-light)]"></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
