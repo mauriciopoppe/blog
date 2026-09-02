@@ -1,9 +1,11 @@
 /**
  * Avatar Mini Bar Player (Preact + HTM)
  *
- * Body-mounted responsive singleton mini player:
+ * Positioned using pure CSS:
  * - Mobile (< 640px): Floating bottom dock fixed directly to browser viewport.
- * - Desktop (>= 640px): Viewport-clamped anchored popover with instant positioning.
+ * - Desktop (>= 640px): CSS absolute positioned popover anchored to avatar container.
+ *
+ * Eliminates JavaScript scroll event listeners to guarantee 60/120fps zero-lag scroll tracking.
  *
  * Copyright (c) 2026 Mauricio Poppe
  * Licensed under the MIT license.
@@ -23,41 +25,14 @@ function formatLcdBar(barNum) {
   return numStr
 }
 
-let activeAvatarEl = null
-let openMobileCallback = null
-let closeMobileCallback = null
-
-function calculateDesktopPosition(avatarEl, popupEl) {
-  if (!avatarEl) return { top: 0, left: 0 }
-  const rect = avatarEl.getBoundingClientRect()
-  const popupWidth = popupEl ? popupEl.offsetWidth : 280
-  const popupHeight = popupEl ? popupEl.offsetHeight : 160
-
-  let left = rect.left + rect.width / 2 - popupWidth / 2
-  left = Math.max(16, Math.min(window.innerWidth - popupWidth - 16, left))
-  const top = rect.top - popupHeight - 8
-
-  return { top, left }
-}
-
-export function MiniPlayer() {
+export function MiniPlayer({ avatarEl }) {
   const [storeState, setStoreState] = useState(playerStore.getState())
   const [isHovered, setIsHovered] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 640 : false)
-  const [desktopPos, setDesktopPos] = useState({ top: 0, left: 0 })
   const hoverTimeoutRef = useRef(null)
-  const popupRef = useRef(null)
 
-  openMobileCallback = () => setIsMobileOpen(true)
-  closeMobileCallback = () => {
-    setIsMobileOpen(false)
-    if (playerStore.getState().isPlaying) {
-      playerStore.stop()
-    }
-  }
-
-  // Subscribe to store updates
+  // Subscribe to global store updates
   useEffect(() => {
     const unsubscribe = playerStore.subscribe((state) => {
       setStoreState(state)
@@ -65,31 +40,24 @@ export function MiniPlayer() {
     return unsubscribe
   }, [])
 
-  // Position & Viewport tracking
-  const updateLayout = () => {
-    const mobile = window.innerWidth < 640
-    setIsMobile(mobile)
-
-    if (!mobile && activeAvatarEl) {
-      const pos = calculateDesktopPosition(activeAvatarEl, popupRef.current)
-      setDesktopPos(pos)
-    }
-  }
-
+  // Viewport resize tracking
   useEffect(() => {
-    updateLayout()
-    window.addEventListener('resize', updateLayout, { passive: true })
-    window.addEventListener('scroll', updateLayout, { passive: true })
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640)
+    }
+    window.addEventListener('resize', handleResize, { passive: true })
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  // Hook avatar element events
+  useEffect(() => {
+    if (!avatarEl) return
 
     const handleAvatarEnter = () => {
       if (window.innerWidth >= 640) {
         if (hoverTimeoutRef.current) {
           clearTimeout(hoverTimeoutRef.current)
           hoverTimeoutRef.current = null
-        }
-        if (activeAvatarEl) {
-          const pos = calculateDesktopPosition(activeAvatarEl, popupRef.current)
-          setDesktopPos(pos)
         }
         setIsHovered(true)
       }
@@ -106,16 +74,24 @@ export function MiniPlayer() {
       }
     }
 
-    window.addEventListener('avatar-player-enter', handleAvatarEnter)
-    window.addEventListener('avatar-player-leave', handleAvatarLeave)
+    const handleAvatarClick = (e) => {
+      if (e.target.closest('.avatar-mini-player')) return
+      if (window.innerWidth < 640) {
+        setIsMobileOpen(true)
+      }
+      playerStore.togglePlay(avatarEl)
+    }
+
+    avatarEl.addEventListener('mouseenter', handleAvatarEnter)
+    avatarEl.addEventListener('mouseleave', handleAvatarLeave)
+    avatarEl.addEventListener('click', handleAvatarClick)
 
     return () => {
-      window.removeEventListener('resize', updateLayout)
-      window.removeEventListener('scroll', updateLayout)
-      window.removeEventListener('avatar-player-enter', handleAvatarEnter)
-      window.removeEventListener('avatar-player-leave', handleAvatarLeave)
+      avatarEl.removeEventListener('mouseenter', handleAvatarEnter)
+      avatarEl.removeEventListener('mouseleave', handleAvatarLeave)
+      avatarEl.removeEventListener('click', handleAvatarClick)
     }
-  }, [])
+  }, [avatarEl])
 
   const onPlayerEnter = () => {
     if (!isMobile) {
@@ -151,23 +127,26 @@ export function MiniPlayer() {
   // Visibility logic: on mobile follows isMobileOpen; on desktop follows isHovered
   const isVisible = isMobile ? isMobileOpen : isHovered
 
-  // Position styling
-  let containerStyles = {}
+  // Position and layout classes
   let layoutClasses = ''
+  let dynamicStyles = {}
 
   if (isMobile) {
-    layoutClasses = `
-      tw-fixed tw-bottom-4 tw-left-4 tw-right-4 tw-z-[99999] tw-max-w-sm tw-mx-auto
-      ${isVisible ? 'tw-translate-y-0 tw-opacity-100 tw-pointer-events-auto' : 'tw-translate-y-8 tw-opacity-0 tw-pointer-events-none'}
-    `
+    layoutClasses = 'tw-fixed tw-bottom-4 tw-left-4 tw-right-4 tw-z-[99999] tw-max-w-sm tw-mx-auto'
+    dynamicStyles = {
+      transform: `translateY(${isVisible ? '0' : '32px'})`,
+      opacity: isVisible ? 1 : 0,
+      pointerEvents: isVisible ? 'auto' : 'none',
+      transition: 'opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+    }
   } else {
-    layoutClasses = `
-      tw-fixed tw-z-[99999] tw-w-max tw-max-w-[calc(100vw-32px)]
-      ${isVisible ? 'tw-translate-y-0 tw-scale-100 tw-opacity-100 tw-pointer-events-auto' : 'tw-translate-y-2 tw-scale-[0.96] tw-opacity-0 tw-pointer-events-none'}
-    `
-    containerStyles = {
-      top: `${desktopPos.top}px`,
-      left: `${desktopPos.left}px`
+    layoutClasses = 'tw-absolute tw-bottom-[calc(100%+10px)] tw-left-1/2 tw-z-[9999] tw-w-max tw-max-w-[calc(100vw-32px)]'
+    dynamicStyles = {
+      transform: `translateX(-50%) translateY(${isVisible ? '0' : '8px'}) scale(${isVisible ? '1' : '0.96'})`,
+      transformOrigin: 'bottom center',
+      opacity: isVisible ? 1 : 0,
+      pointerEvents: isVisible ? 'auto' : 'none',
+      transition: 'opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
     }
   }
 
@@ -179,12 +158,10 @@ export function MiniPlayer() {
 
   return html`
     <div
-      ref=${popupRef}
       class=${popupClasses}
       style=${{
         background: 'color-mix(in srgb, var(--grey-darker) 94%, transparent)',
-        transition: 'opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-        ...containerStyles
+        ...dynamicStyles
       }}
       onMouseEnter=${onPlayerEnter}
       onMouseLeave=${onPlayerLeave}
@@ -217,7 +194,7 @@ export function MiniPlayer() {
           <div
             class="tw-flex tw-items-center tw-gap-2 tw-min-w-0 tw-flex-1 ${playerStore.songs.length > 1 ? 'tw-cursor-pointer hover:tw-opacity-90 tw-transition-opacity' : ''}"
             title=${playerStore.songs.length > 1 ? 'Click to switch song' : ''}
-            onClick=${playerStore.songs.length > 1 ? () => playerStore.cycleSong(activeAvatarEl) : null}
+            onClick=${playerStore.songs.length > 1 ? () => playerStore.cycleSong(avatarEl) : null}
           >
             <span class="mini-player-icon tw-text-base tw-leading-none tw-shrink-0">${song.icon}</span>
             <div class="mini-player-meta tw-flex tw-flex-col tw-min-w-0 tw-leading-tight">
@@ -314,7 +291,7 @@ export function MiniPlayer() {
             type="button"
             class="tw-rounded-lg tw-px-3 tw-py-1 tw-font-bold tw-leading-none tw-shadow-subtle hover:tw-shadow-raised tw-flex tw-items-center tw-justify-center tw-gap-1"
             title="Previous verse (⏮)"
-            onClick=${() => playerStore.prevVerse(activeAvatarEl)}
+            onClick=${() => playerStore.prevVerse(avatarEl)}
           >
             ⏮
           </button>
@@ -322,7 +299,7 @@ export function MiniPlayer() {
             type="button"
             class="tw-rounded-lg tw-px-4 tw-py-1.5 tw-font-bold tw-leading-none tw-shadow-subtle hover:tw-shadow-raised tw-flex tw-items-center tw-justify-center tw-text-sm ${isPlaying ? 'btn-active' : ''}"
             title=${isPlaying ? 'Pause (⏸)' : 'Play (▶)'}
-            onClick=${() => playerStore.togglePlay(activeAvatarEl)}
+            onClick=${() => playerStore.togglePlay(avatarEl)}
           >
             ${isPlaying ? '⏸ Pause' : '▶ Play'}
           </button>
@@ -330,7 +307,7 @@ export function MiniPlayer() {
             type="button"
             class="tw-rounded-lg tw-px-3 tw-py-1 tw-font-bold tw-leading-none tw-shadow-subtle hover:tw-shadow-raised tw-flex tw-items-center tw-justify-center tw-gap-1"
             title="Next verse (⏭)"
-            onClick=${() => playerStore.nextVerse(activeAvatarEl)}
+            onClick=${() => playerStore.nextVerse(avatarEl)}
           >
             ⏭
           </button>
@@ -340,45 +317,21 @@ export function MiniPlayer() {
   `
 }
 
-let isGlobalMounted = false
-
 export function mountMiniPlayer(avatarEl) {
   if (!avatarEl) return
-
-  // Mount directly to document.body root to guarantee true viewport-relative fixed positioning
-  if (!isGlobalMounted && typeof document !== 'undefined') {
-    isGlobalMounted = true
-    let rootContainer = document.getElementById('avatar-mini-player-root')
-    if (!rootContainer) {
-      rootContainer = document.createElement('div')
-      rootContainer.id = 'avatar-mini-player-root'
-      document.body.appendChild(rootContainer)
-    }
-    render(html`<${MiniPlayer} />`, rootContainer)
-  }
-
   if (avatarEl.dataset.miniPlayerHooked === 'true') return
   avatarEl.dataset.miniPlayerHooked = 'true'
 
-  avatarEl.addEventListener('mouseenter', () => {
-    activeAvatarEl = avatarEl
-    if (window.innerWidth >= 640) {
-      window.dispatchEvent(new CustomEvent('avatar-player-enter'))
-    }
-  })
+  // Ensure avatar parent container is relatively positioned
+  const parent = avatarEl.parentElement || avatarEl
+  parent.classList.add('tw-relative')
 
-  avatarEl.addEventListener('mouseleave', () => {
-    if (window.innerWidth >= 640) {
-      window.dispatchEvent(new CustomEvent('avatar-player-leave'))
-    }
-  })
+  let mountContainer = parent.querySelector('.avatar-mini-player-mount')
+  if (!mountContainer) {
+    mountContainer = document.createElement('div')
+    mountContainer.className = 'avatar-mini-player-mount'
+    parent.appendChild(mountContainer)
+  }
 
-  avatarEl.addEventListener('click', (e) => {
-    if (e.target.closest('.avatar-mini-player')) return
-    activeAvatarEl = avatarEl
-    if (window.innerWidth < 640 && openMobileCallback) {
-      openMobileCallback()
-    }
-    playerStore.togglePlay(avatarEl)
-  })
+  render(html`<${MiniPlayer} avatarEl=${avatarEl} />`, mountContainer)
 }
