@@ -175,33 +175,29 @@ a:hover svg {
 
 {{ define "footer" }}
   {{ partial "scripts/voronoi.html" . }}
-  {{ partial "scripts/heart.html" . }}
   <script>
     window.myBlog.onDocumentReady(() => {
-      window.mainHeart({
-        animateOnMouseOver: false,
-        animateOnClick: false,
-      })
-
       const onHeartAnimationOnce = window.myBlog.doOnce(() => {
-        window.gtag('event', 'links_easter_egg')
+        if (window.gtag) window.gtag('event', 'links_easter_egg')
       })
 
       const heartContainer = document.querySelector('#heart-container')
       const firstHeart = document.querySelector('.heart')
       let isAnimating = false
-      firstHeart.addEventListener('click', (e) => {
-        if (!isAnimating) {
-          isAnimating = true
-          heartContainer.classList.add('start-animation')
-          setTimeout(() => {
-            heartContainer.classList.remove('start-animation')
-            isAnimating = false
-          }, 3000)
-          onHeartAnimationOnce()
-        }
-        e.preventDefault()
-      })
+      if (firstHeart && heartContainer) {
+        firstHeart.addEventListener('click', (e) => {
+          if (!isAnimating) {
+            isAnimating = true
+            heartContainer.classList.add('start-animation')
+            setTimeout(() => {
+              heartContainer.classList.remove('start-animation')
+              isAnimating = false
+            }, 3000)
+            onHeartAnimationOnce()
+          }
+          e.preventDefault()
+        })
+      }
     })
   </script>
 {{ end }}

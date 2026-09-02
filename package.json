@@ -39,7 +39,6 @@
     "@babel/preset-env": "^7.8.3",
     "@babel/preset-react": "^7.8.3",
     "@babel/register": "^7.8.0",
-    "@mojs/core": "^0.288.2",
     "@react-three/drei": "^9.66.0",
     "@react-three/fiber": "^8.12.2",
     "@react-three/postprocessing": "^2.8.0",
