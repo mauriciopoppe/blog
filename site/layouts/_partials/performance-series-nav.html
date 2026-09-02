@@ -37,6 +37,12 @@
     border-color: rgb(var(--primary)) !important;
     box-shadow: var(--elevation-deep);
   }
+  .perf-stage-link:hover .perf-stage-title {
+    color: rgb(var(--primary)) !important;
+  }
+  .perf-stage-link:hover .perf-stage-label {
+    color: rgb(var(--primary)) !important;
+  }
   .perf-stage-link:hover .perf-stage-bg {
     transform: scale(1.18) rotate(3deg) !important;
     opacity: 0.18 !important;
@@ -65,8 +71,8 @@
       <div class="perf-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/performance-fundamentals.png'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
       {{ if $favStage1 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep1 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 1</div>
-        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep1 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Fundamentals</div>
+        <div class="perf-stage-label" style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep1 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 1</div>
+        <div class="perf-stage-title" style="font-size: 16px; font-weight: 700; color: {{ if $isStep1 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Fundamentals</div>
         <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">Latency, throughput, utilization, Little's Law</div>
       </div>
     </a>
@@ -76,8 +82,8 @@
       <div class="perf-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/hockey-stick-queue-theory.png'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
       {{ if $favStage2 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep2 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 2</div>
-        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep2 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Queuing Models</div>
+        <div class="perf-stage-label" style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep2 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 2</div>
+        <div class="perf-stage-title" style="font-size: 16px; font-weight: 700; color: {{ if $isStep2 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Queuing Models</div>
         <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">M/M/1, hockey stick curve, resource pooling</div>
       </div>
     </a>
@@ -87,8 +93,8 @@
       <div class="perf-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/benchmarking-and-capacity-planning.png'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
       {{ if $favStage3 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep3 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 3</div>
-        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep3 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Benchmarking</div>
+        <div class="perf-stage-label" style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep3 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 3</div>
+        <div class="perf-stage-title" style="font-size: 16px; font-weight: 700; color: {{ if $isStep3 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Benchmarking</div>
         <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">Load testing, coordinated omission, capacity</div>
       </div>
     </a>
@@ -98,8 +104,8 @@
       <div class="perf-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/neural-network.jpeg'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
       {{ if $favStage4 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep4 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 4</div>
-        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep4 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Optimization</div>
+        <div class="perf-stage-label" style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep4 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 4</div>
+        <div class="perf-stage-title" style="font-size: 16px; font-weight: 700; color: {{ if $isStep4 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Optimization</div>
         <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">Pareto frontier, multi-objective tuning</div>
       </div>
     </a>

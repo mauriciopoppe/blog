@@ -40,7 +40,7 @@
             <li class="tw-mb-3">
               <a href="{{ $page.RelPermalink }}" class="sitemap-note-card tw-relative tw-block tw-rounded-lg tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-cursor-pointer tw-shadow-subtle hover:tw-border-primary hover:tw-bg-primary-soft hover:tw-shadow-deep hover:tw-filter-none tw-transition-all tw-p-2 tw-no-underline">
                 {{ with $page.Params.image }}<div class="sitemap-note-card-bg" style="background-image: url('{{ . | absURL }}');"></div>{{ end }}
-                <div class="tw-relative tw-z-10 tw-font-sans tw-leading-tight tw-text-inherit">{{ $page.Title }}</div>
+                <div class="sitemap-note-card-title tw-relative tw-z-10 tw-font-sans tw-text-sm tw-font-bold tw-leading-tight tw-text-[var(--grey-lighter)] tw-mb-1">{{ $page.Title }}</div>
                 <div class="tw-relative tw-z-10 tw-mt-0.5 tw-text-xs tw-leading-tight tw-text-[var(--grey-light)]">{{ ($page.Params.summary | default $page.Description | default $page.Summary) | markdownify }}</div>
               </a>
             </li>
@@ -55,7 +55,7 @@
               <li class="tw-mb-3{{ if eq .RelPermalink $current.RelPermalink }} is-active{{ end }}">
                 <a href="{{ .RelPermalink }}" class="sitemap-note-card tw-relative tw-block tw-rounded-lg tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-cursor-pointer tw-shadow-subtle hover:tw-border-primary hover:tw-bg-primary-soft hover:tw-shadow-deep hover:tw-filter-none tw-transition-all tw-p-2 tw-no-underline">
                   {{ with .Params.image }}<div class="sitemap-note-card-bg" style="background-image: url('{{ . | absURL }}');"></div>{{ end }}
-                  <div class="tw-relative tw-z-10 tw-font-sans tw-leading-tight tw-text-inherit">{{ .Title }}</div>
+                  <div class="sitemap-note-card-title tw-relative tw-z-10 tw-font-sans tw-text-sm tw-font-bold tw-leading-tight tw-text-[var(--grey-lighter)] tw-mb-1">{{ .Title }}</div>
                   <div class="tw-mt-0.5 tw-text-xs tw-leading-tight tw-text-[var(--grey-light)]">{{ (.Params.summary | default .Description | default .Summary) | markdownify }}</div>
                 </a>
               </li>

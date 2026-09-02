@@ -55,6 +55,14 @@
     border-color: rgb(var(--primary)) !important;
     box-shadow: var(--elevation-deep);
   }
+  .graphics-stage-link:hover .graphics-stage-title,
+  .graphics-substage-link:hover .graphics-stage-title {
+    color: rgb(var(--primary)) !important;
+  }
+  .graphics-stage-link:hover .graphics-stage-label,
+  .graphics-substage-link:hover .graphics-stage-label {
+    color: rgb(var(--primary)) !important;
+  }
   .graphics-stage-link:hover .graphics-stage-bg,
   .graphics-substage-link:hover .graphics-stage-bg {
     transform: scale(1.18) rotate(3deg) !important;
@@ -84,8 +92,8 @@
       <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
       {{ if $favStage1 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep1 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 1</div>
-        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep1 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Model Space</div>
+        <div class="graphics-stage-label" style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep1 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 1</div>
+        <div class="graphics-stage-title" style="font-size: 16px; font-weight: 700; color: {{ if $isStep1 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Model Space</div>
         <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">$\mathbf{M}_{\text{model}} = \mathbf{TRS}$</div>
       </div>
     </a>
@@ -95,8 +103,8 @@
       <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/camera-transformation!camera-space.jpg'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
       {{ if $favStage2 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep2 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 2</div>
-        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep2 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">View Space</div>
+        <div class="graphics-stage-label" style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep2 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 2</div>
+        <div class="graphics-stage-title" style="font-size: 16px; font-weight: 700; color: {{ if $isStep2 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">View Space</div>
         <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">$\mathbf{M}_{\text{view}} = \mathbf{R}^T \mathbf{T}^{-1}$</div>
       </div>
     </a>
@@ -106,8 +114,8 @@
       <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/projection-matrix!perspective-all.png'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
       {{ if $favStage3 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep3 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 3</div>
-        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep3 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Clip Space</div>
+        <div class="graphics-stage-label" style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep3 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 3</div>
+        <div class="graphics-stage-title" style="font-size: 16px; font-weight: 700; color: {{ if $isStep3 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Clip Space</div>
         <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">$\mathbf{M}_{\text{proj}}$ (Frustum)</div>
       </div>
     </a>
@@ -117,8 +125,8 @@
       <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/normals!transformation.jpg'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
       {{ if $favStage4 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep4 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 4</div>
-        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep4 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Clip / NDC</div>
+        <div class="graphics-stage-label" style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep4 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 4</div>
+        <div class="graphics-stage-title" style="font-size: 16px; font-weight: 700; color: {{ if $isStep4 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Clip / NDC</div>
         <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">Divide by $w$ & Cull</div>
       </div>
     </a>
@@ -128,8 +136,8 @@
       <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/first-person-pov.jpeg'); background-size: cover; background-position: center; opacity: 0.10; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
       {{ if $favStage5 }}<span style="position: absolute; top: 8px; right: 10px; font-size: 13px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 5px rgba(var(--primary), 0.5));">★</span>{{ end }}
       <div style="position: relative; z-index: 1;">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep5 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 5</div>
-        <div style="font-size: 16px; font-weight: 700; color: {{ if $isStep5 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Screen Space</div>
+        <div class="graphics-stage-label" style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: {{ if $isStep5 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 4px;">STAGE 5</div>
+        <div class="graphics-stage-title" style="font-size: 16px; font-weight: 700; color: {{ if $isStep5 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }}; margin-bottom: 6px;">Screen Space</div>
         <div style="font-size: 14px; color: var(--grey-light); font-weight: 500;">$\mathbf{M}_{\text{viewport}} \to$ Pixels</div>
       </div>
     </a>
@@ -147,7 +155,7 @@
         <div class="graphics-stage-bg" style="position: absolute; inset: 0; background-image: url('/images/scaling-rotation-translation.png'); background-size: cover; background-position: center; opacity: 0.08; transform: scale(1) rotate(0deg); transition: transform 0.45s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.45s ease; pointer-events: none; z-index: 0;"></div>
         {{ if index $favParts "transformation-matrix" }}<span style="position: absolute; top: 6px; right: 8px; font-size: 11px; color: rgb(var(--primary)); z-index: 1; filter: drop-shadow(0 0 4px rgba(var(--primary), 0.5));">★</span>{{ end }}
         <div style="position: relative; z-index: 1;">
-          <div style="font-size: 11px; font-weight: 700; color: {{ if $p1 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 1</div>
+          <div class="graphics-stage-label" style="font-size: 11px; font-weight: 700; color: {{ if $p1 }}rgb(var(--primary)){{ else }}var(--grey-light){{ end }}; margin-bottom: 2px;">PART 1</div>
           <div style="font-size: 13px; font-weight: 600; color: {{ if $p1 }}rgb(var(--primary)){{ else }}var(--grey-lighter){{ end }};">Transformation Matrix</div>
         </div>
       </a>

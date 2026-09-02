@@ -34,3 +34,6 @@
   opacity: 0.12;
   transform: scale(1.18) rotate(3deg);
 }
+.my-sitemap .sitemap-note-card:hover .sitemap-note-card-title {
+  color: rgb(var(--primary));
+}
