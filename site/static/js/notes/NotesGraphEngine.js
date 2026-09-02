@@ -20,6 +20,7 @@ export class NotesGraphEngine {
     canvas,
     fullGraph,
     d3,
+    initialFilter = 'all',
     onHoverNode = () => {},
     onLeaveNode = () => {},
     onClickNode = () => {},
@@ -34,7 +35,7 @@ export class NotesGraphEngine {
     this.onClickNode = onClickNode
     this.onReady = onReady
 
-    this.activeFilter = 'all'
+    this.activeFilter = initialFilter
     this.hoveredNode = null
     this.hoveredNeighbors = new Set()
     this.transform = d3.zoomIdentity
@@ -42,11 +43,12 @@ export class NotesGraphEngine {
     this.height = window.innerHeight
     this.dpr = window.devicePixelRatio || 1
 
-    // Initialize per-node animation state
+    // Initialize per-node animation state honoring initial filter
     this.fullGraph.nodes.forEach((node) => {
+      const inFilter = isNodeInFilter(node, this.activeFilter)
       node.animScale = 1.0
       node.animRotate = 0.0
-      node.animAlpha = 1.0
+      node.animAlpha = this.activeFilter !== 'all' ? (inFilter ? 1.0 : 0.08) : 1.0
       node.animHalo = 0.0
     })
 
@@ -59,13 +61,12 @@ export class NotesGraphEngine {
     this.setupZoom()
 
     // Cluster Target Anchors
+    // 4-Quadrant Cluster Target Anchors
     this.clusterAngles = {
-      graphics: (-145 * Math.PI) / 180, // North-West
-      math: (-35 * Math.PI) / 180,       // North-East
-      systems: (145 * Math.PI) / 180,    // South-West
-      ai: (35 * Math.PI) / 180,          // South-East
-      music: (85 * Math.PI) / 180,       // South
-      languages: (-90 * Math.PI) / 180   // North
+      graphics: (-135 * Math.PI) / 180, // North-West
+      math: (-45 * Math.PI) / 180,       // North-East
+      systems: (135 * Math.PI) / 180,    // South-West
+      life: (45 * Math.PI) / 180         // South-East
     }
 
     // Setup Animation Loop
@@ -136,23 +137,23 @@ export class NotesGraphEngine {
 
   getClusterTargetX(d) {
     const angle = this.clusterAngles[d.cluster] || 0
-    const clusterSpread = Math.min(this.width, this.height) * 0.35
+    const clusterSpread = Math.min(this.width, this.height) * 0.2
     return this.width / 2 + Math.cos(angle) * clusterSpread
   }
 
   getClusterTargetY(d) {
     const angle = this.clusterAngles[d.cluster] || 0
-    const clusterSpread = Math.min(this.width, this.height) * 0.35
+    const clusterSpread = Math.min(this.width, this.height) * 0.2
     return this.height / 2 + Math.sin(angle) * clusterSpread
   }
 
   setupSimulation() {
-    // 1. Pre-seed coordinates near cluster target anchors so nodes never fly in from (0,0)
+    // 1. Pre-seed coordinates near cluster target anchors so nodes relax organically from center
     this.fullGraph.nodes.forEach((n) => {
       const targetX = this.getClusterTargetX(n)
       const targetY = this.getClusterTargetY(n)
-      n.x = targetX + (Math.random() - 0.5) * 80
-      n.y = targetY + (Math.random() - 0.5) * 80
+      n.x = targetX + (Math.random() - 0.5) * 60
+      n.y = targetY + (Math.random() - 0.5) * 60
     })
 
     this.simulation = this.d3
@@ -162,15 +163,16 @@ export class NotesGraphEngine {
         this.d3
           .forceLink(this.fullGraph.links)
           .id((d) => d.id)
-          .distance((d) => Math.max(30, 58 - d.weight * 9))
+          .distance((d) => Math.max(45, 80 - d.weight * 10))
           .strength(0.35)
       )
-      .force('charge', this.d3.forceManyBody().strength(-65))
-      .force('clusterX', this.d3.forceX((d) => this.getClusterTargetX(d)).strength(0.18))
-      .force('clusterY', this.d3.forceY((d) => this.getClusterTargetY(d)).strength(0.18))
+      .force('charge', this.d3.forceManyBody().strength(-70))
+      .force('center', this.d3.forceCenter(this.width / 2, this.height / 2))
+      .force('clusterX', this.d3.forceX((d) => this.getClusterTargetX(d)).strength(0.06))
+      .force('clusterY', this.d3.forceY((d) => this.getClusterTargetY(d)).strength(0.06))
       .force(
         'collide',
-        this.d3.forceCollide().radius((d) => d.radius + 15).iterations(2)
+        this.d3.forceCollide().radius((d) => d.radius + 18).iterations(2)
       )
       .alphaDecay(0.02)
 
@@ -594,8 +596,24 @@ export class NotesGraphEngine {
     const worldFontSize = 10.5 / zoomK
     const labelOffsetY = 5 / zoomK
 
+    // Viewport bounds in world coordinates with margin
+    const minWorldX = -this.transform.x / zoomK - 60
+    const maxWorldX = (this.width - this.transform.x) / zoomK + 60
+    const minWorldY = -this.transform.y / zoomK - 60
+    const maxWorldY = (this.height - this.transform.y) / zoomK + 60
+
     this.fullGraph.nodes.forEach((node) => {
       if (typeof node.x !== 'number') return
+
+      // Viewport culling: only render labels for nodes physically in view
+      if (
+        node.x < minWorldX ||
+        node.x > maxWorldX ||
+        node.y < minWorldY ||
+        node.y > maxWorldY
+      ) {
+        return
+      }
       const inFilter = isNodeInFilter(node, this.activeFilter)
       const isHovered = hovered && node.id === hovered.id
       const isNeighbor = hovered && hoveredNeighbors.has(node.id)

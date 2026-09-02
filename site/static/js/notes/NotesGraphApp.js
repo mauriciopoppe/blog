@@ -29,8 +29,7 @@ export function NotesGraphApp({ fullGraph, d3 }) {
 
     if (initialTag) {
       const normTag = normalizeTag(initialTag)
-      const categoryMatches = ['graphics', 'systems', 'math', 'ai', 'music', 'languages', 'interactive', 'favorites', 'performance']
-      return categoryMatches.includes(normTag) ? normTag : `tag:${normTag}`
+      return `tag:${normTag}`
     }
     return initialFilter || 'all'
   })
@@ -52,6 +51,7 @@ export function NotesGraphApp({ fullGraph, d3 }) {
       canvas: canvasRef.current,
       fullGraph,
       d3,
+      initialFilter: activeFilter,
       onHoverNode: (node, coords) => {
         setHoveredNode(node)
         setTooltipPos(coords)
@@ -75,6 +75,16 @@ export function NotesGraphApp({ fullGraph, d3 }) {
       },
       onClickNode: (node) => {
         if (node && node.url) {
+          if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+            window.gtag('event', 'notes_graph_node_click', {
+              note_title: node.title,
+              note_url: node.url,
+              note_cluster: node.cluster,
+              is_favorite: Boolean(node.isFavorite),
+              is_interactive: Boolean(node.interactive),
+              active_filter: activeFilter
+            })
+          }
           window.location.href = node.url
         }
       },
@@ -93,11 +103,19 @@ export function NotesGraphApp({ fullGraph, d3 }) {
     return () => {
       engine.destroy()
     }
-  }, [fullGraph, d3])
+  }, [fullGraph, d3, activeFilter])
 
   // Filter Selection Handler
   const handleSelectFilter = useCallback((filterKey) => {
     setActiveFilter(filterKey)
+
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      const count = fullGraph.nodes.filter((n) => isNodeInFilter(n, filterKey)).length
+      window.gtag('event', 'notes_graph_filter_select', {
+        filter_name: filterKey,
+        matching_count: count
+      })
+    }
 
     if (engineRef.current) {
       engineRef.current.setFilter(filterKey)
@@ -119,10 +137,13 @@ export function NotesGraphApp({ fullGraph, d3 }) {
       newUrl.searchParams.set('filter', filterKey)
     }
     window.history.replaceState(null, '', newUrl.toString())
-  }, [])
+  }, [fullGraph.nodes])
 
   // Camera Reset Handler
   const handleResetZoom = useCallback(() => {
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      window.gtag('event', 'notes_graph_reset_view')
+    }
     if (engineRef.current) {
       engineRef.current.resetZoom()
     }
