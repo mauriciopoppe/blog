@@ -7,7 +7,6 @@ const isDevMode = process.env.NODE_ENV !== 'production'
 module.exports = {
   entry: {
     main: path.join(__dirname, './src/main/index.ts'),
-    voronoi: path.join(__dirname, './src/voronoi/index.ts'),
     jukebox: path.join(__dirname, './src/jukebox/index.ts')
   },
   output: {

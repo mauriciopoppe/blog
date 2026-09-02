@@ -1,15 +1,1 @@
-{{- /* Check "Bundled scripts" in the README.md to see how it works. */ -}}
-{{ partial "webpack-script" (dict "ctx" . "id" "voronoi") }}
-
-<script>
-(function () {
-  var target = '#voronoi'
-  var targetEl = document.querySelector(target)
-  targetEl && window.voronoi.generate({
-    target: targetEl,
-    enableRainbowAnimation: true,
-    enableWaveAnimation: false,
-    n: 300
-  })
-})()
-</script>
+<script type="module" src="{{ relURL "/js/voronoi/loader.js" }}"></script>
