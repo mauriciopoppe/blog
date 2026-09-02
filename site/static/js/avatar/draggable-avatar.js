@@ -1,0 +1,196 @@
+function isDesktopPointer() {
+  return typeof window !== 'undefined' && window.matchMedia('(pointer: fine)').matches
+}
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value))
+}
+
+export function makeAvatarDraggable(avatar) {
+  if (!avatar || !isDesktopPointer() || avatar.dataset.avatarDraggable === 'true') return
+  const shell = avatar.parentElement
+  if (!shell) return
+  const originalParent = shell.parentElement
+
+  avatar.dataset.avatarDraggable = 'true'
+  let placeholder = null
+  let dragging = false
+  let moved = false
+  let offsetX = 0
+  let offsetY = 0
+  let dropZone = null
+  const originalUserSelect = document.body.style.userSelect
+  const originalStyles = {
+    position: shell.style.position,
+    zIndex: shell.style.zIndex,
+    margin: shell.style.margin,
+    left: shell.style.left,
+    top: shell.style.top
+  }
+
+  const setPosition = (left, top) => {
+    const rect = shell.getBoundingClientRect()
+    const maxLeft = Math.max(0, window.innerWidth - rect.width)
+    const maxTop = Math.max(0, window.innerHeight - rect.height)
+    shell.style.left = `${clamp(left, 0, maxLeft)}px`
+    shell.style.top = `${clamp(top, 0, maxTop)}px`
+  }
+
+  const showDropZone = () => {
+    if (!placeholder) return
+    const rect = placeholder.getBoundingClientRect()
+    if (!dropZone) {
+      dropZone = document.createElement('div')
+      dropZone.setAttribute('aria-hidden', 'true')
+      dropZone.style.position = 'fixed'
+      dropZone.style.pointerEvents = 'none'
+      dropZone.style.border = '1px dashed rgb(var(--primary))'
+      dropZone.style.borderRadius = '9999px'
+      dropZone.style.background = 'rgba(var(--primary), 0.08)'
+      dropZone.style.opacity = '0.7'
+      dropZone.style.zIndex = '9999'
+      document.body.appendChild(dropZone)
+    }
+    dropZone.style.display = 'block'
+    dropZone.style.left = `${rect.left - 8}px`
+    dropZone.style.top = `${rect.top - 8}px`
+    dropZone.style.width = `${rect.width + 16}px`
+    dropZone.style.height = `${rect.height + 16}px`
+  }
+
+  const hideDropZone = () => {
+    if (dropZone) dropZone.style.display = 'none'
+  }
+
+  const restoreOriginalPosition = () => {
+    if (placeholder && shell.parentElement !== originalParent) {
+      originalParent.insertBefore(shell, placeholder)
+    }
+    shell.style.position = originalStyles.position
+    shell.style.zIndex = originalStyles.zIndex
+    shell.style.margin = originalStyles.margin
+    shell.style.left = originalStyles.left
+    shell.style.top = originalStyles.top
+    if (placeholder) {
+      placeholder.remove()
+      placeholder = null
+    }
+    hideDropZone()
+    delete avatar.dataset.avatarDetached
+    avatar.dispatchEvent(new CustomEvent('avatar-position-change'))
+  }
+
+  const startDrag = (event) => {
+    if (event.button !== 0) return
+    event.preventDefault()
+    const rect = shell.getBoundingClientRect()
+    offsetX = event.clientX - rect.left
+    offsetY = event.clientY - rect.top
+    dragging = true
+    moved = false
+  }
+
+  const moveDrag = (event) => {
+    if (!dragging) return
+    const dx = event.clientX - (shell.getBoundingClientRect().left + offsetX)
+    const dy = event.clientY - (shell.getBoundingClientRect().top + offsetY)
+    if (!moved && Math.hypot(dx, dy) < 6) return
+    if (!moved) {
+      moved = true
+      const detachRect = shell.getBoundingClientRect()
+      if (!placeholder) {
+        placeholder = document.createElement('span')
+        placeholder.style.display = 'inline-block'
+        placeholder.style.width = `${detachRect.width}px`
+        placeholder.style.height = `${detachRect.height}px`
+        shell.parentElement.insertBefore(placeholder, shell)
+      }
+      shell.style.position = 'fixed'
+      shell.style.zIndex = '10000'
+      shell.style.margin = '0'
+      shell.style.left = `${detachRect.left}px`
+      shell.style.top = `${detachRect.top}px`
+      document.documentElement.appendChild(shell)
+      document.body.style.userSelect = 'none'
+      showDropZone()
+    }
+    setPosition(event.clientX - offsetX, event.clientY - offsetY)
+    event.preventDefault()
+  }
+
+  const endDrag = (event) => {
+    if (!dragging) return
+    dragging = false
+    document.body.style.userSelect = originalUserSelect
+    hideDropZone()
+    if (!moved) return
+    const target = placeholder ? placeholder.getBoundingClientRect() : null
+    const shellRect = shell.getBoundingClientRect()
+    if (target && Math.hypot(shellRect.left - target.left, shellRect.top - target.top) < 72) {
+      restoreOriginalPosition()
+      return
+    }
+    avatar.dataset.avatarDragged = 'true'
+    avatar.dataset.avatarDetached = 'true'
+    avatar.dispatchEvent(new CustomEvent('avatar-position-change'))
+  }
+
+  avatar.addEventListener('pointerdown', startDrag)
+  window.addEventListener('pointermove', moveDrag)
+  window.addEventListener('pointerup', endDrag)
+  window.addEventListener('pointercancel', endDrag)
+
+  avatar.addEventListener('avatar-restore-request', restoreOriginalPosition)
+  avatar.title = 'Drag to move avatar'
+  avatar.style.cursor = 'grab'
+  const dragIndicator = document.createElement('span')
+  dragIndicator.className = 'avatar-drag-indicator'
+  dragIndicator.setAttribute('aria-hidden', 'true')
+  Object.assign(dragIndicator.style, {
+    position: 'absolute',
+    left: '-8px',
+    bottom: '-34px',
+    zIndex: '3',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '3px',
+    padding: '3px 7px 3px 5px',
+    borderRadius: '9999px',
+    background: 'var(--grey-dark)',
+    border: '1px solid var(--ring-border)',
+    boxShadow: 'var(--elevation-subtle)',
+    color: 'rgb(var(--primary))',
+    fontFamily: 'var(--family-sans, system-ui, sans-serif)',
+    fontSize: '11px',
+    whiteSpace: 'nowrap',
+    opacity: '0',
+    pointerEvents: 'none',
+    textShadow: '0 1px 4px var(--grey-darker)',
+    transform: 'translate(0, 0)',
+    transition: 'opacity 150ms ease, transform 150ms ease'
+  })
+  const indicatorIcon = document.createElement('span')
+  indicatorIcon.className = 'material-symbols-outlined'
+  indicatorIcon.textContent = 'drag_pan'
+  indicatorIcon.style.fontSize = '16px'
+  const indicatorText = document.createElement('span')
+  indicatorText.textContent = 'Drag to move'
+  dragIndicator.append(indicatorIcon, indicatorText)
+  shell.appendChild(dragIndicator)
+  shell.addEventListener('mouseenter', () => {
+    dragIndicator.style.opacity = '0.95'
+    dragIndicator.style.transform = 'translate(-3px, -3px)'
+  })
+  shell.addEventListener('mouseleave', () => {
+    if (!dragging) {
+      dragIndicator.style.opacity = '0'
+      dragIndicator.style.transform = 'translate(0, 0)'
+    }
+  })
+
+}
+
+export function draggableAvatarMain() {
+  if (typeof document === 'undefined' || !isDesktopPointer()) return
+  document.querySelectorAll('.js-avatar-scene, .profile-avatar-scene').forEach(makeAvatarDraggable)
+}

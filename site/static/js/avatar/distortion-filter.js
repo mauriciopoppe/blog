@@ -52,6 +52,7 @@ let activeAnimId = null
 let currentScale = 0
 let activeRegions = []
 let activeFragments = []
+let activeFragmentAvatar = null
 
 function wrapArticleText(root) {
   if (!root || root.dataset.avatarDistortionPrepared === 'true') return
@@ -111,6 +112,23 @@ function attachArticleFragments(avatarEl) {
     if (!tier) return
     el.style.filter = `url(#${FILTER_ID}-${tier})`
     activeFragments.push(el)
+  })
+  activeFragmentAvatar = avatarEl
+}
+
+function updateArticleFragmentTiers() {
+  if (!activeFragmentAvatar || !activeFragments.length) return
+  const avatarRect = activeFragmentAvatar.getBoundingClientRect()
+  const avatarX = avatarRect.left + avatarRect.width / 2
+  const avatarY = avatarRect.top + avatarRect.height / 2
+
+  activeFragments.forEach((el) => {
+    const rect = el.getBoundingClientRect()
+    if (!rect.width || !rect.height) return
+    const centerX = rect.left + rect.width / 2
+    const centerY = rect.top + rect.height / 2
+    const tier = tierForDistance(Math.hypot(centerX - avatarX, centerY - avatarY), avatarRect)
+    el.style.filter = tier ? `url(#${FILTER_ID}-${tier})` : ''
   })
 }
 
@@ -233,6 +251,7 @@ export function detachDistortionFilters() {
   })
   activeRegions = []
   activeFragments = []
+  activeFragmentAvatar = null
   const disps = document.querySelectorAll('.avatar-disp-node')
   disps.forEach((d) => d.setAttribute('scale', '0'))
 }
@@ -271,6 +290,7 @@ export function triggerAcousticImpulse(intensity = 0.8, freq = 300, avatarEl = n
   const step = (now) => {
     const elapsed = now - startTime
     const baseDecay = calculateImpulseDecay(elapsed, durationMs, currentScale)
+    updateArticleFragmentTiers()
 
     // Apply distance-attenuated scales to default and tiered filters
     const defaultDisp = document.getElementById('avatar-dom-disp')

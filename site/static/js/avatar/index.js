@@ -7,9 +7,11 @@
 
 import { avatarTiltMain } from './avatar-tilt.js'
 import { mountMiniPlayer } from './mini-player.js'
+import { draggableAvatarMain } from './draggable-avatar.js'
 
 function initAvatar() {
   avatarTiltMain()
+  draggableAvatarMain()
 
   const avatars = document.querySelectorAll('.js-avatar-scene, .profile-avatar-scene')
   avatars.forEach((avatar) => {

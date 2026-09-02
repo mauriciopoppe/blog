@@ -449,7 +449,6 @@ class PlayerStore {
     const avatars = document.querySelectorAll('.js-avatar-scene, .profile-avatar-scene')
     avatars.forEach((el) => {
       el.classList.remove('is-playing')
-      el.style.transform = 'none'
     })
     detachDistortionFilters()
 
@@ -569,23 +568,17 @@ class PlayerStore {
             // Velocity & pitch dynamic response
             const intensity = Math.min(1.0, Math.max(0.4, (note.vel || 0.7) * 1.3))
             const isHigh = note.freq > 450
-            const bounceScale = 1.05 + intensity * 0.05
             const rot = (Math.random() - 0.5) * (isHigh ? 6.0 : 4.0)
 
-            // 1. Avatar container bounce (punchy spring)
-            activeAvatar.style.transition = 'transform 0.07s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
-            activeAvatar.style.transform = `scale(${bounceScale.toFixed(3)}) rotate(${rot.toFixed(2)}deg)`
-
-            // 2. Cutout foreground bounce (subtle head/guitar bob)
+            // 1. Cutout foreground bounce (subtle head/guitar bob)
             if (fg) {
-              const fgBobY = -1.2 * intensity
               const fgScale = 1.02 + intensity * 0.025
               const fgRot = -rot * 0.3
               fg.style.transition = 'transform 0.07s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
-              fg.style.transform = `translateY(${fgBobY.toFixed(1)}px) scale(${fgScale.toFixed(3)}) rotate(${fgRot.toFixed(2)}deg)`
+              fg.style.transform = `scale(${fgScale.toFixed(3)}) rotate(${fgRot.toFixed(2)}deg)`
             }
 
-            // 3. Subtle background pulse
+            // 2. Subtle background pulse
             if (bg) {
               const bgScale = 1.03 + intensity * 0.02
               bg.style.transition = 'transform 0.07s ease-out'
@@ -595,9 +588,6 @@ class PlayerStore {
             const resetId = setTimeout(() => {
               this.activeTimeouts.delete(resetId)
               if (activeAvatar) {
-                activeAvatar.style.transition = 'transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1)'
-                activeAvatar.style.transform = ''
-
                 if (fg) {
                   fg.style.transition = 'transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1)'
                   fg.style.transform = ''

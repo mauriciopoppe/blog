@@ -71,7 +71,7 @@ export function avatarTiltMain() {
       bg.style.transformStyle = 'preserve-3d'
     }
     if (fg) {
-      fg.style.willChange = 'transform, filter'
+      fg.style.willChange = 'transform'
       fg.style.transformStyle = 'preserve-3d'
     }
 
@@ -102,7 +102,7 @@ export function avatarTiltMain() {
       parent.style.perspective = '600px'
     }
     el.style.transformStyle = 'preserve-3d'
-    el.style.willChange = 'transform, filter'
+    el.style.willChange = 'transform'
 
     return {
       el,
@@ -190,8 +190,6 @@ export function avatarTiltMain() {
         state.fg.style.transform = `translate3d(${fgX.toFixed(2)}px, ${fgY.toFixed(2)}px, 4px) rotateX(${state.currRotX.toFixed(2)}deg) rotateY(${state.currRotY.toFixed(2)}deg) scale(1.01)`
       }
 
-      // Dynamic reactive shadow on container
-      state.container.style.filter = `drop-shadow(${state.currShadowX.toFixed(1)}px ${state.currShadowY.toFixed(1)}px 4px rgba(var(--primary), 0.2))`
     })
 
     // Update single avatars
@@ -217,8 +215,10 @@ export function avatarTiltMain() {
         stillAnimating = true
       }
 
-      state.el.style.transform = `translate3d(${state.currTransX.toFixed(2)}px, ${state.currTransY.toFixed(2)}px, 0) rotateX(${state.currRotX.toFixed(2)}deg) rotateY(${state.currRotY.toFixed(2)}deg) scale3d(1.01, 1.01, 1.01)`
-      state.el.style.filter = `drop-shadow(${state.currShadowX.toFixed(1)}px ${state.currShadowY.toFixed(1)}px 4px rgba(var(--primary), 0.2))`
+      const translation = state.el.dataset.avatarDraggable === 'true'
+        ? 'translate3d(0, 0, 0)'
+        : `translate3d(${state.currTransX.toFixed(2)}px, ${state.currTransY.toFixed(2)}px, 0)`
+      state.el.style.transform = `${translation} rotateX(${state.currRotX.toFixed(2)}deg) rotateY(${state.currRotY.toFixed(2)}deg) scale3d(1.01, 1.01, 1.01)`
     })
 
     if (stillAnimating) {

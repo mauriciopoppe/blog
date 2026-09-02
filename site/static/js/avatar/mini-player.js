@@ -30,6 +30,7 @@ export function MiniPlayer({ avatarEl }) {
   const [isHovered, setIsHovered] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 640 : false)
+  const [isAvatarDetached, setIsAvatarDetached] = useState(avatarEl?.dataset.avatarDetached === 'true')
   const hoverTimeoutRef = useRef(null)
 
   // Subscribe to global store updates
@@ -52,6 +53,8 @@ export function MiniPlayer({ avatarEl }) {
   // Hook avatar element events
   useEffect(() => {
     if (!avatarEl) return
+
+    const handlePositionChange = () => setIsAvatarDetached(avatarEl.dataset.avatarDetached === 'true')
 
     const handleAvatarEnter = () => {
       if (window.innerWidth >= 640) {
@@ -76,6 +79,10 @@ export function MiniPlayer({ avatarEl }) {
 
     const handleAvatarClick = (e) => {
       if (e.target.closest('.avatar-mini-player')) return
+      if (avatarEl.dataset.avatarDragged === 'true') {
+        delete avatarEl.dataset.avatarDragged
+        return
+      }
       if (window.innerWidth < 640) {
         setIsMobileOpen(true)
       }
@@ -85,11 +92,13 @@ export function MiniPlayer({ avatarEl }) {
     avatarEl.addEventListener('mouseenter', handleAvatarEnter)
     avatarEl.addEventListener('mouseleave', handleAvatarLeave)
     avatarEl.addEventListener('click', handleAvatarClick)
+    avatarEl.addEventListener('avatar-position-change', handlePositionChange)
 
     return () => {
       avatarEl.removeEventListener('mouseenter', handleAvatarEnter)
       avatarEl.removeEventListener('mouseleave', handleAvatarLeave)
       avatarEl.removeEventListener('click', handleAvatarClick)
+      avatarEl.removeEventListener('avatar-position-change', handlePositionChange)
     }
   }, [avatarEl])
 
@@ -120,6 +129,11 @@ export function MiniPlayer({ avatarEl }) {
     if (storeState.isPlaying) {
       playerStore.stop()
     }
+  }
+
+  const handleRestoreAvatar = (e) => {
+    e.stopPropagation()
+    avatarEl.dispatchEvent(new CustomEvent('avatar-restore-request'))
   }
 
   const { song, metadata, phrase, isPlaying, isContinuous, isMetronome, progress, currentBar, currentBeat } = storeState
@@ -210,6 +224,15 @@ export function MiniPlayer({ avatarEl }) {
               </div>
             </div>
           </div>
+
+          ${!isMobile && isAvatarDetached ? html`
+            <button
+              type="button"
+              class="tw-w-6 tw-h-6 tw-rounded-full tw-flex tw-items-center tw-justify-center tw-text-[11px] tw-text-[var(--grey-light)] tw-shrink-0 tw-shadow-subtle hover:tw-shadow-raised"
+              title="Return avatar to original position"
+              onClick=${handleRestoreAvatar}
+            >↩</button>
+          ` : null}
 
           ${isMobile ? html`
             <button
