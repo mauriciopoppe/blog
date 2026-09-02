@@ -43,6 +43,7 @@ export class NotesGraphEngine {
     this.width = window.innerWidth
     this.height = window.innerHeight
     this.dpr = window.devicePixelRatio || 1
+    this.isMobile = window.matchMedia('(pointer: coarse)').matches
 
     // Initialize per-node animation state honoring initial filter
     this.fullGraph.nodes.forEach((node) => {
@@ -122,14 +123,32 @@ export class NotesGraphEngine {
     this.zoom = this.d3
       .zoom()
       .scaleExtent([0.7, 3.5])
+      .on('start', () => {
+        // On touch devices, dismiss the preview as soon as a pan or zoom gesture starts.
+        // Desktop keeps the preview through mousedown so a click can still open the note.
+        if (!this.isMobile || !this.hoveredNode) return
+        this.hoveredNode = null
+        this.updateHoveredNeighbors(null)
+        this.onLeaveNode()
+        this.startAnimation()
+      })
       .on('zoom', (event) => {
         this.transform = event.transform
-        this.render()
         if (this.hoveredNode) {
-          const screenX = this.transform.applyX(this.hoveredNode.x)
-          const screenY = this.transform.applyY(this.hoveredNode.y)
-          this.onHoverNode(this.hoveredNode, { x: screenX, y: screenY })
+          if (this.isMobile) {
+            // Touch gestures dismiss the preview while panning or zooming.
+            this.hoveredNode = null
+            this.updateHoveredNeighbors(null)
+            this.onLeaveNode()
+            this.startAnimation()
+          } else {
+            // Keep the desktop anchor synchronized so the browser can show its URL.
+            const screenX = this.transform.applyX(this.hoveredNode.x)
+            const screenY = this.transform.applyY(this.hoveredNode.y)
+            this.onHoverNode(this.hoveredNode, { x: screenX, y: screenY })
+          }
         }
+        this.render()
       })
 
     this.d3Canvas = this.d3.select(this.canvas)
@@ -331,7 +350,11 @@ export class NotesGraphEngine {
       }
     })
 
-    this.canvas.addEventListener('mouseleave', () => {
+    this.canvas.addEventListener('mouseleave', (event) => {
+      // The desktop status-link anchor sits directly over the hovered node.
+      // Moving onto it leaves the canvas, but should not dismiss the preview.
+      const activeAnchor = document.getElementById('notes-graph-active-anchor')
+      if (activeAnchor && event.relatedTarget === activeAnchor) return
       if (this.hoveredNode) {
         this.hoveredNode = null
         this.updateHoveredNeighbors(null)

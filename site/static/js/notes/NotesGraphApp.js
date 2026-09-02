@@ -270,7 +270,7 @@ export function NotesGraphApp({ fullGraph, d3 }) {
         ref=${activeAnchorRef}
         id="notes-graph-active-anchor"
         href="#"
-        class="tw-absolute tw-hidden tw-rounded-full tw-pointer-events-none tw-z-30 focus:tw-outline-none"
+        class="tw-absolute tw-hidden tw-rounded-full tw-pointer-events-none md:tw-pointer-events-auto tw-z-30 focus:tw-outline-none"
         aria-label="Open article"
       />
 
