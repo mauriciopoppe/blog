@@ -1,8 +1,8 @@
 /**
  * Top Navigation & Category Filter Bar component for Topic Constellation Graph
  *
- * Restores original pill styling, colored cluster dots, and clear-filter affordances
- * for both preset category filters (?filter=...) and dynamic tag filters (?tag=...).
+ * Restores single-line layout using compact labels, flex-nowrap with invisible
+ * horizontal scrolling on narrow viewports, and clean responsive pill metrics.
  *
  * Copyright (c) 2026 Mauricio Poppe
  * Licensed under the MIT license.
@@ -14,10 +14,8 @@ const PRESET_FILTERS = [
   { key: 'all', label: 'All', dot: null, className: '' },
   { key: 'graphics', label: 'Graphics', dot: '#a855f7', className: '' },
   { key: 'systems', label: 'Systems', dot: '#ff7043', className: '' },
-  { key: 'math', label: 'Math & Graphs', dot: '#38bdf8', className: '' },
-  { key: 'ai', label: 'AI & Code', dot: '#34d399', className: '' },
-  { key: 'music', label: 'Music & Life', dot: '#fbbf24', className: '' },
-  { key: 'languages', label: 'Languages', dot: '#818cf8', className: '' },
+  { key: 'math', label: 'Math', dot: '#38bdf8', className: '' },
+  { key: 'life', label: 'Life', dot: '#fbbf24', className: '' },
   { key: 'interactive', label: '✦ Interactive', dot: null, className: 'tw-text-primary' },
   { key: 'favorites', label: '★ Favorites', dot: null, className: 'tw-text-amber-400' }
 ]
@@ -34,12 +32,12 @@ export function TopFilterBar({ activeFilter, onSelectFilter }) {
   }
 
   return html`
-    <!-- Scoped style block restoring exact pill styling and interaction feedback -->
+    <!-- Scoped style block enforcing single-line layout and custom scrollbar hiding -->
     <style>
       .graph-pill-btn {
-        padding: 0.25rem 0.65rem;
+        padding: 0.2rem 0.55rem;
         border-radius: 9999px;
-        font-size: 0.74rem;
+        font-size: 0.72rem;
         font-family: var(--family-sans, system-ui, sans-serif);
         font-weight: 500;
         color: var(--grey-light);
@@ -50,6 +48,7 @@ export function TopFilterBar({ activeFilter, onSelectFilter }) {
         white-space: nowrap;
         display: inline-flex;
         align-items: center;
+        flex-shrink: 0;
       }
       .graph-pill-btn:hover {
         background: rgba(255, 255, 255, 0.08);
@@ -61,25 +60,32 @@ export function TopFilterBar({ activeFilter, onSelectFilter }) {
         color: rgb(var(--primary));
         font-weight: 600;
       }
+      #graph-filters::-webkit-scrollbar {
+        display: none;
+      }
+      #graph-filters {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
     </style>
 
     <header class="tw-absolute tw-top-4 tw-left-4 tw-right-4 tw-pointer-events-none tw-flex tw-items-center tw-justify-between tw-z-30">
-      <!-- Left: Home Button (Clickable -> border, subtle shadow, icon + text) -->
-      <div class="tw-pointer-events-auto tw-flex tw-items-center tw-gap-2">
+      <!-- Left: Home Button (Compact on mobile, text on desktop) -->
+      <div class="tw-pointer-events-auto tw-flex tw-items-center tw-gap-2 tw-shrink-0">
         <a
           href="/"
-          class="tw-flex tw-items-center tw-gap-1.5 tw-px-3.5 tw-py-2 tw-rounded-full tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-shadow-subtle hover:tw-border-[var(--accent-border)] hover:tw-shadow-raised hover:tw-text-primary tw-text-xs tw-font-serif tw-transition tw-text-[var(--grey-light)]"
+          class="tw-flex tw-items-center tw-gap-1.5 tw-px-3 tw-py-2 tw-rounded-full tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-shadow-subtle hover:tw-border-[var(--accent-border)] hover:tw-shadow-raised hover:tw-text-primary tw-text-xs tw-font-sans tw-transition tw-text-[var(--grey-light)]"
           title="Back to Home"
         >
           <span class="material-symbols-outlined" style="font-size: 16px">home</span>
-          <span class="tw-font-medium">Home</span>
+          <span class="tw-font-medium tw-hidden md:tw-inline">Home</span>
         </a>
       </div>
 
-      <!-- Center: Category Filter Pills with colored dots and active clear ✕ button -->
+      <!-- Center: Category Filter Pills strictly in a SINGLE ROW (flex-nowrap, zero wrapping) -->
       <div
         id="graph-filters"
-        class="tw-pointer-events-auto tw-flex tw-flex-wrap tw-items-center tw-gap-1.5 tw-p-1 tw-rounded-full tw-bg-[var(--grey-dark)]/85 tw-backdrop-blur-md tw-border tw-border-[var(--ring-border)] tw-max-w-[75vw] tw-overflow-x-auto"
+        class="tw-pointer-events-auto tw-flex tw-flex-nowrap tw-items-center tw-gap-1 tw-p-1 tw-rounded-full tw-bg-[var(--grey-dark)]/85 tw-backdrop-blur-md tw-border tw-border-[var(--ring-border)] tw-max-w-[75vw] tw-overflow-x-auto"
       >
         ${PRESET_FILTERS.map((f) => {
           const isActive = activeFilter === f.key
@@ -91,11 +97,11 @@ export function TopFilterBar({ activeFilter, onSelectFilter }) {
               title=${isActive && f.key !== 'all' ? 'Click to clear filter' : f.label}
             >
               ${f.dot
-                ? html`<span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full tw-mr-1.5" style="background: ${f.dot}"></span>`
+                ? html`<span class="tw-inline-block tw-w-2 tw-h-2 tw-rounded-full tw-mr-1" style="background: ${f.dot}"></span>`
                 : null}
               <span>${f.label}</span>
               ${isActive && f.key !== 'all'
-                ? html`<span class="tw-ml-1.5 tw-opacity-60 hover:tw-opacity-100">✕</span>`
+                ? html`<span class="tw-ml-1 tw-opacity-60 hover:tw-opacity-100">✕</span>`
                 : null}
             </button>
           `
@@ -114,14 +120,14 @@ export function TopFilterBar({ activeFilter, onSelectFilter }) {
                 title="Click to clear filter"
               >
                 <span>#${dynamicTagLabel}</span>
-                <span class="tw-ml-1.5 tw-opacity-60 hover:tw-opacity-100">✕</span>
+                <span class="tw-ml-1 tw-opacity-60 hover:tw-opacity-100">✕</span>
               </button>
             `
           : null}
       </div>
 
       <!-- Right: Theme Toggle -->
-      <div class="tw-pointer-events-auto tw-flex tw-items-center tw-gap-2">
+      <div class="tw-pointer-events-auto tw-flex tw-items-center tw-gap-2 tw-shrink-0">
         <button
           onClick=${() => toggleTheme('dark')}
           class="theme-toggle tw-flex tw-h-10 tw-w-10 tw-items-center tw-justify-center tw-rounded-full tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-shadow-subtle hover:tw-border-[var(--accent-border)] hover:tw-shadow-raised tw-transition tw-hidden light:tw-flex"
