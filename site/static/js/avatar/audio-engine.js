@@ -9,6 +9,11 @@
  */
 
 import { DEFAULT_SONG, SONGS_MANIFEST } from './songs-manifest.js'
+import {
+  triggerAcousticImpulse,
+  spawnAcousticRefractionLens,
+  detachDistortionFilters
+} from './distortion-filter.js'
 
 // Fast parser for compact CSV note representation: time,freq,dur,vel,name
 export function parseNotesCsv(csvText) {
@@ -447,6 +452,7 @@ class PlayerStore {
       el.classList.remove('is-playing')
       el.style.transform = 'none'
     })
+    detachDistortionFilters()
 
     this.setState({
       isPlaying: false,
@@ -605,6 +611,11 @@ class PlayerStore {
             this.activeTimeouts.add(resetId)
 
             spawnFloatingMusicParticle(activeAvatar, note.name.replace(/[0-9]/g, ''))
+
+            // Acoustic DOM distortion shader & expanding caustic refraction lens
+            const parent = activeAvatar.parentElement || activeAvatar
+            triggerAcousticImpulse(intensity, note.freq, activeAvatar)
+            spawnAcousticRefractionLens(parent, activeAvatar, intensity, note.freq)
           }
           if (window.__avatarWavePush) {
             window.__avatarWavePush(note.freq)
