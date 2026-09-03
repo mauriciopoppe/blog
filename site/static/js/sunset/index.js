@@ -1,13 +1,24 @@
 import * as THREE from 'https://esm.sh/three@0.144.0'
 import { OrbitControls } from 'https://esm.sh/three@0.144.0/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'https://esm.sh/three@0.144.0/examples/jsm/loaders/GLTFLoader.js'
-import { Text as TroikaText } from 'https://esm.sh/troika-three-text@0.49.0?deps=three@0.144.0'
 import { EffectComposer } from 'https://esm.sh/three@0.144.0/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'https://esm.sh/three@0.144.0/examples/jsm/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'https://esm.sh/three@0.144.0/examples/jsm/postprocessing/UnrealBloomPass.js'
+import * as CANNON from '/js/vendor/cannon-es.js'
+import GUI from 'https://cdn.jsdelivr.net/npm/lil-gui@0.20.0/+esm'
+import { calculateAileronForce, calculateElevatorControlForce, calculateFlightForces, calculateRudderForce, cruiseConfig, evaluateFlightEnvelope } from './flight-engine.js?v=flight-rudder-return-2'
 
 const compare = false
 const target = document.querySelector('#browser-sunset')
+const sandbox = Boolean(target?.closest('.sunset-footer--sandbox'))
+const flightControllerVersion = 'rudder-return-2'
+
+const formatTelemetry = (value) => {
+  if (typeof value === 'number') return Math.round(value * 1000) / 1000
+  if (Array.isArray(value)) return value.map(formatTelemetry)
+  if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, formatTelemetry(item)]))
+  return value
+}
 
 function getPrimaryColor() {
   const channels = getComputedStyle(document.documentElement)
@@ -128,6 +139,43 @@ if (target) {
   renderer.domElement.style.height = '100%'
   // Keep the canvas transparent so the page's CSS background is composited in
   // sRGB, matching the original R3F renderer.
+  const createAxisLabel = (label, color) => {
+    const canvas = document.createElement('canvas')
+    canvas.width = 128
+    canvas.height = 128
+    const context = canvas.getContext('2d')
+    context.font = 'bold 72px system-ui, sans-serif'
+    context.textAlign = 'center'
+    context.textBaseline = 'middle'
+    context.fillStyle = color
+    context.fillText(label, 64, 64)
+    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
+      map: new THREE.CanvasTexture(canvas),
+      depthTest: false,
+      toneMapped: false
+    }))
+    sprite.scale.setScalar(0.45)
+    return sprite
+  }
+  const createForceLabel = (label) => {
+    const canvas = document.createElement('canvas')
+    canvas.width = 256
+    canvas.height = 64
+    const context = canvas.getContext('2d')
+    context.font = '600 30px system-ui, sans-serif'
+    context.textAlign = 'center'
+    context.textBaseline = 'middle'
+    context.fillStyle = '#ffffff'
+    context.fillText(label, 128, 32)
+    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
+      map: new THREE.CanvasTexture(canvas),
+      depthTest: false,
+      toneMapped: false,
+      transparent: true
+    }))
+    sprite.scale.set(0.8, 0.2, 1)
+    return sprite
+  }
 
   scene.add(new THREE.AmbientLight(0xffffff, 1))
   const moonPosition = new THREE.Vector3(10, 10, -50)
@@ -191,54 +239,137 @@ if (target) {
   scene.add(moon)
 
   const planeRoot = new THREE.Group()
-  planeRoot.position.set(-15, 5, 0)
+  planeRoot.position.set(-45, 5, 0)
   planeRoot.rotation.y = Math.PI / 2
-  const wrapper = new THREE.Group()
-  planeRoot.add(wrapper)
-  scene.add(planeRoot)
-
-  const flagGeometry = new THREE.PlaneGeometry(0.3, 3, 10, 10)
-  const flagTime = { value: 0 }
-  const flagMaterial = new THREE.MeshPhongMaterial({
-    color: primaryColor,
-    emissive: primaryColor,
-    emissiveIntensity: 0.06,
-    side: THREE.DoubleSide
-  })
-  flagMaterial.onBeforeCompile = (shader) => {
-    shader.uniforms.time = flagTime
-    shader.vertexShader = shader.vertexShader.replace(
-      '#include <begin_vertex>',
-      'vec3 transformed = position; transformed.x += sin(position.y * 3.0 + time * 5.0) * 0.08 * uv.y;'
-    )
-    shader.vertexShader = `uniform float time;\n${shader.vertexShader}`
+  // All animated motion is expressed in this local flight group. The plane
+  // model keeps a stable forward (nose) axis while the group follows the path.
+  const planeFlightGroup = new THREE.Group()
+  planeRoot.add(planeFlightGroup)
+  const planeGroup = new THREE.Group()
+  planeFlightGroup.add(planeGroup)
+  if (sandbox) {
+    planeGroup.add(new THREE.AxesHelper(1.5))
+    const xLabel = createAxisLabel('X', '#ff5555')
+    const yLabel = createAxisLabel('Y', '#55ff55')
+    const zLabel = createAxisLabel('Z', '#5555ff')
+    xLabel.position.x = 1.75
+    yLabel.position.y = 1.75
+    zLabel.position.z = 1.75
+    planeGroup.add(xLabel, yLabel, zLabel)
+    const addRigidBodyVolume = (halfExtents, color) => {
+      const edges = new THREE.LineSegments(
+        new THREE.EdgesGeometry(new THREE.BoxGeometry(halfExtents.x * 2, halfExtents.y * 2, halfExtents.z * 2)),
+        new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.85, depthTest: false, toneMapped: false })
+      )
+      planeGroup.add(edges)
+    }
+    // These match the Cannon shapes exactly: fuselage first, then the wing
+    // inertia volume. The visual plane is hidden in the sandbox so force
+    // points can be read against the physical body.
+    addRigidBodyVolume(new THREE.Vector3(0.45, 0.12, 0.9), 0xf5f5f5)
+    addRigidBodyVolume(new THREE.Vector3(1, 0.05, 0.3), primaryColor)
   }
-  flagMaterial.customProgramCacheKey = () => 'sunset-flag-wobble'
-  const flag = new THREE.Mesh(flagGeometry, flagMaterial)
-  flag.rotation.set(-Math.PI / 2, Math.PI / 2, 0)
-  flag.position.set(0, 0, -2.4)
-  wrapper.add(flag)
+  if (sandbox) {
+    const boundary = new THREE.Mesh(
+      new THREE.SphereGeometry(cruiseConfig.boundaryRadius, 48, 24),
+      new THREE.MeshBasicMaterial({
+        color: primaryColor,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.14,
+        depthWrite: false,
+        toneMapped: false
+      })
+    )
+    boundary.position.fromArray(cruiseConfig.boundaryCenter)
+    planeRoot.add(boundary)
+  }
+  scene.add(planeRoot)
+  // Every force, including gravity, passes through the same explicit ramped
+  // force pipeline below.
+  const physicsWorld = new CANNON.World({ gravity: new CANNON.Vec3(0, 0, 0) })
+  physicsWorld.solver.iterations = 12
+  const planeBody = new CANNON.Body({
+    mass: 3,
+    linearDamping: 0.015,
+    angularDamping: 0.08
+  })
+  // The box gives the body an aircraft-like inertia tensor instead of the
+  // uniform inertia of the temporary spherical placeholder.
+  planeBody.addShape(new CANNON.Box(new CANNON.Vec3(0.45, 0.12, 0.9)))
+  // This shape contributes the roll inertia of the wings. It is a physics
+  // volume only, so it does not change the loaded visual model.
+  planeBody.addShape(new CANNON.Box(new CANNON.Vec3(1, 0.05, 0.3)))
+  // Rotational motion comes from forces applied at the aircraft's physical
+  // surfaces. Do not steer by mutating orientation or angular velocity.
+  planeBody.angularFactor.set(1, 1, 1)
+  planeBody.angularVelocity.set(0, 0, 0)
+  planeBody.position.set(...cruiseConfig.boundaryCenter)
+  physicsWorld.addBody(planeBody)
+  planeBody.velocity.set(0, 0, 2.4)
+  const forceRampStart = performance.now()
+  const forceRampDuration = 15000
+  let flightCrashed = false
+  let flightCrashTelemetry = null
+  const boundaryTelemetry = { crossings: [] }
+  let wasOutsideBoundary = false
+  const forceVectors = {}
+  if (sandbox) {
+    const addForceVector = (name, color, usualMagnitude) => {
+      const arrow = new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), new THREE.Vector3(), 0.01, color)
+      const marker = new THREE.Mesh(
+        new THREE.SphereGeometry(0.075, 16, 12),
+        new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.8, depthTest: false, toneMapped: false })
+      )
+      const label = createForceLabel(name)
+      arrow.add(marker)
+      arrow.visible = false
+      label.visible = false
+      arrow.userData = { baseColor: new THREE.Color(color), label, marker, usualMagnitude }
+      planeRoot.add(arrow)
+      planeRoot.add(label)
+      forceVectors[name] = arrow
+    }
+    addForceVector('thrust', 0xffffff, 3)
+    addForceVector('leftLift', 0x55ff55, 0.85)
+    addForceVector('rightLift', 0x55ff55, 0.85)
+    addForceVector('drag', 0xff5555, 2.2)
+    addForceVector('gravity', 0x5599ff, 1.5)
+    addForceVector('rudder', 0xffcc55, 0.025)
+    addForceVector('elevator', 0xcc77ff, 0.07)
+  }
+  const updateForceVector = (name, origin, force) => {
+    const arrow = forceVectors[name]
+    if (!arrow) return
+    const magnitude = Math.hypot(force.x, force.y, force.z)
+    arrow.visible = magnitude > 0.001
+    arrow.userData.label.visible = arrow.visible
+    if (!arrow.visible) return
+    const highlighted = magnitude > arrow.userData.usualMagnitude
+    const color = highlighted ? primaryColor : arrow.userData.baseColor
+    arrow.setColor(color)
+    arrow.userData.marker.material.color.copy(color)
+    const pulse = highlighted ? 1 + Math.sin(performance.now() * 0.012) * 0.35 : 1
+    arrow.userData.marker.scale.setScalar(pulse)
+    arrow.userData.marker.material.opacity = highlighted ? 1 : 0.8
+    arrow.position.set(origin.x, origin.y, origin.z)
+    arrow.setDirection(new THREE.Vector3(force.x, force.y, force.z).normalize())
+    const emphasis = highlighted ? 1.35 : 1
+    const arrowLength = Math.max(0.32, magnitude * 0.8 * emphasis)
+    arrow.setLength(
+      arrowLength,
+      Math.max(0.1, Math.min(0.34, magnitude * 0.12 * emphasis)),
+      Math.max(0.06, Math.min(0.2, magnitude * 0.07 * emphasis))
+    )
+    arrow.userData.label.material.color.copy(color)
+    arrow.userData.label.position.set(
+      origin.x + force.x / magnitude * (arrowLength + 0.25),
+      origin.y + force.y / magnitude * (arrowLength + 0.25),
+      origin.z + force.z / magnitude * (arrowLength + 0.25)
+    )
+  }
 
-  const textMesh = new TroikaText()
-  textMesh.text = 'Thanks for reading!'
-  textMesh.font = 'https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff'
-  textMesh.fontSize = 12
-  textMesh.maxWidth = 200
-  textMesh.lineHeight = 1
-  textMesh.letterSpacing = 0.01
-  textMesh.textAlign = 'left'
-  textMesh.anchorX = 'center'
-  textMesh.anchorY = 'middle'
-  textMesh.color = primaryColor.clone().multiplyScalar(1.15)
-  textMesh.position.set(0, 0, -7)
-  textMesh.rotation.y = (Math.PI * 3) / 2
-  textMesh.scale.setScalar(0.035)
-  textMesh.sync()
-  textMesh.material.toneMapped = false
-  wrapper.add(textMesh)
-
-  let mixer = null
-  new GLTFLoader().load('/models/plane/scene.gltf', ({ scene: model, animations }) => {
+  if (!sandbox) new GLTFLoader().load('/models/plane/scene.gltf', ({ scene: model }) => {
     model.traverse((object) => {
       if (!object.isMesh) return
       const materials = Array.isArray(object.material) ? object.material : [object.material]
@@ -248,22 +379,128 @@ if (target) {
         material.emissiveIntensity = 0.04
       })
     })
-    wrapper.add(model)
-    if (animations.length) {
-      mixer = new THREE.AnimationMixer(model)
-      mixer.clipAction(animations[0]).play()
-    }
+    planeGroup.add(model)
   })
 
   const controls = new OrbitControls(camera, renderer.domElement)
   window.__SUNSET_CONTROLS__ = controls
   window.__SUNSET_SCENE__ = scene
-  controls.enableZoom = false
+  controls.enableZoom = sandbox
+  controls.zoomSpeed = 0.8
   controls.enableDamping = true
   controls.dampingFactor = 0.08
-  controls.autoRotate = !compare
+  controls.autoRotate = !compare && !sandbox
   controls.autoRotateSpeed = 0.1
   controls.maxPolarAngle = Math.PI / 2 - 0.1
+  const cameraDebugState = { mode: 'Orbit' }
+  let activeCameraMode = cameraDebugState.mode
+  const orbitCameraPosition = camera.position.clone()
+  const orbitCameraTarget = controls.target.clone()
+  const thirdPersonOffset = new THREE.Vector3(0, 2.5, -8)
+  const thirdPersonTarget = new THREE.Vector3(0, 0, 4)
+  const thirdPersonPreviousMatrix = new THREE.Matrix4()
+  const thirdPersonDeltaMatrix = new THREE.Matrix4()
+  const thirdPersonInverseMatrix = new THREE.Matrix4()
+  let persistCamera = () => {}
+  const setCameraMode = (mode) => {
+    if (mode === activeCameraMode) return
+    if (mode === 'Third person') {
+      orbitCameraPosition.copy(camera.position)
+      orbitCameraTarget.copy(controls.target)
+      planeGroup.updateWorldMatrix(true, false)
+      camera.position.copy(thirdPersonOffset)
+      controls.target.copy(thirdPersonTarget)
+      planeGroup.localToWorld(camera.position)
+      planeGroup.localToWorld(controls.target)
+      thirdPersonPreviousMatrix.copy(planeGroup.matrixWorld)
+      controls.enabled = true
+      controls.update()
+    } else {
+      camera.position.copy(orbitCameraPosition)
+      controls.target.copy(orbitCameraTarget)
+      controls.enabled = true
+      controls.update()
+    }
+    activeCameraMode = mode
+    cameraDebugState.mode = mode
+    persistCamera()
+  }
+  const flightDebugState = {
+    status: 'flying',
+    position: '0.00, 0.00, 0.00',
+    velocity: '0.00, 0.00, 0.00',
+    angularVelocity: '0.00, 0.00, 0.00',
+    airspeed: 0,
+    angleOfAttack: '0.0°',
+    thrust: 0,
+    lift: 0,
+    drag: 0,
+    netVerticalForce: 0,
+    altitudeCorrection: 0,
+    boundaryCorrection: 0,
+    forceRamp: 0,
+    engineForce: 0,
+    leftWingForce: 0,
+    rightWingForce: 0,
+    rudderForce: 0,
+    elevatorForce: 0
+  }
+  if (sandbox) {
+    const cameraStorageKey = 'sunset-sandbox-camera-v1'
+    const restoreCamera = () => {
+      try {
+        const saved = JSON.parse(localStorage.getItem(cameraStorageKey))
+        if (!saved?.position || !saved?.target) return
+        orbitCameraPosition.fromArray(saved.position)
+        orbitCameraTarget.fromArray(saved.target)
+        camera.position.copy(orbitCameraPosition)
+        controls.target.copy(orbitCameraTarget)
+        cameraDebugState.mode = saved.mode === 'Third person' ? 'Third person' : 'Orbit'
+        controls.update()
+      } catch {
+        // A malformed debugging value should never prevent the scene loading.
+      }
+    }
+    persistCamera = () => {
+      localStorage.setItem(cameraStorageKey, JSON.stringify({
+        position: orbitCameraPosition.toArray(),
+        target: orbitCameraTarget.toArray(),
+        mode: cameraDebugState.mode
+      }))
+    }
+    restoreCamera()
+    const restoredCameraMode = cameraDebugState.mode
+    activeCameraMode = 'Orbit'
+    cameraDebugState.mode = 'Orbit'
+    if (restoredCameraMode === 'Third person') setCameraMode(restoredCameraMode)
+    controls.addEventListener('change', () => {
+      if (cameraDebugState.mode !== 'Orbit') return
+      orbitCameraPosition.copy(camera.position)
+      orbitCameraTarget.copy(controls.target)
+      persistCamera()
+    })
+    const gui = new GUI({ title: 'Flight debug', container: target.parentElement })
+    gui.add(cameraDebugState, 'mode', ['Orbit', 'Third person']).onChange(setCameraMode)
+    Object.keys(flightDebugState).forEach((key) => gui.add(flightDebugState, key).listen().disable())
+  }
+  let maneuverStart = -Infinity
+  let maneuverType = null
+  // Slow, readable maneuver timelines for the force-steered plane.
+  const maneuverDurations = { 'barrel-roll': 3200, loop: 9000, wingover: 7000 }
+  const triggerManeuver = (type) => {
+    maneuverType = type
+    maneuverStart = performance.now()
+  }
+  document.querySelectorAll('[data-sunset-action]').forEach((button) => {
+    button.addEventListener('click', () => {
+      if (button.dataset.sunsetAction === 'zoom-out') {
+        camera.position.multiplyScalar(1.35)
+        controls.update()
+        return
+      }
+      triggerManeuver(button.dataset.sunsetAction)
+    })
+  })
   const composerTarget = new THREE.WebGLRenderTarget(1, 1, {
     depthBuffer: true,
     format: THREE.RGBAFormat,
@@ -311,7 +548,7 @@ if (target) {
   observer.observe(target)
   resize()
   let paused = false
-  if (!compare) {
+  if (!compare && !sandbox) {
     const visibilityObserver = new IntersectionObserver(([entry]) => {
       paused = !entry.isIntersecting
     })
@@ -337,14 +574,211 @@ if (target) {
     }
     const delta = previousTime === null ? 0 : Math.min((time - previousTime) / 1000, 0.1)
     previousTime = time
-    const seconds = time * 0.001
-    wrapper.position.z += delta
-    wrapper.position.y = Math.sin(seconds) * 0.5
-    wrapper.rotation.x = Math.sin(seconds - Math.PI / 2) * 0.1
-    flagTime.value = seconds
-    textMesh.rotation.z = Math.sin(seconds) * 0.02
-    textMesh.position.y = Math.sin(seconds * 1.5) * 0.04
-    mixer?.update(delta)
+    const now = performance.now()
+    const forceRamp = Math.min(1, Math.max(0, (now - forceRampStart) / forceRampDuration))
+    const boundaryDistance = Math.hypot(
+      planeBody.position.x - cruiseConfig.boundaryCenter[0],
+      planeBody.position.y - cruiseConfig.boundaryCenter[1],
+      planeBody.position.z - cruiseConfig.boundaryCenter[2]
+    )
+    const isOutsideBoundary = boundaryDistance > cruiseConfig.boundaryRadius
+    boundaryTelemetry.distance = Math.round(boundaryDistance * 1000) / 1000
+    boundaryTelemetry.controllerVersion = flightControllerVersion
+    boundaryTelemetry.outside = isOutsideBoundary
+    boundaryTelemetry.position = [
+      Math.round(planeBody.position.x * 1000) / 1000,
+      Math.round(planeBody.position.y * 1000) / 1000,
+      Math.round(planeBody.position.z * 1000) / 1000
+    ]
+    window.__SUNSET_FLIGHT_BOUNDARY__ = JSON.stringify(boundaryTelemetry)
+    if (isOutsideBoundary !== wasOutsideBoundary) {
+      const crossing = formatTelemetry({
+        direction: isOutsideBoundary ? 'outbound' : 'inbound',
+        elapsedMs: Math.round(now - forceRampStart),
+        distance: boundaryDistance,
+        position: [planeBody.position.x, planeBody.position.y, planeBody.position.z],
+        velocity: [planeBody.velocity.x, planeBody.velocity.y, planeBody.velocity.z]
+      })
+      boundaryTelemetry.crossings.push(crossing)
+      window.__SUNSET_FLIGHT_BOUNDARY__ = JSON.stringify(boundaryTelemetry)
+      console.info('[DEBUG-sunset-boundary]', window.__SUNSET_FLIGHT_BOUNDARY__)
+      wasOutsideBoundary = isOutsideBoundary
+    }
+    const forward = planeBody.quaternion.vmult(new CANNON.Vec3(0, 0, 1))
+    const wingRight = planeBody.quaternion.vmult(new CANNON.Vec3(1, 0, 0))
+    const forces = calculateFlightForces({
+      position: [planeBody.position.x, planeBody.position.y, planeBody.position.z],
+      velocity: [planeBody.velocity.x, planeBody.velocity.y, planeBody.velocity.z],
+      forward: [forward.x, forward.y, forward.z],
+      wingRight: [wingRight.x, wingRight.y, wingRight.z]
+    })
+    // The shared engine provides every force. Each one is applied explicitly
+    // below after the slow startup ramp.
+    const bodyUp = planeBody.quaternion.vmult(new CANNON.Vec3(0, 1, 0))
+    // Until engine thrust-line offset and its balancing pitch moment are
+    // modeled, apply thrust through the center of mass. The telemetry showed
+    // the rear-mounted point alone was inducing the early pitch crash.
+    const engineOffset = planeBody.quaternion.vmult(new CANNON.Vec3(0, 0, 0))
+    const leftWingOffset = planeBody.quaternion.vmult(new CANNON.Vec3(-0.75, 0, 0))
+    const rightWingOffset = planeBody.quaternion.vmult(new CANNON.Vec3(0.75, 0, 0))
+    const tailOffset = planeBody.quaternion.vmult(new CANNON.Vec3(0, 0, -0.9))
+    const enginePoint = planeBody.position.vadd(engineOffset)
+    const leftWingPoint = planeBody.position.vadd(leftWingOffset)
+    const rightWingPoint = planeBody.position.vadd(rightWingOffset)
+    const tailPoint = planeBody.position.vadd(tailOffset)
+    const yawRate = planeBody.angularVelocity.dot(bodyUp)
+    // The envelope's screen-facing roll convention is inverted relative to
+    // the aircraft's local forward axis. A positive aileron force creates a
+    // positive physical bank, so keep the control loop in that local frame.
+    const rollRate = planeBody.angularVelocity.dot(forward)
+    const pitchRate = planeBody.angularVelocity.dot(wingRight)
+    const envelope = evaluateFlightEnvelope({
+      forward: [forward.x, forward.y, forward.z],
+      up: [bodyUp.x, bodyUp.y, bodyUp.z],
+      angularVelocity: [planeBody.angularVelocity.x, planeBody.angularVelocity.y, planeBody.angularVelocity.z]
+    })
+    const bankForce = calculateAileronForce({
+      desiredRoll: forces.boundarySteering.roll * cruiseConfig.maxBankAngle,
+      currentRoll: -envelope.roll,
+      rollRate
+    })
+    const leftWingLift = new CANNON.Vec3(
+      forces.lift[0] * 0.5 - bodyUp.x * bankForce,
+      forces.lift[1] * 0.5 - bodyUp.y * bankForce,
+      forces.lift[2] * 0.5 - bodyUp.z * bankForce
+    )
+    const rightWingLift = new CANNON.Vec3(
+      forces.lift[0] * 0.5 + bodyUp.x * bankForce,
+      forces.lift[1] * 0.5 + bodyUp.y * bankForce,
+      forces.lift[2] * 0.5 + bodyUp.z * bankForce
+    )
+    const rudderForce = calculateRudderForce({
+      yawCommand: forces.boundarySteering.yaw * -cruiseConfig.rudderGain,
+      yawRate
+    })
+    const elevatorControlForce = calculateElevatorControlForce({
+      altitudeHold: forces.altitudeHold,
+      pitchRate,
+      pitchAngle: envelope.pitch
+    })
+    const elevatorForce = new CANNON.Vec3(
+      bodyUp.x * elevatorControlForce,
+      bodyUp.y * elevatorControlForce,
+      bodyUp.z * elevatorControlForce
+    )
+    const thrustForce = new CANNON.Vec3(...forces.thrust)
+    const dragForce = new CANNON.Vec3(...forces.drag)
+    const gravityForce = new CANNON.Vec3(...forces.gravity)
+    const tailForce = new CANNON.Vec3(
+      wingRight.x * rudderForce,
+      wingRight.y * rudderForce,
+      wingRight.z * rudderForce
+    )
+    const rampForce = (force) => new CANNON.Vec3(force.x * forceRamp, force.y * forceRamp, force.z * forceRamp)
+    const appliedThrustForce = rampForce(thrustForce)
+    const appliedLeftWingLift = rampForce(leftWingLift)
+    const appliedRightWingLift = rampForce(rightWingLift)
+    const appliedDragForce = rampForce(dragForce)
+    const appliedGravityForce = rampForce(gravityForce)
+    const appliedTailForce = rampForce(tailForce)
+    const appliedElevatorForce = rampForce(elevatorForce)
+    if (!flightCrashed && !envelope.safe) {
+      flightCrashed = true
+      flightCrashTelemetry = {
+        controllerVersion: flightControllerVersion,
+        reason: envelope.reason,
+        elapsedMs: Math.round(now - forceRampStart),
+        envelope,
+        position: [planeBody.position.x, planeBody.position.y, planeBody.position.z],
+        velocity: [planeBody.velocity.x, planeBody.velocity.y, planeBody.velocity.z],
+        angularVelocity: [planeBody.angularVelocity.x, planeBody.angularVelocity.y, planeBody.angularVelocity.z],
+        quaternion: [planeBody.quaternion.x, planeBody.quaternion.y, planeBody.quaternion.z, planeBody.quaternion.w],
+        boundary: {
+          distance: boundaryDistance,
+          outside: isOutsideBoundary,
+          steering: forces.boundarySteering
+        },
+        control: {
+          yawRate,
+          pitchRate,
+          rollRate,
+          desiredRoll: forces.boundarySteering.roll * cruiseConfig.maxBankAngle,
+          aileronForce: bankForce,
+          rudderForce,
+          elevatorForce: elevatorControlForce
+        },
+        forces: {
+          ramp: forceRamp,
+          thrust: [appliedThrustForce.x, appliedThrustForce.y, appliedThrustForce.z],
+          leftWing: [appliedLeftWingLift.x, appliedLeftWingLift.y, appliedLeftWingLift.z],
+          rightWing: [appliedRightWingLift.x, appliedRightWingLift.y, appliedRightWingLift.z],
+          drag: [appliedDragForce.x, appliedDragForce.y, appliedDragForce.z],
+          gravity: [appliedGravityForce.x, appliedGravityForce.y, appliedGravityForce.z],
+          rudder: [appliedTailForce.x, appliedTailForce.y, appliedTailForce.z],
+          elevator: [appliedElevatorForce.x, appliedElevatorForce.y, appliedElevatorForce.z]
+        }
+      }
+      window.__SUNSET_FLIGHT_CRASH__ = JSON.stringify(formatTelemetry(flightCrashTelemetry))
+      console.warn('[DEBUG-sunset-flight-crash]', window.__SUNSET_FLIGHT_CRASH__)
+    }
+    if (!flightCrashed) {
+      planeBody.applyForce(appliedThrustForce, engineOffset)
+      planeBody.applyForce(appliedLeftWingLift, leftWingOffset)
+      planeBody.applyForce(appliedRightWingLift, rightWingOffset)
+      planeBody.applyForce(appliedDragForce, new CANNON.Vec3())
+      planeBody.applyForce(appliedGravityForce, new CANNON.Vec3())
+      planeBody.applyForce(appliedTailForce, tailOffset)
+      planeBody.applyForce(appliedElevatorForce, tailOffset)
+    }
+    if (sandbox) {
+      const format = (value) => value.toFixed(2)
+      flightDebugState.status = flightCrashed ? `crashed: ${flightCrashTelemetry.reason}` : 'flying'
+      flightDebugState.position = `${format(planeBody.position.x)}, ${format(planeBody.position.y)}, ${format(planeBody.position.z)}`
+      flightDebugState.velocity = `${format(planeBody.velocity.x)}, ${format(planeBody.velocity.y)}, ${format(planeBody.velocity.z)}`
+      flightDebugState.angularVelocity = `${format(planeBody.angularVelocity.x)}, ${format(planeBody.angularVelocity.y)}, ${format(planeBody.angularVelocity.z)}`
+      flightDebugState.airspeed = format(forces.airspeed)
+      flightDebugState.angleOfAttack = `${(forces.angleOfAttack * 180 / Math.PI).toFixed(1)}°`
+      flightDebugState.thrust = format(forces.thrustMagnitude)
+      flightDebugState.lift = format(forces.lift[1])
+      flightDebugState.drag = format(Math.hypot(...forces.drag))
+      flightDebugState.netVerticalForce = format(forces.net[1])
+      flightDebugState.altitudeCorrection = format(forces.altitudeHold)
+      flightDebugState.boundaryCorrection = format(Math.abs(forces.boundarySteering.yaw))
+      flightDebugState.forceRamp = format(forceRamp)
+      flightDebugState.engineForce = format(appliedThrustForce.length())
+      flightDebugState.leftWingForce = format(appliedLeftWingLift.length())
+      flightDebugState.rightWingForce = format(appliedRightWingLift.length())
+      flightDebugState.rudderForce = format(appliedTailForce.length())
+      flightDebugState.elevatorForce = format(appliedElevatorForce.length())
+    }
+    if (maneuverType && now - maneuverStart >= maneuverDurations[maneuverType]) {
+      maneuverType = null
+    }
+    if (!flightCrashed) physicsWorld.step(1 / 60, delta, 4)
+    // Render the vectors from the same post-step body pose as the wireframe.
+    // Previously the arrows used the pre-step pose while the body used the
+    // post-step pose, producing a fast A/B double image at force points.
+    const renderedEngineOffset = planeBody.quaternion.vmult(new CANNON.Vec3(0, 0, 0))
+    const renderedLeftWingOffset = planeBody.quaternion.vmult(new CANNON.Vec3(-0.75, 0, 0))
+    const renderedRightWingOffset = planeBody.quaternion.vmult(new CANNON.Vec3(0.75, 0, 0))
+    const renderedTailOffset = planeBody.quaternion.vmult(new CANNON.Vec3(0, 0, -0.9))
+    updateForceVector('thrust', planeBody.position.vadd(renderedEngineOffset), appliedThrustForce)
+    updateForceVector('leftLift', planeBody.position.vadd(renderedLeftWingOffset), appliedLeftWingLift)
+    updateForceVector('rightLift', planeBody.position.vadd(renderedRightWingOffset), appliedRightWingLift)
+    updateForceVector('drag', planeBody.position, appliedDragForce)
+    updateForceVector('gravity', planeBody.position, appliedGravityForce)
+    updateForceVector('rudder', planeBody.position.vadd(renderedTailOffset), appliedTailForce)
+    updateForceVector('elevator', planeBody.position.vadd(renderedTailOffset), appliedElevatorForce)
+    planeFlightGroup.position.set(planeBody.position.x, planeBody.position.y, planeBody.position.z)
+    planeFlightGroup.quaternion.set(planeBody.quaternion.x, planeBody.quaternion.y, planeBody.quaternion.z, planeBody.quaternion.w)
+    if (sandbox && cameraDebugState.mode === 'Third person') {
+      planeGroup.updateWorldMatrix(true, false)
+      thirdPersonInverseMatrix.copy(thirdPersonPreviousMatrix).invert()
+      thirdPersonDeltaMatrix.copy(planeGroup.matrixWorld).multiply(thirdPersonInverseMatrix)
+      camera.position.applyMatrix4(thirdPersonDeltaMatrix)
+      controls.target.applyMatrix4(thirdPersonDeltaMatrix)
+      thirdPersonPreviousMatrix.copy(planeGroup.matrixWorld)
+    }
     controls.update()
     composer.render()
     renderer.setClearAlpha(0)

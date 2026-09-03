@@ -24,15 +24,77 @@ body > section {
 .sunset-footer-scene > span {
   z-index: 2;
 }
+.sunset-footer--sandbox {
+  margin-top: 0;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+}
+.sunset-sandbox-page {
+  margin: 0;
+  overflow: hidden;
+}
+.sunset-footer--sandbox .sunset-footer-scene {
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+}
+.sunset-footer--sandbox .sunset-footer-scene > #browser-sunset {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.sunset-footer-controls {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 3;
+}
+.sunset-footer--sandbox .lil-gui {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 3;
+}
+.sunset-footer-controls button {
+  border: 1px solid var(--ring-border);
+  border-radius: 9999px;
+  padding: 0.35rem 0.7rem;
+  background: color-mix(in srgb, var(--grey-dark) 88%, transparent);
+  color: var(--grey-light);
+  box-shadow: var(--elevation-subtle);
+  cursor: pointer;
+  font-family: var(--family-serif, "EB Garamond", system-ui, serif);
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1;
+  transition: color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+.sunset-footer-controls button:hover {
+  border-color: rgb(var(--primary));
+  color: rgb(var(--primary));
+  box-shadow: var(--elevation-raised);
+}
+@media (pointer: coarse) {
+  .sunset-footer-controls {
+    display: none;
+  }
+}
 [data-article-tags] {
   position: relative;
   z-index: 2;
 }
 </style>
 
-<footer class="sunset-footer">
+<footer class="sunset-footer{{ if eq .RelPermalink "/sandbox/sunset/" }} sunset-footer--sandbox{{ end }}">
   <div class="sunset-footer-scene tw-w-full">
     <div id="browser-sunset" class="tw-w-full tw-h-full"></div>
+    <div class="sunset-footer-controls">
+      <button type="button" data-sunset-action="barrel-roll">↻ Barrel roll</button>
+      <button type="button" data-sunset-action="loop">↕ Loop</button>
+      <button type="button" data-sunset-action="wingover">↗ Wingover</button>
+      <button type="button" data-sunset-action="zoom-out">− Zoom out</button>
+    </div>
     <span class="tw-text-primary tw-absolute tw-bottom-5 tw-right-5">
       Plane by
       <a target="_blank" href="https://sketchfab.com/antonmoek">antonmoek</a> -

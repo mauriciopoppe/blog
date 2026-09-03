@@ -3,7 +3,7 @@
 <head>
     {{ partial "head.html" . }}
 </head>
-<body>
+<body{{ if eq .RelPermalink "/sandbox/sunset/" }} class="sunset-sandbox-page"{{ end }}>
     {{ partial "single-footer.html" . }}
 </body>
 </html>
