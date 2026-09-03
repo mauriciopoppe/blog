@@ -572,7 +572,7 @@ class PlayerStore {
 
             // 1. Cutout foreground bounce (subtle head/guitar bob)
             if (fg) {
-              const fgScale = 1.02 + intensity * 0.025
+              const fgScale = 1.03 + intensity * 0.04
               const fgRot = -rot * 0.3
               fg.style.transition = 'transform 0.07s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
               fg.style.transform = `scale(${fgScale.toFixed(3)}) rotate(${fgRot.toFixed(2)}deg)`
@@ -580,7 +580,7 @@ class PlayerStore {
 
             // 2. Subtle background pulse
             if (bg) {
-              const bgScale = 1.03 + intensity * 0.02
+              const bgScale = 0.98 - intensity * 0.015
               bg.style.transition = 'transform 0.07s ease-out'
               bg.style.transform = `scale(${bgScale.toFixed(3)})`
             }

@@ -47,9 +47,6 @@ export function makeAvatarDraggable(avatar) {
     const rect = dropTargetRect
     const positionDropZone = () => {
       if (!dropZone) return
-      // The page can establish a scrolling containing block for fixed
-      // descendants. Compensate explicitly so the target remains viewport-
-      // anchored while the document scrolls.
       dropZone.style.left = `${rect.left + window.scrollX - dropZoneScrollX - 8}px`
       dropZone.style.top = `${rect.top + window.scrollY - dropZoneScrollY - 8}px`
     }
@@ -58,7 +55,7 @@ export function makeAvatarDraggable(avatar) {
       dropZone.setAttribute('aria-hidden', 'true')
       // Keep the overlay outside the document body so page scrolling or a
       // transformed content wrapper cannot establish a moving containing block.
-      dropZone.style.setProperty('position', 'fixed', 'important')
+      dropZone.style.setProperty('position', 'absolute', 'important')
       dropZone.style.pointerEvents = 'none'
       dropZone.style.border = '1px dashed rgb(var(--primary))'
       dropZone.style.borderRadius = '9999px'

@@ -34,6 +34,22 @@ export function MiniPlayer({ avatarEl }) {
   const [isMobile, setIsMobile] = useState(usesMobilePlayer)
   const [isAvatarDetached, setIsAvatarDetached] = useState(avatarEl?.dataset.avatarDetached === 'true')
   const hoverTimeoutRef = useRef(null)
+  const shell = avatarEl?.parentElement
+  const stackingContainer = avatarEl?.closest('[data-avatar-stacking-container]') || shell?.parentElement
+  const originalShellZIndex = useRef(shell?.style.zIndex || '')
+  const originalContainerZIndex = useRef(stackingContainer?.style.zIndex || '')
+
+  const raiseAvatarShell = () => {
+    if (avatarEl?.dataset.avatarDetached === 'true') return
+    if (shell) shell.style.zIndex = '10000'
+    if (stackingContainer) stackingContainer.style.zIndex = '10000'
+  }
+
+  const restoreAvatarShell = () => {
+    if (avatarEl?.dataset.avatarDetached === 'true') return
+    if (shell) shell.style.zIndex = originalShellZIndex.current
+    if (stackingContainer) stackingContainer.style.zIndex = originalContainerZIndex.current
+  }
 
   // Subscribe to global store updates
   useEffect(() => {
@@ -64,6 +80,7 @@ export function MiniPlayer({ avatarEl }) {
           clearTimeout(hoverTimeoutRef.current)
           hoverTimeoutRef.current = null
         }
+        raiseAvatarShell()
         setIsHovered(true)
       }
     }
@@ -75,6 +92,7 @@ export function MiniPlayer({ avatarEl }) {
         }
         hoverTimeoutRef.current = setTimeout(() => {
           setIsHovered(false)
+          restoreAvatarShell()
         }, 250)
       }
     }
@@ -91,14 +109,14 @@ export function MiniPlayer({ avatarEl }) {
       playerStore.togglePlay(avatarEl)
     }
 
-    avatarEl.addEventListener('mouseenter', handleAvatarEnter)
-    avatarEl.addEventListener('mouseleave', handleAvatarLeave)
+    avatarEl.addEventListener('pointerenter', handleAvatarEnter)
+    avatarEl.addEventListener('pointerleave', handleAvatarLeave)
     avatarEl.addEventListener('click', handleAvatarClick)
     avatarEl.addEventListener('avatar-position-change', handlePositionChange)
 
     return () => {
-      avatarEl.removeEventListener('mouseenter', handleAvatarEnter)
-      avatarEl.removeEventListener('mouseleave', handleAvatarLeave)
+      avatarEl.removeEventListener('pointerenter', handleAvatarEnter)
+      avatarEl.removeEventListener('pointerleave', handleAvatarLeave)
       avatarEl.removeEventListener('click', handleAvatarClick)
       avatarEl.removeEventListener('avatar-position-change', handlePositionChange)
     }
@@ -110,6 +128,7 @@ export function MiniPlayer({ avatarEl }) {
         clearTimeout(hoverTimeoutRef.current)
         hoverTimeoutRef.current = null
       }
+      raiseAvatarShell()
       setIsHovered(true)
     }
   }
@@ -121,6 +140,7 @@ export function MiniPlayer({ avatarEl }) {
       }
       hoverTimeoutRef.current = setTimeout(() => {
         setIsHovered(false)
+        restoreAvatarShell()
       }, 250)
     }
   }
