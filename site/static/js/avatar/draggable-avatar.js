@@ -6,6 +6,11 @@ function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value))
 }
 
+function debugAvatar(event, details) {
+  if (typeof window === 'undefined' || !window.__avatarDebug) return
+  console.log(`[DEBUG-avatar-drop] ${JSON.stringify({ event, ...details })}`)
+}
+
 export function makeAvatarDraggable(avatar) {
   if (!avatar || !isDesktopPointer() || avatar.dataset.avatarDraggable === 'true') return
   const shell = avatar.parentElement
@@ -22,8 +27,6 @@ export function makeAvatarDraggable(avatar) {
   let offsetY = 0
   let dropZone = null
   let dropTargetRect = null
-  let dropZoneScrollX = 0
-  let dropZoneScrollY = 0
   let dropZoneScrollHandler = null
   const originalUserSelect = document.body.style.userSelect
   const originalStyles = {
@@ -44,17 +47,34 @@ export function makeAvatarDraggable(avatar) {
 
   const showDropZone = () => {
     if (!dropTargetRect) return
-    const rect = dropTargetRect
     const positionDropZone = () => {
       if (!dropZone) return
-      dropZone.style.left = `${rect.left + window.scrollX - dropZoneScrollX - 8}px`
-      dropZone.style.top = `${rect.top + window.scrollY - dropZoneScrollY - 8}px`
+      const placeholderRect = placeholder?.getBoundingClientRect()
+      if (!placeholderRect) return
+      const left = placeholderRect.left + (placeholderRect.width - dropTargetRect.width) / 2
+      const top = placeholderRect.top + (placeholderRect.height - dropTargetRect.height) / 2
+      dropZone.style.left = `${left + window.scrollX - 8}px`
+      dropZone.style.top = `${top + window.scrollY - 8}px`
+      debugAvatar('drop-zone-position', {
+        target: dropTargetRect,
+        placeholder: { left: placeholderRect.left, top: placeholderRect.top, width: placeholderRect.width, height: placeholderRect.height },
+        scrollX: window.scrollX,
+        scrollY: window.scrollY,
+        dropZone: {
+          left: dropZone.style.left,
+          top: dropZone.style.top,
+          rect: (() => {
+            const zoneRect = dropZone.getBoundingClientRect()
+            return { left: zoneRect.left, top: zoneRect.top, width: zoneRect.width, height: zoneRect.height }
+          })()
+        }
+      })
     }
     if (!dropZone) {
       dropZone = document.createElement('div')
       dropZone.setAttribute('aria-hidden', 'true')
-      // Keep the overlay outside the document body so page scrolling or a
-      // transformed content wrapper cannot establish a moving containing block.
+      // Use an absolute document overlay and reposition it from the original
+      // placeholder as the document scrolls.
       dropZone.style.setProperty('position', 'absolute', 'important')
       dropZone.style.pointerEvents = 'none'
       dropZone.style.border = '1px dashed rgb(var(--primary))'
@@ -62,11 +82,11 @@ export function makeAvatarDraggable(avatar) {
       dropZone.style.background = 'rgba(var(--primary), 0.08)'
       dropZone.style.opacity = '0.7'
       dropZone.style.zIndex = '9999'
-      document.documentElement.appendChild(dropZone)
+      document.body.appendChild(dropZone)
     }
     dropZone.style.display = 'block'
-    dropZone.style.width = `${rect.width + 16}px`
-    dropZone.style.height = `${rect.height + 16}px`
+    dropZone.style.width = `${dropTargetRect.width + 16}px`
+    dropZone.style.height = `${dropTargetRect.height + 16}px`
     positionDropZone()
     if (!dropZoneScrollHandler) {
       dropZoneScrollHandler = positionDropZone
@@ -109,6 +129,17 @@ export function makeAvatarDraggable(avatar) {
     offsetY = event.clientY - rect.top
     dragging = true
     moved = false
+    debugAvatar('drag-start', {
+      pointer: { x: event.clientX, y: event.clientY },
+      shell: { left: rect.left, top: rect.top, width: rect.width, height: rect.height },
+      avatar: (() => {
+        const avatarRect = avatar.getBoundingClientRect()
+        return { left: avatarRect.left, top: avatarRect.top, width: avatarRect.width, height: avatarRect.height }
+      })(),
+      scrollX: window.scrollX,
+      scrollY: window.scrollY,
+      parent: shell.parentElement?.className || ''
+    })
   }
 
   const moveDrag = (event) => {
@@ -131,9 +162,8 @@ export function makeAvatarDraggable(avatar) {
           right: avatarRect.right,
           bottom: avatarRect.bottom
         }
+        debugAvatar('drop-target-captured', { target: dropTargetRect })
       }
-      dropZoneScrollX = window.scrollX
-      dropZoneScrollY = window.scrollY
       if (!placeholder) {
         placeholder = document.createElement('span')
         placeholder.style.display = 'inline-block'
@@ -162,6 +192,14 @@ export function makeAvatarDraggable(avatar) {
     const target = dropZone ? dropZone.getBoundingClientRect() : null
     const droppedInsideTarget = target && event.clientX >= target.left && event.clientX <= target.right &&
       event.clientY >= target.top && event.clientY <= target.bottom
+    debugAvatar('drag-end', {
+      pointer: { x: event.clientX, y: event.clientY },
+      target: dropTargetRect,
+      renderedTarget: target && { left: target.left, top: target.top, width: target.width, height: target.height },
+      droppedInsideTarget,
+      avatarDetached: avatar.dataset.avatarDetached === 'true',
+      shellParent: shell.parentElement?.nodeName || ''
+    })
     hideDropZone()
     if (droppedInsideTarget) {
       restoreOriginalPosition()
