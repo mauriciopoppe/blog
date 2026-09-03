@@ -115,6 +115,8 @@ describe('Sunset flight physics', () => {
     let outside = false
     let crash = null
     let finalStep = null
+    let outboundStep = null
+    let inboundStep = null
     for (let step = 0; step < 60 * 180; step += 1) {
       finalStep = stepFlightBody(body, world, Math.min(1, step / (60 * 15)), config)
       if (!finalStep.envelope.safe) {
@@ -123,12 +125,17 @@ describe('Sunset flight physics', () => {
       }
       const distance = body.position.distanceTo(vector(config.boundaryCenter))
       const nextOutside = distance > config.boundaryRadius
-      if (nextOutside !== outside) crossings.push(nextOutside ? 'outbound' : 'inbound')
+      if (nextOutside !== outside) {
+        crossings.push(nextOutside ? 'outbound' : 'inbound')
+        if (nextOutside) outboundStep = step
+        else inboundStep = step
+      }
       outside = nextOutside
       if (crossings.length === 2) break
     }
 
     expect(crash).toBeNull()
     expect(crossings).toEqual(['outbound', 'inbound'])
+    expect((inboundStep - outboundStep) / 60).toBeLessThan(15)
   })
 })

@@ -80,6 +80,19 @@ This test turned controller tuning into a fast feedback loop. It also exposed tw
 
 The sandbox can render the fuselage and wing collision volumes as wireframes, together with labels for force vectors. Vector origins are updated from the same post-step Cannon pose as the rigid body. Updating the vectors before the physics step and the body after it produced a fast two-position ghost image.
 
+## Faster return to the flight sphere
+
+Return time became a second deterministic metric. The test measures the elapsed simulation time between the outbound crossing and the following inbound crossing while still requiring a safe flight envelope.
+
+The original tail-rudder controller returned in `108.37` seconds. We changed one force parameter at a time and kept every other force location unchanged:
+
+- Increasing rudder gain from `0.035` to `0.1` reduced the time to `41.33` seconds.
+- A gain of `0.3` reached `20.88` seconds.
+- Higher gain eventually exceeded the angular-speed envelope.
+- Increasing yaw damping from `0.35` to `0.5` allowed a stronger `0.65` rudder gain without that rate failure.
+
+The final controller returns in under `15` seconds. The tail rudder remains the only turn command. Thrust still follows the airspeed controller, so it was not changed during this optimization. This leaves a useful next experiment: reduce throttle during the return and evaluate turn radius, lift, angle of attack, and recovery together.
+
 ## Current scope
 
 The stable baseline has pitch and yaw control through forces at the tail. Future steps can add a coordinated aileron model, atmospheric wind, and a rope attached to the tail after extending the aerodynamic model and its deterministic tests.

@@ -40,8 +40,8 @@ export const cruiseConfig = {
   rollGain: 0,
   rollDamping: 0,
   maxAileronForce: 0,
-  rudderGain: 0.035,
-  yawDamping: 0.35,
+  rudderGain: 0.65,
+  yawDamping: 0.5,
   pitchDamping: 0.3,
   pitchStability: 0.25,
   maxElevatorForce: 0.18
