@@ -1,5 +1,9 @@
 import * as THREE from 'https://esm.sh/three@0.144.0'
 import { OrbitControls } from 'https://esm.sh/three@0.144.0/examples/jsm/controls/OrbitControls.js'
+import {
+  THIRD_PERSON_AUTO_ROTATE_SPEED,
+  shouldAutoRotateThirdPerson
+} from './camera-engine.js'
 import { GLTFLoader } from 'https://esm.sh/three@0.144.0/examples/jsm/loaders/GLTFLoader.js'
 import { EffectComposer } from 'https://esm.sh/three@0.144.0/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'https://esm.sh/three@0.144.0/examples/jsm/postprocessing/RenderPass.js'
@@ -606,7 +610,7 @@ if (target) {
   controls.enableDamping = true
   controls.dampingFactor = 0.08
   controls.autoRotate = false
-  controls.autoRotateSpeed = 0.1
+  controls.autoRotateSpeed = THIRD_PERSON_AUTO_ROTATE_SPEED
   controls.maxPolarAngle = Math.PI / 2 - 0.1
   const cameraDebugState = { mode: 'Third person' }
   let activeCameraMode = 'Orbit'
@@ -631,6 +635,10 @@ if (target) {
   const thirdPersonDeltaMatrix = new THREE.Matrix4()
   const thirdPersonInverseMatrix = new THREE.Matrix4()
   let persistCamera = () => {}
+  let isCameraDragging = false
+  const updateThirdPersonAutoRotate = () => {
+    controls.autoRotate = shouldAutoRotateThirdPerson(cameraDebugState.mode, isCameraDragging)
+  }
   const setCameraMode = (mode) => {
     if (mode === activeCameraMode) return
     if (mode === 'Third person') {
@@ -652,8 +660,17 @@ if (target) {
     }
     activeCameraMode = mode
     cameraDebugState.mode = mode
+    updateThirdPersonAutoRotate()
     persistCamera()
   }
+  controls.addEventListener('start', () => {
+    isCameraDragging = true
+    updateThirdPersonAutoRotate()
+  })
+  controls.addEventListener('end', () => {
+    isCameraDragging = false
+    updateThirdPersonAutoRotate()
+  })
   if (!sandbox) setCameraMode('Third person')
   const flightSettings = {
     returnStrategy: 'random'
