@@ -27,6 +27,7 @@ export function makeAvatarDraggable(avatar) {
   let offsetY = 0
   let dropZone = null
   let dropTargetRect = null
+  let lastSunsetOverlap = null
   let dropZoneScrollHandler = null
   const originalUserSelect = document.body.style.userSelect
   const originalStyles = {
@@ -43,6 +44,20 @@ export function makeAvatarDraggable(avatar) {
     const maxTop = Math.max(0, window.innerHeight - rect.height)
     shell.style.left = `${clamp(left, 0, maxLeft)}px`
     shell.style.top = `${clamp(top, 0, maxTop)}px`
+  }
+
+  const notifySunsetOverlap = () => {
+    const sunset = document.querySelector('#browser-sunset')
+    if (!sunset) return
+    const avatarRect = avatar.getBoundingClientRect()
+    const sunsetRect = sunset.getBoundingClientRect()
+    const overlaps = avatarRect.right >= sunsetRect.left && avatarRect.left <= sunsetRect.right &&
+      avatarRect.bottom >= sunsetRect.top && avatarRect.top <= sunsetRect.bottom
+    if (overlaps !== lastSunsetOverlap) {
+      lastSunsetOverlap = overlaps
+      console.info('[DEBUG-sunset-music-burst] overlap', { overlaps, avatarRect, sunsetRect })
+    }
+    avatar.dispatchEvent(new CustomEvent('avatar-sunset-overlap', { detail: { overlaps } }))
   }
 
   const showDropZone = () => {
@@ -181,6 +196,7 @@ export function makeAvatarDraggable(avatar) {
       showDropZone()
     }
     setPosition(event.clientX - offsetX, event.clientY - offsetY)
+    notifySunsetOverlap()
     event.preventDefault()
   }
 

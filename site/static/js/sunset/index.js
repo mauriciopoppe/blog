@@ -459,6 +459,41 @@ if (target) {
   physicsWorld.addBody(planeBody)
   planeBody.velocity.set(0, 0, 2.4)
 
+  const musicBurstGroup = new THREE.Group()
+  const musicBursts = []
+  let musicStreamActive = false
+  let musicStreamAccumulator = 0
+  planeFlightGroup.add(musicBurstGroup)
+  const spawnMusicNote = () => {
+    const noteSymbols = ['♪', '♫', '♩', '♬']
+    const note = createAxisLabel(noteSymbols[Math.floor(Math.random() * noteSymbols.length)], '#fff3e0')
+    note.material.transparent = true
+    note.material.opacity = 0.95
+    note.position.set(
+      (Math.random() - 0.5) * 0.18,
+      0.28 + Math.random() * 0.12,
+      0.15 + (Math.random() - 0.5) * 0.12
+    )
+    musicBurstGroup.add(note)
+    musicBursts.push({
+      note,
+      velocity: new THREE.Vector3(
+        (Math.random() - 0.5) * 0.18,
+        0.22 + Math.random() * 0.2,
+        (Math.random() - 0.5) * 0.12
+      ),
+      spin: (Math.random() - 0.5) * 1.5,
+      age: 0
+    })
+  }
+  window.__SUNSET_MUSIC_STREAM_START__ = () => {
+    musicStreamActive = true
+  }
+  window.__SUNSET_MUSIC_STREAM_STOP__ = () => {
+    musicStreamActive = false
+    musicStreamAccumulator = 0
+  }
+
   const letterChain = createRigidChain({
     CANNON,
     world: physicsWorld,
@@ -605,7 +640,7 @@ if (target) {
   const controls = new OrbitControls(camera, renderer.domElement)
   window.__SUNSET_CONTROLS__ = controls
   window.__SUNSET_SCENE__ = scene
-  controls.enableZoom = sandbox
+  controls.enableZoom = true
   controls.zoomSpeed = 0.8
   controls.enableDamping = true
   controls.dampingFactor = 0.08
@@ -1159,6 +1194,27 @@ if (target) {
       thirdPersonPreviousMatrix.copy(planeGroup.matrixWorld)
     }
     controls.update()
+    if (musicStreamActive) {
+      musicStreamAccumulator += delta
+      while (musicStreamAccumulator >= 0.24) {
+        musicStreamAccumulator -= 0.24
+        spawnMusicNote()
+      }
+    }
+    for (let i = musicBursts.length - 1; i >= 0; i -= 1) {
+      const burst = musicBursts[i]
+      burst.age += delta
+      burst.note.position.addScaledVector(burst.velocity, delta)
+      burst.note.rotation.z += burst.spin * delta
+      burst.note.material.opacity = Math.max(0, 1 - burst.age / 2.8)
+      burst.note.scale.setScalar(0.62 + burst.age * 0.07)
+      if (burst.age >= 3.2) {
+        musicBurstGroup.remove(burst.note)
+        burst.note.material.map?.dispose()
+        burst.note.material.dispose()
+        musicBursts.splice(i, 1)
+      }
+    }
     composer.render()
     renderer.setClearAlpha(0)
     requestAnimationFrame(render)

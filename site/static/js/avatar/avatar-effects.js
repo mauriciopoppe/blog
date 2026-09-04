@@ -11,6 +11,35 @@ export function createAvatarEffects(avatarEl, store = playerStore) {
   const pendingTimeouts = new Set()
   const pendingEvents = []
   let unsubscribeFrame = null
+  let lastDistortionAt = -Infinity
+  let sunsetStreamActive = false
+
+  const checkSunsetStream = (overlaps = null) => {
+    if (!store.getState().isPlaying) {
+      if (sunsetStreamActive && typeof window.__SUNSET_MUSIC_STREAM_STOP__ === 'function') {
+        window.__SUNSET_MUSIC_STREAM_STOP__()
+      }
+      sunsetStreamActive = false
+      return
+    }
+    const sunset = document.querySelector('#browser-sunset')
+    if (!sunset) return
+    const avatarRect = avatarEl.getBoundingClientRect()
+    const sunsetRect = sunset.getBoundingClientRect()
+    const isOverlapping = overlaps ?? (
+      avatarRect.right >= sunsetRect.left && avatarRect.left <= sunsetRect.right &&
+      avatarRect.bottom >= sunsetRect.top && avatarRect.top <= sunsetRect.bottom
+    )
+    if (isOverlapping && !sunsetStreamActive && typeof window.__SUNSET_MUSIC_STREAM_START__ === 'function') {
+      sunsetStreamActive = true
+      console.info('[DEBUG-sunset-music-stream] start', { overlaps: true, playing: true })
+      window.__SUNSET_MUSIC_STREAM_START__()
+    } else if (!isOverlapping && sunsetStreamActive) {
+      sunsetStreamActive = false
+      console.info('[DEBUG-sunset-music-stream] stop', { overlaps: false, playing: true })
+      window.__SUNSET_MUSIC_STREAM_STOP__?.()
+    }
+  }
 
   const clearPendingTimeouts = () => {
     pendingTimeouts.forEach((id) => clearTimeout(id))
@@ -28,12 +57,15 @@ export function createAvatarEffects(avatarEl, store = playerStore) {
       visualAnimation.stop()
       visualAnimation = null
     }
+    if (sunsetStreamActive) window.__SUNSET_MUSIC_STREAM_STOP__?.()
+    sunsetStreamActive = false
     avatarEl.classList.remove('is-playing')
     detachDistortionFilters()
   }
 
   const handleState = (state) => {
     if (state.isPlaying) {
+      checkSunsetStream()
       if (!visualAnimation) {
         avatarEl.classList.add('is-playing')
         visualAnimation = startVisualAnimation(avatarEl)
@@ -58,7 +90,7 @@ export function createAvatarEffects(avatarEl, store = playerStore) {
     const rot = (Math.random() - 0.5) * (event.frequency > 450 ? 6.0 : 4.0)
 
     if (!visualAnimation) return
-    visualAnimation.pushWave(event.frequency)
+    visualAnimation.pushWave(event.frequency, event.role === 'background' ? 'background' : 'avatar', event.velocity)
 
     if (event.role === 'background') {
       if (bg) {
@@ -85,8 +117,10 @@ export function createAvatarEffects(avatarEl, store = playerStore) {
     pendingTimeouts.add(resetId)
 
     spawnFloatingMusicParticle(avatarEl, event.name.replace(/[0-9]/g, ''))
-    if (!window.matchMedia('(pointer: coarse)').matches) {
-      triggerAcousticImpulse(intensity, event.frequency, avatarEl)
+    const now = performance.now()
+    if (!window.matchMedia('(pointer: coarse)').matches && now - lastDistortionAt >= 70) {
+      lastDistortionAt = now
+      triggerAcousticImpulse(intensity * 0.65, event.frequency, avatarEl)
     }
   }
 
@@ -109,12 +143,16 @@ export function createAvatarEffects(avatarEl, store = playerStore) {
     pendingEvents.push(event)
   }
 
+  const handleSunsetOverlap = (event) => checkSunsetStream(event.detail?.overlaps)
+
   const unsubscribeState = store.subscribe(handleState)
   const unsubscribeEvents = store.subscribeEvents(handleEvent)
+  avatarEl.addEventListener('avatar-sunset-overlap', handleSunsetOverlap)
 
   return () => {
     unsubscribeState()
     unsubscribeEvents()
+    avatarEl.removeEventListener('avatar-sunset-overlap', handleSunsetOverlap)
     stopEffects()
   }
 }
