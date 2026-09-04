@@ -12,12 +12,6 @@ import { DEFAULT_SONG, SONGS_MANIFEST } from './songs-manifest.js'
 import { avatarFrameLoop } from './frame-loop.js'
 import { buildSongTimeline, getPhrasePosition } from './playback-timeline.js'
 
-const DEBUG_AUTOPLAY = '[DEBUG-avatar-auto]'
-
-function debugAuto(event, details = {}) {
-  if (typeof console !== 'undefined') console.log(`${DEBUG_AUTOPLAY} ${event} ${JSON.stringify(details)}`)
-}
-
 // Fast parser for compact CSV note representation: time,freq,dur,vel,name
 export function parseNotesCsv(csvText) {
   const lines = csvText.trim().split('\n')
@@ -508,13 +502,18 @@ class PlayerStore {
     }
 
     const startTime = ctx.currentTime + (this.state.isContinuous ? 0.15 : 0.05)
-    if (this.state.isContinuous) {
-      debugAuto('session-start', { phraseIndex: newIdx, title: phrase.title, contextTime: ctx.currentTime, startTime })
-    }
     const activeNodes = []
     const startOffset = phrase.offset
     const cycleDuration = timeline.duration
-    const session = { startTime, startOffset, scheduledUntil: startTime, stopped: false }
+    const session = {
+      startTime,
+      startOffset,
+      scheduledUntil: startTime,
+      extensionTimer: null,
+      completionId: null,
+      continuous: this.state.isContinuous,
+      stopped: false
+    }
     const lookAheadSeconds = 8
 
     const masterGain = ctx.createGain()
@@ -591,12 +590,6 @@ class PlayerStore {
             })
         }
       })
-      debugAuto('cycle-scheduled', {
-        windowStart: startTime + windowStartOffset,
-        windowEnd: startTime + windowEndOffset,
-        noteCount: timeline.notes.filter((note) => relativeOffset(note.audioOffset) >= windowStartOffset % cycleDuration && relativeOffset(note.audioOffset) < windowEndOffset % cycleDuration).length,
-        phraseCount: timeline.phrases.length
-      })
     }
 
     const scheduleMore = () => {
@@ -604,16 +597,17 @@ class PlayerStore {
       const delay = Math.max(0, (session.scheduledUntil - ctx.currentTime - 1) * 1000)
       const id = setTimeout(() => {
         this.activeTimeouts.delete(id)
-        debugAuto('cycle-extension', { scheduleAt: session.scheduledUntil, contextTime: ctx.currentTime })
+        session.extensionTimer = null
         scheduleWindow(session.scheduledUntil - startTime)
         session.scheduledUntil += lookAheadSeconds
         scheduleMore()
       }, delay)
       this.activeTimeouts.add(id)
+      session.extensionTimer = id
     }
 
     let finishPlayback = null
-    if (this.state.isContinuous) {
+    if (session.continuous) {
       scheduleWindow(0)
       session.scheduledUntil += lookAheadSeconds
       scheduleMore()
@@ -636,12 +630,33 @@ class PlayerStore {
           activeNodes.push(source)
           this.emitEvent({ type: 'note-scheduled', audioTime: noteTime, frequency: note.freq, velocity: note.vel, name: note.name })
         })
+      if (this.metronomeGainNode) {
+        const beatsPerBar = metadata.beatsPerBar || song.beatsPerBar || 4
+        const accents = metadata.accents || song.accents || [1]
+        const totalBeats = Math.max(
+          1,
+          (phrase.endBar - phrase.startBar) * beatsPerBar + (phrase.endBeat - phrase.startBeat)
+        )
+        const secondsPerBeat = phrase.duration / totalBeats
+        for (let beatIdx = 0; beatIdx < totalBeats; beatIdx++) {
+          const beatTime = startTime + beatIdx * secondsPerBeat
+          const beatInBar = ((phrase.startBeat - 1 + beatIdx) % beatsPerBar) + 1
+          activeNodes.push(playMetronomeClick(ctx, this.metronomeGainNode, beatTime, accents.includes(beatInBar)))
+          if (beatInBar === 1) {
+            this.emitEvent({
+              type: 'beat-scheduled',
+              audioTime: beatTime,
+              label: `⏱ Bar ${phrase.startBar + Math.floor((phrase.startBeat - 1 + beatIdx) / beatsPerBar)}.1`
+            })
+          }
+        }
+      }
       masterGain.gain.setValueAtTime(0.35, startTime + Math.max(0, phrase.duration - 0.2))
       masterGain.gain.linearRampToValueAtTime(0.001, startTime + phrase.duration + 0.4)
       finishPlayback = () => {
         if (!this.state.isPlaying) return
         this.stop()
-        const nextIdx = (newIdx + 1) % phrases.length
+        const nextIdx = (this.state.phraseIndex + 1) % phrases.length
         const nextPhrase = timeline.phrases[nextIdx]
         this.setState({
           phraseIndex: nextIdx,
@@ -653,9 +668,11 @@ class PlayerStore {
       }
       const completionId = setTimeout(() => {
         this.activeTimeouts.delete(completionId)
+        session.completionId = null
         finishPlayback()
       }, Math.max(0, (phraseEnd - ctx.currentTime) * 1000))
       this.activeTimeouts.add(completionId)
+      session.completionId = completionId
       session.scheduledUntil = phraseEnd
     }
 
@@ -667,7 +684,7 @@ class PlayerStore {
         finishPlayback()
         return
       }
-      const songOffset = this.state.isContinuous
+      const songOffset = session.continuous
         ? (startOffset + elapsed) % cycleDuration
         : Math.min(startOffset + elapsed, startOffset + phrase.duration)
       const position = getPhrasePosition(timeline, songOffset, metadata.beatsPerBar || song.beatsPerBar || 4)
@@ -694,6 +711,43 @@ class PlayerStore {
             node.disconnect()
           } catch (e) {}
         })
+      },
+      setContinuous: (enabled) => {
+        if (session.stopped || session.continuous === enabled) return
+        session.continuous = enabled
+
+        if (enabled) {
+          if (session.completionId) {
+            clearTimeout(session.completionId)
+            this.activeTimeouts.delete(session.completionId)
+            session.completionId = null
+          }
+          if (!session.extensionTimer) {
+            session.scheduledUntil = Math.max(session.scheduledUntil, ctx.currentTime)
+            scheduleWindow(session.scheduledUntil - startTime)
+            session.scheduledUntil += lookAheadSeconds
+            scheduleMore()
+          }
+        } else if (session.extensionTimer) {
+          clearTimeout(session.extensionTimer)
+          this.activeTimeouts.delete(session.extensionTimer)
+          session.extensionTimer = null
+        }
+
+        if (!enabled) {
+          const elapsed = Math.max(0, ctx.currentTime - startTime)
+          const songOffset = (startOffset + elapsed) % cycleDuration
+          const currentPhrase = timeline.phrases[this.state.phraseIndex]
+          let remaining = currentPhrase.offset + currentPhrase.duration - songOffset
+          if (remaining <= 0) remaining += cycleDuration
+          const completionId = setTimeout(() => {
+            this.activeTimeouts.delete(completionId)
+            session.completionId = null
+            finishPlayback()
+          }, remaining * 1000)
+          this.activeTimeouts.add(completionId)
+          session.completionId = completionId
+        }
       }
     }
   }
@@ -740,10 +794,10 @@ class PlayerStore {
 
   toggleLoop() {
     const nextValue = !this.state.isContinuous
-    const wasPlaying = this.state.isPlaying
-    debugAuto('mode-toggle', { continuous: nextValue, wasPlaying, phraseIndex: this.state.phraseIndex })
     this.setState({ isContinuous: nextValue })
-    if (wasPlaying) this.playVerse(this.state.phraseIndex)
+    if (this.state.isPlaying && this.currentPlayback?.setContinuous) {
+      this.currentPlayback.setContinuous(nextValue)
+    }
   }
 
   toggleMetronome() {
