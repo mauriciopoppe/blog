@@ -20,6 +20,10 @@ export const TIERS = [
 export const ARTICLE_TEXT_EXCLUSION_SELECTOR = 'script, style, pre, code, textarea, svg, [data-avatar-distortion-fragment]'
 export const ARTICLE_FRAGMENT_SELECTOR = '[data-avatar-distortion-fragment], img, video, canvas, pre, table'
 
+export function canApplyDistortion(el) {
+  return Boolean(el) && el.nodeName !== 'HTML' && el.nodeName !== 'BODY'
+}
+
 export function calculateImpulseDecay(elapsedMs, durationMs, initialScale) {
   if (elapsedMs >= durationMs) return 0
   const progress = elapsedMs / durationMs
@@ -56,6 +60,9 @@ let currentScale = 0
 let activeRegions = []
 let activeFragments = []
 let activeFragmentAvatar = null
+let lastFragmentTierUpdate = 0
+let lastFragmentLayoutKey = ''
+let activeDirectTargets = []
 
 function wrapArticleText(root) {
   if (!root || root.dataset.avatarDistortionPrepared === 'true') return
@@ -99,12 +106,14 @@ function tierForDistance(distance, avatarRect) {
 function attachArticleFragments(avatarEl) {
   const article = document.querySelector('article[role="main"]')
   if (!article || !avatarEl) return
+  if (activeFragmentAvatar === avatarEl && activeFragments.length) return
 
   wrapArticleText(article)
   const avatarRect = avatarEl.getBoundingClientRect()
   const avatarX = avatarRect.left + avatarRect.width / 2
   const avatarY = avatarRect.top + avatarRect.height / 2
   const fragments = Array.from(article.querySelectorAll(ARTICLE_FRAGMENT_SELECTOR))
+  const candidates = []
 
   fragments.forEach((el) => {
     const rect = el.getBoundingClientRect()
@@ -113,15 +122,33 @@ function attachArticleFragments(avatarEl) {
     const centerY = rect.top + rect.height / 2
     const tier = tierForDistance(Math.hypot(centerX - avatarX, centerY - avatarY), avatarRect)
     if (!tier) return
-    el.style.filter = `url(#${FILTER_ID}-${tier})`
-    activeFragments.push(el)
+    candidates.push({ el, tier, distance: Math.hypot(centerX - avatarX, centerY - avatarY) })
   })
+  candidates
+    .sort((a, b) => a.distance - b.distance)
+    .slice(0, document.body.contains(avatarEl) ? candidates.length : 24)
+    .forEach(({ el, tier }) => {
+      el.style.filter = `url(#${FILTER_ID}-${tier})`
+      activeFragments.push(el)
+    })
   activeFragmentAvatar = avatarEl
 }
 
-function updateArticleFragmentTiers() {
+function updateArticleFragmentTiers(now = performance.now()) {
   if (!activeFragmentAvatar || !activeFragments.length) return
+  if (now - lastFragmentTierUpdate < 120) return
+  lastFragmentTierUpdate = now
   const avatarRect = activeFragmentAvatar.getBoundingClientRect()
+  const layoutKey = [
+    Math.round(avatarRect.left),
+    Math.round(avatarRect.top),
+    Math.round(avatarRect.width),
+    Math.round(avatarRect.height),
+    Math.round(window.scrollX),
+    Math.round(window.scrollY)
+  ].join(':')
+  if (layoutKey === lastFragmentLayoutKey) return
+  lastFragmentLayoutKey = layoutKey
   const avatarX = avatarRect.left + avatarRect.width / 2
   const avatarY = avatarRect.top + avatarRect.height / 2
 
@@ -223,9 +250,44 @@ export function getAcousticRegions(avatarEl) {
   if (regions.length === 0) {
     const parent = avatarEl.parentElement
     if (parent) {
-      if (parent.parentElement) regions.push({ el: parent.parentElement, tier: 1 })
-      if (parent.nextElementSibling) regions.push({ el: parent.nextElementSibling, tier: 2 })
+      if (canApplyDistortion(parent.parentElement)) regions.push({ el: parent.parentElement, tier: 1 })
+      if (canApplyDistortion(parent.nextElementSibling)) regions.push({ el: parent.nextElementSibling, tier: 2 })
     }
+  }
+
+  // When dragged out of the document flow, the avatar lives under <html>.
+  // Filter body children individually so the page can still react without
+  // ever applying a distortion filter to <html> or <body>.
+  if (regions.length === 0 && !document.body.contains(avatarEl)) {
+    const avatarRect = avatarEl.getBoundingClientRect()
+    const avatarX = avatarRect.left + avatarRect.width / 2
+    const avatarY = avatarRect.top + avatarRect.height / 2
+    const maxRegionArea = Math.max(18000, window.innerWidth * window.innerHeight * 0.1)
+    const candidates = []
+    const addDetachedRegion = (el, depth = 0) => {
+      if (!canApplyDistortion(el) || el.contains(avatarEl) || el.id === 'avatar-distortion-svg') return
+      if (el.matches('script, style, svg')) return
+      const rect = el.getBoundingClientRect()
+      if (!rect.width || !rect.height) return
+      const centerX = rect.left + rect.width / 2
+      const centerY = rect.top + rect.height / 2
+      const tier = tierForDistance(Math.hypot(centerX - avatarX, centerY - avatarY), avatarRect)
+      if (!tier) return
+      if (rect.width * rect.height > maxRegionArea && depth < 4 && el.children.length) {
+        Array.from(el.children).forEach((child) => addDetachedRegion(child, depth + 1))
+        return
+      }
+      candidates.push({
+        el,
+        tier,
+        distance: Math.hypot(centerX - avatarX, centerY - avatarY)
+      })
+    }
+    Array.from(document.body.children).forEach((el) => addDetachedRegion(el))
+    candidates
+      .sort((a, b) => a.distance - b.distance)
+      .slice(0, 2)
+      .forEach(({ el, tier }) => regions.push({ el, tier }))
   }
 
   return regions
@@ -241,6 +303,16 @@ export function attachDistortionFilters(avatarEl) {
   regions.forEach(({ el, tier }) => {
     el.style.filter = `url(#${FILTER_ID}-${tier})`
   })
+  if (!document.body.contains(avatarEl)) {
+    const directTargets = [
+      avatarEl,
+      avatarEl.parentElement?.querySelector('.avatar-waves-canvas')
+    ].filter(Boolean)
+    directTargets.forEach((el) => {
+      el.style.filter = `url(#${FILTER_ID}-1)`
+      activeDirectTargets.push(el)
+    })
+  }
   attachArticleFragments(avatarEl)
 }
 
@@ -252,9 +324,15 @@ export function detachDistortionFilters() {
   activeFragments.forEach((el) => {
     if (el) el.style.filter = ''
   })
+  activeDirectTargets.forEach((el) => {
+    if (el) el.style.filter = ''
+  })
   activeRegions = []
   activeFragments = []
+  activeDirectTargets = []
   activeFragmentAvatar = null
+  lastFragmentLayoutKey = ''
+  lastFragmentTierUpdate = 0
   const disps = document.querySelectorAll('.avatar-disp-node')
   disps.forEach((d) => d.setAttribute('scale', '0'))
 }
@@ -278,8 +356,8 @@ export function triggerAcousticImpulse(intensity = 0.8, freq = 300, avatarEl = n
     t.setAttribute('baseFrequency', `${baseFreq} ${baseFreq}`)
   })
 
-  // Strum scale: 12px to 24px
-  const initialScale = Math.min(24, Math.max(12, 18 * intensity))
+  // Keep dense MIDI passages expressive without overwhelming the page.
+  const initialScale = Math.min(16, Math.max(8, 14 * intensity))
   currentScale = Math.max(currentScale, initialScale)
 
   const durationMs = 210
@@ -293,7 +371,7 @@ export function triggerAcousticImpulse(intensity = 0.8, freq = 300, avatarEl = n
   const step = (now) => {
     const elapsed = now - startTime
     const baseDecay = calculateImpulseDecay(elapsed, durationMs, currentScale)
-    updateArticleFragmentTiers()
+    updateArticleFragmentTiers(now)
 
     // Apply distance-attenuated scales to default and tiered filters
     const defaultDisp = document.getElementById('avatar-dom-disp')

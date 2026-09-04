@@ -8,6 +8,16 @@
 import { describe, it, expect } from 'bun:test'
 import { readFileSync } from 'fs'
 import { join } from 'path'
+import { getRandomSong } from './audio-engine.js'
+
+describe('Random initial song selection', () => {
+  it('selects a song from the manifest without exceeding its bounds', () => {
+    const songs = [{ id: 'first' }, { id: 'second' }]
+    expect(getRandomSong(songs, 0).id).toBe('first')
+    expect(getRandomSong(songs, 0.99).id).toBe('second')
+    expect(getRandomSong(songs, 1).id).toBe('second')
+  })
+})
 
 export function parseNotesCsv(csvText) {
   const lines = csvText.trim().split('\n')
@@ -104,6 +114,23 @@ describe('MIDI CSV Song Loader: Aishite Aishite Aishite', () => {
     expect(metaJson.timeSignature).toBe('6/4')
     expect(metaJson.credit).toBe('Yosi Spring')
     expect(metaJson.creditUrl).toContain('yosispring.github.io/Music/aishite_aishite_aishite.html')
+    expect(notes.some((note) => note.hand === 'left')).toBe(true)
+    expect(notes.some((note) => note.hand === 'right')).toBe(true)
+  })
+})
+
+describe('MIDI CSV Song Loader: Lagtrain', () => {
+  const songDir = join(import.meta.dir, 'songs/lagtrain')
+  const metaJson = JSON.parse(readFileSync(join(songDir, 'metadata.json'), 'utf8'))
+  const csvText = readFileSync(join(songDir, 'notes.csv'), 'utf8')
+
+  it('imports the MIDI tempo, meter, and arranger credit', () => {
+    const notes = parseNotesCsv(csvText)
+    expect(notes.length).toBeGreaterThan(3000)
+    expect(metaJson.bpm).toBe(147)
+    expect(metaJson.timeSignature).toBe('4/4')
+    expect(metaJson.credit).toBe('NekoOkto')
+    expect(metaJson.creditUrl).toContain('youtube.com/watch?v=kKqEDtqowxA')
     expect(notes.some((note) => note.hand === 'left')).toBe(true)
     expect(notes.some((note) => note.hand === 'right')).toBe(true)
   })

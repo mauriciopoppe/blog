@@ -3,6 +3,7 @@ import {
   calculateImpulseDecay,
   calculateBaseFrequency,
   calculateTierScale,
+  canApplyDistortion,
   ARTICLE_TEXT_EXCLUSION_SELECTOR,
   ARTICLE_FRAGMENT_SELECTOR
 } from './distortion-filter.js'
@@ -11,6 +12,12 @@ describe('Article distortion boundaries', () => {
   it('never rewrites or filters SVG content', () => {
     expect(ARTICLE_TEXT_EXCLUSION_SELECTOR).toContain('svg')
     expect(ARTICLE_FRAGMENT_SELECTOR).not.toContain('svg')
+  })
+
+  it('never applies distortion to document roots after avatar detachment', () => {
+    expect(canApplyDistortion({ nodeName: 'HTML' })).toBe(false)
+    expect(canApplyDistortion({ nodeName: 'BODY' })).toBe(false)
+    expect(canApplyDistortion({ nodeName: 'DIV' })).toBe(true)
   })
 })
 

@@ -12,6 +12,8 @@ import { DEFAULT_SONG, SONGS_MANIFEST } from './songs-manifest.js'
 import { avatarFrameLoop } from './frame-loop.js'
 import { buildSongTimeline, getPhrasePosition } from './playback-timeline.js'
 
+const MAX_ACTIVE_WAVES = 48
+
 // Fast parser for compact CSV note representation: time,freq,dur,vel,name[,hand]
 export function parseNotesCsv(csvText) {
   const lines = csvText.trim().split('\n')
@@ -39,6 +41,12 @@ export function parseNotesCsv(csvText) {
 const metadataCache = new Map()
 const notesCache = new Map()
 const pluckBufferCache = new WeakMap()
+
+export function getRandomSong(songs = SONGS_MANIFEST, random = Math.random()) {
+  if (!songs.length) return DEFAULT_SONG
+  const index = Math.min(songs.length - 1, Math.floor(random * songs.length))
+  return songs[index]
+}
 
 function getPluckBuffer(audioCtx, frequency, duration) {
   let cache = pluckBufferCache.get(audioCtx)
@@ -168,13 +176,105 @@ export function renderHarmonicRibbons(ctx, width, height, waves, time) {
     ctx.beginPath()
 
     const points = 60
+    const isBackground = wave.role === 'background'
+    const style = isBackground ? wave.style : null
+    const orbitX = style === 'orbit' ? Math.cos(time * 1.7 + wave.phase) * 10 : 0
+    const orbitY = style === 'orbit' ? Math.sin(time * 1.4 + wave.phase) * 7 : 0
+
+    if (style === 'spokes' || style === 'burst') {
+      const rayCount = style === 'burst' ? 20 : 14
+      const rayLength = style === 'burst' ? 15 : 9
+      ctx.strokeStyle = wave.color.replace('ALPHA', wave.opacity.toFixed(3))
+      ctx.lineWidth = (style === 'burst' ? 1.5 : 1.2) * wave.opacity
+      for (let i = 0; i < rayCount; i++) {
+        const angle = (i / rayCount) * Math.PI * 2 + (style === 'burst' ? wave.phase : 0)
+        const innerRadius = wave.radius - 2
+        const outerRadius = innerRadius + rayLength * (0.55 + 0.45 * Math.sin(i * 2.3 + wave.frequency / 100))
+        ctx.beginPath()
+        ctx.moveTo(centerX + Math.cos(angle) * innerRadius, centerY + Math.sin(angle) * innerRadius)
+        ctx.lineTo(centerX + Math.cos(angle) * outerRadius, centerY + Math.sin(angle) * outerRadius)
+        ctx.stroke()
+      }
+      ctx.restore()
+      return
+    }
+
+    if (style === 'spiral') {
+      ctx.strokeStyle = wave.color.replace('ALPHA', wave.opacity.toFixed(3))
+      ctx.lineWidth = 1.6 * wave.opacity
+      ctx.beginPath()
+      const turns = 1.7
+      const spiralPoints = 90
+      for (let i = 0; i <= spiralPoints; i++) {
+        const progress = i / spiralPoints
+        const angle = wave.phase + progress * Math.PI * 2 * turns + time * 1.8
+        const radius = wave.radius - 18 + progress * 36
+        const x = centerX + Math.cos(angle) * radius
+        const y = centerY + Math.sin(angle) * radius
+        if (i === 0) ctx.moveTo(x, y)
+        else ctx.lineTo(x, y)
+      }
+      ctx.stroke()
+      ctx.restore()
+      return
+    }
+
+    if (style === 'constellation') {
+      const starCount = 12
+      ctx.fillStyle = wave.color.replace('ALPHA', wave.opacity.toFixed(3))
+      for (let i = 0; i < starCount; i++) {
+        const angle = (i / starCount) * Math.PI * 2 + wave.phase
+        const radius = wave.radius + Math.sin(i * 4.1 + wave.frequency) * 8
+        ctx.beginPath()
+        ctx.arc(centerX + Math.cos(angle) * radius, centerY + Math.sin(angle) * radius, 1.5 * wave.opacity, 0, Math.PI * 2)
+        ctx.fill()
+      }
+      ctx.restore()
+      return
+    }
+    if (style === 'spectrum') {
+      const bars = 28
+      ctx.strokeStyle = wave.color.replace('ALPHA', wave.opacity.toFixed(3))
+      ctx.lineWidth = 1.8 * wave.opacity
+      for (let i = 0; i < bars; i++) {
+        const angle = (i / bars) * Math.PI * 2
+        const modulation = 0.5 + 0.5 * Math.sin(i * 1.9 + wave.frequency / 95)
+        const innerRadius = wave.radius - 3
+        const outerRadius = innerRadius + 4 + modulation * 10 * wave.opacity
+        ctx.beginPath()
+        ctx.moveTo(centerX + Math.cos(angle) * innerRadius, centerY + Math.sin(angle) * innerRadius)
+        ctx.lineTo(centerX + Math.cos(angle) * outerRadius, centerY + Math.sin(angle) * outerRadius)
+        ctx.stroke()
+      }
+      ctx.restore()
+      return
+    }
+
+    if (style === 'satellites') {
+      const satelliteCount = 3
+      ctx.fillStyle = wave.color.replace('ALPHA', wave.opacity.toFixed(3))
+      for (let i = 0; i < satelliteCount; i++) {
+        const angle = time * (1.2 + i * 0.15) + wave.phase + (i * Math.PI * 2) / satelliteCount
+        const radius = wave.radius + 7 + i * 4
+        const x = centerX + Math.cos(angle) * radius
+        const y = centerY + Math.sin(angle) * radius
+        ctx.beginPath()
+        ctx.arc(x, y, (2.2 - i * 0.35) * wave.opacity, 0, Math.PI * 2)
+        ctx.fill()
+      }
+      ctx.restore()
+      return
+    }
+
     for (let i = 0; i <= points; i++) {
       const angle = (i / points) * Math.PI * 2
-      const ripple = Math.sin(angle * wave.frequency + time * 7.5) * (4.5 * wave.opacity)
+      const timeSpeed = style === 'membrane' ? 2.6 : (isBackground ? 3.5 : 7.5)
+      const amplitude = style === 'membrane' ? 7 : (isBackground ? 2.5 : 4.5)
+      const ripple = Math.sin(angle * wave.frequency + time * timeSpeed) * (amplitude * wave.opacity)
       const r = wave.radius + ripple
 
-      const x = centerX + Math.cos(angle) * r
-      const y = centerY + Math.sin(angle) * r
+      const x = centerX + orbitX + Math.cos(angle) * r
+      const y = centerY + orbitY + Math.sin(angle) * r
 
       if (i === 0) {
         ctx.moveTo(x, y)
@@ -185,7 +285,19 @@ export function renderHarmonicRibbons(ctx, width, height, waves, time) {
 
     ctx.closePath()
     ctx.strokeStyle = wave.color.replace('ALPHA', wave.opacity.toFixed(3))
-    ctx.lineWidth = 2.0 * wave.opacity
+    ctx.lineWidth = (isBackground ? 1.4 : 2.0) * wave.opacity
+    if (isBackground && style === 'segments') {
+      ctx.lineWidth = 2.4 * wave.opacity
+      ctx.setLineDash([16, 12])
+      ctx.lineDashOffset = -time * 20
+    }
+    if (isBackground && style === 'membrane') {
+      ctx.lineWidth = 2.2 * wave.opacity
+      ctx.fillStyle = wave.color.replace('ALPHA', (wave.opacity * 0.08).toFixed(3))
+      ctx.shadowColor = wave.color.replace('ALPHA', (wave.opacity * 0.2).toFixed(3))
+      ctx.shadowBlur = 5
+      ctx.fill()
+    }
     ctx.stroke()
     ctx.restore()
   })
@@ -207,6 +319,10 @@ export function startVisualAnimation(avatarEl) {
 
   const parent = avatarEl.parentElement || avatarEl
   parent.classList.add('tw-relative')
+  const originalAvatarPosition = avatarEl.style.position
+  const originalAvatarZIndex = avatarEl.style.zIndex
+  if (!originalAvatarPosition) avatarEl.style.position = 'relative'
+  avatarEl.style.zIndex = '1'
 
   const avatarWidth = avatarEl.offsetWidth || 75
   const avatarHeight = avatarEl.offsetHeight || 75
@@ -252,7 +368,9 @@ export function startVisualAnimation(avatarEl) {
     colorIdx: 0,
     startTime: performance.now(),
     lastTime: performance.now(),
-    canvasSize
+    canvasSize,
+    originalAvatarPosition,
+    originalAvatarZIndex
   }
   activeVisualContext = vContext
 
@@ -267,15 +385,21 @@ export function startVisualAnimation(avatarEl) {
   }
   window.addEventListener('resize', updatePosition)
 
-  const pushWave = (freq) => {
+  const pushWave = (freq, role = 'avatar') => {
     if (!activeVisualContext) return
+    if (activeVisualContext.waves.length >= MAX_ACTIVE_WAVES) {
+      activeVisualContext.waves.splice(0, activeVisualContext.waves.length - MAX_ACTIVE_WAVES + 1)
+    }
     activeVisualContext.waves.push({
-      radius: activeVisualContext.avatarRadius - 4,
+      radius: activeVisualContext.avatarRadius + (role === 'background' ? 8 : -4),
       maxRadius: activeVisualContext.canvasSize / 2,
-      speed: 60 + (freq / 700) * 25,
-      frequency: 3 + Math.floor((freq / 200) % 4),
-      opacity: 0.95,
-      color: colors[activeVisualContext.colorIdx++ % colors.length]
+      speed: role === 'background' ? 38 + (freq / 700) * 12 : 60 + (freq / 700) * 25,
+      frequency: role === 'background' ? 2 + Math.floor((freq / 260) % 3) : 3 + Math.floor((freq / 200) % 4),
+      opacity: role === 'background' ? 0.55 : 0.95,
+      role,
+      style: role === 'background' ? 'constellation' : null,
+      phase: Math.random() * Math.PI * 2,
+      color: role === 'background' ? 'rgba(251, 191, 36, ALPHA)' : colors[activeVisualContext.colorIdx++ % colors.length]
     })
   }
   vContext.pushWave = pushWave
@@ -299,7 +423,6 @@ export function startVisualAnimation(avatarEl) {
     }
 
     renderHarmonicRibbons(vContext.ctx, vContext.canvasSize, vContext.canvasSize, vContext.waves, elapsed)
-
     if (!playerStore.getState().isPlaying && vContext.waves.length === 0) {
       cleanup()
     }
@@ -312,6 +435,8 @@ export function startVisualAnimation(avatarEl) {
     if (vContext.canvas.parentElement) {
       vContext.canvas.remove()
     }
+    vContext.avatarEl.style.position = vContext.originalAvatarPosition
+    vContext.avatarEl.style.zIndex = vContext.originalAvatarZIndex
     if (activeVisualContext === vContext) {
       activeVisualContext = null
     }
@@ -382,6 +507,7 @@ class PlayerStore {
     this.unsubscribeProgress = null
     this.activeTimeouts = new Set()
     this.songs = SONGS_MANIFEST
+    const initialSong = typeof window !== 'undefined' ? getRandomSong(this.songs) : DEFAULT_SONG
     this.state = {
       phraseIndex: 0,
       isPlaying: false,
@@ -390,18 +516,18 @@ class PlayerStore {
       progress: 0,
       currentBar: 1,
       currentBeat: 1,
-      song: DEFAULT_SONG,
+      song: initialSong,
       metadata: null,
       phrase: null
     }
 
-    // Pre-fetch lightweight metadata for the default song (only ~5KB)
+    // Pre-fetch lightweight metadata for the initial song (only ~5KB)
     if (typeof window !== 'undefined') this.initDefaultSong()
   }
 
   async initDefaultSong() {
     try {
-      const metadata = await ensureSongMetadataLoaded(DEFAULT_SONG)
+      const metadata = await ensureSongMetadataLoaded(this.state.song)
       const firstPhrase = metadata.phrases ? metadata.phrases[0] : null
       this.setState({
         metadata,
@@ -558,7 +684,8 @@ class PlayerStore {
         const source = ctx.createBufferSource()
         source.buffer = buffer
         const noteGain = ctx.createGain()
-        noteGain.gain.setValueAtTime(note.vel, noteTime)
+        const noteLevel = note.hand === 'left' ? note.vel * 0.62 : note.vel
+        noteGain.gain.setValueAtTime(noteLevel, noteTime)
         noteGain.gain.exponentialRampToValueAtTime(0.001, noteTime + note.dur + 1.0)
         source.connect(noteGain)
         noteGain.connect(masterGain)
@@ -629,7 +756,8 @@ class PlayerStore {
           const source = ctx.createBufferSource()
           source.buffer = buffer
           const noteGain = ctx.createGain()
-          noteGain.gain.setValueAtTime(note.vel, noteTime)
+          const noteLevel = note.hand === 'left' ? note.vel * 0.62 : note.vel
+          noteGain.gain.setValueAtTime(noteLevel, noteTime)
           noteGain.gain.exponentialRampToValueAtTime(0.001, noteTime + note.dur + 1.0)
           source.connect(noteGain)
           noteGain.connect(masterGain)

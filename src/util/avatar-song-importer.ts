@@ -6,7 +6,12 @@ import path from 'path'
 const inputPath = process.argv[2]
 if (!inputPath) throw new Error('Pass a MIDI file path')
 
-const outputDir = path.resolve('site/static/js/avatar/songs/aishite-aishite-aishite')
+const songId = process.argv[3] || 'aishite-aishite-aishite'
+const songName = process.argv[4] || 'Aishite Aishite Aishite'
+const artist = process.argv[5] || 'Ado / Kikuo'
+const credit = process.argv[6] || 'Yosi Spring'
+const creditUrl = process.argv[7] || 'https://yosispring.github.io/Music/aishite_aishite_aishite.html'
+const outputDir = path.resolve(`site/static/js/avatar/songs/${songId}`)
 const phraseBars = 8
 
 function readVlq(data: Buffer, offset: number) {
@@ -141,11 +146,11 @@ function main() {
   fs.mkdirSync(outputDir, { recursive: true })
   fs.writeFileSync(path.join(outputDir, 'notes.csv'), ['time,freq,dur,vel,name,hand', ...notes.map((note) => [note.time, note.freq, note.dur, note.vel, note.name, note.hand].map((value) => typeof value === 'number' ? value.toFixed(6) : value).join(','))].join('\n') + '\n')
   fs.writeFileSync(path.join(outputDir, 'metadata.json'), JSON.stringify({
-    id: 'aishite-aishite-aishite',
-    name: 'Aishite Aishite Aishite',
-    artist: 'Ado / Kikuo',
-    credit: 'Yosi Spring',
-    creditUrl: 'https://yosispring.github.io/Music/aishite_aishite_aishite.html',
+    id: songId,
+    name: songName,
+    artist,
+    credit,
+    creditUrl,
     bpm: Number((60000000 / midi.tempo).toFixed(3)),
     timeSignature: `${midi.numerator}/${midi.denominator}`,
     beatsPerBar: midi.numerator,

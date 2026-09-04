@@ -32,6 +32,20 @@ export const SONGS_MANIFEST = [
     key: 'Bmin',
     accents: [1, 4],
     dir: '/js/avatar/songs/crime-and-punishment/'
+  },
+  {
+    id: 'lagtrain',
+    name: 'Lagtrain',
+    artist: 'Inabakumori',
+    credit: 'NekoOkto',
+    creditUrl: 'https://www.youtube.com/watch?v=kKqEDtqowxA',
+    icon: '🚆',
+    bpm: 147,
+    timeSignature: '4/4',
+    beatsPerBar: 4,
+    key: 'C',
+    accents: [1, 3],
+    dir: '/js/avatar/songs/lagtrain/'
   }
 ]
 
