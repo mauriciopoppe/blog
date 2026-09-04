@@ -647,6 +647,25 @@ export class NotesGraphEngine {
         ctx.restore()
       }
 
+      if (node.isDraft) {
+        const draftAngle = Math.PI / 4
+        const draftX = node.x + Math.cos(draftAngle) * node.radius
+        const draftY = node.y + Math.sin(draftAngle) * node.radius
+        ctx.save()
+        ctx.shadowColor = badgeShadowColor
+        ctx.shadowBlur = 3.5
+        ctx.beginPath()
+        ctx.arc(draftX, draftY, badgeR, 0, 2 * Math.PI)
+        ctx.fillStyle = node.color
+        ctx.fill()
+        ctx.font = `bold ${badgeR * 0.9}px system-ui, sans-serif`
+        ctx.fillStyle = '#fbbf24'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        ctx.fillText('D', draftX, draftY + 0.5)
+        ctx.restore()
+      }
+
       ctx.restore()
     })
 

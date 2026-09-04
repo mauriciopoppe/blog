@@ -274,6 +274,7 @@ export function buildGraphData(rawNotes = [], maxEdgesPerNode = 3) {
       tags,
       isFavorite,
       interactive,
+      isDraft: Boolean(note.isDraft),
       popularity,
       radius,
       cluster,

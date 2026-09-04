@@ -334,7 +334,8 @@ describe('Notes Knowledge Graph Logic', () => {
         tags: ['performance', 'system design'],
         popularity: 100,
         isFavorite: true,
-        interactive: true
+        interactive: true,
+        isDraft: true
       }
     ]
 
@@ -347,6 +348,8 @@ describe('Notes Knowledge Graph Logic', () => {
       expect(cgNode.cluster).toBe('graphics')
       expect(cgNode.color).toBe('#a855f7')
       expect(cgNode.radius).toBeGreaterThan(30)
+      expect(cgNode.isDraft).toBe(false)
+      expect(graph.nodes.find((n) => n.id === '/notes/performance-fundamentals/').isDraft).toBe(true)
     })
 
     it('creates weighted edges between nodes that share tags', () => {

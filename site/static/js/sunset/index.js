@@ -578,8 +578,9 @@ if (target) {
     )
   }
 
+  let planeMixer = null
   if (isProduction) {
-    new GLTFLoader().load('/models/plane/scene.gltf', ({ scene: model }) => {
+    new GLTFLoader().load('/models/plane/scene.gltf', ({ scene: model, animations = [] }) => {
       model.traverse((object) => {
         if (!object.isMesh) return
         const materials = Array.isArray(object.material) ? object.material : [object.material]
@@ -590,6 +591,10 @@ if (target) {
         })
       })
       planeGroup.add(model)
+      if (animations.length) {
+        planeMixer = new THREE.AnimationMixer(model)
+        planeMixer.clipAction(animations[0]).play()
+      }
     })
   }
 
@@ -787,12 +792,16 @@ if (target) {
   renderer.domElement.style.cursor = 'grab'
   renderer.domElement.addEventListener('pointerdown', onPointerDown)
   renderer.domElement.addEventListener('pointerup', onPointerUp)
+  let previousTime = null
   const render = (time) => {
     if (paused) {
       requestAnimationFrame(render)
       return
     }
+    const delta = previousTime === null ? 0 : Math.min((time - previousTime) / 1000, 0.1)
+    previousTime = time
     const now = performance.now()
+    planeMixer?.update(delta)
     const forceRamp = Math.min(1, simulationElapsed / forceRampDuration)
     const boundaryDistance = Math.hypot(
       planeBody.position.x - cruiseConfig.boundaryCenter[0],

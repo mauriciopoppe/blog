@@ -103,6 +103,13 @@ export function NoteTooltip({ node, pos }) {
                   </span>
                 `
               : null}
+            ${node.isDraft
+              ? html`
+                  <span class="tw-inline-flex tw-items-center tw-gap-1 tw-text-amber-400 tw-font-medium tw-text-xs tw-leading-tight">
+                    Draft
+                  </span>
+                `
+              : null}
           </div>
 
           <div class="tw-flex tw-flex-wrap tw-items-center tw-gap-x-2 tw-gap-y-1 tw-leading-tight">
