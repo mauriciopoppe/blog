@@ -5,16 +5,16 @@
  * Licensed under the MIT license.
  */
 
-import { avatarTiltMain } from './avatar-tilt.js'
 import { mountMiniPlayer } from './mini-player.js'
 import { draggableAvatarMain } from './draggable-avatar.js'
+import { createAvatarEffects } from './avatar-effects.js'
 
 function initAvatar() {
-  avatarTiltMain()
   draggableAvatarMain()
 
   const avatars = document.querySelectorAll('.js-avatar-scene, .profile-avatar-scene')
   avatars.forEach((avatar) => {
+    createAvatarEffects(avatar)
     mountMiniPlayer(avatar)
   })
 }
@@ -25,4 +25,4 @@ if (document.readyState === 'loading') {
   initAvatar()
 }
 
-export { avatarTiltMain, mountMiniPlayer }
+export { mountMiniPlayer }

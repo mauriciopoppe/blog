@@ -9,10 +9,14 @@
  */
 
 import { DEFAULT_SONG, SONGS_MANIFEST } from './songs-manifest.js'
-import {
-  triggerAcousticImpulse,
-  detachDistortionFilters
-} from './distortion-filter.js'
+import { avatarFrameLoop } from './frame-loop.js'
+import { buildSongTimeline, getPhrasePosition } from './playback-timeline.js'
+
+const DEBUG_AUTOPLAY = '[DEBUG-avatar-auto]'
+
+function debugAuto(event, details = {}) {
+  if (typeof console !== 'undefined') console.log(`${DEBUG_AUTOPLAY} ${event} ${JSON.stringify(details)}`)
+}
 
 // Fast parser for compact CSV note representation: time,freq,dur,vel,name
 export function parseNotesCsv(csvText) {
@@ -38,6 +42,20 @@ export function parseNotesCsv(csvText) {
 // In-memory caches for metadata and parsed note arrays
 const metadataCache = new Map()
 const notesCache = new Map()
+const pluckBufferCache = new WeakMap()
+
+function getPluckBuffer(audioCtx, frequency, duration) {
+  let cache = pluckBufferCache.get(audioCtx)
+  if (!cache) {
+    cache = new Map()
+    pluckBufferCache.set(audioCtx, cache)
+  }
+  const key = `${frequency}:${duration}`
+  if (!cache.has(key)) {
+    cache.set(key, generatePluckBuffer(audioCtx, frequency, duration, 0.993, 0.78))
+  }
+  return cache.get(key)
+}
 
 export async function ensureSongMetadataLoaded(songItem) {
   if (metadataCache.has(songItem.id)) {
@@ -69,13 +87,7 @@ export async function ensureSongNotesLoaded(songItem) {
 }
 
 // Karplus-Strong string synthesis: acoustic guitar physical modeling
-export function generatePluckBuffer(
-  audioCtx,
-  frequency,
-  duration = 2.2,
-  decay = 0.992,
-  brightness = 0.78
-) {
+export function generatePluckBuffer(audioCtx, frequency, duration = 2.2, decay = 0.992, brightness = 0.78) {
   const sampleRate = audioCtx.sampleRate
   const totalSamples = Math.floor(sampleRate * duration)
   const buffer = audioCtx.createBuffer(1, totalSamples, sampleRate)
@@ -108,12 +120,7 @@ export function generatePluckBuffer(
 }
 
 // Crisp, audible woodblock metronome click
-export function playMetronomeClick(
-  audioCtx,
-  destination,
-  time,
-  isAccent
-) {
+export function playMetronomeClick(audioCtx, destination, time, isAccent) {
   const osc = audioCtx.createOscillator()
   const gain = audioCtx.createGain()
 
@@ -121,7 +128,7 @@ export function playMetronomeClick(
   osc.frequency.setValueAtTime(isAccent ? 1350 : 850, time)
   osc.frequency.exponentialRampToValueAtTime(isAccent ? 600 : 400, time + 0.025)
 
-  gain.gain.setValueAtTime(isAccent ? 0.35 : 0.20, time)
+  gain.gain.setValueAtTime(isAccent ? 0.35 : 0.2, time)
   gain.gain.exponentialRampToValueAtTime(0.001, time + 0.035)
 
   osc.connect(gain)
@@ -151,13 +158,7 @@ export function trackMidiEvent(action, params = {}) {
 }
 
 // Harmonic Ribbon Canvas Renderer
-export function renderHarmonicRibbons(
-  ctx,
-  width,
-  height,
-  waves,
-  time
-) {
+export function renderHarmonicRibbons(ctx, width, height, waves, time) {
   const centerX = width / 2
   const centerY = height / 2
 
@@ -195,7 +196,12 @@ let activeVisualContext = null
 export function startVisualAnimation(avatarEl) {
   if (activeVisualContext && activeVisualContext.isRunning) {
     activeVisualContext.avatarEl = avatarEl
-    return
+    return {
+      pushWave: activeVisualContext.pushWave,
+      stop: () => {
+        activeVisualContext.isRunning = false
+      }
+    }
   }
 
   const parent = avatarEl.parentElement || avatarEl
@@ -260,7 +266,7 @@ export function startVisualAnimation(avatarEl) {
   }
   window.addEventListener('resize', updatePosition)
 
-  window.__avatarWavePush = (freq) => {
+  const pushWave = (freq) => {
     if (!activeVisualContext) return
     activeVisualContext.waves.push({
       radius: activeVisualContext.avatarRadius - 4,
@@ -271,6 +277,7 @@ export function startVisualAnimation(avatarEl) {
       color: colors[activeVisualContext.colorIdx++ % colors.length]
     })
   }
+  vContext.pushWave = pushWave
 
   function animate(now) {
     if (!vContext.isRunning || !vContext.ctx) return
@@ -292,17 +299,15 @@ export function startVisualAnimation(avatarEl) {
 
     renderHarmonicRibbons(vContext.ctx, vContext.canvasSize, vContext.canvasSize, vContext.waves, elapsed)
 
-    if (playerStore.getState().isPlaying || vContext.waves.length > 0) {
-      requestAnimationFrame(animate)
-    } else {
+    if (!playerStore.getState().isPlaying && vContext.waves.length === 0) {
       cleanup()
     }
   }
 
   const cleanup = () => {
     vContext.isRunning = false
+    if (vContext.unsubscribeFrame) vContext.unsubscribeFrame()
     window.removeEventListener('resize', updatePosition)
-    delete window.__avatarWavePush
     if (vContext.canvas.parentElement) {
       vContext.canvas.remove()
     }
@@ -311,7 +316,12 @@ export function startVisualAnimation(avatarEl) {
     }
   }
 
-  requestAnimationFrame(animate)
+  vContext.unsubscribeFrame = avatarFrameLoop.subscribe(animate)
+
+  return {
+    pushWave,
+    stop: cleanup
+  }
 }
 
 // Spawns floating musical note particles
@@ -336,8 +346,8 @@ export function spawnFloatingMusicParticle(originEl, text, isTick) {
   particle.style.top = `${startY}px`
   particle.style.zIndex = '9999'
   particle.style.pointerEvents = 'none'
-  particle.style.fontSize = isTick ? '13px' : (text ? '15px' : `${15 + Math.random() * 10}px`)
-  particle.style.color = isTick ? '#38bdf8' : (Math.random() > 0.4 ? 'rgb(var(--primary))' : '#fbbf24')
+  particle.style.fontSize = isTick ? '13px' : text ? '15px' : `${15 + Math.random() * 10}px`
+  particle.style.color = isTick ? '#38bdf8' : Math.random() > 0.4 ? 'rgb(var(--primary))' : '#fbbf24'
   particle.style.fontWeight = 'bold'
   particle.style.fontFamily = 'var(--family-sans, sans-serif)'
   particle.style.textShadow = isTick ? '0 0 8px rgba(56, 189, 248, 0.7)' : '0 0 10px rgba(255, 112, 67, 0.7)'
@@ -364,10 +374,11 @@ export function spawnFloatingMusicParticle(originEl, text, isTick) {
 class PlayerStore {
   constructor() {
     this.listeners = new Set()
+    this.eventListeners = new Set()
     this.audioContextInstance = null
     this.metronomeGainNode = null
     this.currentPlayback = null
-    this.progressAnimId = null
+    this.unsubscribeProgress = null
     this.activeTimeouts = new Set()
     this.songs = SONGS_MANIFEST
     this.state = {
@@ -420,12 +431,24 @@ class PlayerStore {
     return () => this.listeners.delete(listener)
   }
 
+  subscribeEvents(listener) {
+    this.eventListeners.add(listener)
+    return () => this.eventListeners.delete(listener)
+  }
+
+  emitEvent(event) {
+    this.eventListeners.forEach((listener) => listener(event))
+  }
+
   getAudioContext() {
     if (!this.audioContextInstance && typeof window !== 'undefined') {
       const AudioCtx = window.AudioContext || window.webkitAudioContext
       this.audioContextInstance = new AudioCtx()
       this.metronomeGainNode = this.audioContextInstance.createGain()
-      this.metronomeGainNode.gain.setValueAtTime(this.state.isMetronome ? 1.0 : 0.0, this.audioContextInstance.currentTime)
+      this.metronomeGainNode.gain.setValueAtTime(
+        this.state.isMetronome ? 1.0 : 0.0,
+        this.audioContextInstance.currentTime
+      )
       this.metronomeGainNode.connect(this.audioContextInstance.destination)
     }
     return this.audioContextInstance
@@ -440,18 +463,12 @@ class PlayerStore {
       this.currentPlayback.stop()
       this.currentPlayback = null
     }
-    if (this.progressAnimId !== null) {
-      cancelAnimationFrame(this.progressAnimId)
-      this.progressAnimId = null
+    if (this.unsubscribeProgress) {
+      this.unsubscribeProgress()
+      this.unsubscribeProgress = null
     }
 
     const currentPhrase = this.state.phrase
-    const avatars = document.querySelectorAll('.js-avatar-scene, .profile-avatar-scene')
-    avatars.forEach((el) => {
-      el.classList.remove('is-playing')
-    })
-    detachDistortionFilters()
-
     this.setState({
       isPlaying: false,
       progress: 0,
@@ -460,10 +477,8 @@ class PlayerStore {
     })
   }
 
-  async playVerse(targetIndex, avatarEl) {
+  async playVerse(targetIndex) {
     const song = this.state.song
-
-    // Ensure metadata is loaded
     let metadata = this.state.metadata
     if (!metadata) {
       metadata = await ensureSongMetadataLoaded(song)
@@ -473,13 +488,7 @@ class PlayerStore {
     const phrases = metadata.phrases || []
     if (!phrases.length) return
 
-    const newIdx = (targetIndex + phrases.length) % phrases.length
-    const phrase = phrases[newIdx]
-
-    this.stop()
-
-    // On-demand fetch of notes.csv only when user initiates playback
-    let notes = []
+    let notes
     try {
       notes = await ensureSongNotesLoaded(song)
     } catch (err) {
@@ -487,22 +496,31 @@ class PlayerStore {
       return
     }
 
-    const ctx = this.getAudioContext()
-    if (ctx.state === 'suspended') {
-      ctx.resume()
-    }
+    const timeline = buildSongTimeline(metadata, notes)
+    const newIdx = (targetIndex + phrases.length) % phrases.length
+    const phrase = timeline.phrases[newIdx]
+    this.stop()
 
-    // Update real-time metronome gain
+    const ctx = this.getAudioContext()
+    if (ctx.state === 'suspended') await ctx.resume()
     if (this.metronomeGainNode) {
       this.metronomeGainNode.gain.setValueAtTime(this.state.isMetronome ? 1.0 : 0.0, ctx.currentTime)
     }
 
-    const activeAvatar = avatarEl || document.querySelector('.js-avatar-scene, .profile-avatar-scene')
-    const enableDistortionEffects = !window.matchMedia('(pointer: coarse)').matches
-    if (activeAvatar) {
-      activeAvatar.classList.add('is-playing')
-      startVisualAnimation(activeAvatar)
+    const startTime = ctx.currentTime + (this.state.isContinuous ? 0.15 : 0.05)
+    if (this.state.isContinuous) {
+      debugAuto('session-start', { phraseIndex: newIdx, title: phrase.title, contextTime: ctx.currentTime, startTime })
     }
+    const activeNodes = []
+    const startOffset = phrase.offset
+    const cycleDuration = timeline.duration
+    const session = { startTime, startOffset, scheduledUntil: startTime, stopped: false }
+    const lookAheadSeconds = 8
+
+    const masterGain = ctx.createGain()
+    masterGain.gain.setValueAtTime(0.35, startTime)
+    masterGain.connect(ctx.destination)
+    activeNodes.push(masterGain)
 
     this.setState({
       phraseIndex: newIdx,
@@ -512,204 +530,167 @@ class PlayerStore {
       currentBar: phrase.startBar,
       currentBeat: phrase.startBeat
     })
+    trackMidiEvent('play_verse', { phrase_index: newIdx, title: phrase.title, duration: phrase.duration })
 
-    trackMidiEvent('play_verse', {
-      phrase_index: newIdx,
-      title: phrase.title,
-      duration: phrase.duration
-    })
-
-    // Slice notes from CSV index range
-    const phraseNotes = notes.slice(phrase.startRow, phrase.startRow + phrase.rowCount)
-
-    // Synthesize notes and schedule playback
-    const startTime = ctx.currentTime + 0.05
-    const activeNodes = []
-
-    const masterGain = ctx.createGain()
-    masterGain.gain.setValueAtTime(0.35, startTime)
-    if (!this.state.isContinuous) {
-      const fadeStart = startTime + Math.max(0, phrase.duration - 0.2)
-      masterGain.gain.setValueAtTime(0.35, fadeStart)
-      masterGain.gain.linearRampToValueAtTime(0.001, startTime + phrase.duration + 0.4)
-    }
-    masterGain.connect(ctx.destination)
-    activeNodes.push(masterGain)
-
-    // Schedule MIDI Notes
-    phraseNotes.forEach((note) => {
-      const noteTime = startTime + note.time
-      const buffer = generatePluckBuffer(ctx, note.freq, Math.min(note.dur + 1.2, 3.5), 0.993, 0.78)
-      const src = ctx.createBufferSource()
-      src.buffer = buffer
-
-      const noteGain = ctx.createGain()
-      noteGain.gain.setValueAtTime(note.vel, noteTime)
-      noteGain.gain.exponentialRampToValueAtTime(0.001, noteTime + note.dur + 1.0)
-
-      src.connect(noteGain)
-      noteGain.connect(masterGain)
-
-      src.start(noteTime)
-      src.stop(noteTime + note.dur + 1.2)
-      activeNodes.push(src)
-
-      // Schedule visual particle & subtle acoustic strum bounce
-      const delayMs = (noteTime - ctx.currentTime) * 1000
-      if (delayMs >= 0) {
-        const timeoutId = setTimeout(() => {
-          this.activeTimeouts.delete(timeoutId)
-          if (!this.state.isPlaying) return
-          if (activeAvatar) {
-            // Cutout and background elements for layered 3D bounce
-            const fg = activeAvatar.querySelector('.js-avatar-fg')
-            const bg = activeAvatar.querySelector('.js-avatar-bg')
-
-            // Velocity & pitch dynamic response
-            const intensity = Math.min(1.0, Math.max(0.4, (note.vel || 0.7) * 1.3))
-            const isHigh = note.freq > 450
-            const rot = (Math.random() - 0.5) * (isHigh ? 6.0 : 4.0)
-
-            // 1. Cutout foreground bounce (subtle head/guitar bob)
-            if (fg) {
-              const fgScale = 1.03 + intensity * 0.04
-              const fgRot = -rot * 0.3
-              fg.style.transition = 'transform 0.07s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
-              fg.style.transform = `scale(${fgScale.toFixed(3)}) rotate(${fgRot.toFixed(2)}deg)`
-            }
-
-            // 2. Subtle background pulse
-            if (bg) {
-              const bgScale = 0.98 - intensity * 0.015
-              bg.style.transition = 'transform 0.07s ease-out'
-              bg.style.transform = `scale(${bgScale.toFixed(3)})`
-            }
-
-            const resetId = setTimeout(() => {
-              this.activeTimeouts.delete(resetId)
-              if (activeAvatar) {
-                if (fg) {
-                  fg.style.transition = 'transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1)'
-                  fg.style.transform = ''
-                }
-                if (bg) {
-                  bg.style.transition = 'transform 0.18s ease-out'
-                  bg.style.transform = ''
-                }
-              }
-            }, 85)
-            this.activeTimeouts.add(resetId)
-
-            spawnFloatingMusicParticle(activeAvatar, note.name.replace(/[0-9]/g, ''))
-
-            // Acoustic DOM distortion shader
-            // This effect is disabled on touch devices, while motion and particles remain active.
-            if (enableDistortionEffects) {
-              triggerAcousticImpulse(intensity, note.freq, activeAvatar)
-            }
-          }
-          if (window.__avatarWavePush) {
-            window.__avatarWavePush(note.freq)
-          }
-        }, delayMs)
-        this.activeTimeouts.add(timeoutId)
-      }
-    })
-
-    // Schedule Metronome Ticks onto dedicated real-time controllable gain node
-    const beatsPerBar = (metadata && metadata.beatsPerBar) || song.beatsPerBar || 4
-    const accents = (metadata && metadata.accents) || song.accents || [1]
-    const totalBeats = Math.max(1, (phrase.endBar - phrase.startBar) * beatsPerBar + (phrase.endBeat - phrase.startBeat))
-    const secondsPerBeat = phrase.duration / totalBeats
-    let currentBeatTime = startTime
-    let beatIdx = 0
-
-    while (currentBeatTime < startTime + phrase.duration) {
-      const currentBeatInBar = ((phrase.startBeat - 1 + beatIdx) % beatsPerBar) + 1
-      const isAccent = accents.includes(currentBeatInBar)
-      const isDownbeat = currentBeatInBar === 1
-      const exactTime = currentBeatTime
-      const tickDelay = (currentBeatTime - ctx.currentTime) * 1000
-
-      // Real-time controllable audio metronome
-      if (this.metronomeGainNode) {
-        const osc = playMetronomeClick(ctx, this.metronomeGainNode, exactTime, isAccent)
-        activeNodes.push(osc)
+    const relativeOffset = (offset) => ((offset - startOffset) % cycleDuration + cycleDuration) % cycleDuration
+    const scheduleWindow = (windowStartOffset) => {
+      const windowEndOffset = windowStartOffset + lookAheadSeconds
+      const scheduleOccurrences = (offset, callback) => {
+        const relative = relativeOffset(offset)
+        let cycle = Math.floor((windowStartOffset - relative) / cycleDuration)
+        let occurrence = relative + cycle * cycleDuration
+        while (occurrence < windowEndOffset) {
+          if (occurrence >= windowStartOffset) callback(startTime + occurrence)
+          cycle++
+          occurrence = relative + cycle * cycleDuration
+        }
       }
 
-      // Visual particle for downbeats
-      if (tickDelay >= 0 && isDownbeat) {
-        const currentBarForParticle = phrase.startBar + Math.floor((phrase.startBeat - 1 + beatIdx) / beatsPerBar)
-        const tId = setTimeout(() => {
-          this.activeTimeouts.delete(tId)
-          if (!this.state.isPlaying) return
-          if (activeAvatar && this.state.isMetronome) {
-            spawnFloatingMusicParticle(activeAvatar, `⏱ Bar ${currentBarForParticle}.1`, true)
-          }
-        }, tickDelay)
-        this.activeTimeouts.add(tId)
-      }
-
-      currentBeatTime += secondsPerBeat
-      beatIdx++
-    }
-
-    // Precise, Continuous Progress Bar & Bar.Beat Counter Loop
-    const phraseStartPerf = performance.now()
-    const phraseDurationMs = phrase.duration * 1000
-
-    const updateProgress = () => {
-      if (!this.state.isPlaying) return
-      const elapsedMs = performance.now() - phraseStartPerf
-      const ratio = Math.min(1, Math.max(0, elapsedMs / phraseDurationMs))
-
-      const elapsedSec = elapsedMs / 1000
-      const currentBeatOffset = Math.min(totalBeats - 1, Math.max(0, Math.floor(elapsedSec / secondsPerBeat)))
-      const totalBeatCounter = (phrase.startBar - 1) * beatsPerBar + (phrase.startBeat - 1) + currentBeatOffset
-      const calculatedBar = Math.floor(totalBeatCounter / beatsPerBar) + 1
-      const calculatedBeat = (totalBeatCounter % beatsPerBar) + 1
-
-      this.setState({
-        progress: ratio,
-        currentBar: calculatedBar,
-        currentBeat: calculatedBeat
+      timeline.notes.forEach((note) => {
+        scheduleOccurrences(note.audioOffset, (noteTime) => {
+        const buffer = getPluckBuffer(ctx, note.freq, Math.min(note.dur + 1.2, 3.5))
+        const source = ctx.createBufferSource()
+        source.buffer = buffer
+        const noteGain = ctx.createGain()
+        noteGain.gain.setValueAtTime(note.vel, noteTime)
+        noteGain.gain.exponentialRampToValueAtTime(0.001, noteTime + note.dur + 1.0)
+        source.connect(noteGain)
+        noteGain.connect(masterGain)
+        source.start(noteTime)
+        source.stop(noteTime + note.dur + 1.2)
+        activeNodes.push(source)
+        this.emitEvent({
+          type: 'note-scheduled',
+          audioTime: noteTime,
+          frequency: note.freq,
+          velocity: note.vel,
+          name: note.name
+        })
+        })
       })
 
-      if (ratio < 1) {
-        this.progressAnimId = requestAnimationFrame(updateProgress)
-      }
+      if (!this.metronomeGainNode) return
+      const beatsPerBar = metadata.beatsPerBar || song.beatsPerBar || 4
+      const accents = metadata.accents || song.accents || [1]
+      timeline.phrases.forEach((currentPhrase) => {
+        const totalBeats = Math.max(1, (currentPhrase.endBar - currentPhrase.startBar) * beatsPerBar + (currentPhrase.endBeat - currentPhrase.startBeat))
+        const secondsPerBeat = currentPhrase.duration / totalBeats
+        for (let beatIdx = 0; beatIdx < totalBeats; beatIdx++) {
+          const beatOffset = currentPhrase.offset + beatIdx * secondsPerBeat
+          const beatInBar = ((currentPhrase.startBeat - 1 + beatIdx) % beatsPerBar) + 1
+          const isDownbeat = beatInBar === 1
+          scheduleOccurrences(beatOffset, (beatTime) => {
+            activeNodes.push(playMetronomeClick(ctx, this.metronomeGainNode, beatTime, accents.includes(beatInBar)))
+            if (isDownbeat) {
+              this.emitEvent({
+                type: 'beat-scheduled',
+                audioTime: beatTime,
+                label: `⏱ Bar ${currentPhrase.startBar + Math.floor((currentPhrase.startBeat - 1 + beatIdx) / beatsPerBar)}.1`
+              })
+            }
+            })
+        }
+      })
+      debugAuto('cycle-scheduled', {
+        windowStart: startTime + windowStartOffset,
+        windowEnd: startTime + windowEndOffset,
+        noteCount: timeline.notes.filter((note) => relativeOffset(note.audioOffset) >= windowStartOffset % cycleDuration && relativeOffset(note.audioOffset) < windowEndOffset % cycleDuration).length,
+        phraseCount: timeline.phrases.length
+      })
     }
-    this.progressAnimId = requestAnimationFrame(updateProgress)
 
-    // Completion / Loop handling
-    const timeoutDuration = this.state.isContinuous ? phrase.duration * 1000 : (phrase.duration * 1000 + 40)
-    const completionTimeoutId = setTimeout(() => {
-      this.activeTimeouts.delete(completionTimeoutId)
-      if (!this.state.isPlaying) return
-      const nextIdx = (this.state.phraseIndex + 1) % phrases.length
-      const nextPhrase = phrases[nextIdx]
+    const scheduleMore = () => {
+      if (session.stopped) return
+      const delay = Math.max(0, (session.scheduledUntil - ctx.currentTime - 1) * 1000)
+      const id = setTimeout(() => {
+        this.activeTimeouts.delete(id)
+        debugAuto('cycle-extension', { scheduleAt: session.scheduledUntil, contextTime: ctx.currentTime })
+        scheduleWindow(session.scheduledUntil - startTime)
+        session.scheduledUntil += lookAheadSeconds
+        scheduleMore()
+      }, delay)
+      this.activeTimeouts.add(id)
+    }
 
-      if (this.state.isContinuous) {
-        this.playVerse(nextIdx, activeAvatar)
-      } else {
+    let finishPlayback = null
+    if (this.state.isContinuous) {
+      scheduleWindow(0)
+      session.scheduledUntil += lookAheadSeconds
+      scheduleMore()
+    } else {
+      const phraseEnd = startTime + phrase.duration
+      timeline.notes
+        .filter((note) => note.phraseIndex === newIdx)
+        .forEach((note) => {
+          const noteTime = startTime + note.time
+          const buffer = getPluckBuffer(ctx, note.freq, Math.min(note.dur + 1.2, 3.5))
+          const source = ctx.createBufferSource()
+          source.buffer = buffer
+          const noteGain = ctx.createGain()
+          noteGain.gain.setValueAtTime(note.vel, noteTime)
+          noteGain.gain.exponentialRampToValueAtTime(0.001, noteTime + note.dur + 1.0)
+          source.connect(noteGain)
+          noteGain.connect(masterGain)
+          source.start(noteTime)
+          source.stop(noteTime + note.dur + 1.2)
+          activeNodes.push(source)
+          this.emitEvent({ type: 'note-scheduled', audioTime: noteTime, frequency: note.freq, velocity: note.vel, name: note.name })
+        })
+      masterGain.gain.setValueAtTime(0.35, startTime + Math.max(0, phrase.duration - 0.2))
+      masterGain.gain.linearRampToValueAtTime(0.001, startTime + phrase.duration + 0.4)
+      finishPlayback = () => {
+        if (!this.state.isPlaying) return
         this.stop()
+        const nextIdx = (newIdx + 1) % phrases.length
+        const nextPhrase = timeline.phrases[nextIdx]
         this.setState({
           phraseIndex: nextIdx,
           phrase: nextPhrase,
           progress: 0,
-          currentBar: nextPhrase ? nextPhrase.startBar : 1,
-          currentBeat: nextPhrase ? nextPhrase.startBeat : 1
+          currentBar: nextPhrase.startBar,
+          currentBeat: nextPhrase.startBeat
         })
       }
-    }, timeoutDuration)
-    this.activeTimeouts.add(completionTimeoutId)
+      const completionId = setTimeout(() => {
+        this.activeTimeouts.delete(completionId)
+        finishPlayback()
+      }, Math.max(0, (phraseEnd - ctx.currentTime) * 1000))
+      this.activeTimeouts.add(completionId)
+      session.scheduledUntil = phraseEnd
+    }
+
+    let lastProgressBucket = -1
+    const updateProgress = () => {
+      if (session.stopped || !this.state.isPlaying) return
+      const elapsed = Math.max(0, ctx.currentTime - startTime)
+      if (!this.state.isContinuous && elapsed >= phrase.duration) {
+        finishPlayback()
+        return
+      }
+      const songOffset = this.state.isContinuous
+        ? (startOffset + elapsed) % cycleDuration
+        : Math.min(startOffset + elapsed, startOffset + phrase.duration)
+      const position = getPhrasePosition(timeline, songOffset, metadata.beatsPerBar || song.beatsPerBar || 4)
+      if (!position) return
+      const progressBucket = Math.floor(position.progress * 10)
+      if (progressBucket !== lastProgressBucket || position.phrase.index !== this.state.phraseIndex) {
+        lastProgressBucket = progressBucket
+      }
+      this.setState({
+        phraseIndex: position.phrase.index,
+        progress: Math.min(0.999, position.progress),
+        currentBar: position.currentBar,
+        currentBeat: position.currentBeat
+      })
+    }
+    this.unsubscribeProgress = avatarFrameLoop.subscribe(updateProgress)
 
     this.currentPlayback = {
       stop: () => {
-        clearTimeout(completionTimeoutId)
+        session.stopped = true
         activeNodes.forEach((node) => {
           try {
-            if ('stop' in node && typeof node.stop === 'function') node.stop()
+            if (typeof node.stop === 'function') node.stop()
             node.disconnect()
           } catch (e) {}
         })
@@ -717,19 +698,19 @@ class PlayerStore {
     }
   }
 
-  togglePlay(avatarEl) {
+  togglePlay() {
     if (this.state.isPlaying) {
       this.stop()
     } else {
-      this.playVerse(this.state.phraseIndex, avatarEl)
+      this.playVerse(this.state.phraseIndex)
     }
   }
 
-  nextVerse(avatarEl) {
+  nextVerse() {
     const total = this.state.metadata ? this.state.metadata.phrases.length : 1
     const nextIdx = (this.state.phraseIndex + 1) % total
     if (this.state.isPlaying) {
-      this.playVerse(nextIdx, avatarEl)
+      this.playVerse(nextIdx)
     } else {
       const nextPhrase = this.state.metadata ? this.state.metadata.phrases[nextIdx] : null
       this.setState({
@@ -741,11 +722,11 @@ class PlayerStore {
     }
   }
 
-  prevVerse(avatarEl) {
+  prevVerse() {
     const total = this.state.metadata ? this.state.metadata.phrases.length : 1
     const prevIdx = (this.state.phraseIndex - 1 + total) % total
     if (this.state.isPlaying) {
-      this.playVerse(prevIdx, avatarEl)
+      this.playVerse(prevIdx)
     } else {
       const prevPhrase = this.state.metadata ? this.state.metadata.phrases[prevIdx] : null
       this.setState({
@@ -758,7 +739,11 @@ class PlayerStore {
   }
 
   toggleLoop() {
-    this.setState({ isContinuous: !this.state.isContinuous })
+    const nextValue = !this.state.isContinuous
+    const wasPlaying = this.state.isPlaying
+    debugAuto('mode-toggle', { continuous: nextValue, wasPlaying, phraseIndex: this.state.phraseIndex })
+    this.setState({ isContinuous: nextValue })
+    if (wasPlaying) this.playVerse(this.state.phraseIndex)
   }
 
   toggleMetronome() {
@@ -771,7 +756,7 @@ class PlayerStore {
     }
   }
 
-  async selectSong(songId, avatarEl) {
+  async selectSong(songId) {
     const targetSong = this.songs.find((s) => s.id === songId) || this.songs[0]
     if (this.state.song.id === targetSong.id) return
 
@@ -791,17 +776,17 @@ class PlayerStore {
       })
 
       if (wasPlaying) {
-        this.playVerse(0, avatarEl)
+        this.playVerse(0)
       }
     } catch (e) {
       console.error('Error switching song:', e)
     }
   }
 
-  cycleSong(avatarEl) {
+  cycleSong() {
     const curIdx = this.songs.findIndex((s) => s.id === this.state.song.id)
     const nextIdx = (curIdx + 1) % this.songs.length
-    this.selectSong(this.songs[nextIdx].id, avatarEl)
+    this.selectSong(this.songs[nextIdx].id)
   }
 }
 

@@ -139,7 +139,7 @@ export function initWeightedSumDemo(containerId = '#weighted-sum-demo') {
         <div class="tw-font-serif tw-text-sm tw-text-[var(--grey-light)]">Setup + 3 evaluation steps</div>
       </div>
 
-      <div class="tw-grid tw-grid-cols-[335px_1fr] tw-gap-2.5 tw-p-2.5 tw-font-serif tw-text-[var(--grey-lighter)] max-[860px]:tw-grid-cols-1">
+      <div class="tw-grid tw-grid-cols-[335px_minmax(0,1fr)] tw-gap-2.5 tw-p-2.5 tw-font-serif tw-text-[var(--grey-lighter)] max-[860px]:tw-grid-cols-1">
         <!-- Left: step pipeline + playback -->
         <div class="tw-flex tw-flex-col tw-gap-2">
           <div id="ws-step-pipeline" class="tw-flex tw-flex-col tw-gap-1"></div>
@@ -155,7 +155,7 @@ export function initWeightedSumDemo(containerId = '#weighted-sum-demo') {
         </div>
 
         <!-- Right: the animated SVG canvas -->
-        <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-p-2.5 tw-flex tw-flex-col tw-gap-2">
+        <div class="tw-min-w-0 tw-bg-[var(--grey-dark)] tw-rounded-md tw-p-2.5 tw-flex tw-flex-col tw-gap-2">
           <div class="tw-flex tw-items-center tw-gap-x-3.5 tw-gap-y-1.5 tw-flex-wrap tw-text-[0.78rem] tw-leading-snug tw-text-[var(--grey-light)]">
             <span class="tw-inline-flex tw-items-center tw-gap-1.5"><span class="tw-inline-block tw-w-2.5 tw-h-2.5 tw-rounded-full tw-bg-[var(--grey-darker)] tw-border-[1.8px] tw-border-[rgb(var(--primary))]"></span> Non-dominated frontier</span>
             <span class="tw-inline-flex tw-items-center tw-gap-1.5"><span class="tw-inline-block tw-w-2.5 tw-h-2.5 tw-rounded-full tw-bg-[#fbbf24]"></span> Evaluated candidate</span>

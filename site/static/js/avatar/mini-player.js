@@ -106,7 +106,7 @@ export function MiniPlayer({ avatarEl }) {
       if (usesMobilePlayer()) {
         setIsMobileOpen(true)
       }
-      playerStore.togglePlay(avatarEl)
+      playerStore.togglePlay()
     }
 
     avatarEl.addEventListener('pointerenter', handleAvatarEnter)
@@ -159,6 +159,7 @@ export function MiniPlayer({ avatarEl }) {
   }
 
   const { song, metadata, phrase, isPlaying, isContinuous, isMetronome, progress, currentBar, currentBeat } = storeState
+  const displayedProgress = isPlaying ? progress : 0
 
   // Visibility logic: on mobile follows isMobileOpen; on desktop follows isHovered
   const isVisible = isMobile ? isMobileOpen : isHovered
@@ -230,7 +231,7 @@ export function MiniPlayer({ avatarEl }) {
           <div
             class="tw-flex tw-items-center tw-gap-2 tw-min-w-0 tw-flex-1 ${playerStore.songs.length > 1 ? 'tw-cursor-pointer hover:tw-opacity-90 tw-transition-opacity' : ''}"
             title=${playerStore.songs.length > 1 ? 'Click to switch song' : ''}
-            onClick=${playerStore.songs.length > 1 ? () => playerStore.cycleSong(avatarEl) : null}
+            onClick=${playerStore.songs.length > 1 ? () => playerStore.cycleSong() : null}
           >
             <span class="mini-player-icon tw-text-base tw-leading-none tw-shrink-0">${song.icon}</span>
             <div class="mini-player-meta tw-flex tw-flex-col tw-min-w-0 tw-leading-tight">
@@ -325,8 +326,8 @@ export function MiniPlayer({ avatarEl }) {
         <!-- Progress Bar Track -->
         <div class="mini-player-track tw-w-full tw-h-[2.5px] tw-bg-white/15 tw-rounded-full tw-overflow-hidden tw-relative">
           <div
-            class="mini-player-progress-bar tw-h-full tw-bg-primary tw-shadow-[0_0_10px_rgba(var(--primary),0.9)] tw-rounded-full tw-transition-all tw-duration-75"
-            style="width: ${(progress * 100).toFixed(1)}%;"
+            class="mini-player-progress-bar tw-h-full tw-bg-primary tw-shadow-[0_0_10px_rgba(var(--primary),0.9)] tw-rounded-full"
+            style="width: ${(displayedProgress * 100).toFixed(1)}%;"
           ></div>
         </div>
 
@@ -336,7 +337,7 @@ export function MiniPlayer({ avatarEl }) {
             type="button"
             class="tw-rounded-lg tw-px-3 tw-py-1 tw-font-bold tw-leading-none tw-shadow-subtle hover:tw-shadow-raised tw-flex tw-items-center tw-justify-center tw-gap-1"
             title="Previous verse (⏮)"
-            onClick=${() => playerStore.prevVerse(avatarEl)}
+            onClick=${() => playerStore.prevVerse()}
           >
             ⏮
           </button>
@@ -344,7 +345,7 @@ export function MiniPlayer({ avatarEl }) {
             type="button"
             class="tw-rounded-lg tw-px-4 tw-py-1.5 tw-font-bold tw-leading-none tw-shadow-subtle hover:tw-shadow-raised tw-flex tw-items-center tw-justify-center tw-text-sm ${isPlaying ? 'btn-active' : ''}"
             title=${isPlaying ? 'Pause (⏸)' : 'Play (▶)'}
-            onClick=${() => playerStore.togglePlay(avatarEl)}
+            onClick=${() => playerStore.togglePlay()}
           >
             ${isPlaying ? '⏸ Pause' : '▶ Play'}
           </button>
@@ -352,7 +353,7 @@ export function MiniPlayer({ avatarEl }) {
             type="button"
             class="tw-rounded-lg tw-px-3 tw-py-1 tw-font-bold tw-leading-none tw-shadow-subtle hover:tw-shadow-raised tw-flex tw-items-center tw-justify-center tw-gap-1"
             title="Next verse (⏭)"
-            onClick=${() => playerStore.nextVerse(avatarEl)}
+            onClick=${() => playerStore.nextVerse()}
           >
             ⏭
           </button>
