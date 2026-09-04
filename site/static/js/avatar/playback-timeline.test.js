@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test'
 import { buildSongTimeline, findPhraseAtOffset, getPhrasePosition } from './playback-timeline.js'
+import { resetMasterGainForLoop } from './audio-engine.js'
 
 describe('Playback timeline', () => {
   const metadata = {
@@ -39,5 +40,20 @@ describe('Playback timeline', () => {
 
     expect(getPhrasePosition(timeline, 0, 6)).toMatchObject({ currentBar: 10, currentBeat: 6 })
     expect(getPhrasePosition(timeline, 1.1, 6)).toMatchObject({ currentBar: 11, currentBeat: 2 })
+  })
+
+  it('restores the master gain when loop mode is enabled mid-phrase', () => {
+    const calls = []
+    resetMasterGainForLoop({
+      gain: {
+        cancelScheduledValues: (time) => calls.push(['cancel', time]),
+        setValueAtTime: (value, time) => calls.push(['set', value, time])
+      }
+    }, 42)
+
+    expect(calls).toEqual([
+      ['cancel', 42],
+      ['set', 0.35, 42]
+    ])
   })
 })

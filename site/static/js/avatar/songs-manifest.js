@@ -8,6 +8,20 @@
 
 export const SONGS_MANIFEST = [
   {
+    id: 'aishite-aishite-aishite',
+    name: 'Aishite Aishite Aishite',
+    artist: 'Ado / Kikuo',
+    credit: 'Yosi Spring',
+    creditUrl: 'https://yosispring.github.io/Music/aishite_aishite_aishite.html',
+    icon: '🖤',
+    bpm: 226,
+    timeSignature: '6/4',
+    beatsPerBar: 6,
+    key: 'C',
+    accents: [1, 4],
+    dir: '/js/avatar/songs/aishite-aishite-aishite/'
+  },
+  {
     id: 'crime-and-punishment',
     name: 'Crime and Punishment (罪と罰)',
     artist: 'Sheena Ringo',

@@ -18,12 +18,14 @@ export function parseNotesCsv(csvText) {
     const line = lines[i].trim()
     if (!line) continue
     const parts = line.split(',')
+    const frequency = parseFloat(parts[1])
     notes.push({
       time: parseFloat(parts[0]),
-      freq: parseFloat(parts[1]),
+      freq: frequency,
       dur: parseFloat(parts[2]),
       vel: parseFloat(parts[3]),
-      name: parts[4]
+      name: parts[4],
+      hand: parts[5] || (frequency < 261.63 ? 'left' : 'right')
     })
   }
   return notes
@@ -44,6 +46,8 @@ describe('MIDI CSV Song Loader: Crime and Punishment', () => {
     expect(firstNote.dur).toBeCloseTo(0.756, 3)
     expect(firstNote.vel).toBeCloseTo(0.5, 2)
     expect(firstNote.name).toBe('B4')
+    expect(firstNote.hand).toBe('right')
+    expect(notes.some((note) => note.hand === 'left')).toBe(true)
   })
 
   it('slices correct phrase ranges based on startRow and rowCount', () => {
@@ -69,6 +73,8 @@ describe('MIDI CSV Song Loader: Marunouchi Sadistic', () => {
   it('parses all notes accurately from notes.csv', () => {
     const notes = parseNotesCsv(csvText)
     expect(notes.length).toBe(1649)
+    expect(notes.some((note) => note.hand === 'left')).toBe(true)
+    expect(notes.some((note) => note.hand === 'right')).toBe(true)
   })
 
   it('slices user-defined verse ranges perfectly without gap or overlap', () => {
@@ -83,5 +89,22 @@ describe('MIDI CSV Song Loader: Marunouchi Sadistic', () => {
     })
 
     expect(totalSlicedNotes).toBe(1649)
+  })
+})
+
+describe('MIDI CSV Song Loader: Aishite Aishite Aishite', () => {
+  const songDir = join(import.meta.dir, 'songs/aishite-aishite-aishite')
+  const metaJson = JSON.parse(readFileSync(join(songDir, 'metadata.json'), 'utf8'))
+  const csvText = readFileSync(join(songDir, 'notes.csv'), 'utf8')
+
+  it('imports the MIDI tempo, meter, and arranger credit', () => {
+    const notes = parseNotesCsv(csvText)
+    expect(notes.length).toBeGreaterThan(2000)
+    expect(metaJson.bpm).toBe(226)
+    expect(metaJson.timeSignature).toBe('6/4')
+    expect(metaJson.credit).toBe('Yosi Spring')
+    expect(metaJson.creditUrl).toContain('yosispring.github.io/Music/aishite_aishite_aishite.html')
+    expect(notes.some((note) => note.hand === 'left')).toBe(true)
+    expect(notes.some((note) => note.hand === 'right')).toBe(true)
   })
 })

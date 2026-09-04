@@ -240,6 +240,7 @@ export function MiniPlayer({ avatarEl }) {
                 <span class="mini-player-artist tw-text-primary tw-font-medium tw-truncate">
                   ${song.artist}${playerStore.songs.length > 1 ? ' ▾' : ''}
                 </span>
+                ${song.credit ? html`<span class="tw-text-[0.62rem] tw-text-[var(--grey-light)] tw-truncate">MIDI by <a class="tw-text-primary hover:tw-underline" href=${song.creditUrl} target="_blank" rel="noreferrer">${song.credit}</a></span>` : null}
                 <span class="tw-text-white/30">•</span>
                 <span class="mini-player-verse-title tw-text-[var(--grey-light)] tw-font-semibold tw-truncate">
                   ${phrase ? phrase.title : 'Loading...'}

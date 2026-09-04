@@ -12,7 +12,7 @@ import { DEFAULT_SONG, SONGS_MANIFEST } from './songs-manifest.js'
 import { avatarFrameLoop } from './frame-loop.js'
 import { buildSongTimeline, getPhrasePosition } from './playback-timeline.js'
 
-// Fast parser for compact CSV note representation: time,freq,dur,vel,name
+// Fast parser for compact CSV note representation: time,freq,dur,vel,name[,hand]
 export function parseNotesCsv(csvText) {
   const lines = csvText.trim().split('\n')
   const notes = []
@@ -22,12 +22,14 @@ export function parseNotesCsv(csvText) {
     const line = lines[i].trim()
     if (!line) continue
     const parts = line.split(',')
+    const frequency = parseFloat(parts[1])
     notes.push({
       time: parseFloat(parts[0]),
-      freq: parseFloat(parts[1]),
+      freq: frequency,
       dur: parseFloat(parts[2]),
       vel: parseFloat(parts[3]),
-      name: parts[4]
+      name: parts[4],
+      hand: parts[5] || (frequency < 261.63 ? 'left' : 'right')
     })
   }
   return notes
@@ -132,6 +134,11 @@ export function playMetronomeClick(audioCtx, destination, time, isAccent) {
   osc.stop(time + 0.04)
 
   return osc
+}
+
+export function resetMasterGainForLoop(masterGain, time) {
+  masterGain.gain.cancelScheduledValues(time)
+  masterGain.gain.setValueAtTime(0.35, time)
 }
 
 // Analytics dispatcher
@@ -389,7 +396,7 @@ class PlayerStore {
     }
 
     // Pre-fetch lightweight metadata for the default song (only ~5KB)
-    this.initDefaultSong()
+    if (typeof window !== 'undefined') this.initDefaultSong()
   }
 
   async initDefaultSong() {
@@ -563,7 +570,8 @@ class PlayerStore {
           audioTime: noteTime,
           frequency: note.freq,
           velocity: note.vel,
-          name: note.name
+          name: note.name,
+          role: note.hand === 'left' ? 'background' : 'avatar'
         })
         })
       })
@@ -628,7 +636,7 @@ class PlayerStore {
           source.start(noteTime)
           source.stop(noteTime + note.dur + 1.2)
           activeNodes.push(source)
-          this.emitEvent({ type: 'note-scheduled', audioTime: noteTime, frequency: note.freq, velocity: note.vel, name: note.name })
+          this.emitEvent({ type: 'note-scheduled', audioTime: noteTime, frequency: note.freq, velocity: note.vel, name: note.name, role: note.hand === 'left' ? 'background' : 'avatar' })
         })
       if (this.metronomeGainNode) {
         const beatsPerBar = metadata.beatsPerBar || song.beatsPerBar || 4
@@ -717,6 +725,7 @@ class PlayerStore {
         session.continuous = enabled
 
         if (enabled) {
+          resetMasterGainForLoop(masterGain, ctx.currentTime)
           if (session.completionId) {
             clearTimeout(session.completionId)
             this.activeTimeouts.delete(session.completionId)
