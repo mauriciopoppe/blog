@@ -640,7 +640,9 @@ if (target) {
   const controls = new OrbitControls(camera, renderer.domElement)
   window.__SUNSET_CONTROLS__ = controls
   window.__SUNSET_SCENE__ = scene
-  controls.enableZoom = true
+  controls.enableZoom = false
+  controls.enablePan = false
+  renderer.domElement.style.touchAction = 'none'
   controls.zoomSpeed = 0.8
   controls.enableDamping = true
   controls.dampingFactor = 0.08
