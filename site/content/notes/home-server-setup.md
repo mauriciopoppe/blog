@@ -3,6 +3,8 @@ title: "Building a Home Server with Orange Pi 5 and Gemini"
 date: 2026-01-19 19:00:00
 tags: ['ai', 'gemini', 'devops', 'orangepi', 'sshfs', 'productivity', 'self-hosted', 'docker']
 summary: "Bootstrapping a home server on an Orange Pi 5 using Gemini and SSHFS."
+image: /images/raspberry-pi.jpg
+image_alt: Photo by <a href="https://unsplash.com/@harrisonbroadbent?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Harrison Broadbent</a> on <a href="https://unsplash.com/photos/green-and-black-circuit-board-VOz0gV9HC0I?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
 ---
 
 My home server runs on an [Orange Pi 5](http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-5.html). It started as a simple DNS sinkhole to block ads, but it's since turned into a sandbox for anything I'd rather not pay a monthly subscription for.

@@ -7,8 +7,8 @@
     <figure class="md:tw-w-3/5 tw-mx-auto tw-text-center">
       {{ $image := .Params.image | absURL }}
       <img src="{{ $image }}" alt="{{ .Title }}" class="tw-rounded-md tw-aspect-auto tw-max-h-60 tw-inline-block" />
-      {{ if .Params.imageAlt }}
-        <figcaption><i class="tw-text-sm">{{ .Params.imageAlt | markdownify }}</i></figcaption>
+      {{ if .Params.image_alt }}
+        <figcaption><i class="tw-text-sm">{{ .Params.image_alt | markdownify }}</i></figcaption>
       {{ end }}
     </figure>
     {{ end }}

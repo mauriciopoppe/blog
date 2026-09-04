@@ -3,7 +3,7 @@ title: "Rotation"
 date: 2015-12-15 13:00:00
 summary: |
   Rotation transforms in 2D and 3D space, cardinal axis rotation matrices, arbitrary axis rotation with Rodrigues' formula, and quaternion rotor foundations.
-image: /images/flat-shading.svg
+image: /images/flat-shading.png
 libraries: ["katex"]
 math_terms: ["graphics"]
 tags: ["rotation", "quaternions", "2d", "3d", "computer graphics"]

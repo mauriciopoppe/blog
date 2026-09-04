@@ -1,5 +1,6 @@
 ---
 title: Learning French
+preview_image: /images/paris-france-web.jpg
 summary: |
   I've been learning French on my own since mid 2024. I'm progressing in my fluency, and I can
   understand and speak it with relative comfort. In this article, I share how I'm learning

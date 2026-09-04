@@ -8,7 +8,7 @@ summary: |
 
   <br />
 image: https://docs.datastax.com/eol/en/dse/6.7/dse-arch/universalcommons/graphics/dmlWriteProcess.png
-imageAlt: |
+image_alt: |
   Write path in Cassandra, source https://docs.datastax.com
 tags: ["memtable", "sorted string table", "data structures", "big data", "linked list"]
 date: 2020-02-29T15:04:00Z

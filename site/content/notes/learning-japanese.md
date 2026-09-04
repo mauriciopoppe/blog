@@ -1,8 +1,8 @@
 ---
 title: Learning Japanese
+preview_image: /images/hakone-japan-web.jpg
 summary: |
   I've been learning Japanese since December 2025. In this article, I share my goals and the tools and strategies I'm using to learn this new language.
-
 tags: ['learning', 'languages', 'japanese', 'life']
 libraries: ['doodle']
 date: 2026-01-19 14:00:00

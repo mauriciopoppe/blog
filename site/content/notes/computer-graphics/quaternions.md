@@ -4,7 +4,7 @@ date: 2016-04-26 16:39:27
 favorite: true
 summary: |
   Quaternions represent 3D orientations on a 4D hypersphere without gimbal lock. Rotor construction, sandwich product proofs, Rodrigues equivalence, SLERP, composition, and the Three.js API, with an interactive flight simulator.
-image: /images/flat-shading.svg
+image: /images/flat-shading.png
 tags: ["quaternions", "3d", "computer graphics", "rotation"]
 libraries: ["katex"]
 math_terms: ["graphics"]

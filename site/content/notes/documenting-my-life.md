@@ -6,7 +6,7 @@ summary: |
   I decided to document my life by journaling, printing pictures, and making vlogs.
 tags: ['life', 'productivity', 'habits', 'journaling']
 image: /images/documenting-my-life.jpg
-imageAlt: |
+image_alt: |
   [Photo by Annushka Ahuja](https://www.pexels.com/photo/a-person-holding-a-camera-8114300/)
 date: 2024-11-10 16:28:00
 libraries: ['doodle']

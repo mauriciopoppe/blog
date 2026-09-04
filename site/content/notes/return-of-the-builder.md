@@ -1,5 +1,6 @@
 ---
 title: "Return of the Builder"
+preview_image: /images/return-of-the-builder.jpg
 date: 2026-05-09 16:50:00
 tags: ['career', 'ai', 'agents', 'software-engineering', 'productivity']
 summary: |

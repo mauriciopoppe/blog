@@ -4,7 +4,7 @@ summary: |
   I spent a few weeks using Zellij to see if it could be a replacement for Tmux.
   It had some things I liked for a terminal multiplexer, but a few
   things that I didn't like eventually sent me back to my reliable Tmux setup.
-image: /images/zellij-switch-session.gif
+image: /images/old-computer-web.jpg
 tags: ['tmux', 'zellij', 'terminal', 'productivity']
 date: 2025-06-21 14:00:00
 references:

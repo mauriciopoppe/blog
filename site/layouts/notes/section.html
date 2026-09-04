@@ -35,8 +35,8 @@
   {{ end }}
   {{ $tags := .Params.tags | default slice }}
   {{ $summary := (.Params.summary | default .Summary) | markdownify }}
-  {{ $image := .Params.image | default "" }}
-  {{ $item := dict "id" $url "url" $url "title" .Title "summary" $summary "date" (.Date.Format "Jan 2, 2006") "tags" $tags "readingTime" .ReadingTime "isFavorite" $isFav "interactive" $isInteractive "isDraft" .Draft "popularity" $pop "image" $image }}
+  {{ $previewImage := .Params.preview_image | default .Params.image | default "" }}
+  {{ $item := dict "id" $url "url" $url "title" .Title "summary" $summary "date" (.Date.Format "Jan 2, 2006") "tags" $tags "readingTime" .ReadingTime "isFavorite" $isFav "interactive" $isInteractive "isDraft" .Draft "popularity" $pop "image" $previewImage }}
   {{ $notesData = $notesData | append $item }}
 {{ end }}
 
