@@ -17,6 +17,9 @@ export const TIERS = [
   { tier: 3, id: `${FILTER_ID}-3`, factor: 0.35 }  // Outer region: 35% force
 ]
 
+export const ARTICLE_TEXT_EXCLUSION_SELECTOR = 'script, style, pre, code, textarea, svg, [data-avatar-distortion-fragment]'
+export const ARTICLE_FRAGMENT_SELECTOR = '[data-avatar-distortion-fragment], img, video, canvas, pre, table'
+
 export function calculateImpulseDecay(elapsedMs, durationMs, initialScale) {
   if (elapsedMs >= durationMs) return 0
   const progress = elapsedMs / durationMs
@@ -62,7 +65,7 @@ function wrapArticleText(root) {
   let node
   while ((node = walker.nextNode())) {
     const parent = node.parentElement
-    if (!parent || parent.closest('script, style, pre, code, textarea, [data-avatar-distortion-fragment]')) continue
+    if (!parent || parent.closest(ARTICLE_TEXT_EXCLUSION_SELECTOR)) continue
     if (node.nodeValue && /\S/.test(node.nodeValue)) textNodes.push(node)
   }
 
@@ -101,7 +104,7 @@ function attachArticleFragments(avatarEl) {
   const avatarRect = avatarEl.getBoundingClientRect()
   const avatarX = avatarRect.left + avatarRect.width / 2
   const avatarY = avatarRect.top + avatarRect.height / 2
-  const fragments = Array.from(article.querySelectorAll('[data-avatar-distortion-fragment], img, video, canvas, svg, pre, table'))
+  const fragments = Array.from(article.querySelectorAll(ARTICLE_FRAGMENT_SELECTOR))
 
   fragments.forEach((el) => {
     const rect = el.getBoundingClientRect()

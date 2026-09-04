@@ -2,8 +2,17 @@ import { describe, it, expect } from 'bun:test'
 import {
   calculateImpulseDecay,
   calculateBaseFrequency,
-  calculateTierScale
+  calculateTierScale,
+  ARTICLE_TEXT_EXCLUSION_SELECTOR,
+  ARTICLE_FRAGMENT_SELECTOR
 } from './distortion-filter.js'
+
+describe('Article distortion boundaries', () => {
+  it('never rewrites or filters SVG content', () => {
+    expect(ARTICLE_TEXT_EXCLUSION_SELECTOR).toContain('svg')
+    expect(ARTICLE_FRAGMENT_SELECTOR).not.toContain('svg')
+  })
+})
 
 describe('Acoustic Shockwave Distortion Math', () => {
   it('starts at initial scale and decays monotonically towards zero', () => {
