@@ -36,7 +36,8 @@ export const SONGS_MANIFEST = [
   {
     id: 'lagtrain',
     name: 'Lagtrain',
-    artist: 'Inabakumori',
+    artist: 'inabakumori',
+    artistUrl: 'https://www.youtube.com/channel/UCNElM45JypxqAR73RoUQ10g',
     credit: 'NekoOkto',
     creditUrl: 'https://www.youtube.com/watch?v=kKqEDtqowxA',
     icon: '🚆',
@@ -46,6 +47,21 @@ export const SONGS_MANIFEST = [
     key: 'C',
     accents: [1, 3],
     dir: '/js/avatar/songs/lagtrain/'
+  },
+  {
+    id: 'rainy-boots',
+    name: 'Rainy Boots',
+    artist: 'inabakumori',
+    artistUrl: 'https://www.youtube.com/channel/UCNElM45JypxqAR73RoUQ10g',
+    credit: 'NekoOkto',
+    creditUrl: 'https://www.youtube.com/watch?v=gFF_SBmsP34',
+    icon: '🌧️',
+    bpm: 144,
+    timeSignature: '4/4',
+    beatsPerBar: 4,
+    key: 'C',
+    accents: [1, 3],
+    dir: '/js/avatar/songs/rainy-boots/'
   }
 ]
 

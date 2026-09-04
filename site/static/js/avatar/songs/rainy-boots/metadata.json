@@ -1,16 +1,16 @@
 {
-  "id": "lagtrain",
-  "name": "Lagtrain",
+  "id": "rainy-boots",
+  "name": "Rainy Boots",
   "artist": "inabakumori",
   "artistUrl": "https://www.youtube.com/channel/UCNElM45JypxqAR73RoUQ10g",
   "credit": "NekoOkto",
-  "creditUrl": "https://www.youtube.com/watch?v=kKqEDtqowxA",
-  "bpm": 147,
+  "creditUrl": "https://www.youtube.com/watch?v=gFF_SBmsP34",
+  "bpm": 144,
   "timeSignature": "4/4",
   "beatsPerBar": 4,
   "key": "C",
   "handSplit": "C4 (MIDI 60)",
-  "totalPhrases": 19,
+  "totalPhrases": 15,
   "notesFile": "notes.csv",
   "phrases": [
     {
@@ -20,9 +20,9 @@
       "startBeat": 1,
       "endBar": 9,
       "endBeat": 1,
-      "duration": 13.061216,
+      "duration": 13.333344,
       "startRow": 0,
-      "rowCount": 96
+      "rowCount": 230
     },
     {
       "title": "Phrase 2",
@@ -31,9 +31,9 @@
       "startBeat": 1,
       "endBar": 17,
       "endBeat": 1,
-      "duration": 13.061216,
-      "startRow": 96,
-      "rowCount": 161
+      "duration": 13.333344,
+      "startRow": 230,
+      "rowCount": 191
     },
     {
       "title": "Phrase 3",
@@ -42,9 +42,9 @@
       "startBeat": 1,
       "endBar": 25,
       "endBeat": 1,
-      "duration": 13.061216,
-      "startRow": 257,
-      "rowCount": 206
+      "duration": 13.333344,
+      "startRow": 421,
+      "rowCount": 138
     },
     {
       "title": "Phrase 4",
@@ -53,9 +53,9 @@
       "startBeat": 1,
       "endBar": 33,
       "endBeat": 1,
-      "duration": 13.061216,
-      "startRow": 463,
-      "rowCount": 140
+      "duration": 13.333344,
+      "startRow": 559,
+      "rowCount": 207
     },
     {
       "title": "Phrase 5",
@@ -64,9 +64,9 @@
       "startBeat": 1,
       "endBar": 41,
       "endBeat": 1,
-      "duration": 13.061216,
-      "startRow": 603,
-      "rowCount": 133
+      "duration": 13.333344,
+      "startRow": 766,
+      "rowCount": 188
     },
     {
       "title": "Phrase 6",
@@ -75,9 +75,9 @@
       "startBeat": 1,
       "endBar": 49,
       "endBeat": 1,
-      "duration": 13.061216,
-      "startRow": 736,
-      "rowCount": 141
+      "duration": 13.333344,
+      "startRow": 954,
+      "rowCount": 192
     },
     {
       "title": "Phrase 7",
@@ -86,9 +86,9 @@
       "startBeat": 1,
       "endBar": 57,
       "endBeat": 1,
-      "duration": 13.061216,
-      "startRow": 877,
-      "rowCount": 211
+      "duration": 13.333344,
+      "startRow": 1146,
+      "rowCount": 234
     },
     {
       "title": "Phrase 8",
@@ -97,9 +97,9 @@
       "startBeat": 1,
       "endBar": 65,
       "endBeat": 1,
-      "duration": 13.061216,
-      "startRow": 1088,
-      "rowCount": 204
+      "duration": 13.333344,
+      "startRow": 1380,
+      "rowCount": 171
     },
     {
       "title": "Phrase 9",
@@ -108,9 +108,9 @@
       "startBeat": 1,
       "endBar": 73,
       "endBeat": 1,
-      "duration": 13.061216,
-      "startRow": 1292,
-      "rowCount": 132
+      "duration": 13.333344,
+      "startRow": 1551,
+      "rowCount": 117
     },
     {
       "title": "Phrase 10",
@@ -119,8 +119,8 @@
       "startBeat": 1,
       "endBar": 81,
       "endBeat": 1,
-      "duration": 13.061216,
-      "startRow": 1424,
+      "duration": 13.333344,
+      "startRow": 1668,
       "rowCount": 109
     },
     {
@@ -130,9 +130,9 @@
       "startBeat": 1,
       "endBar": 89,
       "endBeat": 1,
-      "duration": 13.061216,
-      "startRow": 1533,
-      "rowCount": 82
+      "duration": 13.333344,
+      "startRow": 1777,
+      "rowCount": 218
     },
     {
       "title": "Phrase 12",
@@ -141,9 +141,9 @@
       "startBeat": 1,
       "endBar": 97,
       "endBeat": 1,
-      "duration": 13.061216,
-      "startRow": 1615,
-      "rowCount": 150
+      "duration": 13.333344,
+      "startRow": 1995,
+      "rowCount": 277
     },
     {
       "title": "Phrase 13",
@@ -152,9 +152,9 @@
       "startBeat": 1,
       "endBar": 105,
       "endBeat": 1,
-      "duration": 13.061216,
-      "startRow": 1765,
-      "rowCount": 213
+      "duration": 13.333344,
+      "startRow": 2272,
+      "rowCount": 252
     },
     {
       "title": "Phrase 14",
@@ -163,64 +163,20 @@
       "startBeat": 1,
       "endBar": 113,
       "endBeat": 1,
-      "duration": 13.061216,
-      "startRow": 1978,
-      "rowCount": 157
+      "duration": 13.333344,
+      "startRow": 2524,
+      "rowCount": 177
     },
     {
       "title": "Phrase 15",
       "phraseIndex": 15,
       "startBar": 113,
       "startBeat": 1,
-      "endBar": 121,
+      "endBar": 116,
       "endBeat": 1,
-      "duration": 13.061216,
-      "startRow": 2135,
-      "rowCount": 144
-    },
-    {
-      "title": "Phrase 16",
-      "phraseIndex": 16,
-      "startBar": 121,
-      "startBeat": 1,
-      "endBar": 129,
-      "endBeat": 1,
-      "duration": 13.061216,
-      "startRow": 2279,
-      "rowCount": 168
-    },
-    {
-      "title": "Phrase 17",
-      "phraseIndex": 17,
-      "startBar": 129,
-      "startBeat": 1,
-      "endBar": 137,
-      "endBeat": 1,
-      "duration": 13.061216,
-      "startRow": 2447,
-      "rowCount": 225
-    },
-    {
-      "title": "Phrase 18",
-      "phraseIndex": 18,
-      "startBar": 137,
-      "startBeat": 1,
-      "endBar": 145,
-      "endBeat": 1,
-      "duration": 13.061216,
-      "startRow": 2672,
-      "rowCount": 213
-    },
-    {
-      "title": "Phrase 19",
-      "phraseIndex": 19,
-      "startBar": 145,
-      "startBeat": 1,
-      "endBar": 153,
-      "endBeat": 1,
-      "duration": 13.061216,
-      "startRow": 2885,
-      "rowCount": 121
+      "duration": 5.000004,
+      "startRow": 2701,
+      "rowCount": 48
     }
   ]
 }

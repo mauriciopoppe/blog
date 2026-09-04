@@ -135,3 +135,20 @@ describe('MIDI CSV Song Loader: Lagtrain', () => {
     expect(notes.some((note) => note.hand === 'right')).toBe(true)
   })
 })
+
+describe('MIDI CSV Song Loader: Rainy Boots', () => {
+  const songDir = join(import.meta.dir, 'songs/rainy-boots')
+  const metaJson = JSON.parse(readFileSync(join(songDir, 'metadata.json'), 'utf8'))
+  const csvText = readFileSync(join(songDir, 'notes.csv'), 'utf8')
+
+  it('imports the MIDI tempo, meter, and arranger credit', () => {
+    const notes = parseNotesCsv(csvText)
+    expect(notes.length).toBeGreaterThan(2700)
+    expect(metaJson.bpm).toBe(144)
+    expect(metaJson.timeSignature).toBe('4/4')
+    expect(metaJson.credit).toBe('NekoOkto')
+    expect(metaJson.creditUrl).toContain('youtube.com/watch?v=gFF_SBmsP34')
+    expect(notes.some((note) => note.hand === 'left')).toBe(true)
+    expect(notes.some((note) => note.hand === 'right')).toBe(true)
+  })
+})
