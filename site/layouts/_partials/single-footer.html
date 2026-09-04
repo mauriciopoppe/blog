@@ -44,41 +44,21 @@ body > section {
   -webkit-mask-image: none;
   mask-image: none;
 }
-.sunset-footer-controls {
-  position: absolute;
-  left: 1rem;
-  bottom: 1rem;
-  z-index: 3;
-}
 .sunset-footer--sandbox .lil-gui {
   position: absolute;
   top: 1rem;
   right: 1rem;
   z-index: 3;
 }
-.sunset-footer-controls button {
-  border: 1px solid var(--ring-border);
-  border-radius: 9999px;
-  padding: 0.35rem 0.7rem;
-  background: color-mix(in srgb, var(--grey-dark) 88%, transparent);
-  color: var(--grey-light);
-  box-shadow: var(--elevation-subtle);
-  cursor: pointer;
-  font-family: var(--family-serif, "EB Garamond", system-ui, serif);
-  font-size: 0.72rem;
-  font-weight: 600;
-  line-height: 1;
-  transition: color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+.sunset-footer-credit {
+  font-size: 0.62rem;
+  line-height: 1.35;
+  opacity: 0.62;
+  text-align: right;
 }
-.sunset-footer-controls button:hover {
-  border-color: rgb(var(--primary));
-  color: rgb(var(--primary));
-  box-shadow: var(--elevation-raised);
-}
-@media (pointer: coarse) {
-  .sunset-footer-controls {
-    display: none;
-  }
+.sunset-footer-experience {
+  display: block;
+  margin-top: 0.15rem;
 }
 [data-article-tags] {
   position: relative;
@@ -89,16 +69,19 @@ body > section {
 <footer class="sunset-footer{{ if eq .RelPermalink "/sandbox/sunset/" }} sunset-footer--sandbox{{ end }}">
   <div class="sunset-footer-scene tw-w-full">
     <div id="browser-sunset" class="tw-w-full tw-h-full"></div>
-    <div class="sunset-footer-controls">
-      <button type="button" data-sunset-action="barrel-roll">↻ Barrel roll</button>
-      <button type="button" data-sunset-action="loop">↕ Loop</button>
-      <button type="button" data-sunset-action="wingover">↗ Wingover</button>
-      <button type="button" data-sunset-action="zoom-out">− Zoom out</button>
-    </div>
-    <span class="tw-text-primary tw-absolute tw-bottom-5 tw-right-5">
-      Plane by
-      <a target="_blank" href="https://sketchfab.com/antonmoek">antonmoek</a> -
-      <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+    <span class="sunset-footer-credit tw-absolute tw-bottom-5 tw-right-5 tw-text-primary">
+      <span>
+        Plane by
+        <a target="_blank" href="https://sketchfab.com/antonmoek">antonmoek</a> -
+        <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+      </span>
+      {{ if ne .RelPermalink "/sandbox/sunset/" }}
+        <a
+          class="sunset-footer-experience"
+          href="/sandbox/sunset/"
+          onclick="window.gtag?.('event', 'sunset_fullscreen_experience_click', { destination: '/sandbox/sunset/' })"
+        >Fullscreen experience</a>
+      {{ end }}
     </span>
   </div>
 </footer>
