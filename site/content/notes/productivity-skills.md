@@ -5,7 +5,7 @@ summary: |
 tags: ['life', 'software engineer', 'task management', 'time management', 'productivity', 'ai', 'agents', 'notebooklm']
 image: /images/productivity-skills.jpeg
 date: 2022-05-11 21:16:00
-lastmod: 2026-05-23 18:11:00
+lastmod: 2026-09-04 00:00:00
 favorite: true
 ---
 
@@ -63,9 +63,9 @@ Another way is talking to customers at work. We get lots of feedback and emails 
 
 ## Exploring New Areas and Keeping Up to Date
 
-When I need to learn a completely new topic or technology, it usually takes hours of searching on Google, reading random articles, and trying to put the pieces together. It's slow specially when there's a lot of noise.
+When I need to learn a completely new topic or technology, I use a harness to guide me through it. I can ask the harness to explain the topic, answer questions as they come up, and adjust the material to my level of understanding. If a concept is difficult to grasp from text alone, I can ask it to create an interactive app that lets me explore the idea directly.
 
-To make this faster, I use Gemini with Deep Research. When I want to explore a new area, I just give it a prompt of what I want to figure out. The model runs in a loop, searches the web, reads docs and articles, and synthesizes everything for me. In the end, it gives me a solid report with links to the sources. This gives me context right away so I can jump straight into understanding the problem and building.
+For a more structured overview, I use Gemini with Deep Research. I give it a prompt describing what I want to figure out, and it searches the web, reads documentation and articles, and synthesizes the results into a report with links to the sources. This gives me context quickly so I can move on to understanding the problem and building.
 
 But keeping up to date with daily technical news is a different problem. I like to read aggregated content from sources like HackerNews. It is unfortunate that some interesting tech posts only live on Twitter (X), but I don't like doomscrolling. 
 
@@ -73,18 +73,16 @@ To solve this without spending hours scrolling, I built a custom RSS aggregator 
 
 ## Development Tools
 
-At work, I make changes to many codebases during the day. First, a quick look into what it looks like:
+At work, I make changes to many codebases during the day. My only interfaces for building software now are [Antigravity](https://antigravity.google) and [Codex](https://openai.com/codex/). I pay for the $20 plan on each and switch between them depending on the task and the credits I have available. Both products let me work through a chat-oriented interface, inspect the changes they make, and guide the implementation without typing every line of code myself.
 
-<script id="asciicast-h9bEclMKVl9SONRqMe3yoyryF" src="https://asciinema.org/a/h9bEclMKVl9SONRqMe3yoyryF.js" async></script>
+I no longer use Neovim as my coding editor. I still use it to navigate filesystems and read code when a task is large enough to need a review beyond the diffs shown in the agent interfaces. For smaller changes, the diffs and surrounding context in Antigravity or Codex are usually enough. When I need a shell, I use it for the usual supporting work such as running tests, starting local servers, and checking logs.
 
-Lately, how I build software has changed a lot. I do most of my development using Antigravity 2.0 (which is called jetski hub at work). My main interaction is looking at the chat and reading the diffs on the right-side canvas where the artifacts are displayed. It's super cool because I stay on the loop, guiding the agent to make changes instead of typing every single line of code myself.
-
-But sometimes I still need to go into the code myself, run tests, or debug. This is where I go back to my command line workflow using tmux and agy (which is called jetski-cli at work). 
-
-To quickly switch across repositories, I still use tmuxinator and fzf to manage my sessions. I map each active codebase to a tmux session name. In most of these sessions, I keep a three-pane layout: on the left side my main editor (neovim), and on the right side two terminal panes stacked vertically. The first terminal pane runs agy, so I can converse with the repository directly and let it make changes, while using the other terminal pane to run builds or inspect logs. 
+To quickly switch across repositories, I still use tmuxinator and fzf to manage my sessions. I map each active codebase to a tmux session name. I usually keep a three-pane layout with Neovim on the left for navigating and reading the repository, and two terminal panes stacked vertically on the right for running builds, tests, local servers, or inspecting logs.
 
 I keep track of these codebases by bookmarking them in a simple text file called `~/.bookmarks.data`. Then, whenever I want to switch to a project, a keyboard shortcut triggers a [Python project launcher script](https://github.com/mauriciopoppe/dotfiles/blob/main/zsh/bin/tmux-switch-client.py) that feeds these bookmarks to fzf, letting me switch or open a session in seconds.
 
-While I still use the tmux setup every day to run local servers, check logs, or jump into the code directly, I don't write as much raw code inside those terminal panes anymore. I mostly use tmux as a stable background environment to host agy and run local builds, while the high-level creation and visual iteration happen on the Antigravity 2.0 canvas. This combination of the web UI and the terminal CLI works out great.
+I still use the tmux setup every day as a stable background environment for local development. The difference is that the agent interfaces handle most of the implementation, while tmux and Neovim give me a consistent way to move around projects, run commands, inspect results, and review larger changes.
+
+I use Codex with OpenCodex and my DeepSeek API key as another way to build things. This combination is extremely cheap, and it worked wonderfully for many projects. At some point, though, the quality and convenience of fully integrated products like Codex and Antigravity win over using DeepSeek directly. I choose between the two approaches based on the task, the available credits, and whether the lower cost is worth giving up some of the product experience.
 
 [^1]: A mental context switch is an analogy of what an OS does under the hood to [share a single CPU among processes](https://en.wikipedia.org/wiki/Context_switch), but applied to our day-to-day mental tasks. After all, we only have one brain that's already multitasking with unconscious processes like perception or breathing.
