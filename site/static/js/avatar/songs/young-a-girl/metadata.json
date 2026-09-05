@@ -1,0 +1,203 @@
+{
+  "id": "young-a-girl",
+  "name": "Young a girl",
+  "artist": "siinamota",
+  "singer": "Hatsune Miku",
+  "songUrl": "https://www.youtube.com/watch?v=AqI97zHMoQw",
+  "bpm": 130,
+  "timeSignature": "4/4",
+  "beatsPerBar": 4,
+  "key": "C",
+  "handSplit": "C4 (MIDI 60)",
+  "totalPhrases": 17,
+  "notesFile": "notes.csv",
+  "phrases": [
+    {
+      "title": "Phrase 1",
+      "phraseIndex": 1,
+      "startBar": 1,
+      "startBeat": 1,
+      "endBar": 9,
+      "endBeat": 1,
+      "duration": 14.769216,
+      "startRow": 0,
+      "rowCount": 155
+    },
+    {
+      "title": "Phrase 2",
+      "phraseIndex": 2,
+      "startBar": 9,
+      "startBeat": 1,
+      "endBar": 17,
+      "endBeat": 1,
+      "duration": 14.769216,
+      "startRow": 155,
+      "rowCount": 156
+    },
+    {
+      "title": "Phrase 3",
+      "phraseIndex": 3,
+      "startBar": 17,
+      "startBeat": 1,
+      "endBar": 25,
+      "endBeat": 1,
+      "duration": 14.769216,
+      "startRow": 311,
+      "rowCount": 151
+    },
+    {
+      "title": "Phrase 4",
+      "phraseIndex": 4,
+      "startBar": 25,
+      "startBeat": 1,
+      "endBar": 33,
+      "endBeat": 1,
+      "duration": 14.769216,
+      "startRow": 462,
+      "rowCount": 165
+    },
+    {
+      "title": "Phrase 5",
+      "phraseIndex": 5,
+      "startBar": 33,
+      "startBeat": 1,
+      "endBar": 41,
+      "endBeat": 1,
+      "duration": 14.769216,
+      "startRow": 627,
+      "rowCount": 153
+    },
+    {
+      "title": "Phrase 6",
+      "phraseIndex": 6,
+      "startBar": 41,
+      "startBeat": 1,
+      "endBar": 49,
+      "endBeat": 1,
+      "duration": 14.769216,
+      "startRow": 780,
+      "rowCount": 173
+    },
+    {
+      "title": "Phrase 7",
+      "phraseIndex": 7,
+      "startBar": 49,
+      "startBeat": 1,
+      "endBar": 57,
+      "endBeat": 1,
+      "duration": 14.769216,
+      "startRow": 953,
+      "rowCount": 156
+    },
+    {
+      "title": "Phrase 8",
+      "phraseIndex": 8,
+      "startBar": 57,
+      "startBeat": 1,
+      "endBar": 65,
+      "endBeat": 1,
+      "duration": 14.769216,
+      "startRow": 1109,
+      "rowCount": 153
+    },
+    {
+      "title": "Phrase 9",
+      "phraseIndex": 9,
+      "startBar": 65,
+      "startBeat": 1,
+      "endBar": 73,
+      "endBeat": 1,
+      "duration": 14.769216,
+      "startRow": 1262,
+      "rowCount": 167
+    },
+    {
+      "title": "Phrase 10",
+      "phraseIndex": 10,
+      "startBar": 73,
+      "startBeat": 1,
+      "endBar": 81,
+      "endBeat": 1,
+      "duration": 14.769216,
+      "startRow": 1429,
+      "rowCount": 130
+    },
+    {
+      "title": "Phrase 11",
+      "phraseIndex": 11,
+      "startBar": 81,
+      "startBeat": 1,
+      "endBar": 89,
+      "endBeat": 1,
+      "duration": 14.769216,
+      "startRow": 1559,
+      "rowCount": 147
+    },
+    {
+      "title": "Phrase 12",
+      "phraseIndex": 12,
+      "startBar": 89,
+      "startBeat": 1,
+      "endBar": 97,
+      "endBeat": 1,
+      "duration": 14.769216,
+      "startRow": 1706,
+      "rowCount": 127
+    },
+    {
+      "title": "Phrase 13",
+      "phraseIndex": 13,
+      "startBar": 97,
+      "startBeat": 1,
+      "endBar": 105,
+      "endBeat": 1,
+      "duration": 14.769216,
+      "startRow": 1833,
+      "rowCount": 165
+    },
+    {
+      "title": "Phrase 14",
+      "phraseIndex": 14,
+      "startBar": 105,
+      "startBeat": 1,
+      "endBar": 113,
+      "endBeat": 1,
+      "duration": 14.769216,
+      "startRow": 1998,
+      "rowCount": 146
+    },
+    {
+      "title": "Phrase 15",
+      "phraseIndex": 15,
+      "startBar": 113,
+      "startBeat": 1,
+      "endBar": 121,
+      "endBeat": 1,
+      "duration": 14.769216,
+      "startRow": 2144,
+      "rowCount": 175
+    },
+    {
+      "title": "Phrase 16",
+      "phraseIndex": 16,
+      "startBar": 121,
+      "startBeat": 1,
+      "endBar": 129,
+      "endBeat": 1,
+      "duration": 14.769216,
+      "startRow": 2319,
+      "rowCount": 161
+    },
+    {
+      "title": "Phrase 17",
+      "phraseIndex": 17,
+      "startBar": 129,
+      "startBeat": 1,
+      "endBar": 131,
+      "endBeat": 1,
+      "duration": 3.692304,
+      "startRow": 2480,
+      "rowCount": 24
+    }
+  ]
+}

@@ -62,6 +62,48 @@ export const SONGS_MANIFEST = [
     key: 'C',
     accents: [1, 3],
     dir: '/js/avatar/songs/rainy-boots/'
+  },
+  {
+    id: 'time-left',
+    name: 'Time Left',
+    artist: 'Zutomayo',
+    icon: '⏳',
+    bpm: 120,
+    timeSignature: '4/4',
+    beatsPerBar: 4,
+    key: 'C',
+    accents: [1, 3],
+    dir: '/js/avatar/songs/time-left/'
+  },
+  {
+    id: 'float-play',
+    name: 'Float Play フロートプレイ',
+    artist: 'inabakumori',
+    artistUrl: 'https://www.youtube.com/channel/UCNElM45JypxqAR73RoUQ10g',
+    songUrl: 'https://www.youtube.com/watch?v=NRQRC_0ZQ00',
+    credit: 'oldfrenchguy',
+    creditUrl: 'https://www.youtube.com/watch?v=QEkArRFt4ws',
+    icon: '🫧',
+    bpm: 167,
+    timeSignature: '4/4',
+    beatsPerBar: 4,
+    key: 'C',
+    accents: [1, 3],
+    dir: '/js/avatar/songs/float-play/'
+  },
+  {
+    id: 'young-a-girl',
+    name: 'Young a girl',
+    artist: 'siinamota',
+    singer: 'Hatsune Miku',
+    songUrl: 'https://www.youtube.com/watch?v=AqI97zHMoQw',
+    icon: '🎤',
+    bpm: 130,
+    timeSignature: '4/4',
+    beatsPerBar: 4,
+    key: 'C',
+    accents: [1, 3],
+    dir: '/js/avatar/songs/young-a-girl/'
   }
 ]
 

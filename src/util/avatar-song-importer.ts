@@ -11,6 +11,7 @@ const songName = process.argv[4] || 'Aishite Aishite Aishite'
 const artist = process.argv[5] || 'Ado / Kikuo'
 const credit = process.argv[6] || 'Yosi Spring'
 const creditUrl = process.argv[7] || 'https://yosispring.github.io/Music/aishite_aishite_aishite.html'
+const bpmOverride = process.argv[8] ? Number(process.argv[8]) : null
 const outputDir = path.resolve(`site/static/js/avatar/songs/${songId}`)
 const phraseBars = 8
 
@@ -104,7 +105,7 @@ function noteName(midi: number) {
 
 function main() {
   const midi = parseMidi(path.resolve(inputPath))
-  const secondsPerQuarter = midi.tempo / 1000000
+  const secondsPerQuarter = bpmOverride ? 60 / bpmOverride : midi.tempo / 1000000
   const ticksPerBar = midi.ppq * midi.numerator * (4 / midi.denominator)
   const totalBars = Math.ceil(midi.maxTick / ticksPerBar)
   const phraseCount = Math.ceil(totalBars / phraseBars)
@@ -151,7 +152,7 @@ function main() {
     artist,
     credit,
     creditUrl,
-    bpm: Number((60000000 / midi.tempo).toFixed(3)),
+    bpm: Number((bpmOverride || 60000000 / midi.tempo).toFixed(3)),
     timeSignature: `${midi.numerator}/${midi.denominator}`,
     beatsPerBar: midi.numerator,
     key: 'C',

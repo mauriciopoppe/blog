@@ -152,3 +152,42 @@ describe('MIDI CSV Song Loader: Rainy Boots', () => {
     expect(notes.some((note) => note.hand === 'right')).toBe(true)
   })
 })
+
+describe('MIDI CSV Song Loader: Float Play', () => {
+  const songDir = join(import.meta.dir, 'songs/float-play')
+  const metaJson = JSON.parse(readFileSync(join(songDir, 'metadata.json'), 'utf8'))
+  const csvText = readFileSync(join(songDir, 'notes.csv'), 'utf8')
+
+  it('imports the MIDI tempo, meter, and credits', () => {
+    const notes = parseNotesCsv(csvText)
+    expect(notes.length).toBeGreaterThan(2000)
+    expect(metaJson.bpm).toBe(167)
+    expect(metaJson.timeSignature).toBe('4/4')
+    expect(metaJson.artist).toBe('inabakumori')
+    expect(metaJson.songUrl).toContain('youtube.com/watch?v=NRQRC_0ZQ00')
+    expect(metaJson.totalPhrases).toBe(20)
+    expect(notes[0].time).toBeCloseTo(0.031029, 6)
+    expect(metaJson.credit).toBe('oldfrenchguy')
+    expect(metaJson.creditUrl).toContain('youtube.com/watch?v=QEkArRFt4ws')
+    expect(notes.some((note) => note.hand === 'left')).toBe(true)
+    expect(notes.some((note) => note.hand === 'right')).toBe(true)
+  })
+})
+
+describe('MIDI CSV Song Loader: Young a girl', () => {
+  const songDir = join(import.meta.dir, 'songs/young-a-girl')
+  const metaJson = JSON.parse(readFileSync(join(songDir, 'metadata.json'), 'utf8'))
+  const csvText = readFileSync(join(songDir, 'notes.csv'), 'utf8')
+
+  it('imports the MIDI tempo, meter, author, and singer', () => {
+    const notes = parseNotesCsv(csvText)
+    expect(notes.length).toBeGreaterThan(2400)
+    expect(metaJson.bpm).toBe(130)
+    expect(metaJson.timeSignature).toBe('4/4')
+    expect(metaJson.artist).toBe('siinamota')
+    expect(metaJson.singer).toBe('Hatsune Miku')
+    expect(metaJson.songUrl).toContain('youtube.com/watch?v=AqI97zHMoQw')
+    expect(notes.some((note) => note.hand === 'left')).toBe(true)
+    expect(notes.some((note) => note.hand === 'right')).toBe(true)
+  })
+})

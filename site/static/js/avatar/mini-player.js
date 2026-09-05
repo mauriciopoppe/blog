@@ -235,10 +235,12 @@ export function MiniPlayer({ avatarEl }) {
           >
             <span class="mini-player-icon tw-text-base tw-leading-none tw-shrink-0">${song.icon}</span>
             <div class="mini-player-meta tw-flex tw-flex-col tw-min-w-0 tw-leading-tight">
-              <span class="mini-player-song-name tw-text-[var(--grey-lighter)] tw-font-bold tw-truncate">${song.name}</span>
+              <span class="mini-player-song-name tw-text-[var(--grey-lighter)] tw-font-bold tw-truncate">
+                ${song.songUrl ? html`<a class="hover:tw-underline" href=${song.songUrl} target="_blank" rel="noreferrer" onClick=${(event) => event.stopPropagation()}>${song.name}</a>` : song.name}
+              </span>
               <div class="tw-flex tw-items-center tw-gap-1 tw-text-[0.68rem] tw-mt-0.5">
                 <span class="mini-player-artist tw-text-primary tw-font-medium tw-truncate">
-                  ${song.artistUrl ? html`<a class="hover:tw-underline" href=${song.artistUrl} target="_blank" rel="noreferrer" onClick=${(event) => event.stopPropagation()}>${song.artist}</a>` : song.artist}${playerStore.songs.length > 1 ? ' ▾' : ''}
+                  ${song.artistUrl ? html`<a class="hover:tw-underline" href=${song.artistUrl} target="_blank" rel="noreferrer" onClick=${(event) => event.stopPropagation()}>${song.artist}</a>` : song.artist}${song.singer ? ` / ${song.singer}` : ''}${playerStore.songs.length > 1 ? ' ▾' : ''}
                 </span>
                 ${song.credit ? html`<span class="tw-text-[0.62rem] tw-text-[var(--grey-light)] tw-truncate">MIDI by <a class="tw-text-primary hover:tw-underline" href=${song.creditUrl} target="_blank" rel="noreferrer">${song.credit}</a></span>` : null}
                 <span class="tw-text-white/30">•</span>
