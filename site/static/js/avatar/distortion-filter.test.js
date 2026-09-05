@@ -1,11 +1,16 @@
 import { describe, it, expect } from 'bun:test'
+import { readFileSync } from 'fs'
 import {
   calculateImpulseDecay,
   calculateBaseFrequency,
   calculateTierScale,
+  distanceBetweenRects,
+  isTextualRegion,
   canApplyDistortion,
   ARTICLE_TEXT_EXCLUSION_SELECTOR,
-  ARTICLE_FRAGMENT_SELECTOR
+  ARTICLE_FRAGMENT_SELECTOR,
+  ARTICLE_TEXT_TARGET_SELECTOR,
+  DISTORTION_TARGET_SELECTOR
 } from './distortion-filter.js'
 
 describe('Article distortion boundaries', () => {
@@ -19,9 +24,40 @@ describe('Article distortion boundaries', () => {
     expect(canApplyDistortion({ nodeName: 'BODY' })).toBe(false)
     expect(canApplyDistortion({ nodeName: 'DIV' })).toBe(true)
   })
+
+  it('keeps text-bearing containers out of whole-region distortion', () => {
+    expect(isTextualRegion({ textContent: 'A nearby description row' })).toBe(true)
+    expect(isTextualRegion({ textContent: '   ' })).toBe(false)
+    expect(isTextualRegion({ textContent: '' })).toBe(false)
+  })
+
+  it('uses explicit distortion target attributes instead of layout classes', () => {
+    expect(DISTORTION_TARGET_SELECTOR).toBe('[data-avatar-distortion-target]')
+  })
+
+  it('includes the article header so summaries and dates can become fragments', () => {
+    expect(ARTICLE_TEXT_TARGET_SELECTOR).toContain('article[role="main"]')
+    expect(ARTICLE_TEXT_TARGET_SELECTOR).toContain('[data-avatar-distortion-target="note-header"]')
+  })
+
+  it('does not traverse mini-player text as distortion content', () => {
+    expect(ARTICLE_TEXT_EXCLUSION_SELECTOR).toContain('.avatar-mini-player')
+  })
+
+  it('marks the homepage profile heading as one distortion fragment', () => {
+    const profile = readFileSync(new URL('../../../../site/layouts/_partials/profile.html', import.meta.url), 'utf8')
+    expect(profile).toContain('data-avatar-distortion-fragment')
+  })
 })
 
 describe('Acoustic Shockwave Distortion Math', () => {
+  it('ranks nearby rectangles by their closest edges instead of their centers', () => {
+    const avatar = { left: 502, top: 239, right: 598, bottom: 335, width: 96, height: 96 }
+    const heading = { left: 266, top: 215, right: 478, bottom: 335, width: 212, height: 120 }
+
+    expect(distanceBetweenRects(heading, avatar)).toBe(24)
+  })
+
   it('starts at initial scale and decays monotonically towards zero', () => {
     const initialScale = 20
     const duration = 180

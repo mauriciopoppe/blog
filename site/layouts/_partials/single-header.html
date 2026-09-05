@@ -2,7 +2,7 @@
 <header class="tw-container tw-mx-auto tw-p-3">
   {{ partial "header-navigation.html" . }}
 
-  <div class="tw-group/note-preview">
+  <div class="tw-group/note-preview" data-avatar-distortion-target="note-header">
     {{ if .Params.image }}
     <figure class="md:tw-w-3/5 tw-mx-auto tw-text-center">
       {{ $image := .Params.image | absURL }}

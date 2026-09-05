@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test'
 import { buildSongTimeline, findPhraseAtOffset, getPhrasePosition } from './playback-timeline.js'
-import { resetMasterGainForLoop } from './audio-engine.js'
+import { getPhraseMasterLevel, resetMasterGainForLoop } from './audio-engine.js'
 
 describe('Playback timeline', () => {
   const metadata = {
@@ -55,5 +55,10 @@ describe('Playback timeline', () => {
       ['cancel', 42],
       ['set', 0.35, 42]
     ])
+  })
+
+  it('scales the master level for a phrase without changing the default', () => {
+    expect(getPhraseMasterLevel({ gain: 0.35 })).toBeCloseTo(0.1225)
+    expect(getPhraseMasterLevel({})).toBe(0.35)
   })
 })

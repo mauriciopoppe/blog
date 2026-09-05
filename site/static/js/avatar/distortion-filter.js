@@ -17,12 +17,18 @@ export const TIERS = [
   { tier: 3, id: `${FILTER_ID}-3`, factor: 0.35 }  // Outer region: 35% force
 ]
 
-export const ARTICLE_TEXT_EXCLUSION_SELECTOR = 'script, style, pre, code, textarea, svg, [data-avatar-distortion-fragment]'
+export const ARTICLE_TEXT_EXCLUSION_SELECTOR = 'script, style, pre, code, textarea, svg, .avatar-mini-player, [data-avatar-distortion-fragment]'
 export const ARTICLE_FRAGMENT_SELECTOR = '[data-avatar-distortion-fragment], img, video, canvas, pre, table'
+export const ARTICLE_TEXT_TARGET_SELECTOR = 'article[role="main"], [data-avatar-distortion-target="note-header"]'
+export const DISTORTION_TARGET_SELECTOR = '[data-avatar-distortion-target]'
 export const MAX_ACTIVE_ARTICLE_FRAGMENTS = 24
 
 export function canApplyDistortion(el) {
   return Boolean(el) && el.nodeName !== 'HTML' && el.nodeName !== 'BODY'
+}
+
+export function isTextualRegion(el) {
+  return Boolean(el?.textContent?.trim())
 }
 
 export function calculateImpulseDecay(elapsedMs, durationMs, initialScale) {
@@ -54,6 +60,12 @@ export function calculateTierScale(tier, baseScale) {
     default:
       return 0
   }
+}
+
+export function distanceBetweenRects(first, second) {
+  const horizontalGap = Math.max(first.left - second.right, second.left - first.right, 0)
+  const verticalGap = Math.max(first.top - second.bottom, second.top - first.bottom, 0)
+  return Math.hypot(horizontalGap, verticalGap)
 }
 
 let activeAnimId = null
@@ -104,35 +116,62 @@ function tierForDistance(distance, avatarRect) {
   return 0
 }
 
-function attachArticleFragments(avatarEl) {
-  const article = document.querySelector('article[role="main"]')
-  if (!article || !avatarEl) return
-  if (activeFragmentAvatar === avatarEl && activeFragments.length) return
+function attachTextFragments(roots, avatarEl) {
+  const targetRoots = (Array.isArray(roots) ? roots : [roots]).filter(Boolean)
+  if (!targetRoots.length || !avatarEl) return
 
-  wrapArticleText(article)
+  targetRoots.forEach((root) => wrapArticleText(root))
   const avatarRect = avatarEl.getBoundingClientRect()
-  const avatarX = avatarRect.left + avatarRect.width / 2
-  const avatarY = avatarRect.top + avatarRect.height / 2
-  const fragments = Array.from(article.querySelectorAll(ARTICLE_FRAGMENT_SELECTOR))
+  const layoutKey = [
+    Math.round(avatarRect.left),
+    Math.round(avatarRect.top),
+    Math.round(avatarRect.width),
+    Math.round(avatarRect.height),
+    Math.round(window.scrollX),
+    Math.round(window.scrollY)
+  ].join(':')
+  if (activeFragmentAvatar === avatarEl && activeFragments.length && lastFragmentLayoutKey === layoutKey) return
+  activeFragments.forEach((el) => {
+    el.style.filter = ''
+  })
+  activeFragments = []
   const candidates = []
 
-  fragments.forEach((el) => {
-    const rect = el.getBoundingClientRect()
-    if (!rect.width || !rect.height) return
-    const centerX = rect.left + rect.width / 2
-    const centerY = rect.top + rect.height / 2
-    const tier = tierForDistance(Math.hypot(centerX - avatarX, centerY - avatarY), avatarRect)
-    if (!tier) return
-    candidates.push({ el, tier, distance: Math.hypot(centerX - avatarX, centerY - avatarY) })
+  targetRoots.forEach((root, rootIndex) => {
+    root.querySelectorAll(ARTICLE_FRAGMENT_SELECTOR).forEach((el) => {
+      if (el === avatarEl || avatarEl.contains(el) || el.contains(avatarEl)) return
+      const rect = el.getBoundingClientRect()
+      if (!rect.width || !rect.height) return
+      const distance = distanceBetweenRects(rect, avatarRect)
+      const tier = tierForDistance(distance, avatarRect)
+      if (tier) candidates.push({ el, tier, distance, rootIndex })
+    })
   })
-  candidates
+
+  const perTargetLimit = Math.max(1, Math.floor(MAX_ACTIVE_ARTICLE_FRAGMENTS / targetRoots.length))
+  const selected = targetRoots.flatMap((_, rootIndex) => candidates
+    .filter((candidate) => candidate.rootIndex === rootIndex)
     .sort((a, b) => a.distance - b.distance)
-    .slice(0, MAX_ACTIVE_ARTICLE_FRAGMENTS)
+    .slice(0, perTargetLimit))
+  selected
     .forEach(({ el, tier }) => {
       el.style.filter = `url(#${FILTER_ID}-${tier})`
       activeFragments.push(el)
     })
   activeFragmentAvatar = avatarEl
+  lastFragmentLayoutKey = layoutKey
+}
+
+function attachArticleFragments(avatarEl) {
+  const targets = [...document.querySelectorAll(ARTICLE_TEXT_TARGET_SELECTOR)]
+  attachTextFragments(targets, avatarEl)
+}
+
+function attachHomepageFragments(avatarEl) {
+  const targets = [
+    ...document.querySelectorAll(`${DISTORTION_TARGET_SELECTOR}[data-avatar-distortion-target="profile"], ${DISTORTION_TARGET_SELECTOR}[data-avatar-distortion-target="homepage-right"]`)
+  ]
+  attachTextFragments(targets, avatarEl)
 }
 
 function isSmallDockedRegion(el) {
@@ -156,15 +195,10 @@ function updateArticleFragmentTiers(now = performance.now()) {
   ].join(':')
   if (layoutKey === lastFragmentLayoutKey) return
   lastFragmentLayoutKey = layoutKey
-  const avatarX = avatarRect.left + avatarRect.width / 2
-  const avatarY = avatarRect.top + avatarRect.height / 2
-
   activeFragments.forEach((el) => {
     const rect = el.getBoundingClientRect()
     if (!rect.width || !rect.height) return
-    const centerX = rect.left + rect.width / 2
-    const centerY = rect.top + rect.height / 2
-    const tier = tierForDistance(Math.hypot(centerX - avatarX, centerY - avatarY), avatarRect)
+    const tier = tierForDistance(distanceBetweenRects(rect, avatarRect), avatarRect)
     el.style.filter = tier ? `url(#${FILTER_ID}-${tier})` : ''
   })
 }
@@ -232,64 +266,42 @@ export function getAcousticRegions(avatarEl) {
   if (typeof document === 'undefined' || !avatarEl) return []
   const regions = []
 
-  // 1. Profile / Left column on homepage -> Tier 1 (Immediate, 100% force).
-  // Avoid filtering the whole column in docked mode. Large regions make every
-  // text node in the column participate in the SVG filter on each impulse.
-  const leftCol = avatarEl.closest('[class*="tw-basis-1/3"]') || avatarEl.closest('.tw-flex-col')
+  // Explicit text targets are handled separately as distance-ranked fragments.
+  // Body-child regions provide the same nearby-surface behavior in both modes.
+  const leftCol = avatarEl.closest('[data-avatar-distortion-target="profile"]')
   if (leftCol && isSmallDockedRegion(leftCol)) {
     regions.push({ el: leftCol, tier: 1 })
   }
 
-  // 2. Favorites & Software / Right column on homepage -> Tier 2 (Adjacent, 62% force)
-  const container = avatarEl.closest('.tw-container')
-  if (container) {
-    const rightCol = container.querySelector('[class*="tw-basis-2/3"]')
-    if (rightCol && isSmallDockedRegion(rightCol)) {
-      regions.push({ el: rightCol, tier: 2 })
-    }
-  }
-
-  // 3. Article page header -> Tier 1
-  const noteHeader = avatarEl.closest('[class*="tw-group/note-preview"]') || avatarEl.closest('header')
+  // Article page header -> Tier 1
+  const noteHeader = avatarEl.closest('[data-avatar-distortion-target="note-header"]') || avatarEl.closest('header')
   if (noteHeader && isSmallDockedRegion(noteHeader) && !regions.some((r) => r.el === noteHeader)) {
     regions.push({ el: noteHeader, tier: 1 })
   }
 
-  // Fallbacks if no main container matched
-  if (regions.length === 0) {
-    const parent = avatarEl.parentElement
-    if (parent) {
-      if (canApplyDistortion(parent.parentElement)) regions.push({ el: parent.parentElement, tier: 1 })
-      if (canApplyDistortion(parent.nextElementSibling)) regions.push({ el: parent.nextElementSibling, tier: 2 })
-    }
-  }
-
-  // When dragged out of the document flow, the avatar lives under <html>.
-  // Filter body children individually so the page can still react without
-  // ever applying a distortion filter to <html> or <body>.
-  if (regions.length === 0 && !document.body.contains(avatarEl)) {
+  // Filter body children individually so both docked and detached avatars
+  // react to nearby surfaces without ever filtering html or body.
+  {
     const avatarRect = avatarEl.getBoundingClientRect()
-    const avatarX = avatarRect.left + avatarRect.width / 2
-    const avatarY = avatarRect.top + avatarRect.height / 2
     const maxRegionArea = Math.max(18000, window.innerWidth * window.innerHeight * 0.1)
     const candidates = []
     const addDetachedRegion = (el, depth = 0) => {
-      if (!canApplyDistortion(el) || el.contains(avatarEl) || el.id === 'avatar-distortion-svg') return
+      if (!canApplyDistortion(el) || el.id === 'avatar-distortion-svg') return
       if (el.matches('script, style, svg')) return
+      if (el.contains(avatarEl)) return
       const rect = el.getBoundingClientRect()
       if (!rect.width || !rect.height) return
-      const centerX = rect.left + rect.width / 2
-      const centerY = rect.top + rect.height / 2
-      const tier = tierForDistance(Math.hypot(centerX - avatarX, centerY - avatarY), avatarRect)
+      const tier = tierForDistance(distanceBetweenRects(rect, avatarRect), avatarRect)
       if (!tier) return
-      if (rect.width * rect.height > maxRegionArea && depth < 4 && el.children.length) {
+      if ((rect.width * rect.height > maxRegionArea || isTextualRegion(el)) && depth < 4 && el.children.length) {
         Array.from(el.children).forEach((child) => addDetachedRegion(child, depth + 1))
         return
       }
+      if (isTextualRegion(el)) return
       candidates.push({
         el,
         tier,
-        distance: Math.hypot(centerX - avatarX, centerY - avatarY)
+        distance: distanceBetweenRects(rect, avatarRect)
       })
     }
     Array.from(document.body.children).forEach((el) => addDetachedRegion(el))
@@ -322,6 +334,7 @@ export function attachDistortionFilters(avatarEl) {
       activeDirectTargets.push(el)
     })
   }
+  attachHomepageFragments(avatarEl)
   attachArticleFragments(avatarEl)
 }
 

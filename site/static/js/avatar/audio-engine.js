@@ -10,7 +10,7 @@
 
 import { DEFAULT_SONG, SONGS_MANIFEST } from './songs-manifest.js'
 import { avatarFrameLoop } from './frame-loop.js'
-import { buildSongTimeline, getPhrasePosition } from './playback-timeline.js'
+import { buildSongTimeline, findPhraseAtOffset, getPhrasePosition } from './playback-timeline.js'
 
 const MAX_ACTIVE_WAVES = 48
 
@@ -144,9 +144,17 @@ export function playMetronomeClick(audioCtx, destination, time, isAccent) {
   return osc
 }
 
-export function resetMasterGainForLoop(masterGain, time) {
+export function getPhraseMasterLevel(phrase, baseLevel = 0.35) {
+  const phraseGain = Number(phrase?.gain)
+  const normalizedGain = Number.isFinite(phraseGain)
+    ? Math.max(0, Math.min(1, phraseGain))
+    : 1
+  return baseLevel * normalizedGain
+}
+
+export function resetMasterGainForLoop(masterGain, time, level = 0.35) {
   masterGain.gain.cancelScheduledValues(time)
-  masterGain.gain.setValueAtTime(0.35, time)
+  masterGain.gain.setValueAtTime(level, time)
 }
 
 // Analytics dispatcher
@@ -650,7 +658,8 @@ class PlayerStore {
     const lookAheadSeconds = 8
 
     const masterGain = ctx.createGain()
-    masterGain.gain.setValueAtTime(0.35, startTime)
+    const masterLevel = getPhraseMasterLevel(phrase)
+    masterGain.gain.setValueAtTime(masterLevel, startTime)
     masterGain.connect(ctx.destination)
     activeNodes.push(masterGain)
 
@@ -677,6 +686,13 @@ class PlayerStore {
           occurrence = relative + cycle * cycleDuration
         }
       }
+
+      timeline.phrases.forEach((currentPhrase) => {
+        const phraseLevel = getPhraseMasterLevel(currentPhrase)
+        scheduleOccurrences(currentPhrase.offset, (phraseTime) => {
+          masterGain.gain.setValueAtTime(phraseLevel, phraseTime)
+        })
+      })
 
       timeline.notes.forEach((note) => {
         scheduleOccurrences(note.audioOffset, (noteTime) => {
@@ -787,7 +803,7 @@ class PlayerStore {
           }
         }
       }
-      masterGain.gain.setValueAtTime(0.35, startTime + Math.max(0, phrase.duration - 0.2))
+      masterGain.gain.setValueAtTime(masterLevel, startTime + Math.max(0, phrase.duration - 0.2))
       masterGain.gain.linearRampToValueAtTime(0.001, startTime + phrase.duration + 0.4)
       finishPlayback = () => {
         if (!this.state.isPlaying) return
@@ -853,7 +869,8 @@ class PlayerStore {
         session.continuous = enabled
 
         if (enabled) {
-          resetMasterGainForLoop(masterGain, ctx.currentTime)
+          const currentOffset = (startOffset + Math.max(0, ctx.currentTime - startTime)) % cycleDuration
+          resetMasterGainForLoop(masterGain, ctx.currentTime, getPhraseMasterLevel(findPhraseAtOffset(timeline, currentOffset)))
           if (session.completionId) {
             clearTimeout(session.completionId)
             this.activeTimeouts.delete(session.completionId)
@@ -978,6 +995,14 @@ class PlayerStore {
     const curIdx = this.songs.findIndex((s) => s.id === this.state.song.id)
     const nextIdx = (curIdx + 1) % this.songs.length
     this.selectSong(this.songs[nextIdx].id)
+  }
+
+  selectRandomSong() {
+    if (this.songs.length < 2) return
+    const currentIndex = this.songs.findIndex((s) => s.id === this.state.song.id)
+    const offset = 1 + Math.floor(Math.random() * (this.songs.length - 1))
+    const targetIndex = (currentIndex + offset) % this.songs.length
+    this.selectSong(this.songs[targetIndex].id)
   }
 }
 

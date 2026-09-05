@@ -10,6 +10,7 @@ export const SONGS_MANIFEST = [
   {
     id: 'aishite-aishite-aishite',
     name: 'Aishite Aishite Aishite',
+    nameJapanese: '愛して愛して愛して',
     artist: 'Ado / Kikuo',
     credit: 'Yosi Spring',
     creditUrl: 'https://yosispring.github.io/Music/aishite_aishite_aishite.html',
@@ -23,7 +24,8 @@ export const SONGS_MANIFEST = [
   },
   {
     id: 'crime-and-punishment',
-    name: 'Crime and Punishment (罪と罰)',
+    name: 'Crime and Punishment',
+    nameJapanese: '罪と罰',
     artist: 'Sheena Ringo',
     icon: '🥀',
     bpm: 119,
@@ -36,6 +38,7 @@ export const SONGS_MANIFEST = [
   {
     id: 'lagtrain',
     name: 'Lagtrain',
+    nameJapanese: 'ラグトレイン',
     artist: 'inabakumori',
     artistUrl: 'https://www.youtube.com/channel/UCNElM45JypxqAR73RoUQ10g',
     credit: 'NekoOkto',
@@ -51,6 +54,7 @@ export const SONGS_MANIFEST = [
   {
     id: 'rainy-boots',
     name: 'Rainy Boots',
+    nameJapanese: 'レイニーブーツ',
     artist: 'inabakumori',
     artistUrl: 'https://www.youtube.com/channel/UCNElM45JypxqAR73RoUQ10g',
     credit: 'NekoOkto',
@@ -77,7 +81,8 @@ export const SONGS_MANIFEST = [
   },
   {
     id: 'float-play',
-    name: 'Float Play フロートプレイ',
+    name: 'Float Play',
+    nameJapanese: 'フロートプレイ',
     artist: 'inabakumori',
     artistUrl: 'https://www.youtube.com/channel/UCNElM45JypxqAR73RoUQ10g',
     songUrl: 'https://www.youtube.com/watch?v=NRQRC_0ZQ00',
@@ -93,7 +98,7 @@ export const SONGS_MANIFEST = [
   },
   {
     id: 'young-a-girl',
-    name: 'Young a girl',
+    name: 'Young Girl A',
     artist: 'siinamota',
     singer: 'Hatsune Miku',
     songUrl: 'https://www.youtube.com/watch?v=AqI97zHMoQw',

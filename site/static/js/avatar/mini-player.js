@@ -34,6 +34,7 @@ export function MiniPlayer({ avatarEl }) {
   const [isMobile, setIsMobile] = useState(usesMobilePlayer)
   const [isAvatarDetached, setIsAvatarDetached] = useState(avatarEl?.dataset.avatarDetached === 'true')
   const hoverTimeoutRef = useRef(null)
+  const songSelectRef = useRef(null)
   const shell = avatarEl?.parentElement
   const stackingContainer = avatarEl?.closest('[data-avatar-stacking-container]') || shell?.parentElement
   const originalShellZIndex = useRef(shell?.style.zIndex || '')
@@ -160,6 +161,20 @@ export function MiniPlayer({ avatarEl }) {
 
   const { song, metadata, phrase, isPlaying, isContinuous, isMetronome, progress, currentBar, currentBeat } = storeState
   const displayedProgress = isPlaying ? progress : 0
+  const songTitle = song.nameJapanese && song.name.includes(song.nameJapanese)
+    ? song.name
+    : [song.name, song.nameJapanese].filter(Boolean).join(' · ')
+  const shouldMarqueeSongTitle = songTitle.length > 30
+  const openSongPicker = (event) => {
+    if (event.target.closest('a, select, button')) return
+    const picker = songSelectRef.current
+    if (!picker) return
+    try {
+      picker.showPicker?.()
+    } catch (error) {
+      picker.focus()
+    }
+  }
 
   // Visibility logic: on mobile follows isMobileOpen; on desktop follows isHovered
   const isVisible = isMobile ? isMobileOpen : isHovered
@@ -223,30 +238,78 @@ export function MiniPlayer({ avatarEl }) {
           color: rgb(var(--primary)) !important;
           box-shadow: 0 0 10px rgba(var(--primary), 0.35) !important;
         }
+        .avatar-mini-player .mini-player-icon-control {
+          border: 0 !important;
+          background: transparent !important;
+          box-shadow: none !important;
+          padding: 0;
+        }
+        .mini-player-song-title-window {
+          display: block;
+          max-width: 100%;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+        .mini-player-song-marquee-track {
+          display: inline-flex;
+          width: max-content;
+          animation: mini-player-song-marquee 12s linear infinite;
+        }
+        @keyframes mini-player-song-marquee {
+          0%, 12% { transform: translateX(0); }
+          45%, 55% { transform: translateX(-40%); }
+          88%, 100% { transform: translateX(0); }
+        }
       </style>
 
       <div class="mini-player-body tw-flex tw-flex-col tw-gap-2">
         <!-- Header: Song Info & Current Section -->
         <div class="mini-player-header tw-flex tw-items-center tw-justify-between tw-gap-2 tw-border-b tw-border-white/10 tw-pb-1.5">
           <div
-            class="tw-flex tw-items-center tw-gap-2 tw-min-w-0 tw-flex-1 ${playerStore.songs.length > 1 ? 'tw-cursor-pointer hover:tw-opacity-90 tw-transition-opacity' : ''}"
-            title=${playerStore.songs.length > 1 ? 'Click to switch song' : ''}
-            onClick=${playerStore.songs.length > 1 ? () => playerStore.cycleSong() : null}
+            class="tw-flex tw-items-center tw-gap-2 tw-min-w-0 tw-flex-1"
           >
-            <span class="mini-player-icon tw-text-base tw-leading-none tw-shrink-0">${song.icon}</span>
-            <div class="mini-player-meta tw-flex tw-flex-col tw-min-w-0 tw-leading-tight">
-              <span class="mini-player-song-name tw-text-[var(--grey-lighter)] tw-font-bold tw-truncate">
-                ${song.songUrl ? html`<a class="hover:tw-underline" href=${song.songUrl} target="_blank" rel="noreferrer" onClick=${(event) => event.stopPropagation()}>${song.name}</a>` : song.name}
-              </span>
-              <div class="tw-flex tw-items-center tw-gap-1 tw-text-[0.68rem] tw-mt-0.5">
-                <span class="mini-player-artist tw-text-primary tw-font-medium tw-truncate">
-                  ${song.artistUrl ? html`<a class="hover:tw-underline" href=${song.artistUrl} target="_blank" rel="noreferrer" onClick=${(event) => event.stopPropagation()}>${song.artist}</a>` : song.artist}${song.singer ? ` / ${song.singer}` : ''}${playerStore.songs.length > 1 ? ' ▾' : ''}
+            <div class="mini-player-meta tw-relative tw-flex tw-flex-col tw-min-w-0 tw-leading-tight tw-cursor-pointer" title="Choose song" onClick=${openSongPicker}>
+              <span class="mini-player-song-name tw-flex tw-items-center tw-gap-1 tw-min-w-0 tw-text-left tw-text-[var(--grey-lighter)] tw-font-bold">
+                <span class="tw-shrink-0 tw-text-base tw-leading-none">${song.icon}</span>
+                <span class="mini-player-song-title-window tw-text-left">
+                <span class=${shouldMarqueeSongTitle ? 'mini-player-song-marquee-track' : 'tw-inline-block'}>
+                  <span>
+                    ${song.songUrl ? html`<a class="hover:tw-underline" href=${song.songUrl} target="_blank" rel="noreferrer" onClick=${(event) => event.stopPropagation()}>${songTitle}</a>` : songTitle}
+                  </span>
                 </span>
-                ${song.credit ? html`<span class="tw-text-[0.62rem] tw-text-[var(--grey-light)] tw-truncate">MIDI by <a class="tw-text-primary hover:tw-underline" href=${song.creditUrl} target="_blank" rel="noreferrer">${song.credit}</a></span>` : null}
+                </span>
+              </span>
+              <div class="tw-flex tw-items-center tw-gap-1 tw-min-w-0 tw-overflow-hidden tw-text-[0.68rem] tw-mt-0.5">
+                <span class="mini-player-artist tw-text-primary tw-font-medium tw-truncate">
+                  ${song.artistUrl ? html`<a class="hover:tw-underline" href=${song.artistUrl} target="_blank" rel="noreferrer" onClick=${(event) => event.stopPropagation()}>${song.artist}</a>` : song.artist}${song.singer ? ` / ${song.singer}` : ''}
+                </span>
+                ${song.credit ? html`<span class="tw-text-[0.62rem] tw-text-[var(--grey-light)] tw-truncate">MIDI by <a class="tw-text-primary hover:tw-underline" href=${song.creditUrl} target="_blank" rel="noreferrer" onClick=${(event) => event.stopPropagation()}>${song.credit}</a></span>` : null}
                 <span class="tw-text-white/30">•</span>
                 <span class="mini-player-verse-title tw-text-[var(--grey-light)] tw-font-semibold tw-truncate">
                   ${phrase ? phrase.title : 'Loading...'}
                 </span>
+                ${playerStore.songs.length > 1 ? html`
+                  <label class="tw-sr-only" for="avatar-song-select">Select song</label>
+                  <select
+                    id="avatar-song-select"
+                    ref=${songSelectRef}
+                    class="mini-player-icon-control tw-w-4 tw-h-4 tw-shrink-0 tw-rounded-none tw-p-0 tw-text-[0px] hover:tw-text-primary focus:tw-outline-none"
+                    aria-label="Select song"
+                    value=${song.id}
+                    onChange=${(event) => playerStore.selectSong(event.currentTarget.value)}
+                  >
+                    ${playerStore.songs.map((option) => html`<option value=${option.id}>${option.name} · ${option.artist}</option>`)}
+                  </select>
+                  <button
+                    type="button"
+                    class="mini-player-icon-control tw-w-4 tw-h-4 tw-shrink-0 tw-rounded-none tw-flex tw-items-center tw-justify-center tw-text-[0.72rem] hover:tw-text-primary"
+                    title="Choose a random song"
+                    aria-label="Choose a random song"
+                    onClick=${() => playerStore.selectRandomSong()}
+                  >
+                    <span class="material-symbols-outlined tw-text-sm" aria-hidden="true">shuffle</span>
+                  </button>
+                ` : null}
               </div>
             </div>
           </div>
@@ -273,9 +336,9 @@ export function MiniPlayer({ avatarEl }) {
         </div>
 
         <!-- Borderless Flat LCD Transport Panel (Passive Surface) -->
-        <div class="mini-player-lcd tw-flex tw-items-stretch tw-justify-between tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2 tw-py-1">
+        <div class="mini-player-lcd tw-w-fit tw-mx-auto tw-flex tw-items-center tw-justify-center tw-gap-1 tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2 tw-py-1">
           <!-- Column 1: BAR . BEAT -->
-          <div class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-pr-2 tw-border-r tw-border-white/10 tw-min-w-[52px]">
+          <div class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-pr-1 tw-border-r tw-border-white/10 tw-min-w-[44px]">
             <div class="tw-font-mono tw-text-sm tw-font-bold tw-tracking-tight tw-leading-none tw-text-[var(--grey-lighter)]">
               ${formatLcdBar(currentBar)}<span class="tw-text-white/30">.</span><span class="tw-text-primary">${currentBeat || 1}</span>
             </div>
@@ -286,7 +349,7 @@ export function MiniPlayer({ avatarEl }) {
           </div>
 
           <!-- Column 2: TEMPO -->
-          <div class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-px-2 tw-border-r tw-border-white/10">
+          <div class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-px-1 tw-border-r tw-border-white/10">
             <div class="tw-font-mono tw-text-sm tw-font-bold tw-leading-none tw-text-[var(--grey-lighter)]">
               ${song.bpm}
             </div>
@@ -296,7 +359,7 @@ export function MiniPlayer({ avatarEl }) {
           </div>
 
           <!-- Column 3: TIME SIGNATURE & KEY -->
-          <div class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-px-2 tw-border-r tw-border-white/10">
+          <div class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-px-1 tw-border-r tw-border-white/10">
             <div class="tw-text-[0.72rem] tw-font-bold tw-leading-none tw-text-[var(--grey-lighter)]">
               ${(metadata && metadata.timeSignature) || song.timeSignature || '6/8'}
             </div>
@@ -305,8 +368,8 @@ export function MiniPlayer({ avatarEl }) {
             </div>
           </div>
 
-          <!-- Column 4: Side Quick Toggles (Metro & Auto - Icon Buttons) -->
-          <div class="tw-flex tw-items-center tw-justify-center tw-gap-1.5 tw-pl-2.5">
+          <!-- Column 4: QUICK TOGGLES -->
+          <div class="tw-flex tw-items-center tw-justify-center tw-gap-1 tw-pl-0.5">
             <button
               type="button"
               class="tw-w-7 tw-h-7 tw-text-sm tw-rounded-md tw-flex tw-items-center tw-justify-center tw-leading-none tw-shadow-subtle hover:tw-shadow-raised ${isMetronome ? 'btn-active' : ''}"
@@ -318,12 +381,13 @@ export function MiniPlayer({ avatarEl }) {
             <button
               type="button"
               class="tw-w-7 tw-h-7 tw-text-sm tw-rounded-md tw-flex tw-items-center tw-justify-center tw-leading-none tw-shadow-subtle hover:tw-shadow-raised ${isContinuous ? 'btn-active' : ''}"
-              title="Continuous Auto Loop (🔁)"
+              title="Continuous Auto Loop"
               onClick=${() => playerStore.toggleLoop()}
             >
-              🔁
+              <span class="material-symbols-outlined tw-text-sm" aria-hidden="true">autoplay</span>
             </button>
           </div>
+
         </div>
 
         <!-- Progress Bar Track -->
@@ -338,7 +402,7 @@ export function MiniPlayer({ avatarEl }) {
         <div class="mini-player-controls tw-flex tw-items-center tw-justify-center tw-gap-2">
           <button
             type="button"
-            class="tw-rounded-lg tw-px-3 tw-py-1 tw-font-bold tw-leading-none tw-shadow-subtle hover:tw-shadow-raised tw-flex tw-items-center tw-justify-center tw-gap-1"
+            class="tw-w-7 tw-h-7 tw-rounded-md tw-text-sm tw-flex tw-items-center tw-justify-center tw-leading-none tw-shadow-subtle hover:tw-shadow-raised"
             title="Previous verse (⏮)"
             onClick=${() => playerStore.prevVerse()}
           >
@@ -346,15 +410,15 @@ export function MiniPlayer({ avatarEl }) {
           </button>
           <button
             type="button"
-            class="tw-rounded-lg tw-px-4 tw-py-1.5 tw-font-bold tw-leading-none tw-shadow-subtle hover:tw-shadow-raised tw-flex tw-items-center tw-justify-center tw-text-sm ${isPlaying ? 'btn-active' : ''}"
-            title=${isPlaying ? 'Pause (⏸)' : 'Play (▶)'}
+            class="tw-h-7 tw-rounded-lg tw-px-4 tw-font-bold tw-leading-none tw-shadow-subtle hover:tw-shadow-raised tw-flex tw-items-center tw-justify-center tw-text-sm ${isPlaying ? 'btn-active' : ''}"
+            title=${isPlaying ? 'Stop (⏹)' : 'Play (▶)'}
             onClick=${() => playerStore.togglePlay()}
           >
-            ${isPlaying ? '⏸ Pause' : '▶ Play'}
+            ${isPlaying ? '⏹ Stop' : '▶ Play'}
           </button>
           <button
             type="button"
-            class="tw-rounded-lg tw-px-3 tw-py-1 tw-font-bold tw-leading-none tw-shadow-subtle hover:tw-shadow-raised tw-flex tw-items-center tw-justify-center tw-gap-1"
+            class="tw-w-7 tw-h-7 tw-rounded-md tw-text-sm tw-flex tw-items-center tw-justify-center tw-leading-none tw-shadow-subtle hover:tw-shadow-raised"
             title="Next verse (⏭)"
             onClick=${() => playerStore.nextVerse()}
           >

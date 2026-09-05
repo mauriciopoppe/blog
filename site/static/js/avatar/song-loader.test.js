@@ -164,6 +164,7 @@ describe('MIDI CSV Song Loader: Float Play', () => {
     expect(metaJson.bpm).toBe(167)
     expect(metaJson.timeSignature).toBe('4/4')
     expect(metaJson.artist).toBe('inabakumori')
+    expect(metaJson.nameJapanese).toBe('フロートプレイ')
     expect(metaJson.songUrl).toContain('youtube.com/watch?v=NRQRC_0ZQ00')
     expect(metaJson.totalPhrases).toBe(20)
     expect(notes[0].time).toBeCloseTo(0.031029, 6)

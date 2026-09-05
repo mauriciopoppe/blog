@@ -19,11 +19,11 @@ h1, a, h1.tw-text-primary, span.tw-text-primary { color: rgb(var(--primary)); }
 <div class="tw-flex md:tw-justify-center md:tw-content-center md:tw-flex-wrap tw-min-h-screen
     tw-w-full tw-relative tw-p-3 tw-bg-zinc-900/30 tw-backdrop-blur-sm">
   <div class="tw-container tw-mx-auto tw-flex tw-gap-5 tw-flex-col md:tw-flex-row">
-    <div class="tw-basis-1/3 tw-text-base tw-flex tw-flex-col tw-justify-center md:tw-text-right" data-avatar-stacking-container>
+    <div class="tw-basis-1/3 tw-text-base tw-flex tw-flex-col tw-justify-center md:tw-text-right" data-avatar-stacking-container data-avatar-distortion-target="profile">
       {{ partial "profile" . }}
     </div>
 
-    <div class="tw-basis-2/3 tw-grid tw-gap-1 tw-text-xs md:tw-grid-cols-[10em_auto] tw-leading-tight [&>div]:tw-mb-2 md:[&>div]:tw-mb-0">
+    <div class="tw-basis-2/3 tw-grid tw-gap-1 tw-text-xs md:tw-grid-cols-[10em_auto] tw-leading-tight [&>div]:tw-mb-2 md:[&>div]:tw-mb-0" data-avatar-distortion-target="homepage-right">
       <h2 class="md:tw-col-span-2 tw-text-xs tw-uppercase tw-tracking-widest tw-mb-2 tw-mt-4">Favorites</h2>
       {{ partial "favorites-list.html" . }}
 

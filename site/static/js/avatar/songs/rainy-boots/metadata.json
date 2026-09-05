@@ -1,6 +1,7 @@
 {
   "id": "rainy-boots",
   "name": "Rainy Boots",
+  "nameJapanese": "レイニーブーツ",
   "artist": "inabakumori",
   "artistUrl": "https://www.youtube.com/channel/UCNElM45JypxqAR73RoUQ10g",
   "credit": "NekoOkto",
@@ -22,7 +23,8 @@
       "endBeat": 1,
       "duration": 13.333344,
       "startRow": 0,
-      "rowCount": 230
+      "rowCount": 230,
+      "gain": 0.35
     },
     {
       "title": "Phrase 2",
