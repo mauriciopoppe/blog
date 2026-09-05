@@ -42,6 +42,7 @@ import {
 const compare = false
 const target = document.querySelector('#browser-sunset')
 const sandbox = Boolean(target?.closest('.sunset-footer--sandbox'))
+const sceneSeed = sandbox ? 1337 : Math.floor(Math.random() * 2147483646) + 1
 const flightControllerVersion = 'return-strategy-1'
 // Prod-mode flag controlling whether the cosmetic 3D airplane model (isProduction = true)
 // or the physics debug collision mesh and axes (isProduction = false) is rendered.
@@ -87,12 +88,12 @@ function renderMobileScene(targetEl) {
   let height = 1
   const hillLayers = []
   const draw = () => {
-    let starsSeed = 1337
+    let starsSeed = sceneSeed
     const starsRandom = () => {
       starsSeed = (starsSeed * 48271) % 2147483647
       return starsSeed / 2147483647
     }
-    let hillsSeed = 1337
+    let hillsSeed = sceneSeed
     const hillsRandom = () => {
       hillsSeed = (hillsSeed * 48271) % 2147483647
       return hillsSeed / 2147483647
@@ -226,7 +227,7 @@ if (target) {
   accentLight.position.copy(moonPosition)
   scene.add(accentLight)
 
-  let starSeed = 1337
+  let starSeed = sceneSeed
   const random = () => {
     starSeed = (starSeed * 48271) % 2147483647
     return starSeed / 2147483647
@@ -249,7 +250,7 @@ if (target) {
   // Use a darker linear albedo here so the native renderer keeps that dim
   // silhouette while the moon and plane retain their original illumination.
   const groundMaterial = new THREE.MeshLambertMaterial({ color: '#0b0c0b' })
-  let groundSeed = 1337
+  let groundSeed = sceneSeed
   const groundRandom = () => {
     groundSeed = (groundSeed * 48271) % 2147483647
     return groundSeed / 2147483647

@@ -19,6 +19,7 @@ export const TIERS = [
 
 export const ARTICLE_TEXT_EXCLUSION_SELECTOR = 'script, style, pre, code, textarea, svg, [data-avatar-distortion-fragment]'
 export const ARTICLE_FRAGMENT_SELECTOR = '[data-avatar-distortion-fragment], img, video, canvas, pre, table'
+export const MAX_ACTIVE_ARTICLE_FRAGMENTS = 24
 
 export function canApplyDistortion(el) {
   return Boolean(el) && el.nodeName !== 'HTML' && el.nodeName !== 'BODY'
@@ -126,12 +127,18 @@ function attachArticleFragments(avatarEl) {
   })
   candidates
     .sort((a, b) => a.distance - b.distance)
-    .slice(0, document.body.contains(avatarEl) ? candidates.length : 24)
+    .slice(0, MAX_ACTIVE_ARTICLE_FRAGMENTS)
     .forEach(({ el, tier }) => {
       el.style.filter = `url(#${FILTER_ID}-${tier})`
       activeFragments.push(el)
     })
   activeFragmentAvatar = avatarEl
+}
+
+function isSmallDockedRegion(el) {
+  const rect = el.getBoundingClientRect()
+  const maxArea = Math.max(18000, window.innerWidth * window.innerHeight * 0.02)
+  return rect.width > 0 && rect.height > 0 && rect.width * rect.height <= maxArea
 }
 
 function updateArticleFragmentTiers(now = performance.now()) {
@@ -225,24 +232,26 @@ export function getAcousticRegions(avatarEl) {
   if (typeof document === 'undefined' || !avatarEl) return []
   const regions = []
 
-  // 1. Profile / Left column on homepage -> Tier 1 (Immediate, 100% force)
+  // 1. Profile / Left column on homepage -> Tier 1 (Immediate, 100% force).
+  // Avoid filtering the whole column in docked mode. Large regions make every
+  // text node in the column participate in the SVG filter on each impulse.
   const leftCol = avatarEl.closest('[class*="tw-basis-1/3"]') || avatarEl.closest('.tw-flex-col')
-  if (leftCol) {
+  if (leftCol && isSmallDockedRegion(leftCol)) {
     regions.push({ el: leftCol, tier: 1 })
   }
 
-  // 2. Favorites & Software / Entire Right column on homepage -> Tier 2 (Adjacent, 62% force)
+  // 2. Favorites & Software / Right column on homepage -> Tier 2 (Adjacent, 62% force)
   const container = avatarEl.closest('.tw-container')
   if (container) {
     const rightCol = container.querySelector('[class*="tw-basis-2/3"]')
-    if (rightCol) {
+    if (rightCol && isSmallDockedRegion(rightCol)) {
       regions.push({ el: rightCol, tier: 2 })
     }
   }
 
   // 3. Article page header -> Tier 1
   const noteHeader = avatarEl.closest('[class*="tw-group/note-preview"]') || avatarEl.closest('header')
-  if (noteHeader && !regions.some((r) => r.el === noteHeader)) {
+  if (noteHeader && isSmallDockedRegion(noteHeader) && !regions.some((r) => r.el === noteHeader)) {
     regions.push({ el: noteHeader, tier: 1 })
   }
 

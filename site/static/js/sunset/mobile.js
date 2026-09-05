@@ -1,6 +1,6 @@
 const HILL_COUNT = 10
 const STAR_COUNT = 250
-const SEED = 1337
+const SEED = Math.floor(Math.random() * 2147483646) + 1
 
 function seededRandom(seed) {
   let value = seed
