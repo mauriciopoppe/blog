@@ -40,6 +40,12 @@ describe('Article distortion boundaries', () => {
     expect(ARTICLE_TEXT_TARGET_SELECTOR).toContain('[data-avatar-distortion-target="note-header"]')
   })
 
+  it('includes both article sidebars in the text target scan', () => {
+    const content = readFileSync(new URL('../../../../site/layouts/_partials/single-content.html', import.meta.url), 'utf8')
+    expect(content.match(/data-avatar-distortion-target="article-sidebar"/g)).toHaveLength(2)
+    expect(ARTICLE_TEXT_TARGET_SELECTOR).toContain('[data-avatar-distortion-target="article-sidebar"]')
+  })
+
   it('does not traverse mini-player text as distortion content', () => {
     expect(ARTICLE_TEXT_EXCLUSION_SELECTOR).toContain('.avatar-mini-player')
   })

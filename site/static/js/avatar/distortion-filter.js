@@ -19,7 +19,7 @@ export const TIERS = [
 
 export const ARTICLE_TEXT_EXCLUSION_SELECTOR = 'script, style, pre, code, textarea, svg, .avatar-mini-player, [data-avatar-distortion-fragment]'
 export const ARTICLE_FRAGMENT_SELECTOR = '[data-avatar-distortion-fragment], img, video, canvas, pre, table'
-export const ARTICLE_TEXT_TARGET_SELECTOR = 'article[role="main"], [data-avatar-distortion-target="note-header"]'
+export const ARTICLE_TEXT_TARGET_SELECTOR = 'article[role="main"], [data-avatar-distortion-target="note-header"], [data-avatar-distortion-target="article-sidebar"]'
 export const DISTORTION_TARGET_SELECTOR = '[data-avatar-distortion-target]'
 export const MAX_ACTIVE_ARTICLE_FRAGMENTS = 24
 
