@@ -1,6 +1,6 @@
 import * as THREE from 'https://esm.sh/three@0.165.0'
 import { OrbitControls } from 'https://esm.sh/three@0.165.0/examples/jsm/controls/OrbitControls.js'
-import { createSpacecraftMesh } from './spacecraft-mesh.js'
+import { loadSunsetPlaneMesh } from './sunset-plane-mesh.js'
 
 export const SLERP_PRESETS = {
   gimbal_lock: {
@@ -356,14 +356,18 @@ export class QuaternionSlerpEngine {
     this.scene.add(this.sphereMesh)
 
     // Spacecraft Models
-    this.craft = createSpacecraftMesh(false)
+    this.craft = new THREE.Group()
     this.scene.add(this.craft)
 
-    this.ghostStart = createSpacecraftMesh(true)
+    this.ghostStart = new THREE.Group()
     this.scene.add(this.ghostStart)
 
-    this.ghostEnd = createSpacecraftMesh(true)
+    this.ghostEnd = new THREE.Group()
     this.scene.add(this.ghostEnd)
+
+    loadSunsetPlaneMesh({ rotationY: Math.PI }).then((model) => this.craft.add(model))
+    loadSunsetPlaneMesh({ ghost: true, rotationY: Math.PI }).then((model) => this.ghostStart.add(model))
+    loadSunsetPlaneMesh({ ghost: true, rotationY: Math.PI }).then((model) => this.ghostEnd.add(model))
 
     // Rotation Axis Arrow
     this.axisArrow = new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0), 2.2, 0xffbb33, 0.2, 0.1)

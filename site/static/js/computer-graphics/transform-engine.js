@@ -11,7 +11,7 @@
 
 import * as THREE from 'https://esm.sh/three@0.165.0'
 import { OrbitControls } from 'https://esm.sh/three@0.165.0/examples/jsm/controls/OrbitControls.js'
-import { createSpacecraftMesh } from './spacecraft-mesh.js'
+import { loadSunsetPlaneMesh } from './sunset-plane-mesh.js'
 
 /**
  * Creates a 4x4 matrix from translation
@@ -226,8 +226,8 @@ export class TransformEngine {
   }
 
   buildMeshes() {
-    // Subject geometry: the shared spacecraft plane so all simulators reuse the same mesh
-    const group = createSpacecraftMesh(false)
+    // Subject geometry: reuse the plane shown in the sunset scene.
+    const group = new THREE.Group()
 
     // Local Axes Attached to Mesh (Red = +X Forward, Green = +Y Up, Blue = +Z Right)
     const localAxes = new THREE.AxesHelper(1.4)
@@ -241,9 +241,12 @@ export class TransformEngine {
     this.scene.add(this.subjectMesh)
 
     // Ghost Mesh (wireframe anchored at initial identity state)
-    const ghostGroup = createSpacecraftMesh(true)
+    const ghostGroup = new THREE.Group()
     this.ghostMesh = ghostGroup
     this.scene.add(this.ghostMesh)
+
+    loadSunsetPlaneMesh({ rotationY: Math.PI }).then((model) => group.add(model))
+    loadSunsetPlaneMesh({ ghost: true, rotationY: Math.PI }).then((model) => ghostGroup.add(model))
   }
 
   createAxisLabel(text, colorHex) {

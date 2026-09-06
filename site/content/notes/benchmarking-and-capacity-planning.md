@@ -215,7 +215,7 @@ A complete benchmark specification defines four sequential lifecycle phases:
   <g transform="translate(15, 18)">
     <rect x="0" y="0" width="175" height="175" rx="8" fill="var(--grey-dark)" stroke="rgba(56, 189, 248, 0.3)" stroke-width="1" />
     <rect x="12" y="12" width="66" height="22" rx="4" fill="rgba(56, 189, 248, 0.12)" />
-    <text x="45" y="27" fill="#38bdf8" font-size="11" font-weight="700" text-anchor="middle">PHASE 1</text>
+    <text x="45" y="27" fill="#38bdf8" font-size="11" font-weight="700" text-anchor="middle">Phase 1</text>
     <text x="14" y="55" fill="var(--grey-lighter)" font-size="15" font-weight="700">Ramp-Up</text>
     <text x="14" y="75" fill="#38bdf8" font-size="12.5" font-weight="600">0 → Target RPS</text>
     <text x="14" y="100" fill="var(--grey-light)" font-size="11.5">Gradual socket connect</text>
@@ -229,7 +229,7 @@ A complete benchmark specification defines four sequential lifecycle phases:
   <g transform="translate(220, 18)">
     <rect x="0" y="0" width="175" height="175" rx="8" fill="var(--grey-dark)" stroke="rgba(251, 146, 60, 0.3)" stroke-width="1" />
     <rect x="12" y="12" width="66" height="22" rx="4" fill="rgba(251, 146, 60, 0.12)" />
-    <text x="45" y="27" fill="#fb923c" font-size="11" font-weight="700" text-anchor="middle">PHASE 2</text>
+    <text x="45" y="27" fill="#fb923c" font-size="11" font-weight="700" text-anchor="middle">Phase 2</text>
     <text x="14" y="55" fill="var(--grey-lighter)" font-size="15" font-weight="700">Warm-Up</text>
     <text x="14" y="75" fill="#fb923c" font-size="12.5" font-weight="600">Constant Target RPS</text>
     <text x="14" y="100" fill="var(--grey-light)" font-size="11.5">JIT bytecode compile</text>
@@ -243,7 +243,7 @@ A complete benchmark specification defines four sequential lifecycle phases:
   <g transform="translate(425, 18)">
     <rect x="0" y="0" width="190" height="175" rx="8" fill="rgba(var(--primary), 0.08)" stroke="rgba(var(--primary), 0.45)" stroke-width="1.2" />
     <rect x="12" y="12" width="66" height="22" rx="4" fill="rgba(var(--primary), 0.2)" />
-    <text x="45" y="27" fill="rgb(var(--primary))" font-size="11" font-weight="700" text-anchor="middle">PHASE 3</text>
+    <text x="45" y="27" fill="rgb(var(--primary))" font-size="11" font-weight="700" text-anchor="middle">Phase 3</text>
     <text x="14" y="55" fill="rgb(var(--primary))" font-size="15" font-weight="700">Steady-State</text>
     <text x="14" y="75" fill="var(--grey-lighter)" font-size="12.5" font-weight="600">Constant Target RPS</text>
     <text x="14" y="100" fill="var(--grey-lighter)" font-size="11.5">Captures GC &amp; WAL flushes</text>
@@ -257,7 +257,7 @@ A complete benchmark specification defines four sequential lifecycle phases:
   <g transform="translate(645, 18)">
     <rect x="0" y="0" width="175" height="175" rx="8" fill="var(--grey-dark)" stroke="rgba(52, 211, 153, 0.3)" stroke-width="1" />
     <rect x="12" y="12" width="66" height="22" rx="4" fill="rgba(52, 211, 153, 0.12)" />
-    <text x="45" y="27" fill="#34d399" font-size="11" font-weight="700" text-anchor="middle">PHASE 4</text>
+    <text x="45" y="27" fill="#34d399" font-size="11" font-weight="700" text-anchor="middle">Phase 4</text>
     <text x="14" y="55" fill="var(--grey-lighter)" font-size="15" font-weight="700">Cooldown</text>
     <text x="14" y="75" fill="#34d399" font-size="12.5" font-weight="600">Target RPS → 0</text>
     <text x="14" y="100" fill="var(--grey-light)" font-size="11.5">Drain socket buffers</text>
@@ -448,7 +448,7 @@ When a load generator coordinates its request dispatches with the server's respo
 
 <svg viewBox="0 0 840 380" width="100%" style="width: 100%; height: auto; overflow: hidden; font-family: var(--family-sans, system-ui, sans-serif); background: var(--grey-darker); border-radius: 12px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box; margin: 1.5rem 0;">
   <!-- Header -->
-  <text x="20" y="24" fill="var(--grey-lighter)" font-size="15" font-weight="700">COORDINATED OMISSION: INTENDED TIMELINE VS. RECORDED SAMPLES</text>
+  <text x="20" y="24" fill="var(--grey-lighter)" font-size="15" font-weight="700">Coordinated omission: intended timeline vs. recorded samples</text>
   <text x="20" y="42" fill="var(--grey-light)" font-size="12">Why synchronous / closed-loop load generators hide 98% of latency spikes during server stalls</text>
   <!-- Global Time Ticks (t = Xs labels) -->
   <text x="206" y="62" fill="var(--grey-light)" font-size="11.5" font-weight="600" text-anchor="middle">t = 0.0s</text>
@@ -462,7 +462,7 @@ When a load generator coordinates its request dispatches with the server's respo
   <g transform="translate(16, 74)">
     <!-- Row Header Card -->
     <rect x="0" y="0" width="156" height="48" rx="6" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" />
-    <text x="12" y="20" fill="rgb(var(--primary))" font-size="12" font-weight="700">1. INTENDED (REALITY)</text>
+    <text x="12" y="20" fill="rgb(var(--primary))" font-size="12" font-weight="700">1. Intended (reality)</text>
     <text x="12" y="36" fill="var(--grey-light)" font-size="11">λ = 10 req/s (1 req / 100ms)</text>
     <!-- Row Track -->
     <rect x="164" y="0" width="628" height="48" rx="6" fill="rgba(255, 255, 255, 0.02)" stroke="rgba(255, 255, 255, 0.06)" />
@@ -487,7 +487,7 @@ When a load generator coordinates its request dispatches with the server's respo
   <g transform="translate(16, 134)">
     <!-- Row Header Card -->
     <rect x="0" y="0" width="156" height="48" rx="6" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" />
-    <text x="12" y="20" fill="#ffa726" font-size="12" font-weight="700">2. SERVER STATE</text>
+    <text x="12" y="20" fill="#ffa726" font-size="12" font-weight="700">2. Server state</text>
     <text x="12" y="36" fill="var(--grey-light)" font-size="11">10.0s Stall Event</text>
     <!-- Row Track -->
     <rect x="164" y="0" width="628" height="48" rx="6" fill="rgba(255, 255, 255, 0.02)" stroke="rgba(255, 255, 255, 0.06)" />
@@ -505,7 +505,7 @@ When a load generator coordinates its request dispatches with the server's respo
   <g transform="translate(16, 192)">
     <!-- Row Header Card -->
     <rect x="0" y="0" width="156" height="48" rx="6" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" />
-    <text x="12" y="20" fill="#ff7043" font-size="12" font-weight="700">3. NAIVE TESTER</text>
+    <text x="12" y="20" fill="#ff7043" font-size="12" font-weight="700">3. Naive tester</text>
     <text x="12" y="36" fill="var(--grey-light)" font-size="11">Closed-loop tool</text>
     <!-- Row Track -->
     <rect x="164" y="0" width="628" height="48" rx="6" fill="rgba(255, 255, 255, 0.02)" stroke="rgba(255, 255, 255, 0.06)" />
@@ -524,7 +524,7 @@ When a load generator coordinates its request dispatches with the server's respo
   <g transform="translate(16, 254)">
     <rect x="0" y="0" width="395" height="108" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 167, 38, 0.25)" />
     <rect x="12" y="10" width="200" height="20" rx="4" fill="rgba(255, 167, 38, 0.15)" />
-    <text x="20" y="24" fill="#ffa726" font-size="11" font-weight="700">⚠️ NAIVE TOOL REPORT (2 SAMPLES)</text>
+    <text x="20" y="24" fill="#ffa726" font-size="11" font-weight="700">⚠️ Naive tool report (2 samples)</text>
     <text x="12" y="48" fill="var(--grey-lighter)" font-size="12.5" font-weight="700">Recorded P50: 1 ms <tspan fill="var(--grey-light)" font-weight="500">(1 of 2 requests)</tspan></text>
     <text x="12" y="68" fill="var(--grey-lighter)" font-size="12.5" font-weight="700">Recorded P99: 10,000 ms <tspan fill="var(--grey-light)" font-weight="500">(1 of 2 requests)</tspan></text>
     <text x="12" y="90" fill="#ffa726" font-size="11.5" font-weight="600">Verdict: Falsely dismissed as an isolated 1% outlier</text>
@@ -533,7 +533,7 @@ When a load generator coordinates its request dispatches with the server's respo
   <g transform="translate(429, 254)">
     <rect x="0" y="0" width="395" height="108" rx="8" fill="var(--grey-dark)" stroke="rgba(var(--primary), 0.35)" />
     <rect x="12" y="10" width="205" height="20" rx="4" fill="rgba(var(--primary), 0.15)" />
-    <text x="20" y="24" fill="rgb(var(--primary))" font-size="11" font-weight="700">✓ PRODUCTION REALITY (102 SAMPLES)</text>
+    <text x="20" y="24" fill="rgb(var(--primary))" font-size="11" font-weight="700">✓ Production reality (102 samples)</text>
     <text x="12" y="48" fill="var(--grey-lighter)" font-size="12.5" font-weight="700">True P50: 5,000 ms <tspan fill="var(--grey-light)" font-weight="500">(Queued in socket buffers)</tspan></text>
     <text x="12" y="68" fill="var(--grey-lighter)" font-size="12.5" font-weight="700">True P99: 9,900 ms <tspan fill="var(--grey-light)" font-weight="500">(Severe multi-second wait)</tspan></text>
     <text x="12" y="90" fill="rgb(var(--primary))" font-size="11.5" font-weight="600">Verdict: 98% of users experienced an unacceptable freeze</text>
@@ -589,13 +589,13 @@ Every component in a distributed infrastructure maps directly to a specific queu
     </marker>
   </defs>
   <!-- Header -->
-  <text x="20" y="24" fill="var(--grey-lighter)" font-size="15" font-weight="700">MAPPING PRODUCTION ARCHITECTURES TO QUEUING MODELS</text>
+  <text x="20" y="24" fill="var(--grey-lighter)" font-size="15" font-weight="700">Mapping production architectures to queuing models</text>
   <text x="20" y="42" fill="var(--grey-light)" font-size="12">Comparing server concurrency (c), buffer limits (K), and variance dynamics across backend and AI workloads</text>
   <!-- Left Container: Classical Systems -->
   <g transform="translate(16, 56)">
     <rect x="0" y="0" width="395" height="354" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
     <rect x="12" y="10" width="371" height="22" rx="4" fill="rgba(255, 255, 255, 0.08)" />
-    <text x="20" y="25" fill="var(--grey-lighter)" font-size="11.5" font-weight="700">CLASSICAL INFRASTRUCTURE</text>
+    <text x="20" y="25" fill="var(--grey-lighter)" font-size="11.5" font-weight="700">Classical infrastructure</text>
     <!-- Item 1: Event Loop M/M/1 -->
     <g transform="translate(12, 38)">
       <rect x="0" y="0" width="371" height="92" rx="6" fill="var(--grey-darker)" stroke="rgba(255, 255, 255, 0.08)" />
@@ -646,7 +646,7 @@ Every component in a distributed infrastructure maps directly to a specific queu
   <g transform="translate(429, 56)">
     <rect x="0" y="0" width="395" height="354" rx="8" fill="var(--grey-dark)" stroke="rgba(var(--primary), 0.3)" stroke-width="1" />
     <rect x="12" y="10" width="371" height="22" rx="4" fill="rgba(var(--primary), 0.15)" />
-    <text x="20" y="25" fill="rgb(var(--primary))" font-size="11.5" font-weight="700">GENERATIVE AI INFERENCE INFRASTRUCTURE</text>
+    <text x="20" y="25" fill="rgb(var(--primary))" font-size="11.5" font-weight="700">Generative AI inference infrastructure</text>
     <!-- Item 4: Continuous Batching G/G/1 GPU -->
     <g transform="translate(12, 38)">
       <rect x="0" y="0" width="371" height="142" rx="6" fill="var(--grey-darker)" stroke="rgba(255, 255, 255, 0.08)" />
