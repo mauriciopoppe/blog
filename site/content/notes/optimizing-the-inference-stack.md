@@ -3,7 +3,7 @@ title: "Optimizing the LLM Inference Stack"
 summary: "An end-to-end framework for optimizing LLM inference: map hardware, kernels, host execution, runtimes, and orchestration, define service demand, rank bottlenecks with capacity and queueing, and choose experiments that improve goodput. Includes case studies from Makora and Baseten."
 image: /images/optimizing-the-inference-stack.png
 tags: ["performance", "systems performance engineering", "system design", "inference serving", "benchmarking", "queuing theory", "kubernetes", "linux", "gpu", "hardware", "llm-d"]
-date: 2026-09-06T21:28:33Z
+date: 2026-09-06T17:30:38
 series: "performance-series"
 perf_stage: "inference"
 libraries: ["katex", "math-terms"]
