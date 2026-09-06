@@ -21,16 +21,11 @@ export function RangeSlider({
 
   useEffect(() => {
     if (actualRef.current) {
-      if (value !== undefined) {
-        const numVal = Number(value)
-        const pct = max > min ? ((numVal - min) / (max - min)) * 100 : 0
-        actualRef.current.value = numVal
-        actualRef.current.style.setProperty('--range-fill', `${pct.toFixed(1)}%`)
-      } else {
-        const curVal = Number(actualRef.current.value !== '' ? actualRef.current.value : defaultValue)
-        const pct = max > min ? ((curVal - min) / (max - min)) * 100 : 0
-        actualRef.current.style.setProperty('--range-fill', `${pct.toFixed(1)}%`)
-      }
+      const curVal = value !== undefined
+        ? Number(value)
+        : Number(actualRef.current.value !== '' ? actualRef.current.value : defaultValue)
+      const pct = max > min ? ((curVal - min) / (max - min)) * 100 : 0
+      actualRef.current.style.setProperty('--range-fill', `${pct.toFixed(1)}%`)
     }
   }, [value, min, max])
 
@@ -47,7 +42,7 @@ export function RangeSlider({
         ? html`
             <div class="tw-flex tw-items-center tw-justify-between">
               ${label ? html`<label class="tw-font-sans tw-text-[0.7rem] tw-tracking-[0.04em] tw-text-[var(--grey-light)]" for=${id}>${label}</label>` : null}
-              ${valueText !== undefined ? html`<span class="tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-text-primary">${valueText}</span>` : null}
+              ${valueText !== undefined ? html`<span class="range-slider-value tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-text-primary">${valueText}</span>` : null}
             </div>
           `
         : null}
@@ -59,8 +54,8 @@ export function RangeSlider({
         min=${min}
         max=${max}
         step=${step}
-        value=${value}
-        defaultValue=${defaultValue}
+        value=${value !== undefined ? value : undefined}
+        defaultValue=${value === undefined ? defaultValue : undefined}
         disabled=${disabled}
         onInput=${handleInput} />
     </div>

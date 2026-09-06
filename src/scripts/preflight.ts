@@ -1,7 +1,5 @@
 import fs from 'fs'
 import path from 'path'
-import http from 'http'
-import { execSync } from 'child_process'
 import frontMatter from 'front-matter'
 import { chromium, type Browser } from 'playwright'
 
@@ -32,7 +30,7 @@ export interface PreflightResult {
 const ROOT_DIR = path.resolve(__dirname, '../..')
 const STATIC_DIR = path.resolve(ROOT_DIR, 'site/static')
 const CONTENT_DIR = path.resolve(ROOT_DIR, 'site/content')
-const DIST_DIR = path.resolve(ROOT_DIR, 'dist')
+const PREFLIGHT_BASE_URL = process.env.PREFLIGHT_BASE_URL || 'http://127.0.0.1:3000'
 
 /**
  * Validates frontmatter and markdown syntax rules for a single file.
@@ -210,66 +208,6 @@ export function validateStatic(filePath: string, options: { strict?: boolean } =
 }
 
 /**
- * Creates a lightweight static file server to serve `dist/` directory.
- */
-function createStaticServer (distDir: string): Promise<{ server: http.Server; port: number; close: () => Promise<void> }> {
-  return new Promise((resolve, reject) => {
-    const mimeTypes: Record<string, string> = {
-      '.html': 'text/html; charset=utf-8',
-      '.css': 'text/css; charset=utf-8',
-      '.js': 'application/javascript; charset=utf-8',
-      '.json': 'application/json; charset=utf-8',
-      '.png': 'image/png',
-      '.jpg': 'image/jpeg',
-      '.jpeg': 'image/jpeg',
-      '.gif': 'image/gif',
-      '.svg': 'image/svg+xml',
-      '.ico': 'image/x-icon',
-      '.woff2': 'font/woff2'
-    }
-
-    const server = http.createServer((req, res) => {
-      const urlPath = decodeURIComponent(req.url || '/').split('?')[0]
-      let filePath = path.join(distDir, urlPath)
-
-      if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
-        filePath = path.join(filePath, 'index.html')
-      }
-
-      if (!fs.existsSync(filePath)) {
-        res.writeHead(404, { 'Content-Type': 'text/plain' })
-        res.end('404 Not Found')
-        return
-      }
-
-      const ext = path.extname(filePath).toLowerCase()
-      const contentType = mimeTypes[ext] || 'application/octet-stream'
-
-      try {
-        const content = fs.readFileSync(filePath)
-        res.writeHead(200, { 'Content-Type': contentType })
-        res.end(content)
-      } catch (err: any) {
-        res.writeHead(500, { 'Content-Type': 'text/plain' })
-        res.end(`Internal error: ${err.message}`)
-      }
-    })
-
-    server.listen(0, '127.0.0.1', () => {
-      const addr = server.address()
-      const port = typeof addr === 'object' && addr ? addr.port : 3000
-      resolve({
-        server,
-        port,
-        close: () => new Promise<void>((resolve) => server.close(() => resolve()))
-      })
-    })
-
-    server.on('error', reject)
-  })
-}
-
-/**
  * Derives the URL path in dist/ for a given markdown file.
  */
 export function getArticleUrlPath(filePath: string): string {
@@ -301,41 +239,10 @@ const VIEWPORTS: ViewportConfig[] = [
 export async function validateViewportOverflow(filePath: string): Promise<ValidationIssue[]> {
   const issues: ValidationIssue[] = []
   const urlPath = getArticleUrlPath(filePath)
-  const targetHtml = path.join(DIST_DIR, urlPath, 'index.html')
-
-  const fullPath = path.isAbsolute(filePath) ? filePath : path.resolve(ROOT_DIR, filePath)
-  const sourceMtime = fs.existsSync(fullPath) ? fs.statSync(fullPath).mtimeMs : 0
-  const distMtime = fs.existsSync(targetHtml) ? fs.statSync(targetHtml).mtimeMs : 0
-
-  if (!fs.existsSync(targetHtml) || sourceMtime > distMtime) {
-    try {
-      console.log('  🔨 Building site distribution for viewport overflow inspection...')
-      execSync('HUGO_ENV=production hugo --environment production -D --source site --destination ../dist', { cwd: ROOT_DIR, stdio: 'pipe' })
-    } catch (err: any) {
-      issues.push({
-        type: 'error',
-        category: 'overflow',
-        message: `Failed to build Hugo site with drafts for viewport check: ${err.message}`
-      })
-      return issues
-    }
-  }
-
-  if (!fs.existsSync(targetHtml)) {
-    issues.push({
-      type: 'error',
-      category: 'overflow',
-      message: `Built HTML file not found at ${targetHtml}. Run "bun run build" before running preflight.`
-    })
-    return issues
-  }
-
-  let serverInstance: { port: number; close: () => Promise<void> } | null = null
   let browser: Browser | null = null
 
   try {
-    serverInstance = await createStaticServer(DIST_DIR)
-    const testUrl = `http://127.0.0.1:${serverInstance.port}${urlPath}`
+    const testUrl = `${PREFLIGHT_BASE_URL.replace(/\/$/, '')}${urlPath}`
 
     browser = await chromium.launch({ headless: true })
     const context = await browser.newContext()
@@ -434,7 +341,6 @@ export async function validateViewportOverflow(filePath: string): Promise<Valida
     })
   } finally {
     if (browser) await browser.close()
-    if (serverInstance) await serverInstance.close()
   }
 
   return issues
