@@ -62,6 +62,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 0;
   line-height: 1.1;
@@ -76,18 +77,24 @@
   font-weight: 700;
   color: rgb(var(--primary));
   opacity: 0.9;
-  white-space: nowrap;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .math-popover-unit-group {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
   gap: 4px;
   font-family: var(--family-sans, system-ui, sans-serif);
   font-size: 0.65rem;
   line-height: 1.1;
   color: var(--grey-light);
-  white-space: nowrap;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
 }
 
 .math-popover-unit-label {
@@ -105,7 +112,10 @@
   padding: 1px 5px;
   border-radius: 3px;
   border: 1px solid var(--grey);
-  white-space: nowrap;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
   line-height: 1.2;
 }
 

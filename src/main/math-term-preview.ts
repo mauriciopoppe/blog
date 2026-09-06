@@ -210,6 +210,10 @@ export function initMathTermPreview(containerSelector = 'article[role=main]') {
         compositeKey = 'L_q'
       } else if (baseText === 'C' && subText.includes('v')) {
         compositeKey = 'Cv'
+      } else if (baseText === 'C' && subText.includes('a')) {
+        compositeKey = 'Ca'
+      } else if (baseText === 'C' && subText.includes('s')) {
+        compositeKey = 'Cs'
       } else if (baseText === 'R' && (subText.includes('y') || subText.includes('z') || subText.includes('x') || subText.includes('3'))) {
         compositeKey = 'R'
       } else if (baseText === 'T' && (subText.includes('3') || subText.includes('1') || subText.includes('cam'))) {
@@ -218,6 +222,8 @@ export function initMathTermPreview(containerSelector = 'article[role=main]') {
         compositeKey = 'S'
       } else if (baseText === 'M' && subText.includes('proj')) {
         compositeKey = 'M_proj'
+      } else if (baseText === 'M' && subText.includes('weights')) {
+        compositeKey = 'M_weights'
       } else if (baseText === 'M' && (subText.includes('view') || (subText.includes('view') && subText.includes('world')))) {
         compositeKey = 'M_view'
       } else if (baseText === 'M' && (subText.includes('model') || (subText.includes('world') && subText.includes('object')))) {

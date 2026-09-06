@@ -77,6 +77,42 @@ export const SYSTEMS_TERMS: Record<string, MathTermDefinition> = {
     ],
     insight: 'Service time represents the uncontended latency floor (observed when ρ → 0). Optimizing algorithms or hardware lowers S, directly increasing processing capacity μ.'
   },
+  V: {
+    symbol: 'V',
+    name: 'Visit Count',
+    category: 'System Capacity',
+    unit: 'visits / request',
+    summary: 'The number of times a request visits a subsystem during its execution.',
+    formulas: [
+      'D = V \\cdot S',
+      'S_{\\text{request}} \\approx \\sum_k V_k S_k'
+    ],
+    insight: 'A subsystem can dominate demand through repeated visits even when each visit is fast. Reducing redundant passes, transfers, retries, or routing hops lowers V and can outperform a local speedup that only lowers S.'
+  },
+  service_center: {
+    symbol: '\\text{SC}',
+    name: 'Service Center',
+    category: 'Queuing Theory',
+    unit: 'workers / resource pool',
+    summary: 'A modeled resource pool that performs active work for queued jobs, such as a CPU worker pool, GPU, database connection pool, or router.',
+    formulas: [
+      '\\rho_k = \\frac{\\lambda D_k}{m_k}',
+      '\\lambda_{\\text{sat}} \\leq \\min_k \\frac{m_k}{D_k}'
+    ],
+    insight: 'A service center can contain one worker or many equivalent workers. Its capacity, service demand, and queue determine how much work the system can sustain before this resource becomes the bottleneck.'
+  },
+  M_weights: {
+    symbol: 'M_{\\text{weights}}',
+    name: 'Model Weight Memory',
+    category: 'System Capacity',
+    unit: 'bytes / GB',
+    summary: 'The memory required to store a model’s parameters before accounting for the KV cache and runtime buffers.',
+    formulas: [
+      'M_{\\text{weights}} \\approx \\frac{P \\cdot b}{8}',
+      'M_{\\text{weights}} \\approx 2P \\text{ bytes} \\quad (b = 16)'
+    ],
+    insight: 'Weight memory determines whether a model can fit on one accelerator. If it does not, the model must be partitioned or its weights must use a lower-precision format.'
+  },
   L: {
     symbol: 'L',
     name: 'In-Flight Requests (Concurrency)',
@@ -105,6 +141,28 @@ export const SYSTEMS_TERMS: Record<string, MathTermDefinition> = {
 
 export const QUEUING_TERMS: Record<string, MathTermDefinition> = {
   ...SYSTEMS_TERMS,
+  Ca: {
+    symbol: 'C_a',
+    name: 'Arrival Variability',
+    category: 'Statistical Metric',
+    unit: 'dimensionless',
+    summary: 'The coefficient of variation of inter-arrival times, measuring how unevenly requests reach a service center.',
+    formulas: [
+      'C_a = \\frac{\\sigma_A}{\\bar{A}}'
+    ],
+    insight: 'A larger C_a means burstier arrivals. At the same average arrival rate, burstier traffic creates more queue wait than regular traffic.'
+  },
+  Cs: {
+    symbol: 'C_s',
+    name: 'Service-Time Variability',
+    category: 'Statistical Metric',
+    unit: 'dimensionless',
+    summary: 'The coefficient of variation of service times, measuring how unevenly a service center handles individual jobs.',
+    formulas: [
+      'C_s = \\frac{\\sigma_S}{\\bar{S}}'
+    ],
+    insight: 'A larger C_s means more variable execution times. Long jobs mixed with short jobs increase queue wait through head-of-line blocking and make tail latency less predictable.'
+  },
   W_q: {
     symbol: 'W_q',
     name: 'Queue Wait Time',
@@ -145,6 +203,18 @@ export const QUEUING_TERMS: Record<string, MathTermDefinition> = {
 }
 
 export const LLM_TERMS: Record<string, MathTermDefinition> = {
+  N_batch: {
+    symbol: 'N_{\\text{batch}}',
+    name: 'Active Batch Size',
+    category: 'LLM Inference',
+    unit: 'sequences / serving iteration',
+    summary: 'The number of active request sequences processed together in one serving iteration.',
+    formulas: [
+      'N_{\\text{batch}} = \\text{active sequences in one iteration}',
+      '\\text{Aggregate TPS} \\approx \\frac{N_{\\text{batch}}}{\\text{TPOT}}'
+    ],
+    insight: 'A larger active batch can improve accelerator utilization and aggregate throughput, but it consumes more KV-cache memory and can increase per-request token latency. Continuous batching changes N_batch as requests arrive, finish, or are paused.'
+  },
   TTFT: {
     symbol: '\\text{TTFT}',
     name: 'Time to First Token',
