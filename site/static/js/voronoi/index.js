@@ -1,5 +1,4 @@
 import { Delaunay } from 'https://cdn.jsdelivr.net/npm/d3-delaunay@6/+esm'
-import { easeLinear } from 'https://cdn.jsdelivr.net/npm/d3-ease@3/+esm'
 import { interpolateLab } from 'https://cdn.jsdelivr.net/npm/d3-interpolate@3/+esm'
 
 // The first color is updated together with --primary during the banner
@@ -18,7 +17,7 @@ function isMobile() {
   return navigator.userAgentData?.mobile || /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent)
 }
 
-export function generate({ target, n, enableRainbowAnimation, enableWaveAnimation = false }) {
+export function generate({ target, n, enableRainbowAnimation }) {
   let { width, height } = target.getBoundingClientRect()
   let scale = Math.max(1, Math.min(window.devicePixelRatio || 1, 2))
   const canvas = document.createElement('canvas')
@@ -31,7 +30,6 @@ export function generate({ target, n, enableRainbowAnimation, enableWaveAnimatio
   let particles = []
   let delaunay
   let voronoi
-  let animationLast = 0
   const lastTouched = {}
   const fadeOutTime = 2000
   const initialize = () => {
@@ -53,18 +51,6 @@ export function generate({ target, n, enableRainbowAnimation, enableWaveAnimatio
     initialize()
   }
 
-  function waveAnimation() {
-    const invertX = Math.random() < 0.5
-    const invertY = Math.random() < 0.5
-    for (let i = 0; i < n; i += 1) {
-      const [x, y] = particles[i]
-      const dx = invertX ? x / width : (width - x) / width
-      const dy = invertY ? y / height : (height - y) / height
-      const distance = Math.sqrt(dx * dx + dy * dy) / Math.sqrt(2)
-      setTimeout(() => { lastTouched[i] = performance.now() }, easeLinear(distance) * fadeOutTime)
-    }
-  }
-
   function perimeterLocation(time, duration = 50000) {
     const perimeter = ((time % duration) * (2 * width + 2 * height)) / duration
     if (perimeter < width) return { x: perimeter, y: 0 }
@@ -84,7 +70,6 @@ export function generate({ target, n, enableRainbowAnimation, enableWaveAnimatio
       lastBannerInterpolation = time
     }
     context.clearRect(0, 0, width, height)
-    if (enableWaveAnimation && time % 10000 < animationLast % 10000) waveAnimation()
     perimeter = perimeterLocation(time)
     for (let i = 0; i < n; i += 1) {
       const [x, y] = particles[i]
@@ -104,7 +89,6 @@ export function generate({ target, n, enableRainbowAnimation, enableWaveAnimatio
     context.beginPath()
     delaunay.renderPoints(context)
     context.fill()
-    animationLast = time
   }
 
   const onCanvasPointerMove = (event) => {

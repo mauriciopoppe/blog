@@ -5,7 +5,7 @@ if (target) {
     if (!entry.isIntersecting) return
     observer.disconnect()
     const { generate } = await import('./index.js')
-    generate({ target, enableRainbowAnimation: true, enableWaveAnimation: false, n: 300 })
+    generate({ target, enableRainbowAnimation: true, n: 300 })
   }, { rootMargin: '200px' })
   observer.observe(target)
 }
