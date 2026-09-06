@@ -19,6 +19,8 @@ This non-linear cliff is governed by **queuing theory** (the mathematical study 
 
 *(For foundational metrics, latency breakdowns, and resource utilization, see [Performance Fundamentals](/notes/performance-fundamentals/).)*
 
+In this article, a service center is the resource pool that performs active work for queued jobs. A single worker thread is one service center. A CPU worker pool, GPU, database connection pool, or network link can also be modeled as a service center when requests wait for that resource.
+
 ## The Anatomy of Waiting: Why Queues Form
 
 Consider a single worker thread (such as a Redis process, a Node.js event loop, or an isolated CPU core) where each task takes an average service execution time of **$S = 10\text{ ms}$** (giving a maximum processing capacity of $\mu = \frac{1}{S} = 100\text{ req/s}$).
