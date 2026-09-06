@@ -19,8 +19,8 @@ function isMobile() {
 }
 
 export function generate({ target, n, enableRainbowAnimation, enableWaveAnimation = false }) {
-  const { width, height } = target.getBoundingClientRect()
-  const scale = Math.max(1, Math.min(window.devicePixelRatio || 1, 2))
+  let { width, height } = target.getBoundingClientRect()
+  let scale = Math.max(1, Math.min(window.devicePixelRatio || 1, 2))
   const canvas = document.createElement('canvas')
   canvas.width = Math.max(1, Math.round(width * scale))
   canvas.height = Math.max(1, Math.round(height * scale))
@@ -28,8 +28,7 @@ export function generate({ target, n, enableRainbowAnimation, enableWaveAnimatio
   target.insertBefore(canvas, target.firstChild)
 
   const context = canvas.getContext('2d')
-  context.scale(scale, scale)
-  const particles = Array.from({ length: n }, () => [Math.random() * width, Math.random() * height])
+  let particles = []
   let delaunay
   let voronoi
   let animationLast = 0
@@ -38,6 +37,20 @@ export function generate({ target, n, enableRainbowAnimation, enableWaveAnimatio
   const initialize = () => {
     delaunay = Delaunay.from(particles)
     voronoi = delaunay.voronoi([0.5, 0.5, width - 0.5, height - 0.5])
+  }
+  const resize = () => {
+    const bounds = target.getBoundingClientRect()
+    width = Math.max(1, bounds.width)
+    height = Math.max(1, bounds.height)
+    scale = Math.max(1, Math.min(window.devicePixelRatio || 1, 2))
+    canvas.width = Math.max(1, Math.round(width * scale))
+    canvas.height = Math.max(1, Math.round(height * scale))
+    canvas.style.width = `${width}px`
+    canvas.style.height = `${height}px`
+    context.setTransform(scale, 0, 0, scale, 0, 0)
+    particles = Array.from({ length: n }, () => [Math.random() * width, Math.random() * height])
+    Object.keys(lastTouched).forEach((index) => delete lastTouched[index])
+    initialize()
   }
 
   function waveAnimation() {
@@ -106,7 +119,9 @@ export function generate({ target, n, enableRainbowAnimation, enableWaveAnimatio
     rootBanner?.addEventListener('mousemove', onCanvasPointerMove)
   }
 
-  initialize()
+  const resizeObserver = new ResizeObserver(resize)
+  resizeObserver.observe(target)
+  resize()
   let tickRaf = 0
   let running = false
   const tick = (time) => {
@@ -133,6 +148,7 @@ export function generate({ target, n, enableRainbowAnimation, enableWaveAnimatio
     running = false
     cancelAnimationFrame(tickRaf)
     observer.disconnect()
+    resizeObserver.disconnect()
     canvas.removeEventListener('mousemove', onCanvasPointerMove)
     canvas.removeEventListener('touchmove', onCanvasPointerMove)
     target.replaceChildren()
