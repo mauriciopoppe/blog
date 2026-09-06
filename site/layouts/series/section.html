@@ -1,0 +1,41 @@
+{{/* Standalone landing pages for article series. */}}
+
+{{ define "head" }}
+  {{ partial "single-head.html" . }}
+{{ end }}
+
+{{ define "header" }}
+<header class="tw-container tw-mx-auto tw-p-3">
+  {{ partial "header-navigation.html" . }}
+  <div class="tw-group/note-preview" data-avatar-distortion-target="note-header">
+    <h2 class="tw-group/title md:tw-w-4/5 tw-mx-auto tw-text-center tw-text-4xl md:tw-text-6xl tw-m-5 tw-font-[Ultra]">
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+    </h2>
+    <div class="md:tw-w-3/5 tw-mx-auto tw-text-center">
+      {{ $summary := .Params.summary | default .Summary }}
+      {{ $summary | markdownify }}
+    </div>
+    <hr class="md:tw-w-3/5 tw-mx-auto tw-mt-5" />
+  </div>
+</header>
+{{ end }}
+
+{{ define "main" }}
+<section class="tw-container tw-mx-auto tw-p-3">
+  <div class="md:tw-w-3/5 tw-mx-auto">
+    <article role="main" class="content tw-min-w-0">
+      {{ .Content }}
+      {{ if eq .RelPermalink "/series/systems-performance-engineering/" }}
+        {{ partial "performance-series-nav.html" . }}
+      {{ end }}
+      {{ if eq .RelPermalink "/series/computer-graphics-pipeline/" }}
+        {{ partial "graphics-pipeline-nav.html" . }}
+      {{ end }}
+    </article>
+  </div>
+</section>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "single-footer.html" . }}
+{{ end }}

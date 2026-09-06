@@ -4,6 +4,7 @@
 */}}
 {{ $currentUrl := .RelPermalink }}
 {{ $currentStage := .Params.pipeline_stage | default "" }}
+{{ $isSeriesLanding := eq $currentUrl "/series/computer-graphics-pipeline/" }}
 {{ $isStep1 := eq $currentStage "transforms" }}
 {{ $isStep2 := eq $currentStage "view" }}
 {{ $isStep3 := eq $currentStage "projection" }}
@@ -74,7 +75,7 @@
   <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
     <div style="font-size: 14px; font-weight: 700; letter-spacing: 0.08em; color: rgb(var(--primary)); display: flex; align-items: center; gap: 8px;">
       <span class="material-symbols-outlined" style="font-size: 20px;">3d_rotation</span>
-      Computer Graphics Rendering Pipeline Series
+      <a href="/series/computer-graphics-pipeline/" style="color: inherit; text-decoration: none;">Computer Graphics Rendering Pipeline Series</a>
     </div>
     <div style="font-size: 13px; color: var(--grey-light); font-weight: 500;">
       Interactive Pipeline Guide
@@ -144,7 +145,7 @@
   </div>
 
   {{/* Stage 1 Sub-Series Breakdown */}}
-  {{ if $isStep1 }}
+  {{ if or $isStep1 $isSeriesLanding }}
   <div style="border-top: 1px solid var(--grey-dark); padding-top: 16px; margin-top: 14px;">
     <div style="font-size: 13px; font-weight: 700; color: var(--grey-light); margin-bottom: 10px; letter-spacing: 0.05em;">
       Stage 1 Deep-Dive: Transformation Matrices
