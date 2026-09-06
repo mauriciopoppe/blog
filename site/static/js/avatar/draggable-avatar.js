@@ -232,7 +232,6 @@ export function makeAvatarDraggable(avatar) {
   window.addEventListener('pointercancel', endDrag)
 
   avatar.addEventListener('avatar-restore-request', restoreOriginalPosition)
-  avatar.title = 'Drag to move avatar'
   avatar.style.cursor = 'grab'
   const dragIndicator = document.createElement('span')
   dragIndicator.className = 'avatar-drag-indicator'
@@ -265,7 +264,7 @@ export function makeAvatarDraggable(avatar) {
   indicatorIcon.textContent = 'drag_pan'
   indicatorIcon.style.fontSize = '16px'
   const indicatorText = document.createElement('span')
-  indicatorText.textContent = 'Drag to move'
+  indicatorText.textContent = 'Drag me'
   dragIndicator.append(indicatorIcon, indicatorText)
   shell.appendChild(dragIndicator)
   avatar.addEventListener('mouseenter', () => {

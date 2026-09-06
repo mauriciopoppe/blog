@@ -10,6 +10,7 @@ export function createAvatarEffects(avatarEl, store = playerStore) {
   let visualAnimation = null
   const pendingTimeouts = new Set()
   const pendingEvents = []
+  const MAX_PENDING_EVENTS = 256
   let unsubscribeFrame = null
   let lastDistortionAt = -Infinity
   let sunsetStreamActive = false
@@ -61,6 +62,10 @@ export function createAvatarEffects(avatarEl, store = playerStore) {
     sunsetStreamActive = false
     avatarEl.classList.remove('is-playing')
     detachDistortionFilters()
+  }
+
+  const handleVisibilityChange = () => {
+    if (document.hidden) pendingEvents.length = 0
   }
 
   const handleState = (state) => {
@@ -126,7 +131,7 @@ export function createAvatarEffects(avatarEl, store = playerStore) {
 
   function processEvents() {
     const context = store.audioContextInstance
-    if (!context || !store.getState().isPlaying) return
+    if (!context || !store.getState().isPlaying || document.hidden) return
     const dueEvents = []
     for (let i = pendingEvents.length - 1; i >= 0; i--) {
       if (pendingEvents[i].audioTime <= context.currentTime) {
@@ -140,7 +145,11 @@ export function createAvatarEffects(avatarEl, store = playerStore) {
 
   const handleEvent = (event) => {
     if (event.type !== 'note-scheduled' && event.type !== 'beat-scheduled') return
+    if (document.hidden) return
     pendingEvents.push(event)
+    if (pendingEvents.length > MAX_PENDING_EVENTS) {
+      pendingEvents.splice(0, pendingEvents.length - MAX_PENDING_EVENTS)
+    }
   }
 
   const handleSunsetOverlap = (event) => checkSunsetStream(event.detail?.overlaps)
@@ -148,11 +157,13 @@ export function createAvatarEffects(avatarEl, store = playerStore) {
   const unsubscribeState = store.subscribe(handleState)
   const unsubscribeEvents = store.subscribeEvents(handleEvent)
   avatarEl.addEventListener('avatar-sunset-overlap', handleSunsetOverlap)
+  document.addEventListener('visibilitychange', handleVisibilityChange)
 
   return () => {
     unsubscribeState()
     unsubscribeEvents()
     avatarEl.removeEventListener('avatar-sunset-overlap', handleSunsetOverlap)
+    document.removeEventListener('visibilitychange', handleVisibilityChange)
     stopEffects()
   }
 }

@@ -643,7 +643,19 @@ class PlayerStore {
     }
 
     const startTime = ctx.currentTime + (this.state.isContinuous ? 0.15 : 0.05)
-    const activeNodes = []
+    const activeNodes = new Set()
+    const trackAudioNode = (node, connectedNodes = []) => {
+      activeNodes.add(node)
+      if (typeof node.addEventListener !== 'function') return node
+      node.addEventListener('ended', () => {
+        activeNodes.delete(node)
+        try {
+          node.disconnect()
+          connectedNodes.forEach((connectedNode) => connectedNode.disconnect())
+        } catch (e) {}
+      }, { once: true })
+      return node
+    }
     const startOffset = phrase.offset
     const cycleDuration = timeline.duration
     const session = {
@@ -656,12 +668,13 @@ class PlayerStore {
       stopped: false
     }
     const lookAheadSeconds = 8
+    const fadeOutSeconds = 0.6
 
     const masterGain = ctx.createGain()
     const masterLevel = getPhraseMasterLevel(phrase)
     masterGain.gain.setValueAtTime(masterLevel, startTime)
     masterGain.connect(ctx.destination)
-    activeNodes.push(masterGain)
+    activeNodes.add(masterGain)
 
     this.setState({
       phraseIndex: newIdx,
@@ -674,8 +687,8 @@ class PlayerStore {
     trackMidiEvent('play_verse', { phrase_index: newIdx, title: phrase.title, duration: phrase.duration })
 
     const relativeOffset = (offset) => ((offset - startOffset) % cycleDuration + cycleDuration) % cycleDuration
-    const scheduleWindow = (windowStartOffset) => {
-      const windowEndOffset = windowStartOffset + lookAheadSeconds
+    const scheduleWindow = (windowStartOffset, windowDuration = lookAheadSeconds) => {
+      const windowEndOffset = windowStartOffset + windowDuration
       const scheduleOccurrences = (offset, callback) => {
         const relative = relativeOffset(offset)
         let cycle = Math.floor((windowStartOffset - relative) / cycleDuration)
@@ -707,7 +720,7 @@ class PlayerStore {
         noteGain.connect(masterGain)
         source.start(noteTime)
         source.stop(noteTime + note.dur + 1.2)
-        activeNodes.push(source)
+        trackAudioNode(source, [noteGain])
         this.emitEvent({
           type: 'note-scheduled',
           audioTime: noteTime,
@@ -730,7 +743,7 @@ class PlayerStore {
           const beatInBar = ((currentPhrase.startBeat - 1 + beatIdx) % beatsPerBar) + 1
           const isDownbeat = beatInBar === 1
           scheduleOccurrences(beatOffset, (beatTime) => {
-            activeNodes.push(playMetronomeClick(ctx, this.metronomeGainNode, beatTime, accents.includes(beatInBar)))
+            trackAudioNode(playMetronomeClick(ctx, this.metronomeGainNode, beatTime, accents.includes(beatInBar)))
             if (isDownbeat) {
               this.emitEvent({
                 type: 'beat-scheduled',
@@ -744,24 +757,40 @@ class PlayerStore {
     }
 
     const scheduleMore = () => {
-      if (session.stopped) return
+      if (session.stopped || !session.continuous) return
+      const windowStartOffset = session.scheduledUntil - startTime
+      if (windowStartOffset >= cycleDuration) return
+      const windowDuration = Math.min(lookAheadSeconds, cycleDuration - windowStartOffset)
       const delay = Math.max(0, (session.scheduledUntil - ctx.currentTime - 1) * 1000)
       const id = setTimeout(() => {
         this.activeTimeouts.delete(id)
         session.extensionTimer = null
-        scheduleWindow(session.scheduledUntil - startTime)
-        session.scheduledUntil += lookAheadSeconds
+        scheduleWindow(windowStartOffset, windowDuration)
+        session.scheduledUntil += windowDuration
         scheduleMore()
       }, delay)
       this.activeTimeouts.add(id)
       session.extensionTimer = id
     }
 
+    const scheduleContinuousCompletion = () => {
+      const completionId = setTimeout(() => {
+        this.activeTimeouts.delete(completionId)
+        session.completionId = null
+        if (session.stopped || !this.state.isPlaying) return
+        this.nextSong()
+      }, Math.max(0, (startTime + cycleDuration - ctx.currentTime) * 1000))
+      this.activeTimeouts.add(completionId)
+      session.completionId = completionId
+    }
+
     let finishPlayback = null
     if (session.continuous) {
-      scheduleWindow(0)
-      session.scheduledUntil += lookAheadSeconds
+      const firstWindowDuration = Math.min(lookAheadSeconds, cycleDuration)
+      scheduleWindow(0, firstWindowDuration)
+      session.scheduledUntil += firstWindowDuration
       scheduleMore()
+      scheduleContinuousCompletion()
     } else {
       const phraseEnd = startTime + phrase.duration
       timeline.notes
@@ -779,7 +808,7 @@ class PlayerStore {
           noteGain.connect(masterGain)
           source.start(noteTime)
           source.stop(noteTime + note.dur + 1.2)
-          activeNodes.push(source)
+          trackAudioNode(source, [noteGain])
           this.emitEvent({ type: 'note-scheduled', audioTime: noteTime, frequency: note.freq, velocity: note.vel, name: note.name, role: note.hand === 'left' ? 'background' : 'avatar' })
         })
       if (this.metronomeGainNode) {
@@ -793,7 +822,7 @@ class PlayerStore {
         for (let beatIdx = 0; beatIdx < totalBeats; beatIdx++) {
           const beatTime = startTime + beatIdx * secondsPerBeat
           const beatInBar = ((phrase.startBeat - 1 + beatIdx) % beatsPerBar) + 1
-          activeNodes.push(playMetronomeClick(ctx, this.metronomeGainNode, beatTime, accents.includes(beatInBar)))
+          trackAudioNode(playMetronomeClick(ctx, this.metronomeGainNode, beatTime, accents.includes(beatInBar)))
           if (beatInBar === 1) {
             this.emitEvent({
               type: 'beat-scheduled',
@@ -803,12 +832,12 @@ class PlayerStore {
           }
         }
       }
-      masterGain.gain.setValueAtTime(masterLevel, startTime + Math.max(0, phrase.duration - 0.2))
-      masterGain.gain.linearRampToValueAtTime(0.001, startTime + phrase.duration + 0.4)
+      masterGain.gain.setValueAtTime(masterLevel, startTime + Math.max(0, phrase.duration - fadeOutSeconds))
+      masterGain.gain.linearRampToValueAtTime(0.001, startTime + phrase.duration)
       finishPlayback = () => {
         if (!this.state.isPlaying) return
         this.stop()
-        const nextIdx = (this.state.phraseIndex + 1) % phrases.length
+        const nextIdx = (newIdx + 1) % phrases.length
         const nextPhrase = timeline.phrases[nextIdx]
         this.setState({
           phraseIndex: nextIdx,
@@ -822,7 +851,7 @@ class PlayerStore {
         this.activeTimeouts.delete(completionId)
         session.completionId = null
         finishPlayback()
-      }, Math.max(0, (phraseEnd - ctx.currentTime) * 1000))
+      }, Math.max(0, (phraseEnd + 0.05 - ctx.currentTime) * 1000))
       this.activeTimeouts.add(completionId)
       session.completionId = completionId
       session.scheduledUntil = phraseEnd
@@ -832,7 +861,7 @@ class PlayerStore {
     const updateProgress = () => {
       if (session.stopped || !this.state.isPlaying) return
       const elapsed = Math.max(0, ctx.currentTime - startTime)
-      if (!this.state.isContinuous && elapsed >= phrase.duration) {
+      if (!this.state.isContinuous && elapsed >= phrase.duration + 0.05) {
         finishPlayback()
         return
       }
@@ -863,25 +892,32 @@ class PlayerStore {
             node.disconnect()
           } catch (e) {}
         })
+        activeNodes.clear()
       },
       setContinuous: (enabled) => {
         if (session.stopped || session.continuous === enabled) return
         session.continuous = enabled
 
+        if (session.completionId) {
+          clearTimeout(session.completionId)
+          this.activeTimeouts.delete(session.completionId)
+          session.completionId = null
+        }
+
         if (enabled) {
           const currentOffset = (startOffset + Math.max(0, ctx.currentTime - startTime)) % cycleDuration
           resetMasterGainForLoop(masterGain, ctx.currentTime, getPhraseMasterLevel(findPhraseAtOffset(timeline, currentOffset)))
-          if (session.completionId) {
-            clearTimeout(session.completionId)
-            this.activeTimeouts.delete(session.completionId)
-            session.completionId = null
-          }
           if (!session.extensionTimer) {
             session.scheduledUntil = Math.max(session.scheduledUntil, ctx.currentTime)
-            scheduleWindow(session.scheduledUntil - startTime)
-            session.scheduledUntil += lookAheadSeconds
+            const windowStartOffset = session.scheduledUntil - startTime
+            const windowDuration = Math.min(lookAheadSeconds, Math.max(0, cycleDuration - windowStartOffset))
+            if (windowDuration > 0) {
+              scheduleWindow(windowStartOffset, windowDuration)
+              session.scheduledUntil += windowDuration
+            }
             scheduleMore()
           }
+          scheduleContinuousCompletion()
         } else if (session.extensionTimer) {
           clearTimeout(session.extensionTimer)
           this.activeTimeouts.delete(session.extensionTimer)
@@ -894,11 +930,14 @@ class PlayerStore {
           const currentPhrase = timeline.phrases[this.state.phraseIndex]
           let remaining = currentPhrase.offset + currentPhrase.duration - songOffset
           if (remaining <= 0) remaining += cycleDuration
+          masterGain.gain.cancelScheduledValues(ctx.currentTime)
+          masterGain.gain.setValueAtTime(masterLevel, ctx.currentTime + Math.max(0, remaining - fadeOutSeconds))
+          masterGain.gain.linearRampToValueAtTime(0.001, ctx.currentTime + remaining)
           const completionId = setTimeout(() => {
             this.activeTimeouts.delete(completionId)
             session.completionId = null
             finishPlayback()
-          }, remaining * 1000)
+          }, (remaining + 0.05) * 1000)
           this.activeTimeouts.add(completionId)
           session.completionId = completionId
         }
@@ -928,6 +967,22 @@ class PlayerStore {
         currentBeat: nextPhrase ? nextPhrase.startBeat : 1
       })
     }
+  }
+
+  prevSong() {
+    const currentIndex = this.songs.findIndex((song) => song.id === this.state.song.id)
+    const previousIndex = (currentIndex - 1 + this.songs.length) % this.songs.length
+    this.selectSong(this.songs[previousIndex].id)
+  }
+
+  nextSong() {
+    if (this.songs.length <= 1) {
+      if (this.state.isPlaying) this.playVerse(this.state.phraseIndex)
+      return
+    }
+    const currentIndex = this.songs.findIndex((song) => song.id === this.state.song.id)
+    const nextIndex = (currentIndex + 1) % this.songs.length
+    this.selectSong(this.songs[nextIndex].id)
   }
 
   prevVerse() {
