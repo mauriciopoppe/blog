@@ -363,6 +363,41 @@ describe('Notes Knowledge Graph Logic', () => {
       expect(cgLink).toBeDefined()
       expect(cgLink.weight).toBeGreaterThan(0)
     })
+
+    it('connects every life article to the Documenting my life hub', () => {
+      const graph = buildGraphData([
+        {
+          id: '/notes/documenting-my-life/',
+          url: '/notes/documenting-my-life/',
+          title: 'Documenting my life',
+          tags: ['life', 'journaling'],
+          popularity: 80
+        },
+        {
+          id: '/notes/learning-french/',
+          url: '/notes/learning-french/',
+          title: 'Learning French',
+          tags: ['life', 'languages', 'french'],
+          popularity: 40
+        },
+        {
+          id: '/notes/complex-numbers/',
+          url: '/notes/complex-numbers/',
+          title: 'Complex Numbers',
+          tags: ['math', 'complex numbers'],
+          popularity: 40
+        }
+      ], 0)
+
+      expect(graph.links).toContainEqual({
+        source: '/notes/documenting-my-life/',
+        target: '/notes/learning-french/',
+        weight: 1
+      })
+      expect(graph.links).not.toContainEqual(expect.objectContaining({
+        target: '/notes/complex-numbers/'
+      }))
+    })
   })
 
   describe('calculateEdgeWeight (Graph Edge Audit)', () => {

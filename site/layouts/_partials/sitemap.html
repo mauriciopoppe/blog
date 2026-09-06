@@ -40,7 +40,15 @@
             <li class="tw-mb-3">
               <a href="{{ $page.RelPermalink }}" class="sitemap-note-card tw-relative tw-block tw-rounded-lg tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-cursor-pointer tw-shadow-subtle hover:tw-border-primary hover:tw-bg-primary-soft hover:tw-shadow-deep hover:tw-filter-none tw-transition-all tw-p-2 tw-no-underline">
                 {{ with ($page.Params.preview_image | default $page.Params.image) }}<div class="sitemap-note-card-bg" style="background-image: url('{{ . | absURL }}');"></div>{{ end }}
-                <div class="sitemap-note-card-title tw-relative tw-z-10 tw-font-sans tw-text-sm tw-font-bold tw-leading-tight tw-text-[var(--grey-lighter)] tw-mb-1">{{ $page.Title }}</div>
+                <div class="tw-relative tw-z-10 tw-flex tw-items-start tw-justify-between tw-gap-2 tw-mb-1">
+                  <div class="sitemap-note-card-title tw-font-sans tw-text-sm tw-font-bold tw-leading-tight tw-text-[var(--grey-lighter)]">{{ $page.Title }}</div>
+                  {{ if $page.Draft }}
+                    <span class="tw-inline-flex tw-items-center tw-gap-1 tw-shrink-0 tw-rounded-full tw-bg-amber-400/15 tw-px-1.5 tw-py-0.5 tw-text-[10px] tw-font-semibold tw-leading-none tw-text-amber-300" title="Draft note">
+                      <span class="tw-inline-block tw-h-1.5 tw-w-1.5 tw-rounded-full tw-bg-amber-300"></span>
+                      Draft
+                    </span>
+                  {{ end }}
+                </div>
                 <div class="tw-relative tw-z-10 tw-mt-0.5 tw-text-xs tw-leading-tight tw-text-[var(--grey-light)]">{{ ($page.Params.summary | default $page.Description | default $page.Summary) | markdownify }}</div>
               </a>
             </li>
@@ -55,7 +63,15 @@
               <li class="tw-mb-3{{ if eq .RelPermalink $current.RelPermalink }} is-active{{ end }}">
                 <a href="{{ .RelPermalink }}" class="sitemap-note-card tw-relative tw-block tw-rounded-lg tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-cursor-pointer tw-shadow-subtle hover:tw-border-primary hover:tw-bg-primary-soft hover:tw-shadow-deep hover:tw-filter-none tw-transition-all tw-p-2 tw-no-underline">
                   {{ with (.Params.preview_image | default .Params.image) }}<div class="sitemap-note-card-bg" style="background-image: url('{{ . | absURL }}');"></div>{{ end }}
-                  <div class="sitemap-note-card-title tw-relative tw-z-10 tw-font-sans tw-text-sm tw-font-bold tw-leading-tight tw-text-[var(--grey-lighter)] tw-mb-1">{{ .Title }}</div>
+                  <div class="tw-relative tw-z-10 tw-flex tw-items-start tw-justify-between tw-gap-2 tw-mb-1">
+                    <div class="sitemap-note-card-title tw-font-sans tw-text-sm tw-font-bold tw-leading-tight tw-text-[var(--grey-lighter)]">{{ .Title }}</div>
+                    {{ if .Draft }}
+                      <span class="tw-inline-flex tw-items-center tw-gap-1 tw-shrink-0 tw-rounded-full tw-bg-amber-400/15 tw-px-1.5 tw-py-0.5 tw-text-[10px] tw-font-semibold tw-leading-none tw-text-amber-300" title="Draft note">
+                        <span class="tw-inline-block tw-h-1.5 tw-w-1.5 tw-rounded-full tw-bg-amber-300"></span>
+                        Draft
+                      </span>
+                    {{ end }}
+                  </div>
                   <div class="tw-mt-0.5 tw-text-xs tw-leading-tight tw-text-[var(--grey-light)]">{{ (.Params.summary | default .Description | default .Summary) | markdownify }}</div>
                 </a>
               </li>

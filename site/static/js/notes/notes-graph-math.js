@@ -275,6 +275,8 @@ export function buildGraphData(rawNotes = [], maxEdgesPerNode = 3) {
       isFavorite,
       interactive,
       isDraft: Boolean(note.isDraft),
+      series: note.series || '',
+      seriesUrl: note.seriesUrl || '',
       popularity,
       radius,
       cluster,
@@ -323,6 +325,25 @@ export function buildGraphData(rawNotes = [], maxEdgesPerNode = 3) {
         })
       }
     })
+  }
+
+  // Keep the personal writing cluster anchored to its long-form hub. The
+  // shared `life` tag may lose to more specific tags in the top-k pass, but
+  // every life article should still connect to Documenting my life.
+  const lifeHub = nodes.find((node) => node.id === '/notes/documenting-my-life/' || node.title === 'Documenting my life')
+  if (lifeHub) {
+    for (const node of nodes) {
+      if (node === lifeHub || node.cluster !== 'life') continue
+      const key = lifeHub.id < node.id ? `${lifeHub.id}->${node.id}` : `${node.id}->${lifeHub.id}`
+      if (!edgeSet.has(key)) {
+        edgeSet.add(key)
+        links.push({
+          source: lifeHub.id,
+          target: node.id,
+          weight: 1
+        })
+      }
+    }
   }
 
   return { nodes, links }

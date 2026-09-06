@@ -18,6 +18,8 @@
   {{ $favUrls = $favUrls | append (printf "%s/" $favUrlNorm) }}
 {{ end }}
 {{ $popMap := site.Data.popularity | default dict }}
+{{ $seriesTitle := dict "performance-series" "Systems Performance Engineering" "computer-graphics-pipeline" "Computer Graphics Pipeline" }}
+{{ $seriesUrl := dict "performance-series" "/series/systems-performance-engineering/" "computer-graphics-pipeline" "/series/computer-graphics-pipeline/" }}
 {{ $notesData := slice }}
 {{ range .RegularPagesRecursive.ByDate.Reverse }}
   {{ $url := .RelPermalink }}
@@ -34,9 +36,12 @@
     {{ end }}
   {{ end }}
   {{ $tags := .Params.tags | default slice }}
+  {{ $seriesKey := .Params.series | default "" }}
+  {{ $seriesName := index $seriesTitle $seriesKey | default "" }}
+  {{ $seriesLink := index $seriesUrl $seriesKey | default "" }}
   {{ $summary := (.Params.summary | default .Summary) | markdownify }}
   {{ $previewImage := .Params.preview_image | default .Params.image | default "" }}
-  {{ $item := dict "id" $url "url" $url "title" .Title "summary" $summary "date" (.Date.Format "Jan 2, 2006") "tags" $tags "readingTime" .ReadingTime "isFavorite" $isFav "interactive" $isInteractive "isDraft" .Draft "popularity" $pop "image" $previewImage }}
+  {{ $item := dict "id" $url "url" $url "title" .Title "summary" $summary "date" (.Date.Format "Jan 2, 2006") "tags" $tags "readingTime" .ReadingTime "isFavorite" $isFav "interactive" $isInteractive "isDraft" .Draft "popularity" $pop "image" $previewImage "series" $seriesName "seriesUrl" $seriesLink }}
   {{ $notesData = $notesData | append $item }}
 {{ end }}
 

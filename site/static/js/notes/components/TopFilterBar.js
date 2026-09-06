@@ -102,7 +102,7 @@ export function TopFilterBar({
 
     <header class="tw-absolute tw-top-3 sm:tw-top-4 tw-left-2 tw-right-2 sm:tw-left-4 sm:tw-right-4 tw-pointer-events-none tw-flex tw-items-center tw-justify-center tw-z-30">
       <div
-        class="tw-pointer-events-auto tw-flex tw-items-center tw-gap-1 tw-p-1 tw-rounded-full tw-bg-[var(--grey-dark)]/90 tw-backdrop-blur-md tw-border tw-border-[var(--ring-border)] tw-shadow-subtle tw-max-w-full tw-overflow-hidden"
+        class="tw-pointer-events-auto tw-flex tw-items-center tw-gap-1 tw-p-1 tw-rounded-full tw-bg-[var(--grey-dark)]/95 tw-backdrop-blur-md tw-border tw-border-[var(--ring-border)] tw-shadow-subtle tw-max-w-full tw-overflow-hidden"
       >
         <!-- Home Button -->
         <a

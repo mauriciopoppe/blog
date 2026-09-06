@@ -110,6 +110,14 @@ export function NoteTooltip({ node, pos }) {
                   </span>
                 `
               : null}
+            ${node.series
+              ? html`
+                  <span class="tw-inline-flex tw-items-center tw-gap-1 tw-text-primary tw-font-medium tw-text-xs tw-leading-tight tw-border tw-border-primary/30 tw-rounded-full tw-px-2 tw-py-0.5">
+                    <span class="material-symbols-outlined" style="font-size: 13.5px">route</span>
+                    ${node.series}
+                  </span>
+                `
+              : null}
           </div>
 
           <div class="tw-flex tw-flex-wrap tw-items-center tw-gap-x-2 tw-gap-y-1 tw-leading-tight">

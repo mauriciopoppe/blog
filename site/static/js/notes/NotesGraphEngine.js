@@ -351,8 +351,8 @@ export class NotesGraphEngine {
     })
 
     this.canvas.addEventListener('mouseleave', (event) => {
-      // The desktop status-link anchor sits directly over the hovered node.
-      // Moving onto it leaves the canvas, but should not dismiss the preview.
+      // Keep the preview when the pointer moves onto the non-interactive
+      // accessibility anchor used for the current node.
       const activeAnchor = document.getElementById('notes-graph-active-anchor')
       if (activeAnchor && event.relatedTarget === activeAnchor) return
       if (this.hoveredNode) {
@@ -367,10 +367,12 @@ export class NotesGraphEngine {
   handleMouseMove(e, isDragging) {
     if (isDragging) {
       if (this.hoveredNode) {
-        this.hoveredNode = null
-        this.updateHoveredNeighbors(null)
-        this.onLeaveNode()
-        this.startAnimation()
+        // Keep the preview attached to the node while the camera pans.
+        // The zoom handler updates the transform and this callback keeps the
+        // DOM anchor and tooltip positioned over the transformed node.
+        const screenX = this.transform.applyX(this.hoveredNode.x)
+        const screenY = this.transform.applyY(this.hoveredNode.y)
+        this.onHoverNode(this.hoveredNode, { x: screenX, y: screenY })
       }
       return
     }
