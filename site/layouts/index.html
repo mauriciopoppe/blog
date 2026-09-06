@@ -2,6 +2,9 @@
 
 {{ define "head" }}
   {{ partial "head.html" . }}
+  {{ range site.Data.favorites }}
+    <link rel="prefetch" href="{{ .url | relURL }}">
+  {{ end }}
 {{ end }}
 
 {{ define "main" }}
