@@ -1,0 +1,359 @@
+- id: function-plot
+  title: function-plot
+  first_commit: 2015-03-29
+  order: 1
+  description: A versatile 2D function plotter built on [D3.js](https://d3js.org/) for rendering functions with little configuration. It supports interactive line charts and scatterplots, and evaluates functions again when the graph scale changes.
+  why: >-
+    When I started this blog, I decided to learn the fundamentals needed for
+    computer graphics and physics engines. That path led me to learn and write
+    about [derivatives](/notes/mathematics/calculus/derivative/), calculus, and
+    related topics. I wanted to represent derivatives visually, but I could
+    not find a library in the D3.js community that did this. I first wrote an
+    inline D3.js script and then realized I could build an API around it.
+    function-plot grew out of that experiment.
+
+    This became one of the most complex projects I have worked on. A 2D
+    plotter looks like a function sampler, but handling asymptotes and rapidly
+    oscillating functions requires much more. I learned that plotting correctly
+    is tied to how computers represent numbers and lose precision in values
+    such as 1/3. That led me to write
+    [interval-arithmetic](https://github.com/mauriciopoppe/interval-arithmetic),
+    which works with intervals instead of individual numbers. I then wrote a
+    parser from scratch to turn expressions such as `x^2+x-3` into executable
+    JavaScript using interval arithmetic.
+
+    I am still working on function-plot more than ten years later, and it
+    continues to evolve with new features. The project has also brought me
+    opportunities to meet one of the early employees of
+    [Figma](https://www.figma.com/) and visit their offices, and to connect
+    with the author of [GeoGebra](https://www.geogebra.org/?lang=en), one of
+    the leading products for teaching mathematics.
+  technologies: [JavaScript, visualization, mathematics]
+  image: https://user-images.githubusercontent.com/1616682/93912098-23060300-fcb8-11ea-823f-be8dfe9c24b9.png
+  image_alt: Function Plot rendering interactive mathematical curves.
+  demo: https://mauriciopoppe.github.io/function-plot/
+  source: https://github.com/mauriciopoppe/function-plot
+  related:
+    - title: "First article: Derivatives"
+      url: /notes/mathematics/calculus/derivative/
+    - title: Integrals
+      url: /notes/mathematics/calculus/integral/
+- id: greuler
+  title: greuler
+  first_commit: 2015-07-09
+  order: 2
+  description: >-
+    A graph theory visualization tool powered by [D3.js](https://d3js.org/)
+    and [WebCola](https://marvl.infotech.monash.edu/webcola/) for creating and
+    manipulating graphs with a simple API. It can animate graph structures,
+    traversals, and changes to nodes and edges. The project later reached the
+    [top of Hacker News](https://www.daemonology.net/hn-daily/2015-07-17.html).
+  why: >-
+    I decided to learn more about graph theory and wanted to see algorithms
+    unfold instead of only reading their descriptions. Once again, I could not
+    find a JavaScript library with the interactivity I wanted, so I started
+    with a D3.js script and then realized it could be abstracted into an API.
+
+    I like that the API is declarative. You describe the nodes and edges you
+    want, and the library makes the graph match that description. Later, I
+    recognized this as a control loop: the system repeatedly reconciles the
+    actual state of the graph with the desired state. Looking back, this gave
+    me an early intuition for the controller pattern I would later encounter
+    in [Kubernetes controllers](https://kubernetes.io/docs/concepts/architecture/controller/).
+
+    The project became popular enough to reach the top of Hacker News in 2015,
+    which is still one of the things I enjoy most about this project.
+  technologies: [JavaScript, D3.js, WebCola, graphs, visualization]
+  demo: https://mauriciopoppe.github.io/greuler/
+  source: https://github.com/mauriciopoppe/greuler
+  video: /video/greuler.mp4
+  additional_images:
+    - src: /images/software/greuler-hacker-news.webp
+      alt: Screenshot showing Greuler at the top of Hacker News.
+  related:
+    - title: Hacker News top ranking
+      url: https://www.daemonology.net/hn-daily/2015-07-17.html
+- id: pojoviz
+  title: PojoViz
+  first_commit: 2014-07-04
+  order: 1
+  description: A runtime tool for visualizing the object structure of JavaScript libraries and frameworks, with SVG/D3 and Three.js renderers.
+  why: >-
+    I was learning JavaScript and wanted a better way to visualize the code I
+    wrote. I built a tool that analyzed JavaScript object structures at runtime
+    by following objects and their prototypes, including the `__proto__`
+    inheritance model used before JavaScript classes. The project taught me
+    that `typeof Function.prototype` is `function`, that some objects in
+    `window` are read-only, and that many array-like objects exist deep in the
+    `window` object graph. PojoViz was later featured in
+    [JavaScript Weekly issue 194](https://javascriptweekly.com/issues/194),
+    which showed me what was possible when I was ambitious enough to build and
+    share an idea.
+  technologies: [JavaScript, D3.js, SVG, Three.js, developer tools, visualization]
+  demo: https://mauriciopoppe.github.io/PojoViz/
+  source: https://github.com/mauriciopoppe/PojoViz
+  video: /video/pojoviz.mp4
+  additional_images:
+    - src: /images/software/pojoviz.webp
+      alt: PojoViz visualizing JavaScript object relationships.
+  related:
+    - title: JavaScript Weekly issue 194
+      url: https://javascriptweekly.com/issues/194
+- id: city-car-drive
+  title: City Car Drive
+  first_commit: 2013-06-14
+  order: 2
+  description: A 3D interactive city with a car that can be driven around, built as a course project with Three.js.
+  why: >-
+    I built this while studying for my undergraduate degree, after taking
+    [Udacity’s free Interactive 3D Graphics course](https://www.udacity.com/course/interactive-3d-graphics--cs291)
+    with [Eric Haines](https://erich.realtimerendering.com/). I entered the
+    course demo contest and [won the Best Animation category](https://www.udacity.com/blog/interactive-3d-graphics-class-second/).
+    The project inspired me to learn more about frontend development, shaped
+    the feel I want for the software I produce, and led me toward building the
+    APE rigid body physics engine for my undergraduate thesis.
+  technologies: [JavaScript, Three.js, WebGL]
+  image: https://mauriciopoppe.github.io/Three.js-City/T3/images/screenshots/1.jpg
+  image_alt: A screenshot of the Three.js City car-driving scene.
+  video: /video/city-car.mp4
+  video_poster: https://mauriciopoppe.github.io/Three.js-City/T3/images/screenshots/1.jpg
+  additional_images:
+    - src: /images/eric-heines-book-signed.jpg
+      alt: A signed Eric Haines computer graphics book, received as the contest prize.
+  demo: https://mauriciopoppe.github.io/Three.js-City/T3/
+  source: https://github.com/mauriciopoppe/Three.js-City
+  related:
+    - title: Udacity course
+      url: https://www.udacity.com/course/interactive-3d-graphics--cs291
+    - title: Contest result
+      url: https://www.udacity.com/blog/interactive-3d-graphics-class-second/
+    - title: Eric Haines
+      url: https://erich.realtimerendering.com/
+- id: ape
+  title: APE
+  first_commit: 2014-01-01
+  order: 3
+  description: A 3D rigid body physics engine built from scratch in JavaScript, beginning with particles and extending to rigid bodies and collision handling.
+  why: I built APE as my undergraduate thesis after learning computer graphics with Three.js. I used it to study how physics and mathematics become a simulation, including how F = ma connects acceleration to velocity and position through integration. The thesis develops the theory of position, velocity, acceleration, and mass, then implements integration, collision detection, and collision resolution before demonstrating the engine in a billiards game.
+  technologies: [JavaScript, physics, mathematics]
+  demo: https://mauriciopoppe.github.io/Ape/demos/index.html
+  source: https://github.com/mauriciopoppe/Ape
+  video: /video/ape.mp4
+  additional_images:
+    - src: /images/software/ape.webp
+      alt: APE rigid body physics engine showing particles and bodies in a 3D scene.
+- id: quickhull3d
+  title: quickhull3d
+  first_commit: 2015-03-09
+  order: 3
+  description: A fast JavaScript implementation of the 3D convex hull algorithm, optimized for JavaScript primitives such as ArrayBuffer.
+  why: >-
+    I first learned about convex hulls while practicing for the ICPC contest
+    during my undergraduate studies. Later, I learned that convex hulls can
+    reduce the geometry sent to physics engines such as APE. When I looked at
+    the JavaScript ecosystem, I could not find a performant implementation, so
+    I ported a popular Java implementation and optimized it for JavaScript
+    primitives such as ArrayBuffer. The library became the fastest convex hull
+    implementation in the JavaScript ecosystem. It was later incorporated into
+    Three.js, where the new implementation reduced the runtime of finding
+    convex hulls from quadratic time to n log n in
+    [this pull request](https://github.com/mrdoob/three.js/pull/10987).
+  technologies: [TypeScript, computational geometry]
+  image: /images/software/quickhull3d.webp
+  image_alt: Quickhull3d visualization of a convex hull around a set of points.
+  source: https://github.com/mauriciopoppe/quickhull3d
+- id: interval-arithmetic
+  title: interval arithmetic
+  first_commit: 2015-05-10
+  order: 4
+  description: >-
+    A JavaScript implementation of interval arithmetic, adapted from
+    [Boost's library](https://www.boost.org/). It represents possible values
+    as bounded ranges instead of single floating-point approximations, giving
+    [function-plot](#function-plot) the reliable bounds it needs to render
+    asymptotes and rapidly oscillating curves.
+  why: >-
+    While working on function-plot, I learned that rendering a function
+    correctly was a numerical problem, not only a visualization problem. I
+    wanted the plotter to provide reliable bounds for every part of a curve,
+    so I needed arithmetic that carried uncertainty through each operation.
+    That led me to learn interval arithmetic and build this implementation.
+
+    Calling interval methods directly quickly became cumbersome for complex
+    expressions. Writing `sin(exp(x)) + tan(x) - 1/cos(PI) * [1, 3]^2` as
+    nested method calls obscured the mathematics, so I also created an
+    [interval arithmetic evaluator](https://github.com/mauriciopoppe/interval-arithmetic-eval)
+    that parses expressions and evaluates them over intervals. That evaluator
+    became part of the path from a string such as `x^2+x-3` to executable
+    JavaScript in function-plot.
+  technologies: [TypeScript, mathematics, numerical computing]
+  image: /images/software/interval-arithmetic.webp
+  image_alt: Interval arithmetic visualization showing bounded numerical values.
+  demo: https://mauriciopoppe.github.io/interval-arithmetic/
+  source: https://github.com/mauriciopoppe/interval-arithmetic
+  related:
+    - title: function-plot
+      url: /software/#function-plot
+- id: blog
+  title: My blog
+  first_commit: 2015-01-01
+  order: 1
+  description: The source code for this blog, where I write about life, mathematics, computer science, and software.
+  why: >-
+    I started this blog as a space to write notes for myself. Over time, I
+    added animations and interactive elements so the notes could live in a
+    format that felt natural to me. I like knowing that what I write can share
+    a small part of my mind with the rest of the world.
+  technologies: [Hugo, JavaScript, writing]
+  image: /images/software/my-blog.webp
+  image_alt: Mauricio Poppe blog homepage showing notes and interactive projects.
+  demo: https://mauriciopoppe.com/
+  source: https://github.com/mauriciopoppe/blog
+- id: dotfiles
+  title: My dotfiles
+  first_commit: 2017-01-01
+  order: 1
+  description: Personal development environment configuration for work and home.
+  why: >-
+    As I started using the terminal more and working across many projects, I
+    needed a consistent environment that I could control and reproduce. I
+    began adopting the [tmux](https://github.com/tmux/tmux),
+    [Zsh](https://www.zsh.org/), and
+    [Neovim](https://neovim.io/) trinity, then grew these dotfiles around
+    them. The repository now includes an automated, modular installer and
+    configurations for tools such as Ghostty, Git, Go, Python, Rust, and
+    Zellij. It remains a work in progress, and I document more of the workflow
+    in my [productivity notes](/notes/misc/productivity-skills/).
+  technologies: [Shell, configuration, developer tools]
+  image: /images/software/my-dotfiles.webp
+  image_alt: My dotfiles GitHub repository README.
+  source: https://github.com/mauriciopoppe/dotfiles
+- id: subtitle-insights
+  title: Subtitle Insights
+  first_commit: 2025-12-27
+  order: 1
+  description: A Chrome extension that provides AI insights and translations for video subtitles.
+  why: >-
+    I use YouTube as my main teaching platform. When I watched Japanese videos
+    with subtitles, I wanted more context than the player provided: furigana
+    alongside translations, explanations that could be generated in the
+    browser, and a way to pause automatically at the end of a sentence so I
+    had time to study what was said.
+
+    [Subtitle Insights](https://mauriciopoppe.github.io/SubtitleInsights/)
+    grew into a local, privacy-first Chrome extension that turns videos into
+    interactive lessons. Its smart sidebar stays synchronized with the
+    transcript, and its pause-on-hover controls support shadowing and focused
+    study. This was one of my first projects where I used AI beyond writing
+    code by hand or asking for isolated snippets. I used the then-available
+    Conductor extension for Gemini to iterate quickly on the extension over a
+    few weekends.
+  technologies: [JavaScript, Chrome extension, language learning]
+  demo: https://mauriciopoppe.github.io/SubtitleInsights/
+  docs: https://mauriciopoppe.github.io/SubtitleInsights/introduction/
+  source: https://github.com/mauriciopoppe/SubtitleInsights
+  video: https://mauriciopoppe.github.io/SubtitleInsights/intro_web.mp4
+- id: kubernetes-playground
+  title: Kubernetes Playground
+  first_commit: 2022-03-29
+  order: 1
+  description: Notes and experiments for Kubernetes development.
+  why: >-
+    As I learned about [Kubernetes](https://kubernetes.io/), I started writing
+    small applications and experiments to teach myself how it works. The
+    projects cover topics such as controllers, Kubernetes storage internals,
+    and how [kind](https://kind.sigs.k8s.io/) works under the hood. The
+    repository became a place to turn questions into runnable examples and
+    notes.
+  technologies: [Kubernetes, Go, infrastructure]
+  image: /images/software/kubernetes-playground.webp
+  image_alt: Kubernetes Playground GitHub repository README.
+  source: https://github.com/mauriciopoppe/kubernetes-playground
+- id: anki-decks
+  title: Anki Decks
+  first_commit: 2025-12-25
+  order: 1
+  description: Skills and card material for learning languages with Anki.
+  why: >-
+    I learn languages and use [Anki](https://apps.ankiweb.net/) on my phone to
+    keep the habit going. I started collecting new words and saving them in
+    Anki so I could review them whenever I had an opportunity. That practice
+    helped me reach an intermediate level in French, and it is now helping me
+    learn Japanese too. These decks and skills are the material I use to make
+    that process more effective.
+  technologies: [Anki, language learning]
+  image: /images/software/anki-decks.webp
+  image_alt: Anki Decks GitHub repository README.
+  source: https://github.com/mauriciopoppe/anki-decks
+- id: ten-minute-abs-timer
+  title: 10 Min Abs Timer
+  first_commit: 2025
+  order: 1
+  description: Personalized abdominal routines with four difficulties and mood-based playlists.
+  why: >-
+    I do ab exercises regularly and got tired of listening to the same songs
+    in the YouTube routine I followed. I built this with AI Studio and added
+    features I wanted for myself, including multiple difficulty tiers, a
+    calendar tracker for motivation, mood-based playlists, and support for
+    additional weights. I now use it to track pushups and squats too.
+  technologies: [JavaScript, fitness, playlists]
+  image: /images/software/ten-minute-abs-timer.webp
+  image_alt: 10 Min Abs Timer shown in a mobile browser viewport.
+  demo: https://service-10-min-perfect-abs-timer-673673358142.us-west1.run.app
+- id: rattrack-nyc
+  title: RatTrack NYC
+  first_commit: 2025
+  order: 2
+  description: An app for logging rat sightings with coordinates and statistics.
+  why: >-
+    Rats appear all the time in New York City, so I decided to turn spotting
+    them into a small game. Whenever I see one, I record it in RatTrack and can
+    later explore the locations on a map and see where I have found the most
+    rats through a heat map. The app also includes sightings from Boston and
+    Paris.
+  technologies: [JavaScript, maps, data visualization]
+  image: /images/software/rattrack-nyc.webp
+  image_alt: RatTrack NYC shown in a mobile browser viewport.
+  demo: https://rattrack-nyc-673673358142.us-west1.run.app
+- id: epub-translation
+  title: EPUB Translation
+  first_commit: 2026-05-03
+  order: 1
+  description: An AI-agent-agnostic tool for translating EPUB files while preserving formatting and structure.
+  why: >-
+    I made EPUB Translation to translate books I want to study into another
+    language, such as French. It lets me learn a new subject from a book while
+    learning the language at the same time, and preserves the structure and
+    formatting of the EPUB along the way.
+  technologies: [TypeScript, EPUB, translation]
+  image: /images/software/epub-translation.webp
+  image_alt: EPUB Translation GitHub repository README.
+  source: https://github.com/mauriciopoppe/epub-translation
+- id: llm-inference-simulator
+  title: LLM Inference Simulator
+  first_commit: 2026
+  order: 2
+  description: A simulator for exploring how inference metrics relate to hardware, models, and load.
+  why: >-
+    I built this [AI Studio](https://aistudio.google.com/) app to develop
+    intuition for serving large language models. It helped me explore metrics
+    such as TPOT, TTFT, and TPS, the hardware involved, input and output
+    sequence lengths, inference server configuration, and deployment flags
+    such as tensor parallelism and data parallelism.
+  technologies: [JavaScript, systems, visualization]
+  image: /images/software/llm-inference-simulator.webp
+  image_alt: LLM Inference Simulator shown in a browser viewport.
+  demo: https://llm-inference-673673358142.us-west1.run.app
+- id: links
+  title: Links
+  first_commit: 2026
+  order: 3
+  description: A Linktree-style page for collecting my links.
+  why: >-
+    I wanted a simple Linktree clone for collecting my links. Since it is my
+    own page, I also embedded a few videos of my performances on YouTube.
+  technologies: [Hugo, HTML, CSS]
+  image: /images/software/links.webp
+  image_alt: Links page shown in a mobile browser viewport.
+  demo: https://mauriciopoppe.com/links/
+  source: https://github.com/mauriciopoppe/blog

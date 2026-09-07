@@ -1,0 +1,156 @@
+{{ define "head" }}
+  {{ partial "single-head.html" . }}
+{{ end }}
+
+{{ define "header" }}
+  {{ partial "single-header.html" . }}
+{{ end }}
+
+{{ define "main" }}
+  {{ $projects := sort site.Data.software "first_commit" "asc" }}
+
+  <main id="software-page" class="tw-container tw-mx-auto tw-px-4 tw-pb-16">
+    <style>
+      #software-page .software-tag {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-family: var(--family-serif, system-ui, serif);
+        font-size: 0.72rem;
+        font-weight: 600;
+        line-height: 1.25;
+        white-space: nowrap;
+      }
+      #software-page .software-tag-neutral {
+        background: var(--grey-dark);
+        border: 1px solid var(--grey-dark);
+        color: var(--grey-light);
+      }
+      #software-page .software-tag-interactive {
+        background: var(--grey-dark);
+        border: 1px solid var(--ring-border);
+        color: var(--grey-light);
+        cursor: pointer;
+        box-shadow: var(--elevation-subtle);
+        text-decoration: none;
+        transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+      }
+      #software-page .software-tag-interactive:hover {
+        background: var(--accent-tint);
+        border-color: var(--accent-border);
+        color: rgb(var(--primary));
+        box-shadow: var(--elevation-raised);
+      }
+      #software-page .software-tag-interactive:focus-visible {
+        outline: 2px solid rgba(var(--primary), 0.6);
+        outline-offset: 2px;
+      }
+      #software-page .software-tag-interactive:active {
+        background: rgba(var(--primary), 0.16);
+        border-color: var(--accent-border);
+        color: rgb(var(--primary));
+        box-shadow: var(--elevation-subtle);
+        transform: translateY(1px);
+      }
+    </style>
+    <div class="tw-mx-auto tw-max-w-5xl">
+      <div class="tw-mb-8 tw-max-w-2xl tw-text-base tw-leading-relaxed tw-text-[var(--grey-light)]">{{ .Content }}</div>
+      <div class="tw-grid tw-gap-8 md:tw-grid-cols-[11rem_minmax(0,1fr)] md:tw-items-start">
+        <nav aria-label="Software projects" class="software-project-nav md:tw-sticky md:tw-top-6">
+          <p class="tw-mb-3 tw-font-sans tw-text-xs tw-font-semibold tw-uppercase tw-tracking-widest tw-text-[var(--grey-light)]">Projects</p>
+          <ul class="tw-flex tw-gap-2 tw-overflow-x-auto tw-pb-2 md:tw-flex-col md:tw-gap-1 md:tw-overflow-visible md:tw-pb-0">
+            {{ range $projects }}
+              <li class="tw-shrink-0">
+                <a href="#{{ .id }}" data-software-nav="{{ .id }}" class="software-project-link tw-flex tw-items-center tw-gap-2 tw-whitespace-nowrap tw-rounded-md tw-px-2 tw-py-1.5 tw-font-sans tw-text-xs tw-text-[var(--grey-light)] tw-no-underline hover:tw-bg-[var(--accent-tint)] hover:tw-text-primary">
+                  <span class="software-project-dot tw-h-1.5 tw-w-1.5 tw-shrink-0 tw-rounded-full tw-bg-[var(--grey-light)]"></span>
+                  {{ .title }}
+                </a>
+              </li>
+            {{ end }}
+          </ul>
+        </nav>
+
+        <div class="tw-min-w-0">
+          {{ range $projects }}
+            {{ $project := . }}
+            {{ $projectYear := index (findRE "^[0-9]{4}" (printf "%v" .first_commit)) 0 }}
+            <article id="{{ .id }}" data-software-project="{{ .id }}" class="software-project tw-scroll-mt-8 tw-border-b tw-border-[var(--ring-border)] tw-pb-12 tw-pt-2 first:tw-pt-0 last:tw-border-b-0">
+              <p class="tw-mb-2 tw-font-sans tw-text-xs tw-uppercase tw-tracking-widest tw-text-[var(--grey-light)]">{{ $projectYear }}</p>
+              {{ with .source }}
+                <h2 class="tw-mb-3 tw-font-serif tw-text-3xl tw-font-semibold tw-text-[var(--grey-lighter)]"><a href="{{ . }}" target="_blank" rel="noopener" class="tw-text-[var(--grey-lighter)] tw-no-underline hover:tw-text-primary focus-visible:tw-outline-2 focus-visible:tw-outline-primary-border focus-visible:tw-outline-offset-2">{{ $project.title }}</a></h2>
+              {{ else with $project.demo }}
+                <h2 class="tw-mb-3 tw-font-serif tw-text-3xl tw-font-semibold tw-text-[var(--grey-lighter)]"><a href="{{ . }}" target="_blank" rel="noopener" class="tw-text-[var(--grey-lighter)] tw-no-underline hover:tw-text-primary focus-visible:tw-outline-2 focus-visible:tw-outline-primary-border focus-visible:tw-outline-offset-2">{{ $project.title }}</a></h2>
+              {{ else }}
+                <h2 class="tw-mb-3 tw-font-serif tw-text-3xl tw-font-semibold tw-text-[var(--grey-lighter)]">{{ $project.title }}</h2>
+              {{ end }}
+              <div class="tw-grid tw-items-start tw-gap-6 md:tw-grid-cols-2">
+                <div>
+                  {{ with .video }}
+                    <div class="tw-overflow-hidden tw-rounded-lg tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-darker)]">
+                      <video controls muted playsinline preload="metadata" class="tw-block tw-h-auto tw-w-full {{ if eq $project.id "greuler" }}tw-object-contain{{ else }}tw-aspect-[16/9] tw-object-cover{{ end }}"{{ with $project.video_poster }} poster="{{ . }}"{{ end }}>
+                        <source src="{{ . }}" type="video/mp4" />
+                      </video>
+                    </div>
+                  {{ else }}
+                    {{ with .image }}
+                      {{ if or (eq $project.id "ten-minute-abs-timer") (eq $project.id "rattrack-nyc") }}
+                        <div class="tw-flex tw-aspect-[16/9] tw-items-center tw-justify-center tw-overflow-hidden tw-rounded-lg tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-darker)] tw-px-6">
+                          <img src="{{ . }}" alt="{{ $project.image_alt }}" loading="lazy" class="tw-block tw-h-full tw-w-full tw-object-contain" />
+                        </div>
+                      {{ else }}
+                        <div class="tw-overflow-hidden tw-rounded-lg tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-darker)]">
+                          <img src="{{ . }}" alt="{{ $project.image_alt }}" loading="lazy" class="tw-block tw-h-auto tw-w-full {{ if eq $project.id "interval-arithmetic" }}tw-object-contain{{ else }}tw-aspect-[16/9] tw-object-cover{{ end }}" />
+                        </div>
+                      {{ end }}
+                    {{ else }}
+                      <div class="tw-flex tw-aspect-[16/9] tw-items-center tw-justify-center tw-rounded-lg tw-bg-[var(--grey-dark)] tw-p-6 tw-text-center tw-font-serif tw-text-sm tw-text-[var(--grey-light)]">
+                        Project preview coming later
+                      </div>
+                    {{ end }}
+                  {{ end }}
+                  {{ if eq $project.id "function-plot" }}
+                    <div class="tw-mt-5 tw-grid tw-gap-4">
+                      <div class="tw-rounded-lg tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-darker)] tw-p-3">
+                        <p class="tw-mb-2 tw-font-sans tw-text-xs tw-font-semibold tw-uppercase tw-tracking-widest tw-text-[var(--grey-light)]">Function and derivative</p>
+                        <div id="software-function-plot" class="tw-w-full" aria-label="Interactive graph of a function and its derivative"></div>
+                      </div>
+                      <div class="tw-rounded-lg tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-darker)] tw-p-3">
+                        <p class="tw-mb-2 tw-font-sans tw-text-xs tw-font-semibold tw-uppercase tw-tracking-widest tw-text-[var(--grey-light)]">Derivative</p>
+                        <div id="software-function-plot-derivative" class="tw-w-full" aria-label="Interactive graph of the derivative function"></div>
+                      </div>
+                    </div>
+                  {{ end }}
+                  {{ range .additional_images }}
+                    <img src="{{ .src }}" alt="{{ .alt }}" loading="lazy" class="tw-mt-4 tw-block tw-h-auto tw-w-full tw-rounded-lg" />
+                  {{ end }}
+                </div>
+                <div>
+                  <div class="tw-mb-4 tw-text-base tw-leading-relaxed tw-text-[var(--grey-light)]">{{ .description | markdownify }}</div>
+                  {{ with .why }}
+                    <div class="tw-mb-5 tw-rounded-lg tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-dark)] tw-p-4">
+                      <p class="tw-mb-1 tw-font-sans tw-text-xs tw-font-semibold tw-uppercase tw-tracking-widest tw-text-primary">Why I made it</p>
+                      <div class="tw-text-sm tw-leading-relaxed tw-text-[var(--grey-light)]">{{ . | markdownify }}</div>
+                    </div>
+                  {{ end }}
+                  <div class="tw-flex tw-flex-wrap tw-items-center tw-gap-2">
+                    {{ range .technologies }}<span class="software-tag software-tag-neutral">{{ . }}</span>{{ end }}
+                    {{ with .demo }}<a href="{{ . }}" target="_blank" rel="noopener" class="software-tag software-tag-interactive">Visit project ↗</a>{{ end }}
+                    {{ with .docs }}<a href="{{ . }}" target="_blank" rel="noopener" class="software-tag software-tag-interactive">Docs ↗</a>{{ end }}
+                    {{ with .source }}<a href="{{ . }}" target="_blank" rel="noopener" class="software-tag software-tag-interactive">GitHub ↗</a>{{ end }}
+                    {{ range .related }}<a href="{{ .url }}" target="_blank" rel="noopener" class="software-tag software-tag-interactive">{{ .title }} ↗</a>{{ end }}
+                  </div>
+                </div>
+              </div>
+            </article>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/js/software/function-plot-demo.js"></script>
+  </main>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "single-footer.html" . }}
+  <script type="module" src="/js/software/software-nav.js"></script>
+{{ end }}
