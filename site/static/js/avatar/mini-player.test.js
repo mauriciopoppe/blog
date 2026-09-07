@@ -65,4 +65,12 @@ describe('Avatar mini-player stacking hook', () => {
     expect(engine).toContain('phraseEnd + 0.05')
     expect(engine).toContain('const nextIdx = (newIdx + 1) % phrases.length')
   })
+
+  it('dismisses the desktop player after an outside click', () => {
+    const player = readFileSync(join(import.meta.dir, 'mini-player.js'), 'utf8')
+
+    expect(player).toContain('setIsDesktopDismissed(true)')
+    expect(player).toContain("document.addEventListener('pointerdown'")
+    expect(player).toContain('onPointerDown=${(event) => event.stopPropagation()}')
+  })
 })

@@ -30,12 +30,14 @@ export function MiniPlayer({ avatarEl }) {
   const [isHovered, setIsHovered] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [isCreditOpen, setIsCreditOpen] = useState(false)
+  const [isDesktopDismissed, setIsDesktopDismissed] = useState(false)
   const usesMobilePlayer = () => typeof window !== 'undefined' &&
     (window.innerWidth < 640 || (avatarEl?.dataset.mobilePlayer === 'true' && window.matchMedia('(pointer: coarse)').matches))
   const [isMobile, setIsMobile] = useState(usesMobilePlayer)
   const [isAvatarDetached, setIsAvatarDetached] = useState(avatarEl?.dataset.avatarDetached === 'true')
   const hoverTimeoutRef = useRef(null)
   const songSelectRef = useRef(null)
+  const playerRef = useRef(null)
   const shell = avatarEl?.parentElement
   const stackingContainer = avatarEl?.closest('[data-avatar-stacking-container]') || shell?.parentElement
   const originalShellZIndex = useRef(shell?.style.zIndex || '')
@@ -83,6 +85,7 @@ export function MiniPlayer({ avatarEl }) {
           hoverTimeoutRef.current = null
         }
         raiseAvatarShell()
+        setIsDesktopDismissed(false)
         setIsHovered(true)
       }
     }
@@ -124,6 +127,22 @@ export function MiniPlayer({ avatarEl }) {
     }
   }, [avatarEl])
 
+  // Native select popups can skip mouseleave events. Dismiss the desktop
+  // player explicitly when the pointer goes outside both the player and avatar.
+  useEffect(() => {
+    if (isMobile) return
+
+    const handleOutsidePointerDown = (event) => {
+      if (playerRef.current?.contains(event.target) || avatarEl?.contains(event.target)) return
+      setIsDesktopDismissed(true)
+      setIsHovered(false)
+      restoreAvatarShell()
+    }
+
+    document.addEventListener('pointerdown', handleOutsidePointerDown, true)
+    return () => document.removeEventListener('pointerdown', handleOutsidePointerDown, true)
+  }, [avatarEl, isMobile])
+
   const onPlayerEnter = () => {
     if (!isMobile) {
       if (hoverTimeoutRef.current) {
@@ -131,6 +150,7 @@ export function MiniPlayer({ avatarEl }) {
         hoverTimeoutRef.current = null
       }
       raiseAvatarShell()
+      setIsDesktopDismissed(false)
       setIsHovered(true)
     }
   }
@@ -178,7 +198,7 @@ export function MiniPlayer({ avatarEl }) {
   }
 
   // Visibility logic: on mobile follows isMobileOpen; on desktop follows isHovered
-  const isVisible = isMobile ? isMobileOpen : isHovered
+  const isVisible = isMobile ? isMobileOpen : isHovered && !isDesktopDismissed
 
   // Position and layout classes
   let layoutClasses = ''
@@ -211,6 +231,7 @@ export function MiniPlayer({ avatarEl }) {
 
   return html`
     <div
+      ref=${playerRef}
       class=${popupClasses}
       style=${{
         background: 'color-mix(in srgb, var(--grey-darker) 94%, transparent)',
@@ -372,6 +393,8 @@ export function MiniPlayer({ avatarEl }) {
                     ref=${songSelectRef}
                     class="mini-player-icon-control tw-w-4 tw-h-4 tw-shrink-0 tw-rounded-none tw-p-0 tw-text-[0px] hover:tw-text-primary focus:tw-outline-none"
                     aria-label="Select song"
+                    onPointerDown=${(event) => event.stopPropagation()}
+                    onClick=${(event) => event.stopPropagation()}
                     value=${song.id}
                     onChange=${(event) => playerStore.selectSong(event.currentTarget.value)}
                   >
