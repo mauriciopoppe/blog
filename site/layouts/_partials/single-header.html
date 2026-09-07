@@ -25,8 +25,6 @@
         {{ $summary | markdownify }}
       </div>
 
-      {{ if .Params.hideArticleDetails }}
-      {{ else }}
       <div class="tw-text-xs tw-flex tw-flex-row tw-justify-center tw-gap-2 tw-leading-snug">
         <div class="tw-group/image tw-shrink-0 tw-relative">
           <div class="profile-avatar-scene js-avatar-scene tw-cursor-pointer tw-relative tw-w-[75px] tw-h-[75px] tw-rounded-full tw-overflow-hidden tw-border tw-border-primary tw-shadow-raised tw-bg-[var(--grey-dark)] hover:tw-shadow-deep tw-transition-all">
@@ -35,16 +33,17 @@
           </div>
           <script type="module" src="/js/avatar/index.js"></script>
         </div>
+        {{ if not .Params.hideArticleDetails }}
         <div class="tw-text-left">
           Published on {{ .Page.PublishDate.Format "Mon, Jan 2, 2006" }} <br />
           Last modified on {{ .Page.Lastmod.Format "Mon, Jan 2, 2006" }} <br />
-          {{ .WordCount }} words -
+          {{ .Params.estimatedWordCount | default .WordCount }} words -
 
           {{/* .content wraps a so that we inherit bulma styling for the link. */}}
           <a target="_blank" href="https://github.com/mauriciopoppe/blog/tree/main/site/content/{{ .File.Path }}">Page Source</a>
         </div>
+        {{ end }}
       </div>
-      {{ end }}
     </div> <!-- flex -->
 
     <hr class="md:tw-w-3/5 tw-mx-auto tw-mt-5" />

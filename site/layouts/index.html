@@ -27,7 +27,7 @@ h1, a, h1.tw-text-primary, span.tw-text-primary { color: rgb(var(--primary)); }
     </div>
 
     <div class="tw-basis-2/3 tw-grid tw-gap-1 tw-text-xs md:tw-grid-cols-[10em_auto] tw-leading-tight [&>div]:tw-mb-2 md:[&>div]:tw-mb-0" data-avatar-distortion-target="homepage-right">
-      <h2 class="md:tw-col-span-2 tw-text-xs tw-uppercase tw-tracking-widest tw-mb-2 tw-mt-4">Favorites</h2>
+      <h2 class="md:tw-col-span-2 tw-text-xs tw-uppercase tw-tracking-widest tw-mb-2 tw-mt-4"><a href="/notes/?filter=favorites" class="tw-no-underline">Favorites</a></h2>
       {{ partial "favorites-list.html" . }}
 
       <div class="md:tw-col-span-2 tw-pt-1.5 tw-pb-1">
@@ -37,7 +37,7 @@ h1, a, h1.tw-text-primary, span.tw-text-primary { color: rgb(var(--primary)); }
         </a>
       </div>
 
-      <h2 id="software" class="md:tw-col-span-2 tw-text-xs tw-uppercase tw-tracking-widest tw-mb-2 tw-mt-8">Software</h2>
+      <h2 id="software" class="md:tw-col-span-2 tw-text-xs tw-uppercase tw-tracking-widest tw-mb-2 tw-mt-2"><a href="/software/" class="tw-no-underline">Software</a></h2>
       <a href="https://mauriciopoppe.github.io/function-plot/" target="_blank">
         <span class="material-symbols-outlined"> function </span>
         function plot
@@ -112,6 +112,9 @@ h1, a, h1.tw-text-primary, span.tw-text-primary { color: rgb(var(--primary)); }
       </a>
       <div>
         I made a Linktree clone with all my links.
+      </div>
+      <div class="md:tw-col-span-2 tw-pt-1.5">
+        <a href="/software/" class="tw-font-serif tw-text-xs tw-text-primary hover:tw-underline">View all software →</a>
       </div>
 
     </div>
