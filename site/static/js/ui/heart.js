@@ -122,12 +122,12 @@ function initializeHeart(rootEl, props) {
 
   rootEl.addEventListener('mouseenter', () => {
     if (props.animateOnMouseOver) {
-      spawnHeartSwirl(rootEl, rand(600, 1500))
+      spawnHeartSwirl(rootEl, rand(1200, 2400))
     }
   })
 
   rootEl.addEventListener('click', (e) => {
-    spawnHeartSwirl(rootEl, rand(1500, 3000))
+    spawnHeartSwirl(rootEl, rand(3000, 5000))
     if (props.animateOnClick) {
       document.body.style.transition = 'opacity 2s cubic-bezier(0.4, 0, 0.2, 1), transform 2s cubic-bezier(0.4, 0, 0.2, 1)'
       document.body.style.transformOrigin = 'center center'
