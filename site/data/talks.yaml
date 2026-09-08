@@ -1,0 +1,86 @@
+- id: angularjs
+  title: AngularJS
+  year: 2015
+  sort_date: 201510
+  date: October 2015
+  location: La Paz, Bolivia
+  summary: >-
+    A presentation about AngularJS in Spanish. It was my first presentation
+    for the Google Developer Expert community in La Paz.
+  media:
+    - title: AngularJS presentation
+      src: "https://docs.google.com/presentation/d/e/2PACX-1vSgpNNB1Y7jIveZvyl3edBBmInDuib7S_R3tb5PHDM_e-H4LTVmz2RFrc6CQ6uEIVU7hMxOa2yeoSEU/pubembed?start=false&loop=false&delayms=60000"
+
+- id: career-in-software-engineering
+  title: A Career in Software Engineering
+  year: 2022
+  sort_date: 202208
+  date: August 2022
+  location: Virtual
+  summary: >-
+    Software engineering is an end-to-end process of building and delivering
+    software, encompassing design, coding, testing, integration, and teamwork.
+    I share details about my daily tasks and the deliberate practice required
+    to become an expert in the field.
+  media:
+    - title: A Career in Software Engineering presentation
+      src: "https://docs.google.com/presentation/d/e/2PACX-1vSLxAls_phDI034GJQCJORdnFWftFWUqhAY-xAFoofk08mObJb8zOdJRqz3qO0RhpOI-gPgNZOamEru/pubembed?start=false&loop=false&delayms=60000"
+
+- id: csi-windows
+  title: CSI Windows
+  year: 2022
+  sort_date: 202211
+  date: November 2022
+  location: KubeCon 2022, Detroit, Michigan, USA
+  summary: >-
+    I co-presented with Xing Yang from VMware. We discussed how storage
+    interacts with Windows VMs and how HostProcess containers could simplify
+    the existing client and server model.
+  media:
+    - title: CSI Windows talk
+      src: "https://www.youtube.com/embed/_XXn3-yDZA0?start=1013"
+
+- id: pv-pvc-controller
+  title: PV/PVC controller
+  year: 2023
+  sort_date: 202301
+  date: January 2023
+  location: Sunnyvale, California, USA and virtual
+  summary: >-
+    A deep dive into Kubernetes storage internals for Kubernetes developers,
+    focused on the PersistentVolume and PersistentVolumeClaim controllers.
+  media:
+    - title: PV/PVC controller presentation
+      src: "https://docs.google.com/presentation/d/e/2PACX-1vQSLT0r0lLliTC_q-E7XNpRexuWr7WEeaiWCyIZjS6m8aRaNKbI6blOyP2D0SEDBrz_IYX_Xkk386oz/embed?start=false&loop=false&delayms=3000"
+
+- id: debugging-k8s-e2e-tests
+  title: Debugging K8s e2e tests with Delve
+  year: 2023
+  sort_date: 202304
+  date: April 2023
+  location: Remote for KubeCon 2023
+  summary: >-
+    A five-minute lightning talk about debugging Kubernetes end-to-end tests
+    with Delve. I went through an example of debugging a storage e2e test by
+    setting breakpoints and analyzing the state of a Kubernetes cluster.
+  media:
+    - title: Debugging K8s e2e tests with Delve
+      src: "https://www.youtube.com/embed/RSYrbqyCufU"
+    - title: Debugging K8s e2e tests with Delve presentation
+      src: "https://docs.google.com/presentation/d/e/2PACX-1vQibAetKc5T_7bjJ-GJXFvbMa6Rj5C8rTK_qLAb1tp_rQKvNcsZ_3tFauqSrOWDuKg0pkQMYD1Q3ojK/embed?start=false&loop=false&delayms=3000"
+
+- id: csi-sidecars-all-in-one
+  title: CSI Sidecars All In One (AIO)
+  year: 2024
+  sort_date: 202406
+  date: June 2024
+  location: Remote for the Kubernetes CSI Community
+  summary: >-
+    We proposed a refactor of the Kubernetes CSI repositories to
+    [combine them into a monorepo](https://github.com/kubernetes/enhancements/pull/5153)
+    and presented how we planned to achieve it.
+  media:
+    - title: CSI Sidecars All In One talk
+      src: "https://www.youtube.com/embed/hZpgLqys_lQ?si=749MXVFdQK9he-aP&start=1742"
+    - title: CSI Sidecars All In One presentation
+      src: "https://docs.google.com/presentation/d/e/2PACX-1vS4HsKsQiSPN5xC43er4JBjcNEUnu6aEmR8Di50nluWp7ZcWQpfgOcZVzwhZrgUnqaNFp32RF0uN2zJ/pubembed?start=false&loop=false&delayms=60000"

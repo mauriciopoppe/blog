@@ -1,30 +1,63 @@
-{{/*
-  layout for content/talks/_index.md
-*/}}
-
-{{/* overrides the blocks set on baseof.html */}}
-
 {{ define "head" }}
-  {{ partial "head.html" . }}
+  {{ partial "single-head.html" . }}
 {{ end }}
 
 {{ define "header" }}
   {{ partial "single-header.html" . }}
 {{ end }}
 
-
 {{ define "main" }}
-<main class="tw-container tw-mx-auto tw-px-3">
-  <!-- article[role=main] is used in many places, remember not to change it-->
-  <!-- class="content" is inherited from bulma, check src/main/css/lib/bulma-content.css -->
-  <article role="main" class="content md:tw-w-3/5 tw-mx-auto">
-    <!-- the content -->
-    {{ .Content }}
-  </article>
-</main>
+  {{ $talks := sort site.Data.talks "sort_date" "asc" }}
+
+  <main id="talks-page" class="tw-container tw-mx-auto tw-px-4 tw-pb-[26vh]">
+    <div class="tw-mx-auto tw-max-w-5xl">
+      {{ with .Content }}
+        <div class="tw-mb-8 tw-max-w-2xl tw-text-base tw-leading-relaxed tw-text-[var(--grey-light)]">{{ . }}</div>
+      {{ end }}
+      <div class="tw-grid tw-gap-8 md:tw-grid-cols-[11rem_minmax(0,1fr)] md:tw-items-start">
+        <nav aria-label="Talks" class="talks-nav md:tw-sticky md:tw-top-6">
+          <p class="tw-mb-3 tw-font-sans tw-text-xs tw-font-semibold tw-uppercase tw-tracking-widest tw-text-[var(--grey-light)]">Talks</p>
+          <ul class="tw-flex tw-gap-2 tw-overflow-x-auto tw-pb-2 md:tw-flex-col md:tw-gap-1 md:tw-overflow-visible md:tw-pb-0">
+            {{ range $talks }}
+              <li class="tw-shrink-0">
+                <a href="#{{ .id }}" data-talk-nav="{{ .id }}" class="talk-link tw-flex tw-min-h-11 tw-items-start tw-gap-2 tw-rounded-md tw-px-2 tw-py-1.5 tw-font-sans tw-text-xs tw-leading-snug tw-text-[var(--grey-light)] tw-no-underline hover:tw-bg-[var(--accent-tint)] hover:tw-text-primary md:tw-min-h-0">
+                  {{ .title }}
+                </a>
+              </li>
+            {{ end }}
+          </ul>
+        </nav>
+
+        <div class="tw-min-w-0">
+          {{ range $talks }}
+            <article id="{{ .id }}" data-talk="{{ .id }}" class="talk-card tw-scroll-mt-8 tw-border-b tw-border-[var(--ring-border)] tw-pb-12 tw-pt-2 first:tw-pt-0 last:tw-border-b-0">
+              <p class="tw-mb-2 tw-font-sans tw-text-xs tw-font-semibold tw-uppercase tw-tracking-widest tw-text-primary">{{ .year }}</p>
+              <h2 class="tw-mb-3 tw-font-serif tw-text-2xl tw-font-semibold tw-text-[var(--grey-lighter)]">{{ .title }}</h2>
+              <div class="tw-grid tw-items-start tw-gap-6 md:tw-grid-cols-2">
+                <div class="tw-grid tw-gap-4">
+                  {{ range .media }}
+                    <div class="tw-overflow-hidden tw-rounded-lg tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-darker)]">
+                      <iframe class="tw-block tw-aspect-video tw-w-full" src="{{ .src }}" title="{{ .title }}" loading="lazy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </div>
+                  {{ end }}
+                </div>
+                <div class="tw-rounded-lg tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-dark)] tw-p-4">
+                  <dl class="tw-mb-4 tw-grid tw-gap-2 tw-font-sans tw-text-xs tw-text-[var(--grey-light)]">
+                    <div><dt class="tw-inline tw-font-semibold tw-text-[var(--grey-lighter)]">Date:</dt> <dd class="tw-inline">{{ .date }}</dd></div>
+                    <div><dt class="tw-inline tw-font-semibold tw-text-[var(--grey-lighter)]">Location:</dt> <dd class="tw-inline">{{ .location }}</dd></div>
+                  </dl>
+                  <p class="tw-m-0 tw-text-base tw-leading-relaxed tw-text-[var(--grey-light)]">{{ .summary | markdownify }}</p>
+                </div>
+              </div>
+            </article>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </main>
 {{ end }}
 
 {{ define "footer" }}
   {{ partial "single-footer.html" . }}
+  <script type="module" src="/js/software/software-nav.js"></script>
 {{ end }}
-
