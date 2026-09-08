@@ -1,0 +1,118 @@
+{{ define "head" }}
+  {{ partial "single-head.html" . }}
+{{ end }}
+
+{{ define "header" }}
+  {{ partial "single-header.html" . }}
+{{ end }}
+
+{{ define "main" }}
+<main id="guestbook-page" class="tw-container tw-mx-auto tw-px-4 tw-pb-16">
+  <style>
+    #guestbook-page .guestbook-shell {
+      max-width: 32rem;
+      margin: 0 auto;
+    }
+    #guestbook-page .guestbook-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      padding: 0.75rem;
+      border: 1px solid var(--ring-border);
+      border-radius: 0.75rem;
+      background: var(--grey-dark);
+    }
+    #guestbook-page .guestbook-input,
+    #guestbook-page .guestbook-textarea {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid var(--ring-border);
+      border-radius: 0.5rem;
+      background: var(--grey-darker);
+      color: var(--grey-lighter);
+      font: inherit;
+      padding: 0.55rem 0.7rem;
+    }
+    #guestbook-page .guestbook-input::placeholder,
+    #guestbook-page .guestbook-textarea::placeholder {
+      color: var(--grey-light);
+      opacity: 0.8;
+    }
+    #guestbook-page .guestbook-input:focus-visible,
+    #guestbook-page .guestbook-textarea:focus-visible {
+      outline: 2px solid rgba(var(--primary), 0.6);
+      outline-offset: 2px;
+      border-color: rgb(var(--primary));
+    }
+    #guestbook-page .guestbook-submit {
+      align-self: flex-start;
+      border: 1px solid var(--accent-border);
+      border-radius: 0.5rem;
+      background: rgba(var(--primary), 0.14);
+      color: rgb(var(--primary));
+      cursor: pointer;
+      box-shadow: var(--elevation-subtle);
+      font: inherit;
+      font-weight: 700;
+      padding: 0.55rem 0.8rem;
+      transition: background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    }
+    #guestbook-page .guestbook-submit:hover {
+      background: rgba(var(--primary), 0.22);
+      box-shadow: var(--elevation-raised);
+    }
+    #guestbook-page .guestbook-submit:active {
+      box-shadow: var(--elevation-subtle);
+      transform: translateY(1px);
+    }
+    #guestbook-page .guestbook-submit:focus-visible {
+      outline: 2px solid rgba(var(--primary), 0.6);
+      outline-offset: 2px;
+    }
+    #guestbook-page .guestbook-divider {
+      height: 1px;
+      margin: 2rem 0;
+      background: var(--ring-border);
+    }
+  </style>
+
+  <div class="guestbook-shell">
+    <div class="tw-mb-8 tw-text-base tw-leading-relaxed tw-text-[var(--grey-light)]">
+      {{ .Content }}
+    </div>
+
+    <!-- Guestbook Script -->
+    <script async src="https://guestbooks.meadow.cafe/resources/js/embed_script/6568/script.js"></script>
+    <!-- Guestbook Form -->
+    <div id="guestbooks___guestbook-form-container">
+      <form id="guestbooks___guestbook-form" class="guestbook-form" action="https://guestbooks.meadow.cafe/guestbook/6568/submit" method="post">
+        <div class="guestbooks___input-container">
+          <input class="guestbook-input" type="text" id="name" name="name" placeholder="Your Name" required>
+        </div>
+        <div class="guestbooks___input-container">
+          <input class="guestbook-input" type="url" id="website" name="website" placeholder="Website (optional)">
+        </div>
+        <div id="guestbooks___challenge-answer-container"></div>
+        <div class="guestbooks___input-container">
+          <textarea class="guestbook-textarea" id="text" name="text" placeholder="Leave your message here..." rows="3" required></textarea>
+        </div>
+        <div id="guestbooks___pow-status"></div>
+        <button class="guestbook-submit" type="submit">Sign Guestbook</button>
+        <div id="guestbooks___error-message"></div>
+      </form>
+    </div>
+    <!-- Attribution (optional but appreciated!) -->
+    <div id="guestbooks___guestbook-made-with" style="text-align: right; margin-top: 10px;">
+      <small>Powered by <a href="https://guestbooks.meadow.cafe" target="_blank" rel="noopener">Guestbooks</a></small>
+    </div>
+    <!-- Messages Section -->
+    <div class="guestbook-divider" aria-hidden="true"></div>
+    <h2 id="guestbooks___guestbook-messages-header" class="tw-mb-4 tw-font-serif tw-text-2xl tw-font-semibold tw-text-[var(--grey-lighter)]">Messages</h2>
+    <div id="guestbooks___guestbook-messages-container"></div>
+  </div>
+</main>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "single-footer.html" . }}
+{{ end }}
