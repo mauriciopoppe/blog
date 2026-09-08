@@ -42,14 +42,21 @@ describe('Avatar mini-player stacking hook', () => {
   it('exposes explicit song selection and randomization controls', () => {
     const player = readFileSync(join(import.meta.dir, 'mini-player.js'), 'utf8')
     const engine = readFileSync(join(import.meta.dir, 'audio-engine.js'), 'utf8')
+    const head = readFileSync(join(repoRoot, 'site/layouts/_partials/head.html'), 'utf8')
 
     expect(player).toContain('aria-label="Select song"')
+    expect(player).toContain('aria-haspopup="listbox"')
+    expect(player).toContain('role="listbox"')
+    expect(player).toContain('role="option"')
+    expect(player).toContain('isSongPickerOpen')
+    expect(player).toContain("event.key === 'Escape'")
     expect(player).toContain('<select')
-    expect(player).not.toContain('isSongMenuOpen')
+    expect(player).toContain('isMobile ? html`')
     expect(player).toContain('Choose a random song')
     expect(player).toContain('playerStore.selectRandomSong()')
     expect(player).toContain('aria-label="Show MIDI credit"')
     expect(player).toContain('title="Show MIDI credit"')
+    expect(head).toContain('expand_more')
     expect(player).toContain('setIsCreditOpen((open) => !open)')
     expect(player).toContain('mini-player-credit-tooltip')
     expect(player).toContain('MIDI transcription')
@@ -71,6 +78,14 @@ describe('Avatar mini-player stacking hook', () => {
 
     expect(player).toContain('setIsDesktopDismissed(true)')
     expect(player).toContain("document.addEventListener('pointerdown'")
-    expect(player).toContain('onPointerDown=${(event) => event.stopPropagation()}')
+    expect(player).toContain('setIsSongPickerOpen(false)')
+    expect(player).toContain('aria-expanded=${isSongPickerOpen}')
+  })
+
+  it('does not clear outside dismissal when the player is re-entered', () => {
+    const player = readFileSync(join(import.meta.dir, 'mini-player.js'), 'utf8')
+    const playerEnter = player.slice(player.indexOf('const onPlayerEnter'), player.indexOf('const onPlayerLeave'))
+
+    expect(playerEnter).not.toContain('setIsDesktopDismissed(false)')
   })
 })

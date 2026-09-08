@@ -30,6 +30,7 @@ export function MiniPlayer({ avatarEl }) {
   const [isHovered, setIsHovered] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [isCreditOpen, setIsCreditOpen] = useState(false)
+  const [isSongPickerOpen, setIsSongPickerOpen] = useState(false)
   const [isDesktopDismissed, setIsDesktopDismissed] = useState(false)
   const usesMobilePlayer = () => typeof window !== 'undefined' &&
     (window.innerWidth < 640 || (avatarEl?.dataset.mobilePlayer === 'true' && window.matchMedia('(pointer: coarse)').matches))
@@ -127,13 +128,14 @@ export function MiniPlayer({ avatarEl }) {
     }
   }, [avatarEl])
 
-  // Native select popups can skip mouseleave events. Dismiss the desktop
-  // player explicitly when the pointer goes outside both the player and avatar.
+  // Dismiss the in-page picker and desktop player when the pointer goes outside.
   useEffect(() => {
-    if (isMobile) return
-
     const handleOutsidePointerDown = (event) => {
-      if (playerRef.current?.contains(event.target) || avatarEl?.contains(event.target)) return
+      const insidePlayer = playerRef.current?.contains(event.target)
+      const insideAvatar = avatarEl?.contains(event.target)
+      if (insidePlayer || insideAvatar) return
+      setIsSongPickerOpen(false)
+      if (isMobile) return
       setIsDesktopDismissed(true)
       setIsHovered(false)
       restoreAvatarShell()
@@ -150,7 +152,6 @@ export function MiniPlayer({ avatarEl }) {
         hoverTimeoutRef.current = null
       }
       raiseAvatarShell()
-      setIsDesktopDismissed(false)
       setIsHovered(true)
     }
   }
@@ -187,13 +188,23 @@ export function MiniPlayer({ avatarEl }) {
     : [song.name, song.nameJapanese].filter(Boolean).join(' · ')
   const shouldMarqueeSongTitle = songTitle.length > 30
   const openSongPicker = (event) => {
-    if (event.target.closest('a, select, button')) return
-    const picker = songSelectRef.current
-    if (!picker) return
-    try {
-      picker.showPicker?.()
-    } catch (error) {
-      picker.focus()
+    if (event.target.closest('a, button, select')) return
+    setIsSongPickerOpen((open) => !open)
+  }
+  const toggleSongPicker = (event) => {
+    event.stopPropagation()
+    setIsSongPickerOpen((open) => !open)
+  }
+  const selectSong = (event, songId) => {
+    event.stopPropagation()
+    playerStore.selectSong(songId)
+    setIsSongPickerOpen(false)
+  }
+  const handleSongPickerKeyDown = (event) => {
+    if (event.key === 'Escape') {
+      event.stopPropagation()
+      setIsSongPickerOpen(false)
+      event.currentTarget.blur()
     }
   }
 
@@ -387,19 +398,50 @@ export function MiniPlayer({ avatarEl }) {
                   </span>
                 ` : null}
                 ${playerStore.songs.length > 1 ? html`
-                  <label class="tw-sr-only" for="avatar-song-select">Select song</label>
-                  <select
-                    id="avatar-song-select"
-                    ref=${songSelectRef}
-                    class="mini-player-icon-control tw-w-4 tw-h-4 tw-shrink-0 tw-rounded-none tw-p-0 tw-text-[0px] hover:tw-text-primary focus:tw-outline-none"
-                    aria-label="Select song"
-                    onPointerDown=${(event) => event.stopPropagation()}
-                    onClick=${(event) => event.stopPropagation()}
-                    value=${song.id}
-                    onChange=${(event) => playerStore.selectSong(event.currentTarget.value)}
-                  >
-                    ${playerStore.songs.map((option) => html`<option value=${option.id}>${option.name} · ${option.artist}</option>`)}
-                  </select>
+                  ${isMobile ? html`
+                    <select
+                      ref=${songSelectRef}
+                      class="tw-h-5 tw-w-5 tw-shrink-0 tw-rounded-none tw-p-0 tw-text-[0px] hover:tw-text-primary focus:tw-outline-none"
+                      aria-label="Select song"
+                      title="Select song"
+                      value=${song.id}
+                      onClick=${(event) => event.stopPropagation()}
+                      onChange=${(event) => playerStore.selectSong(event.currentTarget.value)}
+                    >
+                      ${playerStore.songs.map((option) => html`<option value=${option.id}>${option.name} · ${option.artist}</option>`)}
+                    </select>
+                  ` : html`
+                    <div class="mini-player-song-picker tw-relative tw-shrink-0">
+                      <button
+                        type="button"
+                        class="mini-player-icon-control tw-w-4 tw-h-4 tw-shrink-0 tw-rounded-none tw-flex tw-items-center tw-justify-center tw-text-[0.72rem] hover:tw-text-primary"
+                        aria-label="Select song"
+                        aria-haspopup="listbox"
+                        aria-expanded=${isSongPickerOpen}
+                        onClick=${toggleSongPicker}
+                        onKeyDown=${handleSongPickerKeyDown}
+                      >
+                        <span class="material-symbols-outlined tw-text-sm" aria-hidden="true">expand_more</span>
+                      </button>
+                      ${isSongPickerOpen ? html`
+                        <div
+                          role="listbox"
+                          aria-label="Songs"
+                          class="tw-absolute tw-right-0 tw-top-[calc(100%+0.4rem)] tw-z-30 tw-flex tw-min-w-[13rem] tw-flex-col tw-gap-1 tw-rounded-lg tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-darker)] tw-p-1.5 tw-shadow-raised"
+                        >
+                          ${playerStore.songs.map((option) => html`
+                            <button
+                              type="button"
+                              role="option"
+                              aria-selected=${song.id === option.id}
+                              class="tw-w-full tw-rounded-md tw-border-0 tw-bg-transparent tw-px-2 tw-py-1.5 tw-text-left tw-font-sans tw-text-xs tw-text-[var(--grey-light)] hover:tw-bg-[var(--accent-tint)] hover:tw-text-primary"
+                              onClick=${(event) => selectSong(event, option.id)}
+                            >${option.name} · ${option.artist}</button>
+                          `)}
+                        </div>
+                      ` : null}
+                    </div>
+                  `}
                   <button
                     type="button"
                     class="mini-player-icon-control tw-w-4 tw-h-4 tw-shrink-0 tw-rounded-none tw-flex tw-items-center tw-justify-center tw-text-[0.72rem] hover:tw-text-primary"
