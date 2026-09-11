@@ -2,7 +2,7 @@
 title: "Performance Fundamentals"
 summary: |
   Core concepts in systems performance engineering: formalizing latency, throughput, and resource utilization, Little's Law, and analyzing multi-worker queue dynamics and diurnal traffic cycles with interactive simulators.
-image: /images/performance-fundamentals.png
+image: /images/performance-fundamentals.webp
 tags: ["performance", "system design", "queuing theory", "latency", "throughput"]
 date: 2026-08-23T23:16:00Z
 favorite: true
@@ -38,7 +38,7 @@ Latency measures the elapsed time required to process a request transaction. It 
   <!-- Inbound Network Arrow & Labels -->
   <line x1="145" y1="84" x2="260" y2="84" stroke="rgb(var(--primary))" stroke-width="2" marker-end="url(#arrow-themed-latency)" />
   <text x="202" y="112" fill="var(--grey-lighter)" font-size="13" font-weight="500" text-anchor="middle">Network In</text>
-  <text x="202" y="132" fill="var(--grey-light)" font-size="14" text-anchor="middle">t<tspan font-size="11" dy="2">net</tspan></text>
+  <text x="202" y="132" fill="var(--grey-light)" font-size="14" text-anchor="middle">t<tspan font-size="11" dy="2">in</tspan></text>
   <!-- Request Queue Box -->
   <rect x="285" y="55" width="160" height="95" rx="8" fill="var(--grey-dark)" stroke="rgba(var(--primary), 0.6)" stroke-width="1.5" />
   <text x="365" y="78" fill="rgb(var(--primary))" font-size="13.5" font-weight="600" text-anchor="middle">Request Queue</text>
@@ -60,7 +60,7 @@ Latency measures the elapsed time required to process a request transaction. It 
   <!-- Outbound Network Arrow & Labels -->
   <line x1="675" y1="84" x2="790" y2="84" stroke="rgb(var(--primary))" stroke-width="2" marker-end="url(#arrow-themed-latency)" />
   <text x="732" y="112" fill="var(--grey-lighter)" font-size="13" font-weight="500" text-anchor="middle">Network Out</text>
-  <text x="732" y="132" fill="var(--grey-light)" font-size="14" text-anchor="middle">t<tspan font-size="11" dy="2">net</tspan></text>
+  <text x="732" y="132" fill="var(--grey-light)" font-size="14" text-anchor="middle">t<tspan font-size="11" dy="2">out</tspan></text>
   <!-- Client Receive Box -->
   <rect x="800" y="55" width="120" height="95" rx="8" fill="var(--grey-dark)" stroke="rgba(255, 255, 255, 0.12)" stroke-width="1.5" />
   <text x="860" y="95" fill="var(--grey-lighter)" font-size="15" font-weight="600" text-anchor="middle">Client</text>
@@ -70,11 +70,11 @@ Latency measures the elapsed time required to process a request transaction. It 
   <text x="470" y="244" fill="var(--grey-lighter)" font-size="17" font-weight="600" text-anchor="middle">Server Latency: W = W<tspan font-size="12" dy="3">q</tspan><tspan font-size="17" dy="-3"> + S</tspan></text>
   <!-- End-to-End Client Latency Bracket (L = t_end - t0) -->
   <path d="M 80 275 L 80 285 L 470 285 L 470 295 L 470 285 L 860 285 L 860 275" fill="none" stroke="rgb(var(--primary))" stroke-width="2" />
-  <text x="470" y="326" fill="rgb(var(--primary))" font-size="17.5" font-weight="700" text-anchor="middle">Client-Side Round-Trip Latency (L) = t<tspan font-size="12" dy="3">end</tspan><tspan font-size="17.5" dy="-3"> − t</tspan><tspan font-size="12" dy="3">0</tspan><tspan font-size="17.5" dy="-3"> = 2 · t</tspan><tspan font-size="12" dy="3">net</tspan><tspan font-size="17.5" dy="-3"> + W</tspan><tspan font-size="12" dy="3">q</tspan><tspan font-size="17.5" dy="-3"> + S</tspan></text>
+  <text x="470" y="326" fill="rgb(var(--primary))" font-size="17.5" font-weight="700" text-anchor="middle">Client-Side Round-Trip Latency (L) = t<tspan font-size="12" dy="3">end</tspan><tspan font-size="17.5" dy="-3"> − t</tspan><tspan font-size="12" dy="3">0</tspan><tspan font-size="17.5" dy="-3"> = t</tspan><tspan font-size="12" dy="3">in</tspan><tspan font-size="17.5" dy="-3"> + W</tspan><tspan font-size="12" dy="3">q</tspan><tspan font-size="17.5" dy="-3"> + S + t</tspan><tspan font-size="12" dy="3">out</tspan></text>
 </svg>
 </div>
 
-- **Client-Side Round-Trip Latency ($L = 2 \cdot t_{\text{net}} + W_q + S$)**: Measures the complete end-to-end experience, including network transport ($2 \cdot t_{\text{net}}$), queue waiting delay ($W_q$), and raw server processing time ($S$).
+- **Client-Side Round-Trip Latency ($L = t_{\text{in}} + W_q + S + t_{\text{out}}$)**: Measures the complete end-to-end experience, including inbound transmission ($t_{\text{in}}$), queue waiting delay ($W_q$), server processing ($S$), and outbound transmission ($t_{\text{out}}$).
 - **Service Time ($S = 1/\mu$)**: The time a worker spends actively executing a single request. $\mu$ is the worker processing rate (e.g. if a worker handles $\mu = 100\text{ req/s}$, each request takes $S = \frac{1}{\mu} = \frac{1}{100}\text{ s} = 10\text{ ms}$).
 - **Server Latency ($W = W_q + S$)**: Total time spent inside the server boundary (queue wait $W_q$ + active execution $S$). When there is no queue ($W_q = 0$), latency reaches the minimum floor ($W = S$).
 - **Tail Latency Percentiles**: Averages hide slow outliers. Systems monitor percentiles:
@@ -393,12 +393,14 @@ The simulation below demonstrates this 24-hour diurnal wave. Toggle between **St
 
 | Dimension | Definition | Practical Takeaway |
 | :--- | :--- | :--- |
-| **Latency ($L, W$)** | $L = 2 \cdot t_{\text{net}} + W_q + S$ | Separate network transit from server processing ($W = W_q + S$). Track percentiles ($P_{50}, P_{90}, P_{99}$) rather than averages. |
+| **Latency ($L, W$)** | $L = t_{\text{in}} + W_q + S + t_{\text{out}}$ | Separate inbound and outbound transmission from server processing ($W = W_q + S$). Track percentiles ($P_{50}, P_{90}, P_{99}$) rather than averages. |
 | **Throughput ($\lambda$)** | $\lambda = \frac{N_{\text{completed}}}{\Delta t}$ | In-flight concurrency follows Little's Law ($N_{\text{in-flight}} = \lambda \cdot W$). Sustained throughput requires $\lambda \le c \cdot \mu$. |
 | **Utilization ($\rho$)** | $\rho = \frac{\sum T_{\text{busy}}}{c \cdot T_{\text{total}}}$ | Target the **operational knee** ($\rho \approx 70\%-80\%$). Operating at $100\%$ removes the burst headroom ($1 - \rho$) needed to prevent queuing delay. |
 | **Diurnal Elasticity** | $\lambda(t) \text{ vs } C(t) = c(t) \cdot \mu$ | Static sizing balances idle waste against peak saturation. Autoscaling matches capacity to demand. |
 
 *This note and its interactive queuing simulation engines were co-authored in pair programming with [Antigravity (Agy)](https://antigravity.google).*
+
+*Thanks to [Andres Prudencio](https://www.linkedin.com/in/aprudencio/) for spotting that inbound and outbound network time should be modeled separately in the round-trip latency formula.*
 
 <script type="module" src="/js/performance/littles-law-simulator.js"></script>
 <script type="module" src="/js/performance/utilization-simulator.js"></script>
