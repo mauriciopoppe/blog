@@ -4,6 +4,10 @@ import { playerStore, startVisualAnimation, spawnFloatingMusicParticle } from '.
 import { triggerAcousticImpulse, detachDistortionFilters } from './distortion-filter.js'
 import { avatarFrameLoop } from './frame-loop.js'
 
+export function retainFutureEvents(events, currentTime) {
+  return events.filter((event) => event.audioTime > currentTime)
+}
+
 export function createAvatarEffects(avatarEl, store = playerStore) {
   if (!avatarEl) return () => {}
 
@@ -65,7 +69,12 @@ export function createAvatarEffects(avatarEl, store = playerStore) {
   }
 
   const handleVisibilityChange = () => {
-    if (document.hidden) pendingEvents.length = 0
+    if (document.hidden) return
+    const audioTime = store.audioContextInstance?.currentTime
+    if (Number.isFinite(audioTime)) {
+      const futureEvents = retainFutureEvents(pendingEvents, audioTime)
+      pendingEvents.splice(0, pendingEvents.length, ...futureEvents)
+    }
   }
 
   const handleState = (state) => {
@@ -145,7 +154,6 @@ export function createAvatarEffects(avatarEl, store = playerStore) {
 
   const handleEvent = (event) => {
     if (event.type !== 'note-scheduled' && event.type !== 'beat-scheduled') return
-    if (document.hidden) return
     pendingEvents.push(event)
     if (pendingEvents.length > MAX_PENDING_EVENTS) {
       pendingEvents.splice(0, pendingEvents.length - MAX_PENDING_EVENTS)
