@@ -64,7 +64,7 @@ export function NoteTooltip({ node, pos }) {
     <div
       ref=${cardRef}
       id="notes-graph-tooltip"
-      class="tw-absolute tw-pointer-events-none tw-opacity-100 tw-transition-opacity tw-duration-150 tw-z-40 tw-bg-[var(--grey-dark)]/95 tw-backdrop-blur-xl tw-border tw-border-[var(--ring-border)] tw-shadow-raised tw-rounded-xl tw-p-4 sm:tw-p-5 tw-max-w-[calc(100vw-24px)] md:tw-max-w-[480px]"
+      class="tw-absolute tw-pointer-events-none tw-opacity-100 tw-transition-opacity tw-duration-150 tw-z-40 tw-bg-[var(--grey-dark)] tw-backdrop-blur-xl tw-border tw-border-[var(--ring-border)] tw-shadow-raised tw-rounded-xl tw-p-4 sm:tw-p-5 tw-max-w-[calc(100vw-24px)] md:tw-max-w-[480px]"
       style="left: ${safeLeft}px; top: ${safeTop}px;"
     >
       <div class="tw-flex tw-flex-col tw-gap-2.5">

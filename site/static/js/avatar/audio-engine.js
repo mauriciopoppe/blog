@@ -478,7 +478,8 @@ export function spawnFloatingMusicParticle(originEl, text, isTick) {
   particle.style.position = 'absolute'
   particle.style.left = `${startX}px`
   particle.style.top = `${startY}px`
-  particle.style.zIndex = '9999'
+  // Keep note letters behind the avatar silhouette, whose playing state uses z-index: 1.
+  particle.style.zIndex = '0'
   particle.style.pointerEvents = 'none'
   particle.style.fontSize = isTick ? '13px' : text ? '15px' : `${15 + Math.random() * 10}px`
   particle.style.color = isTick ? '#38bdf8' : Math.random() > 0.4 ? 'rgb(var(--primary))' : '#fbbf24'
