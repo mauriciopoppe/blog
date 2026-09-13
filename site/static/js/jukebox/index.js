@@ -1,21 +1,11 @@
 import { App } from './components/App.js'
 import { loadAssets } from './assets.js'
-
-declare global {
-  interface Window {
-    TWEEN: any
-    anime: any
-    app: App
-  }
-}
-
 function skipIntro() {
   return !!window.location.search.match('skip')
 }
-
 function intro() {
-  if (skipIntro()) return true
-  return new Promise<void>((resolve) => {
+  if (skipIntro()) { return true }
+  return new Promise((resolve) => {
     document.querySelector('#overlay').addEventListener('click', () => {
       window.anime({
         targets: '#overlay',
@@ -23,14 +13,14 @@ function intro() {
         opacity: 0,
         duration: 5000,
         complete: () => {
-          ;(document.querySelector('#overlay') as HTMLElement).style.display = 'none'
+          ;
+          document.querySelector('#overlay').style.display = 'none'
           resolve()
         }
       })
     })
   })
 }
-
 function runApp() {
   window.app = new App()
   window.app.loop()
@@ -41,10 +31,9 @@ function runApp() {
     duration: skipIntro() ? 1 : 5000
   })
 }
-
-;(async function () {
+;
+(async function () {
   await loadAssets()
   runApp()
-
   await intro()
 })()

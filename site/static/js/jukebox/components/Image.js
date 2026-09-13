@@ -1,17 +1,8 @@
-import { EventEmitter } from 'events'
-
-import * as THREE from 'three'
+import * as THREE from 'https://esm.sh/three@0.144.0'
 import { between } from '../utils.js'
 const loader = new THREE.TextureLoader()
-
 const format = (v) => (v < 10 ? `00${v}` : v < 100 ? `0${v}` : v)
-
 class Image {
-  parent: EventEmitter
-  root: THREE.Object3D
-  geometry: THREE.PlaneGeometry
-  material: THREE.MeshLambertMaterial
-
   constructor(app, index = 1) {
     const path = `/sandbox/jukebox/pictures/${format(index)}.jpg`
     console.log(`loading path ${path}`)
@@ -33,22 +24,20 @@ class Image {
     // set the position of the image root in the x,y,z dimensions
     this.root.position.set(0, 0, 0)
     this.root.skipRaycast = true
-
     app.on('factor', () => {
       const scaleFactor = 0.99 + Math.random() * 0.01
       const rotationFactor = (between(-0.5, 0.5) * Math.PI) / 180
       this.root.rotation.z = rotationFactor
       this.root.rotation.x = rotationFactor
       this.root.rotation.y = rotationFactor
-
       this.root.scale.x = scaleFactor
       this.root.scale.y = scaleFactor
       this.root.scale.z = scaleFactor
     })
   }
 
-  move(delta: number, onComplete: () => void) {
-    const forward = (step: number) => {
+  move(delta, onComplete) {
+    const forward = (step) => {
       const forwardParams = { z: 0 }
       return new window.TWEEN.Tween(forwardParams)
         .to({ z: step }, 300)
@@ -66,11 +55,9 @@ class Image {
         this.root.material.opacity = sideCoords.opacity
       })
       .onComplete(onComplete)
-
     const trigger = forward(1)
     trigger.chain(side)
     trigger.start()
   }
 }
-
 export { Image }

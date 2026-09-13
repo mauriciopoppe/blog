@@ -1,37 +1,16 @@
-import { EventEmitter } from 'events'
-import * as THREE from 'three'
-import { Video } from './Video.js'
+import * as THREE from 'https://esm.sh/three@0.144.0'
 import { assets } from '../assets.js'
 import { shake } from '../utils.js'
-
 /**
  * Transforms the string 00:00:00,000 to ms
  */
-function durationToMs(duration: string) {
+function durationToMs(duration) {
   const durationRegexp = /(?<hh>\d+):(?<mm>\d+):(?<ss>\d+),(?<ms>\d+)/
   const { mm, ss, ms } = duration.match(durationRegexp).groups
   return parseInt(ms, 10) + parseInt(ss, 10) * 1000 + parseInt(mm, 10) * 1000 * 60
 }
-
-interface SubtitleDetails {
-  id: string
-  start: string
-  end: string
-  startMs: number
-  endMs: number
-  text: string
-}
-
 export class Subtitles {
-  parent: EventEmitter
-  root: THREE.Object3D
-  subtitles: SubtitleDetails[]
-  subtitleIdx: number
-  video: Video
-  color: string
-  lastTextAdded: string
-
-  constructor(parent: EventEmitter, { subtitles, video, color }) {
+  constructor(parent, { subtitles, video, color }) {
     this.parent = parent
     this.root = new THREE.Object3D()
     this.subtitles = this.processSubtitles(subtitles)
@@ -39,12 +18,11 @@ export class Subtitles {
     this.video = video
     this.color = color
     this.lastTextAdded = null
-
     this.parent.on('update', this.onUpdate.bind(this))
     this.parent.on('factor', shake(this.root, 3))
   }
 
-  processSubtitles(subtitles: string) {
+  processSubtitles(subtitles) {
     // the subtitle file has this form:
     //
     // 1
@@ -60,7 +38,7 @@ export class Subtitles {
       const startMs = durationToMs(start)
       const endMs = durationToMs(end)
       const text = lines[i + 2].trim()
-      const subtitle: SubtitleDetails = { id, start, end, startMs, endMs, text }
+      const subtitle = { id, start, end, startMs, endMs, text }
       out.push(subtitle)
     }
     return out
@@ -73,7 +51,6 @@ export class Subtitles {
       this.root.remove(this.lastTextAdded)
       this.lastTextAdded = null
     }
-
     if (elapsedTime > this.subtitles[this.subtitleIdx].startMs) {
       // console.log('text added', this.subtitles[this.subtitleIdx])
       const shapes = assets.font.generateShapes(this.subtitles[this.subtitleIdx].text, 1)
@@ -88,7 +65,6 @@ export class Subtitles {
       const xMid = -0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x)
       geometry.translate(xMid, 0, 0)
       const text = new THREE.Mesh(geometry, material)
-
       this.lastTextAdded = text
       this.root.add(text)
       this.subtitleIdx += 1

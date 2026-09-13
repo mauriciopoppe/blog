@@ -17,8 +17,8 @@
     "build:hugo": "hugo --source site --destination ../dist",
     "serve:prod": "http-server -S -C site/cert/localhost.pem -K site/cert/localhost-key.pem dist",
     "test": "bun test site/ src/",
-    "preflight": "bun run src/scripts/preflight.ts",
-    "publish:note": "bun run src/scripts/publish-note.ts"
+    "preflight": "bun run src/tools/preflight.ts",
+    "publish:note": "bun run src/tools/publish-note.ts"
   },
   "dependencies": {
     "@babel/cli": "^7.8.3",

@@ -76,7 +76,7 @@ These break with the new paths and need updating in the same change:
 2. **`site/layouts/_partials/single-content.html`**: the pipeline-nav inclusion guard checks `in .RelPermalink "/notes/computer-graphics/transformation-matrices/"`. Replace with a check based on `pipeline_stage` or the new slugs.
 3. **`site/layouts/index.html`**: one hardcoded link to `notes/computer-graphics/viewing/projection-transform/` updates to the flat path.
 4. **Internal relative links in the articles**: all moved articles become siblings, so `../slug/` links keep working, but deeper relative links need rewriting. The known one is `first-person-camera.md` linking to `../../../transformation-matrices/rotation/euler-angles#intrinsic-rotations`, which becomes `../euler-angles/#intrinsic-rotations`. A full `grep -rn '\.\./'` sweep of the moved files is part of the change.
-5. **`site/layouts/_partials/sitemap-tree.auto.html`**: auto-generated, regenerate with `bun run generate:sitemap` after the moves.
+5. The current sitemap is rendered by `site/layouts/_partials/sitemap.html`, so no generated sitemap step is required.
 
 ## Verification
 

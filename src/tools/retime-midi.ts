@@ -6,7 +6,7 @@ const sourceBpm = Number(process.argv[4])
 const targetBpm = Number(process.argv[5])
 
 if (!inputPath || !outputPath || !sourceBpm || !targetBpm) {
-  throw new Error('Usage: bun run src/util/retime-midi.ts input.mid output.mid sourceBpm targetBpm')
+  throw new Error('Usage: bun run src/tools/retime-midi.ts input.mid output.mid sourceBpm targetBpm')
 }
 
 function readVlq(data: Buffer, offset: number) {

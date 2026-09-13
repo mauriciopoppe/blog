@@ -1,16 +1,7 @@
-import { EventEmitter } from 'events'
-import * as THREE from 'three'
-import { Video } from './Video.js'
+import * as THREE from 'https://esm.sh/three@0.144.0'
 import { between } from '../utils.js'
-
 export class Claps {
-  parent: EventEmitter
-  root: THREE.Object3D
-  claps: Claps
-  video: Video
-  clapsIdx: number
-
-  constructor(parent: EventEmitter, { claps, video }) {
+  constructor(parent, { claps, video }) {
     this.parent = parent
     this.root = new THREE.Object3D()
     // the claps file has this form:
@@ -24,7 +15,6 @@ export class Claps {
     }
     this.clapsIdx = 0
     this.video = video
-
     this.parent.on('update', this.onUpdate.bind(this))
     // this.parent.on('factor', shake(this.root, 3))
   }
@@ -32,7 +22,6 @@ export class Claps {
   onUpdate() {
     const elapsedTime = this.video.getElapsedTime() * 1000
     const rootDom = document.body.querySelector('#root')
-
     if (elapsedTime > this.claps[this.clapsIdx]) {
       const clap = document.createElement('span')
       rootDom.appendChild(clap)
@@ -44,12 +33,11 @@ export class Claps {
       if (this.clapsIdx % 8 === 7) {
         clap.style.fontSize = '20em'
       }
-
       // it should be right border - image width and bottom border - image
       const { width: imageWidth, height: imageHeight } = clap.getBoundingClientRect()
       clap.style.top = `${between(clapBoundsDelta, window.innerHeight - imageHeight - clapBoundsDelta)}px`
       clap.style.left = `${between(clapBoundsDelta, window.innerWidth - imageWidth - clapBoundsDelta)}px`
-      ;(window as any).anime({
+      window.anime({
         targets: clap,
         easing: 'easeInOutQuad',
         translateY: -50,
@@ -64,7 +52,6 @@ export class Claps {
       //   duration: 8000,
       //   opacity: 0,
       // })
-
       this.clapsIdx += 1
     }
   }

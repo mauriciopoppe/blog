@@ -174,7 +174,7 @@ if (import.meta.main) {
   const targetFiles = args.filter(a => !a.startsWith('--'))
 
   if (targetFiles.length === 0) {
-    console.error('Usage: bun run src/scripts/publish-note.ts <note-slug-or-file.md> [--dry-run] [--no-date-update] [--no-commit]')
+    console.error('Usage: bun run src/tools/publish-note.ts <note-slug-or-file.md> [--dry-run] [--no-date-update] [--no-commit]')
     process.exit(1)
   }
 

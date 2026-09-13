@@ -29,13 +29,13 @@ Generated with `tree --gitignore -L 3 -I dist/ -d .`
 │   │   └── shortcodes   # Custom shortcodes (see hugo for more info)
 │   └── static           # Static content
 └── src
-    ├── jukebox          # The easter egg page
-    ├── main             # Animations, controls sidebars, header, footer
+    ├── main             # Shared browser runtime and site styles
     │   └── css          # The styles of the app
-    ├── sunset           # Footer animation
-    ├── util             # Shared utilities
-    └── voronoi          # Main page and header animation
+    └── tools            # Bun/Node CLI tools and data importers
 ```
+
+Standalone browser modules live in `site/static/js`. They are loaded directly
+with native `<script type="module">` tags and do not go through Webpack.
 
 The graph showing how partials are used:
 
@@ -63,30 +63,19 @@ Example: `hover:light:tw-bg-primary`, for more info
 read the https://github.com/L-Blondy/tw-colors and the
 generated css file.
 
-### Bundled scripts
+### Choosing a code location
 
-Build strategy: create multiple webpack library outputs, export metadata about the generated
-assets through the AssetsPlugin to `site/data/webpackAssets.json`, later when a page
-is rendered have hugo read the json file and decide the urls to use in the script tag.
+- Put shared site browser code in `src/main`. It is bundled by Webpack and can
+  import npm packages and CSS.
+- Put a self-contained browser app in `site/static/js`. Load it with a native
+  module script and use URL imports for external ESM dependencies.
+- Put Bun/Node command-line workflows, publishing helpers, and data importers
+  in `src/tools`. These run during development or publishing and are never
+  loaded by the browser.
 
-To create a new global script:
-
-- create an entrypoint e.g. `src/<app>/index.js`
-- add it to `webpack.config.common.js`
-- create the partial that injects the script, create `site/layouts/partials/scripts/<app>.html`
-  similar to other files in the same directory
-- use it in the desired page through `{{ partial "scripts/learn-french.html" . }}`
-- restart the server
-
-How does it work?
-
-- webpack.config.common.js is configured to emit metadata about the entrypoints
-  to site/data/webpackAssets.json
-- when the partial `site/layouts/partials/webpack-script.html` is used it'll
-  create a `<script>` tag with a src url equal taken from `webpackAssets.json` (mapped
-  using the `id` sent to `webpack-script.html`)
-- NOTE: in production the behavior is to embed the contents of the script directly
-  instead of through a `<script src="">` tag.
+The Webpack bundle is still responsible for `src/main`. Its entrypoint metadata
+is written to `site/data/webpackAssets.json` and consumed by
+`site/layouts/_partials/webpack-script.html`.
 
 ## Local development
 
@@ -132,8 +121,7 @@ bun run build
 
 Steps (from `package.json`):
 
-- build the sidebar html fragment with the `sitemap-tree-generator.js` script
-- create the site scripts with webpack, read `webpack.common.js`, write the output to `dist/`
+- create the shared site bundle with webpack, read `webpack.common.js`, write the output to `dist/`
 - build the static files, write the output to `dist/`
 
 Manual steps in Netlify (setup done only once)

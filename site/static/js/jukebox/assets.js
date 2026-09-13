@@ -1,15 +1,5 @@
-import { FontLoader, Font } from 'three/addons/loaders/FontLoader.js'
-
-export interface Assets {
-  initialized: boolean
-  font: Font
-  subtitles: string
-  subtitlesEnglish: string
-  claps: string
-  audioBuffer: ArrayBuffer
-}
-
-export const assets: Assets = {
+import { FontLoader } from 'https://esm.sh/three@0.144.0/examples/jsm/loaders/FontLoader.js'
+export const assets = {
   initialized: false,
   font: null,
   subtitles: null,
@@ -17,13 +7,10 @@ export const assets: Assets = {
   claps: null,
   audioBuffer: null
 }
-
 export async function loadAssets() {
   const loader = new FontLoader()
   const [font, subtitles, subtitlesEnglish, claps, audioBuffer] = await Promise.all([
-    new Promise<Font>((resolve, reject) =>
-      loader.load('/sandbox/jukebox/fonts/font.typeface.json', resolve, null /* onProgress */, reject)
-    ),
+    new Promise((resolve, reject) => loader.load('/sandbox/jukebox/fonts/font.typeface.json', resolve, null /* onProgress */, reject)),
     fetch('/sandbox/jukebox/bachata.srt').then((response) => response.text()),
     fetch('/sandbox/jukebox/bachata_english.srt').then((response) => response.text()),
     fetch('/sandbox/jukebox/claps.json').then((response) => response.json()),

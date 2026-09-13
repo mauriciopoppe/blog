@@ -376,7 +376,7 @@ if (import.meta.main) {
   const targetFiles = args.filter(a => !a.startsWith('--'))
 
   if (targetFiles.length === 0) {
-    console.error('Usage: bun run src/scripts/preflight.ts <path-to-article.md> [--static-only] [--strict]')
+    console.error('Usage: bun run src/tools/preflight.ts <path-to-article.md> [--static-only] [--strict]')
     process.exit(1)
   }
 
