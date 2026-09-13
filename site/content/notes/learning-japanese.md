@@ -48,8 +48,13 @@ I decided to learn Japanese because:
   [Harmonia by Rythem](https://www.youtube.com/watch?v=VTIK1gBhzXk).
   Since then, I have started enjoying listening to Japanese pop music
   with artists like [Sheena Ringo](https://www.youtube.com/watch?v=H_nCw1WMFs4),
-  [Hikaru Utada](https://www.youtube.com/watch?v=UPdlfIhzPEo), [Ado](https://www.youtube.com/watch?v=x1UsJ2Znjk0) (I love her voice!)
-  as well as great metal bands like [Baby Metal](https://www.youtube.com/watch?v=MToMx6RCW-M),
+  [Hikaru Utada](https://www.youtube.com/watch?v=UPdlfIhzPEo),
+  [Ado](https://www.youtube.com/watch?v=x1UsJ2Znjk0) (Her voice is amazing and her persona is so unique),
+  [Atarashii Gakko!](https://www.youtube.com/watch?v=k18g-12B9h4) (Suzuka has such a strong chest voice),
+  ZUTOMAYO (ACAね is a genius: she is a composer, she can play guitar and other instruments live, and she is an amazing singer.
+  I can't believe she can sing [Time Left](https://www.youtube.com/watch?v=GNFjhvFnnDY) live).
+  YOASOBI (although some of their music is too happy for me :)).
+  I also like metal bands like [Baby Metal](https://www.youtube.com/watch?v=MToMx6RCW-M),
   [Band Maid](https://www.youtube.com/watch?v=RCaeUkrItyY)
   and [Ningen Isu](https://www.youtube.com/watch?v=-CmbsjjMbNQ).
 * **Japanese Content** - There is a lot of content available in Japanese that I'm interested in watching like
@@ -80,13 +85,14 @@ Similar to [my strategy for learning French](../learning-french/#the-power-of-co
 I'm consuming Japanese content that I can understand. My favorite platforms are YouTube and Stremio (where I can watch anime).
 
 ### Understanding Japanese content in videos
-I am using my own Chrome extension called [Subtitle Insights](https://mauriciopoppe.github.io/SubtitleInsights/),
-to get smart AI insights and translations while watching videos. My current setup involves enabling the overlay where I
+I am using my own Chrome extension called [Subtitle Insights](https://mauriciopoppe.github.io/SubtitleInsights/)
+to get smart insights and translations while watching videos. My current setup involves enabling the overlay where I
 attempt to read the sentence (in Kanji and Kana) without the translation enabled (which I disable to force myself to practice reading and
 recalling content that I learned). If I want a translation of the sentence, I can see it in the extension sidebar.
 If there's a part of the sentence that I don't understand, I read the "insights" which explain parts of the grammar.
 I configured the extension to use this system prompt:
 
+{{< collapsible-code title="Show grammar prompt" >}}
 ```
 Role: Japanese Grammar Instructor for English speakers.
 
@@ -117,23 +123,15 @@ Output: 「をクリックします」 (o kurikko shimasu) means "click on."
 「クリックします」 (kurikko shimasu - to click).
 ```
 
-The input is: `Sentence: うちには今、パンが２種類あります。`
+{{< /collapsible-code >}}
 
-The output is:
-
-```
-「うちには」 (uchi ni wa - at our house) indicates the location.
-「今」 (ima - now) specifies the time. 「パン」 (pan - bread) is the subject,
-and 「が」 (ga) marks it as the subject of the verb.
-「２種類」 (ni shurui - two kinds) specifies the quantity and type of bread.
-「あります」 (arimasu - there are) indicates the existence of the bread.
-```
+{{< figure src="/images/japanese-subtitle-insights-in-video.webp" caption="Subtitle Insights showing a Japanese sentence with grammar insights" imgStyle="max-height: 600px; width: auto;" >}}
 
 
 ### Pausing, shadowing and replaying
 When I'm actively learning (i.e., when I'm not consuming content passively), I want to understand
 most of the details worth understanding in the sentence, if not every word. I realized I needed to pause the video at the end to
-attempt to understand words from the subtitle with Yomitan[^yomitan]. I also wanted to shadow the speaker by replaying
+attempt to understand words from the subtitle with [Yomitan](https://yomitan.wiki/)[^yomitan]. I also wanted to shadow the speaker by replaying
 the current subtitle from where it begins. While Yomitan gives me per-word explanations, I also wished I could get deeper insights
 into a sentence, such as understanding the grammar, particles, and choice of verb endings.
 [I'm able to do all of these with my extension](https://mauriciopoppe.github.io/SubtitleInsights/guides/youtube.html#intensive-mining-workflow),
@@ -155,18 +153,26 @@ Knowing how often it appears is very useful because if a word appears often in t
 high on the list of words I learn first. I wrote more details about how I mine words with Yomitan and my extension in
 [this guide](https://mauriciopoppe.github.io/SubtitleInsights/guides/yomitan-mining.html).
 
+### Reviewing mined vocabulary in Anki
+
+The 'Forgetting Curve' suggests that without review, you lose 70% of new vocabulary within 24 hours.
+This is where Anki and its spaced repetition system helps, with Anki, I can review a word just before I forget it. Moreover, the
+word frequency data exported by Yomitan helps sort the list of words that I learn, therefore, I'm sure I'm learning words that really matter
+at this stage of my learning process and not learning words that I'll rarely use.
+
 ### Adding more content to mined words
 
 #### Mnemonics
 
-Japanese words may have Kanji in addition to Kana. To remember Kanji and Kana, I use mnemonics.
-I ask Gemini to create a mnemonic focused on three things: meaning, shape, and sound.
+Japanese words may have Kanji in addition to Kana. To remember Kanji and Kana, I use an AI-powered workflow
+that creates mnemonics focused on three things: meaning, shape, and sound.
 It's much simpler to look at the strokes that form the character and remember a story around it, which eventually
 helps me recall the meaning, shape, and sound. This has worked wonderfully for me so far.
 
-  * While I could do that by hand through the Gemini UI, [I have a script](https://github.com/mauriciopoppe/anki-decks)
-    that scans my list of recently learned words from Anki and adds notes to it.
+While I could create these by hand, [I have a script](https://github.com/mauriciopoppe/anki-decks)
+that scans my list of recently learned words from Anki and adds notes to it.
 
+{{< collapsible-code title="Show mnemonic prompt" >}}
 ```
 You are a Japanese Mnemonic Specialist.
 
@@ -203,6 +209,8 @@ Sound: [Creative story/pun. The English pun **[SOUND PUN]** must be
 in bold to connect it to the reading **{ExpressionReading}**.]
 ```
 
+{{< /collapsible-code >}}
+
   * `Expression`, `ExpressionReading` and `Sentence` were all mined from Yomitan. I replace their contents with
      a newly mined word like `聞く` and I see the following:
 
@@ -217,6 +225,8 @@ to overhear the secrets being whispered inside.
 Sound: Watch out! If the guards catch you spying at the gate,
 they will kick you! (きく).
 ```
+
+{{< figure src="https://raw.githubusercontent.com/mauriciopoppe/anki-decks/refs/heads/main/resources/kanji-mnemonic-after.png" caption="My Anki template with mnemonics generated by AI" imgStyle="max-height: 400px; width: auto;" >}}
 
 #### `i+1` method from Kaishi 1.5k deck
 
@@ -236,6 +246,7 @@ word was retrieved from which might have a lot of words that are still unknown.
 However, with AI agents is easy to express these constraints to add context to mined words using this
 methodology. The plan that I wrote with the agent is:
 
+{{< collapsible-code title="Show i+1 sentence prompt" >}}
 ```
 # Specification: i+1 Sentence Reinforcement for Japanese::Mining
 
@@ -270,17 +281,42 @@ already learned in both the `Japanese::Kaishi 1.5k` and `Japanese::Mining` decks
      provided "learned" context.
 ```
 
+{{< /collapsible-code >}}
+
 After processing my deck now I see the words that I learned in sentences created by the AI agent
 with words seen in the past. This is excellent because I can practice reading and recalling the
 meaning of other words while adding a new word to my vocabulary!
 
-### Reviewing mined vocabulary in Anki
-The 'Forgetting Curve' suggests that without review, you lose 70% of new vocabulary within 24 hours.
-This is where Anki and its spaced repetition system helps, with Anki, I can review a word just before I forget it. Moreover, the
-word frequency data exported by Yomitan helps sort the list of words that I learn, therefore, I'm sure I'm learning words that really matter
-at this stage of my learning process and not learning words that I'll rarely use.
+### Producing Japanese
 
-{{< figure src="https://raw.githubusercontent.com/mauriciopoppe/anki-decks/refs/heads/main/resources/kanji-mnemonic-after.png" caption="My Anki template with mnemonics generated by AI" imgStyle="max-height: 400px; width: auto;" >}}
+#### Producing mined words
+
+Reading mined sentences has helped me understand and recognize words that I hear in videos and at meetups,
+but recognition is different from producing a word when I want to speak. To practice production, I added another
+view of my mined words in Anki. These are not new cards. They are the same mined words shown in a different way.
+
+The front of the card shows a complete sentence in English and hides the Japanese sentence. My goal is to say the
+whole sentence in Japanese, including the target word somewhere in the sentence. After I answer, the back reveals
+the Japanese sentence, the target word, its meaning, and the rest of the card context. This gives me a reason to
+retrieve the word instead of only recognizing it when I see it.
+
+{{< figure src="/images/japanese-language-production.webp" caption="A mined word card adapted for Japanese production practice" imgStyle="max-height: 400px; width: auto;" >}}
+
+#### Producing grammar
+
+I also created a separate [Japanese Grammar Production deck](https://github.com/mauriciopoppe/anki-skills) for
+learning grammar through examples. The deck is reusable across grammar lessons, so each lesson can add new
+production exercises without requiring a different card format.
+
+Each card follows the same production loop as the mined-word view. I read a sentence in English and try to say it
+in Japanese. A word or set of words is hidden in the Japanese sentence using Anki's Cloze format, and I only see
+it after revealing the back of the card. The back shows the complete sentence with furigana, the grammar
+transformation, a short explanation, and sentence audio.
+
+{{< figure src="/images/japanese-grammar-deck.webp" caption="A Japanese Grammar Production card before and after revealing the answer" imgStyle="max-height: 400px; width: auto;" >}}
+
+The grammar deck is separate from my Japanese Mining deck. Mining and Kaishi provide vocabulary context so that
+the examples can stay close to an `i+1` level, while the grammar cards focus on deliberately producing a form.
 
 ### Conversation Starters
 To practice the language with native speakers at meetups, I've created a small flashcard game

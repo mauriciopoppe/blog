@@ -10,3 +10,59 @@
 @import "./components/my-sitemap.css";
 @import "./components/my-pill.css";
 @import "./components/my-social-icon.css";
+
+details.code-collapse {
+  margin: 1rem 0;
+}
+
+summary.code-collapse-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--family-serif, system-ui, serif);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.25;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: var(--grey-dark);
+  border: 1px solid var(--ring-border);
+  color: var(--grey-light);
+  box-shadow: var(--elevation-subtle);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  transition: all 0.15s ease;
+}
+
+summary.code-collapse-summary::-webkit-details-marker {
+  display: none;
+}
+
+summary.code-collapse-summary::before {
+  content: "▶";
+  font-size: 0.65rem;
+  color: rgb(var(--primary));
+  transition: transform 0.15s ease;
+  display: inline-block;
+}
+
+details[open].code-collapse > summary.code-collapse-summary::before {
+  transform: rotate(90deg);
+}
+
+summary.code-collapse-summary:hover {
+  color: rgb(var(--primary));
+  border-color: var(--accent-border);
+  background: var(--accent-tint);
+  box-shadow: var(--elevation-raised);
+}
+
+summary.code-collapse-summary:focus-visible {
+  outline: 2px solid rgba(var(--primary), 0.6);
+  outline-offset: 2px;
+}
+
+details[open].code-collapse pre {
+  margin-top: 8px;
+}

@@ -38,6 +38,7 @@ The site applies design tokens through three distinct methods, depending on whet
 
 In static markdown, HTML, and Hugo layouts (`site/layouts/_partials/`), express these rules as Tailwind utilities rather than raw CSS. Use custom utilities where available (`tw-text-primary` for `rgb(var(--primary))`) and theme custom property arbitrary values for borders, backgrounds, and shadows (`tw-border-[var(--ring-border)]`, `tw-bg-[var(--grey-dark)]`, `tw-shadow-subtle`).
 
+{{< collapsible-code title="Show HTML code" >}}
 ```html
 <!-- Interactive card: ring outline + resting elevation mark it as clickable -->
 <div class="tw-rounded-lg tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-cursor-pointer tw-shadow-raised hover:tw-border-primary hover:tw-bg-primary-soft hover:tw-shadow-deep tw-transition-all">
@@ -49,11 +50,13 @@ In static markdown, HTML, and Hugo layouts (`site/layouts/_partials/`), express 
   ...
 </div>
 ```
+{{< /collapsible-code >}}
 
 ### Shared UI Tokens & Preact Components for ES6 Scripts (`/js/ui/tokens.js`, `/js/ui/preact.js`)
 
 Interactive visualizers, 3D WebGL explorers, and performance simulators build DOM interfaces dynamically in JavaScript. Instead of repeating long utility strings and manually juggling DOM elements, modules import declarative UI tokens from `/js/ui/tokens.js` and lightweight Preact components via `/js/ui/preact.js` (using `htm` tagged templates, requiring zero build steps).
 
+{{< collapsible-code title="Show JavaScript code" >}}
 ```javascript
 import { html, render, useState } from '../ui/preact.js'
 import { UI } from '../ui/tokens.js'
@@ -86,6 +89,7 @@ function FlightSimulator() {
 
 render(html`<${FlightSimulator} />`, document.getElementById('widget-mount'))
 ```
+{{< /collapsible-code >}}
 
 The `UI` token object groups tokens into four categories:
 - `UI.btn` (`base`, `ctrl`, `playNeutral`, `playActive`, `mini`) for clickable action buttons
@@ -97,17 +101,20 @@ The `UI` token object groups tokens into four categories:
 
 Where Tailwind utilities do not apply (such as native SVG elements), presentation rules go directly on the SVG element or its children as attributes or inline styles using theme CSS variables.
 
+{{< collapsible-code title="Show HTML code" >}}
 ```html
 <svg style="width: 100%; height: auto; background: var(--grey-darker); border-radius: 12px; border: 1px solid var(--grey-dark); font-family: var(--family-sans, system-ui, sans-serif);">
   <line stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.2" />
   <text fill="var(--grey-light)" font-family="var(--family-serif, system-ui, serif)">label</text>
 </svg>
 ```
+{{< /collapsible-code >}}
 
 ## Typography: Titles Sans, Content Serif
 
 Headers and titles use the sans family. Content, labels, and descriptions use the serif family to match the article body. A widget title and its section labels use `--family-sans`, while the descriptions, captions, and button text below them use `--family-serif`.
 
+{{< collapsible-code title="Show CSS code" >}}
 ```css
 .widget-title {
   font-family: var(--family-sans, system-ui, sans-serif);
@@ -117,6 +124,7 @@ Headers and titles use the sans family. Content, labels, and descriptions use th
   font-family: var(--family-serif, system-ui, serif);
 }
 ```
+{{< /collapsible-code >}}
 
 <div id="ux-demo-typography"></div>
 
@@ -124,6 +132,7 @@ Headers and titles use the sans family. Content, labels, and descriptions use th
 
 A passive surface is a flat `var(--grey-dark)` block with no border. An interactive surface starts from the same background but adds a `var(--ring-border)` outline, a resting elevation, a pointer cursor, and a chevron where one makes sense. The resting state carries no primary accent. The accent arrives only on hover and active states. This is the single most important rule: the ring border is reserved for what can be clicked, so the border itself carries the information. A static block has no border, and a clickable element does, which makes the interactive surfaces pop at a glance.
 
+{{< collapsible-code title="Show CSS code" >}}
 ```css
 .passive-panel {
   background: var(--grey-dark);
@@ -148,6 +157,7 @@ A passive surface is a flat `var(--grey-dark)` block with no border. An interact
   box-shadow: var(--elevation-raised);
 }
 ```
+{{< /collapsible-code >}}
 
 The live example below uses the same classes. Cards share the same background, but the states read differently. The passive card is inert, flat, borderless, and default-cursor. The interactive card reads as clickable through its ring outline, raised shadow, pointer cursor, and chevron. The active card is the current page or selected item, marked with a solid primary border and a primary-tinted background.
 
@@ -163,6 +173,7 @@ Every interactive element defines default, hover, focus, and active, and a disab
 
 All interactive elements share one hover language. On hover the element moves toward the primary accent and its surface takes a subtle primary tint. Raised surfaces (buttons, cards, toggles) also deepen their elevation shadow. Inline text links glow instead, because they have no surface to tint. The CSS below is the pattern to follow.
 
+{{< collapsible-code title="Show CSS code" >}}
 ```css
 .ctrl {
   font-family: var(--family-serif, system-ui, serif);
@@ -202,6 +213,7 @@ All interactive elements share one hover language. On hover the element moves to
   border-color: var(--ring-border);
 }
 ```
+{{< /collapsible-code >}}
 
 The buttons below show each state in turn.
 
@@ -211,6 +223,7 @@ The buttons below show each state in turn.
 
 Tags are compact pills for categories, series badges, and status. They follow the same interactive and passive rules and the same state model as buttons, but at a smaller size. A neutral tag is informational and inert. A selectable or dismissible tag stays neutral at rest and shows the accent on hover and active states.
 
+{{< collapsible-code title="Show CSS code" >}}
 ```css
 .tag {
   display: inline-block;
@@ -249,6 +262,7 @@ Tags are compact pills for categories, series badges, and status. They follow th
   box-shadow: var(--elevation-subtle);
 }
 ```
+{{< /collapsible-code >}}
 
 <div id="ux-demo-tags"></div>
 
@@ -256,6 +270,7 @@ Tags are compact pills for categories, series badges, and status. They follow th
 
 A single-select control lets the user pick exactly one option from a group. Each option is a ctrl: focusable, hover shows the accent, and the selected option uses the active state. Only one option is selected at a time, so selecting one clears the others.
 
+{{< collapsible-code title="Show CSS code" >}}
 ```css
 .radio-group {
   display: inline-flex;
@@ -289,6 +304,7 @@ A single-select control lets the user pick exactly one option from a group. Each
   color: rgb(var(--primary));
 }
 ```
+{{< /collapsible-code >}}
 
 <div id="ux-demo-radio"></div>
 
@@ -296,6 +312,7 @@ A single-select control lets the user pick exactly one option from a group. Each
 
 A range slider is a single-value control. The track shows the filled portion in the primary accent, and the thumb is a primary circle. The states follow the shared model: default, hover, focus, active, and disabled. On hover the thumb gains a soft primary halo, and on focus it shows a visible ring.
 
+{{< collapsible-code title="Show CSS code" >}}
 ```css
 .range {
   -webkit-appearance: none;
@@ -365,6 +382,7 @@ A range slider is a single-value control. The track shows the filled portion in 
   cursor: not-allowed;
 }
 ```
+{{< /collapsible-code >}}
 
 <div id="ux-demo-slider"></div>
 
@@ -372,6 +390,7 @@ A range slider is a single-value control. The track shows the filled portion in 
 
 A text input follows the same surface and border rules as the other controls. The resting state is a neutral `var(--ring-border)` outline on `var(--grey-dark)`. Focus shows a visible ring and a primary border. The placeholder text uses the mid-tone grey, and the disabled state dims the field.
 
+{{< collapsible-code title="Show CSS code" >}}
 ```css
 .input-field {
   font-family: var(--family-serif, system-ui, serif);
@@ -407,6 +426,7 @@ A text input follows the same surface and border rules as the other controls. Th
   box-shadow: none;
 }
 ```
+{{< /collapsible-code >}}
 
 <div id="ux-demo-input"></div>
 
@@ -414,6 +434,7 @@ A text input follows the same surface and border rules as the other controls. Th
 
 A select dropdown lets the user choose one option from a collapsible list. Like other controls, it uses a neutral `var(--ring-border)` border on `var(--grey-dark)` at rest. Hover brightens the border, and focus displays the primary focus ring.
 
+{{< collapsible-code title="Show CSS code" >}}
 ```css
 .select-field {
   appearance: none;
@@ -451,6 +472,7 @@ A select dropdown lets the user choose one option from a collapsible list. Like 
   box-shadow: none;
 }
 ```
+{{< /collapsible-code >}}
 
 <div id="ux-demo-select"></div>
 
@@ -458,6 +480,7 @@ A select dropdown lets the user choose one option from a collapsible list. Like 
 
 Text links use the `<a>` node. Inline links are primary colored with an underline. They follow the same state model as other interactive elements. Hover brightens the link, and focus shows a visible ring.
 
+{{< collapsible-code title="Show CSS code" >}}
 ```css
 a {
   color: rgb(var(--primary));
@@ -473,6 +496,7 @@ a:focus-visible {
   outline-offset: 2px;
 }
 ```
+{{< /collapsible-code >}}
 
 <div id="ux-demo-links"></div>
 
@@ -491,6 +515,7 @@ Widgets combine the rules above into a reusable component. A widget is a wrapper
 A metric card is a compact passive surface that presents a single number with a small title above it and an optional caption below. It is used in grids to give a dashboard-style overview. Because the card is passive, it is a flat `var(--grey-dark)` block with no border. The card centers its content: the title and caption use the serif content font, and the value uses the sans family so numerals stay legible at a glance. The value picks up the accent or a status color when it needs emphasis.
 
 **HTML Template**:
+{{< collapsible-code title="Show HTML code" >}}
 ```html
 <div class="tw-bg-[var(--grey-dark)] tw-rounded-lg tw-px-2.5 tw-py-2 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center">
   <div class="tw-text-[0.75rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Util (theoretical)</div>
@@ -498,8 +523,10 @@ A metric card is a compact passive surface that presents a single number with a 
   <div class="tw-text-[0.65rem] tw-text-[var(--grey-light)] tw-whitespace-nowrap">Cap: 4.0 req/s</div>
 </div>
 ```
+{{< /collapsible-code >}}
 
 **JavaScript (Preact + UI Tokens)**:
+{{< collapsible-code title="Show JavaScript code" >}}
 ```javascript
 import { html } from '../ui/preact.js'
 import { UI } from '../ui/tokens.js'
@@ -514,6 +541,7 @@ function MetricCard({ label, value, caption, valueColor }) {
   `
 }
 ```
+{{< /collapsible-code >}}
 
 <div id="ux-demo-metric-card"></div>
 
@@ -527,6 +555,7 @@ At the boundaries, actions that cannot execute are disabled:
 - **Disabled state** uses `opacity: 0.45`, `cursor: not-allowed`, and suppresses hover shadows and filter glows (`disabled:tw-shadow-none disabled:hover:tw-shadow-none disabled:hover:tw-filter-none`).
 
 **HTML Template**:
+{{< collapsible-code title="Show HTML code" >}}
 ```html
 <div class="tw-bg-[var(--grey-dark)] tw-rounded-md tw-px-2.5 tw-py-2 tw-flex tw-gap-1.5 tw-items-stretch">
   <button type="button" class="tw-flex-none tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft hover:tw-shadow-raised disabled:tw-opacity-45 disabled:tw-cursor-not-allowed disabled:tw-shadow-none disabled:hover:tw-shadow-none disabled:hover:tw-filter-none" title="Reset to Start" disabled>↺</button>
@@ -535,8 +564,10 @@ At the boundaries, actions that cannot execute are disabled:
   <button type="button" class="tw-flex-none tw-bg-[var(--grey-dark)] tw-border tw-border-[var(--ring-border)] tw-text-[var(--grey-light)] tw-px-2.5 tw-py-1.5 tw-rounded-md tw-font-serif tw-text-[0.8rem] tw-font-semibold tw-cursor-pointer tw-shadow-subtle tw-flex tw-items-center tw-justify-center hover:tw-border-primary hover:tw-text-primary hover:tw-bg-primary-soft hover:tw-shadow-raised" title="Step Forward">⏭</button>
 </div>
 ```
+{{< /collapsible-code >}}
 
 **JavaScript (Preact + UI Tokens)**:
+{{< collapsible-code title="Show JavaScript code" >}}
 ```javascript
 import { html, useState } from '../ui/preact.js'
 import { UI } from '../ui/tokens.js'
@@ -580,6 +611,7 @@ function StepPlayback({ currentStep = 0, totalSteps = 4, onStepChange }) {
   `
 }
 ```
+{{< /collapsible-code >}}
 
 <div id="ux-demo-step-control"></div>
 
@@ -588,6 +620,7 @@ function StepPlayback({ currentStep = 0, totalSteps = 4, onStepChange }) {
 A widget frame wraps content in an outer card with a header. The header uses a distinct surface (`var(--grey-dark)`) so it reads as a title bar against the deeper body surface (`var(--grey-darker)`), and the title text uses the primary accent. The title sits on the left and an optional descriptor on the right. The body is a slot that takes any content.
 
 **HTML Template**:
+{{< collapsible-code title="Show HTML code" >}}
 ```html
 <div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
   <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
@@ -599,8 +632,10 @@ A widget frame wraps content in an outer card with a header. The header uses a d
   </div>
 </div>
 ```
+{{< /collapsible-code >}}
 
 **JavaScript (Preact + UI Tokens)**:
+{{< collapsible-code title="Show JavaScript code" >}}
 ```javascript
 import { html } from '../ui/preact.js'
 import { UI } from '../ui/tokens.js'
@@ -619,6 +654,7 @@ function WidgetFrame({ title, descriptor, children }) {
   `
 }
 ```
+{{< /collapsible-code >}}
 
 <div id="ux-demo-widget-frame"></div>
 
@@ -629,6 +665,7 @@ The canonical two column widget applies the widget frame with a two column body.
 A card with a title within the left panel presents secondary status, telemetry, or preset summaries cleanly with an inset header.
 
 **HTML Template**:
+{{< collapsible-code title="Show HTML code" >}}
 ```html
 <div class="tw-my-7 tw-bg-[var(--grey-darker)] tw-border tw-border-[var(--ring-border)] tw-rounded-[12px] tw-overflow-hidden">
   <header class="tw-flex tw-items-center tw-justify-between tw-gap-2 tw-flex-wrap tw-px-3.5 tw-py-2.5 tw-bg-[var(--grey-dark)] tw-border-b tw-border-[var(--ring-border)]">
@@ -698,8 +735,10 @@ A card with a title within the left panel presents secondary status, telemetry, 
   </div>
 </div>
 ```
+{{< /collapsible-code >}}
 
 **JavaScript (Preact + UI Tokens)**:
+{{< collapsible-code title="Show JavaScript code" >}}
 ```javascript
 import { html, render, useState, useEffect, useRef } from '../ui/preact.js'
 import { UI } from '../ui/tokens.js'
@@ -783,6 +822,7 @@ export function FlightSimulatorWidget() {
 
 render(html`<${FlightSimulatorWidget} />`, document.getElementById('flight-simulator-mount'))
 ```
+{{< /collapsible-code >}}
 
 <div id="ux-demo-layout"></div>
 

@@ -123,55 +123,6 @@ const DEMO_CSS = `
   .ux-select:hover:not(:disabled), .ux-select.ux-select-hover { border-color: var(--accent-border); color: var(--grey-lighter); }
   .ux-select:focus-visible, .ux-select.ux-select-focus { outline: 2px solid rgba(var(--primary), 0.6); outline-offset: 2px; border-color: var(--accent-border); color: var(--grey-lighter); }
   .ux-select:disabled, .ux-select:disabled:hover { opacity: 0.45; cursor: not-allowed; border-color: var(--ring-border); color: var(--grey-light); box-shadow: none; }
-  /* Collapsible code snippets for UX Doc */
-  details.ux-code-collapse {
-    margin: 1rem 0;
-  }
-  summary.ux-code-summary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--family-serif, system-ui, serif);
-    font-size: 0.8rem;
-    font-weight: 600;
-    line-height: 1.25;
-    padding: 6px 12px;
-    border-radius: 6px;
-    background: var(--grey-dark);
-    border: 1px solid var(--ring-border);
-    color: var(--grey-light);
-    box-shadow: var(--elevation-subtle);
-    cursor: pointer;
-    user-select: none;
-    list-style: none;
-    transition: all 0.15s ease;
-  }
-  summary.ux-code-summary::-webkit-details-marker {
-    display: none;
-  }
-  summary.ux-code-summary::before {
-    content: "▶";
-    font-size: 0.65rem;
-    color: rgb(var(--primary));
-    transition: transform 0.15s ease;
-    display: inline-block;
-  }
-  details[open].ux-code-collapse > summary.ux-code-summary::before {
-    transform: rotate(90deg);
-  }
-  summary.ux-code-summary:hover {
-    color: rgb(var(--primary));
-    border-color: var(--accent-border);
-    background: var(--accent-tint);
-    box-shadow: var(--elevation-raised);
-  }
-  summary.ux-code-summary:focus-visible {
-    outline: 2px solid rgba(var(--primary), 0.6);
-    outline-offset: 2px;
-  }
-  details[open].ux-code-collapse > pre {
-    margin-top: 8px;
-  }
 `;
 
 function injectStyle() {
@@ -187,35 +138,8 @@ function mount(id, html) {
   if (el) el.innerHTML = html;
 }
 
-function collapseCodeBlocks() {
-  const pres = document.querySelectorAll('article pre, .article-content pre, main pre');
-  pres.forEach((pre) => {
-    if (pre.parentElement && pre.parentElement.classList.contains('ux-code-collapse')) return;
-
-    const codeEl = pre.querySelector('code');
-    let lang = '';
-    if (codeEl) {
-      const match = codeEl.className.match(/language-(\w+)/);
-      if (match) lang = match[1].toUpperCase();
-    }
-    const label = lang ? `Show ${lang} code` : 'Show code snippet';
-
-    const details = document.createElement('details');
-    details.className = 'ux-code-collapse';
-
-    const summary = document.createElement('summary');
-    summary.className = 'ux-code-summary';
-    summary.textContent = label;
-
-    pre.parentNode.insertBefore(details, pre);
-    details.appendChild(summary);
-    details.appendChild(pre);
-  });
-}
-
 export function initUxDemo() {
   injectStyle();
-  collapseCodeBlocks();
 
   mount(
     'ux-demo-tokens',
