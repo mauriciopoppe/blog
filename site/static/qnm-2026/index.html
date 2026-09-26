@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Queens Night Market — Food Map</title>
+    <meta name="description" content="Printable Queens Night Market food-vendor map and legend." />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2317222b'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='34'%3E%F0%9F%8D%9C%3C/text%3E%3C/svg%3E"
+    />
+
+    <script src="filters.js?v=2" defer></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <main class="page">
+      <section class="layout">
+        <div class="mobile-sticky-header">
+          <div class="map-area">
+            <figure class="map-wrap">
+              <img
+                src="queens-night-market-map-tighter.png"
+                alt="Simplified Queens Night Market map with numbered food stalls"
+              />
+            </figure>
+          </div>
+          <section class="mobile-filters" aria-label="Filter vendors">
+            <div class="filter-group">
+              <span class="filter-label">Cuisine origin</span>
+              <div class="origin-buttons" id="origin-filter" role="group" aria-label="Cuisine origin"></div>
+            </div>
+            <p class="filter-empty" id="filter-empty" hidden>No vendors match these filters.</p>
+          </section>
+        </div>
+        <section class="side" aria-label="Food vendors 1 through 20">
+          <div class="legend legend-top">
+            <article class="vendor" data-flag="jm" style="--flag-image: url('flags/jm.png');">
+              <div>
+                <div class="vendor-line">
+                  <span class="num">01</span> <span class="name">Treat Yourself Jerk Chicken</span>
+                </div>
+                <div class="details">🇯🇲 Jamaican · 🍗 Jerk chicken</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="jp" style="--flag-image: url('flags/jp.png');">
+              <div>
+                <div class="vendor-line"><span class="num">02</span> <span class="name">Oh! Dango</span></div>
+                <div class="details">🇯🇵 Japanese · 🍡 Dango sweets</div>
+              </div>
+            </article>
+            <article class="vendor">
+              <div>
+                <div class="vendor-line"><span class="num">03</span> <span class="name">Anda Cafe</span></div>
+                <div class="details">Tea &amp; drinks · 🧋 Bubble tea</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="hk" style="--flag-image: url('flags/hk.png');">
+              <div>
+                <div class="vendor-line"><span class="num">04</span> <span class="name">Smiling Waffle Eggs</span></div>
+                <div class="details">🇭🇰 Hong Kong · 🧇 Egg waffles</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="kz" style="--flag-image: url('flags/kz.png');">
+              <div>
+                <div class="vendor-line">
+                  <span class="num">05</span> <span class="name">Tastes of the Silk Road</span>
+                </div>
+                <div class="details">🇰🇿 Kazakhstani · 🍖 Kuyrdak, 🍲 beshbarmak, 🐟 koktal</div>
+              </div>
+            </article>
+            <article class="vendor">
+              <div>
+                <div class="vendor-line"><span class="num">06</span> <span class="name">Jollof Guys</span></div>
+                <div class="details">🌍 West African · 🍛 Jollof rice, 🍢 suya, 🐟 fish rolls</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="sl" style="--flag-image: url('flags/sl.png');">
+              <div>
+                <div class="vendor-line">
+                  <span class="num">07</span> <span class="name">Vincent Farms Natural Foods</span>
+                </div>
+                <div class="details">🇸🇱 Sierra Leonean · 🍽️ Cuisine</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="co" style="--flag-image: url('flags/co.png');">
+              <div>
+                <div class="vendor-line"><span class="num">08</span> <span class="name">Aborrajao</span></div>
+                <div class="details">🇨🇴 Colombian · 🍌 Aborrajados</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="bd" style="--flag-image: url('flags/bd.png');">
+              <div>
+                <div class="vendor-line"><span class="num">09</span> <span class="name">Ahmed Halal Food</span></div>
+                <div class="details">🇧🇩 Bangladeshi · 🍲 Beef haleem, 🍗 butter chicken</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="cn" style="--flag-image: url('flags/cn.png');">
+              <div>
+                <div class="vendor-line"><span class="num">10</span> <span class="name">Chan Bai Mei</span></div>
+                <div class="details">🇨🇳 Chinese · 🍭 BingTangHuLu</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="jp" style="--flag-image: url('flags/jp.png');">
+              <div>
+                <div class="vendor-line"><span class="num">11</span> <span class="name">Menya Jiro</span></div>
+                <div class="details">🇯🇵 Japanese · 🍜 Ramen</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="hk" style="--flag-image: url('flags/hk.png');">
+              <div>
+                <div class="vendor-line">
+                  <span class="num">12</span> <span class="name">Hong Kong Street Food</span>
+                </div>
+                <div class="details">🇭🇰 Hong Kong · 🍢 Street food</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="it" style="--flag-image: url('flags/it.png');">
+              <div>
+                <div class="vendor-line"><span class="num">13</span> <span class="name">DiLena's Dolcini</span></div>
+                <div class="details">🇮🇹 Italian · 🍰 Dolcini / 🍬 sweets</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="mm" style="--flag-image: url('flags/mm.png');">
+              <div>
+                <div class="vendor-line"><span class="num">14</span> <span class="name">De Rangoon</span></div>
+                <div class="details">🇲🇲 Burmese · 🥗 Tea-leaf salad, 🍜 Shan noodles</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="br" style="--flag-image: url('flags/br.png');">
+              <div>
+                <div class="vendor-line"><span class="num">15</span> <span class="name">Mister Bocadillos</span></div>
+                <div class="details">🇧🇷 Brazilian · 🍖 Churrasco</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="br" style="--flag-image: url('flags/br.png');">
+              <div>
+                <div class="vendor-line"><span class="num">16</span> <span class="name">Mister Bocadillos</span></div>
+                <div class="details">🇧🇷 Brazilian · 🥟 Esfihas &amp; 🍖 churrasco</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="tw" style="--flag-image: url('flags/tw.png');">
+              <div>
+                <div class="vendor-line"><span class="num">17</span> <span class="name">Bstro</span></div>
+                <div class="details">🇹🇼 Taiwanese · 🍗 Popcorn chicken</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="vn" style="--flag-image: url('flags/vn.png');">
+              <div>
+                <div class="vendor-line"><span class="num">18</span> <span class="name">Bà Thảo’s Kitchen</span></div>
+                <div class="details">🇻🇳 Vietnamese · 🥩 Nem chua bo, 🥞 banh xeo</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="cn" style="--flag-image: url('flags/cn.png');">
+              <div>
+                <div class="vendor-line"><span class="num">19</span> <span class="name">MuahChee Alley</span></div>
+                <div class="details">🇨🇳 Fujianese · 🍖 Drunken ribs, 🍜 peanut noodles</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="ve" style="--flag-image: url('flags/ve.png');">
+              <div>
+                <div class="vendor-line"><span class="num">20</span> <span class="name">Ay Cachapas!</span></div>
+                <div class="details">🇻🇪 Venezuelan · 🌽 Cachapas</div>
+              </div>
+            </article>
+          </div>
+        </section>
+        <section class="below" aria-label="Food vendors 21 through 72">
+          <div class="legend legend-bottom">
+            <article class="vendor" data-flag="kr" style="--flag-image: url('flags/kr.png');">
+              <div>
+                <div class="vendor-line"><span class="num">21</span> <span class="name">Lettuce Meat</span></div>
+                <div class="details">🇰🇷 Korean · 🍖 KBBQ</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="ir" style="--flag-image: url('flags/ir.png');">
+              <div>
+                <div class="vendor-line"><span class="num">22</span> <span class="name">Mamani</span></div>
+                <div class="details">🇮🇷 Iranian · 🌭 Sosis bandari, 🍳 kookoo sabzi</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="tt" style="--flag-image: url('flags/tt.png');">
+              <div>
+                <div class="vendor-line"><span class="num">23</span> <span class="name">Congo's Grill</span></div>
+                <div class="details">🇹🇹 Trinidadian · 🦀 Curry crab, 🥟 dumplings, 🥪 doubles</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="co" style="--flag-image: url('flags/co.png');">
+              <div>
+                <div class="vendor-line"><span class="num">24</span> <span class="name">Baked By Colo</span></div>
+                <div class="details">🇨🇴 Colombian · 🍰 Sweets</div>
+              </div>
+            </article>
+            <article class="vendor">
+              <div>
+                <div class="vendor-line"><span class="num">25</span> <span class="name">Gi Hin Mama Food</span></div>
+                <div class="details">🌏 Asian street food · 🦑 Squid &amp; 🍖 lamb skewers</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="th" style="--flag-image: url('flags/th.png');">
+              <div>
+                <div class="vendor-line"><span class="num">26</span> <span class="name">MyLazyDays</span></div>
+                <div class="details">🇹🇭 Thai · 🍚 Khao man gai</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="tr" style="--flag-image: url('flags/tr.png');">
+              <div>
+                <div class="vendor-line"><span class="num">27</span> <span class="name">Enfes</span></div>
+                <div class="details">🇹🇷 Turkish · 🫓 Gozleme</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="ph" style="--flag-image: url('flags/ph.png');">
+              <div>
+                <div class="vendor-line"><span class="num">28</span> <span class="name">Chick'n Rotonda</span></div>
+                <div class="details">🇵🇭 Filipino · 🥟 Lumpia, 🍢 betamax &amp; 🍢 adidas skewers</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="pa" style="--flag-image: url('flags/pa.png');">
+              <div>
+                <div class="vendor-line"><span class="num">29</span> <span class="name">G&amp;G Cuisine</span></div>
+                <div class="details">🇵🇦 Panamanian · 🫓 Hojaldre, 🍖 bofe, 🥟 carimañolas</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="bb" style="--flag-image: url('flags/bb.png');">
+              <div>
+                <div class="vendor-line"><span class="num">30</span> <span class="name">Saltfish Shack</span></div>
+                <div class="details">🇧🇧 Bajan · 🐟 Fish cakes</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="jp" style="--flag-image: url('flags/jp.png');">
+              <div>
+                <div class="vendor-line"><span class="num">31</span> <span class="name">Eemas Cuisine</span></div>
+                <div class="details">🇯🇵 Japanese · 🍙 Musubi</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="id" style="--flag-image: url('flags/id.png');">
+              <div>
+                <div class="vendor-line"><span class="num">32</span> <span class="name">Moon Man</span></div>
+                <div class="details">🇮🇩 Indonesian · 🍰 Kue pancong, 🍰 kue singkong</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="ng" style="--flag-image: url('flags/ng.png');">
+              <div>
+                <div class="vendor-line"><span class="num">33</span> <span class="name">Soronko</span></div>
+                <div class="details">🇳🇬 Nigerian · 🥟 Meat pies &amp; 🍲 moimoi</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="co" style="--flag-image: url('flags/co.png');">
+              <div>
+                <div class="vendor-line"><span class="num">34</span> <span class="name">Arepalicious</span></div>
+                <div class="details">🇨🇴 Colombian · 🫓 Arepas</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="pl" style="--flag-image: url('flags/pl.png');">
+              <div>
+                <div class="vendor-line"><span class="num">35</span> <span class="name">Matylda's Foods</span></div>
+                <div class="details">🇵🇱 Polish · 🥟 Pierogies &amp; 🥪 zapiekanka</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="kr" style="--flag-image: url('flags/kr.png');">
+              <div>
+                <div class="vendor-line"><span class="num">36</span> <span class="name">Seoul K-Food</span></div>
+                <div class="details">🇰🇷 Korean · 🍲 Tteokbokki</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="cn" style="--flag-image: url('flags/cn.png');">
+              <div>
+                <div class="vendor-line"><span class="num">37</span> <span class="name">C Bao</span></div>
+                <div class="details">🇨🇳 Chinese · 🥟 Pork &amp; 🦆 duck buns</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="mm" style="--flag-image: url('flags/mm.png');">
+              <div>
+                <div class="vendor-line"><span class="num">38</span> <span class="name">Burmese Bites</span></div>
+                <div class="details">🇲🇲 Burmese · 🫓 Palata &amp; 🍜 noodles</div>
+              </div>
+            </article>
+            <article class="vendor">
+              <div>
+                <div class="vendor-line">
+                  <span class="num">39</span> <span class="name">Alexis Caribbean Cuisine</span>
+                </div>
+                <div class="details">🇬🇾 Guyanese · 🍲 Metemgee &amp; 🍲 pepper pot</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="ec" style="--flag-image: url('flags/ec.png');">
+              <div>
+                <div class="vendor-line"><span class="num">40</span> <span class="name">Pernil Ecuatoriano</span></div>
+                <div class="details">🇪🇨 Ecuadorian · 🥪 Pernil sandwich</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="th" style="--flag-image: url('flags/th.png');">
+              <div>
+                <div class="vendor-line"><span class="num">41</span> <span class="name">Thai Tai Eatery</span></div>
+                <div class="details">🇹🇭 Thai · 🍜 Yum Mama</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="pk" style="--flag-image: url('flags/pk.png');">
+              <div>
+                <div class="vendor-line"><span class="num">42</span> <span class="name">Mirchi Masala</span></div>
+                <div class="details">🇵🇰 Pakistani · 🍛 Biryani &amp; 🍲 nihari</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="mx" style="--flag-image: url('flags/mx.png');">
+              <div>
+                <div class="vendor-line"><span class="num">43</span> <span class="name">Tacos El Guero</span></div>
+                <div class="details">🇲🇽 Mexican · 🌮 Tacos</div>
+              </div>
+            </article>
+            <article class="vendor">
+              <div>
+                <div class="vendor-line"><span class="num">44</span> <span class="name">La Braza</span></div>
+                <div class="details">🌎 Latin American · 🌽 Roasted corn &amp; 🍢 skewers</div>
+              </div>
+            </article>
+            <article class="vendor">
+              <div>
+                <div class="vendor-line"><span class="num">45</span> <span class="name">La Braza</span></div>
+                <div class="details">🌎 Latin American · 🌽 Roasted corn &amp; 🍢 skewers</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="sv" style="--flag-image: url('flags/sv.png');">
+              <div>
+                <div class="vendor-line"><span class="num">46</span> <span class="name">Los Almendros</span></div>
+                <div class="details">🇸🇻 Salvadoran · 🫓 Pupusas &amp; 🫔 tamales</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="bd" style="--flag-image: url('flags/bd.png');">
+              <div>
+                <div class="vendor-line"><span class="num">47</span> <span class="name">Kachamorich NYC</span></div>
+                <div class="details">🇧🇩 Bangladeshi · 🥪 Fried street sandwich, 🍛 chhola bhuna</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="id" style="--flag-image: url('flags/id.png');">
+              <div>
+                <div class="vendor-line"><span class="num">48</span> <span class="name">Playground</span></div>
+                <div class="details">🇮🇩 Indonesian · 🥟 Tahu isi &amp; 🥟 batagor</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="br" style="--flag-image: url('flags/br.png');">
+              <div>
+                <div class="vendor-line"><span class="num">49</span> <span class="name">Brazilicious</span></div>
+                <div class="details">🇧🇷 Brazilian · 🥪 Steak sandwich</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="ro" style="--flag-image: url('flags/ro.png');">
+              <div>
+                <div class="vendor-line"><span class="num">50</span> <span class="name">TwisterCake</span></div>
+                <div class="details">🇷🇴🇭🇺 Romanian-Hungarian · 🍰 Chimney cake</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="cn" style="--flag-image: url('flags/cn.png');">
+              <div>
+                <div class="vendor-line"><span class="num">51</span> <span class="name">Szechuan</span></div>
+                <div class="details">🇨🇳 Chinese · 🍮 Ice jelly &amp; 🍜 noodles</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="pe" style="--flag-image: url('flags/pe.png');">
+              <div>
+                <div class="vendor-line"><span class="num">52</span> <span class="name">Peruvian Bites</span></div>
+                <div class="details">🇵🇪 Peruvian · 🍩 Picarones &amp; 🥪 pan con chicharron</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="cn" style="--flag-image: url('flags/cn.png');">
+              <div>
+                <div class="vendor-line"><span class="num">53</span> <span class="name">Hubei Home</span></div>
+                <div class="details">🇨🇳 Chinese · 🍔 Roujiamo burger &amp; 🍚 pork feet rice</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="pr" style="--flag-image: url('flags/pr.png');">
+              <div>
+                <div class="vendor-line"><span class="num">54</span> <span class="name">Beachside Boricua</span></div>
+                <div class="details">🇵🇷 Puerto Rican · 🥟 Alcapurrias &amp; 🫓 sorullitos</div>
+              </div>
+            </article>
+            <article class="vendor">
+              <div>
+                <div class="vendor-line"><span class="num">55</span> <span class="name">Nomad Dumplings</span></div>
+                <div class="details">🏔️ Tibetan · 🥟 Momos</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="tt" style="--flag-image: url('flags/tt.png');">
+              <div>
+                <div class="vendor-line">
+                  <span class="num">56</span> <span class="name">Caribbean Street Eats</span>
+                </div>
+                <div class="details">🇹🇹 Trinidadian · 🥪 Shark sandwiches &amp; 🍩 pholourie</div>
+              </div>
+            </article>
+            <article class="vendor">
+              <div>
+                <div class="vendor-line"><span class="num">57</span> <span class="name">Yak in Town</span></div>
+                <div class="details">🏔️ Tibetan · 🥟 Yak bhakleb &amp; 🧀 yak cheese bhakleb</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="mx" style="--flag-image: url('flags/mx.png');">
+              <div>
+                <div class="vendor-line"><span class="num">58</span> <span class="name">La Carnada</span></div>
+                <div class="details">🇲🇽 Mexican · 🫓 Huaraches</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="pe" style="--flag-image: url('flags/pe.png');">
+              <div>
+                <div class="vendor-line"><span class="num">59</span> <span class="name">Don Ceviche</span></div>
+                <div class="details">🇵🇪 Peruvian · 🐟 Ceviche</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="ar" style="--flag-image: url('flags/ar.png');">
+              <div>
+                <div class="vendor-line"><span class="num">60</span> <span class="name">Super Chori</span></div>
+                <div class="details">🇦🇷 Argentine · 🌭 Choripan &amp; 🥔 bombas de papa</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="pt" style="--flag-image: url('flags/pt.png');">
+              <div>
+                <div class="vendor-line"><span class="num">61</span> <span class="name">Joey Bats Cafe</span></div>
+                <div class="details">🇵🇹 Portuguese · 🍰 Pasteis de nata</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="gd" style="--flag-image: url('flags/gd.png');">
+              <div>
+                <div class="vendor-line"><span class="num">62</span> <span class="name">Ella Spice</span></div>
+                <div class="details">🇬🇩 Grenadian · 🍖 BBQ salted pigtail &amp; 🥔 cassava</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="ph" style="--flag-image: url('flags/ph.png');">
+              <div>
+                <div class="vendor-line"><span class="num">63</span> <span class="name">Sampaguita Eats</span></div>
+                <div class="details">🇵🇭 Filipino · 🍚 Silog bar</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="tw" style="--flag-image: url('flags/tw.png');">
+              <div>
+                <div class="vendor-line"><span class="num">64</span> <span class="name">Taiwanese Yummy</span></div>
+                <div class="details">🇹🇼 Taiwanese · 🍜 Beef noodle soup</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="eg" style="--flag-image: url('flags/eg.png');">
+              <div>
+                <div class="vendor-line"><span class="num">65</span> <span class="name">Lollichops</span></div>
+                <div class="details">🇪🇬 Egyptian · 🍖 Lamb chops &amp; 🍰 kunafa</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="jp" style="--flag-image: url('flags/jp.png');">
+              <div>
+                <div class="vendor-line"><span class="num">66</span> <span class="name">Takoyaki</span></div>
+                <div class="details">🇯🇵 Japanese · 🍢 Takoyaki</div>
+              </div>
+            </article>
+            <article class="vendor">
+              <div>
+                <div class="vendor-line"><span class="num">67</span> <span class="name">Sweet &amp; Salty</span></div>
+                <div class="details">🌎 Latin American · 🥟 Empanadas &amp; 🍖 picada</div>
+              </div>
+            </article>
+            <article class="vendor" data-flag="lc" style="--flag-image: url('flags/lc.png');">
+              <div>
+                <div class="vendor-line"><span class="num">68</span> <span class="name">Bevo's Kitchen</span></div>
+                <div class="details">🇱🇨 St. Lucian · 🍲 Bouillon &amp; 🍛 pelau</div>
+              </div>
+            </article>
+            <article class="vendor">
+              <div>
+                <div class="vendor-line">
+                  <span class="num">69</span> <span class="name">Sam's Fried Ice Cream</span>
+                </div>
+                <div class="details">Dessert · 🍦 Fried ice cream</div>
+              </div>
+            </article>
+            <article class="vendor">
+              <div>
+                <div class="vendor-line">
+                  <span class="num">70</span> <span class="name">Sam's Fried Ice Cream</span>
+                </div>
+                <div class="details">Dessert · 🍦 Fried ice cream</div>
+              </div>
+            </article>
+            <article class="vendor">
+              <div>
+                <div class="vendor-line"><span class="num">71</span> <span class="name">Twisted Potato</span></div>
+                <div class="details">Snack · 🥔 Spiral potato</div>
+              </div>
+            </article>
+            <article class="vendor">
+              <div>
+                <div class="vendor-line"><span class="num">72</span> <span class="name">Twisted Potato</span></div>
+                <div class="details">Snack · 🥔 Spiral potato</div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
