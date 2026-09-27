@@ -825,3 +825,47 @@ h1 {
     display: none !important;
   }
 }
+.map-wrap {
+  position: relative;
+  width: 90%;
+}
+.map-wrap img {
+  width: 100% !important;
+}
+.map-highlight {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.map-highlight circle {
+  fill: none;
+  stroke: #ef4444;
+  stroke-width: 4;
+  stroke-dasharray: 8 8;
+  vector-effect: non-scaling-stroke;
+}
+.map-highlight circle[hidden] {
+  display: none;
+}
+.vendor {
+  cursor: pointer;
+}
+.vendor[data-map-active] {
+  border-color: #ef4444;
+}
+@media screen and (max-width: 600px) {
+  .map-wrap {
+    width: 100%;
+  }
+}
+@media print {
+  .map-highlight {
+    display: none !important;
+  }
+  .vendor {
+    cursor: default;
+  }
+}
