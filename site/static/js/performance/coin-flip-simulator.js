@@ -23,6 +23,35 @@ const PRESET_OPTIONS = [
   { label: '90% (9.0x)', value: '0.90', rho: 0.90 }
 ];
 
+function renderFlipEvent(flip, index, rho) {
+  const rollPct = (flip.roll * 100).toFixed(0);
+  const targetPct = (rho * 100).toFixed(0);
+  if (flip.success) {
+    return ' <span style="background: rgba(var(--primary), 0.15); color: rgb(var(--primary)); padding: 2px 6px; border-radius: 4px;">🪙 Flip ' + (index + 1) + ': ' + rollPct + '% < ' + targetPct + '% (+1 job)</span>';
+  }
+  return ' <span style="background: rgba(255, 167, 38, 0.2); color: #ffa726; padding: 2px 6px; border-radius: 4px;">🪙 Stop</span>';
+}
+
+function renderFlipEvents(flips, rho) {
+  const maxVisibleEvents = 6;
+  if (flips.length <= maxVisibleEvents) {
+    return flips.map((flip, index) => renderFlipEvent(flip, index, rho)).join(' →');
+  }
+
+  const firstEvents = flips
+    .slice(0, 3)
+    .map((flip, index) => renderFlipEvent(flip, index, rho))
+    .join(' →');
+  const tailStart = flips.length - 2;
+  const tailEvents = flips
+    .slice(tailStart)
+    .map((flip, index) => renderFlipEvent(flip, tailStart + index, rho))
+    .join(' →');
+  const hiddenCount = flips.length - 5;
+
+  return firstEvents + ' → <span style="color: var(--grey-light); padding: 2px 6px; border-radius: 4px; background: rgba(255, 255, 255, 0.08);">… ' + hiddenCount + ' events hidden …</span> →' + tailEvents;
+}
+
 export function CoinFlipSimulator() {
   const chartRef = useRef(null);
 
@@ -91,15 +120,7 @@ export function CoinFlipSimulator() {
       htmlLog = `<span style="background: rgba(129, 199, 132, 0.2); color: #81c784; padding: 2px 6px; border-radius: 4px; font-weight: 700;">Worker Idle (k=0)</span> → <span style="color: var(--grey-lighter);">Executes immediately with <strong>0 ms queue wait</strong></span>`;
     } else {
       htmlLog = `<span style="background: rgba(var(--primary), 0.2); color: rgb(var(--primary)); padding: 2px 6px; border-radius: 4px; font-weight: 700;">Worker Busy</span>`;
-      flips.forEach((f, idx) => {
-        const rollPct = (f.roll * 100).toFixed(0);
-        const targetPct = (rho * 100).toFixed(0);
-        if (f.success) {
-          htmlLog += ` → <span style="background: rgba(var(--primary), 0.15); color: rgb(var(--primary)); padding: 2px 6px; border-radius: 4px;">🪙 Flip ${idx + 1}: ${rollPct}% < ${targetPct}% (+1 job)</span>`;
-        } else {
-          htmlLog += ` → <span style="background: rgba(255, 167, 38, 0.2); color: #ffa726; padding: 2px 6px; border-radius: 4px;">🪙 Stop</span>`;
-        }
-      });
+      htmlLog += ' →' + renderFlipEvents(flips, rho);
       const waitTime = jobs * serviceTimeMs;
       htmlLog += ` ⇒ <strong style="color: var(--grey-lighter); margin-left: 4px;">k = ${jobs} jobs ahead</strong> (<span style="color: #ffb74d;">${waitTime}ms queue wait</span>)`;
     }
@@ -375,14 +396,25 @@ export function CoinFlipSimulator() {
       title="Monte Carlo Arrival Simulator"
       descriptor="${totalSimulated} arrivals simulated">
       <div class="tw-p-2.5">
-        <div class="tw-flex tw-gap-2 tw-flex-wrap tw-mb-2.5 tw-items-center">
+        <div class="tw-flex tw-gap-2 tw-flex-wrap tw-mb-2.5 tw-items-end">
+          <${RangeSlider}
+            id="sim-monte-carlo-rho-slider"
+            label="Load (ρ)"
+            valueText="${Math.round(rho * 100)}%"
+            min=${0.10}
+            max=${0.95}
+            step=${0.05}
+            value=${rho}
+            onChange=${handleRhoChange}
+            className="tw-w-[180px] tw-flex-none" />
+          <div class="tw-w-px tw-h-[34px] tw-bg-white/15 tw-mx-1"></div>
           <button type="button" class=${UI.btn.ctrl} onClick=${handleSingleFlip}>🎲 Simulate 1 Arrival</button>
           <button type="button" class=${UI.btn.ctrl} onClick=${() => handleBatchRun(500)}>⚡ Simulate 500 Arrivals</button>
           <button type="button" class=${UI.btn.ctrl} onClick=${handleReset}>↺ Reset</button>
         </div>
 
         <div
-          class="tw-min-h-[34px] tw-bg-[var(--grey-dark)] tw-rounded-md tw-p-2.5 tw-mb-3.5 tw-text-[0.82rem] tw-text-[var(--grey-light)] tw-flex tw-items-center tw-flex-wrap tw-gap-1.5"
+          class="tw-h-[7rem] tw-bg-[var(--grey-dark)] tw-rounded-md tw-p-2.5 tw-mb-3.5 tw-text-[0.82rem] tw-text-[var(--grey-light)] tw-flex tw-items-start tw-content-start tw-flex-wrap tw-gap-1.5 tw-overflow-hidden tw-leading-6"
           dangerouslySetInnerHTML=${{ __html: logHtml }} />
 
         <div class="tw-mb-3">

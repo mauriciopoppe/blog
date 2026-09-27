@@ -5,7 +5,7 @@
 @import "./lib/lilgui.css";
 @import "./lib/mathjax.css";
 @import "./lib/prism-darcula.css";
-@import "./lib/tocbot.css";
+@import "./lib/toc.css";
 @import "./components/my-interview.css";
 @import "./components/my-sitemap.css";
 @import "./components/my-pill.css";

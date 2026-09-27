@@ -2,9 +2,9 @@
  * Sidebar controls the positioning, height and other visual attributes of the sidebars in an article
  */
 
-import tocbot from 'tocbot'
 import debounce from 'debounce'
 import isMobile from 'is-mobile'
+import { initializeToc } from './toc.js'
 
 const SidebarState = {
   AUTO: 'auto',
@@ -157,28 +157,20 @@ function initializeSidebar(sidebarWrapper: HTMLElement, sidebarContent: HTMLElem
 function initialize() {
   const sitemap: HTMLElement = document.querySelector('.my-sitemap')
   const sitemapWrapper: HTMLElement = document.querySelector('.my-sitemap-wrapper')
-  initializeSidebar(sitemapWrapper, sitemap)
+  if (sitemap && sitemapWrapper) {
+    initializeSidebar(sitemapWrapper, sitemap)
+  }
 
   const toc: HTMLElement = document.querySelector('.toc')
   const tocWrapper: HTMLElement = document.querySelector('.toc-wrapper')
-  initializeSidebar(tocWrapper, toc)
-
-  let activeLinkClass = 'is-active-link'
-  // In mobile I've noticed that adding the active class makes the content
-  // jump on scroll sometimes because the class makes the font bold (and therefore larger).
-  //
-  // As a workaround, no need to set the activeLinkClass in mobile devices.
-  if (isMobile()) {
-    activeLinkClass = 'foo'
+  if (toc && tocWrapper) {
+    initializeSidebar(tocWrapper, toc)
   }
-  tocbot.init({
-    tocSelector: '.toc',
-    contentSelector: 'article[role=main]',
-    headingSelector: 'h1,h2,h3,h4,h5,h6',
-    collapseDepth: 6,
-    throttleTimeout: 200,
-    activeLinkClass
-  })
+
+  const content: HTMLElement = document.querySelector('article[role=main]')
+  if (toc && content) {
+    initializeToc(toc, content)
+  }
 }
 
 export function sidebarsMain() {

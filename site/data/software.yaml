@@ -234,20 +234,9 @@
   order: 1
   description: A Chrome extension that provides AI insights and translations for video subtitles.
   why: >-
-    I use YouTube as my main teaching platform. When I watched Japanese videos
-    with subtitles, I wanted more context than the player provided: furigana
-    alongside translations, explanations that could be generated in the
-    browser, and a way to pause automatically at the end of a sentence so I
-    had time to study what was said.
-
-    [Subtitle Insights](https://mauriciopoppe.github.io/SubtitleInsights/)
-    grew into a local, privacy-first Chrome extension that turns videos into
-    interactive lessons. Its smart sidebar stays synchronized with the
-    transcript, and its pause-on-hover controls support shadowing and focused
-    study. This was one of my first projects where I used AI beyond writing
-    code by hand or asking for isolated snippets. I used the then-available
-    Conductor extension for Gemini to iterate quickly on the extension over a
-    few weekends.
+    I use it whenever I want to learn Japanese. It shows English subtitles and
+    furigana alongside the Japanese subtitles, with an LLM-generated explanation
+    running fully in the browser.
   technologies: [JavaScript, Chrome extension, language learning]
   demo: https://mauriciopoppe.github.io/SubtitleInsights/
   docs: https://mauriciopoppe.github.io/SubtitleInsights/introduction/

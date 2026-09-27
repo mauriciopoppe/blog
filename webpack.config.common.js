@@ -1,4 +1,3 @@
-const webpack = require('webpack')
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const AssetsPlugin = require('assets-webpack-plugin')
@@ -10,29 +9,14 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    publicPath: '',
-    library: '[name]'
+    publicPath: ''
   },
   module: {
     rules: [
       {
-        test: /\.[jt]sx?$/,
+        test: /\.[jt]s$/,
         loader: 'esbuild-loader',
         options: {}
-      },
-      {
-        test: /\.svg$/,
-        use: 'svg-sprite-loader'
-      },
-      {
-        test: /\.(glsl|frag|vert)$/,
-        use: 'raw-loader',
-        exclude: /node_modules/
-      },
-      {
-        test: /\.(glsl|frag|vert)$/,
-        use: 'glslify-loader',
-        exclude: /node_modules/
       },
       {
         test: /\.css$/,
@@ -54,23 +38,15 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js', '.jsx'],
+    extensions: ['.ts', '.js'],
     extensionAlias: {
-      '.js': ['.ts', '.js'],
-      '.mjs': ['.mts', '.mjs']
+      '.js': ['.ts', '.js']
     }
-  },
-  optimization: {
-    runtimeChunk: 'single'
   },
   stats: {
     errorDetails: true
   },
   plugins: [
-    // new webpack.ProvidePlugin({
-    //   fetch: 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
-    // }),
-
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional

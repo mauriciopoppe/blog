@@ -190,6 +190,9 @@ export function HockeyStickExplorer() {
             </g>
           </svg>
         </div>
+        <div class="tw-mt-2 tw-text-[0.82rem] tw-leading-relaxed tw-text-[var(--grey-light)]">
+          <strong class="tw-text-[var(--grey-lighter)]">Model note:</strong> This is the <span class="tw-font-mono">M/M/1</span> baseline. <span class="tw-font-mono">S</span> rescales absolute latency, while arrival and service variability, pooled worker count, scheduling, and admission policy can change the observed behavior.
+        </div>
       </div>
     <//>
   `;

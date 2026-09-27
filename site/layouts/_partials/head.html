@@ -249,16 +249,6 @@ The following is an optimization from lighthouse to inline the css in production
 <!-- code highlight -->
 {{ partial "lib/prism.html" . }}
 
-<!--
-  Webpack HMR runtime (https://github.com/webpack/webpack-dev-server/issues/2792)
-
-  Fix so that common code among all the js libraries is shared in a single file
-  before all of them start.
--->
-{{ if not .IsHome }}
-  {{ partial "scripts/webpack-runtime.html" . }}
-{{ end }}
-
 <!-- libraries that are selectively included depending on whether the post wants it -->
 {{ if isset .Params "libraries" }}
   {{ range .Params.libraries }}

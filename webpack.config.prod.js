@@ -6,14 +6,10 @@ const common = require('./webpack.config.common.js')
 module.exports = merge(common, {
   mode: 'production',
   output: {
-    filename: '[name].[contenthash:5].js',
-    chunkFilename: '[id].[contenthash:5].js',
-    library: '[name]'
+    filename: '[name].[contenthash:5].js'
   },
   optimization: {
     minimizer: [
-      // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
-      // `...`,
       new CssMinimizerPlugin()
     ]
   }

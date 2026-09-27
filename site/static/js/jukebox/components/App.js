@@ -6,7 +6,6 @@ import { RenderPass } from 'https://esm.sh/three@0.144.0/examples/jsm/postproces
 import { UnrealBloomPass } from 'https://esm.sh/three@0.144.0/examples/jsm/postprocessing/UnrealBloomPass.js'
 import { AfterimagePass } from 'https://esm.sh/three@0.144.0/examples/jsm/postprocessing/AfterimagePass.js'
 import { Video } from './Video.js'
-import { Image } from './Image.js'
 import { VideoControls } from './VideoControls.js'
 import { Text } from './Text.js'
 import { Subtitles } from './Subtitles.js'
@@ -61,8 +60,6 @@ class App extends EventEmitter {
          * @type any
          */
     this.bloomPass = bloomPass
-    // index of the current frame
-    this.current = parseInt(window.localStorage.getItem('current')) || 1
   }
 
   addLights() {
@@ -129,7 +126,6 @@ class App extends EventEmitter {
   }
 
   setupListeners() {
-    this.on('move', this.onMove.bind(this))
     const rootDom = document.body.querySelector('#root')
     window.addEventListener('mousemove', (event) => {
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1
@@ -147,19 +143,6 @@ class App extends EventEmitter {
       this.camera.updateProjectionMatrix()
       this.renderer.setSize(window.innerWidth, window.innerHeight)
     }, false)
-  }
-
-  onMove(step) {
-    this.current = this.current + step
-    if (this.current <= 0) { this.current = 100 }
-    if (this.current > 100) { this.current = 1 }
-    window.localStorage.setItem('current', `${this.current}`)
-    const newImage = new Image(this, this.current)
-    this.scene.add(newImage.root)
-    this.image.move(step, () => {
-      this.scene.remove(this.image.root)
-      this.image = newImage
-    })
   }
 
   timers() {
