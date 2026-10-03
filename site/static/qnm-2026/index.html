@@ -29,6 +29,29 @@
               </svg>
             </figure>
           </div>
+          <div class="save-legend-inline" aria-label="Save status cycle">
+            <span class="save-legend-inline-item">
+              <svg class="save-legend-icon save-legend-bookmark" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 3.5A1.5 1.5 0 0 1 7.5 2h9A1.5 1.5 0 0 1 18 3.5V21l-6-3.75L6 21V3.5Z" />
+              </svg>
+              bookmark <span class="save-legend-count" data-save-count="bookmarked">0</span>
+            </span>
+            <span class="save-legend-arrow" aria-hidden="true">→</span>
+            <span class="save-legend-inline-item">
+              <svg class="save-legend-icon save-legend-tried" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m5 12 4 4L19 6" />
+              </svg>
+              tried <span class="save-legend-count" data-save-count="tried">0</span>
+            </span>
+            <span class="save-legend-arrow" aria-hidden="true">→</span>
+            <span class="save-legend-inline-item">
+              <svg class="save-legend-icon save-legend-star" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6-5.4-2.9-5.4 2.9 1-6-4.4-4.3 6.1-.9L12 3Z" />
+              </svg>
+              favorite <span class="save-legend-count" data-save-count="favorite">0</span>
+            </span>
+            <span class="save-legend-arrow" aria-hidden="true">→ clear</span>
+          </div>
           <script type="application/json" id="stand-locations">
             {
               "1": {
@@ -394,10 +417,19 @@
             }
           </script>
           <section class="mobile-filters" aria-label="Filter vendors">
-            <div class="filter-group">
-              <span class="filter-label">Cuisine origin</span>
-              <div class="origin-buttons" id="origin-filter" role="group" aria-label="Cuisine origin"></div>
-            </div>
+            <details class="filter-disclosure">
+              <summary>⚙️ Filters</summary>
+              <div class="filter-options">
+                <div class="filter-group">
+                  <span class="filter-label">🌎 Cuisine origin</span>
+                  <div class="origin-buttons" id="origin-filter" role="group" aria-label="Cuisine origin"></div>
+                </div>
+                <div class="filter-group">
+                  <span class="filter-label">🍴 Food type</span>
+                  <div class="food-buttons" id="food-filter" role="group" aria-label="Food type"></div>
+                </div>
+              </div>
+            </details>
             <p class="filter-empty" id="filter-empty" hidden>No vendors match these filters.</p>
           </section>
         </div>
