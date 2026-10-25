@@ -151,7 +151,7 @@ The five layers expose different variables to inspect first:
 
 The layers can be optimized together when the workload and measurements support it. The point is to know that each layer can own the bottleneck and that improvements at one layer can expose a new bottleneck somewhere else.
 
-The layer descriptions give names to the possible sources of work. The next step is to compare their accumulated demand against the objective that matters: goodput, the useful request or token throughput that remains within latency, quality, and resource constraints. As discussed in [The Pareto Frontier in LLM Inference Serving](/notes/pareto-frontier-in-inference-serving/) and [Benchmarking & Capacity Planning](/notes/benchmarking-and-capacity-planning/), raw throughput is only one objective. The most visible layer is not necessarily the layer limiting end-to-end goodput.
+The layer descriptions give names to the possible sources of work. The next step is to compare their accumulated demand against the objective that matters: goodput, the useful request or token throughput that remains within latency, quality, and resource constraints. As discussed in [The Pareto Frontier in LLM Inference Serving](/notes/pareto-frontier-in-inference-serving/) and [Benchmarking for Systems Engineers](/notes/benchmarking-for-systems-engineers/), raw throughput is only one objective. The most visible layer is not necessarily the layer limiting end-to-end goodput.
 
 ### A first-order demand map
 

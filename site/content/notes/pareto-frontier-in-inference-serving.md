@@ -15,7 +15,7 @@ interactive: true
 
 There is no single best configuration for an LLM inference server. A single scalar is a lossy projection: collapsing competing objectives into one number hides the underlying trade-offs across different workloads.
 
-*(For foundational queuing theory, latency breakdowns, and classical service metrics, see [Performance Fundamentals](/notes/performance-fundamentals/). For benchmark design, see [Benchmarking & Capacity Planning](/notes/benchmarking-and-capacity-planning/).)*
+*(For foundational queuing theory, latency breakdowns, and classical service metrics, see [Performance Fundamentals](/notes/performance-fundamentals/). For benchmark design, see [Benchmarking for Systems Engineers](/notes/benchmarking-for-systems-engineers/).)*
 
 ## The Limits of a Single Number
 
@@ -142,7 +142,7 @@ The tools above treat every trial measurement as ground truth. In practice, infr
 
 Standard multi-objective optimization algorithms (such as NSGA-II) operate on clean, deterministic numbers. In production infrastructure, benchmarks are noisy. Network jitter, noisy neighbors on shared hosts, variable prompt lengths, and GPU thermal throttling mean that two identical benchmark trials rarely report identical metrics.
 
-As discussed in [Benchmarking & Capacity Planning for Systems Engineers](/notes/benchmarking-and-capacity-planning/), the first line of defense is running multiple trials per configuration and taking medians to dampen measurement variance.
+As discussed in [Benchmarking for Systems Engineers](/notes/benchmarking-for-systems-engineers/), the first line of defense is running multiple trials per configuration and taking medians to dampen measurement variance.
 
 When evaluating production candidates at scale, raw Pareto dominance tests need practical bounds. Consider a configuration where throughput is effectively unchanged, but $\text{TTFT}$ improves by 0.5%:
 - If 0.5% is within normal run-to-run jitter, treating it as a new Pareto point pollutes the frontier with measurement noise.
