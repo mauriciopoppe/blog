@@ -6,7 +6,8 @@ summary: |
   a backing track without the tracks I use as background music during
   the performance.
 
-  In this article, I show how to create a backing track using yt-dlp, Demucs, and FFmpeg.
+  In this article, I show how to ask a coding agent to create a backing track using
+  the open-mic project, yt-dlp, Demucs, and FFmpeg.
 tags: ['life', 'karaoke', 'open mic', 'demucs', 'ffmpeg', 'guitar', 'singing', 'music', 'bachata']
 image: /images/music-gear.jpg
 date: 2024-12-01 14:49:00
@@ -28,115 +29,62 @@ the ones that I know of):
     In this mode, I can keep important tracks in the backing track, such as the "other" and "piano" tracks,
     which make the backing track feel complete.
 
-In this article, I show how to use Demucs to split a song into tracks.
+In this article, I show how to give the full workflow to a coding agent while keeping the audio operations explicit.
 
-## Splitting a song with Demucs
+## Creating the backing track with an agent
 
-### High level steps
+You only need to tell your coding agent which song to use and which parts you plan to perform. The agent can get the [`open-mic`](https://github.com/mauriciopoppe/open-mic) project, set it up, separate the song, and create the backing track.
 
-- Install essential tools:
-  - [Git](https://git-scm.com/downloads)
-  - [Python](https://www.python.org/downloads/)
-- Download dependencies (there's an automated step to download these below).
-  - Install [yt-dlp](https://github.com/yt-dlp/yt-dlp) to download your song (if you have your song, skip this step).
-  - Install [Demucs](https://github.com/facebookresearch/demucs/) to split the track.
-  - Install [FFmpeg](https://ffmpeg.org/) to combine selected tracks into a combined track.
-- Download your song with `yt-dlp`.
-- Separate the track with `Demucs`.
-- Join the drums/bass/other tracks with `FFmpeg` into a track that you can use as your backing track!
+Start with this prompt and replace the placeholders with your song and the parts you plan to perform:
 
-### Download demucs dependencies
+```text
+Use https://github.com/mauriciopoppe/open-mic to create a backing track for
+<song-url>.
 
-The assumption is that you already have Git and Python installed.
-
-[I've created a project](https://github.com/mauriciopoppe/open-mic) that has a file with all the dependencies to install.
-You just need to clone the repository and use the `requirements.txt` file to install the dependencies.
-
-```
-git clone https://github.com/mauriciopoppe/open-mic
-cd open-mic
-python3 -m venv venv
-source venv/bin/activate
-python3 -m pip install -r requirements.txt
+I will perform <parts-you-will-perform>. Remove those parts from the backing
+track, keep the other instruments, and tell me where you saved the finished track.
 ```
 
-### Download your song
+The repository contains a `README.md` for people and an `AGENTS.md` with detailed instructions for coding agents. Those files tell the agent how to install the `open-mic` command, where generated files belong, and how to check its work. You do not need to copy the installation commands into your prompt.
 
-I'll create a backing track with bass, drums, piano, and other instruments for the song
-[December 21 by Prince Royce](https://www.youtube.com/watch?v=A9B1Uo-VQas).
+### Putting the theory into practice
+
+I want to sing and play guitar over [December 21 by Prince Royce](https://www.youtube.com/watch?v=A9B1Uo-VQas). I will create two backing tracks for comparison:
+
+- A minimal version with bass and drums.
+- A fuller version with bass, drums, piano, and other instruments.
+
+Both versions should exclude the vocals and guitar. This prompt gives the agent the song, the performance plan, and the two outputs to create:
+
+```text
+Use https://github.com/mauriciopoppe/open-mic to create a backing track for
+https://www.youtube.com/watch?v=A9B1Uo-VQas.
+
+I will sing and play guitar. Remove the vocals and guitar, then create two versions:
+
+1. A backing track with bass and drums.
+2. A backing track with bass, drums, piano, and other.
+
+Tell me where you saved both finished tracks.
+```
 
 <iframe class="tw-mx-auto tw-aspect-video md:tw-w-full" src="https://www.youtube.com/embed/A9B1Uo-VQas?si=OILLax2aDMwMna8D" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-First, let's download the song, assuming that it's on YouTube:
+Once the agent starts, `open-mic` uses [yt-dlp](https://github.com/yt-dlp/yt-dlp) to download the audio and [Demucs](https://github.com/facebookresearch/demucs/) to separate it into six stems:
 
 ```
-yt-dlp -x --audio-format mp3 <youtube-link-to-song>
-```
-
-Example:
-
-```
-yt-dlp -x --audio-format mp3 "https://www.youtube.com/watch?v=A9B1Uo-VQas"
-[youtube] Extracting URL: https://www.youtube.com/watch?v=A9B1Uo-VQas
-[youtube] A9B1Uo-VQas: Downloading webpage
-[youtube] A9B1Uo-VQas: Downloading ios player API JSON
-[youtube] A9B1Uo-VQas: Downloading android player API JSON
-[youtube] A9B1Uo-VQas: Downloading player b46bb280
-WARNING: [youtube] A9B1Uo-VQas: nsig extraction failed: You may experience throttling for some formats
-         n = CN0_8RV0LjPMw_i9xJs ; player = https://www.youtube.com/s/player/b46bb280/player_ias.vflset/en_US/base.js
-WARNING: [youtube] A9B1Uo-VQas: nsig extraction failed: You may experience throttling for some formats
-         n = it19Djd_eJ-wpANfMuK ; player = https://www.youtube.com/s/player/b46bb280/player_ias.vflset/en_US/base.js
-[youtube] A9B1Uo-VQas: Downloading m3u8 information
-[info] A9B1Uo-VQas: Downloading 1 format(s): 140
-[download] Destination: Prince Royce - Dec. 21 (Official Video) [A9B1Uo-VQas].m4a
-[download] 100% of    3.30MiB in 00:00:00 at 7.11MiB/s
-[FixupM4a] Correcting container of "Prince Royce - Dec. 21 (Official Video) [A9B1Uo-VQas].m4a"
-[ExtractAudio] Destination: Prince Royce - Dec. 21 (Official Video) [A9B1Uo-VQas].mp3
-Deleting original file Prince Royce - Dec. 21 (Official Video) [A9B1Uo-VQas].m4a (pass -k to keep)
-```
-
-The track is downloaded in the same location as where the command was run.
-
-Next, let's use `Demucs` to separate the track into different instrument tracks.
-
-```
-demucs -n htdemucs_6s --mp3 -j 2 <path-to-downloaded-song>
-```
-
-Example:
-
-```
-demucs -n htdemucs_6s --mp3 -j 2 "Prince Royce - Dec. 21 (Official Video) [A9B1Uo-VQas].mp3"
-Selected model is a bag of 1 models. You will see that many progress bars per track.
-Separated tracks will be stored in /Users/mauriciopoppe/go/src/github.com/mauriciopoppe/open-mic/separated/htdemucs_6s
-Separating track Prince Royce - Dec. 21 (Official Video) [A9B1Uo-VQas].mp3
-100%|██████████████████████████████████████████████████████████████████████| 216.45/216.45 [01:28<00:00,  2.46seconds/s]
-```
-
-`Demucs` created multiple files in the directory `separated`. Let's list them:
-
-```
-tree separated/
-separated/
-└── htdemucs_6s
-    └── Prince Royce - Dec. 21 (Official Video) [A9B1Uo-VQas]
+workspace/stems/htdemucs_6s/<song>/
         ├── bass.mp3
         ├── drums.mp3
         ├── guitar.mp3
         ├── other.mp3
         ├── piano.mp3
         └── vocals.mp3
-
 ```
 
-Finally, let's join the bass, drums, other, and piano tracks with `FFmpeg` into the combined file `combined.mp3`.
+The agent combines the requested stems and saves both backing tracks under the project's `workspace/` directory. The original download, individual stems, and final mixes remain in that workspace.
 
-```
-cd separated/htdemucs_6s/Prince\ Royce\ -\ Dec.\ 21\ \(Official\ Video\)\ \[A9B1Uo-VQas\]/
-ffmpeg -i bass.mp3 -i drums.mp3 -i other.mp3 -i piano.mp3 -filter_complex amix=inputs=4:normalize=0 combined.mp3
-```
-
-Let's compare the original song with two versions of the backing track, one with bass and drums (no voice or guitar) and the other with bass, drums, other and piano (no voice or guitar).
+Here is the original song followed by the two backing tracks:
 
 <div class="tw-grid md:tw-grid-cols-2 tw-gap-4 tw-mb-5">
   <div class="tw-font-bold">Song</div>
