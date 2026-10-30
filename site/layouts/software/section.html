@@ -56,9 +56,9 @@
     <div class="tw-mx-auto tw-max-w-5xl">
       <div class="tw-mb-8 tw-max-w-2xl tw-text-base tw-leading-relaxed tw-text-[var(--grey-light)]">{{ .Content }}</div>
       <div class="tw-grid tw-gap-8 md:tw-grid-cols-[11rem_minmax(0,1fr)] md:tw-items-start">
-        <nav aria-label="Software projects" class="software-project-nav md:tw-sticky md:tw-top-6">
+        <nav aria-label="Software projects" class="software-project-nav tw-min-w-0 md:tw-sticky md:tw-top-6 md:tw-flex md:tw-max-h-[calc(100vh-3rem)] md:tw-flex-col">
           <p class="tw-mb-3 tw-font-sans tw-text-xs tw-font-semibold tw-uppercase tw-tracking-widest tw-text-[var(--grey-light)]">Projects</p>
-          <ul class="tw-flex tw-gap-2 tw-overflow-x-auto tw-pb-2 md:tw-flex-col md:tw-gap-1 md:tw-overflow-visible md:tw-pb-0">
+          <ul class="tw-flex tw-gap-2 tw-overflow-x-auto tw-pb-2 md:tw-min-h-0 md:tw-flex-col md:tw-gap-1 md:tw-overflow-x-hidden md:tw-overflow-y-auto md:tw-pb-0 md:tw-pr-1">
             {{ range $projects }}
               <li class="tw-shrink-0">
                 <a href="#{{ .id }}" data-software-nav="{{ .id }}" class="software-project-link tw-flex tw-items-center tw-gap-2 tw-whitespace-nowrap tw-rounded-md tw-px-2 tw-py-1.5 tw-font-sans tw-text-xs tw-text-[var(--grey-light)] tw-no-underline hover:tw-bg-[var(--accent-tint)] hover:tw-text-primary">

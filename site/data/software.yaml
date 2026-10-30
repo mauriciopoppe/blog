@@ -346,3 +346,29 @@
   image_alt: Links page shown in a mobile browser viewport.
   demo: https://mauriciopoppe.com/links/
   source: https://github.com/mauriciopoppe/blog
+- id: voice
+  title: Voice
+  first_commit: 2026-10-24
+  order: 4
+  description: A practice player for piano accompaniment, vocal exercises, and song practice.
+  why: >-
+    I made Voice to learn to sing better. It gives me one place to practice
+    vocal exercises, work through songs, and sing with teacher-style piano
+    accompaniment.
+  technologies: [JavaScript, singing, music education]
+  image: /images/software/voice.webp
+  image_alt: Voice showing vocal exercises, piano accompaniment, and teacher cues.
+  demo: https://voice.mauricio-poppe.chatgpt.site/
+- id: guitar-practice-room
+  title: Guitar
+  first_commit: 2026-10-26
+  order: 5
+  description: An interactive practice room for learning the guitar fretboard and music theory.
+  why: >-
+    I made Guitar Practice Room to learn to play the guitar better. It helps me
+    connect notes, intervals, chords, and scales with their positions on the
+    fretboard through focused exercises.
+  technologies: [JavaScript, guitar, music theory, music education]
+  image: /images/software/guitar.webp
+  image_alt: Guitar showing a fretboard lesson and the practice curriculum.
+  demo: https://guitar.mauricio-poppe.chatgpt.site/
