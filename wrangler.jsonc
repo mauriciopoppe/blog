@@ -3,6 +3,12 @@
   "name": "blog",
   "compatibility_date": "2026-11-21",
   "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "www.mauriciopoppe.com",
+      "custom_domain": true
+    }
+  ],
   "assets": {
     "directory": "./dist",
     "html_handling": "auto-trailing-slash",
