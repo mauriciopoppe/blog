@@ -1,7 +1,5 @@
 # Blog
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/255139b6-5e24-4e50-ae6a-1dcf7531befd/deploy-status)](https://app.netlify.com/sites/doctor-stella-56144/deploys)
-
 ## Tech
 
 - Hugo (static site generator)
@@ -124,9 +122,6 @@ Steps (from `package.json`):
 - create the shared site bundle with webpack, read `webpack.common.js`, write the output to `dist/`
 - build the static files, write the output to `dist/`
 
-Manual steps in Netlify (setup done only once)
-
-- Configure the DNS redirects
-- Configure the site root directory to `dist/`
+Hosted on Cloudflare Workers Static Assets (`wrangler.jsonc`) with automatic deployments via Cloudflare Workers Builds on pushes to `main`.
 
 2015 - Present
