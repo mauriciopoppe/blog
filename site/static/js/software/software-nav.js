@@ -11,13 +11,27 @@ const setActive = (id) => {
   })
 }
 
+const keepLinkVisible = (link) => {
+  const scroller = link.closest('ul')
+  if (!scroller || scroller.scrollWidth <= scroller.clientWidth) return
+
+  const linkRect = link.getBoundingClientRect()
+  const scrollerRect = scroller.getBoundingClientRect()
+  if (linkRect.left < scrollerRect.left) {
+    scroller.scrollLeft += linkRect.left - scrollerRect.left
+  } else if (linkRect.right > scrollerRect.right) {
+    scroller.scrollLeft += linkRect.right - scrollerRect.right
+  }
+}
+
 if (items.length && 'IntersectionObserver' in window) {
   const observer = new IntersectionObserver((entries) => {
     const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
     if (!visible) return
     const id = visible.target.dataset.softwareProject || visible.target.dataset.talk
     setActive(id)
-    links.get(id)?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+    const activeLink = links.get(id)
+    if (activeLink) keepLinkVisible(activeLink)
   }, { rootMargin: '-15% 0px -65% 0px', threshold: [0, 0.25, 0.5, 1] })
 
   items.forEach((item) => observer.observe(item))

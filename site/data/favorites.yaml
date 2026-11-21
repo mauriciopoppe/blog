@@ -22,7 +22,7 @@
 - title: "Learning Japanese"
   url: "/notes/learning-japanese"
   icon: "globe"
-  description: "I've been learning Japanese since December 2025. In this article, I share my goals, motivations, and the tools and strategies I'm using to acquire this new language. I also made a <a href=\"https://japanese-conversation-starter.ai.studio\" target=\"_blank\" rel=\"noopener noreferrer\">Conversation Starter</a> tool to use at meetups."
+  description: "I've been learning Japanese since December 2025. In this article, I share my goals, motivations, and the tools and strategies I'm using to acquire this new language. I also made a <a href=\"https://japanese-conversation-starter.mauriciopoppe.workers.dev/\" target=\"_blank\" rel=\"noopener noreferrer\">Conversation Starter</a> tool to use at meetups."
 - title: "Implementing Promises from Scratch"
   url: "/notes/computer-science/computation/promises/"
   icon: "deployed_code_history"

@@ -258,8 +258,8 @@
   image: /images/software/kubernetes-playground.webp
   image_alt: Kubernetes Playground GitHub repository README.
   source: https://github.com/mauriciopoppe/kubernetes-playground
-- id: anki-decks
-  title: Anki Decks
+- id: anki-skills
+  title: Anki Skills
   first_commit: 2025-12-25
   order: 1
   description: Skills and card material for learning languages with Anki.
@@ -271,11 +271,11 @@
     learn Japanese too. These decks and skills are the material I use to make
     that process more effective.
   technologies: [Anki, language learning]
-  image: /images/software/anki-decks.webp
-  image_alt: Anki Decks GitHub repository README.
-  source: https://github.com/mauriciopoppe/anki-decks
-- id: ten-minute-abs-timer
-  title: 10 Min Abs Timer
+  image: /images/software/anki-skills.webp
+  image_alt: Anki Skills GitHub repository README.
+  source: https://github.com/mauriciopoppe/anki-skills
+- id: workout
+  title: Workout
   first_commit: 2025
   order: 1
   description: Personalized abdominal routines with four difficulties and mood-based playlists.
@@ -286,11 +286,11 @@
     calendar tracker for motivation, mood-based playlists, and support for
     additional weights. I now use it to track pushups and squats too.
   technologies: [JavaScript, fitness, playlists]
-  image: /images/software/ten-minute-abs-timer.webp
-  image_alt: 10 Min Abs Timer shown in a mobile browser viewport.
-  demo: https://service-10-min-perfect-abs-timer-673673358142.us-west1.run.app
-- id: rattrack-nyc
-  title: RatTrack NYC
+  image: /images/software/workout.webp
+  image_alt: Workout shown in a mobile browser viewport.
+  demo: https://workout.apps.mauriciopoppe.com/
+- id: rattrack
+  title: RatTrack
   first_commit: 2025
   order: 2
   description: An app for logging rat sightings with coordinates and statistics.
@@ -301,9 +301,22 @@
     rats through a heat map. The app also includes sightings from Boston and
     Paris.
   technologies: [JavaScript, maps, data visualization]
-  image: /images/software/rattrack-nyc.webp
-  image_alt: RatTrack NYC shown in a mobile browser viewport.
-  demo: https://rattrack-nyc-673673358142.us-west1.run.app
+  image: /images/software/rattrack.webp
+  image_alt: RatTrack shown in a mobile browser viewport.
+  demo: https://rattrack.apps.mauriciopoppe.com/
+- id: japanese-conversation-starter
+  title: Japanese Conversation Starter
+  first_commit: 2025
+  order: 3
+  description: A flashcard game for practicing common Japanese questions and answers at meetups.
+  why: >-
+    I use it at meetups to ask questions, keep conversations going, and practice
+    Japanese with native speakers.
+  technologies: [JavaScript, Japanese, language learning]
+  demo: https://japanese-conversation-starter.mauriciopoppe.workers.dev/
+  related:
+    - title: Learning Japanese
+      url: /notes/learning-japanese/
 - id: epub-translation
   title: EPUB Translation
   first_commit: 2026-05-03
@@ -332,7 +345,7 @@
   technologies: [JavaScript, systems, visualization]
   image: /images/software/llm-inference-simulator.webp
   image_alt: LLM Inference Simulator shown in a browser viewport.
-  demo: https://llm-inference-673673358142.us-west1.run.app
+  demo: https://learning-inference.mauriciopoppe.workers.dev/
 - id: links
   title: Links
   first_commit: 2026
@@ -357,18 +370,18 @@
     accompaniment.
   technologies: [JavaScript, singing, music education]
   image: /images/software/voice.webp
-  image_alt: Voice showing vocal exercises, piano accompaniment, and teacher cues.
-  demo: https://voice.mauricio-poppe.chatgpt.site/
-- id: guitar-practice-room
+  image_alt: Voice showing the Practice Room and Song Lab navigation, warmup routine, and vocal practice tools.
+  demo: https://voice.apps.mauriciopoppe.com/
+- id: guitar
   title: Guitar
   first_commit: 2026-10-26
   order: 5
   description: An interactive practice room for learning the guitar fretboard and music theory.
   why: >-
-    I made Guitar Practice Room to learn to play the guitar better. It helps me
+    I made Guitar to learn to play the guitar better. It helps me
     connect notes, intervals, chords, and scales with their positions on the
     fretboard through focused exercises.
   technologies: [JavaScript, guitar, music theory, music education]
   image: /images/software/guitar.webp
-  image_alt: Guitar showing a fretboard lesson and the practice curriculum.
-  demo: https://guitar.mauricio-poppe.chatgpt.site/
+  image_alt: Guitar showing an interactive fretboard lesson and curriculum checklist.
+  demo: https://guitar.apps.mauriciopoppe.com/

@@ -26,6 +26,20 @@
         border: 1px solid var(--grey-dark);
         color: var(--grey-light);
       }
+      #software-page .software-tag-with-icon {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      #software-page .software-tag-with-icon svg {
+        width: 0.8rem;
+        height: 0.8rem;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+      }
       #software-page .software-tag-interactive {
         background: var(--grey-dark);
         border: 1px solid var(--ring-border);
@@ -93,7 +107,7 @@
                     </div>
                   {{ else }}
                     {{ with .image }}
-                      {{ if or (eq $project.id "ten-minute-abs-timer") (eq $project.id "rattrack-nyc") }}
+                      {{ if or (eq $project.id "workout") (eq $project.id "rattrack") }}
                         <div class="tw-flex tw-aspect-[16/9] tw-items-center tw-justify-center tw-overflow-hidden tw-rounded-lg tw-border tw-border-[var(--ring-border)] tw-bg-[var(--grey-darker)] tw-px-6">
                           <img src="{{ . }}" alt="{{ $project.image_alt }}" loading="lazy" class="tw-block tw-h-full tw-w-full tw-object-contain" />
                         </div>
@@ -133,6 +147,18 @@
                     </div>
                   {{ end }}
                   <div class="tw-flex tw-flex-wrap tw-items-center tw-gap-2">
+                    {{ if .handcoded }}
+                      <span class="software-tag software-tag-neutral software-tag-with-icon">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.5 2.5a1.4 1.4 0 0 1 2 2L6 12l-3 1 1-3 7.5-7.5ZM10 4l2 2M4 10l2 2" /></svg>
+                        Handcoded
+                      </span>
+                    {{ end }}
+                    {{ if .ai_assisted_content }}
+                      <span class="software-tag software-tag-neutral software-tag-with-icon">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 9 5l3.5 1L9 7l-1 3.5L7 7 3.5 6 7 5l1-3.5ZM12.5 10l.5 1.5 1.5.5-1.5.5-.5 1.5-.5-1.5-1.5-.5 1.5-.5.5-1.5Z" /></svg>
+                        AI-assisted writing
+                      </span>
+                    {{ end }}
                     {{ range .technologies }}<span class="software-tag software-tag-neutral">{{ . }}</span>{{ end }}
                     {{ with .demo }}<a href="{{ . }}" target="_blank" rel="noopener" class="software-tag software-tag-interactive">Visit project ↗</a>{{ end }}
                     {{ with .docs }}<a href="{{ . }}" target="_blank" rel="noopener" class="software-tag software-tag-interactive">Docs ↗</a>{{ end }}

@@ -219,7 +219,7 @@ context to make sense of them.
 
 ### Automating flashcard enrichment with AI
 
-I used to manually ask AI to generate lists of sentences for Anki, but I've since moved to a more automated workflow. I built a repo of [Anki Skills](https://github.com/mauriciopoppe/anki-decks) that allows me to point Gemini or Claude at my Anki deck and let them add more stuff to my cards automatically.
+I used to manually ask AI to generate lists of sentences for Anki, but I've since moved to a more automated workflow. I built a repo of [Anki Skills](https://github.com/mauriciopoppe/anki-skills) that allows me to point Gemini or Claude at my Anki deck and let them add more stuff to my cards automatically.
 
 The workflow is straightforward:
 1. I add a simple word or phrase I want to learn to Anki (often just a "Basic" card with the word and its translation).
@@ -236,7 +236,7 @@ My favorite skills from this setup are:
 If you use an agent like Gemini CLI, you can add these skills to your workspace:
 
 ```bash
-npx skills add mauriciopoppe/anki-decks
+npx skills add mauriciopoppe/anki-skills
 ```
 
 This turns Anki from a simple memorization tool into a personalized, AI-driven language tutor.
