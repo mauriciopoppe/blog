@@ -48,6 +48,7 @@
 {{ .Scratch.Set "permalink" (.Permalink | absURL)  }}
 {{ $author :=  or (.Params.author) (.Site.Params.Author.name) }}
 {{ $org_name :=  .Site.Title }}
+{{- if .IsPage }}
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -99,13 +100,52 @@
         }
     }
 </script>
+{{- else if and .IsSection (eq .Section "notes") }}
+{{- $itemList := slice }}
+{{- range $idx, $p := .RegularPagesRecursive.ByDate.Reverse }}
+  {{- $desc := ($p.Params.summary | default $p.Summary) | plainify | htmlUnescape | strings.TrimSpace }}
+  {{- $itemList = $itemList | append (dict "@type" "ListItem" "position" (add $idx 1) "url" $p.Permalink "name" $p.Title "description" $desc) }}
+{{- end }}
+{{- $collectionLd := dict
+  "@context" "https://schema.org"
+  "@type" "CollectionPage"
+  "@id" (.Permalink | absLangURL)
+  "name" .Title
+  "description" (.Params.description | default .Site.Params.description)
+  "url" (.Permalink | absLangURL)
+  "inLanguage" (.Site.LanguageCode | default "en-us")
+  "author" (dict "@type" "Person" "name" $author "url" .Site.BaseURL)
+  "mainEntity" (dict "@type" "ItemList" "numberOfItems" (len $itemList) "itemListElement" $itemList)
+}}
+<script type="application/ld+json">
+{{ $collectionLd | jsonify | safeJS }}
+</script>
+{{- else }}
+{{- $webPageLd := dict
+  "@context" "https://schema.org"
+  "@type" "WebPage"
+  "@id" (.Permalink | absLangURL)
+  "name" (.Title | default .Site.Title)
+  "description" (.Params.description | default .Site.Params.description)
+  "url" (.Permalink | absLangURL)
+  "inLanguage" (.Site.LanguageCode | default "en-us")
+  "author" (dict "@type" "Person" "name" $author "url" .Site.BaseURL)
+}}
+<script type="application/ld+json">
+{{ $webPageLd | jsonify | safeJS }}
+</script>
+{{- end }}
 
 <!-- Hugo Version number -->
 {{ hugo.Generator -}}
 
 <!-- Links and stylesheets -->
 <link rel="canonical" href="{{ .Permalink | absLangURL }}" />
-<link rel="alternate" href='{{ "index.xml" | absLangURL }}" type="application/rss+xml" title="{{ .Site.Title }}'>
+<link rel="alternate" href='{{ "index.xml" | absLangURL }}' type="application/rss+xml" title="{{ .Site.Title }}">
+{{- with .OutputFormats.Get "JSON" }}
+<link rel="alternate" href="{{ .Permalink }}" type="application/json" title="{{ $.Title }} (JSON)">
+{{- end }}
+<link rel="alternate" href='{{ "llms.txt" | absURL }}' type="text/plain" title="LLMs Index">
 
 <!-- Font -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -114,7 +154,7 @@
 
 <!-- Icons -->
 <link rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=3d_rotation,article,autoplay,center_focus_strong,close,co_present,code,computer,contact_page,dark_mode,data_array,data_object,deployed_code_history,docs,drag_pan,edit_note,edit_square,expand_more,falling,fast_forward,fast_rewind,function,globe,graph_5,grid_on,home,info,inventory,language_japanese_kana,laptop_car,library_books,light_mode,music_note,nightlife,note_alt,route,rss_feed,search,share,shuffle,skip_next,skip_previous,speed,star,star_outline&display=block" />
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=3d_rotation,article,autoplay,center_focus_strong,close,co_present,code,computer,contact_page,dark_mode,data_array,data_object,deployed_code_history,docs,drag_pan,edit_note,edit_square,expand_more,falling,fast_forward,fast_rewind,function,globe,graph_5,grid_on,home,info,inventory,language_japanese_kana,laptop_car,library_books,light_mode,music_note,nightlife,note_alt,route,rss_feed,search,share,shuffle,skip_next,skip_previous,speed,star,star_outline,view_list&display=block" />
 
 <!-- Font for icons -->
 <style>

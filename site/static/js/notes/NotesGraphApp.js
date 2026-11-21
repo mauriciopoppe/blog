@@ -13,6 +13,7 @@ import { NotesGraphEngine } from './NotesGraphEngine.js'
 import { TopFilterBar } from './components/TopFilterBar.js'
 import { NoteTooltip } from './components/NoteTooltip.js'
 import { BottomBar } from './components/BottomBar.js'
+import { NotesListView } from './components/NotesListView.js'
 import { isNodeInFilter, normalizeTag, searchNotes } from './notes-graph-math.js'
 
 export function NotesGraphApp({ fullGraph, d3 }) {
@@ -45,6 +46,11 @@ export function NotesGraphApp({ fullGraph, d3 }) {
   const [hoveredNode, setHoveredNode] = useState(null)
   const [tooltipPos, setTooltipPos] = useState(null)
   const [isReady, setIsReady] = useState(false)
+  const [viewMode, setViewMode] = useState(() => {
+    if (typeof window === 'undefined') return 'graph'
+    const urlParams = new URLSearchParams(window.location.search)
+    return urlParams.get('view') === 'list' ? 'list' : 'graph'
+  })
   const [isSearchOpen, setIsSearchOpen] = useState(() => {
     if (typeof window === 'undefined') return false
     const urlParams = new URLSearchParams(window.location.search)
@@ -56,10 +62,24 @@ export function NotesGraphApp({ fullGraph, d3 }) {
     return urlParams.get('q') || ''
   })
 
-  // Matching node count calculation
-  const matchingCount = useMemo(() => {
-    return fullGraph.nodes.filter((n) => isNodeInFilter(n, activeFilter)).length
+  // Filtered nodes & matching count calculation
+  const filteredNodes = useMemo(() => {
+    return fullGraph.nodes.filter((n) => isNodeInFilter(n, activeFilter))
   }, [fullGraph.nodes, activeFilter])
+
+  const matchingCount = filteredNodes.length
+
+  // Hide static screen-reader index while interactive List view is mounted to avoid duplicates
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+    const staticIndex = document.getElementById('notes-static-index')
+    if (!staticIndex) return
+    if (viewMode === 'list') {
+      staticIndex.setAttribute('aria-hidden', 'true')
+    } else {
+      staticIndex.removeAttribute('aria-hidden')
+    }
+  }, [viewMode])
 
   // Instantiate canvas engine once on mount (NEVER re-instantiate on filter/search)
   useEffect(() => {
@@ -256,13 +276,36 @@ export function NotesGraphApp({ fullGraph, d3 }) {
     }
   }, [])
 
+  // View Mode Toggle Handler (Graph vs List)
+  const handleSelectViewMode = useCallback((mode) => {
+    const nextMode = mode === 'list' ? 'list' : 'graph'
+    setViewMode(nextMode)
+    if (nextMode === 'list') {
+      setHoveredNode(null)
+      setTooltipPos(null)
+    }
+    if (typeof window !== 'undefined') {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'notes_view_mode_change', { view_mode: nextMode })
+      }
+      const newUrl = new URL(window.location.href)
+      if (nextMode === 'list') {
+        newUrl.searchParams.set('view', 'list')
+      } else {
+        newUrl.searchParams.delete('view')
+      }
+      window.history.replaceState(null, '', newUrl.toString())
+    }
+  }, [])
+
   return html`
     <div class="tw-relative tw-w-full tw-h-full tw-overflow-hidden">
       <!-- Fullscreen Canvas (pre-warmed in memory, animated via CSS scale-up on ready) -->
       <canvas
         ref=${canvasRef}
         id="notes-graph-canvas"
-        class="tw-w-full tw-h-full tw-block tw-cursor-grab active:tw-cursor-grabbing tw-transition-all tw-duration-500 tw-ease-out ${isReady ? 'tw-opacity-100 tw-scale-100' : 'tw-opacity-0 tw-scale-95'}"
+        aria-hidden=${viewMode === 'list' ? 'true' : undefined}
+        class="tw-w-full tw-h-full tw-cursor-grab active:tw-cursor-grabbing tw-transition-[opacity,transform] tw-duration-500 tw-ease-out ${viewMode === 'list' ? 'tw-hidden' : 'tw-block'} ${isReady ? 'tw-opacity-100 tw-scale-100' : 'tw-opacity-0 tw-scale-95'}"
       />
 
       <!-- Active Hovered Node DOM Anchor (accessibility / title preview only, zero pointer interference) -->
@@ -273,6 +316,17 @@ export function NotesGraphApp({ fullGraph, d3 }) {
         class="tw-absolute tw-hidden tw-rounded-full tw-pointer-events-none tw-z-30 focus:tw-outline-none"
         aria-label="Open article"
       />
+
+      <!-- Scannable List View (when view=list) -->
+      ${viewMode === 'list'
+        ? html`
+            <${NotesListView}
+              nodes=${filteredNodes}
+              activeFilter=${activeFilter}
+              onSelectFilter=${handleSelectFilter}
+            />
+          `
+        : null}
 
       <!-- Top Navigation & Filter Bar -->
       <${TopFilterBar}
@@ -287,16 +341,22 @@ export function NotesGraphApp({ fullGraph, d3 }) {
       />
 
       <!-- Floating Passive Note Preview Card -->
-      <${NoteTooltip}
-        node=${hoveredNode}
-        pos=${tooltipPos}
-      />
+      ${viewMode === 'graph'
+        ? html`
+            <${NoteTooltip}
+              node=${hoveredNode}
+              pos=${tooltipPos}
+            />
+          `
+        : null}
 
       <!-- Bottom Floating Status Bar -->
       <${BottomBar}
         matchingCount=${matchingCount}
         totalCount=${fullGraph.nodes.length}
         onResetZoom=${handleResetZoom}
+        viewMode=${viewMode}
+        onSelectViewMode=${handleSelectViewMode}
       />
     </div>
   `

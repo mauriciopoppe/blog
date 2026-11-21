@@ -49,6 +49,43 @@
 {{ $notesData | jsonify | safeJS }}
 </script>
 
+<main id="notes-static-index" class="tw-sr-only">
+  <h1>{{ .Title }}</h1>
+  {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
+  <nav aria-label="Notes alternate views and feeds">
+    <ul>
+      <li><a href="/notes/?view=list">List view</a></li>
+      <li><a href="/notes/index.json">JSON index</a></li>
+      <li><a href="/index.xml">RSS feed</a></li>
+      <li><a href="/llms.txt">LLMs.txt index</a></li>
+    </ul>
+  </nav>
+  <ul>
+  {{ range .RegularPagesRecursive.ByDate.Reverse }}
+    {{- $plainSummary := (.Params.summary | default .Summary) | plainify | htmlUnescape | strings.TrimSpace -}}
+    {{- $seriesKey := .Params.series | default "" -}}
+    {{- $seriesName := index $seriesTitle $seriesKey | default "" -}}
+    {{- $seriesLink := index $seriesUrl $seriesKey | default "" -}}
+    <li>
+      <article>
+        <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+        <span>{{ .ReadingTime }} min read</span>
+        {{- if $seriesName }}
+        <a href="{{ $seriesLink }}">{{ $seriesName }}</a>
+        {{- end }}
+        {{- if $plainSummary }}
+        <p>{{ $plainSummary }}</p>
+        {{- end }}
+        {{- with .Params.tags }}
+        <p>Tags: {{ delimit . ", " }}</p>
+        {{- end }}
+      </article>
+    </li>
+  {{ end }}
+  </ul>
+</main>
+
 <div id="notes-graph-container" class="tw-fixed tw-inset-0 tw-w-full tw-h-[100dvh] tw-overflow-hidden tw-bg-[var(--grey-darker)]"></div>
 <script type="module" src="/js/notes/notes-graph.js?v={{ now.Unix }}"></script>
 {{ end }}

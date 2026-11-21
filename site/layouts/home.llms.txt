@@ -1,0 +1,27 @@
+# {{ .Site.Params.Author.name }}
+
+> Technical notes, interactive visualizations, and essays on systems performance, computer graphics, mathematics, algorithms, and software engineering.
+
+## Machine-Readable Indexes
+
+- [Notes JSON Index]({{ "notes/index.json" | absURL }}): Complete structured metadata for all notes (title, URL, date, summary, tags, series, reading time).
+- [Notes List View]({{ "notes/?view=list" | absURL }}): Human-readable and browser-accessible list view of all notes.
+- [RSS Feed]({{ "index.xml" | absURL }}): Full-content RSS feed of recent notes.
+- [Sitemap]({{ "sitemap.xml" | absURL }}): XML sitemap of all pages.
+
+## Series
+
+{{- range (where site.Sections "Section" "series") }}
+  {{- range .Sections }}
+- [{{ .Title }}]({{ .Permalink }}){{ with .Params.description }}: {{ . | plainify | htmlUnescape | strings.TrimSpace }}{{ end }}
+  {{- end }}
+{{- end }}
+
+## Notes
+{{ $notesSection := site.GetPage "/notes" }}
+{{- if $notesSection }}
+{{- range $notesSection.RegularPagesRecursive.ByDate.Reverse }}
+{{- $desc := (.Params.summary | default .Summary) | plainify | htmlUnescape | strings.TrimSpace | replaceRE `\s+` " " }}
+- [{{ .Title }}]({{ .Permalink }}) ({{ .Date.Format "2006-01-02" }}{{ with .Params.tags }}, tags: {{ delimit . ", " }}{{ end }}){{ if $desc }}: {{ $desc }}{{ end }}
+{{- end }}
+{{- end }}

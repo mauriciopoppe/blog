@@ -3,6 +3,7 @@ import { html } from '../../ui/preact.js'
 import { TopFilterBar } from './TopFilterBar.js'
 import { NoteTooltip } from './NoteTooltip.js'
 import { BottomBar } from './BottomBar.js'
+import { NotesListView } from './NotesListView.js'
 
 describe('Topic Constellation Graph Preact Components', () => {
   describe('TopFilterBar', () => {
@@ -78,11 +79,51 @@ describe('Topic Constellation Graph Preact Components', () => {
         matchingCount=${12}
         totalCount=${92}
         onResetZoom=${() => { resetCalled = true }}
+        viewMode="graph"
       />`
       expect(vnode).toBeDefined()
       expect(vnode.props.matchingCount).toBe(12)
       expect(vnode.props.totalCount).toBe(92)
+      expect(vnode.props.viewMode).toBe('graph')
       expect(typeof vnode.props.onResetZoom).toBe('function')
+    })
+
+    it('accepts list viewMode', () => {
+      const vnode = html`<${BottomBar}
+        matchingCount=${10}
+        totalCount=${92}
+        viewMode="list"
+      />`
+      expect(vnode.props.viewMode).toBe('list')
+    })
+  })
+
+  describe('NotesListView', () => {
+    const sampleNodes = [
+      {
+        id: '/notes/performance-fundamentals/',
+        url: '/notes/performance-fundamentals/',
+        title: 'Performance Fundamentals',
+        date: 'Feb 1, 2026',
+        readingTime: 6,
+        summary: '<p>Latency, throughput, and utilization</p>',
+        isFavorite: true,
+        interactive: true,
+        tags: ['systems', 'performance']
+      }
+    ]
+
+    it('creates virtual node with filtered notes and callback', () => {
+      let selectedFilter = null
+      const vnode = html`<${NotesListView}
+        nodes=${sampleNodes}
+        activeFilter="systems"
+        onSelectFilter=${(f) => { selectedFilter = f }}
+      />`
+      expect(vnode).toBeDefined()
+      expect(vnode.props.nodes.length).toBe(1)
+      expect(vnode.props.activeFilter).toBe('systems')
+      expect(typeof vnode.props.onSelectFilter).toBe('function')
     })
   })
 })

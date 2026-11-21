@@ -1,0 +1,53 @@
+{{- $favUrls := slice -}}
+{{- range site.Data.favorites -}}
+  {{- $favUrlNorm := strings.TrimRight "/" .url -}}
+  {{- $favUrls = $favUrls | append $favUrlNorm -}}
+  {{- $favUrls = $favUrls | append (printf "%s/" $favUrlNorm) -}}
+{{- end -}}
+{{- $seriesTitle := dict "performance-series" "Systems Performance Engineering" "computer-graphics-pipeline" "Computer Graphics Pipeline" -}}
+{{- $seriesUrl := dict "performance-series" "/series/systems-performance-engineering/" "computer-graphics-pipeline" "/series/computer-graphics-pipeline/" -}}
+{{- $notes := slice -}}
+{{- range .RegularPagesRecursive.ByDate.Reverse -}}
+  {{- $url := .RelPermalink -}}
+  {{- $urlNorm := strings.TrimRight "/" $url -}}
+  {{- $urlSlash := printf "%s/" $urlNorm -}}
+  {{- $isFav := or (in $favUrls $urlNorm) (in $favUrls $urlSlash) (eq .Params.favorite true) (in .Params.tags "favorite") -}}
+  {{- $isInteractive := or .Params.interactive (in .Params.tags "interactive") (in .Params.tags "simulator") -}}
+  {{- if not $isInteractive -}}
+    {{- if or (strings.Contains .RawContent "<script") (strings.Contains .RawContent "interactive-") (strings.Contains .RawContent "-simulator") -}}
+      {{- if not (and (strings.Contains .RawContent "asciinema.org") (not (strings.Contains .RawContent "/js/"))) -}}
+        {{- $isInteractive = true -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $tags := .Params.tags | default slice -}}
+  {{- $seriesKey := .Params.series | default "" -}}
+  {{- $seriesName := index $seriesTitle $seriesKey | default "" -}}
+  {{- $seriesLink := index $seriesUrl $seriesKey | default "" -}}
+  {{- $summary := (.Params.summary | default .Summary) | plainify | htmlUnescape | strings.TrimSpace -}}
+  {{- $item := dict
+    "title" .Title
+    "url" .Permalink
+    "relUrl" $url
+    "date" (.Date.Format "2006-01-02")
+    "lastmod" (.Lastmod.Format "2006-01-02")
+    "readingTime" .ReadingTime
+    "wordCount" .WordCount
+    "summary" $summary
+    "tags" $tags
+    "series" $seriesName
+    "seriesUrl" $seriesLink
+    "isFavorite" $isFav
+    "interactive" $isInteractive
+  -}}
+  {{- $notes = $notes | append $item -}}
+{{- end -}}
+{{- $payload := dict
+  "title" .Title
+  "description" (.Params.description | default .Site.Params.description)
+  "url" .Permalink
+  "count" (len $notes)
+  "generatedAt" (now.UTC.Format "2006-01-02T15:04:05Z")
+  "notes" $notes
+-}}
+{{- $payload | jsonify (dict "indent" "  ") -}}
