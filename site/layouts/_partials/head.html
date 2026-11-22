@@ -146,6 +146,7 @@
 <link rel="alternate" href="{{ .Permalink }}" type="application/json" title="{{ $.Title }} (JSON)">
 {{- end }}
 <link rel="alternate" href='{{ "llms.txt" | absURL }}' type="text/plain" title="LLMs Index">
+<link rel="api-catalog" href='{{ ".well-known/api-catalog" | absURL }}' type="application/linkset+json">
 
 <!-- Font -->
 <link rel="preconnect" href="https://fonts.googleapis.com">

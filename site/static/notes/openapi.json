@@ -1,0 +1,79 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Mauricio Poppe Notes API",
+    "version": "1.0.0",
+    "description": "Read-only machine-readable index of technical notes, essays, and interactive visualizations published on mauriciopoppe.com."
+  },
+  "servers": [
+    {
+      "url": "https://www.mauriciopoppe.com"
+    }
+  ],
+  "paths": {
+    "/notes/index.json": {
+      "get": {
+        "operationId": "listNotes",
+        "summary": "List all published notes with structured metadata",
+        "responses": {
+          "200": {
+            "description": "Structured JSON index of all notes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["title", "description", "url", "count", "generatedAt", "notes"],
+                  "properties": {
+                    "title": { "type": "string" },
+                    "description": { "type": "string" },
+                    "url": { "type": "string", "format": "uri" },
+                    "count": { "type": "integer" },
+                    "generatedAt": { "type": "string", "format": "date-time" },
+                    "notes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": ["title", "url", "relUrl", "date", "readingTime", "wordCount", "summary", "tags"],
+                        "properties": {
+                          "title": { "type": "string" },
+                          "url": { "type": "string", "format": "uri" },
+                          "relUrl": { "type": "string" },
+                          "date": { "type": "string", "format": "date" },
+                          "lastmod": { "type": "string", "format": "date" },
+                          "readingTime": { "type": "integer" },
+                          "wordCount": { "type": "integer" },
+                          "summary": { "type": "string" },
+                          "tags": { "type": "array", "items": { "type": "string" } },
+                          "series": { "type": "string" },
+                          "seriesUrl": { "type": "string" },
+                          "isFavorite": { "type": "boolean" },
+                          "interactive": { "type": "boolean" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/llms.txt": {
+      "get": {
+        "operationId": "getLlmsIndex",
+        "summary": "Get Markdown index of notes and series formatted for LLMs",
+        "responses": {
+          "200": {
+            "description": "Plain-text Markdown index following llmstxt.org",
+            "content": {
+              "text/plain": {
+                "schema": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

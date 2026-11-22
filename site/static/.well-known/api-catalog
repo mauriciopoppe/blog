@@ -1,0 +1,19 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://www.mauriciopoppe.com/notes/index.json",
+      "service-desc": [
+        {
+          "href": "https://www.mauriciopoppe.com/notes/openapi.json",
+          "type": "application/openapi+json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://www.mauriciopoppe.com/llms.txt",
+          "type": "text/plain"
+        }
+      ]
+    }
+  ]
+}
