@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /sandbox/
+
+Sitemap: https://www.mauriciopoppe.com/sitemap.xml
