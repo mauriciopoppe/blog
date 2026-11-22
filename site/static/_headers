@@ -1,6 +1,9 @@
 /*
   Access-Control-Allow-Origin: *
 
+/
+  Link: </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json", </notes/openapi.json>; rel="service-desc"; type="application/openapi+json", </llms.txt>; rel="service-doc"; type="text/plain", </notes/index.json>; rel="describedby"; type="application/json"
+
 /.well-known/api-catalog
   Content-Type: application/linkset+json
 
