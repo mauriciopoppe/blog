@@ -9,7 +9,7 @@ summary: |
   the Extended Euclidean Algorithm to find solutions to the equation $ax + by = gcd(a, b)$ where $x, y$ are unknowns.
 image: /images/math-generic.jpeg
 tags: ["math", "number theory", "divisibility", "modulo", "euclidean algorithm", "extended euclidean algorithm"]
-libraries: ["math"]
+libraries: ["math", "codapi"]
 date: 2017-05-21 23:18:42
 references:
   - http://www.cs.cmu.edu/~adamchik/21-127/lectures/divisibility_1_print.pdf
@@ -180,4 +180,30 @@ x' - \left \lfloor \frac{a}{b} \right \rfloor y', & \text{otherwise}
 \end{align*}
 $$</div>
 
-{{< repl id="I0vB" >}}
+```javascript
+// Returns [d, x, y] such that d = gcd(a, b) = a*x + b*y
+function extendedGcd(a, b) {
+  if (b === 0) {
+    return [a, 1, 0]
+  }
+  const [d, x1, y1] = extendedGcd(b, a % b)
+  const x = y1
+  const y = x1 - Math.floor(a / b) * y1
+  return [d, x, y]
+}
+
+const cases = [
+  [240, 46],
+  [99, 78],
+  [35, 15],
+  [17, 13],
+]
+
+for (const [a, b] of cases) {
+  const [d, x, y] = extendedGcd(a, b)
+  const valid = a * x + b * y === d
+  console.log(`gcd(${a}, ${b}) = ${d} = ${a}*(${x}) + ${b}*(${y})  [ok: ${valid}]`)
+}
+```
+
+<codapi-snippet engine="browser" sandbox="javascript" editor="off"></codapi-snippet>

@@ -1,0 +1,84 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@antonz/codapi@0.20.0/dist/snippet.css">
+<style>
+  codapi-snippet {
+    --toolbar-gap: 0.75rem;
+    --toolbar-margin-bottom: 1rem;
+    margin-top: -0.5rem;
+    margin-bottom: 1.5rem;
+    font-family: var(--family-sans, system-ui, sans-serif);
+    font-size: 0.875rem;
+  }
+  codapi-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--toolbar-gap);
+    margin-bottom: 0.75rem;
+  }
+  codapi-toolbar button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 6px;
+    border: 1px solid rgba(var(--primary), 0.45);
+    background: rgba(var(--primary), 0.14);
+    color: var(--grey-lighter);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease;
+  }
+  codapi-toolbar button:hover {
+    background: rgba(var(--primary), 0.25);
+    border-color: rgb(var(--primary));
+  }
+  codapi-toolbar button:active {
+    background: rgba(var(--primary), 0.35);
+  }
+  codapi-toolbar a {
+    color: var(--grey-light);
+    font-size: 0.8125rem;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  codapi-toolbar a:hover {
+    color: var(--grey-lighter);
+    text-decoration: underline;
+  }
+  codapi-status {
+    color: var(--grey-light);
+    font-size: 0.8125rem;
+  }
+  codapi-output {
+    position: relative;
+    background: var(--grey-darker);
+    border: 1px solid var(--grey-dark);
+    border-radius: 8px;
+    padding: 0.85rem 2.25rem 0.85rem 1rem;
+    margin-top: 0.25rem;
+  }
+  codapi-output pre {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    color: var(--grey-lighter);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  codapi-output a[href="#close"] {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.5rem;
+    color: var(--grey-light);
+    text-decoration: none;
+    font-size: 1rem;
+  }
+  codapi-output a[href="#close"]:hover {
+    color: var(--grey-lighter);
+  }
+</style>
+<script defer src="https://cdn.jsdelivr.net/npm/@antonz/codapi@0.20.0/dist/snippet.js"></script>

@@ -761,4 +761,91 @@ for (auto n : {1, 2, 3, 4}) { ... }
 
 ### Threadpool
 
-{{< repl id="@mauriciopoppe/Threadpool" >}}
+```cpp
+#include <condition_variable>
+#include <functional>
+#include <future>
+#include <iostream>
+#include <mutex>
+#include <queue>
+#include <stdexcept>
+#include <thread>
+#include <vector>
+
+class ThreadPool {
+public:
+  explicit ThreadPool(size_t num_threads) {
+    for (size_t i = 0; i < num_threads; ++i) {
+      workers_.emplace_back([this] {
+        while (true) {
+          std::function<void()> task;
+          {
+            std::unique_lock<std::mutex> lock(mutex_);
+            cv_.wait(lock, [this] { return stop_ || !tasks_.empty(); });
+            if (stop_ && tasks_.empty()) {
+              return;
+            }
+            task = std::move(tasks_.front());
+            tasks_.pop();
+          }
+          task();
+        }
+      });
+    }
+  }
+
+  template <class F, class... Args>
+  auto enqueue(F&& f, Args&&... args)
+      -> std::future<std::invoke_result_t<F, Args...>> {
+    using ReturnType = std::invoke_result_t<F, Args...>;
+
+    auto task = std::make_shared<std::packaged_task<ReturnType()>>(
+        std::bind(std::forward<F>(f), std::forward<Args>(args)...));
+    std::future<ReturnType> result = task->get_future();
+
+    {
+      std::unique_lock<std::mutex> lock(mutex_);
+      if (stop_) {
+        throw std::runtime_error("enqueue on stopped ThreadPool");
+      }
+      tasks_.emplace([task]() { (*task)(); });
+    }
+    cv_.notify_one();
+    return result;
+  }
+
+  ~ThreadPool() {
+    {
+      std::unique_lock<std::mutex> lock(mutex_);
+      stop_ = true;
+    }
+    cv_.notify_all();
+    for (std::thread& worker : workers_) {
+      worker.join();
+    }
+  }
+
+private:
+  std::vector<std::thread> workers_;
+  std::queue<std::function<void()>> tasks_;
+  std::mutex mutex_;
+  std::condition_variable cv_;
+  bool stop_ = false;
+};
+
+int main() {
+  ThreadPool pool(4);
+  std::vector<std::future<int>> results;
+
+  for (int i = 0; i < 8; ++i) {
+    results.emplace_back(pool.enqueue([i] {
+      return i * i;
+    }));
+  }
+
+  for (size_t i = 0; i < results.size(); ++i) {
+    std::cout << "task " << i << " -> " << results[i].get() << "\n";
+  }
+  return 0;
+}
+```

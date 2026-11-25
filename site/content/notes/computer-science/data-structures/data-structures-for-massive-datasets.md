@@ -9,7 +9,7 @@ summary: |
   and reservoir sampling.
 image: /images/many-numbers.jpeg
 tags: ["data structures", "big data", "probability", "count-min sketch", "bloom filters", "reservoir-sampling"]
-libraries: ["math"]
+libraries: ["math", "codapi"]
 date: 2020-05-09 17:24:19
 references:
   - https://florian.github.io/count-min-sketch/
@@ -39,7 +39,93 @@ true value.
     </div>
 </div>
 
-{{< repl id="@mauriciopoppe/Count-Min-Sketch" >}}
+<details class="tw-my-4 tw-rounded tw-border tw-border-gray-600/40 tw-p-3">
+<summary class="tw-cursor-pointer tw-font-semibold">Full <code>CountMinSketch</code> implementation</summary>
+
+```javascript
+class CountMinSketch {
+  constructor(width, depth) {
+    this.width = width
+    this.depth = depth
+    this.table = Array.from({ length: depth }, () => new Uint32Array(width))
+    // Deterministic seeds for reproducible hash functions per row
+    this.seeds = Array.from({ length: depth }, (_, i) => (i + 1) * 2654435761)
+  }
+
+  hash(key, seed) {
+    let h = seed >>> 0
+    for (let i = 0; i < key.length; i += 1) {
+      h = Math.imul(h ^ key.charCodeAt(i), 16777619)
+    }
+    return (h >>> 0) % this.width
+  }
+
+  update(key, value = 1) {
+    for (let row = 0; row < this.depth; row += 1) {
+      const col = this.hash(key, this.seeds[row])
+      this.table[row][col] += value
+    }
+  }
+
+  estimate(key) {
+    let min = Infinity
+    for (let row = 0; row < this.depth; row += 1) {
+      const col = this.hash(key, this.seeds[row])
+      if (this.table[row][col] < min) {
+        min = this.table[row][col]
+      }
+    }
+    return min
+  }
+}
+```
+
+<codapi-snippet id="cms-impl" editor="off" hidden></codapi-snippet>
+
+</details>
+
+```javascript
+// Count-Min Sketch with width=64 buckets and depth=4 hash functions
+const cms = new CountMinSketch(64, 4)
+
+// Stream of (key, count) updates
+const events = [
+  ['apple', 3],
+  ['banana', 1],
+  ['apple', 2],
+  ['cherry', 7],
+  ['banana', 4],
+]
+
+for (const [key, count] of events) {
+  cms.update(key, count)
+}
+
+// 1. Estimates are always >= true frequency (never underestimate)
+console.log('apple  (true: 5) ->', cms.estimate('apple'))
+console.log('banana (true: 5) ->', cms.estimate('banana'))
+console.log('cherry (true: 7) ->', cms.estimate('cherry'))
+console.log('unseen (true: 0) ->', cms.estimate('unseen'))
+
+// 2. Verify the non-underestimation guarantee under heavier load
+const exact = new Map()
+for (let i = 0; i < 200; i += 1) {
+  const key = `item-${i % 40}`
+  exact.set(key, (exact.get(key) || 0) + 1)
+  cms.update(key, 1)
+}
+
+let underestimates = 0
+let overestimates = 0
+for (const [key, trueCount] of exact) {
+  const est = cms.estimate(key)
+  if (est < trueCount) underestimates += 1
+  if (est > trueCount) overestimates += 1
+}
+console.log(`40 distinct keys -> underestimates: ${underestimates}, overestimates: ${overestimates}`)
+```
+
+<codapi-snippet engine="browser" sandbox="javascript" editor="off" depends-on="cms-impl"></codapi-snippet>
 
 https://florian.github.io/count-min-sketch/
 

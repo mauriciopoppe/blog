@@ -9,6 +9,7 @@ summary: |
   following the A+ promise spec in JavaScript the TDD way.
 image: /images/promises.png
 tags: ["Promises", "JavaScript", "Futures", "Software Engineering"]
+libraries: ["codapi"]
 date: 2017-09-16T21:05:42Z
 favorite: true
 ---
@@ -109,8 +110,6 @@ function doResolve(promise, executor) {
 }
 {{< /snippet >}}
 
-{{< repl external="true" id="@mauriciopoppe/Implementing-Promises-from-Scratch-1" >}}
-
 ### Observing state changes
 
 To observe changes in the state of the promise (and the fulfillment value or rejection reason), we use the `then` method. The method receives two parameters, an `onFulfilled` function and an `onRejected` function. The rules to invoke these functions are the following:
@@ -165,8 +164,6 @@ function handleResolved(promise, onFulfilled, onRejected) {
   cb(promise.value)
 }
 {{< /snippet >}}
-
-{{< repl external="true" id="@mauriciopoppe/Implementing-Promises-from-Scratch-2" >}}
 
 ### One-way transition
 
@@ -231,8 +228,6 @@ function doResolve(promise, executor) {
 }
 {{< /snippet >}}
 
-{{< repl external="true" id="@mauriciopoppe/Implementing-Promises-from-Scratch-3" >}}
-
 ### Handling executor errors
 
 If the execution of the `executor` fails, the promise should transition to the `REJECTED` state with the failure reason.
@@ -265,8 +260,6 @@ function doResolve(promise, executor) {
   }
 }
 {{< /snippet >}}
-
-{{< repl external="true" id="@mauriciopoppe/Implementing-Promises-from-Scratch-4" >}}
 
 ### Async executor
 
@@ -387,8 +380,6 @@ function finale(promise) {
 }
 {{< /snippet >}}
 
-{{< repl external="true" id="@mauriciopoppe/Implementing-Promises-from-Scratch-5" >}}
-
 ### Chaining promises
 
 Our `.then` methods should return a new promise. Note that in the example below, `p.then` returns a promise `q`. The handler `qOnFulfilled` is stored on `q`, and the handler `rOnFulfilled` is stored in `r`.
@@ -494,8 +485,6 @@ function handleResolved(promise, handler) {
 }
 {{< /snippet >}}
 
-{{< repl external="true" id="@mauriciopoppe/Implementing-Promises-from-Scratch-6" >}}
-
 ### Async handlers
 
 Next, let's consider the case where a handler returns a promise. In this case, the promise that's part of the handler (not the returned promise) should adopt the state and fulfillment value or rejection reason of the returned promise.
@@ -563,8 +552,6 @@ function handle(promise, handler) {
   }
 }
 {{< /snippet >}}
-
-{{< repl external="true" id="@mauriciopoppe/Implementing-Promises-from-Scratch-7" >}}
 
 ### Additional cases
 
@@ -806,9 +793,230 @@ function fulfill(promise, value) {
 
 That was it! What I learned from implementing it on my own was that a promise can be a rejection error. Previously, I thought that promises would never be something that an observer would receive. I thought that all promises were unwrapped before being sent to the observer.
 
-This is the final version of our tests and the promise implementation:
+This is the final version of the `APromise` implementation (collapsed below) followed by a runnable test suite. Click **Run** to execute the tests directly in your browser.
 
-{{< repl external="true" id="@mauriciopoppe/Implementing-Promises-from-Scratch-8" >}}
+<details class="tw-my-4 tw-rounded tw-border tw-border-gray-600/40 tw-p-3">
+<summary class="tw-cursor-pointer tw-font-semibold">Full <code>APromise</code> implementation</summary>
+
+```javascript
+const PENDING = 'PENDING'
+const FULFILLED = 'FULFILLED'
+const REJECTED = 'REJECTED'
+
+// Browser-compatible fallback for Node's setImmediate
+const defer = typeof setImmediate === 'function'
+  ? setImmediate
+  : fn => setTimeout(fn, 0)
+
+class APromise {
+  constructor(executor) {
+    this.state = PENDING
+    this.queue = []
+    doResolve(this, executor)
+  }
+
+  then(onFulfilled, onRejected) {
+    const promise = new APromise(() => {})
+    handle(this, { promise, onFulfilled, onRejected })
+    return promise
+  }
+}
+
+function fulfill(promise, value) {
+  if (value === promise) {
+    return reject(promise, new TypeError('A promise cannot be resolved with itself'))
+  }
+  if (value && (typeof value === 'object' || typeof value === 'function')) {
+    let then
+    try {
+      then = value.then
+    } catch (err) {
+      return reject(promise, err)
+    }
+
+    // promise
+    if (then === promise.then && value instanceof APromise) {
+      promise.state = FULFILLED
+      promise.value = value
+      return finale(promise)
+    }
+
+    // thenable
+    if (typeof then === 'function') {
+      return doResolve(promise, then.bind(value))
+    }
+  }
+
+  // primitive
+  promise.state = FULFILLED
+  promise.value = value
+  finale(promise)
+}
+
+function reject(promise, reason) {
+  promise.state = REJECTED
+  promise.value = reason
+  finale(promise)
+}
+
+function finale(promise) {
+  const length = promise.queue.length
+  for (let i = 0; i < length; i += 1) {
+    handle(promise, promise.queue[i])
+  }
+}
+
+function handle(promise, handler) {
+  while (promise.state !== REJECTED && promise.value instanceof APromise) {
+    promise = promise.value
+  }
+  if (promise.state === PENDING) {
+    promise.queue.push(handler)
+  } else {
+    handleResolved(promise, handler)
+  }
+}
+
+function handleResolved(promise, handler) {
+  defer(() => {
+    const cb = promise.state === FULFILLED ? handler.onFulfilled : handler.onRejected
+    if (typeof cb !== 'function') {
+      if (promise.state === FULFILLED) {
+        fulfill(handler.promise, promise.value)
+      } else {
+        reject(handler.promise, promise.value)
+      }
+      return
+    }
+    try {
+      const ret = cb(promise.value)
+      fulfill(handler.promise, ret)
+    } catch (err) {
+      reject(handler.promise, err)
+    }
+  })
+}
+
+function doResolve(promise, executor) {
+  let called = false
+
+  function wrapFulfill(value) {
+    if (called) { return }
+    called = true
+    fulfill(promise, value)
+  }
+
+  function wrapReject(reason) {
+    if (called) { return }
+    called = true
+    reject(promise, reason)
+  }
+
+  try {
+    executor(wrapFulfill, wrapReject)
+  } catch (err) {
+    wrapReject(err)
+  }
+}
+```
+
+<codapi-snippet id="apromise-impl" editor="off" hidden></codapi-snippet>
+
+</details>
+
+```javascript
+// Minimal async test helper
+let passed = 0, failed = 0
+async function test(name, fn) {
+  try { await fn(); passed++; console.log(`PASS: ${name}`) }
+  catch (err) { failed++; console.log(`FAIL: ${name} -> ${err.message}`) }
+}
+function assertEqual(actual, expected) {
+  if (actual !== expected) throw new Error(`expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`)
+}
+
+// 1. State transition & chaining:
+//    An async fulfillment propagates through chained .then() handlers.
+await test('fulfills asynchronously and chains transformed values', () => new Promise((resolve, reject) => {
+  new APromise(fulfill => setTimeout(() => fulfill(21), 5))
+    .then(x => x * 2)
+    .then(val => { assertEqual(val, 42); resolve() }, reject)
+}))
+
+// 2. One-way state transition (Spec 2.1.2 / 2.1.3):
+//    Once fulfilled or rejected, subsequent calls to fulfill/reject are ignored.
+await test('one-way transition ignores subsequent reject after fulfill', () => new Promise((resolve, reject) => {
+  new APromise((fulfill, rej) => {
+    fulfill('first')
+    rej('second')
+  }).then(val => { assertEqual(val, 'first'); resolve() }, reject)
+}))
+
+// 3. Executor error handling:
+//    Synchronous throws inside the executor transition the promise to REJECTED.
+await test('catches synchronous errors thrown in the executor', () => new Promise((resolve, reject) => {
+  new APromise(() => { throw new Error('boom') })
+    .then(reject, err => { assertEqual(err.message, 'boom'); resolve() })
+}))
+
+// 4. Async handlers / promise adoption (Spec 2.3.2):
+//    When a handler returns another APromise, the outer promise adopts its state and value.
+await test('adopts the state and value of a nested async promise', () => new Promise((resolve, reject) => {
+  new APromise(fulfill => setTimeout(() => fulfill('p'), 5))
+    .then(v => new APromise(fulfill => setTimeout(() => fulfill(v + 'q'), 5)))
+    .then(val => { assertEqual(val, 'pq'); resolve() }, reject)
+}))
+
+// 5. Invalid handlers (Spec 2.2.1 / 2.2.7.3):
+//    Non-function handlers are ignored and the value passes through to the next .then().
+await test('passes through values when handlers are not functions', () => new Promise((resolve, reject) => {
+  new APromise(fulfill => fulfill('ok'))
+    .then(null)
+    .then(val => { assertEqual(val, 'ok'); resolve() }, reject)
+}))
+
+// 6. Event-loop deferral (Spec 2.2.4):
+//    Handlers must run asynchronously on a fresh stack, even when fulfilled synchronously.
+await test('invokes handlers after the current turn of the event loop', () => new Promise((resolve, reject) => {
+  const order = []
+  new APromise(fulfill => fulfill('done')).then(() => {
+    order.push('handler')
+    assertEqual(order.join(','), 'sync,handler')
+    resolve()
+  }, reject)
+  order.push('sync')
+}))
+
+// 7. Rejecting with a resolved promise (Spec 2.2.7.2):
+//    A rejected promise passes the rejection reason as-is, even if the reason is itself a promise.
+await test('rejects with a resolved promise without unwrapping it', () => new Promise((resolve, reject) => {
+  const reason = new APromise(fulfill => fulfill(':)'))
+  new APromise(fulfill => fulfill())
+    .then(() => { throw reason })
+    .then(reject, err => { assertEqual(err, reason); resolve() })
+}))
+
+// 8. Self-resolution guard (Spec 2.3.1):
+//    Resolving a promise with itself must reject with a TypeError.
+await test('rejects with TypeError when resolved with itself', () => new Promise((resolve, reject) => {
+  const p = new APromise(fulfill => fulfill())
+  const q = p.then(() => q)
+  q.then(reject, err => { assertEqual(err instanceof TypeError, true); resolve() })
+}))
+
+// 9. Thenable assimilation (Spec 2.3.3):
+//    Any object with a callable .then() method is assimilated as a promise.
+await test('assimilates foreign thenables', () => new Promise((resolve, reject) => {
+  const thenable = { then(fulfill) { fulfill('from thenable') } }
+  new APromise(fulfill => fulfill())
+    .then(() => thenable)
+    .then(val => { assertEqual(val, 'from thenable'); resolve() }, reject)
+}))
+
+console.log(`\n${passed} passed, ${failed} failed`)
+```
+
+<codapi-snippet engine="browser" sandbox="javascript" editor="off" depends-on="apromise-impl"></codapi-snippet>
 
 #### Running the A+ Promise compliance tests
 

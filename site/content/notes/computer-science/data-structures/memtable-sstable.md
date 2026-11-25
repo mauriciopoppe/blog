@@ -11,6 +11,7 @@ image: https://docs.datastax.com/eol/en/dse/6.7/dse-arch/universalcommons/graphi
 image_alt: |
   Write path in Cassandra, source https://docs.datastax.com
 tags: ["memtable", "sorted string table", "data structures", "big data", "linked list"]
+libraries: ["codapi"]
 date: 2020-02-29T15:04:00Z
 references:
   - https://github.com/facebook/rocksdb/wiki/MemTable
@@ -149,7 +150,105 @@ func (m *Memtable) Read(labels map[string]string) []any {
 }
 ```
 
-{{< repl id="@mauriciopoppe/Memtable-for-a-Timeseries-Database" >}}
+Here is the complete runnable Go implementation of the time-series memtable:
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+type Entry struct {
+	id     time.Time
+	labels map[string]string
+	value  any
+	next   *Entry
+}
+
+type Memtable struct {
+	head  *Entry
+	tail  *Entry
+	index map[string][]*Entry
+}
+
+func NewMemtable() *Memtable {
+	sentinel := &Entry{}
+	return &Memtable{
+		head:  sentinel,
+		tail:  sentinel,
+		index: make(map[string][]*Entry),
+	}
+}
+
+func (m *Memtable) encode(k, v string) string {
+	return k + "=" + v
+}
+
+func (m *Memtable) Write(labels map[string]string, value any) {
+	e := &Entry{
+		id:     time.Now(),
+		labels: labels,
+		value:  value,
+	}
+	for k, v := range labels {
+		key := m.encode(k, v)
+		m.index[key] = append(m.index[key], e)
+	}
+	m.tail.next = e
+	m.tail = e
+}
+
+func intersect(a, b []*Entry) []*Entry {
+	seen := make(map[*Entry]bool, len(a))
+	for _, entry := range a {
+		seen[entry] = true
+	}
+	out := make([]*Entry, 0)
+	for _, entry := range b {
+		if seen[entry] {
+			out = append(out, entry)
+		}
+	}
+	return out
+}
+
+func (m *Memtable) Read(labels map[string]string) []any {
+	entriesGroup := make([][]*Entry, 0, len(labels))
+	for k, v := range labels {
+		key := m.encode(k, v)
+		entriesGroup = append(entriesGroup, m.index[key])
+	}
+	if len(entriesGroup) == 0 {
+		return make([]any, 0)
+	}
+	intersected := entriesGroup[0]
+	for i := 1; i < len(entriesGroup); i++ {
+		intersected = intersect(intersected, entriesGroup[i])
+	}
+	out := make([]any, 0, len(intersected))
+	for _, entry := range intersected {
+		out = append(out, entry.value)
+	}
+	return out
+}
+
+func main() {
+	m := NewMemtable()
+	m.Write(map[string]string{"method": "http", "type": "POST", "statusCode": "200"}, 1)
+	m.Write(map[string]string{"method": "http", "type": "GET", "statusCode": "200"}, 2)
+	m.Write(map[string]string{"method": "http", "type": "POST", "statusCode": "500"}, 3)
+	m.Write(map[string]string{"method": "http", "type": "POST", "statusCode": "200"}, 4)
+
+	fmt.Println("all http:        ", m.Read(map[string]string{"method": "http"}))
+	fmt.Println("POST + 200:      ", m.Read(map[string]string{"type": "POST", "statusCode": "200"}))
+	fmt.Println("POST + 500:      ", m.Read(map[string]string{"type": "POST", "statusCode": "500"}))
+	fmt.Println("GET + 500 (none):", m.Read(map[string]string{"type": "GET", "statusCode": "500"}))
+}
+```
+
+<codapi-snippet sandbox="go" editor="off"></codapi-snippet>
 
 ## SSTable
 
